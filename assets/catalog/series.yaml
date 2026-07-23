@@ -2358,31 +2358,6 @@ series:
       number: 103
       range_end:
       reason: Episode 103 exists on Apple Music (6775767498, 2026-07-03) but Spotify catalog entry not found. This is a data capture gap, not a content gap.
-    sub_series:
-    - label: mini_fall
-      album_ids:
-      - 0qybrewjst6zJBOrdBghc2
-      - '1752881332'
-      - '1752882153'
-      - '1752882217'
-      - '1753045100'
-      - '1774712902'
-      - '1790622238'
-      - '1815464807'
-      - '1891320197'
-      - 1IrBxq3kgqabhcp6xfIezB
-      - 1q9psu1dvUemN0x8tFnwhr
-      - 2AeYE1PVAulFFJlfp6GYZL
-      - 2SW10jAJqdxfbJZCW6hlEF
-      - 45Wfn7ndkXnhQrH9dWHjf9
-      - 74usgzfUNYeiXgAe3CKrr7
-      - 7DA8OgWsVgCSM5ayHEOQHo
-      reason: Short-format Mini-Fall episodes with independent numbering (Mini-Fall 01-08), distinct from main Die drei ??? Kids episode sequence. Titles contain 'Mini-Fall' brand, shorter runtime 
-        (~34-45 min vs ~66 min for regular episodes), and sub-series numbering. All 16 albums verified via track listing - correctly excluded as sub_series_bleed.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-05T07:55:29.711901+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-05T07:55:29.711901+00:00'
 - id: bibi_blocksberg
   title: Bibi Blocksberg
   providers:
@@ -9006,45 +8981,27 @@ series:
       - id: 4xrCJyGPtrZO4CFCAGYyVL
         episode: 1
         title: EM-Wissen 01 - Die Geschichte der EM - Teil 1! (1960 - 1988)
-      - id: 0KgZch2JpidNVDv58PPjAq
-        episode: 1
-        title: Frauen-WM-Wissen 01 - Die Anfänge
-      - id: 3VjRGwNViaZnjdhOs3tC8S
-        episode: 1
-        title: 'Wissen zur EM 2024 - Folge 1: Die EM-Stadien und ihre Namen'
       - id: 0CCzcdyi1y6d5xcNytC8it
         episode: 2
         title: EM-Wissen 02 - Die Geschichte der EM - Teil 2! (1992 - 2016)
-      - id: 2bSWLKPljqhhuKO6avVPTt
-        episode: 2
-        title: Frauen-WM-Wissen 02 - Legenden und Rekorde
       - id: 3AobuV6r3DyKL8qsgmdgGi
         episode: 2
         title: 'Wissen zur EM 2024 - Folge 2: Überraschungen der EM-Geschichte'
       - id: 2K0MtpwfBc8QwODAxXQLbe
         episode: 3
         title: EM-Wissen 03 - Der Henri Delaunay Pokal!
-      - id: 2Cg2pCV2WPXZRBXjsoVICZ
-        episode: 3
-        title: Frauen-WM-Wissen 03 - (Der lange Weg zur) Gleichberechtigung
       - id: 2wAAqBryuhdVqva5HnPAUL
         episode: 3
         title: 'Wissen zur EM 2024 - Folge 3: Das Eigentor'
       - id: 2dpOLqCm0FODnqMWcM5LoC
         episode: 4
         title: EM-Wissen 04 - Regelwerk und Neuerungen!
-      - id: 0Ka13m5enZ0FtgzFkKeEwK
-        episode: 4
-        title: Frauen-WM-Wissen 04 - Deutsche Legenden
       - id: 7fCZW8vbTTkQ3rjeyVpZJW
         episode: 4
         title: 'Wissen zur EM 2024 - Folge 4: Regeländerungen und Kurioses'
       - id: 6tA8PxoNRheUcURTAvK9Qk
         episode: 5
         title: EM-Wissen 05 - Rekorde und Legenden!
-      - id: 6G6RcNLJ6N21nOxOxuTg8P
-        episode: 5
-        title: Frauen-WM-Wissen 05 - Favoriten und Geheimtipps
       - id: 34hIb66KUmsVPXg9fDtudi
         episode: 5
         title: 'Wissen zur EM 2024 - Folge 5: Favoriten und Geheimtipps'
@@ -9366,26 +9323,6 @@ series:
       - id: 6awlk4FyN1DajvQ3NmNUhC
         episode: 111
         title: 'Folge 111: Road to 26!'
-      - id: 036GNQLwnsQjeNvTSiw3u6
-        title: 'WM-Wissen: Rote Karte!'
-      - id: 0ybqT8AibGFEYfHEm29yNR
-        title: 'WM-Wissen: Abseits!'
-      - id: 1ivSgFdQFTNUz15Et8htrF
-        title: 'WM-Wissen: Technische Hilfsmittel!'
-      - id: 7Cemw8kYG0Jn407sPbLycS
-        title: 'WM-Wissen: Spitznamen!'
-      - id: 2zuAih8GSVlZ63tDlBPSBn
-        title: 'WM-Wissen: Rückennummern!'
-      - id: 7izBVcBEz0sEEbwdzEl7Nt
-        title: 'WM-Wissen: Schiedsrichter!'
-      - id: 2lEqatiajLXg8GT3sNQp3W
-        title: 'WM-Wissen: Prägende Spieler der WM!'
-      - id: 1lDJbS8KXSBT9Vg8TX1By0
-        title: 'WM-Wissen: Die größten Spiele der WM!'
-      - id: 5y4lSHalrfGa2kbJ7KRZe9
-        title: 'WM-Wissen: GOAT - Greatest of All Time!'
-      - id: 5KaD5R05rcjpEOzyQcLnH0
-        title: 'WM-Wissen: WM-Pokal!'
     apple_music:
       artist_ids:
       - '374902873'
@@ -9396,21 +9333,12 @@ series:
       - id: '1567874902'
         episode: 1
         title: EM-Wissen 01 - Die Geschichte der EM - Teil 1! (1960 - 1988)
-      - id: '1691270921'
-        episode: 1
-        title: Frauen-WM-Wissen 01 - Die Anfänge - EP
-      - id: '1742934510'
-        episode: 1
-        title: 'Wissen zur EM 2024 - Folge 1:  Die EM-Stadien und ihre Namen - EP'
       - id: '1029947034'
         episode: 2
         title: 'Folge 2: Eine knallharte Saison'
       - id: '1567875851'
         episode: 2
         title: EM-Wissen 02 - Die Geschichte der EM - Teil 2! (1992 - 2016)
-      - id: '1691270950'
-        episode: 2
-        title: Frauen-WM-Wissen 02 - Legenden und Rekorde - EP
       - id: '1742936063'
         episode: 2
         title: 'Wissen zur EM 2024 - Folge 2: Überraschungen der EM-Geschichte - EP'
@@ -9420,9 +9348,6 @@ series:
       - id: '1567876030'
         episode: 3
         title: EM-Wissen 03 - Der Henri Delaunay Pokal!
-      - id: '1691271159'
-        episode: 3
-        title: Frauen-WM-Wissen 03 - (Der lange Weg zur) Gleichberechtigung - EP
       - id: '1742936478'
         episode: 3
         title: 'Wissen zur EM 2024 - Folge 3: Das Eigentor - EP'
@@ -9432,9 +9357,6 @@ series:
       - id: '1567876579'
         episode: 4
         title: EM-Wissen 04 - Regelwerk und Neuerungen!
-      - id: '1691271627'
-        episode: 4
-        title: Frauen-WM-Wissen 04 - Deutsche Legenden - EP
       - id: '1742936475'
         episode: 4
         title: 'Wissen zur EM 2024 - Folge 4: Regeländerungen und Kurioses - EP'
@@ -9444,9 +9366,6 @@ series:
       - id: '1567880262'
         episode: 5
         title: EM-Wissen 05 - Rekorde und Legenden!
-      - id: '1691271968'
-        episode: 5
-        title: Frauen-WM-Wissen 05 - Favoriten und Geheimtipps - EP
       - id: '1747717081'
         episode: 5
         title: 'Wissen zur EM 2024 - Folge 5: Favoriten und Geheimtipps - EP'
@@ -9774,26 +9693,6 @@ series:
       - id: '1896229493'
         episode: 111
         title: 'Folge 111: Road to 26!'
-      - id: '1398251896'
-        title: 'WM-Wissen: Abseits!'
-      - id: '1398250787'
-        title: 'WM-Wissen: Die größten Spiele der WM!'
-      - id: '1398237320'
-        title: 'WM-Wissen: Rote Karte!'
-      - id: '1398257294'
-        title: 'WM-Wissen: Technische Hilfsmittel!'
-      - id: '1401995815'
-        title: 'WM-Wissen: Spitznamen!'
-      - id: '1402558566'
-        title: 'WM-Wissen: Rückennummern!'
-      - id: '1404785354'
-        title: 'WM-Wissen: Schiedsrichter!'
-      - id: '1404789233'
-        title: 'WM-Wissen: Prägende Spieler der WM!'
-      - id: '1404790413'
-        title: 'WM-Wissen: GOAT - Greatest of All Time!'
-      - id: '1398250439'
-        title: 'WM-Wissen: WM-Pokal!'
   episode_pattern:
   - '^Folge (\d+):'
   - ^(\d+)/
@@ -16739,9 +16638,6 @@ series:
       artist_ids:
       - '672648501'
       albums:
-      - id: '1460129278'
-        episode: 5
-        title: 'LEGO City Folge 5: Raumfahrt - LUNA 1 antwortet nicht'
       - id: '1501854451'
         episode: 11
         title: 'Folge 11: Die kleine Carol'
@@ -17121,65 +17017,6 @@ series:
       number: 81
       range_end:
       reason: Episode 81 exists on Spotify but not on Apple Music (platform availability gap)
-    sub_series:
-    - label: tv_serie
-      album_ids:
-      - 0As6WtfaAP61uTSNME7Jet
-      - '1460125378'
-      - '1460126125'
-      - '1460126146'
-      - '1460126524'
-      - '1460127060'
-      - '1460127494'
-      - '1460128073'
-      - '1460128912'
-      - '1460129278'
-      - '1460129548'
-      - '1460129615'
-      - '1460130370'
-      - '1460130567'
-      - '1460131626'
-      - '1475741502'
-      - '1485428848'
-      - '1485429140'
-      - '1506189048'
-      - '1534555398'
-      - '1554524368'
-      - '1588219992'
-      - 1E5vNiPDYTmFwgy4tko3hA
-      - 1FKo6rTIST1l9BxIYmgULC
-      - 1O0IHH6pVTImC2yIE5avD3
-      - 1eZDAdZmJeDtIHzGUEPs6k
-      - 2Lv1i3QqsMZowG9WR3yjfE
-      - 2xXCU788DCGwZdzDdvdgJG
-      - 3bmf47LdkcVgixbjl3F8lp
-      - 3gkwsJlCOtOwdNUQ3s0jQy
-      - 3imgBl66bdTHnBTAgdEcnU
-      - 3imxYG6y8VsVx4LyUlkfOf
-      - 3ngKLboDjsx8LhBPo5sxs8
-      - 4SygfBWhlHUihHA4PFqH8I
-      - 5OuS244mCL3yET4TcCmCeQ
-      - 5OxUVo6FLul7Mjwise5nvM
-      - 5ZSLwaqveRltBWgVUborci
-      - 5cVHUuCdUJ9pK0yB6nc8Xb
-      - 5iINh6qhzGr4sRzNL0lrso
-      - 64I0e15NOY6wnw7FHFxPmI
-      - 6Qfw9ITHwveogDwmmKzr2I
-      - 6UpxTGaHx3oTPcUeTj86Xp
-      - 6WYhYFLMfKIv6ZmUB2Dhtm
-      - 6kSyYBxOHtMauNs5dsPd6x
-      - 6mAffXeHyQ3FqzVHKOnAj0
-      - 720GhdzAYOaf1sgonrNH72
-      - 746hc4vaxwrBzI4UT4jRSn
-      - 7dP8gv1I2IcdIBHX0mMUxB
-      - 7uIGc3hXpnMyFBMufBJvwf
-      - 7v1Ej98IjaotwJcaWcoWwH
-      reason: "TV-series tie-in episodes with distinct 'LEGO City: Folge N - Theme' title format and parallel numbering that overlaps the main series. Explicitly branded as 'TV-Serie' in compilation releases.
-        Mixing these into the main episode sequence would disrupt chronological browsing. Includes classic series albums (2019-2021) plus compilation box sets."
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-23T10:44:25.836988+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-23T10:44:25.836988+00:00'
 - id: peppa_pig_hoerspiele
   title: Peppa Pig Hörspiele
   providers:
@@ -19199,9 +19036,152 @@ series:
     spotify:
       artist_ids:
       - 5HQzBHnczgis11u7lSLVbt
+      albums:
+      - id: 4y9FLwcqRKYl5gbzn4LQ6Z
+        episode: 1
+        title: 'Folge 1: Die Wilden Hühner'
+      - id: 0LqDlXMMrLugwAUsVFlMrJ
+        episode: 2
+        title: 'Folge 2: Auf Klassenfahrt'
+      - id: 0XE0bMlL3xOIfIbkwfqvw5
+        episode: 3
+        title: 'Folge 3: Fuchsalarm'
+      - id: 17vdiC3MN9ccbaiy8kdp7V
+        episode: 4
+        title: 'Folge 4: Und das Glück der Erde (Ungekürzt)'
+      - id: 1RHxV47cUq6KD3Bdo0tKs1
+        episode: 5
+        title: 'Folge 5: Und die Liebe'
     apple_music:
       artist_ids:
       - '3500268'
+      albums:
+      - id: '1627273411'
+        episode: 2
+        title: 'Die Wilden Hühner, Folge 2: Auf Klassenfahrt'
+  content_type: hoerspiel
+  series_facts:
+    era_boundaries:
+    - curated_by: minimax-m2.7
+      curated_at: '2026-05-31T16:20:14.380384+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-05-31T16:20:14.380384+00:00'
+      label: fruehe_werke
+      release_date_range: 1995-2000
+    - curated_by: minimax-m2.7
+      curated_at: '2026-05-31T16:20:14.380384+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-05-31T16:20:14.380384+00:00'
+      label: klassik_ohnefurcht
+      release_date_range: 2000-2008
+    - curated_by: minimax-m2.7
+      curated_at: '2026-05-31T16:20:14.380384+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-05-31T16:20:14.380384+00:00'
+      label: moderne_hoerspiele
+      release_date_range: 2009-2017
+    - curated_by: minimax-m2.7
+      curated_at: '2026-05-31T16:20:14.380384+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-05-31T16:20:14.380384+00:00'
+      label: neue_produktionen
+      release_date_range: 2020-2025
+    known_gaps:
+    - number: 1
+      range_end:
+      reason: Apple Music dataset gap - modern Atmende Bücher Hörspiel (2022) only available on Spotify
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-23T10:43:15.339092+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-23T10:43:15.339092+00:00'
+    - number: 3
+      range_end:
+      reason: Apple Music dataset gap - modern Atmende Bücher Hörspiel (2022) only available on Spotify
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-23T10:43:15.339092+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-23T10:43:15.339092+00:00'
+    - number: 4
+      range_end:
+      reason: Apple Music dataset gap - modern Atmende Bücher Hörspiel (2023) only available on Spotify
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-23T10:43:15.339092+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-23T10:43:15.339092+00:00'
+    - number: 5
+      range_end:
+      reason: Apple Music dataset gap - modern Atmende Bücher Hörspiel (2023) only available on Spotify
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-23T10:43:15.339092+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-23T10:43:15.339092+00:00'
+    sub_series:
+    - label: drachenreiter_audiobook
+      album_ids: []
+      reason: NO Hörspiel editions exist for Drachenreiter in current dataset. All releases (Oetinger AUDIO 2013, Apple Music 2016, Atmende Bücher 2017, Apple Music 2021) use 'Kapitel' or 'Teil' 
+        audiobook chapter structure. Film tie-in 'Das Original-Hörspiel zum Film' (spotify:5o0eHTRMF4Xw8dsC3gGWHM) needs track verification.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T09:57:26.945475+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T09:57:26.945475+00:00'
+    - label: gespensterjaeger_audiobook
+      album_ids: []
+      reason: NO Hörspiel editions exist for Gespensterjaeger. All 4 Band releases (2009-2010) use 'Kapitel' audiobook chapter structure from JUMBO. Sub-series should be removed or reclassified as 
+        audiobook catalog.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T09:57:26.945475+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T09:57:26.945475+00:00'
+    - label: haende_weg_von_mississippi
+      album_ids:
+      - 4BJDSBr1D9b0LSCMt7ebRE
+      reason: Only the 1997 Oetinger 'Das Hörspiel' edition is a dramatized production. JUMBO (2003) and Apple Music (2020) versions use audiobook 'Kapitel' structure and should be excluded.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T09:41:32.275466+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T09:41:32.275466+00:00'
+    - label: igraine_ohnefurcht_no_hoerspiel
+      album_ids: []
+      reason: "CONFIRMED: All Igraine Ohnefurcht releases in current dataset (JUMBO 2000, Oetinger 2007, Apple Music 2007) use 'Kapitel' audiobook chapter structure. The actual 'Das Hörspiel' (115 min,
+        2-CD, Oetinger) is not present in current catalog data."
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T08:00:37.654201+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T08:00:37.654201+00:00'
+    - label: tintenwelt_audiobook
+      album_ids: []
+      reason: NO Hörspiel editions exist for Tintenwelt. All releases (Oetinger AUDIO 2003-2007, Apple Music 2013-2014) use 'Kapitel' audiobook chapter structure. The sub-series fact claiming Apple 
+        Music albums are 'Das Hörspiel' is incorrect.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T09:57:26.945475+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T09:57:26.945475+00:00'
+    - label: wilde_huehner
+      album_ids:
+      - 0LqDlXMMrLugwAUsVFlMrJ
+      - 0XE0bMlL3xOIfIbkwfqvw5
+      - '1627273411'
+      - 17vdiC3MN9ccbaiy8kdp7V
+      - 1RHxV47cUq6KD3Bdo0tKs1
+      - 4y9FLwcqRKYl5gbzn4LQ6Z
+      reason: Remove JUMBO audiobook editions (1998-2003) that were excluded as wrong_content_type. Only modern Atmende Bücher Hörspiele (2022-2023, 'Teil' naming + theme songs) and one Apple Music 
+        legacy release (1996) remain.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-23T10:43:15.339092+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-23T10:43:15.339092+00:00'
+    - label: wilde_huehner_modern
+      album_ids:
+      - 0LqDlXMMrLugwAUsVFlMrJ
+      - 0XE0bMlL3xOIfIbkwfqvw5
+      - 17vdiC3MN9ccbaiy8kdp7V
+      - 1RHxV47cUq6KD3Bdo0tKs1
+      - 4y9FLwcqRKYl5gbzn4LQ6Z
+      reason: "Confirmed: only Atmende Bücher releases (2022-2025) with 'Teil' track naming qualify as Hörspiele. All JUMBO releases (1998-2003) use 'Kapitel' audiobook chapter structure."
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-23T10:43:15.339092+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-23T10:43:15.339092+00:00'
 - id: wieso_weshalb_warum
   title: Wieso? Weshalb? Warum?
   providers:
@@ -21155,64 +21135,6 @@ series:
       audited_at: '2026-07-02T08:23:24.433929+00:00'
       label: revival
       release_date_range: 2023-2026
-    sub_series:
-    - label: radio_schrottland
-      album_ids:
-      - 00mx089tRjRNCbLbpbOaNq
-      - 0vKhQY57K7SEwltVEjjftX
-      - '1776872666'
-      - '1776873082'
-      - '1776873235'
-      - '1776873281'
-      - '1777047777'
-      - '1777048104'
-      - '1777050533'
-      - '1777094781'
-      - '1777097232'
-      - 1y49oGjLi8o3zUMH0kzhH0
-      - 2zGR30QEsUKVszWN0zjC8U
-      - 4CFN8H3JmhjVA4j85ga2yY
-      - 4ipi6JKubB5E5t0jqgg91e
-      - 5oyD4gQvIaNrlLVLbcPtKe
-      - 6IaFDDTNauu0NNJf9eL6Mz
-      - 6uqZzrMfKSw2UkLI1Uv5rt
-      reason: Distinct spin-off radio show product with 'Radio Schrottland' branding. Contains moderation, songs, word segments, and playback tracks — not a Hörspiel episode. Audited and confirmed.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-05T08:01:37.403928+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-05T08:01:37.403928+00:00'
-    - label: tv_serie
-      album_ids:
-      - 06ONkoUL5voBy7QyCSUGHk
-      - 0Too6v0absFuMwkUUU1oyR
-      - 0pkC1bydhGNKxNpBzpC7dg
-      - '1051755356'
-      - '1062847039'
-      - '1062847805'
-      - '1076362666'
-      - '1099771724'
-      - '1116206412'
-      - '1116207537'
-      - '1116713763'
-      - '1116715327'
-      - '1116718065'
-      - '1133210961'
-      - '1186216522'
-      - 2D6HXgKxvBqo0bLs3Pg7PU
-      - 2jKykXKc6VtAwEl7v6hgYT
-      - 2jkGfKWKwbT31GBkhq0LqU
-      - 48gWFUydUDKGtXjmV7kIIO
-      - 4zq0Op9NMOxi3j3e4uLuz4
-      - 6RX1WnTxJhQWASR4WFgnNg
-      - 6iqqVY07fQd1b9Q0CmTDoR
-      - 71hI0O0kfkPzUB18XnQ8LN
-      - 76kBHZPhoUbz2eR9dMgsBz
-      reason: TV series tie-in with 'Hörspiel zur TV-Serie' branding and independent numbering (Folge 1-12). Each disc bundles 4 distinct TV episodes as multi-episode compilation — a different product
-        from the main Ritter Rost episode series. Audited and confirmed.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-05T08:01:37.403928+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-05T08:01:37.403928+00:00'
 - id: die_fuchsbande
   title: Die Fuchsbande
   providers:
@@ -21824,39 +21746,6 @@ series:
       - id: '1725521512'
         title: Die Olchis im Land der Drachen
   content_type: hoerspiel
-  series_facts:
-    sub_series:
-    - label: olchi_detektive
-      album_ids:
-      - 045r5GB8FForUsSjex24gQ
-      - '1573466838'
-      - '1573471733'
-      - '1573473627'
-      - '1573479673'
-      - 17SSDMYscSNsBvwZubonNw
-      - 1OuRd7ktC70ELun2PIh3bA
-      - 1ut0uHARGd6rd2u1sTkKuY
-      - 1uzRxeC1NHplN1rNKO61M7
-      - 2ExQJI91WZd1av8in4zrJ7
-      - 2WViA4GvDY25YYrQYb9PsR
-      - 2XG2Yc35xnduSiBllza82G
-      - 2ghoETMh7cEiaSgZtlJbf6
-      - 2ycRWGy7XTuhIzWP5MZOqi
-      - 3NdLxPIyulnZtmOaNDrDXi
-      - 3YbQasSAfcPeE3Cv3I3IjN
-      - 4A8np03Bcme3bv4V05hL4I
-      - 4dC3YA59SWJCZu21BVncN8
-      - 543QMwmSdrQv29i8A4Qhi2
-      - 5oappd2T1kRdFZCMwgqmsq
-      - 7JTcsA8FRdAQ5HJaEfWs9Y
-      - 7ockICf82zAaT9lUzcICh7
-      - 7spqt81kgEvTbcuNxoOFtt
-      - 7vZFM4jIZCg4RQLMjH2DV6
-      reason: Distinct spin-off product line 'Olchi-Detektive' with its own episode numbering (1-20), separate from the main 'Die Olchis' Hörspiel series. All albums correctly excluded.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-05T08:02:55.256904+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-05T08:02:55.256904+00:00'
 - id: kung_fu_panda
   title: Kung Fu Panda
   providers:
@@ -21899,16 +21788,6 @@ series:
       audited_at: '2026-07-02T10:04:56.303988+00:00'
     - label: modern_re-release
       release_date_range: 2019-2024
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-02T10:04:56.303988+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T10:04:56.303988+00:00'
-    sub_series:
-    - label: winter_special
-      album_ids:
-      - '1574311937'
-      - 7oNef7yw3RyZLhYBeNiBkZ
-      reason: Standalone holiday special, not part of the main movie sequel series
       curated_by: minimax-m2.7
       curated_at: '2026-07-02T10:04:56.303988+00:00'
       audited_by: minimax-m2.7
@@ -22023,19 +21902,6 @@ series:
   content_type: hoerspiel
   aliases:
   - Bobo & Hasi
-  series_facts:
-    sub_series:
-    - label: bobo_und_hasi
-      album_ids:
-      - '1883198731'
-      - 2XOAww2En5h6NCrzsZJDUP
-      - 4FJFVUgtsFKmWuw5rZLrds
-      reason: 'Confirmed via audit: Distinct spin-off series featuring Bobo and friend Hasi. Albums correctly excluded as sub_series_bleed. Cross-provider pairs verified (apple_music:1883198731 and spotify:4FJFVUgtsFKmWuw5rZLrds
-        are the same content on different providers).'
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-05T08:03:39.689360+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-05T08:03:39.689360+00:00'
 - id: wendy
   title: Wendy
   providers:
@@ -23330,8 +23196,6 @@ series:
       - id: '1872017184'
         episode: 8
         title: 'Folge 8: Zaubertricks und Maulwurfshügel'
-      - id: '6784699176'
-        title: Petronella Apfelmus - Überraschungsfest für Lucius - EP
   episode_pattern:
   - '^Erstleser Teil (\d+):'
   - '^Folge (\d+):'
@@ -23343,70 +23207,6 @@ series:
   - ^.*\(Petronella Apfelmus, Band (\d+)\)
   aliases:
   - Petronella Applewitch
-  series_facts:
-    sub_series:
-    - label: erstleser
-      album_ids:
-      - '1795425967'
-      - 1RUpQ5bcRAxKoJ2IqzDpzB
-      - 1eWv9v9FokMIPYUGbXcS2n
-      - 1g1scG4rsVgowmX4qIJjLr
-      - 1ucFogfP8rLfwRxhcpZzab
-      - 2F2C0NL9tgW68hFLzw2m6P
-      - 2ynxC5LbwWaM30a4j7c38y
-      - 36d6mGGCWsgQS4kWT2OYzy
-      - '6784595369'
-      - 7a0cCpsKO6Uux6eFFZns9S
-      reason: Early-reader spin-off with simplified text, distinct product line from main Hörspiel series. Based on book sources confirming 'Überraschungsfest für Lucius' is Teil 1 of the Erstleser 
-        sub-series, separate from main series 'Verhext und festgeklebt'.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-23T10:41:32.121538+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-23T10:41:32.121538+00:00'
-    - label: tv_serie
-      album_ids:
-      - 03FVJobgKGHsupvlsppJE9
-      - 0C1wwnIVWTjtsfNKICN9gK
-      - 0GxgRepTAKICCgnjxXabnn
-      - 0hj2baHLWGAChZFOULHMS5
-      - 0pyNGAv1Gw7GsC5fC5ZBDG
-      - '1531866469'
-      - '1531866840'
-      - '1534715730'
-      - '1534719147'
-      - '1539658210'
-      - '1539667305'
-      - '1542759469'
-      - '1542760201'
-      - '1561785976'
-      - '1561848173'
-      - '1564490397'
-      - '1593240124'
-      - 1BQHeapK9Nwpd7BCStPjr4
-      - 1ZRHrKVlbTAAF18xlwRHXl
-      - 1cx3GIKlloCu7MrTD8oCA8
-      - 2EQ9WTnV9yhLbMJ6jdDiee
-      - 2UO9cEOsZltdLqiTlLxPDN
-      - 3OA6geEzvBlfwXQPzUAkEZ
-      - 3zZg0p70EJVRdz5m1oObmh
-      - 409prZSokH92U4Cqs990Js
-      - 4DViegfNa6l0zZTqGnSwVP
-      - 503rE3Am9I0dapuGpezkBQ
-      - 51xrQDuxKHKT4FB0993k4V
-      - 5BCDZehG1Ir8cokNvw6Lio
-      - 5Q1psKbqPKYqW9dHwXoiSz
-      - 5cJPVZr3WB94wvkIsBxLyL
-      - 6SJJSnB8mbOkIO50hTIOC5
-      - 6nyZHxP7bORHaqtWLlISVX
-      - 750DACR9FAa2hcjwNSdQ39
-      - 7DDsjdPOECsczrU9eUecBG
-      - 7gLUfeeARIDx3x8UhLkIfx
-      reason: Hörspiele based on the TV series, bundling multiple short episodes per release. Track names show distinct story titles ('Der Oberhexenbesen', 'Papa ist geschrumpft') different from main 
-        series. Correctly excluded as sub-series_bleed.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-23T10:41:32.121538+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-23T10:41:32.121538+00:00'
 - id: kaept_n_sharky
   title: Käpt'n Sharky
   providers:
@@ -28443,18 +28243,6 @@ series:
       number: 26
       range_end:
       reason: Audio series ended at episode 25; no episodes 26+ exist on streaming platforms (TV series continues but may not have been adapted to audio)
-    sub_series:
-    - label: dragons
-      album_ids:
-      - 0HcGZAnpPjDTjL1CF2FW4k
-      - '1434563606'
-      - 2HbqJeQcWMmNOheAftjRkm
-      reason: "Verified: These albums contain DreamWorks Dragons content ('Der neue Dagur', 'Der Höhlenbrecher', 'Das Drachenauge') misattributed to the Trolljäger artist page. Trolljäger only has 25 episodes;
-        'Folge 33' does not exist in this series. All three are correctly excluded as sub_series_bleed."
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-05T08:07:52.301080+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-05T08:07:52.301080+00:00'
 - id: julia_donaldson
   title: Julia Donaldson
   providers:
@@ -30465,168 +30253,6 @@ series:
       number: 171
       range_end:
       reason: "Cross-provider catalog gap: Episode 171 'als Kleingärtner' exists on Apple Music (included, future release 2026-08-07) but is completely absent from Spotify catalog."
-    sub_series:
-    - label: benjamin_minis
-      album_ids:
-      - 0MN49nhoq9kCwtW8y4jEMV
-      - '1525766721'
-      - '1527469485'
-      - '1548517341'
-      - '1608387565'
-      - '1719798401'
-      - '1757991520'
-      - '1816058031'
-      - '1873046534'
-      - 373A10PBGMIleibQAAtKUO
-      - 3PnaYpicNEwuo4Gv2SJ5N8
-      - 4QCzgi6ctPLnBzbpXm02BT
-      - 4X62W6cvPja2b2bx6yFpSO
-      - 5ymm9RXqHRg6SxYgM2Cc3A
-      - 72zDeiWHQEPFyFNlTqDEJi
-      - 7AhVdEAC0mQspr8a3crPHk
-      reason: Short-format episodes for younger children, distinct product line with own numbering.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-05T05:16:59.741320+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-05T05:16:59.741320+00:00'
-    - label: englisch_lernen
-      album_ids:
-      - '1069147252'
-      - 65t3mAbkGAyq23jOyQCzyO
-      reason: Language-learning content, not dramatized Hörspiel episodes.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-05T05:16:59.741320+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-05T05:16:59.741320+00:00'
-    - label: finds_raus
-      album_ids:
-      - '1473615663'
-      - '1473618222'
-      - '1500615880'
-      - '1524693160'
-      - '1552276514'
-      - '1589450921'
-      - '1619310248'
-      - '1651540450'
-      - '1686577013'
-      - '1707036276'
-      - '1742941728'
-      - '1766395764'
-      - '1796206077'
-      - '1830367223'
-      - '1878736130'
-      - 1U5WPQvOaUen0rEUXSF2xF
-      - 2Ck5U56StYxqFpecUB4Js4
-      - 2rgYh2I7zLKUf6IcrbrvsP
-      - 37hOJLiFhOgMF5Oo4aFQSR
-      - 3ANkD069p7sujMWGFYL7Gk
-      - 3Rr99zTIYQ15YEITCS0tNS
-      - 3TjPqzJLI3RvEMAfBWoXus
-      - 41CbYGVf8P9q22coeXy1jI
-      - 4BoMFkcqYNlQEzIRVA5O0v
-      - 4oURlGd6tLuF6C7VLqba2z
-      - 5WZUcUwjAPQtneLG6HYlFU
-      - 5iOHGdKsVr0aUmDAOMkIIG
-      - 5pDlWwNtOK3CheIcs1stBR
-      - 6GIYDPQ87bC5lxq1P9aKeW
-      - 6I1iPM5ON3k2nPDa4dWVdz
-      reason: Educational knowledge series (Find's raus mit Benjamin), distinct from narrative Hörspiel episodes.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-05T05:16:59.741320+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-05T05:16:59.741320+00:00'
-    - label: gute_nacht_geschichten
-      album_ids:
-      - 0CpO06kRKI1Bmxaq1tdODi
-      - 0Hk61KJfCPFrCuq2CsRKal
-      - 0nitnuUS2XZxyT82P5Zq4s
-      - 0y7BgWCMzJfHpdFDKuQxb4
-      - '1038159013'
-      - '1069063539'
-      - '1287159375'
-      - '1287160158'
-      - '1287160617'
-      - '1287204519'
-      - '1293269857'
-      - 12HAZnjCSumqoi7VNw1Srz
-      - '1333181294'
-      - '1439332340'
-      - '1458122474'
-      - '1458122758'
-      - '1458123123'
-      - '1458126368'
-      - '1458349480'
-      - '1458350733'
-      - '1458350988'
-      - '1458351055'
-      - '1458351777'
-      - '1458351833'
-      - '1458351842'
-      - '1458352461'
-      - '1458352781'
-      - '1458353140'
-      - '1458353358'
-      - '1458355650'
-      - '1458355969'
-      - '1458376002'
-      - '1458376501'
-      - '1458751755'
-      - '1465950082'
-      - '1536986439'
-      - '1581446133'
-      - '1631517975'
-      - '1692770508'
-      - '1772761022'
-      - '1843651398'
-      - 1XEgnkoYMJWVdgXLHyxtiR
-      - 1ZjAixYm8T5nH3eYC4KXDn
-      - 22IyszbjSWQ9PHD7UEjalx
-      - 27upXzmCmVNjJsMRmD7bOv
-      - 2VZdKhtpBNHZOlFKwNijDo
-      - 2W3XvoHpwNONqyRBTgzj2X
-      - 2fb6qUSV8TUQoW8G50da7P
-      - 2fiFlD2ujQz6E4s52D60sC
-      - 2jBNdNjnkWyWhqYCdw44FW
-      - 2r1WsIxAgbenRBDW5Ok16y
-      - 2snOPoNgGcybL52ymByZF7
-      - 2xx69IjNiel4mrcn7EI2IW
-      - 30f4zKTJOXMSyynihrW8E5
-      - 3CUqrbDq54UZ1J0mHGznle
-      - 3U00CUyWGu4Aav1I4kEMRm
-      - 3X3VYRdhraDuIIYp1OGNeM
-      - 43Gr4JRHBiPEYZD4B5rAH8
-      - 47v1qzw9NhmSxoxnc1y2YZ
-      - 4Mw3LGGUNoS8UqxLGQyVz4
-      - 4fmih7v3hLOwJk0Wmmav2R
-      - 4rKGBbiC5kNqgzXCwNQUSu
-      - 4vl7h8Wkqj8JYHpacb7Y9v
-      - 58sCMP2uMJZUCYtyqI5ZN2
-      - 5erZoyJ22F2XI13RydIXmk
-      - 5hfoUCzelAJ8TEeheK4v58
-      - '6770476376'
-      - 6u9Vz8ky2X27v8m2KBe2f9
-      - 6wsUgHGmV2M61ooQpM5StQ
-      - 7473i7iDDz5kC3BLsgEdXc
-      - 7I7qLmUxgIcljxBOzb0YlE
-      - 7g5j2uYgt2iKbCnOoaNbLB
-      - 7qDYRuMu9XgqaaMt0bxUAG
-      - 7rn6tf64uofISHlWtOksU1
-      reason: Bedtime story spin-off with distinct numbering and shorter format, separate from main episodic series.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-05T05:16:59.741320+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-05T05:16:59.741320+00:00'
-    - label: tv_serie
-      album_ids:
-      - 06WqykBOQJpIF1VqwavWWh
-      - '1886742567'
-      - '1892392106'
-      - 5s07qikQaxOyV0CenyJ23J
-      reason: Hörspiele based on the TV series, distinct from the main audio-play episode line.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-05T05:16:59.741320+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-05T05:16:59.741320+00:00'
   aliases:
   - Benjamin Blümchen Hörspiel
 - id: die_wilden_huehner
@@ -31648,18 +31274,6 @@ series:
       label: Städte-Specials
       album_ids: []
       reason: '2017+ city-themed releases: Berlin, Wien, London, New York, Paris, Sydney, Amsterdam, Barcelona, Spanien, Hamburg, München, Venedig. No episode numbers, themed single episodes.'
-    - label: hoerbuch
-      album_ids:
-      - '1391715193'
-      - '1391800251'
-      - 2a63gwDW1NrUSnooY9UrlJ
-      - 5OtiHgJS7bWbUAseDWBDC8
-      reason: REMOVED. Spotify versions 2a63gwDW1NrUSnooY9UrlJ and 5OtiHgJS7bWbUAseDWBDC8 are Hörspiel re-recordings with descriptive scene names (Fall N), not sequential-track Hörbuch. Apple Music 
-        versions 1391715193 and 1391800251 remain correctly excluded as content-type mismatch (sequential Teil tracks only).
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-02T16:04:54.312842+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T16:04:54.312842+00:00'
   aliases:
   - Kugelblitz
 - id: liliane_susewind
@@ -34610,8 +34224,6 @@ series:
         title: Conni löst einen kniffligen Fall
       - id: 2WIMJaF4y9bC6YbwHLpiaN
         title: Conni und das Ponyabenteuer
-      - id: 4NZQhiCZxqI4fkeyUkLxrZ
-        title: Conni & Co - Das Original-Hörspiel zum Kinofilm
       - id: 5jX9DhZywmVK1O0xDNGb4M
         title: Conni und die Katzenliebe
       - id: 4c2D6uwta4L4Sz9iHYKP23
@@ -34787,8 +34399,6 @@ series:
         title: Conni geht zum Film
       - id: '1686155299'
         title: Conni und das Ponyabenteuer
-      - id: '1686258930'
-        title: Conni & Co - Das Original-Hörspiel zum Kinofilm
       - id: '1686199941'
         title: Conni löst einen kniffligen Fall
       - id: '1686185692'
@@ -34878,19 +34488,6 @@ series:
   content_type: hoerspiel
   aliases:
   - Conni
-  series_facts:
-    sub_series:
-    - label: conni_co_kinofilm
-      album_ids:
-      - apple_music:1686258930
-      - apple_music:1686280023
-      - spotify:4NZQhiCZxqI4fkeyUkLxrZ
-      - spotify:5UX4VwXIZXBXRAqhIJoniL
-      reason: Theatrical film Hörspiele with distinct 'Kinofilm' branding. All four entries (both Conni & Co films on both providers) belong to this sub-series.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-05T08:08:35.372621+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-05T08:08:35.372621+00:00'
 - id: deine_freunde
   title: Deine Freunde
   providers:
@@ -35677,12 +35274,6 @@ series:
       - id: 37eLqfX76aWS4aVujyR6AU
         episode: 34
         title: 'Folge 34: Farmis neues Haustier'
-      - id: 2tZgJuVAbqmuHuUQXGiJGw
-        title: Die Schlümpfe (Das Original-Hörspiel zum Kinofilm)
-      - id: 0qP7VeHHHrrw6fM5umiV1e
-        title: Die Schlümpfe 2 (Das Original-Hörspiel zum Kinofilm)
-      - id: 680A52IEs8f9MfrTTUoFFD
-        title: Das verlorene Dorf (Das Original-Hörspiel zum Kinofilm)
     apple_music:
       artist_ids:
       - '128557561'
@@ -35831,12 +35422,6 @@ series:
       - id: '6771728891'
         episode: 34
         title: 'Folge 34: Farmis neues Haustier'
-      - id: '1515694665'
-        title: Die Schlümpfe (Das Original-Hörspiel zum Kinofilm)
-      - id: '1515707905'
-        title: Die Schlümpfe 2 (Das Original-Hörspiel zum Kinofilm)
-      - id: '1610550228'
-        title: Das verlorene Dorf - Hörspiel zum Kinofilm 3
   episode_pattern: '^Folge (\d+):'
   series_facts:
     era_boundaries:
@@ -35993,20 +35578,6 @@ series:
       number: 20
       range_end:
       reason: Spotify only has classic-era (2020) Episode 20; modern-era (2024) 'Die fliegenden Schlümpfe' missing from Spotify but present on Apple Music
-    sub_series:
-    - label: kinofilm
-      album_ids:
-      - 0qP7VeHHHrrw6fM5umiV1e
-      - '1515694665'
-      - '1515707905'
-      - '1610550228'
-      - 2tZgJuVAbqmuHuUQXGiJGw
-      - 680A52IEs8f9MfrTTUoFFD
-      reason: Cross-provider movie adaptation Hörspiele (2011, 2013, 2017). Valid Hörspiel content but separate from numbered episode series.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-05T08:09:44.433676+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-05T08:09:44.433676+00:00'
 - id: leo_lausemaus
   title: Leo Lausemaus
   providers:
@@ -38821,22 +38392,6 @@ series:
       curated_at: '2026-06-11T07:24:02.842964+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-11T07:24:02.842964+00:00'
-    sub_series:
-    - label: Hauptserie (Musik-Hörspiele)
-      album_ids:
-      - 03C4G0dGKUXaPRCw1iGIP9
-      - 0jet89yX7ilugi5WNk3bG7
-      - 0sBR6VO3ZRvqvrxhBPDECl
-      - '1442652238'
-      - '1443995096'
-      - '1494733014'
-      - '1646629304'
-      - 5cbOhNmUxxf2quWl9LlZCC
-      reason: Numbered main series albums 1-4, each a Musik-Hörspiel with spoken narrative + songs teaching music concepts
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-16T18:31:26.837938+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-16T18:31:26.837938+00:00'
 - id: detlev_joecker
   title: Detlev Jöcker
   providers:
@@ -41397,56 +40952,6 @@ series:
   - MIRA & das fliegende Haus
   - Mira und das fliegende Haus - Die Hörspiele
   episode_pattern: ^.*\(Folge (\d+)\)$
-  series_facts:
-    sub_series:
-    - label: kindermeditation_wolkenwunderland
-      album_ids:
-      - apple_music:1764911394
-      - apple_music:1768240191
-      - apple_music:1807952343
-      - spotify:0HIqDwHBD41iLY1q7b5ggU
-      - spotify:0a5wgvdNtlRorDo4PPqRmP
-      - spotify:2HkC0DgzpMnG1Psg81pRhg
-      - spotify:41F1SQxFjeV6q4PUULy5jX
-      reason: Children's meditation sub-series with distinct branding, relaxation/guided-imagery format, not a dramatized story.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-02T16:05:26.092402+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T16:05:26.092402+00:00'
-    - label: mira_show
-      album_ids:
-      - apple_music:1889146013
-      - apple_music:1895739122
-      - spotify:5xhe5M3NS0n5nz7HJ9zi7a
-      - spotify:7y2JA8b4tqYAhFPHymPYIj
-      reason: Talk-show format with intro/outro segments, Q&A production style, clearly distinct from Hörspiel episodes.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-02T16:05:26.092402+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T16:05:26.092402+00:00'
-    - label: traumreise
-      album_ids:
-      - apple_music:1750864280
-      - apple_music:1754388603
-      - apple_music:1758041520
-      - apple_music:1766707315
-      - apple_music:1773265187
-      - apple_music:1780533467
-      - apple_music:1813138203
-      - apple_music:1893588962
-      - spotify:06N6QtcVCH0lYY5h8kQ1XI
-      - spotify:14e6UhMnP4ZThFt7bYKdwG
-      - spotify:3I9vWitAAmFMaAwX87wdIT
-      - spotify:3qH8Cc4X0qgppjzyPU1cIQ
-      - spotify:532WT2YXUcucTBWOKddusk
-      - spotify:5ArEGgpMq0Y2IohKiJ74i5
-      - spotify:5JUGQFCyfkYsSIb4Y9wTby
-      - spotify:6bvHgEDLPuu393OG6Mq3JF
-      reason: Guided dream journey/meditation content, distinct from main Hörspiel episodes. No episode numbering, different production format.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-02T16:05:26.092402+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T16:05:26.092402+00:00'
 - id: bibi_und_tina_bff_talk
   title: 'Bibi und Tina: Bff Talk'
   aliases: []
@@ -42238,17 +41743,6 @@ series:
       curated_at: '2026-06-17T20:21:19.057902+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:21:19.057902+00:00'
-    sub_series:
-    - label: Kinofilm-Hörspiele
-      album_ids:
-      - 3NDmXmlb1im5DxYElp4d2H
-      - 4cLiShU1jNxUmKXq5hwpoE
-      - 68GvqD5QAua7bzRuW2nKa4
-      reason: Movie tie-in Hörspiels released as companion audio dramas to theatrical films; no episode numbering, standalone specials outside the main numbered sequence.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-17T20:21:19.057902+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-17T20:21:19.057902+00:00'
   content_type: hoerspiel
 - id: die_drei_ausrufezeichen_adventskalender
   title: 'Die drei !!!: Adventskalender'
@@ -42453,25 +41947,6 @@ series:
         title: Helden im Sturm (Das Original-Hörspiel zum Film)
       - id: '6772235864'
         title: Plötzlich Filmheld! (Das Original-Hörspiel zum Film)
-  series_facts:
-    sub_series:
-    - label: Film Hörspiele
-      album_ids:
-      - 0ZoMXHDAV9EKYqDNq72aiO
-      - 1B4lJAjlmGPH6AOPPHaE1c
-      - 2a7mpbH0ctiVgGSClslLyb
-      - 5gZIJ83eSRFa7Za0GeP4MU
-      - '6772233140'
-      - '6772235619'
-      - '6772235792'
-      - '6772235864'
-      - '6772245986'
-      - 6EAiJniLwF8WLmUeDGicqw
-      reason: Film audio adaptations without episode numbers; pattern coverage not applicable
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-17T20:28:17.807190+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-17T20:28:17.807190+00:00'
   content_type: hoerspiel
 - id: fuenf_freunde_adventskalender
   title: 'Fünf Freunde: Adventskalender'
@@ -42491,17 +41966,6 @@ series:
       albums:
       - id: '1594162214'
         title: Adventskalender - Fünf Freunde und das Abenteuer im Wald
-  series_facts:
-    sub_series:
-    - label: adventskalender_format
-      album_ids:
-      - '1594162214'
-      - 1MSUqIRZ02rYLly5YOsVYQ
-      reason: This series uses calendar door numbering (1. Tür, 2. Tür...) rather than standard episode numbers (Folge N). The episode pattern was designed for the parent series' numbered episodes.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-17T20:28:42.069965+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-17T20:28:42.069965+00:00'
   content_type: hoerspiel
 - id: fuenf_freunde_kinofilm
   title: 'Fünf Freunde: Kinofilm'
@@ -42652,21 +42116,6 @@ series:
       curated_at: '2026-06-17T20:31:37.014886+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:31:37.014886+00:00'
-    sub_series:
-    - label: double_episodes
-      album_ids:
-      - apple_music:1490107448
-      - apple_music:1543172293
-      - apple_music:1584634209
-      - spotify:1s2fFBRaLCFreCBop1ZUiQ
-      - spotify:1sKEP8ee2dpRZ5dGgrsGnq
-      - spotify:3CiZjceqtFe8yc63b4ZmsL
-      - spotify:3lDYDRvVd3Ngjr6vdPq7O7
-      reason: All Erstlesergeschichten albums contain 2 mini-stories per album release, unlike the parent series which has single stories
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-17T20:31:37.014886+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-17T20:31:37.014886+00:00'
 - id: hui_buh_neue_welt_kinofilm
   title: 'Hui Buh neue Welt: Kinofilm'
   aliases: []
@@ -42729,18 +42178,6 @@ series:
       audited_at: '2026-06-17T20:32:50.514755+00:00'
     - label: kinofilm_2012
       release_date_range: 2012-2012
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-17T20:32:50.514755+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-17T20:32:50.514755+00:00'
-    sub_series:
-    - label: kinofilm_audio_plays
-      album_ids:
-      - apple_music:1554100644
-      - apple_music:1561985267
-      - spotify:1NYB6fQ8okVNr3D9owIQTC
-      - spotify:7DystyZetX5Muhtvoq6ja7
-      reason: Movie tie-in audio plays (not numbered TV episodes)
       curated_by: minimax-m2.7
       curated_at: '2026-06-17T20:32:50.514755+00:00'
       audited_by: minimax-m2.7
@@ -43061,29 +42498,6 @@ series:
     known_gaps:
     - number: 8
       reason: Episode 'Laura hat Geburtstag' (Lauras Stern 10) not discovered in current catalog search; may exist in parent series
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-17T20:40:03.731516+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-17T20:40:03.731516+00:00'
-    sub_series:
-    - label: numbered
-      album_ids:
-      - 6psvtJwbclXJ09i1lqvzvv
-      - 76dSQJudJoC0lawXTwQk4A
-      reason: Episodes 7 and 9 with explicit episode numbering
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-17T20:40:03.731516+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-17T20:40:03.731516+00:00'
-    - label: story_releases
-      album_ids:
-      - '1564809127'
-      - 1fkzpHnoCGZrYS1PJ4cAKq
-      - 2eqIcLw1HkIhu6EhZ9tSgv
-      - 2m5U5mKGVufzo6waGyEhTR
-      - 5DXhxgaIO0wHpQgrUksu7N
-      - 5M7P7v28Q2YbxpYaXCr7dG
-      reason: Non-numbered Laura stories released as standalone titles
       curated_by: minimax-m2.7
       curated_at: '2026-06-17T20:40:03.731516+00:00'
       audited_by: minimax-m2.7
@@ -43523,24 +42937,6 @@ series:
       curated_at: '2026-06-17T20:45:23.973745+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:45:23.973745+00:00'
-    sub_series:
-    - label: Hörspiele zum Buch
-      album_ids:
-      - 0Ln0JTQdgoM3kBa6OJtUfT
-      - 0XBqorFZ6HJYjyiOdSMwb6
-      - '1560654801'
-      - '1560656738'
-      - '1564426657'
-      - '1564426659'
-      - '1564427017'
-      - 4RD9uJBrANRosSWik1wWwU
-      - 58XoNOFEGev2Fi3m4Qg7cP
-      - 6LjaO0VATb8SYtyTJF1X12
-      reason: All albums explicitly labeled 'Das Original-Hörspiel zum Buch' - distinct source material from TV series Hörspiele. Audible confirms 5-title book series.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-17T20:45:23.973745+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-17T20:45:23.973745+00:00'
 - id: miraculous_tv_specials
   title: 'Miraculous: Tv Specials'
   aliases: []
@@ -43967,23 +43363,6 @@ series:
       range_end: 3
     - number: 5
       reason: Not available in Apple Music catalog
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-17T20:52:10.647759+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-17T20:52:10.647759+00:00'
-    sub_series:
-    - label: Weihnachten
-      album_ids:
-      - apple_music:1685873704
-      - apple_music:1685873793
-      - apple_music:1686156110
-      - spotify:0t5XbGvxjnnQz1FWhFt7go
-      - spotify:1i5j40JrA7Uq3sNHgVEYQA
-      - spotify:3zWItP43T8egaHsynZBZIS
-      - spotify:5qoNwBcEil2enjbC6zG8LT
-      - spotify:6XYhYR3is3Bp6jMbdZraiC
-      - spotify:7GOZ8qDGyH9Q1KD2TxiQwP
-      reason: Christmas sub-series with independent episode numbering (01-06), distinct from main Pumuckl series numbering
       curated_by: minimax-m2.7
       curated_at: '2026-06-17T20:52:10.647759+00:00'
       audited_by: minimax-m2.7
@@ -44551,16 +43930,6 @@ series:
       curated_at: '2026-06-17T20:30:31.847417+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:30:31.847417+00:00'
-    sub_series:
-    - label: standalone
-      album_ids:
-      - apple_music:1542243269
-      - spotify:4BJDSBr1D9b0LSCMt7ebRE
-      reason: This is a single Cornelia Funke novel, not a numbered episode series. The album tracks are organized by chapters (Kapitel), not episodes.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-17T20:30:31.847417+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-17T20:30:31.847417+00:00'
   content_type: hoerspiel
 - id: tintenwelt
   title: Tintenwelt (Tintenherz)
@@ -44741,20 +44110,6 @@ series:
         title: Der kleine Wassermann (Das Hörspiel)
       - id: '1686048211'
         title: Der kleine Wassermann - Frühling im Mühlenweiher
-  series_facts:
-    sub_series:
-    - label: Mühlenweiher
-      album_ids:
-      - '1686048211'
-      - 24UoR4DeKKYQoOyi2ezy4U
-      - 2Uecb4RSMPonBJGJGbJkLK
-      - 59C2HIBgP2sVkPGj2QNoe2
-      reason: Picture book adaptations by Otfried Preussler and Regine Stigloher released 2013-2014, covering the four seasons. Spring, Summer, Autumn are in the catalog; no Winter edition was 
-        published.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-17T20:19:34.813749+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-17T20:19:34.813749+00:00'
 - id: die_kleine_hexe
   title: Die kleine Hexe
   aliases: []
@@ -44928,9 +44283,43 @@ series:
     spotify:
       artist_ids:
       - 1l6d0RIxTL3JytlLGvWzYe
+      albums:
+      - id: 3PnaYpicNEwuo4Gv2SJ5N8
+        title: 'Benjamin Minis - Folge 1: Hallo, Lea!'
+      - id: 7AhVdEAC0mQspr8a3crPHk
+        title: 'Benjamin Minis - Folge 2: Keine Angst im Dunkeln'
+      - id: 4QCzgi6ctPLnBzbpXm02BT
+        title: 'Benjamin Minis - Folge 3: Das erste Fahrrad'
+      - id: 0MN49nhoq9kCwtW8y4jEMV
+        title: 'Benjamin Minis - Folge 4: Geburtstag im Zoo'
+      - id: 72zDeiWHQEPFyFNlTqDEJi
+        title: 'Benjamin Minis - Folge 5: Endlich Schnee!'
+      - id: 5ymm9RXqHRg6SxYgM2Cc3A
+        title: 'Benjamin Minis - Folge 6: Eine verrückte Zahnputzgeschichte'
+      - id: 373A10PBGMIleibQAAtKUO
+        title: 'Benjamin Minis - Folge 7: Müllalarm im Zoo'
+      - id: 4X62W6cvPja2b2bx6yFpSO
+        title: 'Benjamin Minis - Folge 8: Ein Osterei im Sommer'
     apple_music:
       artist_ids:
       - '215716521'
+      albums:
+      - id: '1525766721'
+        title: 'Benjamin Minis - Folge 1: Hallo, Lea!'
+      - id: '1527469485'
+        title: 'Benjamin Minis - Folge 2: Keine Angst im Dunkeln'
+      - id: '1548517341'
+        title: 'Benjamin Minis - Folge 3: Das erste Fahrrad'
+      - id: '1608387565'
+        title: 'Benjamin Minis - Folge 4: Geburtstag im Zoo'
+      - id: '1719798401'
+        title: 'Benjamin Minis - Folge 5: Endlich Schnee!'
+      - id: '1757991520'
+        title: 'Benjamin Minis - Folge 6: Eine verrückte Zahnputzgeschichte'
+      - id: '1816058031'
+        title: 'Benjamin Minis - Folge 7: Müllalarm im Zoo'
+      - id: '1873046534'
+        title: 'Benjamin Minis - Folge 8: Ein Osterei im Sommer'
 - id: benjamin_bluemchen_finds_raus
   title: "Benjamin Blümchen: Find's raus"
   aliases: []
@@ -44941,9 +44330,71 @@ series:
     spotify:
       artist_ids:
       - 1l6d0RIxTL3JytlLGvWzYe
+      albums:
+      - id: 5WZUcUwjAPQtneLG6HYlFU
+        title: "Find's raus mit Benjamin: Straßenverkehr"
+      - id: 4BoMFkcqYNlQEzIRVA5O0v
+        title: "Find's raus mit Benjamin: Wetter"
+      - id: 3ANkD069p7sujMWGFYL7Gk
+        title: "Find's raus mit Benjamin: Baustelle"
+      - id: 37hOJLiFhOgMF5Oo4aFQSR
+        title: "Find's raus mit Benjamin: Wald"
+      - id: 3TjPqzJLI3RvEMAfBWoXus
+        title: 'Find‘s raus mit Benjamin: Feuerwehr'
+      - id: 6I1iPM5ON3k2nPDa4dWVdz
+        title: 'Find‘s raus mit Benjamin: Jahreszeiten'
+      - id: 5pDlWwNtOK3CheIcs1stBR
+        title: 'Find‘s raus mit Benjamin: Weltraum'
+      - id: 2rgYh2I7zLKUf6IcrbrvsP
+        title: 'Find‘s raus mit Benjamin: Dinosaurier'
+      - id: 5iOHGdKsVr0aUmDAOMkIIG
+        title: "Find's raus mit Benjamin: Müll"
+      - id: 3Rr99zTIYQ15YEITCS0tNS
+        title: "Find's raus mit Benjamin: Flughafen"
+      - id: 1U5WPQvOaUen0rEUXSF2xF
+        title: "Find's raus mit Benjamin: Bauernhof"
+      - id: 2Ck5U56StYxqFpecUB4Js4
+        title: "Find's raus mit Benjamin - Folge 12: Meer"
+      - id: 6GIYDPQ87bC5lxq1P9aKeW
+        title: "Find's raus mit Benjamin - Folge 13: Regenwald"
+      - id: 4oURlGd6tLuF6C7VLqba2z
+        title: "Find's raus mit Benjamin - Folge 14: Eisenbahn"
+      - id: 41CbYGVf8P9q22coeXy1jI
+        title: "Find's raus mit Benjamin - Folge 15: Insekten"
     apple_music:
       artist_ids:
       - '215716521'
+      albums:
+      - id: '1473618222'
+        title: "Find's raus mit Benjamin: Straßenverkehr"
+      - id: '1473615663'
+        title: "Find's raus mit Benjamin: Wetter"
+      - id: '1500615880'
+        title: "Find's raus mit Benjamin: Baustelle"
+      - id: '1524693160'
+        title: "Find's raus mit Benjamin: Wald"
+      - id: '1552276514'
+        title: 'Find‘s raus mit Benjamin: Feuerwehr'
+      - id: '1589450921'
+        title: 'Find‘s raus mit Benjamin: Jahreszeiten'
+      - id: '1619310248'
+        title: 'Find‘s raus mit Benjamin: Weltraum'
+      - id: '1651540450'
+        title: 'Find‘s raus mit Benjamin: Dinosaurier'
+      - id: '1686577013'
+        title: 'Find‘s raus mit Benjamin: Müll'
+      - id: '1707036276'
+        title: 'Find‘s raus mit Benjamin: Flughafen'
+      - id: '1742941728'
+        title: "Find's raus mit Benjamin: Bauernhof"
+      - id: '1766395764'
+        title: "Find's raus mit Benjamin - Folge 12: Meer"
+      - id: '1796206077'
+        title: "Find's raus mit Benjamin - Folge 13: Regenwald"
+      - id: '1830367223'
+        title: "Find's raus mit Benjamin - Folge 14: Eisenbahn"
+      - id: '1878736130'
+        title: "Find's raus mit Benjamin - Folge 15: Insekten"
 - id: benjamin_bluemchen_gute_nacht_geschichten
   title: 'Benjamin Blümchen: Gute-Nacht-Geschichten'
   aliases: []
@@ -44954,9 +44405,159 @@ series:
     spotify:
       artist_ids:
       - 1l6d0RIxTL3JytlLGvWzYe
+      albums:
+      - id: 7g5j2uYgt2iKbCnOoaNbLB
+        title: 'Gute Nacht Geschichten - Folge 8: Die kleine freche Sternschnuppe'
+      - id: 2snOPoNgGcybL52ymByZF7
+        title: 'Benjamin Blümchen Gute-Nacht-Geschichten - Folge 6: 24 Weihnachts-Geschichten'
+      - id: 3X3VYRdhraDuIIYp1OGNeM
+        title: 'Gute-Nacht-Geschichten - Folge 25: Der verschwundene Stern'
+      - id: 0CpO06kRKI1Bmxaq1tdODi
+        title: 'Gute-Nacht-Geschichten - Folge 10: Das Schoko-Fest beim Tortenkönig'
+      - id: 3U00CUyWGu4Aav1I4kEMRm
+        title: 'Gute-Nacht-Geschichten - Folge 1: Wo ist Winnie Waschbär?'
+      - id: 0y7BgWCMzJfHpdFDKuQxb4
+        title: 'Gute-Nacht-Geschichten - Folge 2: Die Rauschemuschel'
+      - id: 4rKGBbiC5kNqgzXCwNQUSu
+        title: 'Gute-Nacht-Geschichten - Folge 3: Wüstenfüchse fliegen nicht'
+      - id: 12HAZnjCSumqoi7VNw1Srz
+        title: 'Gute-Nacht-Geschichten - Folge 4: Benjamin und die Glühwürmchen'
+      - id: 7qDYRuMu9XgqaaMt0bxUAG
+        title: 'Gute-Nacht-Geschichten - Folge 5: Kuscheln mit dem Osterhasen'
+      - id: 4vl7h8Wkqj8JYHpacb7Y9v
+        title: 'Gute-Nacht-Geschichten - Folge 7: A,B,C-Geschichten / 1,2,3-Geschichten'
+      - id: 6wsUgHGmV2M61ooQpM5StQ
+        title: 'Gute-Nacht-Geschichten - Folge 9: Fußballspaß im Zoo'
+      - id: 43Gr4JRHBiPEYZD4B5rAH8
+        title: 'Gute Nacht Geschichten - Folge 11: Badespaß im Zoo'
+      - id: 47v1qzw9NhmSxoxnc1y2YZ
+        title: 'Gute-Nacht-Geschichten - Folge 12: Frühling, Sommer, Herbst und Winter'
+      - id: 30f4zKTJOXMSyynihrW8E5
+        title: 'Gute Nacht Geschichten - Folge 13: Die Traumfee-Königin Karolila'
+      - id: 7I7qLmUxgIcljxBOzb0YlE
+        title: 'Gute-Nacht-Geschichten - Folge 14: Im Traumland'
+      - id: 58sCMP2uMJZUCYtyqI5ZN2
+        title: 'Gute-Nacht-Geschichten - Folge 15: Die Märchennacht im Zoo'
+      - id: 5erZoyJ22F2XI13RydIXmk
+        title: 'Gute-Nacht-Geschichten - Folge 16: Meine liebsten Kuscheltiere'
+      - id: 5hfoUCzelAJ8TEeheK4v58
+        title: 'Gute Nacht Geschichten - Folge 17: Mondgeschichten'
+      - id: 2VZdKhtpBNHZOlFKwNijDo
+        title: 'Gute-Nacht-Geschichten - Folge 18: Die Pyjama-Party'
+      - id: 1ZjAixYm8T5nH3eYC4KXDn
+        title: 'Gute-Nacht-Geschichten - Folge 19: Tiere der Nacht'
+      - id: 2xx69IjNiel4mrcn7EI2IW
+        title: 'Gute-Nacht-Geschichten - Folge 20: Das schnarchende Krokodil'
+      - id: 4Mw3LGGUNoS8UqxLGQyVz4
+        title: 'Gute-Nacht-Geschichten - Folge 21: Das fliegende Bett'
+      - id: 2jBNdNjnkWyWhqYCdw44FW
+        title: 'Gute-Nacht-Geschichten - Folge 22: Gute Nacht im Zoo'
+      - id: 6u9Vz8ky2X27v8m2KBe2f9
+        title: 'Gute-Nacht-Geschichten - Folge 23: Kleine Helden'
+      - id: 2W3XvoHpwNONqyRBTgzj2X
+        title: 'Gute-Nacht-Geschichten - Folge 24: Der Traumwichtel'
+      - id: 3CUqrbDq54UZ1J0mHGznle
+        title: 'Gute Nacht Geschichten - Folge 26: Im Schneckentempo'
+      - id: 27upXzmCmVNjJsMRmD7bOv
+        title: 'Gute Nacht Geschichten - Folge 27: Krümel, der freche Hamster'
+      - id: 2r1WsIxAgbenRBDW5Ok16y
+        title: 'Gute Nacht Geschichten - Folge 28: Der Winterschlaf-Teddy'
+      - id: 2fb6qUSV8TUQoW8G50da7P
+        title: 'Gute Nacht Geschichten - Folge 29: Im Kindergarten'
+      - id: 0Hk61KJfCPFrCuq2CsRKal
+        title: 'Gute-Nacht-Geschichten - Folge 30: Viele kleine Schäfchenwolken'
+      - id: 7rn6tf64uofISHlWtOksU1
+        title: 'Gute-Nacht-Geschichten - Folge 31: Alle meine Tierkinder'
+      - id: 1XEgnkoYMJWVdgXLHyxtiR
+        title: 'Gute-Nacht-Geschichten - Folge 32: Der Herbst ist da'
+      - id: 2fiFlD2ujQz6E4s52D60sC
+        title: 'Gute-Nacht-Geschichten - Folge 33: Im Reisefieber'
+      - id: 4fmih7v3hLOwJk0Wmmav2R
+        title: 'Gute-Nacht-Geschichten - Folge 34: Hilfe, ich kann nicht schlafen!'
+      - id: 0nitnuUS2XZxyT82P5Zq4s
+        title: 'Gute-Nacht-Geschichten - Folge 35: Der mutige Löwe'
+      - id: 22IyszbjSWQ9PHD7UEjalx
+        title: 'Gute-Nacht-Geschichten - Folge 36: Die Zoomärchenstunde'
+      - id: 7473i7iDDz5kC3BLsgEdXc
+        title: 'Gute-Nacht-Geschichten - Folge 37: Der Funkenregenbogen'
     apple_music:
       artist_ids:
       - '215716521'
+      albums:
+      - id: '1287160158'
+        title: 'Gute Nacht Geschichten - Folge 8: Die kleine freche Sternschnuppe'
+      - id: '1038159013'
+        title: 'Benjamin Blümchen Gute-Nacht-Geschichten - Folge 6: 24 Weihnachts-Geschichten'
+      - id: '1458126368'
+        title: 'Gute Nacht Geschichten - Folge 25: Der verschwundene Stern'
+      - id: '1458122758'
+        title: 'Gute Nacht Geschichten - Folge 10: Das Schoko-Fest beim Tortenkönig'
+      - id: '1458352781'
+        title: 'Gute-Nacht-Geschichten - Folge 1: Wo ist Winnie Waschbär?'
+      - id: '1458353140'
+        title: 'Gute-Nacht-Geschichten - Folge 2: Die Rauschemuschel'
+      - id: '1458352461'
+        title: 'Gute-Nacht-Geschichten - Folge 3: Wüstenfüchse fliegen nicht'
+      - id: '1458353358'
+        title: 'Gute-Nacht-Geschichten - Folge 4: Benjamin und die Glühwürmchen'
+      - id: '1458351842'
+        title: 'Gute-Nacht-Geschichten - Folge 5: Kuscheln mit dem Osterhasen'
+      - id: '1458751755'
+        title: 'Gute-Nacht-Geschichten - Folge 7: A,B,C-Geschichten / 1,2,3-Geschichten'
+      - id: '1458351833'
+        title: 'Gute-Nacht-Geschichten - Folge 9: Fußballspaß im Zoo'
+      - id: '1287160617'
+        title: 'Gute Nacht Geschichten - Folge 11: Badespaß im Zoo'
+      - id: '1458355969'
+        title: 'Gute-Nacht-Geschichten - Folge 12: Frühling, Sommer, Herbst und Winter'
+      - id: '1287204519'
+        title: 'Gute Nacht Geschichten - Folge 13: Die Traumfee-Königin Karolila'
+      - id: '1069063539'
+        title: 'Benjamin Blümchen Gute-Nacht-Geschichten - Folge 13: Die Traumfeekönigin Karolila'
+      - id: '1458122474'
+        title: 'Gute Nacht Geschichten - Folge 14: Im Traumland'
+      - id: '1458376002'
+        title: 'Gute-Nacht-Geschichten - Folge 15: Die Märchennacht im Zoo'
+      - id: '1458376501'
+        title: 'Gute-Nacht-Geschichten - Folge 16: Meine liebsten Kuscheltiere'
+      - id: '1287159375'
+        title: 'Gute Nacht Geschichten - Folge 17: Mondgeschichten'
+      - id: '1458123123'
+        title: 'Gute-Nacht-Geschichten - Folge 18: Die Pyjama-Party'
+      - id: '1458350733'
+        title: 'Gute-Nacht-Geschichten - Folge 19: Tiere der Nacht'
+      - id: '1458350988'
+        title: 'Gute-Nacht-Geschichten - Folge 20: Das schnarchende Krokodil'
+      - id: '1458351055'
+        title: 'Gute-Nacht-Geschichten - Folge 21: Das fliegende Bett'
+      - id: '1458351777'
+        title: 'Gute-Nacht-Geschichten - Folge 22: Gute Nacht im Zoo'
+      - id: '1458355650'
+        title: 'Gute-Nacht-Geschichten - Folge 23: Kleine Helden'
+      - id: '1458349480'
+        title: 'Gute-Nacht-Geschichten - Folge 24: Der Traumwichtel'
+      - id: '1293269857'
+        title: 'Gute Nacht Geschichten - Folge 26: Im Schneckentempo'
+      - id: '1333181294'
+        title: 'Gute Nacht Geschichten - Folge 27: Krümel, der freche Hamster'
+      - id: '1439332340'
+        title: 'Gute Nacht Geschichten - Folge 28: Der Winterschlaf-Teddy'
+      - id: '1465950082'
+        title: 'Gute-Nacht-Geschichten - Folge 29: Im Kindergarten'
+      - id: '1536986439'
+        title: 'Gute-Nacht-Geschichten - Folge 31: Alle meine Tierkinder'
+      - id: '1581446133'
+        title: 'Gute-Nacht-Geschichten - Folge 32: Der Herbst ist da'
+      - id: '1631517975'
+        title: 'Gute-Nacht-Geschichten - Folge 33: Im Reisefieber'
+      - id: '1692770508'
+        title: 'Gute-Nacht-Geschichten - Folge 34: Hilfe, ich kann nicht schlafen!'
+      - id: '1772761022'
+        title: 'Gute-Nacht-Geschichten - Folge 35:  Der mutige Löwe'
+      - id: '1843651398'
+        title: 'Gute-Nacht-Geschichten - Folge 36: Die Zoomärchenstunde'
+      - id: '6770476376'
+        title: 'Gute-Nacht-Geschichten - Folge 37: Der Funkenregenbogen'
 - id: benjamin_bluemchen_tv_serie
   title: 'Benjamin Blümchen: TV-Serie'
   aliases: []
@@ -44967,9 +44568,19 @@ series:
     spotify:
       artist_ids:
       - 1l6d0RIxTL3JytlLGvWzYe
+      albums:
+      - id: 5s07qikQaxOyV0CenyJ23J
+        title: Frühling mit Benjamin (Hörspiele zur TV-Serie)
+      - id: 06WqykBOQJpIF1VqwavWWh
+        title: Benjamin und die Tiere (Hörspiele zur TV-Serie)
     apple_music:
       artist_ids:
       - '215716521'
+      albums:
+      - id: '1886742567'
+        title: Frühling mit Benjamin (Hörspiele zur TV-Serie)
+      - id: '1892392106'
+        title: Benjamin und die Tiere (Hörspiele zur TV-Serie)
 - id: die_drei_fragezeichen_kids_mini_fall
   title: 'Die drei ??? Kids: Mini-Fälle'
   aliases: []
@@ -44980,9 +44591,45 @@ series:
     spotify:
       artist_ids:
       - 0vLsqW05dyLvjuKKftAEGA
+      albums:
+      - id: 1IrBxq3kgqabhcp6xfIezB
+        title: Mini-Fall/Vorsicht, Zaubertinte!
+      - id: 2AeYE1PVAulFFJlfp6GYZL
+        title: Mini-Fall/Die Räuberjagd
+      - id: 2SW10jAJqdxfbJZCW6hlEF
+        title: Mini-Fall/Die Piratenbande (Mini-Fall 03)
+      - id: 0qybrewjst6zJBOrdBghc2
+        title: Mini-Fall/Achtung, Dinos! (Mini-Fall 04)
+      - id: 7DA8OgWsVgCSM5ayHEOQHo
+        title: Mini-Fall/Alarm, die Ritter kommen! (Mini-Fall 05)
+      - id: 1q9psu1dvUemN0x8tFnwhr
+        title: Mini-Fall/Der Monsterschrecker Monsterschreck (Mini-Fall 06)
+      - id: 74usgzfUNYeiXgAe3CKrr7
+        title: Mini-Fall/Hilfe, Geisterzug (Mini-Fall 07)
+      - id: 45Wfn7ndkXnhQrH9dWHjf9
+        title: Mini-Fall/Ungeheuer in Sicht (Mini-Fall 08)
     apple_music:
       artist_ids:
       - '305761269'
+      albums:
+      - id: '1752881332'
+        episode: 2
+        title: 'Folge 2: Mini-Fall/Die Räuberjagd'
+      - id: '1752882217'
+        episode: 3
+        title: 'Folge 3: Mini-Fall/Die Piratenbande'
+      - id: '1752882153'
+        title: Mini-Fall/Vorsicht, Zaubertinte!
+      - id: '1753045100'
+        title: 'Mini-Fall: Achtung, Dinos!'
+      - id: '1774712902'
+        title: Mini-Fall/Alarm, die Ritter kommen!
+      - id: '1790622238'
+        title: Mini-Fall/Der Monsterschreck (Mini-Fall 06)
+      - id: '1815464807'
+        title: Mini-Fall/Hilfe, Geisterzug (Mini-Fall 07)
+      - id: '1891320197'
+        title: Mini-Fall/Ungeheuer in Sicht (Mini-Fall 08)
 - id: olchi_detektive
   title: Olchi-Detektive
   aliases: []
@@ -44993,9 +44640,69 @@ series:
     spotify:
       artist_ids:
       - 32Aa42Dbmqm4GKsv3wUSMb
+      albums:
+      - id: 7vZFM4jIZCg4RQLMjH2DV6
+        title: Olchi-Detektive 13. Die große Flut
+      - id: 3YbQasSAfcPeE3Cv3I3IjN
+        title: Olchi-Detektive 14. Ufo in Sicht!
+      - id: 1uzRxeC1NHplN1rNKO61M7
+        title: Olchi-Detektive 1. Jagd auf die Gully-Gangster
+      - id: 17SSDMYscSNsBvwZubonNw
+        title: Olchi-Detektive 2. Rote Karte für Halunken
+      - id: 5oappd2T1kRdFZCMwgqmsq
+        title: Olchi-Detektive 3. Löwenalarm
+      - id: 4A8np03Bcme3bv4V05hL4I
+        title: Olchi-Detektive 4. Im Einsatz der Königin
+      - id: 2WViA4GvDY25YYrQYb9PsR
+        title: Olchi-Detektive 5. Die Monsterschwäne vom Hyde Park
+      - id: 2ycRWGy7XTuhIzWP5MZOqi
+        title: Olchi-Detektive 6. Gefangen im Auge von London
+      - id: 7spqt81kgEvTbcuNxoOFtt
+        title: Olchi-Detektive 11. Achtung, Bankräuber!
+      - id: 4dC3YA59SWJCZu21BVncN8
+        title: Olchi-Detektive 10. Das Erbe der Piraten
+      - id: 7JTcsA8FRdAQ5HJaEfWs9Y
+        title: Olchi-Detektive 7. Das Geheimnis der Löcherwände
+      - id: 2ExQJI91WZd1av8in4zrJ7
+        title: Olchi-Detektive 8. Das Mikado-Komplott
+      - id: 3NdLxPIyulnZtmOaNDrDXi
+        title: Olchi-Detektive 9. Horrorspuk und Geisterspucke
+      - id: 7ockICf82zAaT9lUzcICh7
+        title: Olchi-Detektive 12. Eine brandheiße Spur
+      - id: 1ut0uHARGd6rd2u1sTkKuY
+        title: Olchi-Detektive 15. Angriff der Gangster-Haie
+      - id: 2XG2Yc35xnduSiBllza82G
+        title: Olchi-Detektive 16. Gefährliche Träume
+      - id: 2ghoETMh7cEiaSgZtlJbf6
+        title: Olchi-Detektive 17. Die Ritter der Popelrunde
+      - id: 543QMwmSdrQv29i8A4Qhi2
+        title: Olchi-Detektive 18. Eine rabenschwarze Drohung
+      - id: 045r5GB8FForUsSjex24gQ
+        title: Olchi-Detektive 19. Himmel, Furz und Wolkenbruch!
+      - id: 1OuRd7ktC70ELun2PIh3bA
+        title: Olchi-Detektive 20. Der Gangster-Tunnel
     apple_music:
       artist_ids:
       - '556813799'
+      albums:
+      - id: '1573471733'
+        title: Olchi-Detektive 4. Im Einsatz der Königin
+      - id: '1573473627'
+        title: Olchi-Detektive 9. Horrorspuk und Geisterspucke
+      - id: '1573479673'
+        title: Olchi-Detektive 12. Eine brandheiße Spur
+      - id: '1573466838'
+        title: Olchi-Detektive 15. Angriff der Gangster-Haie
+  series_facts:
+    known_gaps:
+    - number: 21
+      range_end:
+      reason: Episode published but not found in current Spotify/Apple Music catalog. Series was split from die_olchis rather than re-discovered, so this episode may not have been in the parent's 
+        curation.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-23T19:00:22.689400+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-23T19:00:22.689400+00:00'
 - id: die_schluempfe_kinofilm
   title: 'Die Schlümpfe: Kinofilm'
   aliases: []
@@ -45006,9 +44713,32 @@ series:
     spotify:
       artist_ids:
       - 0ONNMDruuhqjpTB9uRhbYs
+      albums:
+      - id: 2tZgJuVAbqmuHuUQXGiJGw
+        title: Die Schlümpfe (Das Original-Hörspiel zum Kinofilm)
+      - id: 0qP7VeHHHrrw6fM5umiV1e
+        title: Die Schlümpfe 2 (Das Original-Hörspiel zum Kinofilm)
+      - id: 680A52IEs8f9MfrTTUoFFD
+        title: Das verlorene Dorf (Das Original-Hörspiel zum Kinofilm)
     apple_music:
       artist_ids:
       - '128557561'
+      albums:
+      - id: '1515694665'
+        title: Die Schlümpfe (Das Original-Hörspiel zum Kinofilm)
+      - id: '1515707905'
+        title: Die Schlümpfe 2 (Das Original-Hörspiel zum Kinofilm)
+      - id: '1610550228'
+        title: Das verlorene Dorf - Hörspiel zum Kinofilm 3
+  series_facts:
+    known_gaps:
+    - number: 3
+      range_end:
+      reason: Film 3 is named 'Das verlorene Dorf' (no number in title) — not a gap, just standalone naming. Included as kinofilm sub-series.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-23T19:00:49.569993+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-23T19:00:49.569993+00:00'
 - id: petronella_apfelmus_erstleser
   title: 'Petronella Apfelmus: Erstleser'
   aliases: []
@@ -45019,9 +44749,41 @@ series:
     spotify:
       artist_ids:
       - 7x0Gb1gpe2xRXsp6qXL3xC
+      albums:
+      - id: 1ucFogfP8rLfwRxhcpZzab
+        episode: 1
+        title: 'Erstleser Teil 1: Überraschungsfest für Lucius'
+      - id: 1eWv9v9FokMIPYUGbXcS2n
+        episode: 2
+        title: 'Erstleser Teil 2: Wer schleicht denn da durchs Erdbeerbeet (Ungekürzt)'
+      - id: 1g1scG4rsVgowmX4qIJjLr
+        episode: 3
+        title: 'Erstleser Teil 3: Krawall im Hühnerstall'
+      - id: 1RUpQ5bcRAxKoJ2IqzDpzB
+        episode: 4
+        title: 'Erstleser Teil 4: Spargelzahn zieht um'
     apple_music:
       artist_ids:
       - '1451309462'
+      albums:
+      - id: '6784699176'
+        episode: 1
+        title: Petronella Apfelmus - Überraschungsfest für Lucius - EP
+      - id: '6784595369'
+        episode: 3
+        title: 'Erstleser Teil 3: Krawall im Hühnerstall'
+      - id: '1795425967'
+        episode: 4
+        title: 'Erstleser Teil 4: Spargelzahn zieht um'
+  series_facts:
+    known_gaps:
+    - number: 2
+      range_end:
+      reason: Apple Music catalog missing this episode entirely - no corresponding album exists or was excluded.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-23T19:01:18.818795+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-23T19:01:18.818795+00:00'
 - id: petronella_apfelmus_tv_serie
   title: 'Petronella Apfelmus: TV-Serie'
   aliases: []
@@ -45032,9 +44794,83 @@ series:
     spotify:
       artist_ids:
       - 7x0Gb1gpe2xRXsp6qXL3xC
+      albums:
+      - id: 0GxgRepTAKICCgnjxXabnn
+        episode: 1
+        title: 'Teil 1: Der Oberhexenbesen, Papa ist geschrumpft, Verwichtelte Freundschaft (Hörspiele zur TV-Serie)'
+      - id: 4DViegfNa6l0zZTqGnSwVP
+        episode: 2
+        title: 'Teil 2: Das Überraschungs-Picknick, Der Spielverderber, Selfie mit Heckenschrat (Hörspiele zur TV-Serie)'
+      - id: 1cx3GIKlloCu7MrTD8oCA8
+        episode: 3
+        title: 'Teil 3: Rettet Amanda!, Vollmondparty, Hatschi (Hörspiele zur TV-Serie)'
+      - id: 0hj2baHLWGAChZFOULHMS5
+        episode: 4
+        title: 'Teil 4: Verhexte Bäckerei, Das Band der Freundschaft, Hexengeburtstag, Aufprall mit Folgen (Hörspiele zur TV-Serie)'
+      - id: 3OA6geEzvBlfwXQPzUAkEZ
+        episode: 5
+        title: 'Teil 5: Was ist nur mit Dornwald los?, Blick in die Zukunft, Hilda in der Falle (Hörspiele zur TV-Serie)'
+      - id: 0C1wwnIVWTjtsfNKICN9gK
+        episode: 6
+        title: 'Teil 6: Energie aus der Dose, Das blaue Wunder, Die Zauberprüfung (Hörspiele zur TV-Serie)'
+      - id: 6SJJSnB8mbOkIO50hTIOC5
+        episode: 7
+        title: 'Teil 7: Hexenschnupfen, Fürchten sich Heckenschrate?, Der größte Wichtel der Welt (Hörspiele zur TV-Serie)'
+      - id: 03FVJobgKGHsupvlsppJE9
+        episode: 8
+        title: 'Teil 8: Das Stinkeparfüm, Der Zaubersauberbesen, Der verlorene Ring, Die Doppelgängerin (Hörspiele zur TV-Serie)'
+      - id: 51xrQDuxKHKT4FB0993k4V
+        episode: 9
+        title: 'Teil 9: Alles singt, Des Wichtels Gespür für Wasser, Das Geschichtengerät (Hörspiele zur TV-Serie)'
+      - id: 2EQ9WTnV9yhLbMJ6jdDiee
+        episode: 10
+        title: 'Teil 10: Die verflogene Einladung, Der große Fund, Die Zauberäpfel (Hörspiele zur TV-Serie)'
+      - id: 1ZRHrKVlbTAAF18xlwRHXl
+        episode: 11
+        title: 'Teil 11: Eine abenteuerliche Nacht, Der komische Cousin, Die Mondglockenblume (Hörspiele zur TV-Serie)'
+      - id: 0pyNGAv1Gw7GsC5fC5ZBDG
+        episode: 12
+        title: 'Teil 12: Eine seltsame Aushilfe, Diebesjagd!, Hexische Beförderung (Hörspiele zur TV-Serie)'
     apple_music:
       artist_ids:
       - '1451309462'
+      albums:
+      - id: '1531866840'
+        episode: 1
+        title: 'Teil 1: Der Oberhexenbesen, Papa ist geschrumpft, Verwichtelte Freundschaft (Hörspiele zur TV-Serie)'
+      - id: '1531866469'
+        episode: 2
+        title: 'Teil 2: Das Überraschungs-Picknick / Der Spielverderber / Selfie mit Heckenschrat (Hörspiele zur TV-Serie)'
+      - id: '1534715730'
+        episode: 3
+        title: 'Teil 3: Rettet Amanda!, Vollmondparty, Hatschi (Hörspiele zur TV-Serie)'
+      - id: '1534719147'
+        episode: 4
+        title: 'Teil 4: Verhexte Bäckerei, Das Band der Freundschaft, Hexengeburtstag, Aufprall mit Folgen (Hörspiele zur TV-Serie)'
+      - id: '1539658210'
+        episode: 5
+        title: 'Teil 5: Was ist nur mit Dornwald los?, Blick in die Zukunft, Hilda in der Falle (Hörspiele zur TV-Serie)'
+      - id: '1539667305'
+        episode: 6
+        title: 'Teil 6: Energie aus der Dose, Das blaue Wunder, Die Zauberprüfung (Hörspiele zur TV-Serie)'
+      - id: '1542759469'
+        episode: 7
+        title: 'Teil 7: Hexenschnupfen, Fürchten sich Heckenschrate?, Der größte Wichtel der Welt (Hörspiele zur TV-Serie)'
+      - id: '1542760201'
+        episode: 8
+        title: 'Teil 8: Das Stinkeparfüm, Der Zaubersauberbesen, Der verlorene Ring, Die Doppelgängerin (Hörspiele zur TV-Serie)'
+      - id: '1561785976'
+        episode: 9
+        title: 'Teil 9: Alles singt, Des Wichtels Gespür für Wasser, Das Geschichtengerät (Hörspiele zur TV-Serie)'
+      - id: '1561848173'
+        episode: 10
+        title: 'Teil 10: Die verflogene Einladung, Der große Fund, Die Zauberäpfel (Hörspiele zur TV-Serie)'
+      - id: '1564490397'
+        episode: 11
+        title: 'Teil 11: Eine abenteuerliche Nacht, Der komische Cousin, Die Mondglockenblume (Hörspiele zur TV-Serie)'
+      - id: '1593240124'
+        episode: 12
+        title: 'Teil 12: Eine seltsame Aushilfe, Diebesjagd!, Hexische Beförderung (Hörspiele zur TV-Serie)'
 - id: ritter_rost_tv_serie
   title: 'Ritter Rost: TV-Serie'
   aliases: []
@@ -45045,22 +44881,119 @@ series:
     spotify:
       artist_ids:
       - 6zn86iqNCkQZqsBvEv6oBO
+      albums:
+      - id: 48gWFUydUDKGtXjmV7kIIO
+        title: Hörspiel zur TV-Serie 01/Das große Rennen
+      - id: 4zq0Op9NMOxi3j3e4uLuz4
+        title: Hörspiel zur TV-Serie 02/Auf der Flucht
+      - id: 2jkGfKWKwbT31GBkhq0LqU
+        title: Hörspiel zur TV-Serie 03/Pfui Spinne!
+      - id: 0pkC1bydhGNKxNpBzpC7dg
+        title: Hörspiel zur TV-Serie 04/Der Geisterritter
+      - id: 2jKykXKc6VtAwEl7v6hgYT
+        title: Hörspiel zur TV-Serie 05/Wer ist Rösti?
+      - id: 6RX1WnTxJhQWASR4WFgnNg
+        title: Hörspiel zur TV-Serie 06/Jagdfieber
+      - id: 0Too6v0absFuMwkUUU1oyR
+        title: Hörspiel zur TV-Serie 07/Geisterstunde
+      - id: 6iqqVY07fQd1b9Q0CmTDoR
+        title: Hörspiel zur TV-Serie 08/König Rösti
+      - id: 76kBHZPhoUbz2eR9dMgsBz
+        title: Hörspiel zur TV-Serie 09/Der Babysitter
+      - id: 06ONkoUL5voBy7QyCSUGHk
+        title: Hörspiel zur TV-Serie 10/Der Strandausflug
+      - id: 2D6HXgKxvBqo0bLs3Pg7PU
+        title: Hörspiel zur TV-Serie 11/Rösti quietscht
+      - id: 71hI0O0kfkPzUB18XnQ8LN
+        title: Hörspiel zur TV-Serie 12/Verkehrserziehung
     apple_music:
       artist_ids:
       - '205704340'
+      albums:
+      - id: '1116713763'
+        title: 'Hörspiel zur TV-Serie Folge 1: Das große Rennen'
+      - id: '1116207537'
+        title: 'Hörspiel zur TV-Serie Folge 2: Auf der Flucht'
+      - id: '1116715327'
+        title: 'Hörspiel zur TV-Serie Folge 3: Pfui Spinne!'
+      - id: '1116718065'
+        title: 'Hörspiel zur TV-Serie Folge 4: Der Geisterritter'
+      - id: '1116206412'
+        title: 'Hörspiel zur TV-Serie Folge 5: Wer ist Rösti?'
+      - id: '1062847039'
+        title: 'Hörspiel zur TV-Serie Folge 6: Jagdfieber'
+      - id: '1062847805'
+        title: 'Hörspiel zur TV-Serie Folge 7: Geisterstunde'
+      - id: '1051755356'
+        title: 'Hörspiel zur TV-Serie Folge 8: König Rösti'
+      - id: '1076362666'
+        title: 'Hörspiel zur TV-Serie Folge 9: Der Babysitter'
+      - id: '1099771724'
+        title: 'Hörspiel zur TV-Serie Folge 10: Der Strandausflug'
+      - id: '1133210961'
+        title: 'Hörspiel zur TV-Serie Folge 11: Rösti quietscht'
+      - id: '1186216522'
+        title: 'Hörspiel zur TV-Serie Folge 12: Verkehrserziehung'
+  series_facts:
+    known_gaps:
+    - number: 49
+      range_end:
+      reason: No audio release found for TV episodes S2E23-S2E26 (Feuerstuhl der Star, Eine tierische Party, Rösti quietscht, Die Abschlussprüfung). Audio catalog ends at 48 episodes.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-23T19:02:38.661570+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-23T19:02:38.661570+00:00'
 - id: ritter_rost_radio_schrottland
   title: Radio Schrottland
   aliases: []
   episode_pattern:
-  content_type: music
+  content_type: hoerspiel
   split_from: ritter_rost
   providers:
     spotify:
       artist_ids:
       - 6zn86iqNCkQZqsBvEv6oBO
+      albums:
+      - id: 4ipi6JKubB5E5t0jqgg91e
+        title: Radio Schrottland - Tiere
+      - id: 5oyD4gQvIaNrlLVLbcPtKe
+        title: Radio Schrottland - Ritter
+      - id: 00mx089tRjRNCbLbpbOaNq
+        title: Radio Schrottland - Piraten
+      - id: 6uqZzrMfKSw2UkLI1Uv5rt
+        title: Radio Schrottland - Detektive
+      - id: 2zGR30QEsUKVszWN0zjC8U
+        title: Radio Schrottland - Gespenster
+      - id: 1y49oGjLi8o3zUMH0kzhH0
+        title: Radio Schrottland - Ohrwürmer
+      - id: 6IaFDDTNauu0NNJf9eL6Mz
+        title: Radio Schrottland - Erfindungen
+      - id: 0vKhQY57K7SEwltVEjjftX
+        title: Radio Schrottland - Hoch zu Ross
+      - id: 4CFN8H3JmhjVA4j85ga2yY
+        title: Radio Schrottland - Ab in den Süden
     apple_music:
       artist_ids:
       - '205704340'
+      albums:
+      - id: '1776873281'
+        title: Radio Schrottland - Tiere
+      - id: '1776872666'
+        title: Radio Schrottland - Ritter
+      - id: '1776873082'
+        title: Radio Schrottland - Piraten
+      - id: '1776873235'
+        title: Radio Schrottland - Detektive
+      - id: '1777047777'
+        title: Radio Schrottland (Gespenster)
+      - id: '1777048104'
+        title: Radio Schrottland - Ohrwürmer
+      - id: '1777094781'
+        title: Radio Schrottland - Erfindungen
+      - id: '1777050533'
+        title: Radio Schrottland - Hoch zu Ross
+      - id: '1777097232'
+        title: Radio Schrottland - Ab in den Süden
 - id: lego_city_tv_serie
   title: 'LEGO City: TV-Serie'
   aliases: []
@@ -45071,9 +45004,207 @@ series:
     spotify:
       artist_ids:
       - 7lWAti8HlNyw39Z5OI92Ep
+      albums:
+      - id: 7v1Ej98IjaotwJcaWcoWwH
+        episode: 1
+        title: 'LEGO City: Folge 1 - Polizei - Der unheimliche Mister X'
+      - id: 5OxUVo6FLul7Mjwise5nvM
+        episode: 2
+        title: 'LEGO City: Folge 2 - Polizei - Stadt in Gefahr'
+      - id: 746hc4vaxwrBzI4UT4jRSn
+        episode: 3
+        title: 'LEGO City: Folge 3 - Feuerwehr - Auf der Spur des Roten Drachen'
+      - id: 6kSyYBxOHtMauNs5dsPd6x
+        episode: 4
+        title: 'LEGO City: Folge 4 - Zug - Alarm im LEGO City Express'
+      - id: 1O0IHH6pVTImC2yIE5avD3
+        episode: 5
+        title: 'LEGO City: Folge 5 - Raumfahrt - LUNA 1 antwortet nicht'
+      - id: 3ngKLboDjsx8LhBPo5sxs8
+        episode: 6
+        title: 'LEGO City: Folge 6 - Polizei - Die geheimnisvolle Höhle'
+      - id: 3imgBl66bdTHnBTAgdEcnU
+        episode: 7
+        title: 'LEGO City: Folge 7 - Feuerwehr - In letzter Sekunde'
+      - id: 6WYhYFLMfKIv6ZmUB2Dhtm
+        episode: 8
+        title: 'LEGO City: Folge 8 - Weihnachten - Angriff der Schneemänner'
+      - id: 1eZDAdZmJeDtIHzGUEPs6k
+        episode: 9
+        title: 'LEGO City: Folge 9 - Museum - Der Fluch des Goldenen Schädels'
+      - id: 3gkwsJlCOtOwdNUQ3s0jQy
+        episode: 10
+        title: 'LEGO City: Folge 10 - Küstenwache - Haie vor LEGO City'
+      - id: 2Lv1i3QqsMZowG9WR3yjfE
+        episode: 11
+        title: 'LEGO City: Folge 11 - Flughafen - SOS über den Wolken'
+      - id: 5iINh6qhzGr4sRzNL0lrso
+        episode: 12
+        title: 'LEGO City: Folge 12 - Polizei - In den Greifern der Motorradbande'
+      - id: 720GhdzAYOaf1sgonrNH72
+        episode: 13
+        title: 'LEGO City: Folge 13 - Arktis - Abenteuer im Packeis'
+      - id: 6Qfw9ITHwveogDwmmKzr2I
+        episode: 14
+        title: 'LEGO City: Folge 14 - Abriss-Experten - Wettlauf gegen die Zeit'
+      - id: 1E5vNiPDYTmFwgy4tko3hA
+        episode: 15
+        title: 'LEGO City: Folge 15 - Tiefsee - Expedition - Der Schatz aus der Tiefe'
+      - id: 7uIGc3hXpnMyFBMufBJvwf
+        episode: 16
+        title: 'LEGO City: Folge 16 - Feuerwehr - Brandgefährlicher Einsatz'
+      - id: 5cVHUuCdUJ9pK0yB6nc8Xb
+        episode: 17
+        title: 'LEGO City: Folge 17 - Vulkan - Am feuerspeienden Berg'
+      - id: 64I0e15NOY6wnw7FHFxPmI
+        episode: 18
+        title: 'LEGO City: Folge 18 - Polizei - Doppelter Einsatz'
+      - id: 3bmf47LdkcVgixbjl3F8lp
+        episode: 19
+        title: 'LEGO City: Folge 19 - Dschungel - Das Geheimnis des vergessenen Tempels'
+      - id: 5ZSLwaqveRltBWgVUborci
+        episode: 20
+        title: 'LEGO City: Folge 20 - Bergpolizei - Am Abgrund'
+      - id: 6UpxTGaHx3oTPcUeTj86Xp
+        episode: 21
+        title: 'LEGO City: Folge 21 - Arktis - Auf der Jagd nach dem weißen Gold'
+      - id: 0As6WtfaAP61uTSNME7Jet
+        episode: 22
+        title: 'LEGO City: Folge 22 - Luftpolizei - Der Coup des Jahrhunderts'
+      - id: 5OuS244mCL3yET4TcCmCeQ
+        episode: 23
+        title: 'LEGO City: Folge 23 - Weltraum - Auf der dunklen Seite des Mondes'
+      - id: 3imxYG6y8VsVx4LyUlkfOf
+        episode: 24
+        title: 'Folge 24: Das Monster-Rennen'
+      - id: 4SygfBWhlHUihHA4PFqH8I
+        episode: 25
+        title: 'Folge 25: Dem Mega-Oktopus auf der Spur'
+      - id: 1FKo6rTIST1l9BxIYmgULC
+        episode: 26
+        title: 'Folge 26: Die Nachteule schlägt wieder zu'
+      - id: 6mAffXeHyQ3FqzVHKOnAj0
+        episode: 27
+        title: 'Folge 27: Hochspannung im Motorrad-Sattel'
     apple_music:
       artist_ids:
       - '672648501'
+      albums:
+      - id: '1460129548'
+        episode: 3
+        title: 'LEGO City: Folge 3 - Feuerwehr - Auf der Spur des Roten Drachen'
+      - id: '1460129278'
+        episode: 5
+        title: 'LEGO City Folge 5: Raumfahrt - LUNA 1 antwortet nicht'
+      - id: '1460126125'
+        episode: 6
+        title: 'LEGO City: Folge 6 - Polizei - Die geheimnisvolle Höhle'
+      - id: '1460125378'
+        episode: 7
+        title: 'LEGO City: Folge 7 - Feuerwehr - In letzter Sekunde'
+      - id: '1460130370'
+        episode: 8
+        title: 'LEGO City: Folge 8 - Weihnachten - Angriff der Schneemänner'
+      - id: '1460126524'
+        episode: 9
+        title: 'LEGO City: Folge 9 - Museum - Der Fluch des Goldenen Schädels'
+      - id: '1460128912'
+        episode: 10
+        title: 'LEGO City: Folge 10 - Küstenwache - Haie vor LEGO City'
+      - id: '1460128073'
+        episode: 12
+        title: Folge 12 - Polizei - In den Greifern der Motorradbande
+      - id: '1460127060'
+        episode: 13
+        title: 'LEGO City: Folge 13 - Arktis - Abenteuer im Packeis'
+      - id: '1460127494'
+        episode: 14
+        title: 'Folge 14: Abriss-Experten - Wettlauf gegen die Zeit'
+      - id: '1460131626'
+        episode: 15
+        title: 'LEGO City: Folge 15 - Tiefsee - Expedition - Der Schatz aus der Tiefe'
+      - id: '1460126146'
+        episode: 18
+        title: 'LEGO City: Folge 18 - Polizei - Doppelter Einsatz'
+      - id: '1460129615'
+        episode: 21
+        title: 'LEGO City: Folge 21 - Arktis - Auf der Jagd nach dem weißen Gold'
+      - id: '1460130567'
+        episode: 22
+        title: 'Folge 22: Luftpolizei - Der Coup des Jahrhunderts'
+      - id: '1475741502'
+        episode: 23
+        title: 'LEGO City: Folge 23 - Weltraum - Auf der dunklen Seite des Mondes'
+      - id: '1506189048'
+        episode: 24
+        title: 'Folge 24: Das Monster-Rennen'
+      - id: '1534555398'
+        episode: 25
+        title: 'Folge 25: Dem Mega-Oktopus auf der Spur'
+      - id: '1554524368'
+        episode: 26
+        title: 'Folge 26: Die Nachteule schlägt wieder zu'
+      - id: '1588219992'
+        episode: 27
+        title: 'Folge 27: Hochspannung im Motorrad-Sattel'
+  series_facts:
+    known_gaps:
+    - number: 1
+      range_end:
+      reason: Apple Music catalog entry missing; available on Spotify only
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-23T19:04:37.537158+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-23T19:04:37.537158+00:00'
+    - number: 2
+      range_end:
+      reason: Apple Music catalog entry missing; available on Spotify only
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-23T19:04:37.537158+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-23T19:04:37.537158+00:00'
+    - number: 4
+      range_end:
+      reason: Apple Music catalog entry missing; available on Spotify only
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-23T19:04:37.537158+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-23T19:04:37.537158+00:00'
+    - number: 11
+      range_end:
+      reason: Apple Music catalog entry missing; available on Spotify only
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-23T19:04:37.537158+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-23T19:04:37.537158+00:00'
+    - number: 16
+      range_end:
+      reason: Apple Music catalog entry missing; available on Spotify only
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-23T19:04:37.537158+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-23T19:04:37.537158+00:00'
+    - number: 17
+      range_end:
+      reason: Apple Music catalog entry missing; available on Spotify only
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-23T19:04:37.537158+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-23T19:04:37.537158+00:00'
+    - number: 19
+      range_end:
+      reason: Apple Music catalog entry missing; available on Spotify only
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-23T19:04:37.537158+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-23T19:04:37.537158+00:00'
+    - number: 20
+      range_end:
+      reason: Apple Music catalog entry missing; available on Spotify only
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-23T19:04:37.537158+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-23T19:04:37.537158+00:00'
 - id: seawalkers
   title: Seawalkers
   aliases: []
@@ -45084,9 +45215,35 @@ series:
     spotify:
       artist_ids:
       - 0yss9NnZei0eVpmhXpKj6p
+      albums:
+      - id: 4TrtcEaslIlGAd9n0ch81z
+        title: Seawalkers - Gefährliche Gestalten - Das Hörspiel
+      - id: 43ozADIGVMwxuSsqj96q6E
+        title: Seawalkers - Rettung für Shari - Das Hörspiel
+      - id: 5EcebJXJQixqRWarEpurNk
+        title: Seawalkers - Wilde Wellen - Das Hörspiel
+      - id: 01uMNmCf9BhSIc5GWZyZhR
+        title: Seawalkers - Ein Riese des Meeres - Das Hörspiel
+      - id: 4F7oyhm8PlQVgVIViUJGiF
+        title: Seawalkers - Filmstars unter Wasser - Das Hörspiel
+      - id: 16JhRjs3iGMQdfGIweX1aU
+        title: Seawalkers - Im Visier der Python - Das Hörspiel
     apple_music:
       artist_ids:
       - '1635376952'
+      albums:
+      - id: '1774019311'
+        title: Seawalkers - Gefährliche Gestalten - Das Hörspiel
+      - id: '1790700041'
+        title: Rettung für Shari (Das Hörspiel)
+      - id: '1806284260'
+        title: Seawalkers - Wilde Wellen - Das Hörspiel
+      - id: '1825823211'
+        title: Seawalkers - Ein Riese des Meeres - Das Hörspiel
+      - id: '1848350714'
+        title: Seawalkers - Filmstars unter Wasser - Das Hörspiel
+      - id: '1877666977'
+        title: Seawalkers - Im Visier der Python - Das Hörspiel
 - id: woodwalkers_friends
   title: Woodwalkers & Friends
   aliases: []
@@ -45097,6 +45254,9 @@ series:
     spotify:
       artist_ids:
       - 0yss9NnZei0eVpmhXpKj6p
+      albums:
+      - id: 72ISiKxo7pMHPjF3BRAWFV
+        title: Woodwalkers & Friends. Katzige Gefährten - Das Hörspiel
     apple_music:
       artist_ids:
       - '1635376952'
@@ -45110,9 +45270,87 @@ series:
     spotify:
       artist_ids:
       - 752p3IcSA76CVOvqoGcFWH
+      albums:
+      - id: 0KgZch2JpidNVDv58PPjAq
+        episode: 1
+        title: Frauen-WM-Wissen 01 - Die Anfänge
+      - id: 3VjRGwNViaZnjdhOs3tC8S
+        episode: 1
+        title: 'Wissen zur EM 2024 - Folge 1: Die EM-Stadien und ihre Namen'
+      - id: 2bSWLKPljqhhuKO6avVPTt
+        episode: 2
+        title: Frauen-WM-Wissen 02 - Legenden und Rekorde
+      - id: 2Cg2pCV2WPXZRBXjsoVICZ
+        episode: 3
+        title: Frauen-WM-Wissen 03 - (Der lange Weg zur) Gleichberechtigung
+      - id: 0Ka13m5enZ0FtgzFkKeEwK
+        episode: 4
+        title: Frauen-WM-Wissen 04 - Deutsche Legenden
+      - id: 6G6RcNLJ6N21nOxOxuTg8P
+        episode: 5
+        title: Frauen-WM-Wissen 05 - Favoriten und Geheimtipps
+      - id: 036GNQLwnsQjeNvTSiw3u6
+        title: 'WM-Wissen: Rote Karte!'
+      - id: 0ybqT8AibGFEYfHEm29yNR
+        title: 'WM-Wissen: Abseits!'
+      - id: 1ivSgFdQFTNUz15Et8htrF
+        title: 'WM-Wissen: Technische Hilfsmittel!'
+      - id: 7Cemw8kYG0Jn407sPbLycS
+        title: 'WM-Wissen: Spitznamen!'
+      - id: 2zuAih8GSVlZ63tDlBPSBn
+        title: 'WM-Wissen: Rückennummern!'
+      - id: 7izBVcBEz0sEEbwdzEl7Nt
+        title: 'WM-Wissen: Schiedsrichter!'
+      - id: 2lEqatiajLXg8GT3sNQp3W
+        title: 'WM-Wissen: Prägende Spieler der WM!'
+      - id: 1lDJbS8KXSBT9Vg8TX1By0
+        title: 'WM-Wissen: Die größten Spiele der WM!'
+      - id: 5y4lSHalrfGa2kbJ7KRZe9
+        title: 'WM-Wissen: GOAT - Greatest of All Time!'
+      - id: 5KaD5R05rcjpEOzyQcLnH0
+        title: 'WM-Wissen: WM-Pokal!'
     apple_music:
       artist_ids:
       - '374902873'
+      albums:
+      - id: '1691270921'
+        episode: 1
+        title: Frauen-WM-Wissen 01 - Die Anfänge - EP
+      - id: '1742934510'
+        episode: 1
+        title: 'Wissen zur EM 2024 - Folge 1:  Die EM-Stadien und ihre Namen - EP'
+      - id: '1691270950'
+        episode: 2
+        title: Frauen-WM-Wissen 02 - Legenden und Rekorde - EP
+      - id: '1691271159'
+        episode: 3
+        title: Frauen-WM-Wissen 03 - (Der lange Weg zur) Gleichberechtigung - EP
+      - id: '1691271627'
+        episode: 4
+        title: Frauen-WM-Wissen 04 - Deutsche Legenden - EP
+      - id: '1691271968'
+        episode: 5
+        title: Frauen-WM-Wissen 05 - Favoriten und Geheimtipps - EP
+      - id: '1398251896'
+        title: 'WM-Wissen: Abseits!'
+      - id: '1398250787'
+        title: 'WM-Wissen: Die größten Spiele der WM!'
+      - id: '1398237320'
+        title: 'WM-Wissen: Rote Karte!'
+      - id: '1398257294'
+        title: 'WM-Wissen: Technische Hilfsmittel!'
+      - id: '1401995815'
+        title: 'WM-Wissen: Spitznamen!'
+      - id: '1402558566'
+        title: 'WM-Wissen: Rückennummern!'
+      - id: '1404785354'
+        title: 'WM-Wissen: Schiedsrichter!'
+      - id: '1404789233'
+        title: 'WM-Wissen: Prägende Spieler der WM!'
+      - id: '1404790413'
+        title: 'WM-Wissen: GOAT - Greatest of All Time!'
+      - id: '1398250439'
+        title: 'WM-Wissen: WM-Pokal!'
 - id: conni_co_kinofilm
   title: 'Conni & Co: Kinofilm'
   aliases: []
@@ -45123,9 +45361,19 @@ series:
     spotify:
       artist_ids:
       - 0jRC2uXx4hEpqNrBDJdY7l
+      albums:
+      - id: 4NZQhiCZxqI4fkeyUkLxrZ
+        title: Conni & Co - Das Original-Hörspiel zum Kinofilm
+      - id: 5UX4VwXIZXBXRAqhIJoniL
+        title: Conni & Co 2 - Das Geheimnis des T-Rex - Das Original-Hörspiel zum Kinofilm
     apple_music:
       artist_ids:
       - '14433691'
+      albums:
+      - id: '1686258930'
+        title: Conni & Co - Das Original-Hörspiel zum Kinofilm
+      - id: '1686280023'
+        title: Conni & Co 2 - Das Geheimnis des T-Rex (Das Original-Hörspiel zum Kinofilm)
 - id: bobo_und_hasi
   title: Bobo & Hasi
   aliases: []
@@ -45136,9 +45384,17 @@ series:
     spotify:
       artist_ids:
       - 5LBMERk5Gvsq80NL5eJ6LG
+      albums:
+      - id: 4FJFVUgtsFKmWuw5rZLrds
+        title: Bobo & Hasi. Geschichten für ganz Kleine mit KlangErlebnissen und Liedern
+      - id: 2XOAww2En5h6NCrzsZJDUP
+        title: Bobo & Hasi. Mit Geschichten für ganz Kleine durch das Jahr
     apple_music:
       artist_ids:
       - '1580097679'
+      albums:
+      - id: '1883198731'
+        title: Bobo & Hasi. Geschichten für ganz Kleine mit KlangErlebnissen und Liedern
 - id: mira_und_das_fliegende_haus_traumreise
   title: 'Mira: Traumreisen'
   aliases: []
@@ -45149,9 +45405,41 @@ series:
     spotify:
       artist_ids:
       - 2095wofkLJPuP7ZmCNwvOS
+      albums:
+      - id: 532WT2YXUcucTBWOKddusk
+        title: 'Traumreise: Ich darf Fehler machen!'
+      - id: 3qH8Cc4X0qgppjzyPU1cIQ
+        title: 'Traumreise: Ich liebe mich!'
+      - id: 3I9vWitAAmFMaAwX87wdIT
+        title: 'Traumreise: Ich bin dankbar!'
+      - id: 6bvHgEDLPuu393OG6Mq3JF
+        title: 'Traumreise: Ich bin wichtig!'
+      - id: 5ArEGgpMq0Y2IohKiJ74i5
+        title: 'Traumreise: Meine Gefühle sind okay!'
+      - id: 14e6UhMnP4ZThFt7bYKdwG
+        title: 'Traumreise: Ich bin wertvoll!'
+      - id: 06N6QtcVCH0lYY5h8kQ1XI
+        title: 'Traumreise: Ich bin ein Geschenk für diese Welt!'
     apple_music:
       artist_ids:
       - '1716921195'
+      albums:
+      - id: '1750864280'
+        title: 'Traumreise: Ich darf Fehler machen!'
+      - id: '1754388603'
+        title: 'Traumreise: Ich liebe mich!'
+      - id: '1758041520'
+        title: 'Traumreise: Ich bin dankbar!'
+      - id: '1766707315'
+        title: 'Traumreise: Ich bin wichtig!'
+      - id: '1773265187'
+        title: 'Traumreise: Meine Gefühle sind okay!'
+      - id: '1780533467'
+        title: 'Traumreise: Ich bin wertvoll!'
+      - id: '1813138203'
+        title: 'Traumreise: Ich lasse los und vertraue!'
+      - id: '1893588962'
+        title: 'Traumreise: Ich bin ein Geschenk für diese Welt!'
 - id: mira_und_das_fliegende_haus_kindermeditation
   title: MiRAs Wolkenwunderland
   aliases: []
@@ -45162,9 +45450,25 @@ series:
     spotify:
       artist_ids:
       - 2095wofkLJPuP7ZmCNwvOS
+      albums:
+      - id: 2HkC0DgzpMnG1Psg81pRhg
+        title: 'Kindermeditation: Ich bin genau richtig! MiRAs Wolkenwunderland'
+      - id: 0a5wgvdNtlRorDo4PPqRmP
+        title: 'Kindermeditation: Ich bin geliebt! MiRAs Wolkenwunderland'
+      - id: 0HIqDwHBD41iLY1q7b5ggU
+        title: 'Kindermeditation: Ich bin Liebe! MiRAs Wolkenwunderland'
+      - id: 41F1SQxFjeV6q4PUULy5jX
+        title: 'Kindermeditation: Ich spreche meine Wahrheit! MiRAs Wolkenwunderland'
     apple_music:
       artist_ids:
       - '1716921195'
+      albums:
+      - id: '1764911394'
+        title: 'Kindermeditation: Ich bin genau richtig! MiRAs Wolkenwunderland'
+      - id: '1768240191'
+        title: 'Kindermeditation: Ich bin geliebt! MiRAs Wolkenwunderland'
+      - id: '1807952343'
+        title: 'Kindermeditation: Ich spreche meine Wahrheit! MiRAs Wolkenwunderland'
 - id: mira_und_das_fliegende_haus_show
   title: MiRA SHOW
   aliases: []
@@ -45175,9 +45479,19 @@ series:
     spotify:
       artist_ids:
       - 2095wofkLJPuP7ZmCNwvOS
+      albums:
+      - id: 7y2JA8b4tqYAhFPHymPYIj
+        title: 'MiRA SHOW: Warum sind manche Menschen so schüchtern?'
+      - id: 5xhe5M3NS0n5nz7HJ9zi7a
+        title: 'MiRA SHOW: Darf ich mich umentscheiden?'
     apple_music:
       artist_ids:
       - '1716921195'
+      albums:
+      - id: '1889146013'
+        title: 'MiRA SHOW: Warum sind manche Menschen so schüchtern?'
+      - id: '1895739122'
+        title: 'MiRA SHOW: Darf ich mich umentscheiden?'
 - id: lego_ninjago_hoerbuch
   title: 'LEGO Ninjago: Hörbücher'
   aliases: []
@@ -45188,6 +45502,31 @@ series:
     spotify:
       artist_ids:
       - 3YVNhnRJA4fODe4IyUIeWN
+      albums:
+      - id: 5r2lPmHvduhqrSVP2ttVzL
+        title: Meister der Elemente (Band 01)
+      - id: 5j5idLOHL3Rw0o4cMmcjaS
+        title: Morros Geister (Band 02)
+      - id: 34gwL7BIESnEEhF1VQ9Evt
+        title: Nadakhan und die Luftpiraten (Band 03)
+      - id: 5tl1wOPXUgpTo1hQRejFHh
+        title: Im Bann des Dschinns (Band 04)
+      - id: 1gYUr7w8czT6Eaz9vF4HmG
+        title: Rückkehr der bösen Geister (Band 05)
+      - id: 4wTjKv2WS7F3ucbp7LHPMh
+        title: Diebe der Zeit (Band 06)
+      - id: 6glVKtZK7el5mjTCBILm7J
+        title: Jagd nach den Oni-Masken (Band 07)
+      - id: 2IvJsTmwos9DT2plJXgduy
+        title: Garmadons Rückkehr (Band 08)
+      - id: 4ZjeFKZeRq0g7MuSYd9yhN
+        title: Missionen für Helden (Band 09)
+      - id: 4CpuzzRjr2rrKLe0Bdb4L2
+        title: Die Stärke der Ninja (Band 10)
+      - id: 0KBvcNIHJiO0wb9huD5ENP
+        title: Die rätselhafte Pyramide (Band 11)
+      - id: 0CdU5pZkMbUNZ1T5rKkCHU
+        title: Meister der Spiele (Band 12)
     apple_music:
       artist_ids:
       - '1460064731'
