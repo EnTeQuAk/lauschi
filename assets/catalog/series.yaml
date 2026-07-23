@@ -44122,59 +44122,6 @@ series:
     apple_music:
       artist_ids:
       - '1703088793'
-- id: kalle_blomquist
-  title: Kalle Blomquist
-  aliases: []
-  episode_pattern:
-  content_type: hoerspiel
-  split_from: astrid_lindgren_deutsch
-  providers:
-    spotify:
-      artist_ids:
-      - 7sRF5KPi10c3pueaKGmArz
-      albums:
-      - id: 23UeB0DGn1NOHLctBoVnxc
-        title: Kalle Blomquist 1. Meisterdetektiv
-      - id: 1Oks9U9yEBqVuSIi32snuH
-        title: Kalle Blomquist 1. Meisterdetektiv. Hörspielklassiker
-      - id: 3jRt8b2ceEcnbk5P7YCMC7
-        title: Kalle Blomquist 2. Kalle Blomquist lebt gefährlich. Hörspielklassiker
-    apple_music:
-      artist_ids:
-      - '1703088793'
-      albums:
-      - id: '1485699887'
-        title: Kalle Blomquist 1. Meisterdetektiv
-      - id: '1485701854'
-        title: Kalle Blomquist lebt gefährlich
-  series_facts:
-    known_gaps:
-    - number: 3
-      reason: Book 3 'Kalle Blomquist, Eva-Lotta und Rasmus' (1953) is not available on Spotify or Apple Music. Only available on Audible/Amazon as audiobook.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-17T20:35:03.119668+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-17T20:35:03.119668+00:00'
-    sub_series:
-    - label: hörbuch-neuausgabe
-      album_ids:
-      - '1485699887'
-      - '1485701854'
-      reason: 1996 German audiobooks with chapter-based structure. Longer format (~50 min), narrated text reading.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-17T20:35:03.119668+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-17T20:35:03.119668+00:00'
-    - label: hörspielklassiker
-      album_ids:
-      - 1Oks9U9yEBqVuSIi32snuH
-      - 23UeB0DGn1NOHLctBoVnxc
-      - 3jRt8b2ceEcnbk5P7YCMC7
-      reason: Original radio drama recordings from 1946-1951. Short format (45-50 min), dramatic presentation.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-17T20:35:03.119668+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-17T20:35:03.119668+00:00'
 - id: karlsson_vom_dach
   title: Karlsson vom Dach
   aliases: []
@@ -44971,3 +44918,276 @@ series:
         title: 'Jim Knopf - Hörspiele: Jim Knopf und die Wilde 13 - Das Hörspiel'
       - id: '1672014052'
         title: 'Jim Knopf - Hörspiele: Jim Knopf und die Wilde 13 - Das Hörspiel'
+- id: benjamin_bluemchen_minis
+  title: 'Benjamin Blümchen: Minis'
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: benjamin_bluemchen
+  providers:
+    spotify:
+      artist_ids:
+      - 1l6d0RIxTL3JytlLGvWzYe
+    apple_music:
+      artist_ids:
+      - '215716521'
+- id: benjamin_bluemchen_finds_raus
+  title: "Benjamin Blümchen: Find's raus"
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: benjamin_bluemchen
+  providers:
+    spotify:
+      artist_ids:
+      - 1l6d0RIxTL3JytlLGvWzYe
+    apple_music:
+      artist_ids:
+      - '215716521'
+- id: benjamin_bluemchen_gute_nacht_geschichten
+  title: 'Benjamin Blümchen: Gute-Nacht-Geschichten'
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: benjamin_bluemchen
+  providers:
+    spotify:
+      artist_ids:
+      - 1l6d0RIxTL3JytlLGvWzYe
+    apple_music:
+      artist_ids:
+      - '215716521'
+- id: benjamin_bluemchen_tv_serie
+  title: 'Benjamin Blümchen: TV-Serie'
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: benjamin_bluemchen
+  providers:
+    spotify:
+      artist_ids:
+      - 1l6d0RIxTL3JytlLGvWzYe
+    apple_music:
+      artist_ids:
+      - '215716521'
+- id: die_drei_fragezeichen_kids_mini_fall
+  title: 'Die drei ??? Kids: Mini-Fälle'
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: die_drei_fragezeichen_kids
+  providers:
+    spotify:
+      artist_ids:
+      - 0vLsqW05dyLvjuKKftAEGA
+    apple_music:
+      artist_ids:
+      - '305761269'
+- id: olchi_detektive
+  title: Olchi-Detektive
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: die_olchis
+  providers:
+    spotify:
+      artist_ids:
+      - 32Aa42Dbmqm4GKsv3wUSMb
+    apple_music:
+      artist_ids:
+      - '556813799'
+- id: die_schluempfe_kinofilm
+  title: 'Die Schlümpfe: Kinofilm'
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: die_schluempfe
+  providers:
+    spotify:
+      artist_ids:
+      - 0ONNMDruuhqjpTB9uRhbYs
+    apple_music:
+      artist_ids:
+      - '128557561'
+- id: petronella_apfelmus_erstleser
+  title: 'Petronella Apfelmus: Erstleser'
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: petronella_apfelmus
+  providers:
+    spotify:
+      artist_ids:
+      - 7x0Gb1gpe2xRXsp6qXL3xC
+    apple_music:
+      artist_ids:
+      - '1451309462'
+- id: petronella_apfelmus_tv_serie
+  title: 'Petronella Apfelmus: TV-Serie'
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: petronella_apfelmus
+  providers:
+    spotify:
+      artist_ids:
+      - 7x0Gb1gpe2xRXsp6qXL3xC
+    apple_music:
+      artist_ids:
+      - '1451309462'
+- id: ritter_rost_tv_serie
+  title: 'Ritter Rost: TV-Serie'
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: ritter_rost
+  providers:
+    spotify:
+      artist_ids:
+      - 6zn86iqNCkQZqsBvEv6oBO
+    apple_music:
+      artist_ids:
+      - '205704340'
+- id: ritter_rost_radio_schrottland
+  title: Radio Schrottland
+  aliases: []
+  episode_pattern:
+  content_type: music
+  split_from: ritter_rost
+  providers:
+    spotify:
+      artist_ids:
+      - 6zn86iqNCkQZqsBvEv6oBO
+    apple_music:
+      artist_ids:
+      - '205704340'
+- id: lego_city_tv_serie
+  title: 'LEGO City: TV-Serie'
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: lego_city
+  providers:
+    spotify:
+      artist_ids:
+      - 7lWAti8HlNyw39Z5OI92Ep
+    apple_music:
+      artist_ids:
+      - '672648501'
+- id: seawalkers
+  title: Seawalkers
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: woodwalkers
+  providers:
+    spotify:
+      artist_ids:
+      - 0yss9NnZei0eVpmhXpKj6p
+    apple_music:
+      artist_ids:
+      - '1635376952'
+- id: woodwalkers_friends
+  title: Woodwalkers & Friends
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: woodwalkers
+  providers:
+    spotify:
+      artist_ids:
+      - 0yss9NnZei0eVpmhXpKj6p
+    apple_music:
+      artist_ids:
+      - '1635376952'
+- id: teufelskicker_wissen
+  title: 'Teufelskicker: Wissen'
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: teufelskicker
+  providers:
+    spotify:
+      artist_ids:
+      - 752p3IcSA76CVOvqoGcFWH
+    apple_music:
+      artist_ids:
+      - '374902873'
+- id: conni_co_kinofilm
+  title: 'Conni & Co: Kinofilm'
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: conni
+  providers:
+    spotify:
+      artist_ids:
+      - 0jRC2uXx4hEpqNrBDJdY7l
+    apple_music:
+      artist_ids:
+      - '14433691'
+- id: bobo_und_hasi
+  title: Bobo & Hasi
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: bobo_siebenschlaefer
+  providers:
+    spotify:
+      artist_ids:
+      - 5LBMERk5Gvsq80NL5eJ6LG
+    apple_music:
+      artist_ids:
+      - '1580097679'
+- id: mira_und_das_fliegende_haus_traumreise
+  title: 'Mira: Traumreisen'
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: mira_und_das_fliegende_haus
+  providers:
+    spotify:
+      artist_ids:
+      - 2095wofkLJPuP7ZmCNwvOS
+    apple_music:
+      artist_ids:
+      - '1716921195'
+- id: mira_und_das_fliegende_haus_kindermeditation
+  title: MiRAs Wolkenwunderland
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: mira_und_das_fliegende_haus
+  providers:
+    spotify:
+      artist_ids:
+      - 2095wofkLJPuP7ZmCNwvOS
+    apple_music:
+      artist_ids:
+      - '1716921195'
+- id: mira_und_das_fliegende_haus_show
+  title: MiRA SHOW
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: mira_und_das_fliegende_haus
+  providers:
+    spotify:
+      artist_ids:
+      - 2095wofkLJPuP7ZmCNwvOS
+    apple_music:
+      artist_ids:
+      - '1716921195'
+- id: lego_ninjago_hoerbuch
+  title: 'LEGO Ninjago: Hörbücher'
+  aliases: []
+  episode_pattern:
+  content_type: audiobook
+  split_from: lego_ninjago
+  providers:
+    spotify:
+      artist_ids:
+      - 3YVNhnRJA4fODe4IyUIeWN
+    apple_music:
+      artist_ids:
+      - '1460064731'

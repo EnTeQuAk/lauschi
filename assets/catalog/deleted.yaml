@@ -11,3 +11,7 @@ deleted:
   title: Christian
   reason: Contributor-only artist; the albums' primary artist is Kikaninchen, which is already in the catalog
   deleted_at: '2026-06-12T05:59:06+00:00'
+- id: kalle_blomquist
+  title: Kalle Blomquist
+  reason: 1946/1951 radio recordings + 1996 audiobooks; not the content modern parents expect from the catalog. Decided by Chris 2026-07 (splits round 2).
+  deleted_at: '2026-07-23T18:53:53+00:00'
