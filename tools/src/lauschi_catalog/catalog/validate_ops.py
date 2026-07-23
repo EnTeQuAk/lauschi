@@ -99,6 +99,38 @@ def validate_l5(
 ) -> L5ProviderResult:
     """L5: full discography validation via artist ID."""
     aids = entry.artist_ids(provider.name)
+    pattern = entry.effective_pattern(provider.name)
+    configured_ids = entry.provider_album_ids(provider.name)
+
+    if not pattern:
+        if not configured_ids:
+            return L5ProviderResult(provider=provider.name)
+        # Album-existence check. Discography membership alone is not
+        # enough: providers detach albums from artist pages while the
+        # albums stay live (Coco, Encanto, Eule findet den Beat). Only
+        # a failed direct lookup means the ID is really gone.
+        disco_ids: set[str] = set()
+        for aid in aids:
+            try:
+                disco_ids.update(a.id for a in provider.artist_albums(aid))
+            except requests.HTTPError as e:
+                status = e.response.status_code if e.response is not None else None
+                if status == 404:
+                    continue
+                raise
+        missing = [
+            cid
+            for cid in configured_ids
+            if cid not in disco_ids and provider.album_details(cid) is None
+        ]
+        return L5ProviderResult(
+            provider=provider.name,
+            matched=len(configured_ids) - len(missing),
+            total=len(configured_ids),
+            unmatched=missing,
+            album_check=True,
+        )
+
     if not aids:
         return L5ProviderResult(provider=provider.name)
 
@@ -113,24 +145,6 @@ def validate_l5(
             raise
 
     if not all_albums:
-        return L5ProviderResult(provider=provider.name)
-
-    pattern = entry.effective_pattern(provider.name)
-    configured_ids = entry.provider_album_ids(provider.name)
-
-    if not pattern and configured_ids:
-        disco_ids = {a.id for a in all_albums}
-        found = [aid for aid in configured_ids if aid in disco_ids]
-        missing = [aid for aid in configured_ids if aid not in disco_ids]
-        return L5ProviderResult(
-            provider=provider.name,
-            matched=len(found),
-            total=len(configured_ids),
-            unmatched=missing,
-            album_check=True,
-        )
-
-    if not pattern and not configured_ids:
         return L5ProviderResult(provider=provider.name)
 
     matched = 0
@@ -184,7 +198,10 @@ def validate_catalog(
     result.tested = {p.name: 0 for p in providers}
 
     for entry in entries:
-        has_any = any(entry.artist_ids(p.name) for p in providers)
+        has_any = any(
+            entry.artist_ids(p.name) or entry.provider_album_ids(p.name)
+            for p in providers
+        )
         if not has_any:
             continue
 
@@ -195,8 +212,9 @@ def validate_catalog(
         )
 
         for p in providers:
-            aids = entry.artist_ids(p.name)
-            if not aids:
+            if not entry.artist_ids(p.name) and not entry.provider_album_ids(
+                p.name
+            ):
                 continue
 
             l5 = validate_l5(entry, p)
