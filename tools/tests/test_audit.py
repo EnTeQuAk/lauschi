@@ -830,3 +830,27 @@ class TestApplyAuditMaterialization:
         albums = {a["album_id"]: a for a in data["albums"]}
         assert albums["a1"]["include"] is True
         assert not data["review"].get("overrides")
+
+    def test_escalated_run_does_not_materialize_overrides(self, tmp_path):
+        """An escalated verdict means a human decides; the model's
+        excludes are recorded in the trail but must not touch album
+        state (Mira lost 7 albums to a policy disagreement before the
+        operator ever saw the escalation)."""
+        result = AuditResult(
+            approve=False,
+            concerns=["fundamental disagreement"],
+            overrides=[
+                AuditOverride(
+                    album_id="a1",
+                    provider="spotify",
+                    action="exclude",
+                    reason="wrong_content_type",
+                ),
+            ],
+        )
+        data = self._run(tmp_path, _curation(), result)
+        albums = {a["album_id"]: a for a in data["albums"]}
+        assert albums["a1"]["include"] is True
+        assert data["review"]["status"] == "escalated"
+        # Proposal still recorded for the human reviewer.
+        assert data["review"]["overrides"][0]["album_id"] == "a1"

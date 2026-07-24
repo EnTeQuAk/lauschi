@@ -130,6 +130,20 @@ Content that belongs to a different content type entirely:
   Teil 1"); audiobook chapters are just numbered ("Teil 01", "Teil 02", ...
   "Teil 40"). If every track is named "Teil NN" with no scene or episode
   title, it's a reading, not a production. Exclude as `wrong_content_type`.
+
+  Track structure is a hint, never proof. Publishers (JUMBO, Atmende
+  Bücher) chapter genuine Hörspiele as "Kapitel N" and slice them into
+  uniform-length tracks, and retailers put "gelesen von" on full-cast
+  productions (Audible's credit field, narrator-only credits). Both
+  signals have produced confirmed false positives on real Hörspiele
+  (Wickie, Drachenreiter film, Vulkan-Mission, Wilden Hühner films).
+  In particular, a Filmhörspiel that weaves the film's original voices
+  with narrator passages IS a dramatized Hörspiel even though one
+  narrator is credited. Before excluding anything titled "Hörspiel" as
+  wrong_content_type, verify the production format from publisher or
+  review pages (web search), not from track names or store credits —
+  and if an album's notes record an operator verification, treat that
+  as settled unless you have stronger new evidence.
 - **Soundtrack/score**: "Original Motion Picture Soundtrack", instrumental
 - **ASMR/ambient**: "Klangreise", "ASMR" in title. Soundscapes, not stories.
 - **Educational non-narrative**: "Englisch lernen mit...", language courses

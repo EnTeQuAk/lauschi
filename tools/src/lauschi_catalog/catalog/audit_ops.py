@@ -413,6 +413,13 @@ def apply_audit(
     review = data.setdefault("review", {})
     now = datetime.now(tz=UTC).isoformat()
 
+    # Verdict first: an escalated run must not touch album state.
+    # Its overrides are recorded in the trail as a proposal for the
+    # human reviewer; only an approving run materializes them.
+    hard_flags = critical_issues(data.get("regression_flags") or [])
+    gate_concerns = [f"[hard-gate] {f}" for f in hard_flags]
+    escalated = bool(hard_flags) or not result.approve or len(result.concerns) > 5
+
     albums_by_id = {a["album_id"]: a for a in data.get("albums", [])}
     existing_overrides = {o["album_id"]: o for o in review.get("overrides", [])}
     for o in result.overrides:
@@ -426,7 +433,9 @@ def apply_audit(
         # Materialize into the album record: include flags are the one
         # source of truth for apply and later audit rounds. The
         # overrides list below is an audit trail only.
-        if o.action == "exclude":
+        if escalated:
+            pass
+        elif o.action == "exclude":
             album["include"] = False
             album["exclude_reason"] = o.reason
         else:
@@ -463,14 +472,9 @@ def apply_audit(
     # facts-wipe vs the previous curation) force escalation no matter
     # what the audit model concluded. Approval is necessary, not
     # sufficient; a human resolves these via catalog-review.
-    hard_flags = critical_issues(data.get("regression_flags") or [])
-    gate_concerns = [f"[hard-gate] {f}" for f in hard_flags]
-    if hard_flags:
+    if escalated:
         for c in gate_concerns:
             on_progress(f"  {c}")
-        review["status"] = "escalated"
-        action = "escalated"
-    elif not result.approve or len(result.concerns) > 5:
         review["status"] = "escalated"
         action = "escalated"
     elif result.overrides or result.fact_updates:
