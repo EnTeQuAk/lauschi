@@ -15,3 +15,8 @@ deleted:
   title: Kalle Blomquist
   reason: 1946/1951 radio recordings + 1996 audiobooks; not the content modern parents expect from the catalog. Decided by Chris 2026-07 (splits round 2).
   deleted_at: '2026-07-23T18:53:53+00:00'
+- id: cornelia_funke
+  title: Cornelia Funke
+  reason: 'Author umbrella emptied: all content lives in the split children (die_wilden_huehner + kinofilm, drachenreiter + hoerbuch, gespensterjaeger, tintenwelt, haende_weg_von_mississippi) or is verified-out
+    audiobook material. Escalation resolved by dissolution. Decided by Chris 2026-07-24; astrid_lindgren_deutsch precedent.'
+  deleted_at: '2026-07-24T07:39:04+00:00'

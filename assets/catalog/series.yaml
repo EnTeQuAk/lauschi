@@ -19030,158 +19030,6 @@ series:
         title: 'Kurz-Hörspiel: Aylin - All Eyes On Me'
   episode_pattern:
   - '^Folge (\d+):'
-- id: cornelia_funke
-  title: Cornelia Funke
-  providers:
-    spotify:
-      artist_ids:
-      - 5HQzBHnczgis11u7lSLVbt
-      albums:
-      - id: 4y9FLwcqRKYl5gbzn4LQ6Z
-        episode: 1
-        title: 'Folge 1: Die Wilden Hühner'
-      - id: 0LqDlXMMrLugwAUsVFlMrJ
-        episode: 2
-        title: 'Folge 2: Auf Klassenfahrt'
-      - id: 0XE0bMlL3xOIfIbkwfqvw5
-        episode: 3
-        title: 'Folge 3: Fuchsalarm'
-      - id: 17vdiC3MN9ccbaiy8kdp7V
-        episode: 4
-        title: 'Folge 4: Und das Glück der Erde (Ungekürzt)'
-      - id: 1RHxV47cUq6KD3Bdo0tKs1
-        episode: 5
-        title: 'Folge 5: Und die Liebe'
-    apple_music:
-      artist_ids:
-      - '3500268'
-      albums:
-      - id: '1627273411'
-        episode: 2
-        title: 'Die Wilden Hühner, Folge 2: Auf Klassenfahrt'
-  content_type: hoerspiel
-  series_facts:
-    era_boundaries:
-    - curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:20:14.380384+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:20:14.380384+00:00'
-      label: fruehe_werke
-      release_date_range: 1995-2000
-    - curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:20:14.380384+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:20:14.380384+00:00'
-      label: klassik_ohnefurcht
-      release_date_range: 2000-2008
-    - curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:20:14.380384+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:20:14.380384+00:00'
-      label: moderne_hoerspiele
-      release_date_range: 2009-2017
-    - curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:20:14.380384+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:20:14.380384+00:00'
-      label: neue_produktionen
-      release_date_range: 2020-2025
-    known_gaps:
-    - number: 1
-      range_end:
-      reason: Apple Music dataset gap - modern Atmende Bücher Hörspiel (2022) only available on Spotify
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-23T10:43:15.339092+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-23T10:43:15.339092+00:00'
-    - number: 3
-      range_end:
-      reason: Apple Music dataset gap - modern Atmende Bücher Hörspiel (2022) only available on Spotify
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-23T10:43:15.339092+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-23T10:43:15.339092+00:00'
-    - number: 4
-      range_end:
-      reason: Apple Music dataset gap - modern Atmende Bücher Hörspiel (2023) only available on Spotify
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-23T10:43:15.339092+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-23T10:43:15.339092+00:00'
-    - number: 5
-      range_end:
-      reason: Apple Music dataset gap - modern Atmende Bücher Hörspiel (2023) only available on Spotify
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-23T10:43:15.339092+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-23T10:43:15.339092+00:00'
-    sub_series:
-    - label: drachenreiter_audiobook
-      album_ids: []
-      reason: NO Hörspiel editions exist for Drachenreiter in current dataset. All releases (Oetinger AUDIO 2013, Apple Music 2016, Atmende Bücher 2017, Apple Music 2021) use 'Kapitel' or 'Teil' 
-        audiobook chapter structure. Film tie-in 'Das Original-Hörspiel zum Film' (spotify:5o0eHTRMF4Xw8dsC3gGWHM) needs track verification.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-02T09:57:26.945475+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T09:57:26.945475+00:00'
-    - label: gespensterjaeger_audiobook
-      album_ids: []
-      reason: NO Hörspiel editions exist for Gespensterjaeger. All 4 Band releases (2009-2010) use 'Kapitel' audiobook chapter structure from JUMBO. Sub-series should be removed or reclassified as 
-        audiobook catalog.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-02T09:57:26.945475+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T09:57:26.945475+00:00'
-    - label: haende_weg_von_mississippi
-      album_ids:
-      - 4BJDSBr1D9b0LSCMt7ebRE
-      reason: Only the 1997 Oetinger 'Das Hörspiel' edition is a dramatized production. JUMBO (2003) and Apple Music (2020) versions use audiobook 'Kapitel' structure and should be excluded.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-02T09:41:32.275466+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T09:41:32.275466+00:00'
-    - label: igraine_ohnefurcht_no_hoerspiel
-      album_ids: []
-      reason: "CONFIRMED: All Igraine Ohnefurcht releases in current dataset (JUMBO 2000, Oetinger 2007, Apple Music 2007) use 'Kapitel' audiobook chapter structure. The actual 'Das Hörspiel' (115 min,
-        2-CD, Oetinger) is not present in current catalog data."
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-05T08:00:37.654201+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-05T08:00:37.654201+00:00'
-    - label: tintenwelt_audiobook
-      album_ids: []
-      reason: NO Hörspiel editions exist for Tintenwelt. All releases (Oetinger AUDIO 2003-2007, Apple Music 2013-2014) use 'Kapitel' audiobook chapter structure. The sub-series fact claiming Apple 
-        Music albums are 'Das Hörspiel' is incorrect.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-02T09:57:26.945475+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T09:57:26.945475+00:00'
-    - label: wilde_huehner
-      album_ids:
-      - 0LqDlXMMrLugwAUsVFlMrJ
-      - 0XE0bMlL3xOIfIbkwfqvw5
-      - '1627273411'
-      - 17vdiC3MN9ccbaiy8kdp7V
-      - 1RHxV47cUq6KD3Bdo0tKs1
-      - 4y9FLwcqRKYl5gbzn4LQ6Z
-      reason: Remove JUMBO audiobook editions (1998-2003) that were excluded as wrong_content_type. Only modern Atmende Bücher Hörspiele (2022-2023, 'Teil' naming + theme songs) and one Apple Music 
-        legacy release (1996) remain.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-23T10:43:15.339092+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-23T10:43:15.339092+00:00'
-    - label: wilde_huehner_modern
-      album_ids:
-      - 0LqDlXMMrLugwAUsVFlMrJ
-      - 0XE0bMlL3xOIfIbkwfqvw5
-      - 17vdiC3MN9ccbaiy8kdp7V
-      - 1RHxV47cUq6KD3Bdo0tKs1
-      - 4y9FLwcqRKYl5gbzn4LQ6Z
-      reason: "Confirmed: only Atmende Bücher releases (2022-2025) with 'Teil' track naming qualify as Hörspiele. All JUMBO releases (1998-2003) use 'Kapitel' audiobook chapter structure."
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-23T10:43:15.339092+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-23T10:43:15.339092+00:00'
 - id: wieso_weshalb_warum
   title: Wieso? Weshalb? Warum?
   providers:
@@ -43858,16 +43706,12 @@ series:
 - id: drachenreiter
   title: Drachenreiter
   aliases: []
-  episode_pattern: ^Drachenreiter (\d+)
   split_from: cornelia_funke
   providers:
     spotify:
       artist_ids:
       - 5HQzBHnczgis11u7lSLVbt
       albums:
-      - id: 7zOEj5nubbvFd780ym4Npm
-        episode: 1
-        title: Drachenreiter 1
       - id: 3RiJxrMS4vH97mgY9O1vwl
         title: Drachenreiter - Die Vulkan-Mission
       - id: 5o0eHTRMF4Xw8dsC3gGWHM
@@ -43876,9 +43720,10 @@ series:
       artist_ids:
       - '3500268'
       albums:
-      - id: '1584839304'
-        episode: 1
-        title: Drachenreiter 1
+      - id: '1520127244'
+        title: Drachenreiter - Die Vulkan-Mission
+      - id: '1862507135'
+        title: Drachenreiter. Das Original-Hörspiel zum Film
   series_facts:
     era_boundaries:
     - label: hörspiele
@@ -43887,23 +43732,7 @@ series:
       curated_at: '2026-06-17T20:26:15.907713+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:26:15.907713+00:00'
-    sub_series:
-    - label: ' sequels'
-      album_ids:
-      - spotify:3RiJxrMS4vH97mgY9O1vwl
-      reason: Sequel Hörspiel based on the second book
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-17T20:26:15.907713+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-17T20:26:15.907713+00:00'
-    - label: movie_tie-in
-      album_ids:
-      - spotify:5o0eHTRMF4Xw8dsC3gGWHM
-      reason: Original soundtrack Hörspiel tied to the 2020 animated film
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-17T20:26:15.907713+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-17T20:26:15.907713+00:00'
+  content_type: hoerspiel
 - id: haende_weg_von_mississippi
   title: Hände weg von Mississippi
   aliases: []
@@ -45530,3 +45359,39 @@ series:
     apple_music:
       artist_ids:
       - '1460064731'
+- id: drachenreiter_hoerbuch
+  title: 'Drachenreiter: Hörbücher'
+  aliases: []
+  episode_pattern:
+  content_type: audiobook
+  split_from: cornelia_funke
+  providers:
+    spotify:
+      artist_ids:
+      - 5HQzBHnczgis11u7lSLVbt
+      albums:
+      - id: 41lsoQFkMMwIZSNzjpwXsh
+        title: Drachenreiter - Die Feder eines Greifs
+      - id: 4R83F6T675XJ0jczfB93am
+        title: Drachenreiter
+      - id: 7Ftf8TdXhlxHt0PQVDn7kw
+        title: Drachenreiter [Der Fluch der Aurelia (Ungekürzt)]
+    apple_music:
+      artist_ids:
+      - '3500268'
+      albums:
+      - id: '1588723671'
+        title: Drachenreiter - Der Fluch der Aurelia (Hörspiel)
+- id: die_wilden_huehner_kinofilm
+  title: 'Die Wilden Hühner: Kinofilm'
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: die_wilden_huehner
+  providers:
+    spotify:
+      artist_ids:
+      - 5HQzBHnczgis11u7lSLVbt
+    apple_music:
+      artist_ids:
+      - '3500268'
