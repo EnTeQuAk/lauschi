@@ -42324,8 +42324,6 @@ series:
   title: 'Lauras Stern: Laura'
   aliases: []
   episode_pattern:
-  - '^Laura, Folge (\d+):'
-  - '^Laura, Teil (\d+):'
   split_from: lauras_stern
   providers:
     spotify:
