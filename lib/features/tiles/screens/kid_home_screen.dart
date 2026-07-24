@@ -60,7 +60,7 @@ class KidHomeScreen extends ConsumerWidget {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (context.mounted) {
               unawaited(
-                showPlayerErrorDialog(context, ref: ref, error: next),
+                showPlayerErrorDialog(context, error: next),
               );
             }
           });

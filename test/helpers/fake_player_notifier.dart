@@ -15,7 +15,7 @@ import 'package:lauschi/features/player/player_state.dart';
 /// verify the error-dialog callback. Anything beyond that is YAGNI —
 /// add tracking fields here when a test actually reads them.
 class FakePlayerNotifier extends PlayerNotifier {
-  FakePlayerNotifier(this._initialState);
+  FakePlayerNotifier(PlaybackState initialState) : _initialState = initialState;
 
   final PlaybackState _initialState;
 
