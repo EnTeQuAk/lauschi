@@ -198,6 +198,54 @@ void main() {
       );
       expect(find.byType(Dialog), findsNothing);
     });
+
+    testWidgets('system back clears the error too', (tester) async {
+      final fakeNotifier = FakePlayerNotifier(
+        const PlaybackState(
+          isReady: true,
+          track: TrackInfo(
+            uri: 'test:uri',
+            name: 'Test Track',
+            artist: 'Test',
+            album: 'Test Album',
+          ),
+        ),
+      );
+
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [playerProvider.overrideWith(() => fakeNotifier)],
+          child: MaterialApp(
+            home: const Scaffold(body: Text('Home')),
+            routes: {'/player': (_) => const PlayerScreen()},
+          ),
+        ),
+      );
+
+      unawaited(
+        tester
+            .state<NavigatorState>(find.byType(Navigator))
+            .pushNamed('/player'),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 400));
+
+      fakeNotifier.setError(PlayerError.spotifyPlaybackFailed);
+      await tester.pump();
+      await tester.pump();
+      await tester.pump();
+      expect(find.byType(Dialog), findsOneWidget);
+
+      // Android back button / back gesture. If this pops the dialog
+      // without clearing the error, the stale error state suppresses
+      // the dialog for the next identical error.
+      await tester.binding.handlePopRoute();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 400));
+
+      expect(find.byType(Dialog), findsNothing);
+      expect(fakeNotifier.clearErrorCalled, isTrue);
+    });
   });
 }
 
