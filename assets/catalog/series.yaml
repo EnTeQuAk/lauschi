@@ -30119,20 +30119,31 @@ series:
       - id: 0XE0bMlL3xOIfIbkwfqvw5
         episode: 3
         title: 'Folge 3: Fuchsalarm'
+      - id: 17vdiC3MN9ccbaiy8kdp7V
+        episode: 4
+        title: 'Folge 4: Und das Glück der Erde (Ungekürzt)'
       - id: 1RHxV47cUq6KD3Bdo0tKs1
         episode: 5
         title: 'Folge 5: Und die Liebe'
-      - id: 4FwoYwy88mcywyrFoMMJX0
-        title: Die Wilden Hühner und die Liebe
-      - id: 3x4xQ7RacLQbYIvnPvDjjR
-        title: Die Wilden Hühner und die Liebe (Das Original-Hörspiel zum Film)
     apple_music:
       artist_ids:
       - '3500268'
       albums:
+      - id: '1620863771'
+        episode: 1
+        title: 'Folge 1: Die Wilden Hühner'
       - id: '1627273411'
         episode: 2
         title: 'Die Wilden Hühner, Folge 2: Auf Klassenfahrt'
+      - id: '1646637779'
+        episode: 3
+        title: 'Folge 3: Fuchsalarm'
+      - id: '1672570946'
+        episode: 4
+        title: 'Folge 4: Und das Glück der Erde (Ungekürzt)'
+      - id: '1684482528'
+        episode: 5
+        title: 'Folge 5: Und die Liebe'
   episode_pattern:
   - '^Folge (\d+):'
   - ^Tintenwelt (\d+)\.
@@ -30141,11 +30152,12 @@ series:
   series_facts:
     known_gaps:
     - number: 4
-      reason: Episode 4 appears unavailable on both Spotify and Apple Music. The 'Atmende Bücher' re-production series (2022-2023) only released episodes 1, 2, 3, and 5.
+      range_end:
+      reason: 'REMOVED - Episode 4 exists on both providers (Folge 4: Und das Glück der Erde, 2023). The previous audit incorrectly claimed it was unavailable.'
       curated_by: minimax-m2.7
-      curated_at: '2026-06-17T20:25:24.900633+00:00'
+      curated_at: '2026-07-24T07:40:16.987539+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-06-17T20:25:24.900633+00:00'
+      audited_at: '2026-07-24T07:40:16.987539+00:00'
 - id: eliot_und_isabella
   title: Eliot und Isabella
   providers:
@@ -45392,6 +45404,20 @@ series:
     spotify:
       artist_ids:
       - 5HQzBHnczgis11u7lSLVbt
+      albums:
+      - id: 3gqp7eFmVeOLGMWHeIzpsT
+        title: Die Wilden Hühner. Das Original-Hörspiel zum Film
+      - id: 3x4xQ7RacLQbYIvnPvDjjR
+        title: Die Wilden Hühner und die Liebe (Das Original-Hörspiel zum Film)
+      - id: 042KKQSpmrV8yjtf34reWq
+        title: Die Wilden Hühner und das Leben. Das Original-Hörspiel zum Film
     apple_music:
       artist_ids:
       - '3500268'
+      albums:
+      - id: '1562233149'
+        title: Die Wilden Hühner. Das Original-Hörspiel zum Film
+      - id: '1862490572'
+        title: Die Wilden Hühner und die Liebe (Das Original-Hörspiel zum Film)
+      - id: '1862505843'
+        title: Die Wilden Hühner und das Leben. Das Original-Hörspiel zum Film
