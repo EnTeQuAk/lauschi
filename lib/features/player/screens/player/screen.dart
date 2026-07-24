@@ -32,7 +32,7 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (!context.mounted) return;
             unawaited(
-              showPlayerErrorDialog(context, ref: ref, error: next).then((_) {
+              showPlayerErrorDialog(context, error: next).then((_) {
                 if (context.mounted) Navigator.of(context).pop();
               }),
             );

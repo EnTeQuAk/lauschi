@@ -7,34 +7,52 @@ import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/player/player_error.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 
+/// Every screen that listens for player errors (kid home, tile detail,
+/// player) reacts to the same state change, so a single error would
+/// otherwise stack one dialog per mounted screen.
+Future<bool>? _activeDialog;
+
+/// Resets the single-dialog guard, which is module state and would
+/// otherwise leak across tests that leave a dialog open.
+@visibleForTesting
+void resetPlayerErrorDialogGuard() => _activeDialog = null;
+
 /// Shows a kid-friendly error dialog with mascot illustration.
 ///
 /// Call from any screen when `playerState.error` is set. The dialog
-/// handles clearing the error and popping navigation as needed.
+/// handles clearing the error and popping navigation as needed. Only
+/// one dialog is shown at a time: while one is visible, further calls
+/// return the visible dialog's future rather than stacking another.
+/// Callers can therefore always chain "after the dialog was dismissed"
+/// logic onto the returned future.
 ///
 /// Returns true if the user tapped "retry", false otherwise.
 Future<bool> showPlayerErrorDialog(
   BuildContext context, {
-  required WidgetRef ref,
   required PlayerError error,
-}) async {
-  final result = await showDialog<bool>(
+}) {
+  return _activeDialog ??= showDialog<bool>(
     context: context,
     barrierDismissible: false,
     barrierColor: Colors.black54,
-    builder: (_) => _PlayerErrorDialog(ref: ref, error: error),
-  );
-  return result ?? false;
+    builder: (_) => _PlayerErrorDialog(error: error),
+  ).then((result) {
+    _activeDialog = null;
+    return result ?? false;
+  });
 }
 
-class _PlayerErrorDialog extends StatelessWidget {
-  const _PlayerErrorDialog({required this.ref, required this.error});
+/// Gets its own [WidgetRef] via [ConsumerWidget]: the dialog lives on
+/// the root navigator and can outlive the screen that showed it, so a
+/// captured caller ref could be disposed by the time the button is
+/// tapped.
+class _PlayerErrorDialog extends ConsumerWidget {
+  const _PlayerErrorDialog({required this.error});
 
-  final WidgetRef ref;
   final PlayerError error;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final category = error.category;
 
     return Dialog(
@@ -127,8 +145,12 @@ class _PlayerErrorDialog extends StatelessWidget {
               child: FilledButton(
                 onPressed: () {
                   unawaited(HapticFeedback.lightImpact());
-                  ref.read(playerProvider.notifier).clearError();
+                  // Pop before touching providers: the dialog is not
+                  // barrier-dismissible, so if anything below throws,
+                  // the dialog must already be closed or the user is
+                  // trapped behind a dead button.
                   Navigator.of(context).pop(error.isRetryable);
+                  ref.read(playerProvider.notifier).clearError();
                 },
                 child: Text(
                   category.actionLabel,

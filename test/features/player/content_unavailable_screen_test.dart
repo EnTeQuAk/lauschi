@@ -7,11 +7,16 @@ import 'package:lauschi/features/player/player_error.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/player_state.dart';
 import 'package:lauschi/features/player/screens/player/screen.dart';
+import 'package:lauschi/features/player/widgets/player_error_dialog.dart';
 
 import '../../helpers/fake_player_notifier.dart';
 
 void main() {
   group('PlayerErrorDialog', () {
+    // The single-dialog guard is module state; tests that end with a
+    // dialog still open would otherwise suppress the next test's dialog.
+    setUp(resetPlayerErrorDialogGuard);
+
     testWidgets('shows "gone" dialog for expired content', (tester) async {
       final fakeNotifier = FakePlayerNotifier(
         const PlaybackState(
