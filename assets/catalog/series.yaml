@@ -3833,28 +3833,10 @@ series:
       - id: 2FyN9E6Rf3UMAzlnxRywfV
         episode: 98
         title: 'Folge 98: Influencerin in Not'
-      - id: 3Y7SbC7xEqmh6beaCAUjFd
-        title: Adventskalender - Geheimnis im Schnee
-      - id: 5337c71ghTYTKz3sJBYeAK
-        title: Adventskalender - Das Weihnachtsrätsel
-      - id: 1i5YX8hEf27Ep62GEfkUzF
-        title: Adventskalender - Weihnachtsmann gesucht
       - id: 3s2ROvBMTI2rwW8RHkCsRg
         title: Das Original Hörspiel zum Kinofilm
-      - id: 6sY5T9eROTkGXkprYS1JIc
-        title: Adventskalender - Wintertraum in Gefahr
-      - id: 3trwiTOpImrBHlfRFL2jqB
-        title: Adventskalender/Die Marzipan-Mission
-      - id: 2S6DeiIPdkQPIQi5JQRqtD
-        title: Adventskalender/Geheimnisse zur Weihnachtszeit
       - id: 6HUsj30bF5HtJzwNZLzoY0
         title: Die Ponyverschwörung
-      - id: 4ZbwSV67s5f4nwn1UYzwGE
-        title: Adventskalender/Weihnachtsponys in Gefahr
-      - id: 6r5Z1GCgD8diUD9inajKvd
-        title: Adventskalender - Wirbel im Weihnachtshotel
-      - id: 7rOiqNA8gO1qWLEUTvXAun
-        title: Adventskalender - Zauberhafte Eiswelt
     apple_music:
       artist_ids:
       - '329049924'
@@ -3877,9 +3859,6 @@ series:
       - id: '1092513608'
         episode: 6
         title: 'Folge 6: Skandal auf Sendung'
-      - id: '361378214'
-        episode: 7
-        title: 'Folge 7: Skaterfieber'
       - id: '1092515790'
         episode: 7
         title: 'Folge 7: Skaterfieber'
@@ -4156,30 +4135,12 @@ series:
       - id: '6781630754'
         episode: 99
         title: 'Folge 99: Spuk auf dem Campingplatz'
-      - id: '1165473629'
-        title: Adventskalender - Geheimnis im Schnee
-      - id: '1295014226'
-        title: Adventskalender - Das Weihnachtsrätsel
-      - id: '1295114870'
-        title: Adventskalender - Weihnachtsmann gesucht
       - id: '1470370696'
         title: Das original Hörspiel zum Kinofilm
-      - id: '1477951025'
-        title: Adventskalender - Wintertraum in Gefahr
       - id: '1683893611'
         title: Die Ponyverschwörung
-      - id: '1588738563'
-        title: Adventskalender/Die Marzipan-Mission
-      - id: '1682060874'
-        title: Adventskalender/Geheimnisse zur Weihnachtszeit
       - id: '1752709789'
         title: Die Ponyverschwörung
-      - id: '1752715756'
-        title: 'Adventskalender: Weihnachtsponys in Gefahr'
-      - id: '1773744482'
-        title: Adventskalender - Wirbel im Weihnachtshotel
-      - id: '1844567466'
-        title: Adventskalender - Zauberhafte Eiswelt
   episode_pattern:
   - ^(\d{3})/
   - '^Folge (\d+):'
@@ -4203,12 +4164,12 @@ series:
       reason: Apple Music version exists as 3-story compilation (103 tracks, I/II/III) - not missing, correctly excluded. Spotify double-episode version (75 tracks, I/II) included.
     - number: 99
       range_end:
-      reason: Spotify discography has no episode 99. Apple Music version exists but is future-dated (2026-07-31). Verify if episode 99 is a legitimate numbered episode or a special release that 
-        shouldn't follow standard numbering.
+      reason: "Spotify discography missing episode 99. Apple Music version 'Folge 99: Spuk auf dem Campingplatz' releases 2026-07-31. Spotify may not yet have the release or it may be cataloged under a
+        different title."
       curated_by: minimax-m2.7
-      curated_at: '2026-07-05T07:56:41.464510+00:00'
+      curated_at: '2026-07-24T12:43:56.320472+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-07-05T07:56:41.464510+00:00'
+      audited_at: '2026-07-24T12:43:56.320472+00:00'
     sub_series:
     - label: adventskalender
       album_ids:
@@ -6946,27 +6907,15 @@ series:
       - id: 7Hx03j0oo3eLfuijiUXAHg
         episode: 1
         title: 001/beim Wanderzirkus
-      - id: 3dDoz1yLMHx0n6rllLAXeV
-        episode: 1
-        title: 01/Das Original-Hörspiel zum Kinofilm
       - id: 7tfESyt6scRuKPzOAXF4PC
         episode: 2
         title: 002/im Zeltlager
-      - id: 7GgmiV6ZH3yklTQpIrgQCC
-        episode: 2
-        title: 02/Das Original-Hörspiel zum Kinofilm
       - id: 3M4cqtKzzPRWUdwxoFiBnz
         episode: 3
         title: 003/und das Burgverlies
-      - id: 1hM6Tv4HKwuRnGNbtN4lLz
-        episode: 3
-        title: 03/Das Original-Hörspiel zum Kinofilm
       - id: 6Uou6b83FPi6q0BNQi4Px2
         episode: 4
         title: 004/als Retter in der Not
-      - id: 6DKW0i593WcqpKBl0xx2Zb
-        episode: 4
-        title: 04/Das Original-Hörspiel zum Kinofilm
       - id: 5gCYYcivqoJL2voJg5K1ou
         episode: 5
         title: 005/und der Zauberer Wu
@@ -7462,10 +7411,6 @@ series:
       - id: 0T6eDA8yFm5bzJxT01PF09
         episode: 171
         title: 'Folge 171: und der doppelte Onkel'
-      - id: 2akmTQWswD0lQBMedOyhUU
-        title: Fünf Freunde und das Tal der Dinosaurier - Das Original-Hörspiel zum Kinofilm
-      - id: 1MSUqIRZ02rYLly5YOsVYQ
-        title: Adventskalender - Fünf Freunde und das Abenteuer im Wald
     apple_music:
       artist_ids:
       - '216347875'
@@ -7473,27 +7418,15 @@ series:
       - id: '1002457082'
         episode: 1
         title: 'Folge 1: beim Wanderzirkus'
-      - id: '1237102110'
-        episode: 1
-        title: 01/Das Original-Hörspiel zum Kinofilm
       - id: '1002560999'
         episode: 2
         title: 'Folge 2: im Zeltlager'
-      - id: '1237104158'
-        episode: 2
-        title: 'Folge 2: Das Original-Hörspiel zum Kinofilm'
       - id: '1002449163'
         episode: 3
         title: 'Folge 3: und das Burgverlies'
-      - id: '1237107921'
-        episode: 3
-        title: 'Folge 3: Das Original-Hörspiel zum Kinofilm'
       - id: '1002464334'
         episode: 4
         title: 'Folge 4: als Retter in der Not'
-      - id: '1237110207'
-        episode: 4
-        title: 'Folge 4: Das Original-Hörspiel zum Kinofilm'
       - id: '1002556878'
         episode: 5
         title: 'Folge 5: und der Zauberer Wu'
@@ -7992,10 +7925,6 @@ series:
       - id: '1872936338'
         episode: 171
         title: 'Folge 171: und der doppelte Onkel'
-      - id: '1349181673'
-        title: Fünf Freunde und das Tal der Dinosaurier - Das Original-Hörspiel zum Kinofilm
-      - id: '1594162214'
-        title: Adventskalender - Fünf Freunde und das Abenteuer im Wald
   episode_pattern:
   - ^(\d+)/
   - '^Folge (\d+):'
@@ -12707,10 +12636,6 @@ series:
         title: Die Reise nach Mandolan
       - id: 2UFXuzfiqd0cThQRCalzdy
         title: Hexe Lilli rettet Weihnachten - Das Hörspiel zum Kinofilm
-      - id: 3CiZjceqtFe8yc63b4ZmsL
-        title: Hilfe! Die Murze kommen! (Erstlesergeschichten)
-      - id: 1s2fFBRaLCFreCBop1ZUiQ
-        title: Hexe Lilli und der geheimnisvolle Flaschengeist Suki (Erstlesergeschichten)
     apple_music:
       artist_ids:
       - '218659264'
@@ -12810,10 +12735,6 @@ series:
         title: 'Folge 24: Hexe Lilli auf magischer Rettungsmission'
       - id: '1356622351'
         title: Das Buch des Drachen
-      - id: '1465730970'
-        title: Hilfe! Die Murze kommen! (Erstlesergeschichten)
-      - id: '1490107448'
-        title: Hexe Lilli und der geheimnisvolle Flaschengeist Suki (Erstlesergeschichten)
   episode_pattern:
   - ^(\d{3})/
   - '^Folge (\d+):'
@@ -12840,11 +12761,11 @@ series:
     known_gaps:
     - number: 25
       range_end:
-      reason: Episode 25 not found in current catalog. The modern series jumped from episode 24 to episode 26.
+      reason: Episode 25 not released or missing from catalog. Series jumps from episode 24 (2022) to episode 26 (modern era).
       curated_by: minimax-m2.7
-      curated_at: '2026-07-02T09:35:06.380479+00:00'
+      curated_at: '2026-07-24T12:45:47.846957+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-07-02T09:35:06.380479+00:00'
+      audited_at: '2026-07-24T12:45:47.846957+00:00'
     - number: 26
       range_end:
       reason: RETRACTED - episode 26 exists as 'Hexe Lilli und die Zaubernacht im Kindergarten' (2012), a standard double-story Hexe Lilli release format containing two stories in one album.
@@ -41614,6 +41535,20 @@ series:
       artist_ids:
       - 2Jc4AEeBTE47KwuKgYOtcL
       albums:
+      - id: 5hS6afCS6iR3fyeyjixu5I
+        title: Adventskalender - Engel in Gefahr
+      - id: 6dgraZML3CQZkRuoFQkzJk
+        title: Adventskalender - Eisprinzessin in Not
+      - id: 3Y7SbC7xEqmh6beaCAUjFd
+        title: Adventskalender - Geheimnis im Schnee
+      - id: 5337c71ghTYTKz3sJBYeAK
+        title: Adventskalender - Das Weihnachtsrätsel
+      - id: 1i5YX8hEf27Ep62GEfkUzF
+        title: Adventskalender - Weihnachtsmann gesucht
+      - id: 6sY5T9eROTkGXkprYS1JIc
+        title: Adventskalender - Wintertraum in Gefahr
+      - id: 3trwiTOpImrBHlfRFL2jqB
+        title: Adventskalender/Die Marzipan-Mission
       - id: 2S6DeiIPdkQPIQi5JQRqtD
         title: Adventskalender/Geheimnisse zur Weihnachtszeit
       - id: 4ZbwSV67s5f4nwn1UYzwGE
@@ -41626,8 +41561,24 @@ series:
       artist_ids:
       - '329049924'
       albums:
+      - id: '1165473629'
+        title: Adventskalender - Geheimnis im Schnee
+      - id: '1295014226'
+        title: Adventskalender - Das Weihnachtsrätsel
+      - id: '1295114870'
+        title: Adventskalender - Weihnachtsmann gesucht
+      - id: '1477951025'
+        title: Adventskalender - Wintertraum in Gefahr
+      - id: '1588738563'
+        title: Adventskalender/Die Marzipan-Mission
+      - id: '1682060874'
+        title: Adventskalender/Geheimnisse zur Weihnachtszeit
+      - id: '1752715756'
+        title: 'Adventskalender: Weihnachtsponys in Gefahr'
       - id: '1773744482'
         title: Adventskalender - Wirbel im Weihnachtshotel
+      - id: '1844567466'
+        title: Adventskalender - Zauberhafte Eiswelt
   content_type: hoerspiel
 - id: die_drei_fragezeichen_kids_adventskalender
   title: 'Die drei ??? Kids: Adventskalender'
@@ -41996,6 +41947,8 @@ series:
       albums:
       - id: '1600283857'
         title: Hui Buh - Das Schlossgespenst (Hörspiel zum Kinofilm)
+      - id: '1686114395'
+        title: Hui Buh und das Hexenschloss (Hörspiel zum Kinofilm)
   series_facts:
     known_gaps:
     - number: 1
@@ -42092,10 +42045,36 @@ series:
         title: 'Kira Kolumna Reportage: Große Story, nichts dahinter?'
       - id: 4D6gyifVPiPiVrvaLiCgQR
         title: 'Kira Kolumna Reportage: Ist E-Sport auch Sport?'
+      - id: 1woE4NCtJqa0DRE9BkxxZP
+        title: 'Kira Kolumna Reportage: Campen ohne Eltern - Freiheit pur?'
+      - id: 4yKoYmOnw7nuhNhqVrI84w
+        title: 'Kira Kolumna Reportage: Playlist an – und ich bin DJ?'
+      - id: 5cgeLp9ZvcjcBfuLSWluBV
+        title: 'Kira Kolumna Reportage: Plötzlich Patchwork – voll das Chaos?'
+      - id: 3qdTJbmfukxTeKk0YZur7H
+        title: 'Kira Kolumna Reportage: Der eigene Roller - endlich unabhängig?'
+      - id: 67zrGxcINeNDhjVJhNSkyh
+        title: 'Kira Kolumna Reportage: Im Tierheim - wer rettet hier wen?'
+      - id: 24wuEWjDVizWKlDqmpnKY1
+        title: 'Kira Kolumna Reportage: Muss Mode wirklich neu sein?'
     apple_music:
       artist_ids:
       - '1580082096'
       albums:
+      - id: '1738254635'
+        title: 'Kira Kolumna Reportage: Kann ein Rummel ein Zuhause sein?'
+      - id: '1738263031'
+        title: 'Kira Kolumna Reportage: Machen Influencer immer Urlaub?'
+      - id: '1751489938'
+        title: 'Kira Kolumna Reportage: Ist die Arche nur für Noah?'
+      - id: '1751486552'
+        title: 'Kira Kolumna Reportage: Sind Schüler gute Schauspieler?'
+      - id: '1764108031'
+        title: 'Kira Kolumna Reportage: Sind Graffitis auch Kunst?'
+      - id: '1778469991'
+        title: 'Kira Kolumna Reportage: Match auf dem Eis - und in echt?'
+      - id: '1790905816'
+        title: 'Kira Kolumna Reportage: Große Story, nichts dahinter?'
       - id: '1804888899'
         title: 'Kira Kolumna Reportage: Ist E-Sport auch Sport?'
       - id: '1819139759'
@@ -42108,14 +42087,8 @@ series:
         title: 'Kira Kolumna Reportage: Der eigene Roller - endlich unabhängig?'
       - id: '1872674658'
         title: 'Kira Kolumna Reportage: Im Tierheim - wer rettet hier wen?'
-  series_facts:
-    known_gaps:
-    - number: 1
-      reason: This is a spin-off series using topic-based titles, not numbered episodes. No 'Folge' numbering exists in this Reportage series.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-17T20:36:28.452111+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-17T20:36:28.452111+00:00'
+      - id: '6772207425'
+        title: 'Kira Kolumna Reportage: Muss Mode wirklich neu sein?'
   content_type: hoerspiel
 - id: kommissar_kugelblitz_stadt_reisen
   title: 'Kommissar Kugelblitz: Stadt Reisen'
@@ -42330,6 +42303,9 @@ series:
       artist_ids:
       - 0xY8w0o3cSH3gzx4G4h8qD
       albums:
+      - id: 15uQx2B6aTQysGMzEmO8s8
+        episode: 5
+        title: 'Folge 5: Laura und das Pony'
       - id: 6psvtJwbclXJ09i1lqvzvv
         episode: 7
         title: 'Laura, Folge 7: Laura und die Lampioninsel'
@@ -42350,16 +42326,33 @@ series:
       artist_ids:
       - '51919817'
       albums:
+      - id: '6784607492'
+        episode: 5
+        title: 'Folge 5: Laura und das Pony'
+      - id: '6784982910'
+        title: Laura kommt in die Schule
+      - id: '6784978472'
+        title: Lauras Geheimnis
+      - id: '6784624018'
+        title: Ferien mit Laura und ihrem Stern - Lauras Ferien / Lauras erste Übernachtung / Laura und der Ferienhund
       - id: '6784602925'
         title: Laura und die kleine Robbe
   series_facts:
     known_gaps:
+    - number: 6
+      range_end:
+      reason: Episode not discovered in catalog search. May require searching by title or checking parent series catalog.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-24T12:48:00.200683+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-24T12:48:00.200683+00:00'
     - number: 8
       reason: Episode 'Laura hat Geburtstag' (Lauras Stern 10) not discovered in current catalog search; may exist in parent series
       curated_by: minimax-m2.7
       curated_at: '2026-06-17T20:40:03.731516+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:40:03.731516+00:00'
+  content_type: hoerspiel
 - id: lauras_stern_tv_serie
   title: 'Lauras Stern: Tv Serie'
   aliases: []
@@ -43204,9 +43197,18 @@ series:
       - id: '1685873704'
         episode: 1
         title: '01: Weihnachten - Pumuckl und der Nikolaus (Das Original aus dem Fernsehen)'
+      - id: '1685914278'
+        episode: 2
+        title: '02: Weihnachten - Auf heißer Spur (Das Original aus dem Fernsehen)'
+      - id: '1685888452'
+        episode: 3
+        title: '03: Weihnachten - Das Weihnachtsgeschenk (Das Original aus dem Fernsehen)'
       - id: '1685873793'
         episode: 4
         title: '04: Weihnachten - Der erste Schnee (Das Original aus dem Fernsehen)'
+      - id: '1685888292'
+        episode: 5
+        title: '05: Weihnachten - Pumuckl und die Christbaumkugeln (Das Original aus dem Fernsehen)'
       - id: '1686156110'
         episode: 6
         title: '06: Weihnachten Folge - Pumuckl und die Schatulle (Das Original aus dem Fernsehen)'
@@ -43225,6 +43227,27 @@ series:
       curated_at: '2026-06-17T20:52:10.647759+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:52:10.647759+00:00'
+    sub_series:
+    - label: Weihnachten
+      album_ids:
+      - 0t5XbGvxjnnQz1FWhFt7go
+      - '1685873704'
+      - '1685873793'
+      - '1685888292'
+      - '1685888452'
+      - '1685914278'
+      - '1686156110'
+      - 1i5j40JrA7Uq3sNHgVEYQA
+      - 3zWItP43T8egaHsynZBZIS
+      - 5qoNwBcEil2enjbC6zG8LT
+      - 6XYhYR3is3Bp6jMbdZraiC
+      - 7GOZ8qDGyH9Q1KD2TxiQwP
+      reason: Christmas sub-series with its own independent numbering (01-06), released together as a collection in 2008. Distinct from the main Pumuckl series numbering. TV-original productions 
+        (Karussell label).
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-24T12:47:10.301464+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-24T12:47:10.301464+00:00'
 - id: ritter_rost_kinofilm
   title: 'Ritter Rost: Kinofilm'
   aliases: []
