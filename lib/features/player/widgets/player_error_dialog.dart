@@ -31,15 +31,24 @@ Future<bool> showPlayerErrorDialog(
   BuildContext context, {
   required PlayerError error,
 }) {
-  return _activeDialog ??= showDialog<bool>(
+  final active = _activeDialog;
+  if (active != null) return active;
+
+  late final Future<bool> dialog;
+  dialog = showDialog<bool>(
     context: context,
     barrierDismissible: false,
     barrierColor: Colors.black54,
     builder: (_) => _PlayerErrorDialog(error: error),
   ).then((result) {
-    _activeDialog = null;
+    // Only clear our own registration: after a guard reset, a newer
+    // dialog may already occupy the slot.
+    if (identical(_activeDialog, dialog)) {
+      _activeDialog = null;
+    }
     return result ?? false;
   });
+  return _activeDialog = dialog;
 }
 
 /// Gets its own [WidgetRef] via [ConsumerWidget]: the dialog lives on
@@ -55,6 +64,25 @@ class _PlayerErrorDialog extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final category = error.category;
 
+    // The action button pops with a result and clears the error itself.
+    // A system back pop delivers no result; the error must still be
+    // cleared or the stale state suppresses the dialog for the next
+    // identical error.
+    return PopScope(
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop && result == null) {
+          ref.read(playerProvider.notifier).clearError();
+        }
+      },
+      child: _buildDialog(context, ref, category),
+    );
+  }
+
+  Widget _buildDialog(
+    BuildContext context,
+    WidgetRef ref,
+    ErrorCategory category,
+  ) {
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(24),
