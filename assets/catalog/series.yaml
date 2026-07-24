@@ -44634,7 +44634,7 @@ series:
       - id: '6784595369'
         episode: 3
         title: 'Erstleser Teil 3: Krawall im Hühnerstall'
-      - id: '1795425967'
+      - id: '6783912141'
         episode: 4
         title: 'Erstleser Teil 4: Spargelzahn zieht um'
   series_facts:
@@ -44697,40 +44697,40 @@ series:
       artist_ids:
       - '1451309462'
       albums:
-      - id: '1531866840'
+      - id: '6784608631'
         episode: 1
         title: 'Teil 1: Der Oberhexenbesen, Papa ist geschrumpft, Verwichtelte Freundschaft (Hörspiele zur TV-Serie)'
-      - id: '1531866469'
+      - id: '6784608705'
         episode: 2
-        title: 'Teil 2: Das Überraschungs-Picknick / Der Spielverderber / Selfie mit Heckenschrat (Hörspiele zur TV-Serie)'
-      - id: '1534715730'
+        title: 'Teil 2: Das Überraschungs-Picknick, Der Spielverderber, Selfie mit Heckenschrat (Hörspiele zur TV-Serie)'
+      - id: '6784607786'
         episode: 3
         title: 'Teil 3: Rettet Amanda!, Vollmondparty, Hatschi (Hörspiele zur TV-Serie)'
-      - id: '1534719147'
+      - id: '6784609512'
         episode: 4
         title: 'Teil 4: Verhexte Bäckerei, Das Band der Freundschaft, Hexengeburtstag, Aufprall mit Folgen (Hörspiele zur TV-Serie)'
-      - id: '1539658210'
+      - id: '6784608274'
         episode: 5
         title: 'Teil 5: Was ist nur mit Dornwald los?, Blick in die Zukunft, Hilda in der Falle (Hörspiele zur TV-Serie)'
-      - id: '1539667305'
+      - id: '6784606324'
         episode: 6
         title: 'Teil 6: Energie aus der Dose, Das blaue Wunder, Die Zauberprüfung (Hörspiele zur TV-Serie)'
-      - id: '1542759469'
+      - id: '6784605507'
         episode: 7
         title: 'Teil 7: Hexenschnupfen, Fürchten sich Heckenschrate?, Der größte Wichtel der Welt (Hörspiele zur TV-Serie)'
-      - id: '1542760201'
+      - id: '6784605623'
         episode: 8
         title: 'Teil 8: Das Stinkeparfüm, Der Zaubersauberbesen, Der verlorene Ring, Die Doppelgängerin (Hörspiele zur TV-Serie)'
-      - id: '1561785976'
+      - id: '6784604272'
         episode: 9
         title: 'Teil 9: Alles singt, Des Wichtels Gespür für Wasser, Das Geschichtengerät (Hörspiele zur TV-Serie)'
-      - id: '1561848173'
+      - id: '6784604172'
         episode: 10
         title: 'Teil 10: Die verflogene Einladung, Der große Fund, Die Zauberäpfel (Hörspiele zur TV-Serie)'
-      - id: '1564490397'
+      - id: '6784603222'
         episode: 11
         title: 'Teil 11: Eine abenteuerliche Nacht, Der komische Cousin, Die Mondglockenblume (Hörspiele zur TV-Serie)'
-      - id: '1593240124'
+      - id: '6784603902'
         episode: 12
         title: 'Teil 12: Eine seltsame Aushilfe, Diebesjagd!, Hexische Beförderung (Hörspiele zur TV-Serie)'
 - id: ritter_rost_tv_serie
