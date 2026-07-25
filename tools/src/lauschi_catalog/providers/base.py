@@ -34,6 +34,20 @@ class Album:
     tracks: list[Track] = field(default_factory=list)
 
 
+@dataclass
+class AlbumBatch:
+    """Result of a batched album lookup.
+
+    [unverified] holds IDs whose lookup failed even after retries. They
+    are NOT missing: absence from [albums] proves nothing for them, so
+    callers must never treat them as deleted. Conflating the two would
+    let a provider outage look like the catalog rotting.
+    """
+
+    albums: list[Album] = field(default_factory=list)
+    unverified: list[str] = field(default_factory=list)
+
+
 @dataclass(frozen=True)
 class Track:
     """A track within an album."""
@@ -76,12 +90,13 @@ class CatalogProvider(ABC):
         """Fetch all albums for an artist."""
 
     @abstractmethod
-    def albums_by_ids(self, album_ids: list[str]) -> list[Album]:
+    def albums_by_ids(self, album_ids: list[str]) -> AlbumBatch:
         """Fetch many albums in as few requests as the provider allows.
 
         Chunked internally (20 per call on Spotify, 100 on Apple Music).
-        IDs the provider no longer knows are simply absent from the
-        result, which makes this an existence check as well. Tracks are
+        IDs the provider no longer knows are absent from
+        [AlbumBatch.albums], which makes this an existence check too, but
+        only for IDs that are not in [AlbumBatch.unverified]. Tracks are
         not populated; use [album_details] when they are needed.
         """
 

@@ -239,6 +239,9 @@ class DriftResult:
     findings: list[DriftFinding] = field(default_factory=list)
     checked: dict[str, int] = field(default_factory=dict)
     unresolved_series: list[str] = field(default_factory=list)
+    #: IDs whose lookup failed. Absence from the response proves nothing
+    #: for these, so they are never reported as gone.
+    unverified: list[str] = field(default_factory=list)
 
     def by_severity(self, severity: DriftSeverity) -> list[DriftFinding]:
         return [f for f in self.findings if f.severity is severity]
@@ -310,12 +313,18 @@ def detect_drift(
             continue
 
         on_progress(f"{provider.name}: checking {len(wanted)} albums")
-        live: dict[str, Album] = {}
-        for album in provider.albums_by_ids(list(wanted)):
-            live[album.id] = album
-        result.checked[provider.name] = len(wanted)
+        fetched = provider.albums_by_ids(list(wanted))
+        live: dict[str, Album] = {a.id: a for a in fetched.albums}
+        unverified = set(fetched.unverified)
+        result.unverified.extend(f"{provider.name}:{i}" for i in sorted(unverified))
+        result.checked[provider.name] = len(wanted) - len(unverified)
 
         for album_id, (entry, record) in wanted.items():
+            if album_id in unverified:
+                # Lookup failed: we know nothing about this album, and
+                # guessing "gone" here would turn an outage into a mass
+                # deletion report.
+                continue
             hit = live.get(album_id)
             finding = classify_album_drift(
                 album_id=album_id,

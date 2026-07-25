@@ -11,6 +11,8 @@ meaningful answer: it means the album is gone.
 
 from __future__ import annotations
 
+import requests
+
 from lauschi_catalog.providers.apple_music import AppleMusicProvider
 from lauschi_catalog.providers.spotify import SpotifyProvider
 
@@ -55,10 +57,11 @@ def test_spotify_chunks_at_twenty():
             ]
         }
     )
-    albums = provider.albums_by_ids([f"id{n}" for n in range(45)])
+    batch = provider.albums_by_ids([f"id{n}" for n in range(45)])
     assert [len(c) for c in recorder.calls] == [20, 20, 5]
-    assert len(albums) == 45
-    assert albums[0].provider == "spotify"
+    assert len(batch.albums) == 45
+    assert batch.unverified == []
+    assert batch.albums[0].provider == "spotify"
 
 
 def test_spotify_drops_missing_albums():
@@ -71,8 +74,9 @@ def test_spotify_drops_missing_albums():
             ]
         }
     )
-    albums = provider.albums_by_ids(["alive", "gone"])
-    assert [a.id for a in albums] == ["alive"]
+    batch = provider.albums_by_ids(["alive", "gone"])
+    assert [a.id for a in batch.albums] == ["alive"]
+    assert batch.unverified == []
 
 
 def test_apple_music_chunks_at_hundred():
@@ -84,10 +88,10 @@ def test_apple_music_chunks_at_hundred():
             ]
         }
     )
-    albums = provider.albums_by_ids([f"id{n}" for n in range(250)])
+    batch = provider.albums_by_ids([f"id{n}" for n in range(250)])
     assert [len(c) for c in recorder.calls] == [100, 100, 50]
-    assert len(albums) == 250
-    assert albums[0].provider == "apple_music"
+    assert len(batch.albums) == 250
+    assert batch.albums[0].provider == "apple_music"
 
 
 def test_apple_music_omits_missing_albums():
@@ -101,11 +105,51 @@ def test_apple_music_omits_missing_albums():
             ]
         }
     )
-    albums = provider.albums_by_ids(["alive", "gone"])
-    assert [a.id for a in albums] == ["alive"]
+    batch = provider.albums_by_ids(["alive", "gone"])
+    assert [a.id for a in batch.albums] == ["alive"]
+    assert batch.unverified == []
 
 
 def test_empty_input_makes_no_requests():
     provider, recorder = _spotify_with(lambda ids: {"albums": []})
-    assert provider.albums_by_ids([]) == []
+    batch = provider.albums_by_ids([])
+    assert batch.albums == [] and batch.unverified == []
     assert recorder.calls == []
+
+
+# ── resilience: a failing chunk must not cost the whole batch ─────────────
+
+
+def _boom(*_a, **_k):
+    raise requests.HTTPError("504 Server Error: Gateway Time-out")
+
+
+def test_failing_chunk_is_split_so_good_ids_survive():
+    """Apple Music 504s on large batches under load (observed on a live
+    100-id sweep). Only the genuinely unreachable ID should be lost."""
+    bad = "id7"
+
+    def responder(ids):
+        if bad in ids and len(ids) > 1:
+            raise requests.HTTPError("504 Server Error: Gateway Time-out")
+        if ids == [bad]:
+            raise requests.HTTPError("504 Server Error: Gateway Time-out")
+        return {
+            "data": [
+                {"id": i, "attributes": {"name": i, "releaseDate": "2020"}} for i in ids
+            ]
+        }
+
+    provider, _ = _apple_with(responder)
+    batch = provider.albums_by_ids([f"id{n}" for n in range(10)])
+    assert batch.unverified == [bad]
+    assert len(batch.albums) == 9
+    assert bad not in {a.id for a in batch.albums}
+
+
+def test_total_outage_marks_everything_unverified_not_missing():
+    """The safety property: an outage must never look like deletion."""
+    provider, _ = _spotify_with(_boom)
+    batch = provider.albums_by_ids(["a", "b", "c"])
+    assert batch.albums == []
+    assert sorted(batch.unverified) == ["a", "b", "c"]

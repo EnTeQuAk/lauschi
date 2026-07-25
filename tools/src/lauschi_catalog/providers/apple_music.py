@@ -10,7 +10,13 @@ import requests
 
 from lauschi_catalog.catalog.paths import cache_dir, repo_root
 from lauschi_catalog.providers._retry import parse_retry_after
-from lauschi_catalog.providers.base import Album, Artist, CatalogProvider, Track
+from lauschi_catalog.providers.base import (
+    Album,
+    AlbumBatch,
+    Artist,
+    CatalogProvider,
+    Track,
+)
 
 CACHE_DIR = cache_dir("apple_music")
 KEY_PATH = repo_root() / "android" / "app" / "AuthKey_PWHK2R76T9.p8"
@@ -95,6 +101,12 @@ class AppleMusicProvider(CatalogProvider):
             if r.status_code == 401:
                 self._token = self._generate_token()
                 self._token_time = time.time()
+                continue
+            # Apple Music times out on large batches under load (504 seen
+            # on a 100-id album batch). Transient, so back off and retry
+            # rather than failing a whole sweep.
+            if r.status_code >= 500 and attempt < 2:
+                time.sleep(2 * 2**attempt)
                 continue
             r.raise_for_status()
             return r.json()
@@ -266,25 +278,34 @@ class AppleMusicProvider(CatalogProvider):
             ],
         )
 
-    def albums_by_ids(self, album_ids: list[str]) -> list[Album]:
+    def albums_by_ids(self, album_ids: list[str]) -> AlbumBatch:
         """Batch album lookup, 100 per request (300 is rejected).
 
-        IDs Apple Music no longer knows are omitted from the response, so
-        an absent ID means the album is gone.
+        Apple Music returns 504 on large batches under load. A chunk that
+        keeps failing is split and retried, and IDs that still fail land
+        in [AlbumBatch.unverified] instead of looking deleted.
         """
         self._ensure_token()
-        out: list[Album] = []
-        for i in range(0, len(album_ids), 100):
-            chunk = album_ids[i : i + 100]
+        batch = AlbumBatch()
 
-            def fetch(chunk: list[str] = chunk):
-                time.sleep(0.1)
-                return self._get("albums", ids=",".join(chunk))
+        def fetch_chunk(chunk: list[str]) -> None:
+            try:
+                def fetch():
+                    time.sleep(0.1)
+                    return self._get("albums", ids=",".join(chunk))
 
-            data = self._cached(f"am_albums_batch:{','.join(chunk)}", fetch)
+                data = self._cached(f"am_albums_batch:{','.join(chunk)}", fetch)
+            except (requests.HTTPError, requests.ConnectionError, requests.Timeout):
+                if len(chunk) == 1:
+                    batch.unverified.extend(chunk)
+                    return
+                mid = len(chunk) // 2
+                fetch_chunk(chunk[:mid])
+                fetch_chunk(chunk[mid:])
+                return
             for raw in (data or {}).get("data") or []:
                 attrs = raw.get("attributes") or {}
-                out.append(
+                batch.albums.append(
                     Album(
                         id=raw["id"],
                         name=attrs.get("name", ""),
@@ -295,7 +316,10 @@ class AppleMusicProvider(CatalogProvider):
                         image_url=_pick_artwork(attrs),
                     )
                 )
-        return out
+
+        for i in range(0, len(album_ids), 100):
+            fetch_chunk(album_ids[i : i + 100])
+        return batch
 
     def search_albums(self, query: str, limit: int = 10) -> list[Album]:
         def fetch():

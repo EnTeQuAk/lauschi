@@ -11,7 +11,13 @@ import requests
 
 from lauschi_catalog.catalog.paths import cache_dir
 from lauschi_catalog.providers._retry import parse_retry_after
-from lauschi_catalog.providers.base import Album, Artist, CatalogProvider, Track
+from lauschi_catalog.providers.base import (
+    Album,
+    AlbumBatch,
+    Artist,
+    CatalogProvider,
+    Track,
+)
 
 CACHE_DIR = cache_dir("spotify")
 DEFAULT_TTL = 7 * 24 * 3600  # 7 days
@@ -132,6 +138,11 @@ class SpotifyProvider(CatalogProvider):
                 # Token expired mid-request. Refresh and retry.
                 self._token = self._fetch_token()
                 self._token_time = time.time()
+                continue
+            # Transient upstream failures (502/503/504) shouldn't kill a
+            # long sweep; the token path already backs off this way.
+            if 500 <= r.status_code < 600 and attempt < 2:
+                time.sleep(2 * 2**attempt)
                 continue
             r.raise_for_status()
             return r.json()
@@ -264,25 +275,34 @@ class SpotifyProvider(CatalogProvider):
             ],
         )
 
-    def albums_by_ids(self, album_ids: list[str]) -> list[Album]:
+    def albums_by_ids(self, album_ids: list[str]) -> AlbumBatch:
         """Batch album lookup, 20 per request (the API maximum).
 
-        Missing IDs come back as nulls and are dropped, so the caller can
-        treat an absent ID as "no longer on the provider".
+        A chunk that keeps failing is split and retried, so one bad batch
+        costs a few IDs instead of twenty. IDs that still fail land in
+        [AlbumBatch.unverified] rather than being reported as missing.
         """
-        out: list[Album] = []
-        for i in range(0, len(album_ids), 20):
-            chunk = album_ids[i : i + 20]
+        batch = AlbumBatch()
 
-            def fetch(chunk: list[str] = chunk):
-                time.sleep(0.05)
-                return self._get("albums", ids=",".join(chunk), market="DE")
+        def fetch_chunk(chunk: list[str]) -> None:
+            try:
+                def fetch():
+                    time.sleep(0.05)
+                    return self._get("albums", ids=",".join(chunk), market="DE")
 
-            data = self._cached(f"albums_batch:{','.join(chunk)}", fetch)
+                data = self._cached(f"albums_batch:{','.join(chunk)}", fetch)
+            except (requests.HTTPError, requests.ConnectionError, requests.Timeout):
+                if len(chunk) == 1:
+                    batch.unverified.extend(chunk)
+                    return
+                mid = len(chunk) // 2
+                fetch_chunk(chunk[:mid])
+                fetch_chunk(chunk[mid:])
+                return
             for raw in (data or {}).get("albums") or []:
                 if not raw:
                     continue
-                out.append(
+                batch.albums.append(
                     Album(
                         id=raw["id"],
                         name=raw["name"],
@@ -294,7 +314,10 @@ class SpotifyProvider(CatalogProvider):
                         image_url=_pick_image(raw.get("images", [])),
                     )
                 )
-        return out
+
+        for i in range(0, len(album_ids), 20):
+            fetch_chunk(album_ids[i : i + 20])
+        return batch
 
     def search_albums(self, query: str, limit: int = 10) -> list[Album]:
         def fetch():

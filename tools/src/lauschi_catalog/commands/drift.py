@@ -119,6 +119,11 @@ def drift(
     else:
         summary = ", ".join(f"{n} {name}" for name, n in result.counts.items())
         console.print(f"\n[bold]{checked} albums checked:[/bold] {summary}")
+    if result.unverified:
+        console.print(
+            f"[yellow]{len(result.unverified)} albums could not be reached "
+            f"and were skipped (not treated as missing)[/yellow]"
+        )
     if result.unresolved_series:
         console.print(
             f"[yellow]{len(result.unresolved_series)} series had albums in "
@@ -145,6 +150,7 @@ def drift(
                     "checked": result.checked,
                     "counts": result.counts,
                     "unresolved_series": result.unresolved_series,
+                    "unverified": result.unverified,
                     "findings": [
                         {
                             "series_id": f.series_id,
