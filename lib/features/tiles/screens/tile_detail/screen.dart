@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/connectivity/connectivity_provider.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
+import 'package:lauschi/core/database/next_unheard.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
@@ -404,25 +405,17 @@ final tileNextUnheardProvider = Provider.family<db.TileItem?, String>((
   tileId,
 ) {
   final episodes = ref.watch(tileItemsProvider(tileId)).value ?? [];
-
-  bool available(db.TileItem ep) => !ep.isHeard && !isItemExpired(ep);
-
-  // Priority 1: in-progress episode (CD model, at most one per tile).
-  for (final ep in episodes) {
-    if (available(ep) && ep.lastPositionMs > 0) return ep;
-  }
-
-  // Priority 2: first unheard after the last heard.
-  final lastHeardIndex = episodes.lastIndexWhere((ep) => ep.isHeard);
-  if (lastHeardIndex >= 0) {
-    for (var i = lastHeardIndex + 1; i < episodes.length; i++) {
-      if (available(episodes[i])) return episodes[i];
-    }
-  }
-
-  // Priority 3: first unheard overall.
-  for (final ep in episodes) {
-    if (available(ep)) return ep;
-  }
-  return null;
+  return nextUnheardFor(episodes);
 });
+
+/// The "Weiter" target for an ordered episode list.
+///
+/// Exposed separately from the provider so the selection rules can be
+/// tested with an injected clock.
+db.TileItem? nextUnheardFor(List<db.TileItem> episodes, {DateTime? now}) {
+  return pickNextUnheard(
+    episodes,
+    isAvailable: (ep) => !ep.isHeard && !isItemExpired(ep),
+    now: now,
+  );
+}

@@ -7,6 +7,7 @@ db.TileItem _episode({
   required String id,
   bool isHeard = false,
   int lastPositionMs = 0,
+  DateTime? lastPlayedAt,
   int? sortOrder,
   int? episodeNumber,
   DateTime? markedUnavailable,
@@ -26,12 +27,16 @@ db.TileItem _episode({
     durationMs: 600000,
     lastTrackNumber: 0,
     lastPositionMs: lastPositionMs,
+    lastPlayedAt: lastPlayedAt,
     markedUnavailable: markedUnavailable,
   );
 }
 
 void main() {
-  db.TileItem? readNextUnheard(List<db.TileItem> episodes) {
+  db.TileItem? readNextUnheard(List<db.TileItem> episodes, {DateTime? now}) {
+    // Time-dependent cases go through the same function the provider calls,
+    // with an injected clock; the rest exercise the provider wiring.
+    if (now != null) return nextUnheardFor(episodes, now: now);
     final container = ProviderContainer(
       overrides: [
         tileItemsProvider('tile-1').overrideWithValue(
@@ -75,8 +80,10 @@ void main() {
   });
 
   test('falls back to first unheard when no episodes are heard', () {
+    // sortOrder on every item: cardOrder would park an item with neither
+    // sortOrder nor episodeNumber last, so it cannot lead the list.
     final result = readNextUnheard([
-      _episode(id: 'ep-1'),
+      _episode(id: 'ep-1', sortOrder: 0),
       _episode(id: 'ep-2', sortOrder: 1),
       _episode(id: 'ep-3', sortOrder: 2),
     ]);
@@ -87,7 +94,7 @@ void main() {
     // User heard ep-3 and ep-4, but ep-1 and ep-2 remain unheard.
     // Nothing unheard after ep-4, so fall back to first unheard overall.
     final result = readNextUnheard([
-      _episode(id: 'ep-1'),
+      _episode(id: 'ep-1', sortOrder: 0),
       _episode(id: 'ep-2', sortOrder: 1),
       _episode(id: 'ep-3', sortOrder: 2, isHeard: true),
       _episode(id: 'ep-4', sortOrder: 3, isHeard: true),
@@ -218,11 +225,24 @@ void main() {
     expect(result?.id, 'ep-1');
   });
 
-  test('in-progress special takes priority over next numbered episode', () {
+  test('unheard numbered episode beats an in-progress bonus item', () {
+    // Reported from the field (Ninjago, 2026-07): a bonus item left
+    // mid-play held the badge at the bottom of a 267-item list while
+    // Folge 28 sat unheard. Bonus content has no episode number, so
+    // cardOrder parks it last — the numbered run must win.
     final result = readNextUnheard([
       _episode(id: 'ep-1', episodeNumber: 1, isHeard: true),
       _episode(id: 'ep-2', episodeNumber: 2),
       _episode(id: 'special-a', lastPositionMs: 3000),
+    ]);
+    expect(result?.id, 'ep-2');
+  });
+
+  test('in-progress bonus item resumes once the numbered run is done', () {
+    final result = readNextUnheard([
+      _episode(id: 'ep-1', episodeNumber: 1, isHeard: true),
+      _episode(id: 'special-a', lastPositionMs: 3000),
+      _episode(id: 'special-b'),
     ]);
     expect(result?.id, 'special-a');
   });
@@ -261,5 +281,62 @@ void main() {
       _episode(id: 'ep-3', episodeNumber: 3),
     ]);
     expect(result?.id, 'ep-3');
+  });
+
+  // ── Stale in-progress (field report, Ninjago 2026-07) ──────────────────
+
+  test('recent in-progress episode still wins over the frontier', () {
+    final now = DateTime(2026, 7, 24, 12);
+    final result = readNextUnheard(
+      [
+        _episode(
+          id: 'ep-1',
+          episodeNumber: 1,
+          lastPositionMs: 120000,
+          lastPlayedAt: now.subtract(const Duration(hours: 2)),
+        ),
+        _episode(id: 'ep-2', episodeNumber: 2, isHeard: true),
+        _episode(id: 'ep-3', episodeNumber: 3),
+      ],
+      now: now,
+    );
+    expect(result?.id, 'ep-1');
+  });
+
+  test('stale in-progress episode no longer pins the badge', () {
+    // Same list, but the saved position is three days old: the badge
+    // goes back to following the series instead of resuming.
+    final now = DateTime(2026, 7, 24, 12);
+    final result = readNextUnheard(
+      [
+        _episode(
+          id: 'ep-1',
+          episodeNumber: 1,
+          lastPositionMs: 120000,
+          lastPlayedAt: now.subtract(const Duration(days: 3)),
+        ),
+        _episode(id: 'ep-2', episodeNumber: 2, isHeard: true),
+        _episode(id: 'ep-3', episodeNumber: 3),
+      ],
+      now: now,
+    );
+    expect(result?.id, 'ep-3');
+  });
+
+  test('position without a timestamp keeps resuming (legacy rows)', () {
+    final result = readNextUnheard([
+      _episode(id: 'ep-1', episodeNumber: 1, lastPositionMs: 120000),
+      _episode(id: 'ep-2', episodeNumber: 2, isHeard: true),
+      _episode(id: 'ep-3', episodeNumber: 3),
+    ]);
+    expect(result?.id, 'ep-1');
+  });
+
+  test('bonus-only tile still resolves (music tiles have no numbers)', () {
+    final result = readNextUnheard([
+      _episode(id: 'track-a', isHeard: true),
+      _episode(id: 'track-b'),
+    ]);
+    expect(result?.id, 'track-b');
   });
 }

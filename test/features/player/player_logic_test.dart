@@ -8,6 +8,41 @@ import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 
 void main() {
+  group('shouldSavePositionInSession', () {
+    // Field report (2026-07): three seconds after an album completed and
+    // the tile was cleared, Spotify's trailing paused-state event wrote a
+    // 1823ms position back onto the finished episode.
+    test('suppresses saves once completion was handled', () {
+      expect(
+        shouldSavePositionInSession(
+          playTimeMs: 600000,
+          completionHandled: true,
+        ),
+        isFalse,
+      );
+    });
+
+    test('saves normally while the session is still running', () {
+      expect(
+        shouldSavePositionInSession(
+          playTimeMs: 600000,
+          completionHandled: false,
+        ),
+        isTrue,
+      );
+    });
+
+    test('still respects the minimum play time', () {
+      expect(
+        shouldSavePositionInSession(
+          playTimeMs: 5000,
+          completionHandled: false,
+        ),
+        isFalse,
+      );
+    });
+  });
+
   group('shouldSavePosition', () {
     // The default minimum is 20000ms (20 seconds). Tests below
     // exercise the boundary cases. Don't change `19999` to a

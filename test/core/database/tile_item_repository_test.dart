@@ -738,10 +738,14 @@ void main() {
       expect(next?.id, special);
     });
 
-    test('in-progress special takes priority', () async {
+    test('unheard numbered episode beats an in-progress special', () async {
+      // Field report (Ninjago, 2026-07): a bonus item left mid-play held
+      // the target at the bottom of the list while Folge 28 sat unheard.
+      // Must match the badge (tileNextUnheardProvider) — an NFC tag and
+      // the Weiter badge may never disagree.
       await addEpisode('ep1', episodeNumber: 1, isHeard: true);
-      await addEpisode('ep2', episodeNumber: 2);
-      final special = await addEpisode(
+      final ep2 = await addEpisode('ep2', episodeNumber: 2);
+      await addEpisode(
         'special',
         // Explicit null: this is a special with no episode number.
         // ignore: avoid_redundant_argument_values
@@ -750,8 +754,25 @@ void main() {
       );
 
       final next = await tiles.nextUnheard(tileId);
-      expect(next?.id, special);
+      expect(next?.id, ep2);
     });
+
+    test(
+      'in-progress special resumes once numbered episodes are done',
+      () async {
+        await addEpisode('ep1', episodeNumber: 1, isHeard: true);
+        final special = await addEpisode(
+          'special',
+          // Explicit null: this is a special with no episode number.
+          // ignore: avoid_redundant_argument_values
+          episodeNumber: null,
+          lastPositionMs: 5000,
+        );
+
+        final next = await tiles.nextUnheard(tileId);
+        expect(next?.id, special);
+      },
+    );
 
     test('manual sortOrder overrides episodeNumber', () async {
       await addEpisode('ep1', episodeNumber: 1, sortOrder: 0, isHeard: true);

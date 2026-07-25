@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/database/app_database.dart';
+import 'package:lauschi/core/database/next_unheard.dart';
 import 'package:lauschi/core/database/tables.dart' show cardOrder;
 import 'package:lauschi/core/log.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -573,26 +574,10 @@ class TileRepository {
               ..orderBy(cardOrder()))
             .get();
 
-    bool available(TileItem ep) => !ep.isHeard && ep.markedUnavailable == null;
-
-    // Priority 1: in-progress episode.
-    for (final ep in episodes) {
-      if (available(ep) && ep.lastPositionMs > 0) return ep;
-    }
-
-    // Priority 2: first unheard after the last heard.
-    final lastHeardIndex = episodes.lastIndexWhere((ep) => ep.isHeard);
-    if (lastHeardIndex >= 0) {
-      for (var i = lastHeardIndex + 1; i < episodes.length; i++) {
-        if (available(episodes[i])) return episodes[i];
-      }
-    }
-
-    // Priority 3: first unheard overall.
-    for (final ep in episodes) {
-      if (available(ep)) return ep;
-    }
-    return null;
+    return pickNextUnheard(
+      episodes,
+      isAvailable: (ep) => !ep.isHeard && ep.markedUnavailable == null,
+    );
   }
 }
 

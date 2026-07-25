@@ -905,7 +905,10 @@ class PlayerNotifier extends _$PlayerNotifier {
       final track = state.track;
       final posMs = _active?.backend.currentPositionMs ?? newState.positionMs;
 
-      if (shouldSavePosition(playTimeMs: _playTimeMs) &&
+      if (shouldSavePositionInSession(
+            playTimeMs: _playTimeMs,
+            completionHandled: _completionHandledForSession,
+          ) &&
           cardId != null &&
           track != null) {
         unawaited(_savePosition(cardId, track, posMs));
@@ -1013,7 +1016,10 @@ class PlayerNotifier extends _$PlayerNotifier {
           unawaited(_onAlbumCompleted(cardId, state.activeGroupId));
         }
 
-        if (shouldSavePosition(playTimeMs: _playTimeMs) &&
+        if (shouldSavePositionInSession(
+              playTimeMs: _playTimeMs,
+              completionHandled: _completionHandledForSession,
+            ) &&
             cardId != null &&
             track != null) {
           unawaited(_savePosition(cardId, track, posMs));
@@ -1089,6 +1095,21 @@ bool shouldSavePosition({
   required int playTimeMs,
   int minPlayTimeMs = 20000,
 }) => playTimeMs >= minPlayTimeMs;
+
+/// Whether a position save is still meaningful for this listening session.
+///
+/// Once the album has completed, the backend keeps emitting state — Spotify
+/// reports a near-zero position after it stops — and those late writes land
+/// after `handleAlbumCompleted` cleared the tile, leaving a finished episode
+/// with a bogus "resume here" marker (seen in the field: a completed episode
+/// left at 1823ms three seconds after being marked heard).
+bool shouldSavePositionInSession({
+  required int playTimeMs,
+  required bool completionHandled,
+  int minPlayTimeMs = 20000,
+}) =>
+    !completionHandled &&
+    shouldSavePosition(playTimeMs: playTimeMs, minPlayTimeMs: minPlayTimeMs);
 
 /// Estimate current playback position by interpolating from a known
 /// anchor point. Backends that only report position on discrete events
