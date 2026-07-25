@@ -90,6 +90,22 @@ def validate_l1(entries: list[CatalogEntry]) -> list[str]:
                     re.compile(p)
                 except re.error as err:
                     issues.append(f"{e.id}: bad pattern {p!r}: {err}")
+
+    # Cross-series album uniqueness. The app indexes albums by
+    # provider:albumId and lets the last series in file order win
+    # (CatalogService._buildAlbumIndex), so a duplicated album is
+    # attributed arbitrarily and appears under two tiles in browse.
+    owners: dict[tuple[str, str], list[str]] = {}
+    for e in entries:
+        for provider, cfg in e.providers.items():
+            for album_id in cfg.album_ids:
+                owners.setdefault((provider, album_id), []).append(e.id)
+    for (provider, album_id), series_ids in sorted(owners.items()):
+        if len(series_ids) > 1:
+            issues.append(
+                f"Album {provider}:{album_id} ships in "
+                f"{len(series_ids)} series: {', '.join(sorted(series_ids))}"
+            )
     return issues
 
 

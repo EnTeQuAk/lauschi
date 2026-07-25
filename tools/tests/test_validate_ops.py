@@ -9,7 +9,7 @@ fall back to a direct album lookup before declaring an ID gone.
 from __future__ import annotations
 
 from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
-from lauschi_catalog.catalog.validate_ops import validate_l5
+from lauschi_catalog.catalog.validate_ops import validate_l1, validate_l5
 from lauschi_catalog.providers import Album
 
 
@@ -90,3 +90,51 @@ def test_no_pattern_no_albums_returns_empty():
     result = validate_l5(_entry(["a1"], []), provider)
     assert result.total == 0
     assert result.album_check is False
+
+
+# ── L1: cross-series album uniqueness ─────────────────────────────────────
+
+
+def _entry_with(sid: str, album_ids: list[str], provider: str = "apple_music") -> CatalogEntry:
+    return CatalogEntry(
+        id=sid,
+        title=sid,
+        providers={provider: ProviderConfig(album_ids=album_ids, has_albums=True)},
+    )
+
+
+def test_l1_flags_album_shipping_under_two_series():
+    """CatalogService._buildAlbumIndex keys by provider:albumId and lets
+    the last series win, so a duplicated album is attributed arbitrarily
+    and shows up under two tiles. This regressed 80 -> 269 albums during
+    the July 2026 splits before it was caught."""
+    issues = validate_l1([
+        _entry_with("lego_city_klassik", ["111", "222"]),
+        _entry_with("lego_city_tv_serie", ["222"]),
+    ])
+    assert len(issues) == 1
+    assert "222" in issues[0]
+    assert "lego_city_klassik" in issues[0]
+    assert "lego_city_tv_serie" in issues[0]
+
+
+def test_l1_allows_same_album_id_across_providers():
+    """Album IDs are provider-scoped; an identical string under two
+    different providers is not a collision."""
+    entry = CatalogEntry(
+        id="s1",
+        title="S1",
+        providers={
+            "spotify": ProviderConfig(album_ids=["dup"], has_albums=True),
+            "apple_music": ProviderConfig(album_ids=["dup"], has_albums=True),
+        },
+    )
+    assert validate_l1([entry]) == []
+
+
+def test_l1_clean_catalog_has_no_duplicate_issues():
+    issues = validate_l1([
+        _entry_with("a", ["1", "2"]),
+        _entry_with("b", ["3"]),
+    ])
+    assert issues == []

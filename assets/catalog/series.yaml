@@ -2005,14 +2005,6 @@ series:
         title: Adventskalender - 24 Tage im Weihnachtszirkus
       - id: 5ZcAMixtzUYEBZNVSrixNE
         title: Adventskalender - 24 Tage Chaos im Zoo
-      - id: 5MXAyx7ZeQGGbHdR1HEbtU
-        title: Adventskalender - 24 Tage eingeschneit
-      - id: 5o3ryPeYmpRkmgEv4hnDmJ
-        title: Adventskalender - 24 Tage Weihnachtsspuk
-      - id: 4KFElrzg5yWmppwtZ84UzG
-        title: Adventskalender - 24 Tage Elfen-Alarm
-      - id: 2Xn2j4vYeYALVmoDj6NT5D
-        title: Adventskalender - 24 Tage Weihnachtsparade
     apple_music:
       artist_ids:
       - '305761269'
@@ -3089,7 +3081,7 @@ series:
       - id: '1143588447'
         episode: 58
         title: 'Folge 58: und das Dino-Ei'
-      - id: '1143597516'
+      - id: '1143598828'
         episode: 59
         title: 'Folge 59: und Dino'
       - id: '1143589742'
@@ -3098,7 +3090,7 @@ series:
       - id: '1143597516'
         episode: 61
         title: 'Folge 61: Der Flaschengeist'
-      - id: '1143598828'
+      - id: '1143598388'
         episode: 63
         title: 'Folge 63: Die Wahrsagerin'
       - id: '1143566236'
@@ -3110,13 +3102,13 @@ series:
       - id: '1143577553'
         episode: 66
         title: 'Folge 66: Das verhexte Osterei'
-      - id: '1143598388'
+      - id: '1143599151'
         episode: 67
         title: 'Folge 67: Der weiße Kakadu'
       - id: '1143588962'
         episode: 68
         title: 'Folge 68: und die Piraten'
-      - id: '1143599151'
+      - id: '1143575835'
         episode: 69
         title: 'Folge 69: Verhexte Weihnachten'
       - id: '1143598061'
@@ -3489,49 +3481,6 @@ series:
       audited_at: '2026-06-19T03:50:21.835844+00:00'
       number: 165
       reason: Episode 165 (Die doppelte Klassenfahrt) only exists on Apple Music; Spotify has no matching entry. Cross-provider gap, not a missing episode in the canon.
-    sub_series:
-    - curated_by: minimax-m2.7
-      curated_at: '2026-05-28T18:47:07.663948+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-28T18:47:07.663948+00:00'
-      label: adventskalender
-      album_ids: []
-      reason: Adventskalender-Hörspiele with 24 daily chapters; not numbered main-series episodes. Include for completeness but clearly distinct.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-05-28T18:47:07.663948+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-28T18:47:07.663948+00:00'
-      label: bibi_erzaehlt
-      album_ids: []
-      reason: Kurzhörspiele collection under 'Bibi erzählt' label; spin-off sub-series with multiple short stories, not mainline numbered episodes.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-05-28T18:47:07.663948+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-28T18:47:07.663948+00:00'
-      label: halloween_special
-      album_ids: []
-      reason: Seasonal Halloween-themed Hörspiel product; not a numbered main episode.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-05-28T18:47:07.663948+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-28T18:47:07.663948+00:00'
-      label: kampf_um_kartoffelbrei
-      album_ids: []
-      reason: Multi-part serialized special with its own narrative arc (11 parts); standalone story outside the main episode series. Correctly identified as a special sub-series.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-05-28T18:47:07.663948+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-28T18:47:07.663948+00:00'
-      label: kinofilm
-      album_ids: []
-      reason: Original-Hörspiele adapted from the theatrical films (Folge 164 tie-in movie, 2nd movie 'Das Geheimnis der blauen Eulen'); not part of the numbered main-series.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-05-28T18:47:07.663948+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-28T18:47:07.663948+00:00'
-      label: kurzgeschichte
-      album_ids: []
-      reason: Individual short stories released as 3-track Singles on Spotify; no episode numbers, not part of the main series pattern.
 - id: die_drei_ausrufezeichen
   title: Die drei !!!
   providers:
@@ -4170,28 +4119,6 @@ series:
       curated_at: '2026-07-24T12:43:56.320472+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-24T12:43:56.320472+00:00'
-    sub_series:
-    - label: adventskalender
-      album_ids:
-      - '1165473629'
-      - '1295014226'
-      - '1295114870'
-      - '1477951025'
-      - '1588738563'
-      - '1682060874'
-      - '1752715756'
-      - '1773744482'
-      - '1844567466'
-      - 2S6DeiIPdkQPIQi5JQRqtD
-      - 3trwiTOpImrBHlfRFL2jqB
-      - 5337c71ghTYTKz3sJBYeAK
-      - 6sY5T9eROTkGXkprYS1JIc
-      - 7rOiqNA8gO1qWLEUTvXAun
-      reason: Annual Advent calendar format with 24 daily December stories, distinct from the numbered episode sequence. Spotify versions excluded to match Apple Music cross-provider consistency.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-05T07:56:41.464510+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-05T07:56:41.464510+00:00'
 - id: paw_patrol
   title: PAW Patrol
   providers:
@@ -7963,34 +7890,6 @@ series:
       audited_at: '2026-06-10T18:16:04.584574+00:00'
       number: 10
       reason: Episode exists in official series ('im Nebel') but missing from both streaming catalogs
-    sub_series:
-    - label: adventskalender
-      album_ids:
-      - apple_music:1594162214
-      - spotify:1MSUqIRZ02rYLly5YOsVYQ
-      reason: Seasonal Adventskalender special format (2021), not a numbered episode. Distinct product category from regular episodic releases.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-02T07:44:55.403436+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T07:44:55.403436+00:00'
-    - label: kinofilm
-      album_ids:
-      - apple_music:1237102110
-      - apple_music:1237104158
-      - apple_music:1237107921
-      - apple_music:1237110207
-      - apple_music:1349181673
-      - spotify:1hM6Tv4HKwuRnGNbtN4lLz
-      - spotify:2akmTQWswD0lQBMedOyhUU
-      - spotify:3dDoz1yLMHx0n6rllLAXeV
-      - spotify:6DKW0i593WcqpKBl0xx2Zb
-      - spotify:7GgmiV6ZH3yklTQpIrgQCC
-      reason: Kinofilm tie-in Hörspiels (2012-2018) distinct from main series episodes. Albums titled 'Das Original-Hörspiel zum Kinofilm' or 'Tal der Dinosaurier' belong to separate movie-adaptation 
-        product line.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-02T07:44:55.403436+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T07:44:55.403436+00:00'
 - id: spongebob_schwammkopf
   title: SpongeBob Schwammkopf
   providers:
@@ -9772,12 +9671,8 @@ series:
       - id: 6BP783QfdWwFSgjbC9QOyQ
         episode: 43
         title: 'Folge 43: Zwischen Wölfen und Banditen'
-      - id: 0SsYmJ9JQmizpobDaqIMyE
-        title: Adventskalender - Der widerliche Weihnachtswichtel
       - id: 2NOjKvA3XxO7J3TauLYxUK
         title: Die Fußball-Lüge
-      - id: 31YcOLMSdN0QYYeODng1R6
-        title: Adventskalender - Eine schöne Bescherung
     apple_music:
       artist_ids:
       - '1400668275'
@@ -9911,12 +9806,8 @@ series:
       - id: '1895823496'
         episode: 43
         title: 'Folge 43: Zwischen Wölfen und Banditen'
-      - id: '1685193736'
-        title: Adventskalender - Der widerliche Weihnachtswichtel
       - id: '1734654620'
         title: Die Fußball-Lüge
-      - id: '1777047904'
-        title: Adventskalender (Eine schöne Bescherung)
   episode_pattern: '^Folge (\d+):'
   series_facts:
     known_gaps:
@@ -10574,52 +10465,6 @@ series:
       number: 9
       range_end:
       reason: Apple Music does not carry episodes 9-16 (2021-2022 TV-series episodes); these episodes are only available on Spotify. Cross-provider availability gap, not a missing episode.
-    sub_series:
-    - label: findus_erklärt_die_welt
-      album_ids:
-      - apple_music:1492436426
-      - apple_music:1721273472
-      - apple_music:1735987280
-      - apple_music:1739781043
-      - apple_music:1774009601
-      - apple_music:1777073692
-      - apple_music:1829438492
-      - apple_music:1843732997
-      - spotify:0V8EmGbXyvDS3L4lDpgrqI
-      - spotify:1mfzZZXINHFfKFVNmxDORZ
-      - spotify:2JNUcqfRYRunIV0BwzaThJ
-      - spotify:2kXKwTAMGso5Hvf0l8zLlw
-      - spotify:4YRXxki5bkewmZjhFev86Y
-      - spotify:4v8HRRE9VUYJ8SfkrssuJg
-      - spotify:5SqOysEyYwB08Rfc00ctMx
-      - spotify:6BToH492F1F8ueDPpy2Pdg
-      - spotify:6Gy4WtmWnYf3IcPGRheWeB
-      - spotify:6rjEFCIx3HbZEAZwrtzejQ
-      - spotify:6zuKQptNPGsZYuPLjRpDBz
-      - spotify:7AzE84tzTbyQuiAU13sQom
-      reason: Educational spin-off 'Findus erklärt die Welt' covering science, nature and everyday topics. Distinct product line from the main narrative Hörspiele.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-05T07:57:36.653069+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-05T07:57:36.653069+00:00'
-    - label: kinofilm
-      album_ids:
-      - apple_music:1463571162
-      - apple_music:1463595135
-      - apple_music:1463595195
-      - apple_music:1463596352
-      - spotify:0IKwVZoH75CCN7opPEChDL
-      - spotify:0VzP09hIIf9hXOLxW5gNkQ
-      - spotify:0tyZwkknvmSxHkCThlrsHj
-      - spotify:1v80UCutPCY7iipL2wTAQc
-      - spotify:5YhSLWGEtrOS6sYLnFEhE3
-      - spotify:5iraXLnDhlWR0ikKnJUqid
-      - spotify:7MsUEZeCBzvqmYMYh5EJtQ
-      reason: Theatrical film adaptation Hörspiele with explicit 'zum Kinofilm' / 'Filmhörspiel' branding. These are based on the movies and belong in a separate series entry.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-05T07:57:36.653069+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-05T07:57:36.653069+00:00'
 - id: die_playmos
   title: Die Playmos
   providers:
@@ -11737,26 +11582,16 @@ series:
         title: 'Folge 67: Alix Geburtstag / Ängste (Das Original-Hörspiel zur TV-Serie)'
       - id: 1pE3I6Rb3nAenCTbeDePNq
         title: Eine böse Weihnachtsüberraschung (Das Original-Hörspiel zur TV-Serie)
-      - id: 3zI973MbFwxHfS4qBofQJb
-        title: New York - United Heroez (Das Original-Hörspiel zum Film-Special)
       - id: 3mbW2WWGG1cr430vc2JApd
         title: Marinette, die Weihnachtselfe (Das Original-Hörspiel zur TV-Serie)
-      - id: 7mr3Jo35HHlJn9HSSSMzGa
-        title: Shanghai - Die Legende von Lady Dragon (Das Original-Hörspiel zum TV-Special)
       - id: 0SXKn1DvrpmJ3dSCXZ4xrN
         title: 'Miraculous: Ladybug & Cat Noir, Der Film - Das Original-Hörspiel'
       - id: 1rznWaNDsYTW4sLEVcRDKT
         title: 'Miraculous: Ladybug & Cat Noir, the Movie - Audio Play'
       - id: 5MJ9qn5btULJONQNS2c5eb
         title: 'Miraculous: Ladybug & Chat Noir, Le Film - Audio Play'
-      - id: 7otNv1uDwJIcyEx93V2Soo
-        title: 'Miraculous World - Paris: Geschichten von Shadybug und Claw Noir (Das Original-Hörspiel zum TV-Special)'
       - id: 30bSmwlSuccq89DiunaBLv
         title: Action (Das Original-Hörspiel zur TV-Serie)
-      - id: 554FFfpB5evmkMz5yaz7yH
-        title: 'Miraculous World London: Am Rande der Zeit (Das Original-Hörspiel zum TV-Special)'
-      - id: 5BjtzRlhnjwpQyke2oXeos
-        title: 'Miraculous World: Tokyo - Stellar Force (Das Original-Hörspiel zum TV-Special)'
     apple_music:
       artist_ids:
       - '1353483673'
@@ -11964,26 +11799,16 @@ series:
         title: 'Folge 67: Alix Geburtstag / Ängste (Das Original-Hörspiel zur TV-Serie)'
       - id: '1441804700'
         title: Eine böse Weihnachtsüberraschung (Das Original-Hörspiel zum TV-Special)
-      - id: '1563039584'
-        title: New York - United Heroez (Das Original-Hörspiel zum Film-Special)
       - id: '1593179961'
         title: Marinette, die Weihnachtselfe (Das Original-Hörspiel zur TV-Serie)
-      - id: '1592727556'
-        title: Shanghai - Die Legende von Lady Dragons (Das Original-Hörspiel zum TV-Special)
       - id: '1694892522'
         title: 'Miraculous: Ladybug & Cat Noir, Der Film - Das Original-Hörspiel'
       - id: '1704372607'
         title: 'Miraculous: Ladybug & Cat Noir, The Movie - Audio Play'
       - id: '1705254284'
         title: 'Miraculous: Ladybug & Chat Noir, Le Film - Audio Play'
-      - id: '1777100666'
-        title: 'Miraculous World - Paris: Geschichten von Shadybug und Claw Noir (Das Original-Hörspiel zum TV-Special)'
       - id: '1774467027'
         title: Action (Das Original-Hörspiel zur TV-Serie)
-      - id: '1810043061'
-        title: 'Miraculous World London: Am Rande der Zeit (Das Original-Hörspiel zum TV-Special)'
-      - id: '1893982949'
-        title: 'Miraculous World: Tokyo - Stellar Force (Das Original-Hörspiel zum TV-Special)'
   episode_pattern:
   - '^Folge (\d+):'
   - '^Miraculous (\d+):'
@@ -11999,30 +11824,18 @@ series:
       - id: 4CUufLD10OrD2yuk3PJkYG
         episode: 1
         title: 01/sind immer dagegen
-      - id: 4xrdTvOrQTFEGke8945KNt
-        episode: 1
-        title: 'Folge 1: Warum denn ausgerechnet Internat Lindenhof? (Neue Abenteuer)'
       - id: 3ujRGehOcxUD9j9SYCFgAj
         episode: 2
         title: 02/schmieden neue Pläne
       - id: 5cSal1otXLIaRfDpocF2RH
         episode: 3
         title: 03/in neuen Abenteuern
-      - id: 2AtMEM0eThrrAFZgsVdI2t
-        episode: 3
-        title: 'Folge 3: Ein heimlicher Gast auf Lindenhof (Neue Abenteuer)'
       - id: 3cVoL42B6Tk0XfENDvESrw
         episode: 4
         title: 04/Lustige Streiche mit Hanni und Nanni
-      - id: 6XTedYExfvjpVlgsqHg8Lh
-        episode: 4
-        title: 'Folge 4: Immer Ärger mit Elli (Neue Abenteuer)'
       - id: 4drTbbpheLCgo4D4bq6hd7
         episode: 5
         title: 05/gründen einen Klub
-      - id: 2caWpGESEVfs0hTNLHqyh3
-        episode: 5
-        title: 'Folge 5: So ein Zirkus! (Neue Abenteuer)'
       - id: 7IkoKOxdHRHdamCTmsO5rc
         episode: 6
         title: 06/im Geisterschloss
@@ -12271,21 +12084,12 @@ series:
       - id: '1012466891'
         episode: 3
         title: 'Folge 3: in neuen Abenteuern'
-      - id: '1844309469'
-        episode: 3
-        title: 'Folge 3: Ein heimlicher Gast auf Lindenhof (Neue Abenteuer)'
       - id: '1012462655'
         episode: 4
         title: 'Folge 4: Lustige Streiche mit Hanni und Nanni'
-      - id: '1858194177'
-        episode: 4
-        title: 'Folge 4: Immer Ärger mit Elli (Neue Abenteuer)'
       - id: '1012735142'
         episode: 5
         title: 'Folge 5: gründen einen Klub'
-      - id: '1869033566'
-        episode: 5
-        title: 'Folge 5: So ein Zirkus! (Neue Abenteuer)'
       - id: '1012459484'
         episode: 6
         title: 'Folge 6: im Geisterschloss'
@@ -12571,15 +12375,9 @@ series:
       - id: 4oRQ541UL1v7v1qHUFcQL9
         episode: 9
         title: 009/und das magische Schwert
-      - id: 3lDYDRvVd3Ngjr6vdPq7O7
-        episode: 9
-        title: 009/Ein zauberhafter erster Schultag (Erstlesergeschichten)
       - id: 0G3RqtyGOgxi4RV1vu8Wyc
         episode: 10
         title: 010/auf Schloss Dracula
-      - id: 1sKEP8ee2dpRZ5dGgrsGnq
-        episode: 10
-        title: 'Folge 10: Hexe Lilli und der Elfenzauber (Erstlesergeschichten)'
       - id: 6wCQWfFLjfH2Uz5BhwkM94
         episode: 11
         title: 011/auf der Jagd nach dem verlorenen Schatz
@@ -12673,15 +12471,9 @@ series:
       - id: '1356630401'
         episode: 9
         title: 'Folge 9: und das magische Schwert'
-      - id: '1543172293'
-        episode: 9
-        title: 'Folge 9: Ein zauberhafter erster Schultag (Erstlesergeschichten)'
       - id: '1356629791'
         episode: 10
         title: 010/auf Schloss Dracula
-      - id: '1584634209'
-        episode: 10
-        title: 'Folge 10: Hexe Lilli und der Elfenzauber (Erstlesergeschichten)'
       - id: '1056433966'
         episode: 11
         title: 'Folge 11: und das wilde Indianerabenteuer'
@@ -12769,18 +12561,6 @@ series:
     - number: 26
       range_end:
       reason: RETRACTED - episode 26 exists as 'Hexe Lilli und die Zaubernacht im Kindergarten' (2012), a standard double-story Hexe Lilli release format containing two stories in one album.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-02T09:35:06.380479+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T09:35:06.380479+00:00'
-    sub_series:
-    - label: Erstlesergeschichten
-      album_ids:
-      - apple_music:1465730970
-      - apple_music:1490107448
-      - spotify:1s2fFBRaLCFreCBop1ZUiQ
-      - spotify:3CiZjceqtFe8yc63b4ZmsL
-      reason: Beginner reader series with simplified text, launched 2018. Uses 'Erstlesergeschichten' branding. Episodes are numbered 7, 8 (based on publisher info) but not in album title.
       curated_by: minimax-m2.7
       curated_at: '2026-07-02T09:35:06.380479+00:00'
       audited_by: minimax-m2.7
@@ -13621,14 +13401,6 @@ series:
       curated_at: '2026-07-05T07:59:14.216304+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-05T07:59:14.216304+00:00'
-    sub_series:
-    - label: kinofilm
-      album_ids: []
-      reason: Theatrical film Hörspiele with distinct 'zum Film'/'zum Kinofilm' branding. Feature-length film adaptations that disrupt numbered episode browsing. [audited by audit-agent]
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-05T07:59:14.216304+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-05T07:59:14.216304+00:00'
 - id: shrek
   title: Shrek
   providers:
@@ -14325,27 +14097,6 @@ series:
       audited_at: '2026-06-19T04:01:54.453280+00:00'
       label: neue_geschichten
       release_date_range: 2023-2026
-    sub_series:
-    - label: Weihnachten
-      album_ids:
-      - apple_music:1685873704
-      - apple_music:1685873793
-      - apple_music:1685888292
-      - apple_music:1685888452
-      - apple_music:1685914278
-      - apple_music:1686156110
-      - spotify:0t5XbGvxjnnQz1FWhFt7go
-      - spotify:1i5j40JrA7Uq3sNHgVEYQA
-      - spotify:3zWItP43T8egaHsynZBZIS
-      - spotify:5qoNwBcEil2enjbC6zG8LT
-      - spotify:6XYhYR3is3Bp6jMbdZraiC
-      - spotify:7GOZ8qDGyH9Q1KD2TxiQwP
-      reason: 'Christmas specials (2008) with independent episode numbering (01-06) that collides with main series. Contains 6 distinct holiday stories: Pumuckl und der Nikolaus, Auf heißer Spur, Das Weihnachtsgeschenk,
-        Der erste Schnee, Pumuckl und die Christbaumkugeln, Pumuckl und die Schatulle.'
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-02T08:01:06.074709+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T08:01:06.074709+00:00'
 - id: asterix
   title: Asterix
   providers:
@@ -15875,18 +15626,6 @@ series:
   - '^Teil (\d+):'
   - '^Band (\d+):'
   - '^Folge (\d+):'
-  series_facts:
-    sub_series:
-    - label: sternenschweif_sternchen
-      album_ids:
-      - 1diZg9wfrm8Y9dVVjPjpTG
-      - 4PeJ7S0Njod6b2xPg19mo7
-      - 62XN52fjzBjzYihERmePkp
-      reason: Shorter episodes (~30 min) based on the 'Bücherhelden' book series, released under the 'Sternenschweif Sternchen' label since 2025. Distinct product line from the main series.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-02T08:06:19.077957+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T08:06:19.077957+00:00'
 - id: mia_and_me
   title: Mia and Me
   providers:
@@ -16242,24 +15981,6 @@ series:
       audited_at: '2026-06-10T18:27:05.624754+00:00'
       label: continuation
       release_date_range: 2025-
-    sub_series:
-    - label: buch
-      album_ids:
-      - 0Ln0JTQdgoM3kBa6OJtUfT
-      - 0XBqorFZ6HJYjyiOdSMwb6
-      - '1560654801'
-      - '1560656738'
-      - '1564426657'
-      - '1564426659'
-      - '1564427017'
-      - 4RD9uJBrANRosSWik1wWwU
-      - 58XoNOFEGev2Fi3m4Qg7cP
-      - 6LjaO0VATb8SYtyTJF1X12
-      reason: Book tie-in Hörspiele with distinct numbering and branding (Das Original-Hörspiel zum Buch), separate from the TV series episodes.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-05T07:59:34.592984+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-05T07:59:34.592984+00:00'
 - id: lego_city
   title: LEGO City
   providers:
@@ -18509,12 +18230,6 @@ series:
       - id: 07fWpKRdBLc8WmQlAkzQDz
         episode: 57
         title: 'Folge 57: Die Wächter von Vanagrad / Der König der Drachen - Teil 1+2 (Das Original-Hörspiel zur TV-Serie)'
-      - id: 3q8UBUC6MoyH6Li4rnSAKS
-        title: Ein Geschenk von Nachtschatten (Das Original-Hörspiel zum Film-Special)
-      - id: 7BB0ldQAVRCFUKu9TtHqXm
-        title: Buch der Drachen (Das Original-Hörspiel zum Film-Special)
-      - id: 16eIcgl9Ua9OeJkHtyrYQP
-        title: Das große Drachenrennen (Das Original-Hörspiel zum Film-Special)
     apple_music:
       artist_ids:
       - '1112695110'
@@ -18633,8 +18348,6 @@ series:
       - id: '1574973154'
         episode: 57
         title: 'Folge 57: Die Wächter von Vanagrad / Der König der Drachen - Teil 1+2 (Das Original-Hörspiel zur TV-Serie)'
-      - id: '1440509406'
-        title: Ein Geschenk von Nachtschatten (Das Original-Hörspiel zum Film-Special)
   episode_pattern: '^Folge (\d+):'
   series_facts:
     known_gaps:
@@ -19543,35 +19256,6 @@ series:
       curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T08:18:13.890057+00:00'
-    sub_series:
-    - label: ERSTLESER
-      album_ids: []
-      reason: Early reader sub-series with distinct episode numbering. Excluded from main series.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-02T08:18:13.890057+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T08:18:13.890057+00:00'
-    - label: JUNIOR
-      album_ids: []
-      reason: Lowercase 'junior' brand sub-series with distinct episode numbering (Folge 1-81). Excluded from main series.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-02T08:18:13.890057+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T08:18:13.890057+00:00'
-    - label: Meine Vorlesegeschichten
-      album_ids: []
-      reason: Read-aloud stories sub-series with distinct episode numbering. Excluded from main series.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-02T08:18:13.890057+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T08:18:13.890057+00:00'
-    - label: PROFIWISSEN
-      album_ids: []
-      reason: Advanced knowledge sub-series with distinct episode numbering. Excluded from main series.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-02T08:18:13.890057+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T08:18:13.890057+00:00'
 - id: otfried_preussler
   title: Otfried Preußler
   providers:
@@ -19582,35 +19266,15 @@ series:
       - id: 2zgCdgnOoep0XYcMhk65nx
         episode: 1
         title: 'Der Räuber Hotzenplotz 1: Der Räuber Hotzenplotz'
-      - id: 60E8SCY3oG0S4ouo9zGEJf
-        episode: 1
-        title: '1: Der Räuber Hotzenplotz'
-      - id: 2psWDBpuMuQF9yIcXiqN4F
-        episode: 1
-        title: 'Der Räuber Hotzenplotz - Hörspiele 1: Der Räuber Hotzenplotz - Das Hörspiel'
       - id: 3Ik0ZUPEEaHJ7OKp78broi
         episode: 2
         title: 'Der Räuber Hotzenplotz 2: Neues vom Räuber Hotzenplotz (2. Band des Kinderbuch-Klassiker)'
-      - id: 2LaaedYUhpMjgkjU9b4EGi
-        episode: 2
-        title: '2: Neues vom Räuber Hotzenplotz'
-      - id: 5Xmy3t937WiwSBfEYK6QgZ
-        episode: 2
-        title: 'Der Räuber Hotzenplotz - Hörspiele 2: Neues vom Räuber Hotzenplotz - Das Hörspiel'
-      - id: 1HKQ4d298PtVxT0a4BQsng
-        episode: 3
-        title: '3: Der Räuber Hotzenplotz - Schluss mit der Räuberei'
-      - id: 2YOK83serJO3UNnU8bDbja
-        episode: 3
-        title: 'Der Räuber Hotzenplotz - Hörspiele 3: Schluss mit der Räuberei - Das Hörspiel'
       - id: 3nLocdKUV5ujJPoRbCj4L5
         title: Der kleine Wassermann
       - id: 56zUkcOUxRdhfg8YOTfbCb
         title: Die kleine Hexe
       - id: 6FG0NJrp5QNPRos8yMVQIq
         title: Bei uns in Schilda
-      - id: 4Q07f6FmmseMjv6bk1UDv8
-        title: Die Abenteuer des starken Wanja
       - id: 22O3YNErbMtCwNAyQJQyv0
         title: Die Kleine Hexe (Part. 1)
       - id: 6cnxciqWfKI21f6W0Q5Xou
@@ -19619,8 +19283,6 @@ series:
         title: Die Kleine Hexe (Part. 3)
       - id: 7clCZxcbo61wfg34f3HPlu
         title: Die Kleine Hexe (Part. 4)
-      - id: 1EDL1HJ6jTVDU7HV4ZomVj
-        title: Hörbe mit dem großen Hut (Kinderbuch-Klassiker als Hörspiel)
       - id: 1GMH819f7bIJApsxMJfTi9
         title: Die Abenteuer des starken Wanja
       - id: 7DUZMoN2Oxn1P5r9L3FY8D
@@ -19635,40 +19297,12 @@ series:
         title: Hörbe mit dem großen Hut
       - id: 3351m0GWawlGhlpjFW3yM6
         title: Zwölfe hat's geschlagen
-      - id: 6QY06XYTjihkPKEWCi1PjM
-        title: Das kleine Gespenst
-      - id: 2OB0I2qW3RwixCtNEPE09h
-        title: Der kleine Wassermann
-      - id: 60r4JW9AcLzEPrQIRoJ31p
-        title: Die kleine Hexe
       - id: 3vW62UcuXbB0YBjBPFgZZI
         title: Das kleine Gespenst
-      - id: 1pV9ZitMywO46h4igOPD2X
-        title: Das kleine Gespenst - Das Hörspiel
-      - id: 4emzzQdNqiGnnTdJQxQH0Z
-        title: Der kleine Wassermann - Das Hörspiel
-      - id: 7JVJLlMf9v7lFHAnesmmZ4
-        title: Die kleine Hexe (Ausflug mit Abraxas und Winterzauber mit Abraxas)
-      - id: 2ePUhKbymZCmXJ4wItsql7
-        title: Die kleine Hexe - Das Hörspiel
-      - id: 2Uecb4RSMPonBJGJGbJkLK
-        title: Der kleine Wassermann - Frühling im Mühlenweiher
-      - id: 59C2HIBgP2sVkPGj2QNoe2
-        title: Der kleine Wassermann - Herbst im Mühlenweiher
-      - id: 24UoR4DeKKYQoOyi2ezy4U
-        title: Der kleine Wassermann - Sommerfest im Mühlenweiher
-      - id: 0WKXcZesO4alcDdC8JKIKF
-        title: Das kleine Gespenst - Tohuwabohu auf Burg Eulenstein
       - id: 1JxVVfB7HVaFuwkHMIsItF
         title: Fette Beute (Wilde Geschichten von Räubern und Banditen)
-      - id: 4NaZuAgDM92V1nfjJKi0m4
-        title: 'Der Räuber Hotzenplotz - Hörspiele: Der Räuber Hotzenplotz und die Mondrakete - Das Hörspiel'
-      - id: 36CwCR1wz682jxOLSUaUwh
-        title: Der Räuber Hotzenplotz und die Mondrakete
       - id: 12nXACFkqFVOUINCtDYwO3
         title: Winterzeit, tief verschneit (Wintergeschichten von Hexe, Hörbe, Wassermann und vielen anderen Preußler-Figuren)
-      - id: 4tgA4hMn7r356EyKPKv7cr
-        title: 'Der Räuber Hotzenplotz - Hörspiele: Der Räuber Hotzenplotz. Das Originalhörspiel zum Kinofilm'
     apple_music:
       artist_ids:
       - '68437630'
@@ -19676,23 +19310,12 @@ series:
       - id: '1842150368'
         episode: 1
         title: '1: Der Räuber Hotzenplotz'
-      - id: '1582041552'
-        episode: 1
-        title: 'Der Räuber Hotzenplotz - Hörspiele 1: Der Räuber Hotzenplotz - Das Hörspiel'
       - id: '1686245883'
         episode: 2
         title: '2: Neues vom Räuber Hotzenplotz'
       - id: '1686210686'
         episode: 3
         title: '3: Der Räuber Hotzenplotz - Schluss mit der Räuberei'
-      - id: '1685880520'
-        title: Die Abenteuer des starken Wanja
-      - id: '1808930855'
-        title: Die Kleine Hexe (Part. 1)
-      - id: '1808929321'
-        title: Die Kleine Hexe (Part. 2)
-      - id: '1808930037'
-        title: Die Kleine Hexe (Part. 3)
       - id: '6782026815'
         title: Herr Klingsor konnte ein bißchen zaubern
       - id: '6782076776'
@@ -19703,32 +19326,10 @@ series:
         title: Zwölfe hat's geschlagen
       - id: '1685901386'
         title: Das kleine Gespenst
-      - id: '1611139975'
-        title: Das kleine Gespenst - Das Hörspiel
       - id: '1685935364'
         title: Der kleine Wassermann
-      - id: '1744000521'
-        title: Hörbe mit dem großen Hut (Kinderbuch-Klassiker als Hörspiel)
       - id: '1685880726'
         title: Die kleine Hexe
-      - id: '1686048211'
-        title: Der kleine Wassermann - Frühling im Mühlenweiher
-      - id: '1686040041'
-        title: Das kleine Gespenst (Tohuwabohu auf Burg Eulenstein)
-      - id: '1686157107'
-        title: Der Räuber Hotzenplotz und die Mondrakete
-      - id: '1460369563'
-        title: Das kleine Gespenst - Das Hörspiel zum Kinofilm
-      - id: '1582038611'
-        title: 'Der Räuber Hotzenplotz - Hörspiele 2: Neues vom Räuber Hotzenplotz - Das Hörspiel'
-      - id: '1582022951'
-        title: 'Der Räuber Hotzenplotz - Hörspiele 3: Schluss mit der Räuberei - Das Hörspiel'
-      - id: '1610777749'
-        title: Die kleine Hexe - Das Hörspiel
-      - id: '1646471187'
-        title: Der Räuber Hotzenplotz. Das Originalhörspiel zum Kinofilm
-      - id: '1711556948'
-        title: 'Der Räuber Hotzenplotz - Hörspiele: Der Räuber Hotzenplotz und die Mondrakete - Das Hörspiel'
   content_type: hoerspiel
   aliases:
   - Otfried Preussler
@@ -19817,8 +19418,6 @@ series:
       - id: 4MF3vRrimefhW3x9RK9I1V
         episode: 17
         title: Der Onkel aus der Südsee, Der große Streichewettbewerb, Rollentausch, Der Schatzkistentag (Der kleine Rabe Socke - Hörspiele zur TV Serie 17)
-      - id: 4sisLEShJplT9VQrRelb99
-        title: Alles Freunde! (Der kleine Rabe Socke) [Freundschaftsgeschichten vom kleinen Raben Socke]
     apple_music:
       artist_ids:
       - '726252391'
@@ -19874,8 +19473,6 @@ series:
       - id: '1582032343'
         episode: 17
         title: Der Onkel aus der Südsee, Der große Streichewettbewerb, Rollentausch, Der Schatzkistentag (Der kleine Rabe Socke - Hörspiele zur TV Serie 17)
-      - id: '1741350976'
-        title: Alles Freunde! (Der kleine Rabe Socke) (Freundschaftsgeschichten vom kleinen Raben Socke)
   episode_pattern:
   - ^.*\(Der kleine Rabe Socke - Hörspiele zur TV Serie (\d+)\)$
   - ^.*\[Hörspiele zur TV Serie (\d+)\]$
@@ -19908,17 +19505,6 @@ series:
       curated_at: '2026-07-02T08:20:57.323783+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T08:20:57.323783+00:00'
-    sub_series:
-    - label: film_sub_series
-      album_ids:
-      - spotify:2ISiO0pXLgO7uTdUnEFjMn
-      - spotify:6TDRew6FCdoLc4rmWtkSGs
-      reason: LEONINE Audio film Hörspiele from 2019. Explicit 'Hörspiel zum Film' branding, structurally distinct from TV series episodes (77-80 min, single continuous story). Belongs in a separate 
-        film sub-series entry from the main TV-series catalog.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-02T09:42:33.475225+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T09:42:33.475225+00:00'
   aliases:
   - Der Kleine Rabe Socke
 - id: madagascar
@@ -19994,19 +19580,6 @@ series:
       range_end:
       reason: Episode 1 "Post für den Tiger" appears to be mislabeled as "Folge 2" on both Spotify and Apple Music. The fan database hoerspielland.de lists it as "Folge 1". If this is correct, there's
         no actual Episode 2 in the streaming catalog - the series skips from Episode 1 directly to Episodes 3 and 4.
-    sub_series:
-    - label: kinofilm
-      album_ids:
-      - apple_music:1554100644
-      - apple_music:1561985267
-      - spotify:1NYB6fQ8okVNr3D9owIQTC
-      - spotify:7DystyZetX5Muhtvoq6ja7
-      reason: Film adaptations with explicit 'Das Original-Hörspiel zum Kinofilm' branding. These are distinct theatrical productions that would disrupt the main numbered episode sequence. Verified 
-        via track structure (Intro/Outro, Edelkids/Edel labels).
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-05T08:01:10.594368+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-05T08:01:10.594368+00:00'
 - id: spirit
   title: Spirit
   providers:
@@ -21240,28 +20813,10 @@ series:
       artist_ids:
       - 1VORulhv2aMemo1kSvxdVX
       albums:
-      - id: 3bbFly6zBqFp6Sp5jk2n1V
-        title: Jim Knopf und Lukas der Lokomotivführer
-      - id: 3MpO7ItzjK8ADRMq3q9nmt
-        title: Jim Knopf und die Wilde 13
-      - id: 4KQ7CvGTbdgwBJnxSFjLly
-        title: Momo
-      - id: 7HnjeGFb2qv3Mjg0KP5fEE
-        title: Die unendliche Geschichte - Das Hörspiel
-      - id: 4eTEB1b216vcQjXuBjA6Ph
-        title: Der satanarchäolügenialkohöllische Wunschpunsch - Das Hörspiel
-      - id: 3qWpx1DiKpZcYkedfIa4AI
-        title: Der satanarchäolügenialkohöllische Wunschpunsch - Das WDR-Hörspiel
-      - id: 4SV29ZWSvIrBkByNCZyMxP
-        title: Das Traumfresserchen
       - id: 6iqicOtTGvLXFaMzjIkaRl
         title: Das kleine Lumpenkasperle
       - id: 0P5PProFj9QrFq7A1SOiz5
         title: Die Zauberschule und andere Geschichten
-      - id: 4iyysgUrEoLyQytonklJXk
-        title: 'Jim Knopf - Hörspiele: Jim Knopf und Lukas der Lokomotivführer - Das Hörspiel'
-      - id: 5MjawExCW8GQ3V1b2mQzch
-        title: 'Jim Knopf - Hörspiele: Jim Knopf und die Wilde 13 - Das Hörspiel'
       - id: 58B517SVoupqnL3LazpOtc
         title: Filemon Faltenreich + Der Lindwurm und der Schmetterling
       - id: 7KbELvtm6SGQIzFgA3h0q2
@@ -21270,50 +20825,24 @@ series:
         title: Das Schnurpsenbuch
       - id: 2WsIzNKGcuYJxvrcgmSv2p
         title: Der Teddy und die Tiere und weitere Geschichten
-      - id: 3uEIZnPLCL7oyzAv1LDLbX
-        title: Das Traumfresserchen / Das kleine Lumpenkasperle
-      - id: 1DdJ8dfyR3tCNKFObDv1EC
-        title: Jim Knopf und Lukas auf großer Reise
       - id: 2wFuB4iNXrE6FlOkrJAHtq
         title: Lenchens Geheimnis
-      - id: 1OYQLxTOg3IhOi7gR31QHk
-        title: Jim Knopf und Lukas – Auf zu neuen Ufern
       - id: 4D3freTvvr9R3IY9ffoPJE
         title: 'Jim Knopf - Hörspiele: Jim Knopf und Lukas der Lokomotivführer - Das Hörspiel'
       - id: 1zrUuet13zT0U6zVE4DGeh
         title: 'Jim Knopf - Hörspiele: Jim Knopf und die Wilde 13 - Das Hörspiel'
-      - id: 5ZSqHZinNuGiEvhRuIpTxi
-        title: Momo - Das Hörspiel
-      - id: 2OJxlcuEHJOtEp0PAMDdeY
-        title: Momo – Das Hörspiel zum Kinofilm (Das Hörspiel zum Film)
     apple_music:
       artist_ids:
       - '1515591006'
       albums:
       - id: '1442686534'
         title: Norbert Nackendick + Tranquilla Trampeltreu
-      - id: '1587881546'
-        title: 'Jim Knopf - Hörspiele: Jim Knopf und Lukas der Lokomotivführer - Das Hörspiel'
-      - id: '1686146867'
-        title: Das Traumfresserchen
-      - id: '1574290551'
-        title: Das Traumfresserchen / Das kleine Lumpenkasperle
       - id: '1686139136'
         title: Das kleine Lumpenkasperle
-      - id: '1587875100'
-        title: 'Jim Knopf - Hörspiele: Jim Knopf und die Wilde 13 - Das Hörspiel'
-      - id: '1672014052'
-        title: 'Jim Knopf - Hörspiele: Jim Knopf und die Wilde 13 - Das Hörspiel'
       - id: '1442407804'
         title: Filemon Faltenreich + Der Lindwurm und der Schmetterling
       - id: '1574290850'
         title: Der Teddy und die Tiere und weitere Geschichten
-      - id: '1704818083'
-        title: Momo - Das Hörspiel
-      - id: '1755749074'
-        title: Der satanarchäolügenialkohöllische Wunschpunsch - Das Hörspiel
-      - id: '1837244852'
-        title: Momo – Das Hörspiel zum Kinofilm (Das Hörspiel zum Film)
   content_type: hoerspiel
   series_facts:
     era_boundaries:
@@ -22223,19 +21752,6 @@ series:
       number: 19
       range_end:
       reason: 'Production hiatus: episodes 1-18 released 1994-1996, then 11-year gap before episode 19 in 2007. Series continued with episode 19 as the next numbered episode in the sequence.'
-    sub_series:
-    - label: kinofilm
-      album_ids:
-      - 0u5YaG7xYJ0IUCJSEI3nUz
-      - '1686023135'
-      - '1686026362'
-      - 3kANNfqeu6rFkLqhvgLxvC
-      reason: "Verified: All 4 album IDs are theatrical film Hörspiele with 'Kinofilm' branding, correctly excluded as sub_series_bleed. Cross-provider pairs exist (apple_music:1686026362 ↔ spotify:3kANNfqeu6rFkLqhvgLxvC
-        for Wendy 1; apple_music:1686023135 ↔ spotify:0u5YaG7xYJ0IUCJSEI3nUz for Wendy 2). These are structurally distinct from regular numbered episodes."
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-05T08:04:22.737619+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-05T08:04:22.737619+00:00'
 - id: sternenfohlen
   title: Sternenfohlen
   providers:
@@ -23772,22 +23288,6 @@ series:
       number: 44
       range_end:
       reason: Folge 44 'Gefährlich rieselt der Schnee' exists on Spotify as an unnumbered full album (included); Apple Music has no equivalent.
-    sub_series:
-    - label: adventskalender
-      album_ids: []
-      reason: Adventskalender format with daily episodes for 'Gefährlich rieselt der Schnee'. The 24-day advent calendar is a distinct sub-series from regular numbered episodes. Full album included as
-        episode 44; daily singles excluded on both providers.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-05T08:05:56.306529+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-05T08:05:56.306529+00:00'
-    - label: soundtrack
-      album_ids: []
-      reason: Music soundtracks from the series. Instrumental background music and score tracks, different content type (music) from Hörspiel episodes.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-05T08:05:56.306529+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-05T08:05:56.306529+00:00'
 - id: mein_lotta_leben
   title: Mein Lotta-Leben
   providers:
@@ -24620,16 +24120,6 @@ series:
     - number: 37
       range_end:
       reason: Spotify has duplicate episode 37 entry (Kopfhörer-Hörspiel variant); Apple Music has duplicate episode 37 entries. One version per provider is included.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-05T08:06:15.000620+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-05T08:06:15.000620+00:00'
-    sub_series:
-    - label: kinofilm
-      album_ids:
-      - '1600283857'
-      - '1686114395'
-      reason: "Theatrical film Hörspiele with 'Hörspiel zum Kinofilm' branding; excluded from main episode sequence. Note: Spotify counterparts also now excluded for cross-provider consistency."
       curated_by: minimax-m2.7
       curated_at: '2026-07-05T08:06:15.000620+00:00'
       audited_by: minimax-m2.7
@@ -30782,24 +30272,10 @@ series:
         title: Kugelblitz in New York
       - id: 4JYlGrNG3eRBEBqT1yMPgb
         title: Kugelblitz in Paris
-      - id: 7zx28IjvxZDxkuTDx4Zpd0
-        title: Kugelblitz in Sydney
-      - id: 0Q2wkx9R5UDUweTaK4aXnb
-        title: Kugelblitz in Amsterdam
-      - id: 7zeUeWFJU9uanvpv0mfVUL
-        title: Kugelblitz in Barcelona
-      - id: 59wjR1gCmVzl44pOxhMVhM
-        title: Kugelblitz in Spanien
       - id: 07lAvUvijAgZqYuG5k9Ra0
         title: Kugelblitz als Weihnachtsmann
-      - id: 6hF9zznEzRkbHHgJO5KMPI
-        title: Kugelblitz in Hamburg
       - id: 0aXrCMRvN7F2PTJZeHaQ8i
         title: Die Nikolaus-Bande (Der Adventskalender)
-      - id: 3Ik8gPVRTcFU55PVMwu4sP
-        title: Der Fall Shanghai
-      - id: 4pbnqH5lWntFfE8EZLdubC
-        title: Schnee auf Mallorca
       - id: 5hqpaijDgptIIO2vMxG7wM
         title: Tote trinken keine Cola
       - id: 5qBAXGuN3WJ5TWe0mZ0DCK
@@ -30808,12 +30284,6 @@ series:
         title: Der Fall Wüstenkönig
       - id: 4N77PwFUHPIE6qKoZwvq1C
         title: Das Geheimnis von Spooky Hill
-      - id: 75xFoEfwSYDtjWzuViymPN
-        title: Kugelblitz in München
-      - id: 3pH7UbF2X7wEctx4rg87Ft
-        title: Kugelblitz in Venedig
-      - id: 1w11l4b6TBgDj1cx8pstmY
-        title: Auf Gaunerjagd durch Deutschland
       - id: 5e0OYpymgepB33NPactKvp
         title: Unter Hochspannung
       - id: 6jOpbkUZQp2oZ2A7l6juZF
@@ -30830,10 +30300,6 @@ series:
         title: Der Fall Rhinozeros
       - id: 5lxI2ZoC7FpkDyASfnhaU1
         title: Piraten der Wüste
-      - id: 55ITdCmKdzpL23deLCSwFB
-        title: Alarm in Windhuk
-      - id: 4ztLbXeJM2OMraKegwvdRE
-        title: in Istanbul
     apple_music:
       artist_ids:
       - '161429596'
@@ -30898,8 +30364,6 @@ series:
       - id: '1469412048'
         episode: 27
         title: 'Folge 27: Tote trinken keine Cola'
-      - id: '1469411461'
-        title: Schnee auf Mallorca
       - id: '1420125083'
         title: Kommissar Kugelblitz in Berlin
       - id: '1420127990'
@@ -31033,28 +30497,6 @@ series:
       curated_at: '2026-07-02T16:04:54.312842+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T16:04:54.312842+00:00'
-    sub_series:
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-17T09:35:08.295448+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-17T09:35:08.295448+00:00'
-      label: Original Serie
-      album_ids: []
-      reason: Original 1980s-1990s releases with 'Folge N' naming, episodes 1-17 and 27. Episodes 18-26 not digitally available.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-17T09:35:08.295448+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-17T09:35:08.295448+00:00'
-      label: Specials
-      album_ids: []
-      reason: 'Holiday and themed releases: Weihnachtsmann, Adventskalender, Shanghai, Mississippi, Wüstenkönig, Spooky Hill, etc.'
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-17T09:35:08.295448+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-17T09:35:08.295448+00:00'
-      label: Städte-Specials
-      album_ids: []
-      reason: '2017+ city-themed releases: Berlin, Wien, London, New York, Paris, Sydney, Amsterdam, Barcelona, Spanien, Hamburg, München, Venedig. No episode numbers, themed single episodes.'
   aliases:
   - Kugelblitz
 - id: liliane_susewind
@@ -34065,26 +33507,16 @@ series:
         title: Conni und der Weltkindertag / Conni in der Verkehrsschule
       - id: 0DUEOkW7SljUOcb3JFX9ce
         title: Conni und der beste Spürhund der Welt
-      - id: 5X3up0Wo8zzker74Yp8sGc
-        title: Conni im Ferienlager (Abenteuerspaß mit Conni)
-      - id: 5xvFAhcAmSz5HI0mLN5Czb
-        title: Conni und der Segelausflug (Abenteuerspaß mit Conni)
-      - id: 3L5aTC0QByzt577gJOQ2Vu
-        title: Conni und das Filmprojekt (Abenteuerspaß mit Conni)
       - id: 52uyq2UDlvzQFRKfIOW1Yg
         title: Klar kann Conni das! / Conni lernt teilen, vertrauen und sich vertragen
       - id: 4ElLuCLd9TsZBn4umPSAhh
         title: Conni und das Fußballcamp
-      - id: 4237MIZ5g9WgpccGcUZsJR
-        title: Conni und die Stecken-Ponys (Abenteuerspaß mit Conni)
       - id: 2Zjjj73OxxEl4DmzgRq11J
         title: Conni und der neue Lehrer
       - id: 2WDjf0PzITBCuoEsY2xIUC
         title: Conni sagt Stopp! / Ein Tag in der Schule
       - id: 63d6nqQwT9mdpqScsZEYSC
         title: Conni und der Pferdeflüsterhof
-      - id: 0H3sXCjdkcvfNunYzorniX
-        title: Conni im Weltall-Camp (Abenteuerspaß mit Conni)
     apple_music:
       artist_ids:
       - '14433691'
@@ -34246,26 +33678,16 @@ series:
         title: Conni und der Weltkindertag / Conni in der Verkehrsschule
       - id: '1773309595'
         title: Conni und der beste Spürhund der Welt
-      - id: '1789567580'
-        title: Conni im Ferienlager (Abenteuerspaß mit Conni)
-      - id: '1799241706'
-        title: Conni und der Segelausflug (Abenteuerspaß mit Conni)
-      - id: '1807358432'
-        title: Conni und das Filmprojekt (Abenteuerspaß mit Conni)
       - id: '1814866173'
         title: Klar kann Conni das! / Conni lernt teilen, vertrauen und sich vertragen
       - id: '1823191331'
         title: Conni und das Fußballcamp
-      - id: '1829722955'
-        title: Conni und die Stecken-Ponys (Abenteuerspaß mit Conni)
       - id: '1837171915'
         title: Conni und der neue Lehrer
       - id: '1858312751'
         title: Conni sagt Stopp! / Ein Tag in der Schule
       - id: '1877130138'
         title: Conni und der Pferdeflüsterhof
-      - id: '1885853321'
-        title: Conni im Weltall-Camp (Abenteuerspaß mit Conni)
   content_type: hoerspiel
   aliases:
   - Conni
@@ -34876,6 +34298,8 @@ series:
         title: Pippi Langstrumpf außer Rand und Band
       - id: '1847938396'
         title: Pippi Langstrumpf geht in den Zirkus und andere Abenteuer
+      - id: '1847938386'
+        title: Pippi Langstrumpf geht in die Schule und andere Abenteuer
   episode_pattern:
   - ^Pippi Langstrumpf (\d+)\.
   - ^Pippi Langstrumpfs neueste Streiche (\d+)
@@ -40996,14 +40420,6 @@ series:
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:12:36.741577+00:00'
       range_end: 15
-    sub_series:
-    - label: adventskalender_daily
-      album_ids: []
-      reason: 24 daily releases from Dec 1-24 2023, each a chapter of the story 'Gefährlich rieselt der Schnee'. Released as single tracks per day as an audio advent calendar.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-17T20:12:36.741577+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-17T20:12:36.741577+00:00'
 - id: bambi_disney_film
   title: 'Bambi: Disney Film'
   aliases: []
@@ -43227,27 +42643,6 @@ series:
       curated_at: '2026-06-17T20:52:10.647759+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:52:10.647759+00:00'
-    sub_series:
-    - label: Weihnachten
-      album_ids:
-      - 0t5XbGvxjnnQz1FWhFt7go
-      - '1685873704'
-      - '1685873793'
-      - '1685888292'
-      - '1685888452'
-      - '1685914278'
-      - '1686156110'
-      - 1i5j40JrA7Uq3sNHgVEYQA
-      - 3zWItP43T8egaHsynZBZIS
-      - 5qoNwBcEil2enjbC6zG8LT
-      - 6XYhYR3is3Bp6jMbdZraiC
-      - 7GOZ8qDGyH9Q1KD2TxiQwP
-      reason: Christmas sub-series with its own independent numbering (01-06), released together as a collection in 2008. Distinct from the main Pumuckl series numbering. TV-original productions 
-        (Karussell label).
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-24T12:47:10.301464+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-24T12:47:10.301464+00:00'
 - id: ritter_rost_kinofilm
   title: 'Ritter Rost: Kinofilm'
   aliases: []
@@ -43419,128 +42814,6 @@ series:
       curated_at: '2026-06-17T20:36:02.298014+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:36:02.298014+00:00'
-- id: astrid_lindgren_pippi_langstrumpf
-  title: Pippi Langstrumpf (Astrid Lindgren Deutsch)
-  aliases: []
-  episode_pattern:
-  content_type: hoerspiel
-  split_from: astrid_lindgren_deutsch
-  providers:
-    spotify:
-      artist_ids:
-      - 7sRF5KPi10c3pueaKGmArz
-      albums:
-      - id: 685atdItP2RRPz3mZQh2zQ
-        episode: 1
-        title: Pippi Langstrumpf 1. Das Hörspiel
-      - id: 5ygygpGYvNKTV1RR9BjETd
-        episode: 2
-        title: Pippi Langstrumpf 2. Pippi Langstrumpf geht an Bord
-      - id: 6ZKTzxPQsOqzPTp4D4qcfa
-        episode: 3
-        title: Pippi Langstrumpf 3. Pippi in Taka-Tuka-Land
-      - id: 1rrUTFdaxywT80Me8NuyMi
-        episode: 3
-        title: Pippi Langstrumpf 3. Pippi in Taka-Tuka-Land. Das Hörspiel
-      - id: 1bFjnWuG1m3RDDeiffLaHP
-        episode: 3
-        title: Pippi Langstrumpf 3. Pippi in Taka-Tuka-Land. Hörspielklassiker
-      - id: 3QsTCxfG72lKMCtIxdgSNL
-        title: Pippi Langstrumpf geht in den Zirkus und andere Abenteuer
-      - id: 2xKk1pD8sG7KCpvuoGK7mT
-        title: Pippi Langstrumpf geht in die Schule und andere Abenteuer
-      - id: 1qlwK1FCtvNcg60DKUhqM1
-        title: Pippi Langstrumpf macht einen Ausflug
-      - id: 5lCloMFtlKiiCULMM4I7tb
-        title: Pippi Langstrumpf geht einkaufen
-      - id: 31GIMLgEXtaAHpUF3ZpcJ9
-        title: Pippi Langstrumpf geht einkaufen und andere Abenteuer
-      - id: 7jUnDPc9RZS887Q7OOKYxG
-        title: Pippi Langstrumpf findet einen Spunk und andere Abenteuer
-      - id: 6bCDp732XNWBKCTQA5l15r
-        title: Pippi Langstrumpf will nicht groß werden und andere Abenteuer
-      - id: 1F9iktKsHF3zVHRFDYbuXj
-        title: Pippi Langstrumpf 1
-      - id: 2fBFXKeZqgKCy4H8VBLEWe
-        title: Pippi plündert den Weihnachtsbaum und eine weitere Geschichte
-      - id: 4VjgjeIgk71Rt8WHIShMvK
-        title: Pippi Langstrumpf. Kunterbunte Geschichten
-    apple_music:
-      artist_ids:
-      - '1703088793'
-      albums:
-      - id: '1851523250'
-        episode: 1
-        title: Pippi Langstrumpf 1. Das Hörspiel
-      - id: '1485698208'
-        episode: 3
-        title: Pippi Langstrumpf 3. Pippi in Taka-Tuka-Land Hörspielklassiker
-      - id: '1804592408'
-        episode: 3
-        title: Pippi Langstrumpf 3. Pippi in Taka-Tuka-Land
-      - id: '1657621060'
-        title: Pippi Langstrumpf findet einen Spunk und andere Abenteuer
-      - id: '1657634308'
-        title: Pippi Langstrumpf geht einkaufen und andere Abenteuer
-      - id: '1657623472'
-        title: Pippi Langstrumpf will nicht groß werden und andere Abenteuer
-      - id: '1803621165'
-        title: Pippi Langstrumpf außer Rand und Band
-      - id: '1847938396'
-        title: Pippi Langstrumpf geht in den Zirkus und andere Abenteuer
-      - id: '1847938386'
-        title: Pippi Langstrumpf geht in die Schule und andere Abenteuer
-  series_facts:
-    era_boundaries:
-    - label: klassik
-      release_date_range: 1945-1997
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-02T08:34:41.202774+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T08:34:41.202774+00:00'
-    - label: hörspielklassiker
-      release_date_range: 2006-2006
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-02T08:34:41.202774+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T08:34:41.202774+00:00'
-    - label: neuauflage
-      release_date_range: 2024-2025
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-02T08:34:41.202774+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T08:34:41.202774+00:00'
-    known_gaps:
-    - number: 2
-      range_end:
-      reason: Catalog gap - Episode 2 (Pippi Langstrumpf geht an Bord) not released on Apple Music platform. Available on Spotify only.
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-02T08:34:41.202774+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T08:34:41.202774+00:00'
-- id: astrid_lindgren_ferien_auf_saltkrokan
-  title: Ferien auf Saltkrokan (Astrid Lindgren Deutsch)
-  aliases:
-  - Ferien auf der Kräheninsel
-  episode_pattern:
-  content_type: hoerspiel
-  split_from: astrid_lindgren_deutsch
-  providers:
-    spotify:
-      artist_ids:
-      - 7sRF5KPi10c3pueaKGmArz
-      albums:
-      - id: 70GaL8TOZZyXiQzHfX2LE6
-        title: Ferien auf Saltkrokan. Als Tjorven einen Seehund bekam
-      - id: 00ew0iiHQFHE8Gs5VAhkE0
-        title: Ferien auf Saltkrokan. Ein Kaninchen für Pelle
-      - id: 7tQCdaErong5Q2slfWK9oo
-        title: Ferien auf Saltkrokan. Pelle feiert Weihnachten
-      - id: 6hjritIbcYaqyPhXJubKH1
-        title: Ferien auf Saltkrokan. Pelle findet einen Wunschstein
-    apple_music:
-      artist_ids:
-      - '1703088793'
 - id: die_brueder_loewenherz
   title: Die Brüder Löwenherz
   aliases: []
@@ -44856,217 +44129,6 @@ series:
         title: Radio Schrottland - Hoch zu Ross
       - id: '1777097232'
         title: Radio Schrottland - Ab in den Süden
-- id: lego_city_tv_serie
-  title: 'LEGO City: TV-Serie'
-  aliases: []
-  episode_pattern:
-  content_type: hoerspiel
-  split_from: lego_city
-  providers:
-    spotify:
-      artist_ids:
-      - 7lWAti8HlNyw39Z5OI92Ep
-      albums:
-      - id: 7v1Ej98IjaotwJcaWcoWwH
-        episode: 1
-        title: 'LEGO City: Folge 1 - Polizei - Der unheimliche Mister X'
-      - id: 5OxUVo6FLul7Mjwise5nvM
-        episode: 2
-        title: 'LEGO City: Folge 2 - Polizei - Stadt in Gefahr'
-      - id: 746hc4vaxwrBzI4UT4jRSn
-        episode: 3
-        title: 'LEGO City: Folge 3 - Feuerwehr - Auf der Spur des Roten Drachen'
-      - id: 6kSyYBxOHtMauNs5dsPd6x
-        episode: 4
-        title: 'LEGO City: Folge 4 - Zug - Alarm im LEGO City Express'
-      - id: 1O0IHH6pVTImC2yIE5avD3
-        episode: 5
-        title: 'LEGO City: Folge 5 - Raumfahrt - LUNA 1 antwortet nicht'
-      - id: 3ngKLboDjsx8LhBPo5sxs8
-        episode: 6
-        title: 'LEGO City: Folge 6 - Polizei - Die geheimnisvolle Höhle'
-      - id: 3imgBl66bdTHnBTAgdEcnU
-        episode: 7
-        title: 'LEGO City: Folge 7 - Feuerwehr - In letzter Sekunde'
-      - id: 6WYhYFLMfKIv6ZmUB2Dhtm
-        episode: 8
-        title: 'LEGO City: Folge 8 - Weihnachten - Angriff der Schneemänner'
-      - id: 1eZDAdZmJeDtIHzGUEPs6k
-        episode: 9
-        title: 'LEGO City: Folge 9 - Museum - Der Fluch des Goldenen Schädels'
-      - id: 3gkwsJlCOtOwdNUQ3s0jQy
-        episode: 10
-        title: 'LEGO City: Folge 10 - Küstenwache - Haie vor LEGO City'
-      - id: 2Lv1i3QqsMZowG9WR3yjfE
-        episode: 11
-        title: 'LEGO City: Folge 11 - Flughafen - SOS über den Wolken'
-      - id: 5iINh6qhzGr4sRzNL0lrso
-        episode: 12
-        title: 'LEGO City: Folge 12 - Polizei - In den Greifern der Motorradbande'
-      - id: 720GhdzAYOaf1sgonrNH72
-        episode: 13
-        title: 'LEGO City: Folge 13 - Arktis - Abenteuer im Packeis'
-      - id: 6Qfw9ITHwveogDwmmKzr2I
-        episode: 14
-        title: 'LEGO City: Folge 14 - Abriss-Experten - Wettlauf gegen die Zeit'
-      - id: 1E5vNiPDYTmFwgy4tko3hA
-        episode: 15
-        title: 'LEGO City: Folge 15 - Tiefsee - Expedition - Der Schatz aus der Tiefe'
-      - id: 7uIGc3hXpnMyFBMufBJvwf
-        episode: 16
-        title: 'LEGO City: Folge 16 - Feuerwehr - Brandgefährlicher Einsatz'
-      - id: 5cVHUuCdUJ9pK0yB6nc8Xb
-        episode: 17
-        title: 'LEGO City: Folge 17 - Vulkan - Am feuerspeienden Berg'
-      - id: 64I0e15NOY6wnw7FHFxPmI
-        episode: 18
-        title: 'LEGO City: Folge 18 - Polizei - Doppelter Einsatz'
-      - id: 3bmf47LdkcVgixbjl3F8lp
-        episode: 19
-        title: 'LEGO City: Folge 19 - Dschungel - Das Geheimnis des vergessenen Tempels'
-      - id: 5ZSLwaqveRltBWgVUborci
-        episode: 20
-        title: 'LEGO City: Folge 20 - Bergpolizei - Am Abgrund'
-      - id: 6UpxTGaHx3oTPcUeTj86Xp
-        episode: 21
-        title: 'LEGO City: Folge 21 - Arktis - Auf der Jagd nach dem weißen Gold'
-      - id: 0As6WtfaAP61uTSNME7Jet
-        episode: 22
-        title: 'LEGO City: Folge 22 - Luftpolizei - Der Coup des Jahrhunderts'
-      - id: 5OuS244mCL3yET4TcCmCeQ
-        episode: 23
-        title: 'LEGO City: Folge 23 - Weltraum - Auf der dunklen Seite des Mondes'
-      - id: 3imxYG6y8VsVx4LyUlkfOf
-        episode: 24
-        title: 'Folge 24: Das Monster-Rennen'
-      - id: 4SygfBWhlHUihHA4PFqH8I
-        episode: 25
-        title: 'Folge 25: Dem Mega-Oktopus auf der Spur'
-      - id: 1FKo6rTIST1l9BxIYmgULC
-        episode: 26
-        title: 'Folge 26: Die Nachteule schlägt wieder zu'
-      - id: 6mAffXeHyQ3FqzVHKOnAj0
-        episode: 27
-        title: 'Folge 27: Hochspannung im Motorrad-Sattel'
-    apple_music:
-      artist_ids:
-      - '672648501'
-      albums:
-      - id: '1460129548'
-        episode: 3
-        title: 'LEGO City: Folge 3 - Feuerwehr - Auf der Spur des Roten Drachen'
-      - id: '1460129278'
-        episode: 5
-        title: 'LEGO City Folge 5: Raumfahrt - LUNA 1 antwortet nicht'
-      - id: '1460126125'
-        episode: 6
-        title: 'LEGO City: Folge 6 - Polizei - Die geheimnisvolle Höhle'
-      - id: '1460125378'
-        episode: 7
-        title: 'LEGO City: Folge 7 - Feuerwehr - In letzter Sekunde'
-      - id: '1460130370'
-        episode: 8
-        title: 'LEGO City: Folge 8 - Weihnachten - Angriff der Schneemänner'
-      - id: '1460126524'
-        episode: 9
-        title: 'LEGO City: Folge 9 - Museum - Der Fluch des Goldenen Schädels'
-      - id: '1460128912'
-        episode: 10
-        title: 'LEGO City: Folge 10 - Küstenwache - Haie vor LEGO City'
-      - id: '1460128073'
-        episode: 12
-        title: Folge 12 - Polizei - In den Greifern der Motorradbande
-      - id: '1460127060'
-        episode: 13
-        title: 'LEGO City: Folge 13 - Arktis - Abenteuer im Packeis'
-      - id: '1460127494'
-        episode: 14
-        title: 'Folge 14: Abriss-Experten - Wettlauf gegen die Zeit'
-      - id: '1460131626'
-        episode: 15
-        title: 'LEGO City: Folge 15 - Tiefsee - Expedition - Der Schatz aus der Tiefe'
-      - id: '1460126146'
-        episode: 18
-        title: 'LEGO City: Folge 18 - Polizei - Doppelter Einsatz'
-      - id: '1460129615'
-        episode: 21
-        title: 'LEGO City: Folge 21 - Arktis - Auf der Jagd nach dem weißen Gold'
-      - id: '1460130567'
-        episode: 22
-        title: 'Folge 22: Luftpolizei - Der Coup des Jahrhunderts'
-      - id: '1475741502'
-        episode: 23
-        title: 'LEGO City: Folge 23 - Weltraum - Auf der dunklen Seite des Mondes'
-      - id: '1506189048'
-        episode: 24
-        title: 'Folge 24: Das Monster-Rennen'
-      - id: '1534555398'
-        episode: 25
-        title: 'Folge 25: Dem Mega-Oktopus auf der Spur'
-      - id: '1554524368'
-        episode: 26
-        title: 'Folge 26: Die Nachteule schlägt wieder zu'
-      - id: '1588219992'
-        episode: 27
-        title: 'Folge 27: Hochspannung im Motorrad-Sattel'
-  series_facts:
-    known_gaps:
-    - number: 1
-      range_end:
-      reason: Apple Music catalog entry missing; available on Spotify only
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-23T19:04:37.537158+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-23T19:04:37.537158+00:00'
-    - number: 2
-      range_end:
-      reason: Apple Music catalog entry missing; available on Spotify only
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-23T19:04:37.537158+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-23T19:04:37.537158+00:00'
-    - number: 4
-      range_end:
-      reason: Apple Music catalog entry missing; available on Spotify only
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-23T19:04:37.537158+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-23T19:04:37.537158+00:00'
-    - number: 11
-      range_end:
-      reason: Apple Music catalog entry missing; available on Spotify only
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-23T19:04:37.537158+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-23T19:04:37.537158+00:00'
-    - number: 16
-      range_end:
-      reason: Apple Music catalog entry missing; available on Spotify only
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-23T19:04:37.537158+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-23T19:04:37.537158+00:00'
-    - number: 17
-      range_end:
-      reason: Apple Music catalog entry missing; available on Spotify only
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-23T19:04:37.537158+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-23T19:04:37.537158+00:00'
-    - number: 19
-      range_end:
-      reason: Apple Music catalog entry missing; available on Spotify only
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-23T19:04:37.537158+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-23T19:04:37.537158+00:00'
-    - number: 20
-      range_end:
-      reason: Apple Music catalog entry missing; available on Spotify only
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-23T19:04:37.537158+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-23T19:04:37.537158+00:00'
 - id: seawalkers
   title: Seawalkers
   aliases: []
