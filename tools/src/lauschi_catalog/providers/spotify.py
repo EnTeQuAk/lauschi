@@ -264,6 +264,38 @@ class SpotifyProvider(CatalogProvider):
             ],
         )
 
+    def albums_by_ids(self, album_ids: list[str]) -> list[Album]:
+        """Batch album lookup, 20 per request (the API maximum).
+
+        Missing IDs come back as nulls and are dropped, so the caller can
+        treat an absent ID as "no longer on the provider".
+        """
+        out: list[Album] = []
+        for i in range(0, len(album_ids), 20):
+            chunk = album_ids[i : i + 20]
+
+            def fetch(chunk: list[str] = chunk):
+                time.sleep(0.05)
+                return self._get("albums", ids=",".join(chunk), market="DE")
+
+            data = self._cached(f"albums_batch:{','.join(chunk)}", fetch)
+            for raw in (data or {}).get("albums") or []:
+                if not raw:
+                    continue
+                out.append(
+                    Album(
+                        id=raw["id"],
+                        name=raw["name"],
+                        provider="spotify",
+                        release_date=raw.get("release_date", ""),
+                        total_tracks=raw.get("total_tracks", 0),
+                        label=raw.get("label", ""),
+                        album_type=raw.get("album_type", ""),
+                        image_url=_pick_image(raw.get("images", [])),
+                    )
+                )
+        return out
+
     def search_albums(self, query: str, limit: int = 10) -> list[Album]:
         def fetch():
             data = self._get("search", q=query, type="album", market="DE", limit=limit)

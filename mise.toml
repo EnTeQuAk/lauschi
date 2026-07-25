@@ -77,6 +77,10 @@ run = "uv run --directory tools lauschi-catalog discover"
 description = "Validate series.yaml against all provider APIs (L1 + L5)"
 run = "uv run --directory tools lauschi-catalog validate"
 
+[tasks.catalog-drift]
+description = "Check every shipped album still resolves AND still means what we recorded"
+run = "uv run --directory tools lauschi-catalog drift"
+
 [tasks.catalog-validate-spotify]
 description = "Validate series.yaml against Spotify only"
 run = "uv run --directory tools lauschi-catalog validate -p spotify"
@@ -160,7 +164,7 @@ run = "uv run --directory tools lauschi-catalog splits"
 # ── Full pipeline shortcut ───────────────────────────────────────────
 
 [tasks.catalog-pipeline]
-description = "Full automated curation pipeline: curate → reconcile → audit → lint → apply → validate"
+description = "Full automated curation pipeline: curate → reconcile → audit → lint → apply → validate → drift"
 usage = 'flag "--force" help="Re-curate all series, even those already curated"'
 run = """
 #!/usr/bin/env bash
@@ -184,28 +188,33 @@ exec > >(tee -a "$LOG") 2>&1
 FORCE_FLAG=""
 if [ "${usage_force:-false}" = "true" ]; then FORCE_FLAG="--force"; fi
 
-echo "Step 1/6: Curating all series (timeout ${TIMEOUT}s per series, this takes hours)..."
+echo "Step 1/7: Curating all series (timeout ${TIMEOUT}s per series, this takes hours)..."
 $RUN curate --all --timeout "$TIMEOUT" $FORCE_FLAG || echo "Some curations failed (expected for large series). Continuing..."
 
 echo ""
-echo "Step 2/6: Cross-provider reconciliation..."
+echo "Step 2/7: Cross-provider reconciliation..."
 $RUN_CORE reconcile --all
 
 echo ""
-echo "Step 3/6: 4-eye audit..."
+echo "Step 3/7: 4-eye audit..."
 $RUN audit --timeout "$TIMEOUT" || echo "Some audits failed. Continuing..."
 
 echo ""
-echo "Step 4/6: Structural lint..."
+echo "Step 4/7: Structural lint..."
 $RUN_CORE lint --all || echo "Lint flagged issues. Review findings above."
 
 echo ""
-echo "Step 5/6: Applying approved curations..."
+echo "Step 5/7: Applying approved curations..."
 $RUN_CORE apply --all
 
 echo ""
-echo "Step 6/6: Validating..."
+echo "Step 6/7: Validating..."
 $RUN_CORE validate
+
+echo ""
+echo "Step 7/7: Drift detection (report-only)..."
+# Exits 2 when critical drift is found; the pipeline reports and moves on.
+$RUN_CORE drift || true
 
 echo ""
 echo "Done. Run 'mise run catalog-review' to see flagged/escalated items."

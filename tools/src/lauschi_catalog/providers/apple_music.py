@@ -266,6 +266,37 @@ class AppleMusicProvider(CatalogProvider):
             ],
         )
 
+    def albums_by_ids(self, album_ids: list[str]) -> list[Album]:
+        """Batch album lookup, 100 per request (300 is rejected).
+
+        IDs Apple Music no longer knows are omitted from the response, so
+        an absent ID means the album is gone.
+        """
+        self._ensure_token()
+        out: list[Album] = []
+        for i in range(0, len(album_ids), 100):
+            chunk = album_ids[i : i + 100]
+
+            def fetch(chunk: list[str] = chunk):
+                time.sleep(0.1)
+                return self._get("albums", ids=",".join(chunk))
+
+            data = self._cached(f"am_albums_batch:{','.join(chunk)}", fetch)
+            for raw in (data or {}).get("data") or []:
+                attrs = raw.get("attributes") or {}
+                out.append(
+                    Album(
+                        id=raw["id"],
+                        name=attrs.get("name", ""),
+                        provider="apple_music",
+                        release_date=attrs.get("releaseDate", ""),
+                        total_tracks=attrs.get("trackCount", 0),
+                        artists=attrs.get("artistName", ""),
+                        image_url=_pick_artwork(attrs),
+                    )
+                )
+        return out
+
     def search_albums(self, query: str, limit: int = 10) -> list[Album]:
         def fetch():
             data = self._get("search", term=query, types="albums", limit=limit)

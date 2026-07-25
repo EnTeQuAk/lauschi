@@ -18,11 +18,18 @@ class ProvidersResult:
     warnings: list[str] = field(default_factory=list)
 
 
-def init_providers(which: str = "all") -> ProvidersResult:
+def init_providers(
+    which: str = "all",
+    *,
+    use_cache: bool = True,
+) -> ProvidersResult:
     """Initialize catalog providers, skipping unavailable ones.
 
     Args:
         which: "spotify", "apple_music", or "all"
+        use_cache: False bypasses the disk cache. Drift detection needs
+            this: comparing our snapshot against our own cached copy of
+            it would verify nothing.
     """
     result = ProvidersResult()
 
@@ -30,7 +37,7 @@ def init_providers(which: str = "all") -> ProvidersResult:
         try:
             from lauschi_catalog.providers.spotify import SpotifyProvider
 
-            result.providers.append(SpotifyProvider())
+            result.providers.append(SpotifyProvider(use_cache=use_cache))
         except (Exception, SystemExit):
             result.warnings.append("Spotify credentials not set, skipping")
 
@@ -38,7 +45,7 @@ def init_providers(which: str = "all") -> ProvidersResult:
         try:
             from lauschi_catalog.providers.apple_music import AppleMusicProvider
 
-            result.providers.append(AppleMusicProvider())
+            result.providers.append(AppleMusicProvider(use_cache=use_cache))
         except (Exception, SystemExit):
             result.warnings.append("Apple Music key not found, skipping")
 

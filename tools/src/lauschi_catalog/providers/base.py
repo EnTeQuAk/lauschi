@@ -76,6 +76,16 @@ class CatalogProvider(ABC):
         """Fetch all albums for an artist."""
 
     @abstractmethod
+    def albums_by_ids(self, album_ids: list[str]) -> list[Album]:
+        """Fetch many albums in as few requests as the provider allows.
+
+        Chunked internally (20 per call on Spotify, 100 on Apple Music).
+        IDs the provider no longer knows are simply absent from the
+        result, which makes this an existence check as well. Tracks are
+        not populated; use [album_details] when they are needed.
+        """
+
+    @abstractmethod
     def album_details(self, album_id: str) -> Album | None:
         """Fetch full album details including tracks."""
 

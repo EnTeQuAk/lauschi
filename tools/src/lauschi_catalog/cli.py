@@ -14,6 +14,7 @@ from lauschi_catalog.commands.report import report
 from lauschi_catalog.commands.reconcile import reconcile
 from lauschi_catalog.commands.review_human import review_human
 
+from lauschi_catalog.commands.drift import drift
 from lauschi_catalog.commands.validate import validate
 
 
@@ -38,6 +39,7 @@ cli.add_command(reconcile)
 cli.add_command(report)
 cli.add_command(review_human)
 cli.add_command(validate)
+cli.add_command(drift)
 
 # Lazy-load AI commands (the 'ai' optional extra pulls in pydantic_ai,
 # which has heavy transitive deps). Skip silently when the extra isn't
