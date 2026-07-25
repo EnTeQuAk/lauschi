@@ -1,5 +1,28 @@
 # Changelog
 
+## v2026.7.1 (Juli 2026)
+
+🎯 **Rund 25 neue Reihen im Katalog**
+Neu zum Stöbern: Seawalkers, Olchi-Detektive, Die drei ??? Kids Mini-Fälle, Radio Schrottland, Bobo & Hasi, Woodwalkers & Friends und die Benjamin-Blümchen-Reihen Minis, Find's raus und Gute-Nacht-Geschichten. Dazu eigene Kacheln für Kinofilm-Hörspiele (Die Wilden Hühner, Die Schlümpfe, Conni & Co), damit Filme die Folgenliste nicht mehr unterbrechen.
+
+🍏 **Apple Music deutlich vollständiger**
+Bei vielen Reihen fehlten auf Apple Music Folgen, die es längst gibt. Die Wilden Hühner, Lauras Stern, Kira Kolumna Reportage, Pumuckl Weihnachten und Petronella Apfelmus sind jetzt komplett.
+
+🧹 **Über 180 falsche Alben entfernt**
+Aussortiert wurde, was nicht in seine Reihe gehört: vorgelesene Hörbuch-Kapitel in Hörspiel-Reihen, doppelte Folgen und noch nicht erschienene Titel, die sich gar nicht abspielen ließen.
+
+📖 **Hörbücher klar getrennt**
+Gelesene Fassungen haben jetzt eigene Kacheln (Drachenreiter, LEGO Ninjago), damit Hörspiel und Lesung nicht mehr durcheinandergehen.
+
+🐛 **Behoben**
+- Bibi Blocksberg: Bei den Folgen 59 bis 69 lief auf Apple Music teilweise die falsche Folge. Jetzt gehört wieder jede Folge zu ihrem Titel
+- Weiter-Badge: Eine angefangene Bonus-Folge hat den Badge dauerhaft ans Ende der Liste gezogen. Der Badge folgt jetzt wieder der Reihe, und eine angefangene Folge wird nur noch einen Tag lang zum Weiterhören vorgeschlagen
+- Eine Fehlermeldung im Player ließ sich in seltenen Fällen nicht mehr schließen
+- Nach dem Ende einer Folge wurde manchmal noch eine Hörposition gespeichert, obwohl die Folge fertig war
+
+⏳ **Zwei Sammel-Kacheln entfernt**
+"Cornelia Funke" und "Kalle Blomquist" gibt es nicht mehr als eigene Kachel. Die Inhalte stecken jetzt in den einzelnen Reihen (Die Wilden Hühner, Drachenreiter, Tintenwelt, Gespensterjäger). Bereits angelegte Kacheln bleiben unverändert.
+
 ## v2026.6.4 (Juni 2026)
 
 🎯 **Weiter-Badge folgt dem Hörfortschritt**

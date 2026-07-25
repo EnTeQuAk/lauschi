@@ -1,3 +1,5 @@
-🎯 "Next" badge now advances to the next episode after the last one heard, not back to episode 1.
-📂 Episodes are now automatically sorted by episode number.
-✨ Next unheard episode is highlighted with a subtle shadow.
+🎯 About 25 new series: Seawalkers, Olchi-Detektive, Mini-Fälle, Radio Schrottland, Bobo & Hasi and more.
+🍏 Much fuller Apple Music coverage: missing episodes added for Wilde Hühner, Lauras Stern, Petronella and others.
+🧹 Over 180 wrong albums removed (audiobook chapters, duplicates, unplayable titles).
+🐛 Bibi Blocksberg: episodes 59-69 sometimes played the wrong episode. Fixed.
+🐛 The "Next" badge no longer gets stuck on a bonus episode.
