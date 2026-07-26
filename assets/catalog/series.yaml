@@ -22735,6 +22735,8 @@ series:
         title: 05/Das Hörspiel zur TV-Serie
       - id: 3ZYrlaczw1qMYuXnmL43k5
         episode: 6
+        title: 06/Das Hörspiel zur TV-Serie
+      - id: 3y9jloTirKL9ZU7wkpOnRn
         title: Vorhang auf für Prinzessin Lillifee
     apple_music:
       artist_ids:
@@ -33865,7 +33867,7 @@ series:
       - id: 1hhNtSsFWuqeNsV1gXiiQV
         title: Die Schule der magischen Tiere 4 - Hörspiel zum Kinofilm
       - id: 7xo3FS0wq9Y8xZeObRrNmM
-        title: 'Die Schule der magischen Tiere ermittelt Neuausgabe 8: Die Erdbeer-Spur (Der fröhliche Mini-Krimi mit den beliebten magischen Tieren)'
+        title: 'Die Schule der magischen Tiere ermittelt: Die Erdbeer-Spur (Folge 8)'
     apple_music:
       artist_ids:
       - '1328909127'
@@ -33957,7 +33959,7 @@ series:
       - id: '1866626908'
         title: 'Die Schule der magischen Tiere ermittelt Neuausgabe 2: Der Hausschuh-Dieb (Der fröhliche Mini-Krimi mit den beliebten magischen Tieren)'
       - id: '1895109986'
-        title: 'Die Schule der magischen Tiere ermittelt Neuausgabe 8: Die Erdbeer-Spur (Der fröhliche Mini-Krimi mit den beliebten magischen Tieren)'
+        title: 'Die Schule der magischen Tiere ermittelt: Die Erdbeer-Spur (Folge 8)'
   episode_pattern:
   - '^Die Schule der magischen Tiere (\d+):'
   - '^(\d+):'
