@@ -42980,35 +42980,6 @@ series:
     apple_music:
       artist_ids:
       - '1703088793'
-- id: wir_kinder_aus_bullerbue
-  title: Wir Kinder aus Bullerbü
-  aliases: []
-  episode_pattern:
-  content_type: hoerspiel
-  split_from: astrid_lindgren_deutsch
-  providers:
-    spotify:
-      artist_ids:
-      - 7sRF5KPi10c3pueaKGmArz
-      albums:
-      - id: 2YnQbwUV1ZXv2lngvIDjqM
-        title: Wir Kinder aus Bullerbü 1. Hörspielklassiker
-      - id: 17PTQKJ1DTv6glw5o0dfaS
-        title: Wir Kinder aus Bullerbü 2. Mehr von uns Kindern aus Bullerbü. Hörspielklassiker
-      - id: 2DepxkUs4ebtWQY2cVvN6n
-        title: Wir Kinder aus Bullerbü 1
-      - id: 4pT1FceiSDkkE05u6gfdRw
-        title: Wir Kinder aus Bullerbü 2. Mehr von uns Kindern aus Bullerbü
-      - id: 2CIv3mEhn1ywdClh84DzQd
-        title: Wir Kinder aus Bullerbü 3. Immer lustig in Bullerbü (Hörspiel)
-      - id: 2p0ijK6bumieBNwZY4lToa
-        title: Weihnachten in Bullerbü
-    apple_music:
-      artist_ids:
-      - '1703088793'
-      albums:
-      - id: '1485714002'
-        title: 'Wir Kinder aus Bullerbü 3: Immer lustig in Bullerbü'
 - id: drachenreiter
   title: Drachenreiter
   aliases: []

@@ -61,7 +61,6 @@ class CatalogSeries {
     required this.spotifyArtistIds,
     this.appleMusicArtistIds = const [],
     this.coverUrl,
-    this.episodePattern,
     this.albums = const [],
     this.appleMusicAlbums = const [],
     this.contentType = ContentType.hoerspiel,
@@ -89,9 +88,6 @@ class CatalogSeries {
   /// Curated cover image URL for this series.
   /// Typically the Spotify artist image or a hand-picked cover.
   final String? coverUrl;
-
-  /// Regex with one capture group for the episode number.
-  final String? episodePattern;
 
   /// Pre-validated Spotify album list with episode numbers.
   /// Empty for series that haven't been fully curated yet.
@@ -135,24 +131,27 @@ class CatalogService {
 
   final List<CatalogSeries> _series;
 
-  /// Fast lookup from a provider+album_id to its owning series. Built once
-  /// at load time from every series's curated album list (both Spotify and
-  /// Apple Music). Key format: ``'${provider.value}:${album_id}'``.
+  /// Fast lookup from a provider+album_id to its owning series and the
+  /// curated album record. Built once at load time from every series's
+  /// curated album list (both Spotify and Apple Music).
+  /// Key format: ``'${provider.value}:${album_id}'``.
   ///
   /// This is the backbone of Phase 0 matching — when a discovered album's
   /// id is already in the catalog, the lookup is O(1) and 100% precise.
-  final Map<String, CatalogSeries> _albumIndex;
+  /// Carrying the album (not just the series) is what lets [match] return
+  /// the curated episode number instead of re-deriving one.
+  final Map<String, _IndexedAlbum> _albumIndex;
 
-  static Map<String, CatalogSeries> _buildAlbumIndex(
+  static Map<String, _IndexedAlbum> _buildAlbumIndex(
     List<CatalogSeries> series,
   ) {
-    final out = <String, CatalogSeries>{};
+    final out = <String, _IndexedAlbum>{};
     for (final s in series) {
       for (final a in s.albums) {
-        out['${a.provider.value}:${a.id}'] = s;
+        out['${a.provider.value}:${a.id}'] = _IndexedAlbum(s, a);
       }
       for (final a in s.appleMusicAlbums) {
-        out['${a.provider.value}:${a.id}'] = s;
+        out['${a.provider.value}:${a.id}'] = _IndexedAlbum(s, a);
       }
     }
     return out;
@@ -239,7 +238,6 @@ class CatalogService {
           appleMusicArtistIds: amArtistIds,
           coverUrl: map['cover_url'] as String?,
           contentType: ContentType.fromString(map['content_type'] as String?),
-          episodePattern: _parseEpisodePattern(map['episode_pattern']),
           albums: albums,
           appleMusicAlbums: amAlbums,
         ),
@@ -287,12 +285,17 @@ class CatalogService {
     Log.debug(
       _tag,
       'Matched',
-      data: {'title': title, 'series': hit.id, 'albumId': albumId},
+      data: {
+        'title': title,
+        'series': hit.series.id,
+        'albumId': albumId,
+        'episode': '${hit.album.episode}',
+      },
     );
-    return CatalogMatch(
-      series: hit,
-      episodeNumber: _extractEpisode(title, hit.episodePattern),
-    );
+    // The curated number, never a fresh derivation. It was produced by the
+    // Python pipeline, audited and drift-checked; a regex over a mutable
+    // provider title is strictly weaker (see docs/catalog-episode-numbers.md).
+    return CatalogMatch(series: hit.series, episodeNumber: hit.album.episode);
   }
 
   /// All series sorted alphabetically — for UI display.
@@ -322,42 +325,19 @@ class CatalogService {
     );
     return results;
   }
-
-  int? _extractEpisode(String title, String? pattern) {
-    if (pattern == null) return null;
-    final regex = RegExp(pattern, caseSensitive: false);
-    final m = regex.firstMatch(title);
-    if (m == null) return null;
-
-    // Walk groups left-to-right: the first non-null capture group wins.
-    // This gives preference to the leftmost (most specific) alternative in
-    // alternation patterns like (?:^(\d{1,3})/|[Ff]olge\s+(\d+)).
-    for (var i = 1; i <= m.groupCount; i++) {
-      final group = m.group(i);
-      if (group != null) {
-        final digits = group.replaceAll(RegExp(r'\D'), '');
-        if (digits.isNotEmpty) {
-          final n = int.tryParse(digits);
-          if (n != null && n > 0) return n;
-        }
-      }
-    }
-    return null;
-  }
-}
-
-/// Parse episode_pattern from YAML: accepts a single string or a list of
-/// strings (joined with `|` into one alternation regex).
-String? _parseEpisodePattern(Object? raw) {
-  if (raw == null) return null;
-  if (raw is String) return raw;
-  if (raw is List) return raw.cast<String>().map((p) => '(?:$p)').join('|');
-  return raw.toString();
 }
 
 // ---------------------------------------------------------------------------
 // Provider
 // ---------------------------------------------------------------------------
+
+/// A curated album together with the series that owns it.
+class _IndexedAlbum {
+  const _IndexedAlbum(this.series, this.album);
+
+  final CatalogSeries series;
+  final CatalogAlbum album;
+}
 
 /// Loaded catalog service. Null while loading; the app can handle the
 /// loading state gracefully (catalog match is optional, never blocking).

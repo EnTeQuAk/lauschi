@@ -34,3 +34,9 @@ deleted:
   title: Ferien auf Saltkrokan (Astrid Lindgren Deutsch)
   reason: Duplicate of the standalone ferien_auf_saltkrokan series; all 4 albums verified covered there. Decided by Chris 2026-07-24.
   deleted_at: '2026-07-25T02:49:22+00:00'
+- id: wir_kinder_aus_bullerbue
+  title: Wir Kinder aus Bullerbü
+  reason: "Fully redundant with the standalone bullerbue series: all 5 shared albums are there with proper episode numbers, and its 2 'unique' Hörspielklassiker (1949 radio recordings) are already present
+    there, deliberately excluded as same_provider_duplicate — consistent with deleting kalle_blomquist over that same vintage. This entry carried null episode numbers and, being last in file order, was
+    winning the app's album index and suppressing Bullerbü's numbering. Last of the astrid_lindgren_* duplicate family. Decided by Chris 2026-07-26."
+  deleted_at: '2026-07-26T08:25:47+00:00'
