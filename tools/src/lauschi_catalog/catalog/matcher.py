@@ -31,12 +31,18 @@ def extract_episode(
     patterns = [pattern] if isinstance(pattern, str) else pattern
     for p in patterns:
         m = re.search(p, title)
-        if m and m.groups():
+        if not m:
+            continue
+        # Walk the groups: with alternation like (?:^Folge (\d+):)|(?:^(\d+)/)
+        # the match may land on a later alternative, leaving group 1 empty.
+        # Leftmost non-empty wins, so the most specific alternative is
+        # preferred.
+        for group in m.groups():
+            if group is None:
+                continue
             try:
-                g = m.group(1)
-                if g is not None:
-                    return int(g)
-            except (ValueError, IndexError, TypeError):
+                return int(group)
+            except (TypeError, ValueError):
                 continue
     return None
 

@@ -143,3 +143,27 @@ def test_compute_coverage_respects_max_samples():
     assert len(result_default["unmatched_regex_samples"]) == 5
 
 
+
+
+# ── capture-group walking ──────────────────────────────────────────────────
+#
+# Reading group 1 only means a pattern whose match lands on a later
+# alternative silently yields nothing. Verified to affect zero albums in the
+# current catalog, so this closes a trap for the next multi-alternative
+# pattern rather than fixing live breakage. It also adopts the one thing the
+# deleted Dart implementation got right.
+
+
+def test_extract_episode_reads_a_later_alternatives_group():
+    pattern = r"(?:^Folge (\d+):)|(?:^(\d+)/)"
+    assert extract_episode(pattern, "Folge 12: Der Superstar") == 12
+    assert extract_episode(pattern, "012/Die Falle") == 12
+
+
+def test_extract_episode_prefers_the_leftmost_group_that_matched():
+    pattern = r"(?:^(\d+)/)|(?:Folge (\d+))"
+    assert extract_episode(pattern, "007/Folge 99") == 7
+
+
+def test_extract_episode_still_returns_none_when_no_group_has_digits():
+    assert extract_episode(r"^(Folge) (\w+):", "Folge zwölf: x") is None
