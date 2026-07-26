@@ -138,3 +138,58 @@ def test_l1_clean_catalog_has_no_duplicate_issues():
         _entry_with("b", ["3"]),
     ])
     assert issues == []
+
+
+# ── L1: double-escaped regex shortcuts ────────────────────────────────────
+#
+# lieselotte_filmhoerspiele carried '^Folge (\\d+):' in single-quoted YAML
+# for months. Single quotes do not process escapes, so the pattern loaded
+# as a literal backslash followed by 'd' and matched nothing. Python hid
+# it by silently repairing the pattern before use; the app could not match
+# it at all.
+#
+# The check must look at the LOADED value, not the file text: the
+# double-quoted "^Senta's Welt - Folge (\\d+):" looks identical in the
+# file but YAML collapses it to a single backslash, and that one is fine.
+
+
+def test_l1_flags_double_escaped_shortcut():
+    entry = CatalogEntry(
+        id="lieselotte_filmhoerspiele",
+        title="Lieselotte",
+        episode_pattern="^Folge (\\\\d+):",
+    )
+    issues = validate_l1([entry])
+    assert len(issues) == 1
+    assert "lieselotte_filmhoerspiele" in issues[0]
+    assert "escap" in issues[0].lower()
+
+
+def test_l1_accepts_a_correctly_escaped_shortcut():
+    entry = CatalogEntry(
+        id="sentas_welt",
+        title="Senta's Welt",
+        episode_pattern="^Senta's Welt - Folge (\\d+):",
+    )
+    assert validate_l1([entry]) == []
+
+
+def test_l1_flags_double_escaped_shortcut_inside_a_pattern_list():
+    entry = CatalogEntry(
+        id="s1",
+        title="S1",
+        episode_pattern=["^Folge (\\d+):", "^Teil (\\\\d+):"],
+    )
+    issues = validate_l1([entry])
+    assert len(issues) == 1
+    assert "Teil" in issues[0]
+
+
+def test_l1_flags_other_double_escaped_classes():
+    for shortcut in ("w", "s", "b"):
+        entry = CatalogEntry(
+            id="s1",
+            title="S1",
+            episode_pattern=f"^Folge (\\\\{shortcut}+):",
+        )
+        assert len(validate_l1([entry])) == 1, shortcut

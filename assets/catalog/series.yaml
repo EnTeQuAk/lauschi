@@ -27017,7 +27017,7 @@ series:
       - id: '1739453032'
         episode: 13
         title: 'Folge 13: Frühlingszeit mit Lieselotte (Vier Hörspiele)'
-  episode_pattern: '^Folge (\\d+):'
+  episode_pattern: '^Folge (\d+):'
 - id: der_kleine_siebenschlaefer
   title: Der kleine Siebenschläfer
   providers:
