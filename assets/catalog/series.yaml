@@ -8736,64 +8736,64 @@ series:
       artist_ids:
       - '616811839'
       albums:
-      - id: '1680500727'
+      - id: '6784285959'
         episode: 1
         title: 'Folge 1: Von Idioten umzingelt!'
-      - id: '1680504150'
+      - id: '6784285241'
         episode: 2
         title: "Folge 2: Gibt's Probleme?"
-      - id: '1680504235'
+      - id: '6784285133'
         episode: 3
         title: "Folge 3: Jetzt reicht's!"
-      - id: '1680504589'
+      - id: '6784284439'
         episode: 4
         title: "Folge 4: Ich war's nicht!"
-      - id: '1680504329'
+      - id: '6784284243'
         episode: 5
         title: "Folge 5: Geht's noch?"
-      - id: '1680504929'
+      - id: '6783936735'
         episode: 6
         title: 'Folge 6: Keine Panik!'
-      - id: '1680505175'
+      - id: '6783935413'
         episode: 7
         title: 'Folge 7: Dumm gelaufen!'
-      - id: '1680505102'
+      - id: '6783934794'
         episode: 8
         title: 'Folge 8: Echt übel!'
-      - id: '1680505663'
+      - id: '6783934177'
         episode: 9
         title: 'Folge 9: Böse Falle!'
-      - id: '1680495452'
+      - id: '6783934086'
         episode: 10
         title: 'Folge 10: So ein Mist!'
-      - id: '1680495679'
+      - id: '6783932285'
         episode: 11
         title: 'Folge 11: Alles Käse!'
-      - id: '1680497639'
+      - id: '6783932494'
         episode: 12
         title: 'Folge 12: Und tschüss!'
-      - id: '1680497425'
+      - id: '6783931775'
         episode: 13
         title: 'Folge 13: Eiskalt erwischt!'
-      - id: '1680497217'
+      - id: '6783932056'
         episode: 14
         title: 'Folge 14: Voll daneben!'
-      - id: '1680498709'
+      - id: '6783931711'
         episode: 15
         title: 'Folge 15: Halt mal die Luft an!'
-      - id: '1680499935'
+      - id: '6783931331'
         episode: 16
         title: 'Folge 16: Volltreffer!'
-      - id: '1649158421'
+      - id: '6784591169'
         episode: 17
         title: 'Folge 17: Voll aufgedreht!'
-      - id: '1713138632'
+      - id: '6783925960'
         episode: 18
         title: 'Folge 18: Kein Plan von nix'
-      - id: '1773831388'
+      - id: '6783916171'
         episode: 19
         title: 'Folge 19: So ein Schlamassel!'
-      - id: '1848972102'
+      - id: '6783898250'
         episode: 20
         title: 'Folge 20: Bock auf Party?'
   episode_pattern: '^Folge (\d+):'
@@ -22457,28 +22457,28 @@ series:
       artist_ids:
       - '1451309462'
       albums:
-      - id: '1451309460'
+      - id: '6784629956'
         episode: 1
         title: 'Teil 1: Verhext und festgeklebt'
       - id: '1458758517'
         episode: 2
         title: 'Die Hörspielreihe, Teil 2: Zauberschlaf und Knallfroschchaos'
-      - id: '1593239881'
+      - id: '6784600930'
         episode: 3
         title: 'Teil 3: Schneeballschlacht und Wichtelstreiche'
-      - id: '1622026918'
+      - id: '6784593910'
         episode: 4
         title: 'Teil 4: Zauberhut und Bienenstich'
-      - id: '1740068876'
+      - id: '6783923014'
         episode: 5
         title: 'Teil 5: Hexenbuch und Schnüffelnase'
       - id: '6783920047'
         episode: 6
         title: 'Teil 6: Schnattergans und Hexenhaus'
-      - id: '1853524102'
+      - id: '6783896624'
         episode: 7
         title: 'Teil 7: Hexenfest und Waldgeflüster'
-      - id: '1872017184'
+      - id: '6783870901'
         episode: 8
         title: 'Folge 8: Zaubertricks und Maulwurfshügel'
   episode_pattern:
@@ -24449,7 +24449,7 @@ series:
       artist_ids:
       - '51919817'
       albums:
-      - id: '1593241982'
+      - id: '6784607492'
         episode: 5
         title: 'Folge 5: Laura und das Pony'
       - id: '1555480474'
@@ -26199,9 +26199,9 @@ series:
       - id: '6772181569'
         episode: 26
         title: 'Folge 26: Die Macht des Medaillons - Teil 2 (Das Original-Hörspiel zur TV-Serie)'
-      - id: '1735979865'
+      - id: '6772187904'
         episode: 41
-        title: 'Folge 41: Pollys bester Freund'
+        title: 'Folge 41: Pollys bester Freund (Das Original-Hörspiel zur TV-Serie)'
       - id: '1771901784'
         episode: 53
         title: 'Folge 53: Die Wäschewelt'
@@ -33891,7 +33891,7 @@ series:
       - id: '6771691431'
         episode: 7
         title: '07: Wo ist Mr. M?'
-      - id: '1686285068'
+      - id: '6782990555'
         episode: 8
         title: '08: Voll verknallt!'
       - id: '1686283833'
@@ -41632,10 +41632,10 @@ series:
       artist_ids:
       - '51919817'
       albums:
-      - id: '875233029'
+      - id: '6784987570'
         episode: 9
         title: Glitzernde Gutenacht-Geschichten, Teil 9
-      - id: '1382771188'
+      - id: '6784654298'
         episode: 12
         title: 'Lauras Stern, Band 12: Freundschaftliche Gutenacht-Geschichten'
   series_facts:
@@ -41789,7 +41789,7 @@ series:
       artist_ids:
       - '51919817'
       albums:
-      - id: '924491070'
+      - id: '6784983824'
         episode: 10
         title: 'Lauras Stern - Tonspur der TV-Serie, Teil 10: Fabelhafte Gutenacht-Geschichten'
   series_facts:
