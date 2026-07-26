@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lauschi/core/catalog/catalog_service.dart';
 import 'package:lauschi/core/database/app_database.dart';
 import 'package:lauschi/core/database/tables.dart' show cardOrder;
 import 'package:lauschi/core/log.dart';
@@ -338,6 +339,60 @@ class TileItemRepository {
       'Positions cleared',
       data: {'tileId': tileId, 'excludeItemId': excludeItemId ?? 'none'},
     );
+  }
+
+  /// Adopt the catalog's episode numbers for items whose stored number
+  /// disagrees. Returns how many rows changed.
+  ///
+  /// Episode numbers are facts about an album, derived once in the
+  /// curation pipeline (docs/catalog-episode-numbers.md), so a stored
+  /// number that differs is stale. Running this whenever the catalog and
+  /// database are both available repairs installs that predate the app
+  /// reading curated numbers, and keeps repairing them as the catalog is
+  /// corrected — the 2026-07 Hui Buh re-labelling moved all six of that
+  /// series' episodes, and existing tiles would otherwise keep the wrong
+  /// numbers indefinitely.
+  ///
+  /// Only the episode number column is written. A parent's manual ordering
+  /// lives in sortOrder and is never touched. Albums the catalog does not
+  /// know, including everything from ARD, are left exactly as they are.
+  Future<int> reconcileEpisodeNumbers(CatalogService catalog) async {
+    final items = await _db.select(_db.cards).get();
+    var changed = 0;
+
+    await _db.transaction(() async {
+      for (final item in items) {
+        // Only these two providers have catalog-backed episode numbers.
+        // Matching explicitly rather than parsing the column keeps one
+        // unexpected value from aborting the pass at app start.
+        final provider = switch (item.provider) {
+          'spotify' => ProviderType.spotify,
+          'apple_music' => ProviderType.appleMusic,
+          _ => null,
+        };
+        if (provider == null) continue;
+        final albumId = ProviderType.extractId(item.providerUri);
+        if (albumId == null) continue;
+
+        final album = catalog.curatedAlbum(albumId, provider: provider);
+        if (album == null) continue; // not curated: nothing authoritative
+        if (album.episode == item.episodeNumber) continue;
+
+        await (_db.update(_db.cards)..where((t) => t.id.equals(item.id))).write(
+          CardsCompanion(episodeNumber: Value(album.episode)),
+        );
+        changed++;
+      }
+    });
+
+    if (changed > 0) {
+      Log.info(
+        _tag,
+        'Episode numbers reconciled with the catalog',
+        data: {'changed': '$changed', 'scanned': '${items.length}'},
+      );
+    }
+    return changed;
   }
 
   /// Mark an item as unheard.

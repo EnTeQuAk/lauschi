@@ -298,6 +298,17 @@ class CatalogService {
     return CatalogMatch(series: hit.series, episodeNumber: hit.album.episode);
   }
 
+  /// The curated album record for a provider id, or null if the catalog
+  /// does not know it.
+  ///
+  /// Exposed so callers can read the curated episode number without
+  /// pretending to match a title, which [match] needs only for its log
+  /// line.
+  CatalogAlbum? curatedAlbum(
+    String albumId, {
+    required ProviderType provider,
+  }) => _albumIndex['${provider.value}:$albumId']?.album;
+
   /// All series sorted alphabetically — for UI display.
   List<CatalogSeries> get all => List.unmodifiable(_series);
 

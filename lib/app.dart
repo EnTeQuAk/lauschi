@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/apple_music/apple_music_session.dart';
 import 'package:lauschi/core/ard/ard_api.dart';
 import 'package:lauschi/core/ard/ard_availability_recheck.dart';
+import 'package:lauschi/core/catalog/catalog_service.dart';
 import 'package:lauschi/core/database/data_migrations.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/feature_flags.dart';
@@ -50,6 +51,17 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
 
     // Handle links while app is running (warm start)
     _linkSub = _appLinks.uriLinkStream.listen(_onDeepLink);
+  }
+
+  /// Adopt the catalog's episode numbers for stored items.
+  ///
+  /// Runs on every start rather than once: the catalog is the authority for
+  /// episode numbers, so each correction shipped in a release has to reach
+  /// tiles a parent already built. Writes only differences, so it is a
+  /// no-op once in sync.
+  Future<void> _reconcileEpisodeNumbers(TileItemRepository items) async {
+    final catalog = await ref.read(catalogServiceProvider.future);
+    await items.reconcileEpisodeNumbers(catalog);
   }
 
   void _onDeepLink(Uri uri) {
@@ -137,6 +149,7 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
           items: itemRepo,
         ),
       );
+      unawaited(_reconcileEpisodeNumbers(itemRepo));
     }
 
     return MaterialApp.router(
