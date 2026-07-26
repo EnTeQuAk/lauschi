@@ -4450,10 +4450,10 @@ series:
       - id: 2hwwmnG5QsKV7Jbgi2zkfZ
         episode: 109
         title: 'Folge 109: Francois, der Pinguin'
-      - id: 4ncLeazZ1oxZA0W0W8s7TH
+      - id: 14cwoh3vb44viPGqsDmmrf
         episode: 110
         title: 'Folge 110: Danny X und sein Flusspferd'
-      - id: 14cwoh3vb44viPGqsDmmrf
+      - id: 4ncLeazZ1oxZA0W0W8s7TH
         episode: 111
         title: 'Folge 111: Eine eisige Rettung'
       - id: 1nPpF7XiGjF3gZNnW3ybhy
@@ -7372,7 +7372,7 @@ series:
       - id: '1002557473'
         episode: 11
         title: 'Folge 11: geraten in Schwierigkeiten'
-      - id: '1002490636'
+      - id: '1002494694'
         episode: 12
         title: 'Folge 12: auf der Felseninsel'
       - id: '1002494222'
@@ -7537,7 +7537,7 @@ series:
       - id: '1002472426'
         episode: 66
         title: 'Folge 66: und das Seeungeheuer'
-      - id: '1002494694'
+      - id: '1002490636'
         episode: 67
         title: 'Folge 67: und der unheimliche Brandstifter'
       - id: '1002451305'
@@ -10046,7 +10046,7 @@ series:
       - id: '1687665295'
         episode: 7
         title: '07: Roboter & Androiden / Supercomputer'
-      - id: '1687700028'
+      - id: '1687668976'
         episode: 9
         title: '09: Welt der Piraten / Schiffe'
       - id: '1687685311'
@@ -10103,7 +10103,7 @@ series:
       - id: '1687652242'
         episode: 29
         title: '29: Die Sterne / Die Zeit'
-      - id: '1687668976'
+      - id: '1687667932'
         episode: 30
         title: '30: Zauberer & Hexen / Phänomene'
       - id: '1687644787'
@@ -10163,7 +10163,7 @@ series:
       - id: '1687664946'
         episode: 51
         title: '51: Spione & Agenten / Kriminalistik'
-      - id: '1687667932'
+      - id: '1687665160'
         episode: 52
         title: '52: Der Traum vom Fliegen / Helikopter im Einsatz'
       - id: '1687681670'
@@ -10172,7 +10172,7 @@ series:
       - id: '1687656161'
         episode: 54
         title: '54: Wilde Wälder / Lebendiger Boden'
-      - id: '1687671860'
+      - id: '1687696058'
         episode: 55
         title: '55: Städte der Zukunft / Wolkenkratzer'
       - id: '1687687528'
@@ -10184,7 +10184,7 @@ series:
       - id: '1687670492'
         episode: 60
         title: '60: Ursprung des Lebens / Sind wir allein im All?'
-      - id: '1687696058'
+      - id: '1687671860'
         episode: 61
         title: '61: Superschlaue Tiere / Tricks der Pflanzen'
       - id: '1687697002'
@@ -10193,7 +10193,7 @@ series:
       - id: '1687693100'
         episode: 63
         title: '63: Welt des Amazonas / Abenteuer Anden'
-      - id: '1687665160'
+      - id: '1687700028'
         episode: 64
         title: '64: Inuit - Jäger im Eis / Abenteuer Arktis'
       - id: '1687673808'
@@ -13610,10 +13610,10 @@ series:
       - id: 6uGgA68CCFquIls7nflA7H
         episode: 32
         title: '32: Und jetzt erst recht (Das Original aus dem Fernsehen)'
-      - id: 4rVCWzbxdVwaWLlRhbMvVp
+      - id: 4bm31a5Fbd2Hez9ZOwlTLy
         episode: 33
         title: '33: Pumuckl und die Obstbäume (Das Original aus dem Fernsehen)'
-      - id: 4bm31a5Fbd2Hez9ZOwlTLy
+      - id: 4rVCWzbxdVwaWLlRhbMvVp
         episode: 34
         title: '34: Pumuckl passt auf (Das Original aus dem Fernsehen)'
       - id: 0C0yK8NsqEFQwdTmaCBsew
@@ -27052,22 +27052,22 @@ series:
       artist_ids:
       - 5uXwgEQqIIIMsyi0LlRZDn
       albums:
-      - id: 1UPnh2ASrmzYBIok4eQIe8
+      - id: 2UmBBDJFEUnyOJ4JHb10uE
         episode: 1
         title: 001/Die verschwundene Stunde/Sven will zur Feuerwehr
-      - id: 2UmBBDJFEUnyOJ4JHb10uE
+      - id: 7bw5jglJ7loXOhSv4Hu2Xe
         episode: 2
         title: 002/Hui Buh und seine Rasselkette/Halloween-Party
-      - id: 7bw5jglJ7loXOhSv4Hu2Xe
+      - id: 15yvR5VTMofEujK2Q2itI9
         episode: 3
         title: 003/Die wilde Koboldjagd/Der fluchende Papagei
-      - id: 15yvR5VTMofEujK2Q2itI9
+      - id: 6clL0UIKJBW4jSi0ABL4Bb
         episode: 4
         title: 004/Der blubbernde Brotteig/Alarm in der Geheimzentrale
-      - id: 6clL0UIKJBW4jSi0ABL4Bb
+      - id: 0J7ZIK47nv24HWDt0nnPv2
         episode: 5
         title: 005/Schatzjagd im Museum / Magische Meisterschaft
-      - id: 0J7ZIK47nv24HWDt0nnPv2
+      - id: 1UPnh2ASrmzYBIok4eQIe8
         episode: 6
         title: 006/Verspuktes Weihnachten / Schreck zu Silvester
       - id: 6cqSJ9M3rvGDAvYB3KmALa
@@ -35695,9 +35695,9 @@ series:
       - id: '1442235831'
         title: Das Nilpferd Mit Dem Dudelsack
       - id: '1442724095'
-        title: Tanzen macht Spaß
-      - id: '1442540291'
         title: Der Frosch im roten Cabrio
+      - id: '1442540291'
+        title: Tanzen macht Spaß
       - id: '1442241198'
         title: Turnen macht Spaß
       - id: '1442233759'

@@ -212,3 +212,64 @@ def test_absent_album_is_gone():
     assert finding is not None
     assert finding.severity is DriftSeverity.gone
     assert finding.live_title is None
+
+
+# ── the same-episode rescue needs a floor ─────────────────────────────────
+#
+# Calibrated against the 2026-07-25 full sweep. Legitimate publisher
+# renames that share an episode number sit at 0.57-0.99 similarity
+# (suffix appends like "(Das Original-Hörspiel zur TV-Serie)", a typo
+# fix). One pair sat at 0.22 with unrelated titles and only a
+# coincidentally matching episode number, and the rescue wrongly kept it
+# out of the loud channel.
+
+
+def test_matching_episode_does_not_rescue_unrelated_titles():
+    """prinzessin_lillifee: 'Vorhang auf für Prinzessin Lillifee' against
+    '06/Das Hörspiel zur TV-Serie'. Both yield episode 6, but a shared
+    number is weak evidence when nothing else matches."""
+    finding = classify_album_drift(
+        album_id="3ZYrlaczw1qMYuXnmL43k5",
+        provider="spotify",
+        stored_title="Vorhang auf für Prinzessin Lillifee",
+        stored_episode=6,
+        stored_release="2010",
+        live_title="06/Das Hörspiel zur TV-Serie",
+        live_release="2010",
+        pattern=r"^(\d+)/",
+    )
+    assert finding is not None
+    assert finding.severity is DriftSeverity.critical
+
+
+def test_matching_episode_still_rescues_a_long_suffix_append():
+    """die_playmos at 0.61: same episode, publisher appended a long
+    qualifier. Must stay a warning."""
+    finding = classify_album_drift(
+        album_id="0DeLb048gWpWg15yEbMvC0",
+        provider="spotify",
+        stored_title="Folge 100: Der magische Ring",
+        stored_episode=100,
+        stored_release="2019",
+        live_title="Folge 100: Der magische Ring (Das Original Playmobil Hörspiel)",
+        live_release="2019",
+        pattern=FOLGE,
+    )
+    assert finding is not None
+    assert finding.severity is DriftSeverity.warning
+
+
+def test_matching_episode_rescues_a_typo_fix():
+    """sternenfohlen at 0.99."""
+    finding = classify_album_drift(
+        album_id="2Tas15aBGmhh355uvDh4OD",
+        provider="spotify",
+        stored_title="Teil 42: Das fantastische Zaubertunier",
+        stored_episode=42,
+        stored_release="2021",
+        live_title="Teil 42: Das fantastische Zauberturnier",
+        live_release="2021",
+        pattern=r"^Teil (\d+):",
+    )
+    assert finding is not None
+    assert finding.severity is DriftSeverity.warning

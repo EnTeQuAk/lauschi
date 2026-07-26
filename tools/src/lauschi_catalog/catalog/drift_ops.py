@@ -62,6 +62,13 @@ class DriftSeverity(Enum):
 #: `docs/catalog-drift.md` for the distribution this came from.
 SIMILARITY_FLOOR = 0.72
 
+#: Below this, a shared episode number stops being evidence of sameness.
+#: Publisher renames that keep the episode number sit at 0.57 and above
+#: (long qualifiers such as "(Das Original-Hörspiel zur TV-Serie)", typo
+#: fixes); genuinely unrelated titles that merely happen to share a
+#: number sit far below.
+UNRELATED_CEILING = 0.40
+
 #: Store-format decorations providers append and remove freely.
 _FORMAT_SUFFIXES = (" - single", " - ep")
 
@@ -199,10 +206,13 @@ def classify_album_drift(
     similarity = title_similarity(stored_title, live_title)
 
     # Same episode number, reworded subtitle: surface it, don't alarm.
+    # Unless nothing else matches at all, in which case the shared number
+    # is coincidence rather than evidence.
     if (
         stored_episode is not None
         and live_episode is not None
         and stored_episode == live_episode
+        and similarity >= UNRELATED_CEILING
     ):
         return finding(
             DriftSeverity.warning,
@@ -214,7 +224,7 @@ def classify_album_drift(
     if similarity < similarity_floor:
         severity = (
             DriftSeverity.critical
-            if year_moved or stored_episode is None
+            if year_moved or stored_episode is None or similarity < UNRELATED_CEILING
             else DriftSeverity.warning
         )
         return finding(
