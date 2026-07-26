@@ -323,13 +323,18 @@ void main() {
     expect(result?.id, 'ep-3');
   });
 
-  test('position without a timestamp keeps resuming (legacy rows)', () {
+  test('a position without a timestamp is not a resumable episode', () {
+    // savePosition writes lastPositionMs and lastPlayedAt together,
+    // clearPositions clears both together, and the two columns arrived in
+    // the same migration — verified across the whole history, so this state
+    // is unreachable. Requiring the timestamp keeps the rule simple instead
+    // of carrying a branch for a case that cannot occur.
     final result = readNextUnheard([
       _episode(id: 'ep-1', episodeNumber: 1, lastPositionMs: 120000),
       _episode(id: 'ep-2', episodeNumber: 2, isHeard: true),
       _episode(id: 'ep-3', episodeNumber: 3),
     ]);
-    expect(result?.id, 'ep-1');
+    expect(result?.id, 'ep-3');
   });
 
   test('bonus-only tile still resolves (music tiles have no numbers)', () {

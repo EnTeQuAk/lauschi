@@ -273,3 +273,39 @@ def test_matching_episode_rescues_a_typo_fix():
     )
     assert finding is not None
     assert finding.severity is DriftSeverity.warning
+
+
+# ── a corrupt curation must not read as "no drift" ────────────────────────
+
+
+def test_corrupt_curation_raises_instead_of_reporting_no_drift(tmp_path):
+    """A verification tool that hides its own blind spots is worse than
+    none: silently skipping an unreadable series would report it as clean."""
+    import json as _json
+
+    import pytest
+
+    from lauschi_catalog.catalog import drift_ops
+
+    bad = tmp_path / "broken_series.json"
+    bad.write_text("{not valid json")
+    original = drift_ops.CURATION_DIR
+    drift_ops.CURATION_DIR = tmp_path
+    try:
+        with pytest.raises(_json.JSONDecodeError):
+            drift_ops.stored_album_records("broken_series", "spotify")
+    finally:
+        drift_ops.CURATION_DIR = original
+
+
+def test_missing_curation_is_not_an_error(tmp_path):
+    """Absent is different from corrupt: a series with no curation file is
+    reported via unresolved_series, not a crash."""
+    from lauschi_catalog.catalog import drift_ops
+
+    original = drift_ops.CURATION_DIR
+    drift_ops.CURATION_DIR = tmp_path
+    try:
+        assert drift_ops.stored_album_records("nope", "spotify") == []
+    finally:
+        drift_ops.CURATION_DIR = original

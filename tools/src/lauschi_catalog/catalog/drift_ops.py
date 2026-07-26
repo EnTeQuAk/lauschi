@@ -280,10 +280,11 @@ def stored_album_records(
     path = CURATION_DIR / f"{series_id}.json"
     if not path.exists():
         return []
-    try:
-        data = json.loads(path.read_text())
-    except (OSError, json.JSONDecodeError):
-        return []
+    # Deliberately unguarded: a corrupt or unreadable curation must fail the
+    # sweep loudly. Swallowing it would report "no drift" for a series we
+    # never actually compared, and a verification tool that hides its own
+    # blind spots is worse than none.
+    data = json.loads(path.read_text())
     records = [a for a in data.get("albums", []) if a.get("provider") == provider]
     if included_only:
         records = [r for r in records if r.get("include")]

@@ -44,8 +44,11 @@ TileItem? pickNextUnheard(
   bool inProgress(TileItem ep) {
     if (ep.lastPositionMs <= 0) return false;
     final playedAt = ep.lastPlayedAt;
-    // Rows written before positions carried a timestamp: trust the position.
-    if (playedAt == null) return true;
+    // A saved position always carries a timestamp: savePosition writes both
+    // together, clearPositions clears both together, and the two columns
+    // arrived in the same migration. So a position without one is not a
+    // resumable episode.
+    if (playedAt == null) return false;
     return reference.difference(playedAt) < staleAfter;
   }
 
