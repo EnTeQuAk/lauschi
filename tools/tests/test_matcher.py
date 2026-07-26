@@ -3,12 +3,10 @@
 from __future__ import annotations
 
 from lauschi_catalog.catalog.matcher import (
-    _fix_escapes,
     apply_episode_pattern,
     compute_pattern_coverage,
     extract_episode,
     preview_episode_pattern,
-    validate_pattern,
 )
 
 
@@ -116,34 +114,22 @@ def test_apply_handles_pattern_list():
 # ── Over-escaped regex fix ────────────────────────────────────────────────
 
 
-class TestFixEscapes:
-    def test_collapses_double_escaped_d(self):
-        assert _fix_escapes("^Folge (\\\\d+):") == "^Folge (\\d+):"
-
-    def test_collapses_double_escaped_w(self):
-        assert _fix_escapes("^(\\\\w+)_") == "^(\\w+)_"
-
-    def test_collapses_double_escaped_s(self):
-        assert _fix_escapes("\\\\s+") == "\\s+"
-
-    def test_leaves_correct_escapes_alone(self):
-        assert _fix_escapes("^Folge (\\d+):") == "^Folge (\\d+):"
-
-    def test_leaves_literal_backslash_before_non_meta(self):
-        assert _fix_escapes("\\\\n") == "\\\\n"
-
-    def test_handles_multiple_shortcuts(self):
-        assert _fix_escapes("(\\\\d+)\\\\s+(\\\\w+)") == "(\\d+)\\s+(\\w+)"
+# Over-escaped patterns are no longer repaired here. They are refused
+# where they enter (curate_ops._validate_episode_pattern on the agent's
+# output, validate_ops.validate_l1 on the catalog), so extraction can use
+# the pattern exactly as written. Silently repairing it is what let a
+# broken lieselotte_filmhoerspiele pattern work in the pipeline while the
+# app could not match it for months.
 
 
-def test_extract_episode_handles_over_escaped_pattern():
-    assert extract_episode("^Folge (\\\\d+):", "Folge 47: Title") == 47
+def test_extract_episode_does_not_repair_an_over_escaped_pattern():
+    assert extract_episode("^Folge (\\\\d+):", "Folge 47: Title") is None
 
 
-def test_compute_coverage_handles_over_escaped_pattern():
+def test_compute_coverage_does_not_repair_an_over_escaped_pattern():
     titles = ["Folge 1: A", "Folge 2: B", "Special"]
     result = compute_pattern_coverage(titles, "^Folge (\\\\d+):")
-    assert result["matched"] == 2
+    assert result["matched"] == 0
     assert result["total"] == 3
 
 
@@ -157,6 +143,3 @@ def test_compute_coverage_respects_max_samples():
     assert len(result_default["unmatched_regex_samples"]) == 5
 
 
-def test_validate_pattern_normalizes_over_escaped():
-    result = validate_pattern("^Folge (\\\\d+):")
-    assert result == "^Folge (\\d+):"

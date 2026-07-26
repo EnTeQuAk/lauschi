@@ -68,8 +68,18 @@ _BATCH_SIZE = 30
 # ── Pure helpers ──────────────────────────────────────────────────────────
 
 
+#: ``\\d`` and friends: a literal backslash followed by a class letter.
+#: Compiles, never matches. Rejected at entry so no repair is needed
+#: downstream (see docs/catalog-episode-numbers.md).
+_DOUBLE_ESCAPED_SHORTCUT = re.compile(r"\\\\[dDwWsShHbB]")
+
+
 def _validate_episode_pattern(v: str | list[str] | None) -> str | list[str] | None:
-    """Validate that an episode_pattern has at least one capture group."""
+    """Validate an episode_pattern before it can reach the catalog.
+
+    Requires a capture group, and refuses double-escaped shortcuts: they
+    compile but match a literal backslash, so they silently never fire.
+    """
     if v is None:
         return None
     patterns = [v] if isinstance(v, str) else v
@@ -77,6 +87,12 @@ def _validate_episode_pattern(v: str | list[str] | None) -> str | list[str] | No
         c = re.compile(p)
         if c.groups < 1:
             msg = f"Pattern {p!r}: needs at least 1 capture group"
+            raise ValueError(msg)
+        if _DOUBLE_ESCAPED_SHORTCUT.search(p):
+            msg = (
+                f"Pattern {p!r}: double-escaped shortcut matches a literal "
+                f"backslash and never an episode number. Use one backslash."
+            )
             raise ValueError(msg)
     return v
 

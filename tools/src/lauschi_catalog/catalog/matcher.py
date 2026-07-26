@@ -1,23 +1,20 @@
 """Episode pattern matching utilities.
 
-Ported from scripts/episode_util.py.
+Episode numbers exist only inside album titles — neither provider exposes
+them as metadata — so this regex extraction is the single place they are
+derived. The app consumes the curated result and never re-derives it (see
+docs/catalog-episode-numbers.md).
+
+Patterns are used exactly as written. Over-escaped shortcuts are rejected
+where they enter, by curate_ops._validate_episode_pattern and
+validate_ops.validate_l1, rather than silently repaired here: a repair
+made a broken lieselotte_filmhoerspiele pattern work in the pipeline
+while the app could not match it for months.
 """
 
 from __future__ import annotations
 
 import re
-
-_OVER_ESCAPED = re.compile(r"\\\\([dDwWsShHbB])")
-
-
-def _fix_escapes(pattern: str) -> str:
-    r"""Collapse double-escaped regex shortcuts (\\d -> \d).
-
-    LLMs generating JSON tool calls sometimes write \\\\d instead of
-    \\d, which after JSON parsing becomes the literal two-char sequence
-    ``\`` + ``d`` instead of the regex metacharacter ``\d``.
-    """
-    return _OVER_ESCAPED.sub(r"\\\1", pattern)
 
 
 def extract_episode(
@@ -33,7 +30,7 @@ def extract_episode(
         return None
     patterns = [pattern] if isinstance(pattern, str) else pattern
     for p in patterns:
-        m = re.search(_fix_escapes(p), title)
+        m = re.search(p, title)
         if m and m.groups():
             try:
                 g = m.group(1)
@@ -42,23 +39,6 @@ def extract_episode(
             except (ValueError, IndexError, TypeError):
                 continue
     return None
-
-
-def validate_pattern(pattern: str | list[str] | None) -> str | list[str] | None:
-    """Validate episode patterns: each must have at least 1 capture group.
-
-    Also normalizes over-escaped regex shortcuts from LLM output.
-    """
-    if pattern is None:
-        return None
-    raw = [pattern] if isinstance(pattern, str) else pattern
-    items = [_fix_escapes(p) for p in raw]
-    for p in items:
-        c = re.compile(p)
-        if c.groups < 1:
-            msg = f"Pattern {p!r} must have at least 1 capture group, got {c.groups}"
-            raise ValueError(msg)
-    return items[0] if len(items) == 1 else items
 
 
 def preview_episode_pattern(
@@ -136,7 +116,6 @@ def compute_pattern_coverage(
     matcher.py so both consumers share one implementation.
     """
     patterns = [pattern] if isinstance(pattern, str) else list(pattern)
-    patterns = [_fix_escapes(p) for p in patterns]
     if not patterns:
         return {"error": "pattern must be non-empty"}
     compiled: list[re.Pattern[str]] = []
