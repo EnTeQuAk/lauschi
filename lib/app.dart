@@ -53,17 +53,6 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
     _linkSub = _appLinks.uriLinkStream.listen(_onDeepLink);
   }
 
-  /// Adopt the catalog's episode numbers for stored items.
-  ///
-  /// Runs on every start rather than once: the catalog is the authority for
-  /// episode numbers, so each correction shipped in a release has to reach
-  /// tiles a parent already built. Writes only differences, so it is a
-  /// no-op once in sync.
-  Future<void> _reconcileEpisodeNumbers(TileItemRepository items) async {
-    final catalog = await ref.read(catalogServiceProvider.future);
-    await items.reconcileEpisodeNumbers(catalog);
-  }
-
   void _onDeepLink(Uri uri) {
     unawaited(_handleDeepLink(uri));
   }
@@ -149,7 +138,16 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
           items: itemRepo,
         ),
       );
-      unawaited(_reconcileEpisodeNumbers(itemRepo));
+      // Runs on every start rather than once: the catalog is the
+      // authority for episode numbers, so each correction shipped in a
+      // release has to reach tiles a parent already built. Writes only
+      // differences, so it is a no-op once in sync.
+      unawaited(
+        reconcileEpisodeNumbersAtStartup(
+          catalog: ref.read(catalogServiceProvider.future),
+          items: itemRepo,
+        ),
+      );
     }
 
     return MaterialApp.router(

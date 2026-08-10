@@ -154,4 +154,31 @@ void main() {
   test('handles an empty database', () async {
     expect(await repo.reconcileEpisodeNumbers(catalog), 0);
   });
+
+  test('startup wrapper runs the reconcile pass', () async {
+    await repo.insert(
+      title: 'Hui Buh',
+      providerUri: huiBuhEp1,
+      cardType: 'album',
+    );
+
+    await reconcileEpisodeNumbersAtStartup(
+      catalog: Future.value(catalog),
+      items: repo,
+    );
+
+    expect((await only()).episodeNumber, 1);
+  });
+
+  test('startup wrapper swallows a failing catalog load', () async {
+    // The wrapper is called unawaited at app start; an error escaping
+    // it would be an unhandled async exception on every launch.
+    await expectLater(
+      reconcileEpisodeNumbersAtStartup(
+        catalog: Future.error(Exception('series.yaml unreadable')),
+        items: repo,
+      ),
+      completes,
+    );
+  });
 }

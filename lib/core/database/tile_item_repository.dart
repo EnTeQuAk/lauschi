@@ -372,10 +372,16 @@ class TileItemRepository {
   /// lives in sortOrder and is never touched. Albums the catalog does not
   /// know, including everything from ARD, are left exactly as they are.
   Future<int> reconcileEpisodeNumbers(CatalogService catalog) async {
-    final items = await _db.select(_db.cards).get();
     var changed = 0;
+    var scanned = 0;
 
+    // Read and write in one transaction: the pass runs fire-and-forget
+    // at app start while the parent may be editing, and a card deleted
+    // or removed from its tile between a separate select and the update
+    // would get a stale number written back.
     await _db.transaction(() async {
+      final items = await _db.select(_db.cards).get();
+      scanned = items.length;
       for (final item in items) {
         // Only these two providers have catalog-backed episode numbers.
         // Matching explicitly rather than parsing the column keeps one
@@ -393,10 +399,11 @@ class TileItemRepository {
         if (album == null) continue; // not curated: nothing authoritative
         if (album.episode == item.episodeNumber) continue;
 
-        await (_db.update(_db.cards)..where((t) => t.id.equals(item.id))).write(
+        final rows = await (_db.update(_db.cards)
+          ..where((t) => t.id.equals(item.id))).write(
           CardsCompanion(episodeNumber: Value(album.episode)),
         );
-        changed++;
+        changed += rows;
       }
     });
 
@@ -404,7 +411,7 @@ class TileItemRepository {
       Log.info(
         _tag,
         'Episode numbers reconciled with the catalog',
-        data: {'changed': '$changed', 'scanned': '${items.length}'},
+        data: {'changed': '$changed', 'scanned': '$scanned'},
       );
     }
     return changed;
@@ -582,3 +589,21 @@ final existingItemUrisProvider = Provider<Set<String>>((ref) {
   final items = ref.watch(allTileItemsProvider).value ?? [];
   return items.map((i) => i.providerUri).toSet();
 });
+
+/// Run [TileItemRepository.reconcileEpisodeNumbers] as a fire-and-forget
+/// startup pass.
+///
+/// Failures are logged, never thrown: an error escaping an unawaited
+/// call would surface as an unhandled exception at app start, and the
+/// pass simply reruns on the next launch. Same contract as
+/// runDataMigrations and recheckArdAvailability.
+Future<void> reconcileEpisodeNumbersAtStartup({
+  required Future<CatalogService> catalog,
+  required TileItemRepository items,
+}) async {
+  try {
+    await items.reconcileEpisodeNumbers(await catalog);
+  } on Exception catch (e) {
+    Log.error(_tag, 'Episode reconcile failed', exception: e);
+  }
+}
