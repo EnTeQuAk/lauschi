@@ -48,10 +48,6 @@ class CatalogAlbum {
 
   /// Full provider URI for DB storage (e.g. 'spotify:album:abc123').
   String get uri => provider.albumUri(id);
-
-  /// Backward compat: returns [id] when provider is Spotify.
-  @Deprecated('Use id and provider instead')
-  String get spotifyId => id;
 }
 
 /// A single known Hörspiel series from the bundled catalog.
@@ -122,7 +118,8 @@ class CatalogMatch {
 
   final CatalogSeries series;
 
-  /// Extracted episode number, or null if title format didn't match.
+  /// The curated episode number from series.yaml, or null when the
+  /// curated album carries none (music, films, specials).
   final int? episodeNumber;
 }
 
@@ -149,16 +146,20 @@ class CatalogService {
   /// so curation bleed is visible instead of silently mis-attributing.
   final Map<String, _IndexedAlbum> _albumIndex;
 
+  /// The [_albumIndex] key for a provider+album id pair.
+  static String _albumKey(ProviderType provider, String id) =>
+      '${provider.value}:$id';
+
   static Map<String, _IndexedAlbum> _buildAlbumIndex(
     List<CatalogSeries> series,
   ) {
     final out = <String, _IndexedAlbum>{};
     for (final s in series) {
       for (final a in s.albums) {
-        out['${a.provider.value}:${a.id}'] = _IndexedAlbum(s, a);
+        out[_albumKey(a.provider, a.id)] = _IndexedAlbum(s, a);
       }
       for (final a in s.appleMusicAlbums) {
-        out['${a.provider.value}:${a.id}'] = _IndexedAlbum(s, a);
+        out[_albumKey(a.provider, a.id)] = _IndexedAlbum(s, a);
       }
     }
     return out;
@@ -184,7 +185,7 @@ class CatalogService {
     }
 
     final parsed = result.series;
-    final shared = findSharedAlbumIds(parsed);
+    final shared = result.sharedAlbumIds;
     if (shared.isNotEmpty) {
       Log.warn(
         _tag,
@@ -214,15 +215,19 @@ class CatalogService {
   }
 
   /// Parse the series.yaml document. Pure computation: no I/O and no
-  /// logging, so it can run on a background isolate.
+  /// logging, so it can run on a background isolate. Also computes the
+  /// cross-series shared album ids there, so [load] only logs them.
   ///
   /// A malformed series entry is skipped and reported in `errors`
   /// instead of failing the parse: one bad row must not take down
   /// badges, browse, and reconcile for the other ~270 series. A
   /// document that is not valid YAML at all still throws.
-  static ({List<CatalogSeries> series, List<String> errors}) parseSeriesYaml(
-    String raw,
-  ) {
+  static ({
+    List<CatalogSeries> series,
+    List<String> errors,
+    Map<String, List<String>> sharedAlbumIds,
+  })
+  parseSeriesYaml(String raw) {
     final doc = loadYaml(raw) as YamlMap;
     final seriesList = doc['series'] as YamlList;
 
@@ -240,7 +245,11 @@ class CatalogService {
         errors.add('series[$index] (id: ${id ?? 'unknown'}): $e');
       }
     }
-    return (series: parsed, errors: errors);
+    return (
+      series: parsed,
+      errors: errors,
+      sharedAlbumIds: findSharedAlbumIds(parsed),
+    );
   }
 
   /// Album ids curated under more than one series, keyed by
@@ -254,8 +263,11 @@ class CatalogService {
   ) {
     final owners = <String, List<String>>{};
     for (final s in series) {
-      for (final a in [...s.albums, ...s.appleMusicAlbums]) {
-        (owners['${a.provider.value}:${a.id}'] ??= []).add(s.id);
+      for (final a in s.albums) {
+        (owners[_albumKey(a.provider, a.id)] ??= []).add(s.id);
+      }
+      for (final a in s.appleMusicAlbums) {
+        (owners[_albumKey(a.provider, a.id)] ??= []).add(s.id);
       }
     }
     return {
@@ -264,79 +276,54 @@ class CatalogService {
     };
   }
 
-  static CatalogSeries _parseSeries(YamlMap map) {
-    final aliasesRaw = map['aliases'] as YamlList?;
-    final aliases =
-        aliasesRaw == null
-            ? <String>[]
-            : aliasesRaw.map<String>((a) => a as String).toList();
+  /// Items of [list] as strings via toString(): ids may be quoted
+  /// strings in YAML but parse as integers.
+  static List<String> _stringList(YamlList? list) =>
+      list == null ? const [] : list.map((e) => e.toString()).toList();
 
-    // Parse per-provider identifiers from the `providers:` map.
+  static List<CatalogAlbum> _albumList(YamlList? list, ProviderType provider) =>
+      list == null
+          ? const []
+          : list.map<CatalogAlbum>((a) {
+            final aMap = a as YamlMap;
+            return CatalogAlbum(
+              id: aMap['id'].toString(),
+              provider: provider,
+              title: aMap['title'] as String,
+              episode: aMap['episode'] as int?,
+            );
+          }).toList();
+
+  static CatalogSeries _parseSeries(YamlMap map) {
+    // Per-provider identifiers come from the `providers:` map.
     final providersMap = map['providers'] as YamlMap?;
     final spotifyMap = providersMap?['spotify'] as YamlMap?;
-
-    final artistIdsRaw = spotifyMap?['artist_ids'] as YamlList?;
-    final artistIds =
-        artistIdsRaw == null
-            ? <String>[]
-            : artistIdsRaw.map<String>((a) => a as String).toList();
-
-    final albumsRaw = spotifyMap?['albums'] as YamlList?;
-    final albums =
-        albumsRaw == null
-            ? <CatalogAlbum>[]
-            : albumsRaw.map<CatalogAlbum>((a) {
-              final aMap = a as YamlMap;
-              return CatalogAlbum(
-                id: aMap['id'] as String,
-                provider: ProviderType.spotify,
-                title: aMap['title'] as String,
-                episode: aMap['episode'] as int?,
-              );
-            }).toList();
-
-    // Apple Music provider data
     final appleMusicMap = providersMap?['apple_music'] as YamlMap?;
-
-    final amAlbumsRaw = appleMusicMap?['albums'] as YamlList?;
-    // Apple Music IDs may parse as int. toString() handles both.
-    final amAlbums =
-        amAlbumsRaw == null
-            ? <CatalogAlbum>[]
-            : amAlbumsRaw.map<CatalogAlbum>((a) {
-              final aMap = a as YamlMap;
-              return CatalogAlbum(
-                id: aMap['id'].toString(),
-                provider: ProviderType.appleMusic,
-                title: aMap['title'] as String,
-                episode: aMap['episode'] as int?,
-              );
-            }).toList();
-
-    final amArtistIdsRaw = appleMusicMap?['artist_ids'] as YamlList?;
-    // Apple Music IDs are quoted strings in YAML but YAML parsers may
-    // return them as integers. toString() handles both cases safely.
-    final amArtistIds =
-        amArtistIdsRaw == null
-            ? <String>[]
-            : amArtistIdsRaw.map<String>((a) => a.toString()).toList();
 
     return CatalogSeries(
       id: map['id'] as String,
       title: map['title'] as String,
-      aliases: aliases,
-      spotifyArtistIds: artistIds,
-      appleMusicArtistIds: amArtistIds,
+      aliases: _stringList(map['aliases'] as YamlList?),
+      spotifyArtistIds: _stringList(spotifyMap?['artist_ids'] as YamlList?),
+      appleMusicArtistIds: _stringList(
+        appleMusicMap?['artist_ids'] as YamlList?,
+      ),
       coverUrl: map['cover_url'] as String?,
       contentType: ContentType.fromString(map['content_type'] as String?),
-      albums: albums,
-      appleMusicAlbums: amAlbums,
+      albums: _albumList(
+        spotifyMap?['albums'] as YamlList?,
+        ProviderType.spotify,
+      ),
+      appleMusicAlbums: _albumList(
+        appleMusicMap?['albums'] as YamlList?,
+        ProviderType.appleMusic,
+      ),
     );
   }
 
   /// Look up a discovered album in the catalog by its provider+id.
   ///
-  /// Returns the owning series and the extracted episode number if the
+  /// Returns the owning series and the curated episode number if the
   /// album_id is in our curated catalog. Returns null otherwise — we don't
   /// fall back to fuzzy keyword/artist heuristics, which historically
   /// produced false positives (a search for "blaze" being tagged as
@@ -352,7 +339,7 @@ class CatalogService {
     required String albumId,
     required ProviderType albumProvider,
   }) {
-    final hit = _albumIndex['${albumProvider.value}:$albumId'];
+    final hit = _albumIndex[_albumKey(albumProvider, albumId)];
     if (hit == null) {
       Log.debug(_tag, 'No match', data: {'title': title, 'albumId': albumId});
       return null;
@@ -382,7 +369,7 @@ class CatalogService {
   CatalogAlbum? curatedAlbum(
     String albumId, {
     required ProviderType provider,
-  }) => _albumIndex['${provider.value}:$albumId']?.album;
+  }) => _albumIndex[_albumKey(provider, albumId)]?.album;
 
   /// All series sorted alphabetically — for UI display.
   List<CatalogSeries> get all => List.unmodifiable(_series);

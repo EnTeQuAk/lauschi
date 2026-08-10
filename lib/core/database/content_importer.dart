@@ -18,7 +18,6 @@ class PendingCard {
     required this.title,
     required this.providerUri,
     required this.cardType,
-    required this.provider,
     this.coverUrl,
     this.episodeNumber,
     this.spotifyArtistIds,
@@ -31,7 +30,11 @@ class PendingCard {
   final String title;
   final String providerUri;
   final String cardType;
-  final ProviderType provider;
+
+  /// Derived from the [providerUri] prefix, same as the DB layer, so a
+  /// card can never claim a provider its URI disagrees with.
+  ProviderType get provider => ProviderType.fromUri(providerUri);
+
   final String? coverUrl;
   final int? episodeNumber;
 

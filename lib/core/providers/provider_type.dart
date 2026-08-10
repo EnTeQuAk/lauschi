@@ -79,14 +79,20 @@ enum ProviderType {
     return parts.length == 3 ? parts[2] : null;
   }
 
+  /// Parse the provider from a canonical URI's prefix, or null when the
+  /// prefix is unknown. For tolerant call sites like repair passes that
+  /// must skip odd rows instead of aborting.
+  static ProviderType? tryFromUri(String uri) {
+    final prefix = uri.split(':').first;
+    for (final value in values) {
+      if (value._uriPrefix == prefix) return value;
+    }
+    return null;
+  }
+
   /// Parse the provider from a canonical URI's prefix. Throws on unknown
   /// prefixes so a malformed URI fails loudly instead of being stored.
   /// e.g. 'apple_music:album:123' → [appleMusic], 'ard:item:x' → [ardAudiothek]
-  static ProviderType fromUri(String uri) {
-    final prefix = uri.split(':').first;
-    return values.firstWhere(
-      (e) => e._uriPrefix == prefix,
-      orElse: () => throw ArgumentError('Unknown provider URI: $uri'),
-    );
-  }
+  static ProviderType fromUri(String uri) =>
+      tryFromUri(uri) ?? (throw ArgumentError('Unknown provider URI: $uri'));
 }

@@ -50,7 +50,6 @@ void main() {
           PendingCard(
             title: episode.episodeTitle,
             cardType: 'episode',
-            provider: ProviderType.ardAudiothek,
             providerUri: episode.providerUri,
             audioUrl: episode.audioUrl,
             durationMs: episode.durationSeconds * 1000,

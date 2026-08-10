@@ -30,4 +30,12 @@ void main() {
       expect(() => ProviderType.fromUri('abc123'), throwsArgumentError);
     });
   });
+
+  group('ProviderType.tryFromUri', () {
+    test('resolves known prefixes and returns null for unknown ones', () {
+      expect(ProviderType.tryFromUri('ard:item:x'), ProviderType.ardAudiothek);
+      expect(ProviderType.tryFromUri('bogus:album:1'), isNull);
+      expect(ProviderType.tryFromUri('abc123'), isNull);
+    });
+  });
 }

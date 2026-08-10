@@ -5,7 +5,6 @@ import 'package:lauschi/core/database/app_database.dart';
 import 'package:lauschi/core/database/content_importer.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
-import 'package:lauschi/core/providers/provider_type.dart';
 
 /// Unit tests for [ContentImporter]'s Spotify batch import path.
 ///
@@ -60,7 +59,6 @@ void main() {
         title: 'Episode ${i + 1}',
         providerUri: 'spotify:album:ep${i + 1}',
         cardType: 'album',
-        provider: ProviderType.spotify,
       ),
     );
     // Context: the generator produced 10 distinct URIs. If the
@@ -128,7 +126,6 @@ void main() {
         title: 'Folge ${i + 1}',
         providerUri: 'spotify:album:batch-${i + 1}',
         cardType: 'album',
-        provider: ProviderType.spotify,
       ),
     );
     expect(cards, hasLength(50));
@@ -181,35 +178,30 @@ void main() {
         title: 'Folge 5',
         providerUri: 'spotify:album:ep5',
         cardType: 'album',
-        provider: ProviderType.spotify,
         episodeNumber: 5,
       ),
       const PendingCard(
         title: 'Folge 3',
         providerUri: 'spotify:album:ep3',
         cardType: 'album',
-        provider: ProviderType.spotify,
         episodeNumber: 3,
       ),
       const PendingCard(
         title: 'Folge 1',
         providerUri: 'spotify:album:ep1',
         cardType: 'album',
-        provider: ProviderType.spotify,
         episodeNumber: 1,
       ),
       const PendingCard(
         title: 'Folge 4',
         providerUri: 'spotify:album:ep4',
         cardType: 'album',
-        provider: ProviderType.spotify,
         episodeNumber: 4,
       ),
       const PendingCard(
         title: 'Folge 2',
         providerUri: 'spotify:album:ep2',
         cardType: 'album',
-        provider: ProviderType.spotify,
         episodeNumber: 2,
       ),
     ];
@@ -236,20 +228,17 @@ void main() {
         title: 'Bonus',
         providerUri: 'spotify:album:bonus',
         cardType: 'album',
-        provider: ProviderType.spotify,
       ),
       const PendingCard(
         title: 'Folge 2',
         providerUri: 'spotify:album:ep2',
         cardType: 'album',
-        provider: ProviderType.spotify,
         episodeNumber: 2,
       ),
       const PendingCard(
         title: 'Folge 1',
         providerUri: 'spotify:album:ep1',
         cardType: 'album',
-        provider: ProviderType.spotify,
         episodeNumber: 1,
       ),
     ];
@@ -276,7 +265,6 @@ void main() {
           title: 'Ep 1',
           providerUri: 'spotify:album:np1',
           cardType: 'album',
-          provider: ProviderType.spotify,
         ),
       ],
     );

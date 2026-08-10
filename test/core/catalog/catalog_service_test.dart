@@ -39,7 +39,7 @@ void main() {
       );
     });
 
-    test('builds a sizeable album index for Phase 0 lookups', () {
+    test('builds a sizeable album index', () {
       // The index is keyed by provider+album_id, populated from both
       // spotify and apple_music curated lists. A floor of 1000 catches
       // total breakage of the index build (the real number is ~4000+).

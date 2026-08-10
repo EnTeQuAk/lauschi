@@ -10,6 +10,19 @@ import 'package:lauschi/core/providers/provider_type.dart';
 
 const _providers = [ProviderType.spotify, ProviderType.appleMusic];
 
+/// Every curated album with its owning series and provider.
+Iterable<(CatalogSeries, ProviderType, CatalogAlbum)> _curatedAlbums(
+  CatalogService catalog,
+) sync* {
+  for (final series in catalog.all) {
+    for (final provider in _providers) {
+      for (final album in series.albumsForProvider(provider)) {
+        yield (series, provider, album);
+      }
+    }
+  }
+}
+
 void main() {
   late CatalogService catalog;
   late Map<String, List<String>> shared;
@@ -34,24 +47,20 @@ void main() {
 
     final disagreements = <String>[];
     var compared = 0;
-    for (final series in catalog.all) {
-      for (final provider in _providers) {
-        for (final album in series.albumsForProvider(provider)) {
-          if (album.episode == null) continue;
-          if (knownAmbiguous.contains('${provider.value}:${album.id}')) {
-            continue;
-          }
-          final inTitle = folge.firstMatch(album.title);
-          if (inTitle == null) continue;
-          compared++;
-          if (int.parse(inTitle.group(1)!) != album.episode) {
-            disagreements.add(
-              '${series.id}/${provider.value} ${album.id}: '
-              'curated ${album.episode} but title says '
-              '"${inTitle.group(0)}" — "${album.title}"',
-            );
-          }
-        }
+    for (final (series, provider, album) in _curatedAlbums(catalog)) {
+      if (album.episode == null) continue;
+      if (knownAmbiguous.contains('${provider.value}:${album.id}')) {
+        continue;
+      }
+      final inTitle = folge.firstMatch(album.title);
+      if (inTitle == null) continue;
+      compared++;
+      if (int.parse(inTitle.group(1)!) != album.episode) {
+        disagreements.add(
+          '${series.id}/${provider.value} ${album.id}: '
+          'curated ${album.episode} but title says '
+          '"${inTitle.group(0)}" — "${album.title}"',
+        );
       }
     }
 
@@ -73,25 +82,21 @@ void main() {
     // checked by the ratchet test below instead.
     final wrong = <String>[];
     var compared = 0;
-    for (final series in catalog.all) {
-      for (final provider in _providers) {
-        for (final album in series.albumsForProvider(provider)) {
-          if (shared.containsKey('${provider.value}:${album.id}')) continue;
-          final match = catalog.match(
-            album.title,
-            albumId: album.id,
-            albumProvider: provider,
-          );
-          compared++;
-          if (match?.series.id != series.id ||
-              match?.episodeNumber != album.episode) {
-            wrong.add(
-              '${series.id}/${provider.value} ${album.id}: resolved to '
-              '${match?.series.id} ep ${match?.episodeNumber}, curated '
-              'ep ${album.episode}',
-            );
-          }
-        }
+    for (final (series, provider, album) in _curatedAlbums(catalog)) {
+      if (shared.containsKey('${provider.value}:${album.id}')) continue;
+      final match = catalog.match(
+        album.title,
+        albumId: album.id,
+        albumProvider: provider,
+      );
+      compared++;
+      if (match?.series.id != series.id ||
+          match?.episodeNumber != album.episode) {
+        wrong.add(
+          '${series.id}/${provider.value} ${album.id}: resolved to '
+          '${match?.series.id} ep ${match?.episodeNumber}, curated '
+          'ep ${album.episode}',
+        );
       }
     }
 

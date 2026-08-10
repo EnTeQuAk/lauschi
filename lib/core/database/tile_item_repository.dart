@@ -130,12 +130,7 @@ class TileItemRepository {
     int totalTracks = 0,
   }) {
     return _db.transaction(() async {
-      final existing =
-          await (_db.select(_db.cards)
-                ..where((t) => t.providerUri.equals(providerUri))
-                ..limit(1))
-              .getSingleOrNull();
-
+      final existing = await getByProviderUri(providerUri);
       if (existing != null) return existing.id;
 
       return insert(
@@ -372,39 +367,35 @@ class TileItemRepository {
   /// lives in sortOrder and is never touched. Albums the catalog does not
   /// know, including everything from ARD, are left exactly as they are.
   Future<int> reconcileEpisodeNumbers(CatalogService catalog) async {
-    var changed = 0;
-    var scanned = 0;
-
     // Read and write in one transaction: the pass runs fire-and-forget
     // at app start while the parent may be editing, and a card deleted
     // or removed from its tile between a separate select and the update
     // would get a stale number written back.
-    await _db.transaction(() async {
+    final (changed, scanned) = await _db.transaction(() async {
       final items = await _db.select(_db.cards).get();
-      scanned = items.length;
+      var changed = 0;
       for (final item in items) {
+        // tryFromUri skips rows with unexpected URIs instead of
+        // aborting the pass at app start.
+        final provider = ProviderType.tryFromUri(item.providerUri);
         // Only these two providers have catalog-backed episode numbers.
-        // Matching explicitly rather than parsing the column keeps one
-        // unexpected value from aborting the pass at app start.
-        final provider = switch (item.provider) {
-          'spotify' => ProviderType.spotify,
-          'apple_music' => ProviderType.appleMusic,
-          _ => null,
-        };
-        if (provider == null) continue;
+        if (provider != ProviderType.spotify &&
+            provider != ProviderType.appleMusic) {
+          continue;
+        }
         final albumId = ProviderType.extractId(item.providerUri);
         if (albumId == null) continue;
 
-        final album = catalog.curatedAlbum(albumId, provider: provider);
+        final album = catalog.curatedAlbum(albumId, provider: provider!);
         if (album == null) continue; // not curated: nothing authoritative
         if (album.episode == item.episodeNumber) continue;
 
-        final rows = await (_db.update(_db.cards)
-          ..where((t) => t.id.equals(item.id))).write(
+        await (_db.update(_db.cards)..where((t) => t.id.equals(item.id))).write(
           CardsCompanion(episodeNumber: Value(album.episode)),
         );
-        changed += rows;
+        changed++;
       }
+      return (changed, items.length);
     });
 
     if (changed > 0) {
@@ -603,7 +594,10 @@ Future<void> reconcileEpisodeNumbersAtStartup({
 }) async {
   try {
     await items.reconcileEpisodeNumbers(await catalog);
-  } on Exception catch (e) {
+    // A TypeError from a catastrophic catalog parse is an Error, not an
+    // Exception, and must not escape a fire-and-forget call either.
+    // ignore: avoid_catches_without_on_clauses
+  } catch (e) {
     Log.error(_tag, 'Episode reconcile failed', exception: e);
   }
 }

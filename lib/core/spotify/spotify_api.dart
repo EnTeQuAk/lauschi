@@ -25,14 +25,13 @@ class SpotifyDeviceNotFoundException implements Exception {
 /// call [updateToken] when the auth state changes. Set [onTokenExpired] to
 /// enable automatic 401 → refresh → retry.
 class SpotifyApi {
-  SpotifyApi()
+  /// [adapter] replaces the HTTP transport in tests; base URL and
+  /// interceptors stay owned by this constructor either way.
+  SpotifyApi({@visibleForTesting HttpClientAdapter? adapter})
     : _dio = Dio(BaseOptions(baseUrl: 'https://api.spotify.com/v1')) {
     if (FeatureFlags.enableSentry) _dio.addSentry();
+    if (adapter != null) _dio.httpClientAdapter = adapter;
   }
-
-  /// For tests: inject a Dio with a fake adapter.
-  @visibleForTesting
-  SpotifyApi.withDio(this._dio);
 
   final Dio _dio;
   String? _accessToken;
@@ -232,7 +231,8 @@ class SpotifyApi {
     );
   }
 
-  /// Get album details including track listing.
+  /// Get album metadata. Track lists come from [getAlbumTracks], which
+  /// pages past the 50-track cap of the embedded list.
   Future<SpotifyAlbum?> getAlbum(String albumId) async {
     Log.info(_tag, 'GET /albums/$albumId');
 
@@ -469,30 +469,16 @@ class SpotifyAlbum {
     required this.uri,
     required this.artists,
     required this.artistIds,
-    required this.imageUrl,
     required this.totalTracks,
     this.images = const [],
     this.albumType,
     this.releaseDate,
-    this.tracks,
   });
 
   factory SpotifyAlbum.fromJson(Map<String, dynamic> json) {
     final images = json['images'] as List<dynamic>? ?? [];
     final artistsRaw = json['artists'] as List<dynamic>? ?? [];
     final artistMaps = artistsRaw.whereType<Map<String, dynamic>>();
-
-    // Parse tracks if present (album detail endpoint includes them)
-    List<SpotifyTrack>? tracks;
-    final tracksData = json['tracks'] as Map<String, dynamic>?;
-    if (tracksData != null) {
-      final items = (tracksData['items'] as List<dynamic>?) ?? [];
-      tracks =
-          items
-              .whereType<Map<String, dynamic>>()
-              .map(SpotifyTrack.fromJson)
-              .toList();
-    }
 
     return SpotifyAlbum(
       id: json['id'] as String,
@@ -504,10 +490,6 @@ class SpotifyAlbum {
               .map((a) => a['id'] as String? ?? '')
               .where((s) => s.isNotEmpty)
               .toList(),
-      imageUrl:
-          images.isNotEmpty
-              ? (images.first as Map<String, dynamic>)['url'] as String?
-              : null,
       images:
           images
               .whereType<Map<String, dynamic>>()
@@ -516,7 +498,6 @@ class SpotifyAlbum {
       totalTracks: json['total_tracks'] as int? ?? 0,
       albumType: json['album_type'] as String?,
       releaseDate: json['release_date'] as String?,
-      tracks: tracks,
     );
   }
 
@@ -528,7 +509,6 @@ class SpotifyAlbum {
   /// Spotify artist IDs corresponding to [artists], same order.
   final List<String> artistIds;
 
-  final String? imageUrl;
   final int totalTracks;
 
   /// All artwork renditions Spotify returned, largest first
@@ -538,26 +518,11 @@ class SpotifyAlbum {
   /// 'album', 'single', or 'compilation'.
   final String? albumType;
   final String? releaseDate;
-  final List<SpotifyTrack>? tracks;
+
+  /// The largest artwork rendition.
+  String? get imageUrl => images.isEmpty ? null : images.first.url;
 
   String get artistNames => artists.join(', ');
-
-  /// Artwork URL for a requested pixel size: the smallest rendition
-  /// that is still at least [size] wide, falling back to the largest.
-  /// Keeps kid-home grids from downloading 640px art for 300px tiles.
-  String? imageUrlForSize(int size) {
-    String? best;
-    int? bestWidth;
-    for (final image in images) {
-      final width = image.width;
-      if (image.url == null || width == null) continue;
-      if (width >= size && (bestWidth == null || width < bestWidth)) {
-        best = image.url;
-        bestWidth = width;
-      }
-    }
-    return best ?? imageUrl;
-  }
 }
 
 class SpotifyPlaylistSearchResult {

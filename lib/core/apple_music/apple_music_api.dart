@@ -1,6 +1,7 @@
 import 'dart:async' show Completer, Timer, unawaited;
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:sentry_dio/sentry_dio.dart';
@@ -58,7 +59,9 @@ class AppleMusicTrack {
 /// Catalog endpoints don't require a Music-User-Token; that's only for
 /// personalized endpoints (/v1/me/...) and playback.
 class AppleMusicApi {
-  AppleMusicApi()
+  /// [adapter] replaces the HTTP transport in tests; base URL and
+  /// interceptors stay owned by this constructor either way.
+  AppleMusicApi({@visibleForTesting HttpClientAdapter? adapter})
     : _dio = Dio(
         BaseOptions(
           baseUrl: 'https://api.music.apple.com/v1',
@@ -67,6 +70,7 @@ class AppleMusicApi {
         ),
       ) {
     if (FeatureFlags.enableSentry) _dio.addSentry();
+    if (adapter != null) _dio.httpClientAdapter = adapter;
   }
 
   final Dio _dio;
@@ -172,43 +176,51 @@ class AppleMusicApi {
     }
   }
 
-  /// Get tracks for an album.
+  /// Get every track of an album, following pagination.
+  ///
+  /// The tracks relationship is paged; long albums (Kinderlieder
+  /// compilations, box sets) span multiple pages and would otherwise
+  /// be silently truncated.
   Future<List<AppleMusicTrack>> getAlbumTracks(String albumId) async {
     _requireConfigured();
+    const pageSize = 100;
+    final tracks = <AppleMusicTrack>[];
+    var offset = 0;
     try {
-      final response = await _dio.get<Map<String, dynamic>>(
-        '/albums/$albumId',
-        queryParameters: {'include': 'tracks'},
-      );
-
-      final data = response.data?['data'] as List<dynamic>?;
-      if (data == null || data.isEmpty) return [];
-
-      final firstItem = data[0] as Map<String, dynamic>;
-      final relationships = firstItem['relationships'] as Map<String, dynamic>?;
-      final tracksMap = relationships?['tracks'] as Map<String, dynamic>?;
-      final tracksData = tracksMap?['data'] as List<dynamic>? ?? [];
-
-      return tracksData.map<AppleMusicTrack>((e) {
-        final item = e as Map<String, dynamic>;
-        final attrs =
-            item['attributes'] as Map<String, dynamic>? ?? <String, dynamic>{};
-        return AppleMusicTrack(
-          id: item['id'] as String,
-          name: attrs['name'] as String? ?? '',
-          trackNumber: attrs['trackNumber'] as int? ?? 0,
-          durationMs: attrs['durationInMillis'] as int? ?? 0,
-          artistName: attrs['artistName'] as String?,
+      while (true) {
+        final response = await _dio.get<Map<String, dynamic>>(
+          '/albums/$albumId/tracks',
+          queryParameters: {'limit': pageSize, 'offset': offset},
         );
-      }).toList();
+
+        final data = response.data?['data'] as List<dynamic>? ?? [];
+        tracks.addAll(
+          data.whereType<Map<String, dynamic>>().map(_parseTrack),
+        );
+        if (response.data?['next'] == null || data.isEmpty) break;
+        offset += pageSize;
+      }
+      return tracks;
     } on DioException catch (e) {
       Log.error(
         _tag,
         'Get album tracks failed',
         data: {'albumId': albumId, 'status': '${e.response?.statusCode}'},
       );
-      return [];
+      return tracks;
     }
+  }
+
+  static AppleMusicTrack _parseTrack(Map<String, dynamic> item) {
+    final attrs =
+        item['attributes'] as Map<String, dynamic>? ?? <String, dynamic>{};
+    return AppleMusicTrack(
+      id: item['id'] as String,
+      name: attrs['name'] as String? ?? '',
+      trackNumber: attrs['trackNumber'] as int? ?? 0,
+      durationMs: attrs['durationInMillis'] as int? ?? 0,
+      artistName: attrs['artistName'] as String?,
+    );
   }
 
   // ── Cover request coalescing ──────────────────────────────────────

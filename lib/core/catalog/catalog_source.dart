@@ -13,6 +13,7 @@ class CatalogAlbumResult {
     required this.artistIds,
     required this.provider,
     this.artworkUrl,
+    this.artworkRenditions = const [],
     this.totalTracks = 0,
     this.releaseDate,
   });
@@ -32,6 +33,11 @@ class CatalogAlbumResult {
   /// Artwork URL. For Apple Music, contains `{w}x{h}` template.
   final String? artworkUrl;
 
+  /// Fixed-size artwork renditions, largest first, for providers that
+  /// publish discrete sizes instead of a template URL (Spotify:
+  /// 640/300/64 px). Empty when [artworkUrl] alone applies.
+  final List<({String? url, int? width})> artworkRenditions;
+
   final int totalTracks;
   final String? releaseDate;
   final ProviderType provider;
@@ -40,10 +46,24 @@ class CatalogAlbumResult {
   /// Exhaustive: add new providers here when extending ProviderType.
   String get providerUri => provider.albumUri(id);
 
-  /// Resolve artwork URL to a specific pixel size.
-  /// Handles Apple Music `{w}x{h}` templates and passes through
-  /// other URLs unchanged.
+  /// Resolve artwork to a specific pixel size, so a 300px tile does
+  /// not download 640px art.
+  ///
+  /// Picks the smallest rendition still at least [size] wide when
+  /// renditions exist; otherwise fills Apple Music `{w}x{h}` templates
+  /// and passes other URLs through unchanged.
   String? artworkUrlForSize(int size) {
+    String? best;
+    int? bestWidth;
+    for (final rendition in artworkRenditions) {
+      final width = rendition.width;
+      if (rendition.url == null || width == null) continue;
+      if (width >= size && (bestWidth == null || width < bestWidth)) {
+        best = rendition.url;
+        bestWidth = width;
+      }
+    }
+    if (best != null) return best;
     if (artworkUrl == null) return null;
     return artworkUrl!.replaceAll('{w}', '$size').replaceAll('{h}', '$size');
   }

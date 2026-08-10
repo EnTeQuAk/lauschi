@@ -181,4 +181,16 @@ void main() {
       completes,
     );
   });
+
+  test('startup wrapper swallows Errors, not just Exceptions', () async {
+    // A catastrophic catalog parse throws TypeError (an Error); the
+    // guard must hold for those too.
+    await expectLater(
+      reconcileEpisodeNumbersAtStartup(
+        catalog: Future.error(StateError('catalog parse blew up')),
+        items: repo,
+      ),
+      completes,
+    );
+  });
 }

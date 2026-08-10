@@ -126,7 +126,6 @@ class _CatalogSeriesDetailScreenState
             title: catalogAlbum.title,
             providerUri: catalogAlbum.uri,
             cardType: 'album',
-            provider: widget.provider,
             coverUrl: covers[albumId],
             episodeNumber: catalogAlbum.episode,
             spotifyArtistIds:

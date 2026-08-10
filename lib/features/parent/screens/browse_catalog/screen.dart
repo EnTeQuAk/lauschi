@@ -368,7 +368,6 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
               title: playlist.name,
               providerUri: playlist.uri,
               cardType: 'playlist',
-              provider: ProviderType.spotify,
               coverUrl: playlist.imageUrl,
               totalTracks: playlist.totalTracks,
             ),
