@@ -1,3 +1,5 @@
+import 'dart:async' show unawaited;
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lauschi/core/catalog/catalog_service.dart' show ContentType;
@@ -149,11 +151,13 @@ class _GroupCardState extends State<TileCard>
       button: true,
       child: GestureDetector(
         onTapDown: (_) => _controller.forward(),
-        onTapUp: (_) async {
-          await _controller.reverse();
+        // Callback fires synchronously; see TileItem._handleTapUp for
+        // why it must not wait on the reverse animation.
+        onTapUp: (_) {
           widget.onTap();
+          unawaited(_controller.reverse());
         },
-        onTapCancel: () => _controller.reverse(),
+        onTapCancel: _controller.reverse,
         child: AnimatedScale(
           scale: widget.isNestTarget ? 1.08 : 1.0,
           duration: const Duration(milliseconds: 200),

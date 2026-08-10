@@ -78,17 +78,21 @@ class _AudioCardState extends State<TileItem>
     super.dispose();
   }
 
-  Future<void> _handleTapDown(TapDownDetails _) async {
-    await _controller.forward();
+  void _handleTapDown(TapDownDetails _) {
+    unawaited(_controller.forward());
   }
 
-  Future<void> _handleTapUp(TapUpDetails _) async {
-    await _controller.reverse();
+  void _handleTapUp(TapUpDetails _) {
+    // Fire the callback synchronously: gating it behind the reverse
+    // animation's TickerFuture drops the tap whenever that ticker is
+    // canceled (a second tap-down mid-reverse, or the card being
+    // disposed by a DB update).
     widget.onTap();
+    unawaited(_controller.reverse());
   }
 
-  Future<void> _handleTapCancel() async {
-    await _controller.reverse();
+  void _handleTapCancel() {
+    unawaited(_controller.reverse());
   }
 
   @override
