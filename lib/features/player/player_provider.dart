@@ -357,6 +357,21 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   /// Resume playback for a card, restoring saved position.
   Future<void> playCard(String cardId) async {
+    // Re-tapping the already-playing card must not restart it: tearing
+    // the backend down mid-story cuts the audio and resumes from the
+    // last saved position, audibly jumping backwards. Kids tap the
+    // glowing card (and re-present NFC figures) expecting nothing
+    // worse than the player opening.
+    if (cardId == state.activeCardId && state.isPlaying) {
+      Log.info(
+        _tag,
+        'playCard ignored, already playing',
+        data: {
+          'cardId': cardId,
+        },
+      );
+      return;
+    }
     final gen = ++_playGen;
     Log.info(
       _tag,
