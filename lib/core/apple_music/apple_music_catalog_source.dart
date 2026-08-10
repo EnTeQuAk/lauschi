@@ -61,9 +61,9 @@ class AppleMusicCatalogSource implements CatalogSource {
       id: album.id,
       name: album.name,
       artistName: album.artistName,
-      // Apple Music search doesn't return artist IDs in album attributes.
-      // Phase-1 title matching handles most cases. Phase-2 artist ID matching
-      // uses IDs from series.yaml (appleMusicArtistIds) instead.
+      // Apple Music search doesn't return artist IDs in album
+      // attributes, so cards added from Apple Music browse store none
+      // and the cover picker's artist-portrait rail stays Spotify-only.
       artistIds: [],
       artworkUrl: album.artworkUrl,
       totalTracks: album.trackCount,
@@ -76,7 +76,6 @@ class AppleMusicCatalogSource implements CatalogSource {
     return CatalogTrackResult(
       id: track.id,
       name: track.name,
-      trackNumber: track.trackNumber,
       durationMs: track.durationMs,
       artistName: track.artistName,
     );

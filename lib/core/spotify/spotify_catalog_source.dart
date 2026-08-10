@@ -25,9 +25,11 @@ class SpotifyCatalogSource implements CatalogSource {
 
   @override
   Future<List<CatalogTrackResult>> getAlbumTracks(String albumId) async {
-    final album = await _api.getAlbum(albumId);
-    if (album?.tracks == null) return [];
-    return album!.tracks!.map(_trackFromSpotify).toList();
+    // Paged endpoint, not the embedded track list on the album detail:
+    // that list is capped at 50 tracks and would silently truncate
+    // Kinderlieder compilations and box sets.
+    final tracks = await _api.getAlbumTracks(albumId);
+    return tracks.map(_trackFromSpotify).toList();
   }
 
   @override
@@ -45,11 +47,15 @@ class SpotifyCatalogSource implements CatalogSource {
       try {
         final albums = await _api.getAlbums(batch);
         for (final album in albums) {
-          if (album.imageUrl != null) {
-            covers[album.id] = album.imageUrl!;
+          final url = album.imageUrlForSize(size);
+          if (url != null) {
+            covers[album.id] = url;
           }
         }
-      } on Exception {
+        // A TypeError from an unexpected response shape is an Error,
+        // not an Exception, and must also only fail its own batch.
+        // ignore: avoid_catches_without_on_clauses
+      } catch (_) {
         // Skip failed batches, show placeholders for those albums.
       }
     }
@@ -78,7 +84,6 @@ class SpotifyCatalogSource implements CatalogSource {
     return CatalogTrackResult(
       id: track.id,
       name: track.name,
-      trackNumber: track.trackNumber,
       durationMs: track.durationMs,
       artistName: track.artistNames,
     );

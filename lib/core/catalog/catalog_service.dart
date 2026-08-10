@@ -84,7 +84,9 @@ class CatalogSeries {
   final List<String> spotifyArtistIds;
 
   /// Apple Music artist IDs whose albums belong to this series.
-  /// Used by tile-edit and detail screens (not by the matcher).
+  /// Parsed from the catalog but not yet consumed by the app: the
+  /// cover picker's artist-portrait rail is Spotify-only because
+  /// Apple Music search results carry no artist ids to store.
   final List<String> appleMusicArtistIds;
 
   /// Curated cover image URL for this series.

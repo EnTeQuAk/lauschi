@@ -207,8 +207,12 @@ class _AlbumDetailSheetState extends ConsumerState<AlbumDetailSheet> {
                             dense: true,
                             leading: SizedBox(
                               width: 24,
+                              // Position in the album, not the provider
+                              // track number: providers restart numbering
+                              // per disc, which would show 1..12 twice
+                              // for a two-disc box set.
                               child: Text(
-                                '${track.trackNumber}',
+                                '${index + 1}',
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   fontFamily: 'Nunito',

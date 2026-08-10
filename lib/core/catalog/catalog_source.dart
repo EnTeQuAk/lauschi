@@ -49,19 +49,21 @@ class CatalogAlbumResult {
   }
 }
 
-/// Track within a catalog album.
+/// Track within a catalog album, in album order.
+///
+/// Carries no provider track number: providers number tracks per disc,
+/// so multi-disc box sets would show 1..12 twice. Display code numbers
+/// tracks by list position instead.
 class CatalogTrackResult {
   const CatalogTrackResult({
     required this.id,
     required this.name,
-    required this.trackNumber,
     required this.durationMs,
     this.artistName,
   });
 
   final String id;
   final String name;
-  final int trackNumber;
   final int durationMs;
   final String? artistName;
 }

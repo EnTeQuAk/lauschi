@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/spotify/spotify_config.dart';
@@ -28,6 +29,10 @@ class SpotifyApi {
     : _dio = Dio(BaseOptions(baseUrl: 'https://api.spotify.com/v1')) {
     if (FeatureFlags.enableSentry) _dio.addSentry();
   }
+
+  /// For tests: inject a Dio with a fake adapter.
+  @visibleForTesting
+  SpotifyApi.withDio(this._dio);
 
   final Dio _dio;
   String? _accessToken;
@@ -244,6 +249,47 @@ class SpotifyApi {
     return SpotifyAlbum.fromJson(resp!.data!);
   }
 
+  /// Get every track of an album, following pagination.
+  ///
+  /// GET /albums/{id}/tracks returns at most 50 tracks per page; the
+  /// embedded track list on GET /albums/{id} is capped the same way,
+  /// so long albums (Kinderlieder compilations, box sets) need this
+  /// pager to show their full track list.
+  Future<List<SpotifyTrack>> getAlbumTracks(String albumId) async {
+    const pageSize = 50;
+    final tracks = <SpotifyTrack>[];
+    var offset = 0;
+
+    while (true) {
+      Log.info(
+        _tag,
+        'GET /albums/$albumId/tracks',
+        data: {'offset': '$offset'},
+      );
+      final resp = await _request(
+        () => _dio.get<Map<String, dynamic>>(
+          '/albums/$albumId/tracks',
+          queryParameters: {
+            'market': SpotifyConfig.market,
+            'limit': pageSize,
+            'offset': offset,
+          },
+        ),
+      );
+
+      final data = resp?.data;
+      if (data == null) break;
+      final items = (data['items'] as List<dynamic>?) ?? [];
+      tracks.addAll(
+        items.whereType<Map<String, dynamic>>().map(SpotifyTrack.fromJson),
+      );
+      if (data['next'] == null || items.isEmpty) break;
+      offset += pageSize;
+    }
+
+    return tracks;
+  }
+
   /// Get multiple albums in one request (max 20 IDs per Spotify API limit).
   ///
   /// Returns albums in the same order as [albumIds]. Missing/unavailable
@@ -425,6 +471,7 @@ class SpotifyAlbum {
     required this.artistIds,
     required this.imageUrl,
     required this.totalTracks,
+    this.images = const [],
     this.albumType,
     this.releaseDate,
     this.tracks,
@@ -461,6 +508,11 @@ class SpotifyAlbum {
           images.isNotEmpty
               ? (images.first as Map<String, dynamic>)['url'] as String?
               : null,
+      images:
+          images
+              .whereType<Map<String, dynamic>>()
+              .map((i) => (url: i['url'] as String?, width: i['width'] as int?))
+              .toList(),
       totalTracks: json['total_tracks'] as int? ?? 0,
       albumType: json['album_type'] as String?,
       releaseDate: json['release_date'] as String?,
@@ -479,12 +531,33 @@ class SpotifyAlbum {
   final String? imageUrl;
   final int totalTracks;
 
+  /// All artwork renditions Spotify returned, largest first
+  /// (typically 640, 300, 64 px).
+  final List<({String? url, int? width})> images;
+
   /// 'album', 'single', or 'compilation'.
   final String? albumType;
   final String? releaseDate;
   final List<SpotifyTrack>? tracks;
 
   String get artistNames => artists.join(', ');
+
+  /// Artwork URL for a requested pixel size: the smallest rendition
+  /// that is still at least [size] wide, falling back to the largest.
+  /// Keeps kid-home grids from downloading 640px art for 300px tiles.
+  String? imageUrlForSize(int size) {
+    String? best;
+    int? bestWidth;
+    for (final image in images) {
+      final width = image.width;
+      if (image.url == null || width == null) continue;
+      if (width >= size && (bestWidth == null || width < bestWidth)) {
+        best = image.url;
+        bestWidth = width;
+      }
+    }
+    return best ?? imageUrl;
+  }
 }
 
 class SpotifyPlaylistSearchResult {
