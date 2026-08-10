@@ -121,6 +121,55 @@ void main() {
     },
   );
 
+  test('concurrent insertIfAbsent calls create only one row', () async {
+    // A double-tap on the add button fires two calls before either
+    // commits. Without atomicity both selects see an empty table and
+    // both insert, leaving duplicate rows that later crash lookups.
+    final ids = await Future.wait([
+      repo.insertIfAbsent(
+        title: 'Album',
+        providerUri: 'spotify:album:race1',
+        cardType: 'album',
+      ),
+      repo.insertIfAbsent(
+        title: 'Album',
+        providerUri: 'spotify:album:race1',
+        cardType: 'album',
+      ),
+    ]);
+
+    expect(ids[0], ids[1], reason: 'both calls should resolve to one card');
+    expect(await repo.getAll(), hasLength(1));
+  });
+
+  test('duplicate providerUri rows do not break lookups', () async {
+    // Installs that raced the add flow before insertIfAbsent became
+    // transactional can hold duplicate rows. Lookups must degrade to
+    // picking one row, not throw StateError forever.
+    for (var i = 0; i < 2; i++) {
+      await _insertRawCard(
+        db,
+        id: 'dup-row-$i',
+        providerUri: 'spotify:album:dup1',
+      );
+    }
+
+    final card = await repo.getByProviderUri('spotify:album:dup1');
+    expect(card, isNotNull);
+
+    final id = await repo.insertIfAbsent(
+      title: 'Album',
+      providerUri: 'spotify:album:dup1',
+      cardType: 'album',
+    );
+    expect(id, isNotEmpty);
+    expect(
+      await repo.getAll(),
+      hasLength(2),
+      reason: 'insertIfAbsent must reuse an existing row, not add a third',
+    );
+  });
+
   test('insert rejects a providerUri with an unknown prefix', () async {
     await expectLater(
       repo.insert(title: 'x', providerUri: 'bogus:album:1', cardType: 'album'),
@@ -914,4 +963,24 @@ void main() {
       expect(all, hasLength(1));
     });
   });
+}
+
+/// Insert a card row directly, bypassing the repository's dedup and
+/// URI validation. Simulates rows written by older app versions.
+Future<void> _insertRawCard(
+  AppDatabase db, {
+  required String id,
+  required String providerUri,
+}) {
+  return db
+      .into(db.cards)
+      .insert(
+        CardsCompanion.insert(
+          id: id,
+          title: 'Raw row',
+          cardType: 'album',
+          providerUri: providerUri,
+          provider: const Value('spotify'),
+        ),
+      );
 }

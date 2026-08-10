@@ -118,6 +118,9 @@ class TileItemRepository {
 
   /// Insert an item only if the providerUri doesn't already exist.
   /// Returns the ID (existing or new).
+  ///
+  /// Runs in a transaction so concurrent calls (double-tap on an add
+  /// button) serialize instead of both passing the existence check.
   Future<String> insertIfAbsent({
     required String title,
     required String providerUri,
@@ -125,21 +128,25 @@ class TileItemRepository {
     String? coverUrl,
     List<String>? spotifyArtistIds,
     int totalTracks = 0,
-  }) async {
-    final existing =
-        await (_db.select(_db.cards)
-          ..where((t) => t.providerUri.equals(providerUri))).getSingleOrNull();
+  }) {
+    return _db.transaction(() async {
+      final existing =
+          await (_db.select(_db.cards)
+                ..where((t) => t.providerUri.equals(providerUri))
+                ..limit(1))
+              .getSingleOrNull();
 
-    if (existing != null) return existing.id;
+      if (existing != null) return existing.id;
 
-    return insert(
-      title: title,
-      providerUri: providerUri,
-      cardType: cardType,
-      coverUrl: coverUrl,
-      spotifyArtistIds: spotifyArtistIds,
-      totalTracks: totalTracks,
-    );
+      return insert(
+        title: title,
+        providerUri: providerUri,
+        cardType: cardType,
+        coverUrl: coverUrl,
+        spotifyArtistIds: spotifyArtistIds,
+        totalTracks: totalTracks,
+      );
+    });
   }
 
   /// Update sort order for multiple items.
@@ -205,9 +212,15 @@ class TileItemRepository {
   }
 
   /// Find an item by its provider URI.
+  ///
+  /// The providerUri index is not unique; installs that raced the add
+  /// flow before [insertIfAbsent] became transactional can hold
+  /// duplicate rows. Picking one row keeps lookups working for them.
   Future<TileItem?> getByProviderUri(String uri) {
     return (_db.select(_db.cards)
-      ..where((t) => t.providerUri.equals(uri))).getSingleOrNull();
+          ..where((t) => t.providerUri.equals(uri))
+          ..limit(1))
+        .getSingleOrNull();
   }
 
   /// Delete an item by ID.
