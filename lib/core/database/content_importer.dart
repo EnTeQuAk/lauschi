@@ -339,7 +339,6 @@ class ContentImporter extends _$ContentImporter {
         title: card.title,
         providerUri: card.providerUri,
         cardType: card.cardType,
-        provider: card.provider,
         coverUrl: card.coverUrl,
         spotifyArtistIds: card.spotifyArtistIds,
         totalTracks: card.totalTracks,

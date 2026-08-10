@@ -75,15 +75,19 @@ class TileItemRepository {
   }
 
   /// Insert a new item. Returns the generated ID.
+  ///
+  /// The provider column derives from the [providerUri] prefix
+  /// (e.g. 'apple_music:album:123' → apple_music), so the two can
+  /// never disagree. Throws [ArgumentError] on unknown prefixes.
   Future<String> insert({
     required String title,
     required String providerUri,
     required String cardType,
     String? coverUrl,
-    ProviderType provider = ProviderType.spotify,
     List<String>? spotifyArtistIds,
     int totalTracks = 0,
   }) async {
+    final provider = ProviderType.fromUri(providerUri);
     final id = _uuid.v4();
 
     await _db
@@ -119,7 +123,6 @@ class TileItemRepository {
     required String providerUri,
     required String cardType,
     String? coverUrl,
-    ProviderType provider = ProviderType.spotify,
     List<String>? spotifyArtistIds,
     int totalTracks = 0,
   }) async {
@@ -134,7 +137,6 @@ class TileItemRepository {
       providerUri: providerUri,
       cardType: cardType,
       coverUrl: coverUrl,
-      provider: provider,
       spotifyArtistIds: spotifyArtistIds,
       totalTracks: totalTracks,
     );
@@ -447,7 +449,6 @@ class TileItemRepository {
         title: title,
         providerUri: providerUri,
         cardType: 'episode',
-        provider: ProviderType.ardAudiothek,
         coverUrl: coverUrl,
       );
       await updateArdFields(

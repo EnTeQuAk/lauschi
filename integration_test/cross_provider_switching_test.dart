@@ -83,7 +83,6 @@ void main() {
         title: amAlbum.name,
         providerUri: ProviderType.appleMusic.albumUri(amAlbum.id),
         cardType: 'album',
-        provider: ProviderType.appleMusic,
         coverUrl: amAlbum.artworkUrlForSize(200),
         totalTracks: amAlbum.trackCount,
       );

@@ -82,6 +82,57 @@ void main() {
     expect(cards, hasLength(1), reason: 'duplicate URI did not add a row');
   });
 
+  test(
+    'insert derives the provider column from the providerUri prefix',
+    () async {
+      // A mislabeled provider column routes playback to the wrong backend
+      // (an Apple Music card handed to the Spotify player fails silently
+      // for the kid) and makes catalog reconciliation skip the row.
+      await repo.insert(
+        title: 'Bibi und Tina Folge 1',
+        providerUri: 'apple_music:album:1686062068',
+        cardType: 'album',
+      );
+      await repo.insert(
+        title: 'Checker Tobi',
+        providerUri: 'ard:item:urn123',
+        cardType: 'episode',
+      );
+
+      final am = await repo.getByProviderUri('apple_music:album:1686062068');
+      final ard = await repo.getByProviderUri('ard:item:urn123');
+      expect(am!.provider, 'apple_music');
+      expect(ard!.provider, 'ard_audiothek');
+    },
+  );
+
+  test(
+    'insertIfAbsent stores an Apple Music album with its own provider',
+    () async {
+      final id = await repo.insertIfAbsent(
+        title: 'Die drei ??? Folge 100',
+        providerUri: 'apple_music:album:987654',
+        cardType: 'album',
+      );
+
+      final card = await repo.getByProviderUri('apple_music:album:987654');
+      expect(card!.id, id);
+      expect(card.provider, 'apple_music');
+    },
+  );
+
+  test('insert rejects a providerUri with an unknown prefix', () async {
+    await expectLater(
+      repo.insert(title: 'x', providerUri: 'bogus:album:1', cardType: 'album'),
+      throwsArgumentError,
+    );
+    expect(
+      await repo.getAll(),
+      isEmpty,
+      reason: 'a rejected insert must not leave a row behind',
+    );
+  });
+
   test('sortOrder is null on insert (auto-sort by episodeNumber)', () async {
     final id1 = await repo.insert(
       title: 'First',

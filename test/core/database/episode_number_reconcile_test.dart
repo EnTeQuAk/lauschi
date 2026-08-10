@@ -4,7 +4,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/catalog/catalog_service.dart';
 import 'package:lauschi/core/database/app_database.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
-import 'package:lauschi/core/providers/provider_type.dart';
 
 /// Reconciling stored episode numbers against the catalog.
 ///
@@ -116,7 +115,6 @@ void main() {
       title: 'Some ARD episode',
       providerUri: 'ard:album:xyz',
       cardType: 'album',
-      provider: ProviderType.ardAudiothek,
     );
     await (db.update(db.cards)..where((t) => t.id.equals(id))).write(
       const CardsCompanion(episodeNumber: Value(4)),

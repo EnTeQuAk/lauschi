@@ -78,4 +78,15 @@ enum ProviderType {
     final parts = uri.split(':');
     return parts.length == 3 ? parts[2] : null;
   }
+
+  /// Parse the provider from a canonical URI's prefix. Throws on unknown
+  /// prefixes so a malformed URI fails loudly instead of being stored.
+  /// e.g. 'apple_music:album:123' → [appleMusic], 'ard:item:x' → [ardAudiothek]
+  static ProviderType fromUri(String uri) {
+    final prefix = uri.split(':').first;
+    return values.firstWhere(
+      (e) => e._uriPrefix == prefix,
+      orElse: () => throw ArgumentError('Unknown provider URI: $uri'),
+    );
+  }
 }

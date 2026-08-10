@@ -61,7 +61,6 @@ import 'package:lauschi/core/apple_music/apple_music_session.dart';
 import 'package:lauschi/core/ard/ard_api.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
-import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:patrol/patrol.dart';
@@ -501,7 +500,6 @@ void main() {
           title: _appleMusicTitle,
           providerUri: _appleMusicUri,
           cardType: 'album',
-          provider: ProviderType.appleMusic,
         );
         await items.assignToTile(itemId: amItemId, tileId: amTileId);
       }
