@@ -138,10 +138,13 @@ class CatalogService {
   /// curated album list (both Spotify and Apple Music).
   /// Key format: ``'${provider.value}:${album_id}'``.
   ///
-  /// This is the backbone of Phase 0 matching — when a discovered album's
-  /// id is already in the catalog, the lookup is O(1) and 100% precise.
+  /// When a discovered album's id is in the catalog, the lookup is O(1).
   /// Carrying the album (not just the series) is what lets [match] return
   /// the curated episode number instead of re-deriving one.
+  ///
+  /// An id curated under multiple series resolves to whichever series
+  /// parses last. [findSharedAlbumIds] detects those; [load] logs them
+  /// so curation bleed is visible instead of silently mis-attributing.
   final Map<String, _IndexedAlbum> _albumIndex;
 
   static Map<String, _IndexedAlbum> _buildAlbumIndex(
@@ -179,6 +182,20 @@ class CatalogService {
     }
 
     final parsed = result.series;
+    final shared = findSharedAlbumIds(parsed);
+    if (shared.isNotEmpty) {
+      Log.warn(
+        _tag,
+        'Album ids curated under multiple series',
+        data: {
+          'count': '${shared.length}',
+          'sample': shared.entries
+              .take(3)
+              .map((e) => '${e.key}=${e.value.join('/')}')
+              .join(', '),
+        },
+      );
+    }
     final curated = parsed.where((s) => s.hasCuratedAlbums).length;
     final service = CatalogService._(parsed);
     Log.info(
@@ -222,6 +239,27 @@ class CatalogService {
       }
     }
     return (series: parsed, errors: errors);
+  }
+
+  /// Album ids curated under more than one series, keyed by
+  /// ``'<provider>:<album_id>'`` with the owning series ids as value.
+  ///
+  /// Shared ids are mostly collaboration music albums. [match] resolves
+  /// them to a single arbitrary owner, so a Hörspiel entry here is a
+  /// curation bug: the kid's episode lands in the wrong tile.
+  static Map<String, List<String>> findSharedAlbumIds(
+    List<CatalogSeries> series,
+  ) {
+    final owners = <String, List<String>>{};
+    for (final s in series) {
+      for (final a in [...s.albums, ...s.appleMusicAlbums]) {
+        (owners['${a.provider.value}:${a.id}'] ??= []).add(s.id);
+      }
+    }
+    return {
+      for (final e in owners.entries)
+        if (e.value.length > 1) e.key: e.value,
+    };
   }
 
   static CatalogSeries _parseSeries(YamlMap map) {

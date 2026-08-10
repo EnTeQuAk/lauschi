@@ -47,7 +47,7 @@ void main() {
     });
   });
 
-  group('CatalogService.match — Phase 0 album_id lookup', () {
+  group('CatalogService.match — curated album_id lookup', () {
     test('matches a curated Spotify album by id', () {
       // Yakari Folge 1 — real album_id from series.yaml.
       final r = catalog.match(
@@ -57,7 +57,8 @@ void main() {
       );
       expect(r, isNotNull);
       expect(r!.series.id, 'yakari');
-      // Episode pattern still extracts the number from the title.
+      // The curated episode number from series.yaml, not derived
+      // from the title.
       expect(r.episodeNumber, 1);
     });
 
@@ -100,7 +101,7 @@ void main() {
     );
 
     test(
-      'Phase 0 honors provider — Spotify id queried as Apple Music misses',
+      'match honors provider — Spotify id queried as Apple Music misses',
       () {
         // The Spotify id 25u9Clfj4qnEJD3jjxOwPR is Yakari ep 1 on Spotify
         // only. Looking it up as apple_music must miss — providers have
@@ -114,28 +115,33 @@ void main() {
       },
     );
 
-    test('episode pattern still wins when title and id agree', () {
-      // The episode comes from the title via the series's episode_pattern,
-      // not from the catalog metadata for the album. Verify the wiring
-      // still works through Phase 0.
+    test('returns the curated episode number, ignoring the title', () {
+      // The episode comes from the curated album record in series.yaml.
+      // The title passed here is display context only; a match must not
+      // re-derive the number from it.
       final r = catalog.match(
-        'Folge 3: Yakari bei den Bären (Das Original-Hörspiel zur TV-Serie)',
+        'Folge 999: völlig anderer Titel als kuratiert',
         albumId: '3zp8KClWgYenFNdQZiFHtd',
         albumProvider: ProviderType.spotify,
       );
       expect(r, isNotNull);
       expect(r!.series.id, 'yakari');
-      expect(r.episodeNumber, 3);
+      expect(r.episodeNumber, 3, reason: 'curated value, not 999');
     });
 
-    test('match without episode pattern still resolves the series', () {
-      // Some series have no episode_pattern (music artists, etc.). The
-      // series should still resolve; episodeNumber simply stays null.
-      // Pick a music series with curated albums.
+    test('an album without a curated episode still resolves its series', () {
+      // Music artists' albums carry no episode numbers. The series must
+      // still resolve (badge, auto-grouping); episodeNumber stays null.
       final senta = catalog.all.firstWhere((s) => s.id == 'senta');
-      // Skip the test if senta happens to have no curated albums.
-      if (senta.albums.isEmpty) return;
+      expect(
+        senta.albums,
+        isNotEmpty,
+        reason:
+            'senta lost its Spotify curation — pick another music '
+            'series for this test instead of skipping it silently',
+      );
       final first = senta.albums.first;
+      expect(first.episode, isNull, reason: 'music albums are unnumbered');
       final r = catalog.match(
         first.title,
         albumId: first.id,
@@ -143,6 +149,7 @@ void main() {
       );
       expect(r, isNotNull);
       expect(r!.series.id, 'senta');
+      expect(r.episodeNumber, isNull);
     });
   });
 
