@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/log.dart';
@@ -166,84 +168,17 @@ class CatalogService {
   /// Load the catalog from bundled YAML asset.
   static Future<CatalogService> load() async {
     final raw = await rootBundle.loadString('assets/catalog/series.yaml');
-    final doc = loadYaml(raw) as YamlMap;
-    final seriesList = doc['series'] as YamlList;
+    // The 1.6 MB YAML document takes hundreds of milliseconds of pure
+    // Dart parsing. On the UI isolate that would jank the first frames
+    // of the kid home screen on every cold start, because the startup
+    // episode reconcile forces this load during launch.
+    final result = await Isolate.run(() => parseSeriesYaml(raw));
 
-    final parsed = <CatalogSeries>[];
-    for (final entry in seriesList) {
-      final map = entry as YamlMap;
-
-      final aliasesRaw = map['aliases'] as YamlList?;
-      final aliases =
-          aliasesRaw == null
-              ? <String>[]
-              : aliasesRaw.map<String>((a) => a as String).toList();
-
-      // Parse per-provider identifiers from the `providers:` map.
-      final providersMap = map['providers'] as YamlMap?;
-      final spotifyMap = providersMap?['spotify'] as YamlMap?;
-
-      final artistIdsRaw = spotifyMap?['artist_ids'] as YamlList?;
-      final artistIds =
-          artistIdsRaw == null
-              ? <String>[]
-              : artistIdsRaw.map<String>((a) => a as String).toList();
-
-      final albumsRaw = spotifyMap?['albums'] as YamlList?;
-      final albums =
-          albumsRaw == null
-              ? <CatalogAlbum>[]
-              : albumsRaw.map<CatalogAlbum>((a) {
-                final aMap = a as YamlMap;
-                return CatalogAlbum(
-                  id: aMap['id'] as String,
-                  provider: ProviderType.spotify,
-                  title: aMap['title'] as String,
-                  episode: aMap['episode'] as int?,
-                );
-              }).toList();
-
-      // Apple Music provider data
-      final appleMusicMap = providersMap?['apple_music'] as YamlMap?;
-
-      final amAlbumsRaw = appleMusicMap?['albums'] as YamlList?;
-      // Apple Music IDs may parse as int. toString() handles both.
-      final amAlbums =
-          amAlbumsRaw == null
-              ? <CatalogAlbum>[]
-              : amAlbumsRaw.map<CatalogAlbum>((a) {
-                final aMap = a as YamlMap;
-                return CatalogAlbum(
-                  id: aMap['id'].toString(),
-                  provider: ProviderType.appleMusic,
-                  title: aMap['title'] as String,
-                  episode: aMap['episode'] as int?,
-                );
-              }).toList();
-
-      final amArtistIdsRaw = appleMusicMap?['artist_ids'] as YamlList?;
-      // Apple Music IDs are quoted strings in YAML but YAML parsers may
-      // return them as integers. toString() handles both cases safely.
-      final amArtistIds =
-          amArtistIdsRaw == null
-              ? <String>[]
-              : amArtistIdsRaw.map<String>((a) => a.toString()).toList();
-
-      parsed.add(
-        CatalogSeries(
-          id: map['id'] as String,
-          title: map['title'] as String,
-          aliases: aliases,
-          spotifyArtistIds: artistIds,
-          appleMusicArtistIds: amArtistIds,
-          coverUrl: map['cover_url'] as String?,
-          contentType: ContentType.fromString(map['content_type'] as String?),
-          albums: albums,
-          appleMusicAlbums: amAlbums,
-        ),
-      );
+    for (final error in result.errors) {
+      Log.error(_tag, 'Skipped malformed series entry', data: {'entry': error});
     }
 
+    final parsed = result.series;
     final curated = parsed.where((s) => s.hasCuratedAlbums).length;
     final service = CatalogService._(parsed);
     Log.info(
@@ -257,6 +192,106 @@ class CatalogService {
     );
 
     return service;
+  }
+
+  /// Parse the series.yaml document. Pure computation: no I/O and no
+  /// logging, so it can run on a background isolate.
+  ///
+  /// A malformed series entry is skipped and reported in `errors`
+  /// instead of failing the parse: one bad row must not take down
+  /// badges, browse, and reconcile for the other ~270 series. A
+  /// document that is not valid YAML at all still throws.
+  static ({List<CatalogSeries> series, List<String> errors}) parseSeriesYaml(
+    String raw,
+  ) {
+    final doc = loadYaml(raw) as YamlMap;
+    final seriesList = doc['series'] as YamlList;
+
+    final parsed = <CatalogSeries>[];
+    final errors = <String>[];
+    for (final (index, entry) in seriesList.indexed) {
+      try {
+        parsed.add(_parseSeries(entry as YamlMap));
+        // Cast failures throw TypeError — an Error, not an Exception —
+        // and a bad entry of any shape must be skipped, not crash the
+        // parse of every other series.
+        // ignore: avoid_catches_without_on_clauses
+      } catch (e) {
+        final id = entry is YamlMap ? entry['id'] : null;
+        errors.add('series[$index] (id: ${id ?? 'unknown'}): $e');
+      }
+    }
+    return (series: parsed, errors: errors);
+  }
+
+  static CatalogSeries _parseSeries(YamlMap map) {
+    final aliasesRaw = map['aliases'] as YamlList?;
+    final aliases =
+        aliasesRaw == null
+            ? <String>[]
+            : aliasesRaw.map<String>((a) => a as String).toList();
+
+    // Parse per-provider identifiers from the `providers:` map.
+    final providersMap = map['providers'] as YamlMap?;
+    final spotifyMap = providersMap?['spotify'] as YamlMap?;
+
+    final artistIdsRaw = spotifyMap?['artist_ids'] as YamlList?;
+    final artistIds =
+        artistIdsRaw == null
+            ? <String>[]
+            : artistIdsRaw.map<String>((a) => a as String).toList();
+
+    final albumsRaw = spotifyMap?['albums'] as YamlList?;
+    final albums =
+        albumsRaw == null
+            ? <CatalogAlbum>[]
+            : albumsRaw.map<CatalogAlbum>((a) {
+              final aMap = a as YamlMap;
+              return CatalogAlbum(
+                id: aMap['id'] as String,
+                provider: ProviderType.spotify,
+                title: aMap['title'] as String,
+                episode: aMap['episode'] as int?,
+              );
+            }).toList();
+
+    // Apple Music provider data
+    final appleMusicMap = providersMap?['apple_music'] as YamlMap?;
+
+    final amAlbumsRaw = appleMusicMap?['albums'] as YamlList?;
+    // Apple Music IDs may parse as int. toString() handles both.
+    final amAlbums =
+        amAlbumsRaw == null
+            ? <CatalogAlbum>[]
+            : amAlbumsRaw.map<CatalogAlbum>((a) {
+              final aMap = a as YamlMap;
+              return CatalogAlbum(
+                id: aMap['id'].toString(),
+                provider: ProviderType.appleMusic,
+                title: aMap['title'] as String,
+                episode: aMap['episode'] as int?,
+              );
+            }).toList();
+
+    final amArtistIdsRaw = appleMusicMap?['artist_ids'] as YamlList?;
+    // Apple Music IDs are quoted strings in YAML but YAML parsers may
+    // return them as integers. toString() handles both cases safely.
+    final amArtistIds =
+        amArtistIdsRaw == null
+            ? <String>[]
+            : amArtistIdsRaw.map<String>((a) => a.toString()).toList();
+
+    return CatalogSeries(
+      id: map['id'] as String,
+      title: map['title'] as String,
+      aliases: aliases,
+      spotifyArtistIds: artistIds,
+      appleMusicArtistIds: amArtistIds,
+      coverUrl: map['cover_url'] as String?,
+      contentType: ContentType.fromString(map['content_type'] as String?),
+      albums: albums,
+      appleMusicAlbums: amAlbums,
+    );
   }
 
   /// Look up a discovered album in the catalog by its provider+id.

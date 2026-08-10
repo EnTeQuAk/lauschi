@@ -221,4 +221,67 @@ void main() {
       expect(music.isMusic, isTrue);
     });
   });
+
+  group('CatalogService.parseSeriesYaml', () {
+    test('skips a malformed entry and keeps the rest', () {
+      // id must be a string; 123 parses as int and fails the cast.
+      // One bad row shipped by the pipeline must not take down the
+      // whole catalog (badges, browse, reconcile) for every series.
+      const yaml = '''
+series:
+  - id: good_before
+    title: Good Before
+  - id: 123
+    title: Broken Entry
+  - id: good_after
+    title: Good After
+    providers:
+      spotify:
+        albums:
+          - id: abc
+            title: 'Folge 1'
+            episode: 1
+''';
+
+      final result = CatalogService.parseSeriesYaml(yaml);
+
+      expect(
+        result.series.map((s) => s.id),
+        ['good_before', 'good_after'],
+        reason: 'entries around the malformed one survive',
+      );
+      expect(result.series.last.albums.single.episode, 1);
+      expect(result.errors, hasLength(1));
+      expect(
+        result.errors.single,
+        contains('series[1]'),
+        reason: 'the error names the offending entry for Sentry',
+      );
+    });
+
+    test('parses a fully valid document without errors', () {
+      const yaml = '''
+series:
+  - id: only
+    title: Only
+''';
+      final result = CatalogService.parseSeriesYaml(yaml);
+      expect(result.series.single.id, 'only');
+      expect(result.errors, isEmpty);
+    });
+
+    test('still throws when the document itself is broken', () {
+      // Catastrophic breakage (not YAML, or no series list) must stay
+      // loud — the startup caller logs it and the app runs without
+      // catalog features rather than with a silently empty catalog.
+      expect(
+        () => CatalogService.parseSeriesYaml('not yaml at all: ['),
+        throwsA(anything),
+      );
+      expect(
+        () => CatalogService.parseSeriesYaml('unrelated: true'),
+        throwsA(anything),
+      );
+    });
+  });
 }
