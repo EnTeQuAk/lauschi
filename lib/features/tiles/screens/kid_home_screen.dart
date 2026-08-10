@@ -179,21 +179,23 @@ class KidHomeScreen extends ConsumerWidget {
                   activeUri: playerState.activeContextUri,
                   isPlaying: playerState.isPlaying,
                   isActive: playerState.hasTrack,
-                  onCardTap:
-                      playerState.isReady
-                          ? (card) {
-                            Log.info(
-                              _tag,
-                              'Card tapped',
-                              data: {
-                                'cardId': card.id,
-                                'title': card.customTitle ?? card.title,
-                              },
-                            );
-                            unawaited(playerNotifier.playCard(card.id));
-                            unawaited(context.push(AppRoutes.player));
-                          }
-                          : null,
+                  // Never gate taps on isReady: backends only report
+                  // ready after the Spotify bridge connects or a first
+                  // playCard, so a gate leaves every card dead in
+                  // ARD-only builds. playCard starts the backend itself
+                  // and the connecting indicator covers the wait.
+                  onCardTap: (card) {
+                    Log.info(
+                      _tag,
+                      'Card tapped',
+                      data: {
+                        'cardId': card.id,
+                        'title': card.customTitle ?? card.title,
+                      },
+                    );
+                    unawaited(playerNotifier.playCard(card.id));
+                    unawaited(context.push(AppRoutes.player));
+                  },
                   onGroupTap: (group) {
                     Log.info(
                       _tag,
@@ -295,7 +297,7 @@ class _HomeGrid extends StatelessWidget {
   final String? activeUri;
   final bool isPlaying;
   final bool isActive;
-  final void Function(db.TileItem)? onCardTap;
+  final void Function(db.TileItem) onCardTap;
   final void Function(db.Tile) onGroupTap;
 
   @override
@@ -336,7 +338,7 @@ class _HomeGrid extends StatelessWidget {
               progress: _albumProgress(card),
               kidMode: true,
               episodeNumber: card.episodeNumber,
-              onTap: onCardTap != null ? () => onCardTap!(card) : () {},
+              onTap: () => onCardTap(card),
             );
           },
         );

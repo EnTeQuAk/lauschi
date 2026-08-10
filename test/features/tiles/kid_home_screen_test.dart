@@ -155,6 +155,40 @@ void main() {
     expect(find.byIcon(Icons.chevron_left_rounded), findsOneWidget);
   });
 
+  testWidgets('card taps work before any backend reports ready', (
+    tester,
+  ) async {
+    // isReady only turns true via the Spotify bridge or after a first
+    // successful playCard. In ARD-only store builds neither happens,
+    // so a tap gate on isReady means every home-grid card is dead on
+    // arrival for the kid. The tap itself must start playback.
+    final cards = [_card(id: 'card-1', title: 'Ohrenbär')];
+    final notifier = _TrackingPlayerNotifier();
+
+    final container = ProviderContainer(
+      overrides: _testOverrides(
+        ungrouped: cards,
+        playerNotifier: notifier,
+      ),
+    );
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(_buildApp(container));
+    await tester.pump();
+    await tester.pump();
+
+    await tester.tap(find.bySemanticsLabel('Ohrenbär'));
+    await tester.pump();
+    await tester.pump();
+
+    expect(
+      notifier.playCardCalls,
+      ['card-1'],
+      reason: 'a tap with isReady=false must still start playback',
+    );
+    expect(find.byIcon(Icons.chevron_left_rounded), findsOneWidget);
+  });
+
   testWidgets('unavailable tiles are hidden from kids', (tester) async {
     final expiredCard = _card(
       id: 'expired-1',
