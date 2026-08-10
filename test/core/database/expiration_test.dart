@@ -11,6 +11,9 @@ TileItem _item({
   String? groupId,
   String cardType = 'episode',
   int totalTracks = 0,
+  int lastTrackNumber = 0,
+  int lastPositionMs = 0,
+  int durationMs = 0,
 }) {
   return TileItem(
     id: id,
@@ -20,9 +23,9 @@ TileItem _item({
     providerUri: 'ard:item:$id',
     isHeard: isHeard,
     totalTracks: totalTracks,
-    lastTrackNumber: 0,
-    lastPositionMs: 0,
-    durationMs: 0,
+    lastTrackNumber: lastTrackNumber,
+    lastPositionMs: lastPositionMs,
+    durationMs: durationMs,
     createdAt: DateTime.now(),
     availableUntil: availableUntil,
     markedUnavailable: markedUnavailable,
@@ -185,6 +188,49 @@ void main() {
       expect(result['tile-a']!.heard, 1);
       expect(result['tile-b']!.total, 2);
       expect(result['tile-b']!.heard, 2);
+    });
+
+    test('a fully heard playlist counts all its tracks as heard', () {
+      // total counts playlist tracks (the tile label says "59 Titel"),
+      // so heard must count in the same unit or a finished playlist
+      // shows 1/59 ≈ 2% progress on the kid's tile.
+      final items = [
+        _item(
+          id: 'p',
+          groupId: 'tile-a',
+          cardType: 'playlist',
+          totalTracks: 59,
+          isHeard: true,
+        ),
+      ];
+
+      final result = computeTileProgress(items);
+
+      expect(result['tile-a']!.total, 59);
+      expect(result['tile-a']!.heard, 59);
+    });
+  });
+
+  group('albumProgress', () {
+    test('uses the track position for multi-track albums', () {
+      final card = _item(totalTracks: 10, lastTrackNumber: 5);
+      expect(albumProgress(card), 0.5);
+    });
+
+    test('falls back to the time position for single-file episodes', () {
+      // ARD episodes have no track list (totalTracks 0) but store
+      // position and duration; without the fallback their cards never
+      // show partial progress even though the Weiter badge treats
+      // them as in-progress.
+      final card = _item(durationMs: 1800000, lastPositionMs: 1200000);
+      expect(albumProgress(card), closeTo(0.667, 0.001));
+    });
+
+    test('returns 0 for heard or never-started cards', () {
+      expect(albumProgress(_item(isHeard: true, totalTracks: 10)), 0);
+      expect(albumProgress(_item(totalTracks: 10)), 0);
+      expect(albumProgress(_item(durationMs: 1800000)), 0);
+      expect(albumProgress(_item()), 0);
     });
   });
 }

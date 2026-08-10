@@ -23,15 +23,6 @@ import 'package:lauschi/features/tiles/screens/tile_detail/widgets/tile_group_he
 
 const _tag = 'TileDetailScreen';
 
-/// Album playback progress 0.0–1.0 based on stored track position.
-/// Returns 0 for cards that haven't been started or are fully heard.
-double _albumProgress(db.TileItem card) {
-  if (card.isHeard || card.totalTracks <= 0 || card.lastTrackNumber <= 0) {
-    return 0;
-  }
-  return (card.lastTrackNumber / card.totalTracks).clamp(0.0, 1.0);
-}
-
 /// Group/series drill-down — shows all episodes in order.
 ///
 /// Heard episodes are visually muted. First unheard episode is highlighted
@@ -199,7 +190,7 @@ class TileDetailScreen extends ConsumerWidget {
                         isPlaying: playerState.isPlaying,
                         isActive: playerState.track != null,
                         showEpisodeTitles: showTitles,
-                        albumProgress: _albumProgress,
+                        albumProgress: albumProgress,
                         onExpiredTap: () => _showExpiredModal(context),
                         onCardTap: (card) {
                           Log.info(

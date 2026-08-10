@@ -554,12 +554,30 @@ Map<String, ({int total, int heard})> computeTileProgress(
         item.cardType == 'playlist' && item.totalTracks > 1
             ? item.totalTracks
             : 1;
+    // heard counts in the same unit as total: a finished playlist
+    // contributes all its tracks, otherwise the tile's progress bar
+    // tops out at 1/trackCount.
     result[tid] = (
       total: prev.total + itemCount,
-      heard: prev.heard + (item.isHeard ? 1 : 0),
+      heard: prev.heard + (item.isHeard ? itemCount : 0),
     );
   }
   return result;
+}
+
+/// Playback progress 0.0–1.0 for a single card, from the stored track
+/// position, or from the time position for single-file content (ARD
+/// episodes have no track list). Returns 0 for heard or never-started
+/// cards.
+double albumProgress(TileItem card) {
+  if (card.isHeard) return 0;
+  if (card.totalTracks > 0 && card.lastTrackNumber > 0) {
+    return (card.lastTrackNumber / card.totalTracks).clamp(0.0, 1.0);
+  }
+  if (card.durationMs > 0 && card.lastPositionMs > 0) {
+    return (card.lastPositionMs / card.durationMs).clamp(0.0, 1.0);
+  }
+  return 0;
 }
 
 /// Per-tile item counts and heard progress, derived from allTileItemsProvider.

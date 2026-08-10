@@ -19,14 +19,6 @@ import 'package:lauschi/features/tiles/widgets/tile_card.dart';
 
 const _tag = 'KidHomeScreen';
 
-/// Album playback progress 0.0–1.0 based on stored track position.
-double _albumProgress(db.TileItem card) {
-  if (card.isHeard || card.totalTracks <= 0 || card.lastTrackNumber <= 0) {
-    return 0;
-  }
-  return (card.lastTrackNumber / card.totalTracks).clamp(0.0, 1.0);
-}
-
 /// The single kid-facing screen: group + card grid + now-playing bar.
 ///
 /// Groups appear as series tiles (drill-down to episodes).
@@ -335,7 +327,7 @@ class _HomeGrid extends StatelessWidget {
               isPlaying: isCurrentCard && isPlaying,
               isPaused: isCurrentCard && !isPlaying,
               isHeard: card.isHeard,
-              progress: _albumProgress(card),
+              progress: albumProgress(card),
               kidMode: true,
               episodeNumber: card.episodeNumber,
               onTap: () => onCardTap(card),
