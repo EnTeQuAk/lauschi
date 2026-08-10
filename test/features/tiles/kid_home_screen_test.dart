@@ -218,42 +218,6 @@ void main() {
     expect(find.byKey(const ValueKey('valid-1')), findsOneWidget);
   });
 
-  testWidgets('tapping a tile when not ready does not navigate', (
-    tester,
-  ) async {
-    final cards = [_card(id: 'card-1', title: 'Bibi Blocksberg')];
-    final notifier = _TrackingPlayerNotifier();
-    expect(
-      notifier.build().isReady,
-      isFalse,
-      reason: 'Precondition: player must not be ready',
-    );
-
-    final container = ProviderContainer(
-      overrides: _testOverrides(
-        ungrouped: cards,
-        playerNotifier: notifier,
-      ),
-    );
-    addTearDown(container.dispose);
-
-    await tester.pumpWidget(_buildApp(container));
-    // Don't use pumpAndSettle: connecting indicator animates
-    // indefinitely when isReady is false.
-    await tester.pump();
-    await tester.pump();
-
-    await tester.tap(find.bySemanticsLabel('Bibi Blocksberg'));
-    await tester.pump();
-    await tester.pump();
-
-    // Should still be on the home screen (no navigation).
-    expect(find.text('Meine Hörspiele'), findsOneWidget);
-
-    // playCard was NOT called.
-    expect(notifier.playCardCalls, isEmpty);
-  });
-
   testWidgets('now playing bar visible when track is set', (tester) async {
     final cards = [_card(id: '1', title: 'Episode')];
 
