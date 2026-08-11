@@ -63,6 +63,7 @@ class ChildTileGrid extends ConsumerWidget {
               contentType: ContentType.fromString(child.contentType),
               childCoverUrls: childCovers,
               kidMode: true,
+              isUnavailable: isTileFullyUnavailable(stats),
               onTap: () => onTileTap(child),
             );
           },

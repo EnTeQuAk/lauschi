@@ -1,9 +1,9 @@
 import 'dart:async' show unawaited;
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lauschi/core/catalog/catalog_service.dart' show ContentType;
 import 'package:lauschi/core/theme/app_theme.dart';
+import 'package:lauschi/features/tiles/widgets/cover_art.dart';
 
 /// Text label below a tile cover image. Shared between the Discover
 /// grid and the Manage Tiles grid to keep typography in sync.
@@ -146,14 +146,26 @@ class _GroupCardState extends State<TileCard>
     return Stack(
       fit: StackFit.passthrough,
       children: [
-        ColorFiltered(colorFilter: greyscaleFilter, child: art),
-        Positioned.fill(
-          child: ColoredBox(color: AppColors.surface.withValues(alpha: 0.6)),
-        ),
+        UnavailableWash(child: art),
         const Center(child: _UnavailableCross()),
       ],
     );
   }
+
+  /// The tile's artwork: folder mosaic when it nests child tiles,
+  /// stacked album art otherwise.
+  Widget _art({required bool showBadge}) =>
+      widget.childCoverUrls.isNotEmpty
+          ? _FolderMosaic(
+            coverUrls: widget.childCoverUrls,
+            progress: widget.progress,
+          )
+          : _StackedArt(
+            coverUrl: widget.coverUrl,
+            progress: widget.progress,
+            isMusic: widget.contentType == ContentType.music,
+            showBadge: showBadge,
+          );
 
   @override
   Widget build(BuildContext context) {
@@ -183,7 +195,7 @@ class _GroupCardState extends State<TileCard>
           widget.onTap();
           unawaited(_controller.reverse());
         },
-        onTapCancel: _controller.reverse,
+        onTapCancel: () => unawaited(_controller.reverse()),
         child: AnimatedScale(
           scale: widget.isNestTarget ? 1.08 : 1.0,
           duration: const Duration(milliseconds: 200),
@@ -221,36 +233,14 @@ class _GroupCardState extends State<TileCard>
                   ),
               child:
                   widget.kidMode
-                      ? _withUnavailableMarker(
-                        widget.childCoverUrls.isNotEmpty
-                            ? _FolderMosaic(
-                              coverUrls: widget.childCoverUrls,
-                              progress: widget.progress,
-                            )
-                            : _StackedArt(
-                              coverUrl: widget.coverUrl,
-                              progress: widget.progress,
-                              isMusic: widget.contentType == ContentType.music,
-                              showBadge: false,
-                            ),
-                      )
+                      ? _withUnavailableMarker(_art(showBadge: false))
                       : Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Expanded(
-                            child:
-                                widget.childCoverUrls.isNotEmpty
-                                    ? _FolderMosaic(
-                                      coverUrls: widget.childCoverUrls,
-                                      progress: widget.progress,
-                                    )
-                                    : _StackedArt(
-                                      coverUrl: widget.coverUrl,
-                                      progress: widget.progress,
-                                      isMusic:
-                                          widget.contentType ==
-                                          ContentType.music,
-                                    ),
+                            child: _withUnavailableMarker(
+                              _art(showBadge: true),
+                            ),
                           ),
                           TileLabel(
                             title: widget.title,
@@ -339,29 +329,10 @@ class _StackedArt extends StatelessWidget {
     );
   }
 
-  static const _fallback = ColoredBox(
-    color: AppColors.surfaceDim,
-    child: Icon(
-      Icons.library_music_rounded,
-      size: 48,
-      color: AppColors.textSecondary,
-    ),
+  static Widget _cover(String? url) => CoverImage(
+    url: url,
+    fallback: const CoverFallback(icon: Icons.library_music_rounded),
   );
-
-  static Widget _cover(String? url) {
-    if (url == null || url.isEmpty) return _fallback;
-    return CachedNetworkImage(
-      imageUrl: url,
-      fit: BoxFit.cover,
-      // Decode at 2x display size to keep cards sharp on high-DPI
-      // without wasting memory on full-resolution CDN images. See #226.
-      memCacheWidth: 400,
-      placeholder: (_, _) => const ColoredBox(color: AppColors.surfaceDim),
-      // Stored cover URLs go stale (CDN links rotate); a failed load
-      // must show the neutral fallback, not a blank card.
-      errorWidget: (_, _, _) => _fallback,
-    );
-  }
 }
 
 /// 2x2 mosaic of child tile covers, used as the folder thumbnail.
@@ -421,14 +392,12 @@ class _FolderMosaic extends StatelessWidget {
 
   Widget _slot(int index) {
     if (index < coverUrls.length && coverUrls[index].isNotEmpty) {
-      return CachedNetworkImage(
-        imageUrl: coverUrls[index],
-        fit: BoxFit.cover,
+      // A broken child cover degrades to the same neutral square an
+      // empty slot shows, instead of a blank spot in the mosaic.
+      return CoverImage(
+        url: coverUrls[index],
+        fallback: const ColoredBox(color: AppColors.surfaceDim),
         memCacheWidth: 200,
-        placeholder: (_, _) => const ColoredBox(color: AppColors.surfaceDim),
-        // A broken child cover degrades to the same neutral square an
-        // empty slot shows, instead of a blank spot in the mosaic.
-        errorWidget: (_, _, _) => const ColoredBox(color: AppColors.surfaceDim),
       );
     }
     return const ColoredBox(color: AppColors.surfaceDim);

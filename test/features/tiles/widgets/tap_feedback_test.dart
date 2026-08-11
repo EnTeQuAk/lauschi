@@ -8,25 +8,6 @@ import 'package:lauschi/features/tiles/widgets/tile_card.dart';
 /// callback swallows the tap when a second tap-down cancels the ticker:
 /// the kid taps twice and nothing plays.
 void main() {
-  Future<void> tapThenInterrupt(WidgetTester tester, Finder target) async {
-    final center = tester.getCenter(target);
-
-    // Full press: recognizer deadline (100ms) + forward animation
-    // (150ms) both complete, so the reverse after up runs its full
-    // 150ms window.
-    final first = await tester.startGesture(center);
-    await tester.pump(const Duration(milliseconds: 300));
-    await first.up();
-
-    // Second touch lands immediately; its tap-down fires at the 100ms
-    // recognizer deadline, inside the 150ms reverse window, canceling
-    // the reverse ticker. The gesture then ends as a cancel (drag).
-    final second = await tester.startGesture(center);
-    await tester.pump(const Duration(milliseconds: 120));
-    await second.cancel();
-    await tester.pump(const Duration(milliseconds: 400));
-  }
-
   testWidgets(
     'TileItem fires onTap when the reverse animation is interrupted',
     (tester) async {
@@ -49,7 +30,20 @@ void main() {
         ),
       );
 
-      await tapThenInterrupt(tester, find.byType(TileItem));
+      final center = tester.getCenter(find.byType(TileItem));
+
+      // Full press: recognizer deadline and forward animation complete,
+      // so the reverse after up runs its full 150ms window.
+      final first = await tester.startGesture(center);
+      await tester.pump(const Duration(milliseconds: 300));
+      await first.up();
+
+      // Second touch lands inside the reverse window and cancels its
+      // ticker; the gesture then ends as a cancel (drag).
+      final second = await tester.startGesture(center);
+      await tester.pump(const Duration(milliseconds: 120));
+      await second.cancel();
+      await tester.pump(const Duration(milliseconds: 400));
 
       expect(taps, 1, reason: 'the completed first tap must not be swallowed');
     },

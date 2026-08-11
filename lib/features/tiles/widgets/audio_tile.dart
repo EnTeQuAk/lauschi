@@ -1,9 +1,9 @@
 import 'dart:async' show unawaited;
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/core/utils/title_cleaner.dart';
+import 'package:lauschi/features/tiles/widgets/cover_art.dart';
 
 /// A single card in the kid-mode grid.
 ///
@@ -149,13 +149,9 @@ class _AudioCardState extends State<TileItem>
         fit: StackFit.expand,
         children: [
           if (widget.isExpired)
-            ColorFiltered(
-              colorFilter: greyscaleFilter,
-              child: _CoverImage(url: widget.coverUrl),
-            )
+            UnavailableWash(child: CoverImage(url: widget.coverUrl))
           else
-            _CoverImage(url: widget.coverUrl),
-          if (widget.isExpired) const _ExpiredOverlay(),
+            CoverImage(url: widget.coverUrl),
           if (widget.isHeard &&
               !widget.isExpired &&
               !widget.isPlaying &&
@@ -217,92 +213,6 @@ class _AudioCardState extends State<TileItem>
           ),
         ),
       ],
-    );
-  }
-}
-
-class _CoverImage extends StatelessWidget {
-  const _CoverImage({this.url});
-
-  final String? url;
-
-  @override
-  Widget build(BuildContext context) {
-    if (url == null || url!.isEmpty) {
-      return const ColoredBox(
-        color: AppColors.surfaceDim,
-        child: Icon(
-          Icons.music_note_rounded,
-          size: 48,
-          color: AppColors.textSecondary,
-        ),
-      );
-    }
-
-    return CachedNetworkImage(
-      imageUrl: url!,
-      fit: BoxFit.cover,
-      // Decode at 2x display size to keep grid images sharp on high-DPI
-      // without wasting memory on full-resolution CDN images. See #226.
-      memCacheWidth: 400,
-      placeholder: (_, _) => _ShimmerPlaceholder(),
-      errorWidget:
-          (_, _, _) => const ColoredBox(
-            color: AppColors.surfaceDim,
-            child: Icon(
-              Icons.music_note_rounded,
-              size: 48,
-              color: AppColors.textSecondary,
-            ),
-          ),
-    );
-  }
-}
-
-class _ShimmerPlaceholder extends StatefulWidget {
-  @override
-  State<_ShimmerPlaceholder> createState() => _ShimmerPlaceholderState();
-}
-
-class _ShimmerPlaceholderState extends State<_ShimmerPlaceholder>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 1500),
-      vsync: this,
-    );
-    unawaited(_controller.repeat());
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, _) {
-        return DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment(-1.0 + 2.0 * _controller.value, 0),
-              end: Alignment(1.0 + 2.0 * _controller.value, 0),
-              colors: const [
-                AppColors.surfaceDim,
-                AppColors.surface,
-                AppColors.surfaceDim,
-              ],
-            ),
-          ),
-        );
-      },
     );
   }
 }
@@ -400,19 +310,6 @@ class _HeardBadge extends StatelessWidget {
 /// White wash overlay for unavailable content.
 /// Combined with the grayscale filter on the image, this makes the
 /// tile look clearly faded/disabled.
-class _ExpiredOverlay extends StatelessWidget {
-  const _ExpiredOverlay();
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned.fill(
-      child: ColoredBox(
-        color: AppColors.surface.withValues(alpha: 0.6),
-      ),
-    );
-  }
-}
-
 /// Hourglass badge for expired content.
 class _ExpiredBadge extends StatelessWidget {
   const _ExpiredBadge();

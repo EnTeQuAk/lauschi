@@ -39,7 +39,7 @@ Future<bool> showPlayerErrorDialog(
     context: context,
     barrierDismissible: false,
     barrierColor: Colors.black54,
-    builder: (_) => _PlayerErrorDialog(error: error),
+    builder: (_) => _PlayerErrorDialog(initialError: error),
   ).then((result) {
     // Only clear our own registration: after a guard reset, a newer
     // dialog may already occupy the slot.
@@ -56,9 +56,11 @@ Future<bool> showPlayerErrorDialog(
 /// captured caller ref could be disposed by the time the button is
 /// tapped.
 class _PlayerErrorDialog extends ConsumerWidget {
-  const _PlayerErrorDialog({required this.error});
+  const _PlayerErrorDialog({required this.initialError});
 
-  final PlayerError error;
+  /// The error the dialog opened with; only a fallback for the moment
+  /// between clearError and the pop completing.
+  final PlayerError initialError;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -67,7 +69,8 @@ class _PlayerErrorDialog extends ConsumerWidget {
     // the visible dialog instead of being dropped unseen. The
     // constructor error covers the moment between clearError and the
     // pop completing, when state briefly holds null.
-    final current = ref.watch(playerProvider.select((s) => s.error)) ?? error;
+    final current =
+        ref.watch(playerProvider.select((s) => s.error)) ?? initialError;
 
     // The action button pops with a result and clears the error itself.
     // A system back pop delivers no result; the error must still be

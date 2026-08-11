@@ -119,55 +119,10 @@ void main() {
   testWidgets('tapping a card calls playCard and navigates to player', (
     tester,
   ) async {
-    final cards = [_card(id: 'card-1', title: 'Die drei ???')];
-    final notifier = _TrackingPlayerNotifier(
-      initialState: const PlaybackState(isReady: true),
-    );
-
-    final container = ProviderContainer(
-      overrides: _testOverrides(
-        ungrouped: cards,
-        playerNotifier: notifier,
-      ),
-    );
-    addTearDown(container.dispose);
-
-    await tester.pumpWidget(_buildApp(container));
-    await tester.pump();
-    await tester.pump();
-
-    // Context-assert: the card actually rendered before we tap it.
-    // Without this, a future regression where kid_home_screen
-    // fails to build the card grid would surface as
-    // 'Could not find widget by semantics label' on the tap, which
-    // doesn't tell you whether the card was missing or the screen
-    // didn't render at all.
-    expect(
-      find.bySemanticsLabel('Die drei ???'),
-      findsOneWidget,
-      reason: 'precondition: card must be visible before tap',
-    );
-
-    await tester.tap(find.bySemanticsLabel('Die drei ???'));
-    // Don't use pumpAndSettle: player screen progress bar ticker
-    // runs at 60fps and never settles.
-    await tester.pump();
-    await tester.pump();
-
-    // playCard was called with the correct ID.
-    expect(notifier.playCardCalls, ['card-1']);
-
-    // Navigated to the player screen (back button visible).
-    expect(find.byIcon(Icons.chevron_left_rounded), findsOneWidget);
-  });
-
-  testWidgets('card taps work before any backend reports ready', (
-    tester,
-  ) async {
-    // isReady only turns true via the Spotify bridge or after a first
-    // successful playCard. In ARD-only store builds neither happens,
-    // so a tap gate on isReady means every home-grid card is dead on
-    // arrival for the kid. The tap itself must start playback.
+    // Deliberately starts with the default not-ready state: isReady
+    // only turns true via the Spotify bridge or after a first
+    // successful playCard, so in ARD-only store builds a tap gate on
+    // it would leave every home-grid card dead on arrival.
     final cards = [_card(id: 'card-1', title: 'Ohrenbär')];
     final notifier = _TrackingPlayerNotifier();
 

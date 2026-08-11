@@ -2,6 +2,7 @@ import 'dart:async' show unawaited;
 import 'dart:math' show pi, sin;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show ScrollDirection;
 import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
@@ -15,11 +16,10 @@ class EpisodeGrid extends StatefulWidget {
     required this.isPlaying,
     required this.isActive,
     required this.onCardTap,
-    required this.albumProgress,
+    required this.onExpiredTap,
     super.key,
     this.nextUnheardId,
     this.showEpisodeTitles = false,
-    this.onExpiredTap,
   });
 
   final List<db.TileItem> episodes;
@@ -31,10 +31,7 @@ class EpisodeGrid extends StatefulWidget {
   final bool showEpisodeTitles;
 
   /// Called when an expired tile is tapped. Shows an explanation modal.
-  final VoidCallback? onExpiredTap;
-
-  /// Computes playback progress (0.0-1.0) for a card.
-  final double Function(db.TileItem card) albumProgress;
+  final VoidCallback onExpiredTap;
 
   @override
   State<EpisodeGrid> createState() => _EpisodeGridState();
@@ -100,11 +97,15 @@ class _EpisodeGridState extends State<EpisodeGrid>
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!_scrollController.hasClients) return;
-      // Never fight the kid's finger: replacing an active drag or
-      // fling with an animation makes the list jump away mid-gesture.
-      // The skipped scroll is not retried; whoever is browsing has
-      // taken over.
-      if (_scrollController.position.isScrollingNotifier.value) return;
+      // Never fight the kid's finger: replacing an active drag with an
+      // animation makes the list jump away mid-gesture. Checks the
+      // user's own scrolling specifically, so a still-running badge
+      // animation does not suppress the next one. The skipped scroll
+      // is not retried; whoever is browsing has taken over.
+      if (_scrollController.position.userScrollDirection !=
+          ScrollDirection.idle) {
+        return;
+      }
       final clamped = offset.clamp(
         0.0,
         _scrollController.position.maxScrollExtent,
@@ -168,14 +169,12 @@ class _EpisodeGridState extends State<EpisodeGrid>
               isPaused: isCurrentCard && !widget.isPlaying,
               isHeard: card.isHeard,
               isExpired: expired,
-              progress: expired ? 0 : widget.albumProgress(card),
+              progress: expired ? 0 : albumProgress(card),
               kidMode: true,
               episodeNumber: card.episodeNumber,
               showEpisodeTitles: widget.showEpisodeTitles,
               onTap:
-                  expired
-                      ? widget.onExpiredTap ?? () {}
-                      : () => widget.onCardTap(card),
+                  expired ? widget.onExpiredTap : () => widget.onCardTap(card),
             );
 
             if (!isNext) return tile;

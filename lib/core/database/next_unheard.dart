@@ -41,15 +41,15 @@ TileItem? pickNextUnheard(
 }) {
   final reference = now ?? DateTime.now();
 
-  bool inProgress(TileItem ep) {
-    if (ep.lastPositionMs <= 0) return false;
+  // The fresh resume timestamp for an episode, or null when it is not
+  // resumable. A saved position always carries a timestamp: savePosition
+  // writes both together, clearPositions clears both together, and the
+  // two columns arrived in the same migration.
+  DateTime? resumeAt(TileItem ep) {
+    if (ep.lastPositionMs <= 0) return null;
     final playedAt = ep.lastPlayedAt;
-    // A saved position always carries a timestamp: savePosition writes both
-    // together, clearPositions clears both together, and the two columns
-    // arrived in the same migration. So a position without one is not a
-    // resumable episode.
-    if (playedAt == null) return false;
-    return reference.difference(playedAt) < staleAfter;
+    if (playedAt == null) return null;
+    return reference.difference(playedAt) < staleAfter ? playedAt : null;
   }
 
   final mainRun = <TileItem>[];
@@ -58,25 +58,27 @@ TileItem? pickNextUnheard(
     (isBonusItem(ep) ? bonus : mainRun).add(ep);
   }
 
-  return _pickWithin(mainRun, isAvailable, inProgress) ??
-      _pickWithin(bonus, isAvailable, inProgress);
+  return _pickWithin(mainRun, isAvailable, resumeAt) ??
+      _pickWithin(bonus, isAvailable, resumeAt);
 }
 
 TileItem? _pickWithin(
   List<TileItem> episodes,
   bool Function(TileItem) isAvailable,
-  bool Function(TileItem) inProgress,
+  DateTime? Function(TileItem) resumeAt,
 ) {
   // Playback keeps at most one saved position per tile, but a parent
   // moving a half-played card into the tile brings its position along,
   // so several episodes can be in progress at once. Resume the one the
   // kid heard most recently, not the one that happens to sort first.
   TileItem? freshest;
+  DateTime? freshestAt;
   for (final ep in episodes) {
-    if (!isAvailable(ep) || !inProgress(ep)) continue;
-    // lastPlayedAt is non-null for every in-progress episode.
-    if (freshest == null || ep.lastPlayedAt!.isAfter(freshest.lastPlayedAt!)) {
+    final at = resumeAt(ep);
+    if (at == null || !isAvailable(ep)) continue;
+    if (freshestAt == null || at.isAfter(freshestAt)) {
       freshest = ep;
+      freshestAt = at;
     }
   }
   if (freshest != null) return freshest;

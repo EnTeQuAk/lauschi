@@ -14,6 +14,7 @@ import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/widgets/now_playing_bar.dart';
 import 'package:lauschi/features/player/widgets/player_error_dialog.dart';
+import 'package:lauschi/features/tiles/tile_actions.dart';
 import 'package:lauschi/features/tiles/widgets/audio_tile.dart';
 import 'package:lauschi/features/tiles/widgets/tile_card.dart';
 
@@ -30,17 +31,7 @@ class KidHomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final groupsAsync = ref.watch(allTilesProvider);
     final ungroupedAsync = ref.watch(ungroupedItemsProvider);
-    // Only rebuild for play state / track changes, not position updates.
-    final playerState = ref.watch(
-      playerProvider.select(
-        (s) => (
-          isPlaying: s.isPlaying,
-          isReady: s.isReady,
-          hasTrack: s.track != null,
-          activeContextUri: s.activeContextUri,
-        ),
-      ),
-    );
+    final playerState = ref.watch(playerGridStateProvider);
     final playerNotifier = ref.read(playerProvider.notifier);
     final isOnline = ref.watch(isOnlineProvider);
 
@@ -138,7 +129,7 @@ class KidHomeScreen extends ConsumerWidget {
               ),
 
             // Connecting indicator — subtle, doesn't take prime real estate.
-            if (playerState.hasTrack && !playerState.isReady && isOnline)
+            if (playerState.track != null && !playerState.isReady && isOnline)
               Semantics(
                 label: 'Verbindung wird hergestellt',
                 child: const Padding(
@@ -170,24 +161,19 @@ class KidHomeScreen extends ConsumerWidget {
                   ungrouped: ungrouped,
                   activeUri: playerState.activeContextUri,
                   isPlaying: playerState.isPlaying,
-                  isActive: playerState.hasTrack,
+                  isActive: playerState.track != null,
                   // Never gate taps on isReady: backends only report
                   // ready after the Spotify bridge connects or a first
                   // playCard, so a gate leaves every card dead in
                   // ARD-only builds. playCard starts the backend itself
                   // and the connecting indicator covers the wait.
-                  onCardTap: (card) {
-                    Log.info(
-                      _tag,
-                      'Card tapped',
-                      data: {
-                        'cardId': card.id,
-                        'title': card.customTitle ?? card.title,
-                      },
-                    );
-                    unawaited(playerNotifier.playCard(card.id));
-                    unawaited(context.push(AppRoutes.player));
-                  },
+                  onCardTap:
+                      (card) => playCardAndOpenPlayer(
+                        context,
+                        ref,
+                        card,
+                        logTag: _tag,
+                      ),
                   onGroupTap: (group) {
                     Log.info(
                       _tag,
@@ -220,28 +206,13 @@ class KidHomeScreen extends ConsumerWidget {
                     child: child,
                   ),
               child:
-                  playerState.hasTrack
-                      ? Consumer(
-                        builder: (context, ref, _) {
-                          final s = ref.watch(
-                            playerProvider.select(
-                              (s) => (
-                                track: s.track,
-                                isPlaying: s.isPlaying,
-                              ),
-                            ),
-                          );
-                          if (s.track == null) {
-                            return const SizedBox.shrink();
-                          }
-                          return NowPlayingBar(
-                            key: const ValueKey('now-playing'),
-                            track: s.track!,
-                            isPlaying: s.isPlaying,
-                            onTap: () => context.push(AppRoutes.player),
-                            onTogglePlay: playerNotifier.togglePlay,
-                          );
-                        },
+                  playerState.track != null
+                      ? NowPlayingBar(
+                        key: const ValueKey('now-playing'),
+                        track: playerState.track!,
+                        isPlaying: playerState.isPlaying,
+                        onTap: () => context.push(AppRoutes.player),
+                        onTogglePlay: playerNotifier.togglePlay,
                       )
                       : const SizedBox.shrink(),
             ),
@@ -348,14 +319,16 @@ class _GroupGridItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final progressMap = ref.watch(tileProgressProvider);
-    final stats = progressMap[group.id];
+    // Select this tile's record only (records are value-equal), so a
+    // position save on some other tile's card does not rebuild every
+    // tile on the grid.
+    final stats = ref.watch(
+      tileProgressProvider.select((m) => m[group.id]),
+    );
     final total = stats?.total ?? 0;
     final heard = stats?.heard ?? 0;
     final progress = total > 0 ? (heard / total) : 0.0;
-    final isUnavailable = ref
-        .watch(fullyUnavailableTilesProvider)
-        .contains(group.id);
+    final isUnavailable = isTileFullyUnavailable(stats);
 
     final childCovers =
         ref

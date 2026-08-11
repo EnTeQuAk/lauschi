@@ -30,6 +30,9 @@ db.TileItem _episode({
   );
 }
 
+void _ignore() {}
+void _ignoreCard(db.TileItem _) {}
+
 /// Wraps EpisodeGrid in a constrained box to force a scrollable layout.
 /// 400x400 with 2 columns means ~4 rows visible; we need more episodes
 /// to push the target below the fold.
@@ -37,12 +40,12 @@ class _Harness extends StatefulWidget {
   const _Harness({
     required this.episodes,
     required this.initialNextUnheardId,
-    this.onCardTap,
-    this.onExpiredTap,
+    this.onCardTap = _ignoreCard,
+    this.onExpiredTap = _ignore,
   });
 
-  final void Function(db.TileItem)? onCardTap;
-  final VoidCallback? onExpiredTap;
+  final void Function(db.TileItem) onCardTap;
+  final VoidCallback onExpiredTap;
   final List<db.TileItem> episodes;
   final String? initialNextUnheardId;
 
@@ -79,9 +82,8 @@ class _HarnessState extends State<_Harness> {
             activeUri: null,
             isPlaying: false,
             isActive: false,
-            onCardTap: widget.onCardTap ?? (_) {},
+            onCardTap: widget.onCardTap,
             onExpiredTap: widget.onExpiredTap,
-            albumProgress: (_) => 0,
           ),
         ),
       ),

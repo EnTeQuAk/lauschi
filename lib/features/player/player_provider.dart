@@ -1,6 +1,8 @@
 import 'dart:async' show StreamSubscription, Timer, unawaited;
 import 'dart:io' show Platform;
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:lauschi/core/apple_music/apple_music_session.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/tile_item_repository.dart';
@@ -1232,3 +1234,22 @@ PlaybackState mergeSpotifyBridgeState(
     error: bridgeState.error ?? current.error,
   );
 }
+
+/// Play-state view for grid screens: everything they render except the
+/// ticking position. A value-equal record, so position updates (several
+/// per second during playback) never rebuild the grids; TrackInfo has
+/// value equality and only changes on track transitions.
+final playerGridStateProvider = Provider<
+  ({bool isPlaying, bool isReady, TrackInfo? track, String? activeContextUri})
+>((ref) {
+  return ref.watch(
+    playerProvider.select(
+      (s) => (
+        isPlaying: s.isPlaying,
+        isReady: s.isReady,
+        track: s.track,
+        activeContextUri: s.activeContextUri,
+      ),
+    ),
+  );
+});

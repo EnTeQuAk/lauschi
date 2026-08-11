@@ -20,6 +20,7 @@ import 'package:lauschi/features/player/widgets/player_error_dialog.dart';
 import 'package:lauschi/features/tiles/screens/tile_detail/widgets/child_tile_grid.dart';
 import 'package:lauschi/features/tiles/screens/tile_detail/widgets/episode_grid.dart';
 import 'package:lauschi/features/tiles/screens/tile_detail/widgets/tile_group_header.dart';
+import 'package:lauschi/features/tiles/tile_actions.dart';
 
 const _tag = 'TileDetailScreen';
 
@@ -38,18 +39,9 @@ class TileDetailScreen extends ConsumerWidget {
     final childTilesAsync = ref.watch(childTilesProvider(tileId));
     final episodesAsync = ref.watch(tileItemsProvider(tileId));
     final nextUnheard = ref.watch(tileNextUnheardProvider(tileId));
-    // Only rebuild for play state / track changes, not position
-    // updates: while audio plays, positions tick several times per
-    // second and would rebuild the whole episode grid every time.
-    final playerState = ref.watch(
-      playerProvider.select(
-        (s) => (
-          isPlaying: s.isPlaying,
-          track: s.track,
-          activeContextUri: s.activeContextUri,
-        ),
-      ),
-    );
+    // Grid view of the play state: no position ticks, no per-second
+    // rebuilds of the episode grid.
+    final playerState = ref.watch(playerGridStateProvider);
     final playerNotifier = ref.read(playerProvider.notifier);
     final isOnline = ref.watch(isOnlineProvider);
 
@@ -201,21 +193,15 @@ class TileDetailScreen extends ConsumerWidget {
                         isPlaying: playerState.isPlaying,
                         isActive: playerState.track != null,
                         showEpisodeTitles: showTitles,
-                        albumProgress: albumProgress,
                         onExpiredTap: () => _showExpiredModal(context),
-                        onCardTap: (card) {
-                          Log.info(
-                            _tag,
-                            'Episode tapped',
-                            data: {
-                              'cardId': card.id,
-                              'tileId': tileId,
-                              'title': card.customTitle ?? card.title,
-                            },
-                          );
-                          unawaited(playerNotifier.playCard(card.id));
-                          unawaited(context.push(AppRoutes.player));
-                        },
+                        onCardTap:
+                            (card) => playCardAndOpenPlayer(
+                              context,
+                              ref,
+                              card,
+                              logTag: _tag,
+                              tileId: tileId,
+                            ),
                       );
                     },
                     loading:

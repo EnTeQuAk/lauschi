@@ -111,7 +111,9 @@ void main() {
       expect(result['tile-a']!.total, 2);
     });
 
-    test('tile with all items marked unavailable has no entry', () {
+    test('tile with all items marked unavailable keeps a zero entry', () {
+      // The zero-total entry is how the kid grid tells a broken tile
+      // (gets the red cross) apart from an empty one.
       final items = [
         _item(
           id: '1',
@@ -127,7 +129,7 @@ void main() {
 
       final result = computeTileProgress(items);
 
-      expect(result['tile-a'], isNull);
+      expect(result['tile-a'], (total: 0, heard: 0));
     });
 
     test('ungrouped items are excluded', () {
@@ -211,7 +213,7 @@ void main() {
     });
   });
 
-  group('fullyUnavailableTileIds', () {
+  group('isTileFullyUnavailable', () {
     test('marks only tiles whose every item is unavailable', () {
       final items = [
         _item(id: '1', groupId: 'dead', markedUnavailable: DateTime(2026)),
@@ -222,11 +224,21 @@ void main() {
         _item(id: '6'), // ungrouped, never counts
       ];
 
-      expect(fullyUnavailableTileIds(items), {'dead'});
-    });
+      final stats = computeTileProgress(items);
 
-    test('an empty item list marks nothing', () {
-      expect(fullyUnavailableTileIds(const []), isEmpty);
+      expect(isTileFullyUnavailable(stats['dead']), isTrue);
+      expect(isTileFullyUnavailable(stats['alive']), isFalse);
+      expect(isTileFullyUnavailable(stats['healthy']), isFalse);
+      expect(
+        isTileFullyUnavailable(stats['unknown-tile']),
+        isFalse,
+        reason: 'a tile with no items at all is empty, not broken',
+      );
+      expect(
+        stats['dead'],
+        (total: 0, heard: 0),
+        reason: 'expired items register their tile with zero contribution',
+      );
     });
   });
 
