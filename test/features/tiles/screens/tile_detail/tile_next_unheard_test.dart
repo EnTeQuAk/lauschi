@@ -49,12 +49,23 @@ void main() {
   }
 
   test('returns in-progress episode over first unheard', () {
-    final result = readNextUnheard([
-      _episode(id: 'ep-1'),
-      _episode(id: 'ep-2', sortOrder: 1, lastPositionMs: 5000),
-      _episode(id: 'ep-3', sortOrder: 2),
-    ]);
-    expect(result?.id, 'ep-2');
+    // ep-3 carries a fresh position; the sequential fallback would pick
+    // ep-2, so only the resume branch produces this result.
+    final now = DateTime(2026, 8, 11, 12);
+    final result = readNextUnheard(
+      [
+        _episode(id: 'ep-1'),
+        _episode(id: 'ep-2', sortOrder: 1),
+        _episode(
+          id: 'ep-3',
+          sortOrder: 2,
+          lastPositionMs: 5000,
+          lastPlayedAt: now.subtract(const Duration(hours: 1)),
+        ),
+      ],
+      now: now,
+    );
+    expect(result?.id, 'ep-3');
   });
 
   test('resumes the most recently played of two in-progress episodes', () {
@@ -255,21 +266,40 @@ void main() {
     // Reported from the field (Ninjago, 2026-07): a bonus item left
     // mid-play held the badge at the bottom of a 267-item list while
     // Folge 28 sat unheard. Bonus content has no episode number, so
-    // cardOrder parks it last — the numbered run must win.
-    final result = readNextUnheard([
-      _episode(id: 'ep-1', episodeNumber: 1, isHeard: true),
-      _episode(id: 'ep-2', episodeNumber: 2),
-      _episode(id: 'special-a', lastPositionMs: 3000),
-    ]);
+    // cardOrder parks it last — the numbered run must win even though
+    // the bonus item's position is fresh enough to resume.
+    final now = DateTime(2026, 8, 11, 12);
+    final result = readNextUnheard(
+      [
+        _episode(id: 'ep-1', episodeNumber: 1, isHeard: true),
+        _episode(id: 'ep-2', episodeNumber: 2),
+        _episode(
+          id: 'special-a',
+          lastPositionMs: 3000,
+          lastPlayedAt: now.subtract(const Duration(hours: 1)),
+        ),
+      ],
+      now: now,
+    );
     expect(result?.id, 'ep-2');
   });
 
   test('in-progress bonus item resumes once the numbered run is done', () {
-    final result = readNextUnheard([
-      _episode(id: 'ep-1', episodeNumber: 1, isHeard: true),
-      _episode(id: 'special-a', lastPositionMs: 3000),
-      _episode(id: 'special-b'),
-    ]);
+    // special-b sits before special-a, so the sequential fallback would
+    // pick special-b; only the resume branch returns special-a.
+    final now = DateTime(2026, 8, 11, 12);
+    final result = readNextUnheard(
+      [
+        _episode(id: 'ep-1', episodeNumber: 1, isHeard: true),
+        _episode(id: 'special-b'),
+        _episode(
+          id: 'special-a',
+          lastPositionMs: 3000,
+          lastPlayedAt: now.subtract(const Duration(hours: 1)),
+        ),
+      ],
+      now: now,
+    );
     expect(result?.id, 'special-a');
   });
 
