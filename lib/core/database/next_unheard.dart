@@ -67,9 +67,19 @@ TileItem? _pickWithin(
   bool Function(TileItem) isAvailable,
   bool Function(TileItem) inProgress,
 ) {
+  // Playback keeps at most one saved position per tile, but a parent
+  // moving a half-played card into the tile brings its position along,
+  // so several episodes can be in progress at once. Resume the one the
+  // kid heard most recently, not the one that happens to sort first.
+  TileItem? freshest;
   for (final ep in episodes) {
-    if (isAvailable(ep) && inProgress(ep)) return ep;
+    if (!isAvailable(ep) || !inProgress(ep)) continue;
+    // lastPlayedAt is non-null for every in-progress episode.
+    if (freshest == null || ep.lastPlayedAt!.isAfter(freshest.lastPlayedAt!)) {
+      freshest = ep;
+    }
   }
+  if (freshest != null) return freshest;
 
   final lastHeardIndex = episodes.lastIndexWhere((ep) => ep.isHeard);
   if (lastHeardIndex >= 0) {

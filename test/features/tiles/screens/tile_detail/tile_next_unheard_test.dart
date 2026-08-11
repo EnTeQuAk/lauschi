@@ -57,6 +57,32 @@ void main() {
     expect(result?.id, 'ep-2');
   });
 
+  test('resumes the most recently played of two in-progress episodes', () {
+    // A parent can move a half-played card into a tile, so two fresh
+    // positions can coexist despite playback clearing them one at a
+    // time. The badge (and an NFC tag tap) must follow the episode the
+    // kid was actually just hearing, not whichever sorts first.
+    final now = DateTime(2026, 8, 11, 12);
+    final result = readNextUnheard(
+      [
+        _episode(
+          id: 'moved-in',
+          episodeNumber: 3,
+          lastPositionMs: 60000,
+          lastPlayedAt: now.subtract(const Duration(hours: 20)),
+        ),
+        _episode(
+          id: 'current',
+          episodeNumber: 7,
+          lastPositionMs: 90000,
+          lastPlayedAt: now.subtract(const Duration(minutes: 5)),
+        ),
+      ],
+      now: now,
+    );
+    expect(result?.id, 'current');
+  });
+
   test('returns first unheard after last heard', () {
     final result = readNextUnheard([
       _episode(id: 'ep-1', isHeard: true),
