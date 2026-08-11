@@ -84,20 +84,27 @@ class _EpisodeGridState extends State<EpisodeGrid>
     _lastScrolledToId = targetId;
 
     final index = widget.episodes.indexWhere((e) => e.id == targetId);
-    if (index <= 0) return;
+    if (index < 0) return;
 
     final row = index ~/ columns;
     final availableWidth = constraints.maxWidth - _gridPadding.horizontal;
     final itemHeight =
         (availableWidth - (columns - 1) * _crossAxisSpacing) / columns;
+    // May be negative for targets near the top; the clamp below turns
+    // that into "scroll to the very top". Bailing instead would leave
+    // the grid parked at the bottom when the badge wraps around.
     final offset =
         _gridPadding.top +
         row * (itemHeight + _mainAxisSpacing) -
         constraints.maxHeight * 0.3;
-    if (offset <= 0) return;
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!_scrollController.hasClients) return;
+      // Never fight the kid's finger: replacing an active drag or
+      // fling with an animation makes the list jump away mid-gesture.
+      // The skipped scroll is not retried; whoever is browsing has
+      // taken over.
+      if (_scrollController.position.isScrollingNotifier.value) return;
       final clamped = offset.clamp(
         0.0,
         _scrollController.position.maxScrollExtent,

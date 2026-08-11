@@ -129,6 +129,71 @@ void main() {
     expect(controller.offset, greaterThan(initialOffset));
   });
 
+  testWidgets('scrolls back up when the badge wraps to the top', (
+    tester,
+  ) async {
+    // Finishing the last unheard episode wraps the badge to the first
+    // unheard one near the top; the grid must follow, otherwise the
+    // kid stares at a screen of heard episodes while the pulse plays
+    // off-screen above.
+    await tester.pumpWidget(
+      _Harness(episodes: episodes, initialNextUnheardId: 'ep-28'),
+    );
+    await tester.pump();
+    await tester.pump();
+
+    final scrollable = tester.widget<GridView>(find.byType(GridView));
+    final controller = scrollable.controller!;
+    final downOffset = controller.offset;
+    expect(downOffset, greaterThan(0), reason: 'precondition: scrolled down');
+
+    tester
+        .state<_HarnessState>(find.byType(_Harness))
+        .updateNextUnheardId('ep-1');
+    await tester.pump();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 350));
+
+    expect(controller.offset, 0, reason: 'grid follows the badge to the top');
+  });
+
+  testWidgets('does not yank the grid while the kid is dragging', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _Harness(episodes: episodes, initialNextUnheardId: 'ep-20'),
+    );
+    await tester.pump();
+    await tester.pump();
+
+    final scrollable = tester.widget<GridView>(find.byType(GridView));
+    final controller = scrollable.controller!;
+
+    // Kid browses: finger down, dragging, still touching.
+    final gesture = await tester.startGesture(
+      tester.getCenter(find.byType(GridView)),
+    );
+    await gesture.moveBy(const Offset(0, -50));
+    await tester.pump();
+    final draggedOffset = controller.offset;
+
+    // Background playback finishes an episode; the badge advances.
+    tester
+        .state<_HarnessState>(find.byType(_Harness))
+        .updateNextUnheardId('ep-28');
+    await tester.pump();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 350));
+
+    expect(
+      controller.offset,
+      draggedOffset,
+      reason: 'auto-scroll must not replace an active drag',
+    );
+    await gesture.up();
+    await tester.pump(const Duration(milliseconds: 600));
+  });
+
   testWidgets('does not scroll when badge stays on same episode', (
     tester,
   ) async {
