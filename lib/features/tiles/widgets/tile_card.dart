@@ -311,23 +311,27 @@ class _StackedArt extends StatelessWidget {
     );
   }
 
+  static const _fallback = ColoredBox(
+    color: AppColors.surfaceDim,
+    child: Icon(
+      Icons.library_music_rounded,
+      size: 48,
+      color: AppColors.textSecondary,
+    ),
+  );
+
   static Widget _cover(String? url) {
-    if (url == null || url.isEmpty) {
-      return const ColoredBox(
-        color: AppColors.surfaceDim,
-        child: Icon(
-          Icons.library_music_rounded,
-          size: 48,
-          color: AppColors.textSecondary,
-        ),
-      );
-    }
+    if (url == null || url.isEmpty) return _fallback;
     return CachedNetworkImage(
       imageUrl: url,
       fit: BoxFit.cover,
       // Decode at 2x display size to keep cards sharp on high-DPI
       // without wasting memory on full-resolution CDN images. See #226.
       memCacheWidth: 400,
+      placeholder: (_, _) => const ColoredBox(color: AppColors.surfaceDim),
+      // Stored cover URLs go stale (CDN links rotate); a failed load
+      // must show the neutral fallback, not a blank card.
+      errorWidget: (_, _, _) => _fallback,
     );
   }
 }
@@ -393,6 +397,10 @@ class _FolderMosaic extends StatelessWidget {
         imageUrl: coverUrls[index],
         fit: BoxFit.cover,
         memCacheWidth: 200,
+        placeholder: (_, _) => const ColoredBox(color: AppColors.surfaceDim),
+        // A broken child cover degrades to the same neutral square an
+        // empty slot shows, instead of a blank spot in the mosaic.
+        errorWidget: (_, _, _) => const ColoredBox(color: AppColors.surfaceDim),
       );
     }
     return const ColoredBox(color: AppColors.surfaceDim);
