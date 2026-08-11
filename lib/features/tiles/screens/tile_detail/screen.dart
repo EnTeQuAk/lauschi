@@ -38,7 +38,18 @@ class TileDetailScreen extends ConsumerWidget {
     final childTilesAsync = ref.watch(childTilesProvider(tileId));
     final episodesAsync = ref.watch(tileItemsProvider(tileId));
     final nextUnheard = ref.watch(tileNextUnheardProvider(tileId));
-    final playerState = ref.watch(playerProvider);
+    // Only rebuild for play state / track changes, not position
+    // updates: while audio plays, positions tick several times per
+    // second and would rebuild the whole episode grid every time.
+    final playerState = ref.watch(
+      playerProvider.select(
+        (s) => (
+          isPlaying: s.isPlaying,
+          track: s.track,
+          activeContextUri: s.activeContextUri,
+        ),
+      ),
+    );
     final playerNotifier = ref.read(playerProvider.notifier);
     final isOnline = ref.watch(isOnlineProvider);
 
