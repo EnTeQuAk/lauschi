@@ -70,6 +70,7 @@ class TileCard extends StatefulWidget {
     this.progress = 0,
     this.contentType = ContentType.hoerspiel,
     this.kidMode = false,
+    this.isUnavailable = false,
     this.isNestTarget = false,
     this.isNestCandidate = false,
     this.childCount = 0,
@@ -92,6 +93,11 @@ class TileCard extends StatefulWidget {
 
   /// Kid-facing mode: image-only with stacked art, no title/count text.
   final bool kidMode;
+
+  /// Every episode inside is confirmed unavailable. The tile stays on
+  /// the kid grid (a vanished tile confuses kids more than a broken
+  /// one) but greys out and carries a red cross.
+  final bool isUnavailable;
 
   /// Active nest target: hover timer fired, tile is highlighted.
   final bool isNestTarget;
@@ -132,6 +138,23 @@ class _GroupCardState extends State<TileCard>
     super.dispose();
   }
 
+  /// Greys the art out and centers a red cross when the tile's content
+  /// is confirmed unavailable, mirroring the expired treatment of
+  /// episode cards.
+  Widget _withUnavailableMarker(Widget art) {
+    if (!widget.isUnavailable) return art;
+    return Stack(
+      fit: StackFit.passthrough,
+      children: [
+        ColorFiltered(colorFilter: greyscaleFilter, child: art),
+        Positioned.fill(
+          child: ColoredBox(color: AppColors.surface.withValues(alpha: 0.6)),
+        ),
+        const Center(child: _UnavailableCross()),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final countLabel =
@@ -144,7 +167,10 @@ class _GroupCardState extends State<TileCard>
             : widget.episodeCount == 1
             ? '1 Folge'
             : '${widget.episodeCount} Folgen';
-    final label = '${widget.title}, $countLabel';
+    final label =
+        widget.isUnavailable
+            ? '${widget.title}, gerade nicht verfügbar'
+            : '${widget.title}, $countLabel';
 
     return Semantics(
       label: label,
@@ -195,17 +221,19 @@ class _GroupCardState extends State<TileCard>
                   ),
               child:
                   widget.kidMode
-                      ? widget.childCoverUrls.isNotEmpty
-                          ? _FolderMosaic(
-                            coverUrls: widget.childCoverUrls,
-                            progress: widget.progress,
-                          )
-                          : _StackedArt(
-                            coverUrl: widget.coverUrl,
-                            progress: widget.progress,
-                            isMusic: widget.contentType == ContentType.music,
-                            showBadge: false,
-                          )
+                      ? _withUnavailableMarker(
+                        widget.childCoverUrls.isNotEmpty
+                            ? _FolderMosaic(
+                              coverUrls: widget.childCoverUrls,
+                              progress: widget.progress,
+                            )
+                            : _StackedArt(
+                              coverUrl: widget.coverUrl,
+                              progress: widget.progress,
+                              isMusic: widget.contentType == ContentType.music,
+                              showBadge: false,
+                            ),
+                      )
                       : Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
@@ -404,6 +432,33 @@ class _FolderMosaic extends StatelessWidget {
       );
     }
     return const ColoredBox(color: AppColors.surfaceDim);
+  }
+}
+
+/// Red circular badge with a white cross: "this tile is broken".
+/// Deliberately loud — it must read from across the room, for kids who
+/// can't read the reason.
+class _UnavailableCross extends StatelessWidget {
+  const _UnavailableCross();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 56,
+      height: 56,
+      decoration: BoxDecoration(
+        color: AppColors.error.withValues(alpha: 0.92),
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.25),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: const Icon(Icons.close_rounded, color: Colors.white, size: 36),
+    );
   }
 }
 

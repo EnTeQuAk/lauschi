@@ -353,6 +353,9 @@ class _GroupGridItem extends ConsumerWidget {
     final total = stats?.total ?? 0;
     final heard = stats?.heard ?? 0;
     final progress = total > 0 ? (heard / total) : 0.0;
+    final isUnavailable = ref
+        .watch(fullyUnavailableTilesProvider)
+        .contains(group.id);
 
     final childCovers =
         ref
@@ -377,6 +380,7 @@ class _GroupGridItem extends ConsumerWidget {
       contentType: ContentType.fromString(group.contentType),
       childCoverUrls: childCovers,
       kidMode: true,
+      isUnavailable: isUnavailable,
       onTap: onTap,
     );
   }

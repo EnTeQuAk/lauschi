@@ -565,6 +565,29 @@ Map<String, ({int total, int heard})> computeTileProgress(
   return result;
 }
 
+/// Tiles whose items are all confirmed unavailable (and that have at
+/// least one item). The kid grid marks them with a cross instead of
+/// hiding them: a tile that silently vanishes confuses kids more than
+/// one that is visibly broken.
+Set<String> fullyUnavailableTileIds(List<TileItem> items) {
+  final hasAvailable = <String, bool>{};
+  for (final item in items) {
+    final tid = item.groupId;
+    if (tid == null) continue;
+    hasAvailable[tid] = (hasAvailable[tid] ?? false) || !isItemExpired(item);
+  }
+  return {
+    for (final e in hasAvailable.entries)
+      if (!e.value) e.key,
+  };
+}
+
+/// Tile ids currently marked fully unavailable, for the kid home grid.
+final fullyUnavailableTilesProvider = Provider<Set<String>>((ref) {
+  final items = ref.watch(allTileItemsProvider).value ?? [];
+  return fullyUnavailableTileIds(items);
+});
+
 /// Playback progress 0.0–1.0 for a single card, from the stored track
 /// position, or from the time position for single-file content (ARD
 /// episodes have no track list). Returns 0 for heard or never-started

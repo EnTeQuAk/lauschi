@@ -150,12 +150,7 @@ class _AudioCardState extends State<TileItem>
         children: [
           if (widget.isExpired)
             ColorFiltered(
-              colorFilter: const ColorFilter.matrix(<double>[
-                0.2126, 0.7152, 0.0722, 0, 0, //
-                0.2126, 0.7152, 0.0722, 0, 0,
-                0.2126, 0.7152, 0.0722, 0, 0,
-                0, 0, 0, 1, 0,
-              ]),
+              colorFilter: greyscaleFilter,
               child: _CoverImage(url: widget.coverUrl),
             )
           else

@@ -211,6 +211,25 @@ void main() {
     });
   });
 
+  group('fullyUnavailableTileIds', () {
+    test('marks only tiles whose every item is unavailable', () {
+      final items = [
+        _item(id: '1', groupId: 'dead', markedUnavailable: DateTime(2026)),
+        _item(id: '2', groupId: 'dead', markedUnavailable: DateTime(2026)),
+        _item(id: '3', groupId: 'alive', markedUnavailable: DateTime(2026)),
+        _item(id: '4', groupId: 'alive'),
+        _item(id: '5', groupId: 'healthy'),
+        _item(id: '6'), // ungrouped, never counts
+      ];
+
+      expect(fullyUnavailableTileIds(items), {'dead'});
+    });
+
+    test('an empty item list marks nothing', () {
+      expect(fullyUnavailableTileIds(const []), isEmpty);
+    });
+  });
+
   group('albumProgress', () {
     test('uses the track position for multi-track albums', () {
       final card = _item(totalTracks: 10, lastTrackNumber: 5);

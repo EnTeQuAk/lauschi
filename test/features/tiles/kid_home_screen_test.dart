@@ -58,6 +58,7 @@ Widget _buildApp(ProviderContainer container) {
 List<Override> _testOverrides({
   PlaybackState playerState = const PlaybackState(isReady: true),
   List<db.TileItem> ungrouped = const [],
+  List<db.TileItem> grouped = const [],
   List<db.Tile> tiles = const [],
   _TrackingPlayerNotifier? playerNotifier,
 }) {
@@ -69,9 +70,14 @@ List<Override> _testOverrides({
       playerProvider.overrideWith(
         () => _TrackingPlayerNotifier(initialState: playerState),
       ),
-    allTileItemsProvider.overrideWith((_) => Stream.value(ungrouped)),
+    allTileItemsProvider.overrideWith(
+      (_) => Stream.value([...ungrouped, ...grouped]),
+    ),
     ungroupedItemsProvider.overrideWith((_) => Stream.value(ungrouped)),
     allTilesProvider.overrideWith((_) => Stream.value(tiles)),
+    childTilesProvider.overrideWith(
+      (ref, parentId) => Stream.value(const <db.Tile>[]),
+    ),
     onboardingCompleteProvider.overrideWith(_FakeOnboarding.new),
     parentAuthProvider.overrideWith(_FakeParentAuth.new),
     isOnlineProvider.overrideWith(_FakeOnline.new),
@@ -187,6 +193,64 @@ void main() {
       reason: 'a tap with isReady=false must still start playback',
     );
     expect(find.byIcon(Icons.chevron_left_rounded), findsOneWidget);
+  });
+
+  testWidgets('a fully unavailable tile shows the red cross, a healthy '
+      'one does not', (tester) async {
+    // Tiles never disappear from the kid grid: a vanished tile
+    // confuses kids more than a visibly broken one. When every episode
+    // inside is confirmed unavailable, the tile greys out and carries
+    // a red cross instead.
+    final tiles = [
+      db.Tile(
+        id: 'dead',
+        title: 'Kaputt',
+        sortOrder: 0,
+        createdAt: DateTime(2026),
+        contentType: 'hoerspiel',
+      ),
+      db.Tile(
+        id: 'healthy',
+        title: 'Gesund',
+        sortOrder: 1,
+        createdAt: DateTime(2026),
+        contentType: 'hoerspiel',
+      ),
+    ];
+    final items = [
+      _card(
+        id: 'gone-1',
+        title: 'Weg',
+        groupId: 'dead',
+        providerUri: 'ard:item:gone-1',
+        markedUnavailable: DateTime(2026),
+      ),
+      _card(
+        id: 'ok-1',
+        title: 'Da',
+        groupId: 'healthy',
+        providerUri: 'ard:item:ok-1',
+      ),
+    ];
+
+    final container = ProviderContainer(
+      overrides: _testOverrides(tiles: tiles, grouped: items),
+    );
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(_buildApp(container));
+    await tester.pump();
+    await tester.pump();
+
+    expect(
+      find.bySemanticsLabel(RegExp('Kaputt, gerade nicht verfügbar')),
+      findsOneWidget,
+    );
+    expect(find.byIcon(Icons.close_rounded), findsOneWidget);
+    expect(
+      find.bySemanticsLabel(RegExp('Gesund, gerade nicht verfügbar')),
+      findsNothing,
+    );
   });
 
   testWidgets('unavailable tiles are hidden from kids', (tester) async {
