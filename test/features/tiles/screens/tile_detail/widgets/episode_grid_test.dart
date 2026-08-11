@@ -10,6 +10,7 @@ db.TileItem _episode({
   int lastPositionMs = 0,
   int? sortOrder,
   int? episodeNumber,
+  DateTime? markedUnavailable,
 }) {
   return db.TileItem(
     id: id,
@@ -25,6 +26,7 @@ db.TileItem _episode({
     lastTrackNumber: 0,
     lastPositionMs: lastPositionMs,
     episodeNumber: episodeNumber,
+    markedUnavailable: markedUnavailable,
   );
 }
 
@@ -35,8 +37,12 @@ class _Harness extends StatefulWidget {
   const _Harness({
     required this.episodes,
     required this.initialNextUnheardId,
+    this.onCardTap,
+    this.onExpiredTap,
   });
 
+  final void Function(db.TileItem)? onCardTap;
+  final VoidCallback? onExpiredTap;
   final List<db.TileItem> episodes;
   final String? initialNextUnheardId;
 
@@ -73,7 +79,8 @@ class _HarnessState extends State<_Harness> {
             activeUri: null,
             isPlaying: false,
             isActive: false,
-            onCardTap: (_) {},
+            onCardTap: widget.onCardTap ?? (_) {},
+            onExpiredTap: widget.onExpiredTap,
             albumProgress: (_) => 0,
           ),
         ),
@@ -264,6 +271,49 @@ void main() {
       isEmpty,
       reason: 'Pulse should return to normal scale',
     );
+  });
+
+  testWidgets('an expired episode routes taps to onExpiredTap', (
+    tester,
+  ) async {
+    // This wiring shipped broken once (all tap handlers null on expired
+    // cards) and later came back without coverage: a kid tapping a
+    // greyed episode must get the friendly modal, never playCard on a
+    // dead stream, and never silence.
+    final tapped = <String>[];
+    var expiredTaps = 0;
+    await tester.pumpWidget(
+      _Harness(
+        episodes: [
+          _episode(id: 'ok', episodeNumber: 1),
+          _episode(
+            id: 'gone',
+            episodeNumber: 2,
+            markedUnavailable: DateTime(2026),
+          ),
+        ],
+        initialNextUnheardId: null,
+        onCardTap: (card) => tapped.add(card.id),
+        onExpiredTap: () => expiredTaps++,
+      ),
+    );
+    await tester.pump();
+
+    expect(
+      find.bySemanticsLabel(RegExp('nicht mehr verfügbar')),
+      findsOneWidget,
+      reason: 'expired rendering must be announced as unavailable',
+    );
+
+    await tester.tap(find.bySemanticsLabel(RegExp('nicht mehr verfügbar')));
+    await tester.pump();
+    expect(expiredTaps, 1);
+    expect(tapped, isEmpty, reason: 'expired tap must not reach onCardTap');
+
+    await tester.tap(find.bySemanticsLabel(RegExp('Episode ok')));
+    await tester.pump();
+    expect(tapped, ['ok'], reason: 'normal episodes keep playing normally');
+    expect(expiredTaps, 1);
   });
 
   testWidgets('Weiter badge pill is shown on nextUnheardId episode', (
