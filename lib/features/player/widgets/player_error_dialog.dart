@@ -62,7 +62,12 @@ class _PlayerErrorDialog extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final category = error.category;
+    // Render the live error: only one dialog shows at a time, so when
+    // a different error arrives while this one is open it takes over
+    // the visible dialog instead of being dropped unseen. The
+    // constructor error covers the moment between clearError and the
+    // pop completing, when state briefly holds null.
+    final current = ref.watch(playerProvider.select((s) => s.error)) ?? error;
 
     // The action button pops with a result and clears the error itself.
     // A system back pop delivers no result; the error must still be
@@ -74,15 +79,16 @@ class _PlayerErrorDialog extends ConsumerWidget {
           ref.read(playerProvider.notifier).clearError();
         }
       },
-      child: _buildDialog(context, ref, category),
+      child: _buildDialog(context, ref, current),
     );
   }
 
   Widget _buildDialog(
     BuildContext context,
     WidgetRef ref,
-    ErrorCategory category,
+    PlayerError error,
   ) {
+    final category = error.category;
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(24),

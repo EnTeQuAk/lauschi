@@ -15,6 +15,64 @@ void main() {
   group('showPlayerErrorDialog', () {
     setUp(resetPlayerErrorDialogGuard);
 
+    testWidgets('a newer error replaces the dialog content in place', (
+      tester,
+    ) async {
+      // Only one dialog shows at a time (the guard prevents stacking),
+      // so when a different error arrives while a dialog is open it
+      // must take over the visible dialog: otherwise the parent reads
+      // a stale cause, and dismissing clears the real one unseen.
+      final fakeNotifier = FakePlayerNotifier(
+        const PlaybackState(isReady: true),
+      );
+
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [playerProvider.overrideWith(() => fakeNotifier)],
+          child: MaterialApp(
+            home: Scaffold(
+              body: Builder(
+                builder:
+                    (context) => TextButton(
+                      onPressed:
+                          () => unawaited(
+                            showPlayerErrorDialog(
+                              context,
+                              error: PlayerError.spotifyPlaybackFailed,
+                            ),
+                          ),
+                      child: const Text('show'),
+                    ),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('show'));
+      await tester.pump();
+      await tester.pump();
+      expect(
+        find.text(PlayerError.spotifyPlaybackFailed.message),
+        findsOneWidget,
+        reason: 'precondition: dialog shows the first error',
+      );
+
+      fakeNotifier.setError(PlayerError.spotifyAuthExpired);
+      await tester.pump();
+
+      expect(find.text(PlayerError.spotifyAuthExpired.message), findsOneWidget);
+      expect(
+        find.text(PlayerError.spotifyPlaybackFailed.message),
+        findsNothing,
+      );
+      expect(
+        find.text(ErrorCategory.parentAction.subtitle),
+        findsOneWidget,
+        reason: 'category presentation follows the newer error too',
+      );
+    });
+
     testWidgets(
       'dialog button works after the screen that showed it was popped',
       (tester) async {
