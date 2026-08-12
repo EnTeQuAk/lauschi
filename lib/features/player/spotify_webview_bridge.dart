@@ -324,9 +324,9 @@ class SpotifyWebViewBridge {
       return;
     }
 
-    late final Map<String, dynamic> data;
+    final Object? decoded;
     try {
-      data = json.decode(msg.message) as Map<String, dynamic>;
+      decoded = json.decode(msg.message);
     } on FormatException {
       Log.error(
         _tag,
@@ -341,20 +341,28 @@ class SpotifyWebViewBridge {
       return;
     }
 
-    final type = data['type'] as String?;
+    // Valid JSON that isn't an object (a bare list/number/string)
+    // decodes fine, so this must be a coercion, not an `as` cast.
+    final data = coerceJsonMap(decoded);
+    if (data == null) {
+      Log.warn(_tag, 'Dropped non-object message');
+      return;
+    }
+
+    final type = coerceJsonString(data['type']);
     if (type == null || !_allowedTypes.contains(type)) {
       Log.warn(_tag, 'Rejected unknown message type', data: {'type': '$type'});
       return;
     }
 
-    final payload = data['payload'] as Map<String, dynamic>? ?? {};
+    final payload = coerceJsonMap(data['payload']) ?? const {};
 
     switch (type) {
       case 'sdk_ready':
         unawaited(_initPlayer());
 
       case 'ready':
-        final id = payload['device_id'] as String?;
+        final id = coerceJsonString(payload['device_id']);
         if (id != null && id.length > 128) {
           Log.warn(_tag, 'Rejected invalid device_id');
           return;
@@ -376,8 +384,10 @@ class SpotifyWebViewBridge {
         unawaited(_deliverFreshToken());
 
       case 'error':
-        final errType = _sanitize(payload['type'] as String? ?? 'unknown');
-        final errMsg = _sanitize(payload['message'] as String? ?? '');
+        final errType = _sanitize(
+          coerceJsonString(payload['type']) ?? 'unknown',
+        );
+        final errMsg = _sanitize(coerceJsonString(payload['message']) ?? '');
         Log.error(
           _tag,
           'SDK error',
@@ -403,27 +413,27 @@ class SpotifyWebViewBridge {
 
   void _handleStateChanged(Map<String, dynamic> payload) {
     final paused = payload['paused'] as bool? ?? true;
-    final posMs = (payload['position_ms'] as int? ?? 0).clamp(
+    final posMs = coerceJsonInt(payload['position_ms']).clamp(
       0,
       _maxPositionMs,
     );
-    final durMs = (payload['duration_ms'] as int? ?? 0).clamp(
+    final durMs = coerceJsonInt(payload['duration_ms']).clamp(
       0,
       _maxPositionMs,
     );
-    final trackNum = (payload['track_number'] as int? ?? 0).clamp(0, 9999);
-    final nextCount = (payload['next_tracks_count'] as int? ?? 0).clamp(
+    final trackNum = coerceJsonInt(payload['track_number']).clamp(0, 9999);
+    final nextCount = coerceJsonInt(payload['next_tracks_count']).clamp(
       0,
       9999,
     );
-    final trackData = payload['track'] as Map<String, dynamic>?;
+    final trackData = coerceJsonMap(payload['track']);
 
     TrackInfo? track;
     if (trackData != null) {
-      final uri = trackData['uri'] as String?;
-      final name = trackData['name'] as String?;
-      final artist = trackData['artist'] as String?;
-      final album = trackData['album'] as String?;
+      final uri = coerceJsonString(trackData['uri']);
+      final name = coerceJsonString(trackData['name']);
+      final artist = coerceJsonString(trackData['artist']);
+      final album = coerceJsonString(trackData['album']);
 
       if (uri != null && name != null && artist != null && album != null) {
         track = TrackInfo(
@@ -431,7 +441,9 @@ class SpotifyWebViewBridge {
           name: _sanitize(name),
           artist: _sanitize(artist),
           album: _sanitize(album),
-          artworkUrl: _sanitize(trackData['artwork_url'] as String? ?? ''),
+          artworkUrl: _sanitize(
+            coerceJsonString(trackData['artwork_url']) ?? '',
+          ),
         );
       }
     }
@@ -724,3 +736,22 @@ class SpotifyWebViewBridge {
     await _stateController.close();
   }
 }
+
+// ── Untrusted-JSON coercion ─────────────────────────────────────────────────
+//
+// The Spotify SDK is CDN-loaded (the file's threat model), so a
+// compromised or buggy bridge can post well-formed JSON with wrong-typed
+// fields. A plain `as` cast on those throws an uncaught TypeError inside
+// the JS-channel callback; these coerce or drop instead so a bad message
+// is ignored, not fatal.
+
+/// The value as a String, or null when it is any other type.
+String? coerceJsonString(Object? value) => value is String ? value : null;
+
+/// The value as a string-keyed Map, or null when it is any other type.
+Map<String, dynamic>? coerceJsonMap(Object? value) =>
+    value is Map<String, dynamic> ? value : null;
+
+/// The value as an int, or 0 when it is not numeric. Handles JSON
+/// numbers that decode as double (e.g. 12345.0).
+int coerceJsonInt(Object? value) => value is num ? value.toInt() : 0;

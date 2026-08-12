@@ -249,4 +249,35 @@ void main() {
       expect(bridge.deviceId, isNull);
     });
   });
+
+  group('untrusted-JSON coercion', () {
+    // The CDN-loaded SDK can post well-formed JSON with wrong-typed
+    // fields; an `as` cast on those throws an uncaught TypeError inside
+    // the JS-channel callback. These coercions must drop or default
+    // instead so a bad message is ignored, not fatal.
+
+    test('coerceJsonString returns null for non-strings', () {
+      expect(coerceJsonString('ok'), 'ok');
+      expect(coerceJsonString(5), isNull);
+      expect(coerceJsonString(<int>[1]), isNull);
+      expect(coerceJsonString(null), isNull);
+    });
+
+    test('coerceJsonMap returns null for non-objects', () {
+      expect(coerceJsonMap(<String, dynamic>{'a': 1}), {'a': 1});
+      expect(coerceJsonMap(<int>[1, 2]), isNull);
+      expect(coerceJsonMap('not a map'), isNull);
+      expect(coerceJsonMap(null), isNull);
+    });
+
+    test('coerceJsonInt handles doubles and rejects non-numbers', () {
+      expect(coerceJsonInt(12345), 12345);
+      // A JSON number with a fractional part decodes as double; the old
+      // `as int?` cast threw on this.
+      expect(coerceJsonInt(12345.0), 12345);
+      expect(coerceJsonInt(12345.9), 12345);
+      expect(coerceJsonInt('123'), 0);
+      expect(coerceJsonInt(null), 0);
+    });
+  });
 }
