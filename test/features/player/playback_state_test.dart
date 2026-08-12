@@ -1,10 +1,28 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/features/player/player_error.dart';
 import 'package:lauschi/features/player/player_provider.dart'
-    show interpolatePosition;
+    show interpolatePosition, spotifyDisconnectedState;
 import 'package:lauschi/features/player/player_state.dart';
 
 void main() {
+  group('spotifyDisconnectedState', () {
+    test('a lost Spotify session becomes a parent-action error', () {
+      // Regression guard: resetting to a blank PlaybackState on
+      // disconnect left the kid on an empty, silent player with no
+      // dialog and no auto-pop. The disconnect state must carry an
+      // error so PlayerErrorHost surfaces the fox dialog and the
+      // player screen pops when it clears.
+      final s = spotifyDisconnectedState();
+      expect(s.error, PlayerError.spotifyAuthExpired);
+      expect(
+        s.error!.category,
+        ErrorCategory.parentAction,
+        reason: 'a lost session needs a grown-up, not a retry',
+      );
+      expect(s.track, isNull, reason: 'playback stopped');
+      expect(s.isPlaying, isFalse);
+    });
+  });
   group('PlaybackState.copyWith', () {
     test('preserves sticky fields when updating playback fields', () {
       // Simulate what happens in PlayerNotifier: playCard sets app-level

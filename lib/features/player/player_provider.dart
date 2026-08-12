@@ -280,7 +280,10 @@ class PlayerNotifier extends _$PlayerNotifier {
 
     unawaited(_active?.stop());
     _active = null;
-    state = const PlaybackState();
+    // Carry an error, not a blank state: the player screen only pops on
+    // an error clearing, so resetting to const PlaybackState() would
+    // strand the kid on an empty, silent player with no explanation.
+    state = spotifyDisconnectedState();
   }
 
   // ─── Public API ──────────────────────────────────────────────────────
@@ -1232,6 +1235,13 @@ Future<void> handleAlbumCompleted(
   // This gives the tile a clean slate for the next listen session.
   await cards.clearPositions(groupId);
 }
+
+/// State after a Spotify session is lost mid-playback (auth expired,
+/// logged out, or SDK error). Playback stops and a parent-action error
+/// surfaces the fox dialog and pops the player screen, instead of
+/// leaving the kid on a blank, silent player.
+PlaybackState spotifyDisconnectedState() =>
+    const PlaybackState(error: PlayerError.spotifyAuthExpired);
 
 /// Merge Spotify bridge state into current playback state.
 ///
