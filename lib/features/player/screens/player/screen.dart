@@ -11,6 +11,16 @@ import 'package:lauschi/features/player/screens/player/widgets/player_album_art.
 import 'package:lauschi/features/player/screens/player/widgets/player_controls.dart';
 import 'package:shimmer/shimmer.dart';
 
+/// What [PlayerScreen] rebuilds on: the track, and the play/loading
+/// flags that drive the controls and skeleton. Deliberately excludes
+/// positionMs/durationMs — the progress bar is [InterpolatedProgress],
+/// which animates itself from its own controller, so folding the
+/// per-second position tick in here would rebuild the album art, hero,
+/// and controls once a second for nothing.
+({TrackInfo? track, bool isPlaying, bool isLoading}) playerScreenView(
+  PlaybackState s,
+) => (track: s.track, isPlaying: s.isPlaying, isLoading: s.isLoading);
+
 /// Full-screen player with large album art, controls, and progress bar.
 ///
 /// Expands from the now-playing bar via hero animation on the album art.
@@ -35,17 +45,7 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
       }
     });
 
-    final state = ref.watch(
-      playerProvider.select(
-        (s) => (
-          track: s.track,
-          isPlaying: s.isPlaying,
-          isLoading: s.isLoading,
-          durationMs: s.durationMs,
-          positionMs: s.positionMs,
-        ),
-      ),
-    );
+    final state = ref.watch(playerProvider.select(playerScreenView));
     final notifier = ref.read(playerProvider.notifier);
     final hasPrev = notifier.hasPrevTrack;
     final hasNext = notifier.hasNextTrack;
