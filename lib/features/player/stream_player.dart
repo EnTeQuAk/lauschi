@@ -46,6 +46,30 @@ StreamErrorAction classifyStreamError({
   return StreamErrorAction.giveUp;
 }
 
+/// Retry budget for a single playback session, counted per incident.
+///
+/// A burst of transient failures shares one budget, but a successful
+/// recovery ([onRecovered]) restores it, so a later unrelated blip in
+/// the same long Hoerspiel starts fresh. A single monotonic counter
+/// would abort mid-story after enough independent, individually-
+/// recoverable blips.
+class SessionRetryBudget {
+  SessionRetryBudget({required this.maxRetries});
+
+  final int maxRetries;
+  int _attempts = 0;
+
+  /// Retries consumed since the last recovery. Feeds [classifyStreamError].
+  int get attempts => _attempts;
+
+  /// Record a retry attempt (call when the classifier says retry).
+  void recordRetry() => _attempts++;
+
+  /// Playback is flowing again, or a fresh play() started: the incident
+  /// is over, restore the full budget.
+  void onRecovered() => _attempts = 0;
+}
+
 /// Plays audio from direct HTTP URLs using just_audio.
 ///
 /// Used for ARD Audiothek content. No DRM, no SDK, no WebView — just a URL
@@ -92,8 +116,11 @@ class StreamPlayer extends PlayerBackend {
   /// where the player has no live position to resume from.
   int _initialPositionMs = 0;
 
-  /// Number of retries already consumed. Increments before scheduling.
-  int _currentAttempt = 0;
+  /// Per-incident retry budget. Consumed by transient errors, restored
+  /// on recovery and on a fresh [play].
+  final SessionRetryBudget _retryBudget = SessionRetryBudget(
+    maxRetries: _maxRetries,
+  );
 
   /// Set by [stop] and [dispose] to abort any pending retry. Reset by [play].
   bool _stopped = false;
@@ -139,7 +166,7 @@ class StreamPlayer extends PlayerBackend {
     _retryTimer?.cancel();
     _retryTimer = null;
     _stopped = false;
-    _currentAttempt = 0;
+    _retryBudget.onRecovered();
     _currentUrl = audioUrl;
     _currentTrack = trackInfo;
     _initialPositionMs = positionMs;
@@ -197,7 +224,7 @@ class StreamPlayer extends PlayerBackend {
 
     final action = classifyStreamError(
       error: e,
-      currentAttempt: _currentAttempt,
+      currentAttempt: _retryBudget.attempts,
       maxRetries: _maxRetries,
     );
 
@@ -219,12 +246,12 @@ class StreamPlayer extends PlayerBackend {
         // Don't clear isPlaying — we intend to resume after the delay,
         // and the UI shouldn't flicker the controls during a transparent
         // retry of a transient error.
-        _currentAttempt++;
+        _retryBudget.recordRetry();
         Log.warn(
           _tag,
           'Retrying',
           data: {
-            'attempt': '$_currentAttempt/$_maxRetries',
+            'attempt': '${_retryBudget.attempts}/$_maxRetries',
             'error': '$e',
           },
         );
@@ -324,6 +351,11 @@ class StreamPlayer extends PlayerBackend {
         if (completed) Log.info(_tag, 'Playback completed');
 
         _isPlaying = playerState.playing && !completed;
+        // Playback is flowing again, so this incident is over: restore
+        // the retry budget. It is per incident, not per session —
+        // without this, transient blips accumulate over a long Hoerspiel
+        // and a later, individually-recoverable blip gives up mid-story.
+        if (_isPlaying) _retryBudget.onRecovered();
         _emitState();
       },
       onError: (Object e, StackTrace st) {

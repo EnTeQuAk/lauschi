@@ -168,4 +168,51 @@ void main() {
       );
     });
   });
+
+  group('SessionRetryBudget', () {
+    final err = ja.PlayerException(500, 'Server Error', null);
+
+    StreamErrorAction verdict(SessionRetryBudget b) => classifyStreamError(
+      error: err,
+      currentAttempt: b.attempts,
+      maxRetries: b.maxRetries,
+    );
+
+    test('starts with the full budget', () {
+      final b = SessionRetryBudget(maxRetries: 2);
+      expect(b.attempts, 0);
+      expect(verdict(b), StreamErrorAction.retry);
+    });
+
+    test('exhausts after maxRetries recorded attempts', () {
+      final b =
+          SessionRetryBudget(maxRetries: 2)
+            ..recordRetry()
+            ..recordRetry();
+      expect(verdict(b), StreamErrorAction.giveUp);
+    });
+
+    test('recovery restores the full budget for the next incident', () {
+      // The bug this guards: without a per-incident reset, two separate
+      // recoverable blips 20 minutes apart exhaust the session budget,
+      // so a third individually-recoverable blip gives up mid-story.
+      final b =
+          SessionRetryBudget(maxRetries: 2)
+            ..recordRetry()
+            ..recordRetry();
+      expect(
+        verdict(b),
+        StreamErrorAction.giveUp,
+        reason: 'incident 1 exhausted the budget',
+      );
+
+      b.onRecovered(); // playback resumed
+
+      expect(
+        verdict(b),
+        StreamErrorAction.retry,
+        reason: 'incident 2 starts with a fresh budget after recovery',
+      );
+    });
+  });
 }
