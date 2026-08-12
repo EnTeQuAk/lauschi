@@ -237,7 +237,7 @@ class PlayerNotifier extends _$PlayerNotifier {
         // (Track changed) sees wasNotReady=true again, triggering
         // another recovery cascade.
         state = state.copyWith(isReady: true);
-        unawaited(playCard(cardId));
+        unawaited(playCard(cardId, forceReplay: true));
         return;
       }
 
@@ -358,13 +358,23 @@ class PlayerNotifier extends _$PlayerNotifier {
   }
 
   /// Resume playback for a card, restoring saved position.
-  Future<void> playCard(String cardId) async {
+  ///
+  /// [forceReplay] bypasses the already-playing guard for internal
+  /// recovery replays (WebView process death, Spotify device lost),
+  /// which re-invoke playCard to rebuild a lost SDK context while
+  /// [PlaybackState.isPlaying] is still true. User taps leave it false.
+  Future<void> playCard(String cardId, {bool forceReplay = false}) async {
     // Re-tapping the already-playing card must not restart it: tearing
     // the backend down mid-story cuts the audio and resumes from the
     // last saved position, audibly jumping backwards. Kids tap the
     // glowing card (and re-present NFC figures) expecting nothing
-    // worse than the player opening.
-    if (cardId == state.activeCardId && state.isPlaying) {
+    // worse than the player opening. Recovery replays pass forceReplay.
+    if (shouldIgnoreRepeatPlay(
+      cardId: cardId,
+      activeCardId: state.activeCardId,
+      isPlaying: state.isPlaying,
+      forceReplay: forceReplay,
+    )) {
       Log.info(
         _tag,
         'playCard ignored, already playing',
@@ -540,7 +550,7 @@ class PlayerNotifier extends _$PlayerNotifier {
       final cardId = state.activeCardId;
       if (cardId != null) {
         Log.info(_tag, '$name: device lost, replaying card');
-        await playCard(cardId);
+        await playCard(cardId, forceReplay: true);
       } else {
         state = state.copyWith(error: PlayerError.spotifyConnectionLost);
       }
@@ -1105,6 +1115,19 @@ class PlayerNotifier extends _$PlayerNotifier {
 //
 // Testable without instantiating PlayerNotifier. Each encodes a specific
 // decision that PlayerNotifier delegates to.
+
+/// Whether a repeat play of the active card should be ignored.
+///
+/// A kid re-tapping the glowing card (or re-presenting an NFC figure)
+/// must not restart the backend. Internal recovery replays pass
+/// [forceReplay] because they re-invoke playCard specifically to
+/// rebuild a lost SDK context while playback still reads as active.
+bool shouldIgnoreRepeatPlay({
+  required String cardId,
+  required String? activeCardId,
+  required bool isPlaying,
+  required bool forceReplay,
+}) => !forceReplay && cardId == activeCardId && isPlaying;
 
 /// Whether enough time has been played to justify saving position.
 /// Prevents brief taps from marking episodes as "in progress".

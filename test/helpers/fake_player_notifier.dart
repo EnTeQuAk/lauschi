@@ -62,7 +62,7 @@ class FakePlayerNotifier extends PlayerNotifier {
   Future<void> togglePlay() async {}
 
   @override
-  Future<void> playCard(String cardId) async {}
+  Future<void> playCard(String cardId, {bool forceReplay = false}) async {}
 
   @override
   Future<void> seek(int positionMs) async {}

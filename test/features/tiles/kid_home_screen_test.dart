@@ -301,7 +301,7 @@ class _TrackingPlayerNotifier extends PlayerNotifier {
   PlaybackState build() => initialState;
 
   @override
-  Future<void> playCard(String cardId) async {
+  Future<void> playCard(String cardId, {bool forceReplay = false}) async {
     playCardCalls.add(cardId);
   }
 }

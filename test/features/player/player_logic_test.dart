@@ -8,6 +8,74 @@ import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 
 void main() {
+  group('shouldIgnoreRepeatPlay', () {
+    // A kid re-tapping the glowing card must not restart the backend.
+    test('ignores a re-tap of the card that is already playing', () {
+      expect(
+        shouldIgnoreRepeatPlay(
+          cardId: 'a',
+          activeCardId: 'a',
+          isPlaying: true,
+          forceReplay: false,
+        ),
+        isTrue,
+      );
+    });
+
+    // The regression this guards: recovery replays (WebView process
+    // death, Spotify device lost) re-invoke playCard for the active
+    // card while isPlaying is still true, to rebuild a lost SDK
+    // context. forceReplay must let them through, or a child is stuck
+    // on silent playback with no way to recover.
+    test('does not ignore a forced recovery replay', () {
+      expect(
+        shouldIgnoreRepeatPlay(
+          cardId: 'a',
+          activeCardId: 'a',
+          isPlaying: true,
+          forceReplay: true,
+        ),
+        isFalse,
+      );
+    });
+
+    test('does not ignore a tap on a different card', () {
+      expect(
+        shouldIgnoreRepeatPlay(
+          cardId: 'b',
+          activeCardId: 'a',
+          isPlaying: true,
+          forceReplay: false,
+        ),
+        isFalse,
+      );
+    });
+
+    test('does not ignore a tap while paused (re-tap resumes)', () {
+      expect(
+        shouldIgnoreRepeatPlay(
+          cardId: 'a',
+          activeCardId: 'a',
+          isPlaying: false,
+          forceReplay: false,
+        ),
+        isFalse,
+      );
+    });
+
+    test('does not ignore when nothing is active', () {
+      expect(
+        shouldIgnoreRepeatPlay(
+          cardId: 'a',
+          activeCardId: null,
+          isPlaying: false,
+          forceReplay: false,
+        ),
+        isFalse,
+      );
+    });
+  });
+
   group('shouldSavePositionInSession', () {
     // Field report (2026-07): three seconds after an album completed and
     // the tile was cleared, Spotify's trailing paused-state event wrote a
