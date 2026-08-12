@@ -4,12 +4,33 @@ import 'package:lauschi/features/player/player_state.dart' as app;
 
 const _tag = 'MediaSession';
 
+/// Whether two media items carry the same notification-visible metadata.
+///
+/// [MediaItem]'s own `==` compares id only, but the notification also
+/// shows title, artist, album, duration, and artwork, so a change in
+/// any of those (a duration discovered mid-play, new artwork) must
+/// re-emit even when the id is unchanged.
+bool mediaItemMetadataEquals(MediaItem? a, MediaItem? b) {
+  if (identical(a, b)) return true;
+  if (a == null || b == null) return false;
+  return a.id == b.id &&
+      a.title == b.title &&
+      a.artist == b.artist &&
+      a.album == b.album &&
+      a.duration == b.duration &&
+      a.artUri == b.artUri;
+}
+
 /// Proxy [AudioHandler] that exposes playback controls to the system
 /// media notification, lock screen, and headset buttons.
 ///
 /// Does not produce audio itself — forwards commands to callbacks
 /// and receives state updates from the active player backend.
 class MediaSessionHandler extends BaseAudioHandler with SeekHandler {
+  /// Last metadata pushed to the notification, so identical metadata is
+  /// not re-emitted on every position tick.
+  MediaItem? _lastMediaItem;
+
   /// Called when the system requests play/pause/skip/seek.
   /// Wire these to the player notifier.
   late final void Function() onPlay;
@@ -78,28 +99,32 @@ class MediaSessionHandler extends BaseAudioHandler with SeekHandler {
   }) {
     final track = appState.track;
 
-    // Update media item (track metadata + artwork).
+    // Update media item (track metadata + artwork) only when it actually
+    // changes. Position ticks arrive ~1/sec but the metadata is
+    // identical between them; re-pushing it every tick churns the
+    // platform notification (~1800 times over a 30-minute episode).
+    // Position is carried separately by playbackState.updatePosition.
     if (track != null) {
-      Log.debug(
-        _tag,
-        'Updating notification',
-        data: {
-          'track': track.name,
-          'playing': '${appState.isPlaying}',
-          'hasNext': '$hasNextTrack',
-        },
+      final item = MediaItem(
+        id: track.uri,
+        title: track.name,
+        artist: track.artist,
+        album: track.album,
+        duration: Duration(milliseconds: appState.durationMs),
+        artUri:
+            track.artworkUrl != null ? Uri.tryParse(track.artworkUrl!) : null,
       );
-      mediaItem.add(
-        MediaItem(
-          id: track.uri,
-          title: track.name,
-          artist: track.artist,
-          album: track.album,
-          duration: Duration(milliseconds: appState.durationMs),
-          artUri:
-              track.artworkUrl != null ? Uri.tryParse(track.artworkUrl!) : null,
-        ),
-      );
+      // MediaItem == compares id only, so compare the visible fields
+      // (a duration discovered mid-play keeps the same id).
+      if (!mediaItemMetadataEquals(_lastMediaItem, item)) {
+        Log.debug(
+          _tag,
+          'Updating notification metadata',
+          data: {'track': track.name, 'hasNext': '$hasNextTrack'},
+        );
+        _lastMediaItem = item;
+        mediaItem.add(item);
+      }
     }
 
     // Build controls list based on playback state and navigation capability.
