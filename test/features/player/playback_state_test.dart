@@ -1,10 +1,63 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/features/player/player_error.dart';
 import 'package:lauschi/features/player/player_provider.dart'
-    show interpolatePosition, spotifyDisconnectedState;
+    show
+        applyIdleBridgeReadiness,
+        interpolatePosition,
+        spotifyDisconnectedState;
 import 'package:lauschi/features/player/player_state.dart';
 
 void main() {
+  group('applyIdleBridgeReadiness', () {
+    test('ignores the event when a non-Spotify backend is active', () {
+      // A paused ARD episode: the active backend owns isReady. A
+      // background Spotify device drop must not flip it and strand the
+      // kid on the "Verbindung wird hergestellt" spinner.
+      const state = PlaybackState(
+        isReady: true,
+        track: TrackInfo(uri: 'ard:item:1', name: 'Folge 7'),
+      );
+      final result = applyIdleBridgeReadiness(
+        state,
+        bridgeReady: false,
+        hasActiveBackend: true,
+      );
+      expect(result, isNull);
+    });
+
+    test('applies readiness while idle, preserving a pending error', () {
+      // Idle with a pending ARD error: the warm Spotify bridge going
+      // ready must not wipe the error, or PlayerErrorHost never shows
+      // the dialog. copyWith always replaces error, hence the explicit
+      // preservation.
+      const state = PlaybackState(error: PlayerError.contentUnavailable);
+      final result = applyIdleBridgeReadiness(
+        state,
+        bridgeReady: true,
+        hasActiveBackend: false,
+      );
+      expect(result, isNotNull);
+      expect(result!.isReady, isTrue);
+      expect(
+        result.error,
+        PlayerError.contentUnavailable,
+        reason: 'an incidental readiness update must not clear the error',
+      );
+    });
+
+    test('ignores a no-op readiness change while idle', () {
+      const state = PlaybackState(isReady: true);
+      expect(
+        applyIdleBridgeReadiness(
+          state,
+          bridgeReady: true,
+          hasActiveBackend: false,
+        ),
+        isNull,
+      );
+    });
+  });
+
   group('spotifyDisconnectedState', () {
     test('a lost Spotify session becomes a parent-action error', () {
       // Regression guard: resetting to a blank PlaybackState on

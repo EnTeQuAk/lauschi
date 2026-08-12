@@ -255,10 +255,13 @@ class PlayerNotifier extends _$PlayerNotifier {
       final wasPlaying = state.isPlaying;
       state = mergeSpotifyBridgeState(state, bridgeState);
       _onPlaybackStateChange(state, wasPlaying: wasPlaying);
-    } else if (bridgeState.isReady != state.isReady) {
-      // Non-Spotify: only accept readiness changes so the bridge stays
-      // warm for the UI ("connecting..." spinner on kid home screen).
-      state = state.copyWith(isReady: bridgeState.isReady);
+    } else {
+      final updated = applyIdleBridgeReadiness(
+        state,
+        bridgeReady: bridgeState.isReady,
+        hasActiveBackend: _active != null,
+      );
+      if (updated != null) state = updated;
     }
   }
 
@@ -1244,6 +1247,29 @@ Future<void> handleAlbumCompleted(
   // The completed episode is now heard; its position is meaningless.
   // This gives the tile a clean slate for the next listen session.
   await cards.clearPositions(groupId);
+}
+
+/// How a Spotify bridge readiness event updates player state when
+/// Spotify is not the active backend. Returns the new state, or null to
+/// ignore the event.
+///
+/// Only an idle player follows the bridge's device readiness — it keeps
+/// the kid-home "connecting..." spinner honest while the SDK warms up.
+/// When a non-Spotify backend is active it owns [PlaybackState.isReady]
+/// (via its own state stream), so a background Spotify device drop must
+/// not flip isReady and strand a paused ARD episode on the spinner.
+///
+/// A readiness update also preserves any pending error: copyWith always
+/// replaces error, so an incidental isReady write would otherwise wipe
+/// an error before PlayerErrorHost shows the dialog.
+PlaybackState? applyIdleBridgeReadiness(
+  PlaybackState current, {
+  required bool bridgeReady,
+  required bool hasActiveBackend,
+}) {
+  if (hasActiveBackend) return null;
+  if (bridgeReady == current.isReady) return null;
+  return current.copyWith(isReady: bridgeReady, error: current.error);
 }
 
 /// State after a Spotify session is lost mid-playback (auth expired,
