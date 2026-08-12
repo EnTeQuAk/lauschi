@@ -65,7 +65,7 @@ void main() {
       // dialog and no auto-pop. The disconnect state must carry an
       // error so PlayerErrorHost surfaces the fox dialog and the
       // player screen pops when it clears.
-      final s = spotifyDisconnectedState();
+      const s = spotifyDisconnectedState;
       expect(s.error, PlayerError.spotifyAuthExpired);
       expect(
         s.error!.category,

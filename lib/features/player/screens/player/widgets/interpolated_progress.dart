@@ -80,8 +80,7 @@ class _InterpolatedProgressState extends ConsumerState<InterpolatedProgress>
         _lastServerMs = serverMs;
       }
     } else if (serverMs != _lastServerMs) {
-      _lastServerMs = serverMs;
-      _controller.value = (serverMs / durationMs).clamp(0.0, 1.0);
+      _snapTo(serverMs, durationMs);
     }
 
     if (state.isPlaying && !_controller.isAnimating) {
@@ -91,12 +90,19 @@ class _InterpolatedProgressState extends ConsumerState<InterpolatedProgress>
     }
   }
 
+  /// Jump the controller to [ms] of [durationMs]. [trackServer] records
+  /// it as the last confirmed server position; a scrub in progress
+  /// passes false because the finger drag is not a confirmed position.
+  void _snapTo(int ms, int durationMs, {bool trackServer = true}) {
+    if (durationMs <= 0) return;
+    if (trackServer) _lastServerMs = ms;
+    _controller.value = (ms / durationMs).clamp(0.0, 1.0);
+  }
+
   void _scrubTo(int ms) {
     _scrubbing = true;
     _controller.stop();
-    if (_lastDurationMs > 0) {
-      _controller.value = (ms / _lastDurationMs).clamp(0.0, 1.0);
-    }
+    _snapTo(ms, _lastDurationMs, trackServer: false);
   }
 
   void _seekTo(int ms) {
@@ -104,10 +110,7 @@ class _InterpolatedProgressState extends ConsumerState<InterpolatedProgress>
     _pendingSeekMs = ms;
     _pendingSeekTimer?.cancel();
     _pendingSeekTimer = Timer(_pendingSeekTimeout, _giveUpPendingSeek);
-    if (_lastDurationMs > 0) {
-      _lastServerMs = ms;
-      _controller.value = (ms / _lastDurationMs).clamp(0.0, 1.0);
-    }
+    _snapTo(ms, _lastDurationMs);
     widget.onSeek(ms);
     if (ref.read(playerProvider).isPlaying && _lastDurationMs > 0) {
       unawaited(_controller.forward());
@@ -121,15 +124,12 @@ class _InterpolatedProgressState extends ConsumerState<InterpolatedProgress>
   }
 
   /// The seek target was never confirmed: give up suppressing snaps and
-  /// re-sync the bar to wherever playback actually is now.
+  /// re-sync the bar to wherever playback actually is now. Only ever
+  /// runs from a live timer, which means a pending seek is still set.
   void _giveUpPendingSeek() {
-    if (_pendingSeekMs == null) return;
     _clearPendingSeek();
     final state = ref.read(playerProvider);
-    if (state.durationMs > 0) {
-      _lastServerMs = state.positionMs;
-      _controller.value = (state.positionMs / state.durationMs).clamp(0.0, 1.0);
-    }
+    _snapTo(state.positionMs, state.durationMs);
   }
 
   @override

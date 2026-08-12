@@ -292,7 +292,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     // Carry an error, not a blank state: the player screen only pops on
     // an error clearing, so resetting to const PlaybackState() would
     // strand the kid on an empty, silent player with no explanation.
-    state = spotifyDisconnectedState();
+    state = spotifyDisconnectedState;
   }
 
   // ─── Public API ──────────────────────────────────────────────────────
@@ -1152,9 +1152,13 @@ bool shouldIgnoreRepeatPlay({
 
 /// Whether enough time has been played to justify saving position.
 /// Prevents brief taps from marking episodes as "in progress".
+/// Minimum play time before a position is worth saving. Prevents brief
+/// taps from marking episodes as "in progress".
+const _minPlayTimeMs = 20000; // 20 seconds
+
 bool shouldSavePosition({
   required int playTimeMs,
-  int minPlayTimeMs = 20000,
+  int minPlayTimeMs = _minPlayTimeMs,
 }) => playTimeMs >= minPlayTimeMs;
 
 /// Whether a position save is still meaningful for this listening session.
@@ -1167,7 +1171,7 @@ bool shouldSavePosition({
 bool shouldSavePositionInSession({
   required int playTimeMs,
   required bool completionHandled,
-  int minPlayTimeMs = 20000,
+  int minPlayTimeMs = _minPlayTimeMs,
 }) =>
     !completionHandled &&
     shouldSavePosition(playTimeMs: playTimeMs, minPlayTimeMs: minPlayTimeMs);
@@ -1288,8 +1292,9 @@ PlaybackState? applyIdleBridgeReadiness(
 /// logged out, or SDK error). Playback stops and a parent-action error
 /// surfaces the fox dialog and pops the player screen, instead of
 /// leaving the kid on a blank, silent player.
-PlaybackState spotifyDisconnectedState() =>
-    const PlaybackState(error: PlayerError.spotifyAuthExpired);
+const spotifyDisconnectedState = PlaybackState(
+  error: PlayerError.spotifyAuthExpired,
+);
 
 /// Merge Spotify bridge state into current playback state.
 ///

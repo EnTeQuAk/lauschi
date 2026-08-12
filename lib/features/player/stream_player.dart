@@ -225,7 +225,7 @@ class StreamPlayer extends PlayerBackend {
     final action = classifyStreamError(
       error: e,
       currentAttempt: _retryBudget.attempts,
-      maxRetries: _maxRetries,
+      maxRetries: _retryBudget.maxRetries,
     );
 
     switch (action) {
@@ -251,7 +251,7 @@ class StreamPlayer extends PlayerBackend {
           _tag,
           'Retrying',
           data: {
-            'attempt': '${_retryBudget.attempts}/$_maxRetries',
+            'attempt': '${_retryBudget.attempts}/${_retryBudget.maxRetries}',
             'error': '$e',
           },
         );
@@ -263,7 +263,7 @@ class StreamPlayer extends PlayerBackend {
         _isPlaying = false;
         Log.warn(
           _tag,
-          'Failed after $_maxRetries retries',
+          'Failed after ${_retryBudget.maxRetries} retries',
           data: {'error': '$e'},
         );
         _emitState(error: PlayerError.playbackFailed);

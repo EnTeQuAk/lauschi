@@ -114,8 +114,6 @@ class MediaSessionHandler extends BaseAudioHandler with SeekHandler {
         artUri:
             track.artworkUrl != null ? Uri.tryParse(track.artworkUrl!) : null,
       );
-      // MediaItem == compares id only, so compare the visible fields
-      // (a duration discovered mid-play keeps the same id).
       if (!mediaItemMetadataEquals(_lastMediaItem, item)) {
         Log.debug(
           _tag,
