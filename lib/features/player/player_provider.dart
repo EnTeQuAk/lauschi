@@ -55,19 +55,29 @@ class _ActiveBackend {
   final PlayerBackend backend;
   final StreamSubscription<PlaybackState>? _subscription;
 
-  /// Stop playback and cancel the state subscription.
-  /// Does NOT dispose the backend — call [dispose] for full cleanup.
-  Future<void> stop() async {
-    await _subscription?.cancel();
-    await backend.stop();
-  }
+  /// Full teardown: cancel the state subscription, stop playback, and
+  /// release the backend's resources. See [teardownBackend].
+  Future<void> dispose() => teardownBackend(backend, _subscription);
+}
 
-  /// Full cleanup: cancel subscription and release backend resources.
-  /// Only called on app shutdown, not during normal backend switching.
-  Future<void> dispose() async {
-    await _subscription?.cancel();
-    await backend.dispose();
-  }
+/// Tear an active backend fully down: cancel its state subscription,
+/// stop playback, then release its resources.
+///
+/// Backends are created fresh per play and never reused, so a
+/// torn-down backend must be disposed, not just stopped. Stopping
+/// alone leaks the native player (StreamPlayer) and the shared-stream
+/// subscription (Apple Music) — and the leaked Apple Music subscription
+/// can hijack playback by advancing a stale album on a `trackEnded`
+/// event. dispose() alone is not enough either: SpotifyPlayer.dispose
+/// and AppleMusicBackend.dispose don't halt audio, so stop() must run
+/// first or switching providers leaves the old backend still playing.
+Future<void> teardownBackend(
+  PlayerBackend backend,
+  StreamSubscription<PlaybackState>? subscription,
+) async {
+  await subscription?.cancel();
+  await backend.stop();
+  await backend.dispose();
 }
 
 // ---------------------------------------------------------------------------
@@ -278,7 +288,7 @@ class PlayerNotifier extends _$PlayerNotifier {
       ..stop()
       ..reset();
 
-    unawaited(_active?.stop());
+    unawaited(_active?.dispose());
     _active = null;
     // Carry an error, not a blank state: the player screen only pops on
     // an error clearing, so resetting to const PlaybackState() would
@@ -323,7 +333,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     _lastPlaybackState = null;
     _completionHandledForSession = false;
 
-    await _active?.stop();
+    await _active?.dispose();
     _active = null;
     state = const PlaybackState();
   }
@@ -489,7 +499,7 @@ class PlayerNotifier extends _$PlayerNotifier {
         _tag,
         'Tearing down ${previousBackend.backend.runtimeType} gen=$gen',
       );
-      await previousBackend.stop();
+      await previousBackend.dispose();
     }
     if (_playGen != gen) {
       Log.debug(_tag, 'playCard gen=$gen superseded during teardown');

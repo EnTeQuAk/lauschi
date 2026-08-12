@@ -1,13 +1,67 @@
 // Boundary tests use explicit threshold values for documentation.
 // ignore_for_file: avoid_redundant_argument_values
 
+import 'dart:async';
+
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/database/app_database.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
+import 'package:lauschi/features/player/player_backend.dart';
 import 'package:lauschi/features/player/player_provider.dart';
+import 'package:lauschi/features/player/player_state.dart';
+
+/// Records the order of teardown calls without any native players.
+class _RecordingBackend extends PlayerBackend {
+  final calls = <String>[];
+  final _controller = StreamController<PlaybackState>.broadcast();
+
+  @override
+  Stream<PlaybackState> get stateStream => _controller.stream;
+  @override
+  int get currentPositionMs => 0;
+  @override
+  int get currentTrackNumber => 1;
+  @override
+  bool get hasNextTrack => false;
+  @override
+  Future<void> pause() async {}
+  @override
+  Future<void> resume() async {}
+  @override
+  Future<void> seek(int positionMs) async {}
+  @override
+  Future<void> stop() async => calls.add('stop');
+  @override
+  Future<void> dispose() async {
+    calls.add('dispose');
+    await _controller.close();
+  }
+}
 
 void main() {
+  group('teardownBackend', () {
+    test('cancels the subscription, then stops, then disposes', () async {
+      // A backend torn down on card switch must be fully released, not
+      // just stopped: stop() alone leaks StreamPlayer's native player
+      // and Apple Music's shared-stream subscription (which can then
+      // hijack playback by advancing a stale album). stop() must run
+      // before dispose() so audio halts before resources go.
+      final backend = _RecordingBackend();
+      final sub = backend.stateStream.listen((_) {});
+
+      await teardownBackend(backend, sub);
+
+      expect(backend.calls, ['stop', 'dispose']);
+    });
+
+    test('handles a null subscription', () async {
+      final backend = _RecordingBackend();
+      await teardownBackend(backend, null);
+      expect(backend.calls, ['stop', 'dispose']);
+    });
+  });
+
   group('shouldIgnoreRepeatPlay', () {
     // A kid re-tapping the glowing card must not restart the backend.
     test('ignores a re-tap of the card that is already playing', () {
