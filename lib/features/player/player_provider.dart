@@ -1241,7 +1241,14 @@ Future<void> handleAlbumCompleted(
     Log.error('PlayerProvider', 'Mark heard failed', exception: e);
   }
 
-  if (groupId == null) return;
+  if (groupId == null) {
+    // Standalone episode: no tile to sweep, but its own near-end
+    // position must still be cleared. markHeard doesn't touch it, so
+    // without this a re-tap resumes at the last few seconds instead of
+    // restarting the story the kid wanted to replay.
+    await cards.resetPlaybackPosition(cardId);
+    return;
+  }
 
   // Clear ALL positions in the tile, including the completed episode.
   // The completed episode is now heard; its position is meaningless.

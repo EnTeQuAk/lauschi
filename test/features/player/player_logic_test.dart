@@ -472,6 +472,37 @@ void main() {
       expect(card2!.lastPositionMs, 0); // ep2 position cleared
     });
 
+    test('clears a completed standalone episode own position', () async {
+      // Ungrouped episode (groupId null): no tile to sweep, but its own
+      // near-end position must be cleared so a re-tap restarts the story
+      // instead of resuming at the last few seconds.
+      final id = await repo.insert(
+        title: 'Standalone',
+        providerUri: 'ard:item:solo',
+        cardType: 'episode',
+      );
+      await repo.savePosition(
+        itemId: id,
+        trackUri: 'ard:item:solo',
+        positionMs: 1_780_000, // near the end of a 30-min episode
+      );
+      expect(
+        (await repo.getById(id))!.lastPositionMs,
+        1_780_000,
+        reason: 'setup: near-end position saved',
+      );
+
+      await handleAlbumCompleted(repo, cardId: id);
+
+      final card = await repo.getById(id);
+      expect(card!.isHeard, isTrue);
+      expect(
+        card.lastPositionMs,
+        0,
+        reason: 'a completed standalone episode restarts, not resumes',
+      );
+    });
+
     test(
       'clearPositions with excludeItemId preserves new active episode',
       () async {
