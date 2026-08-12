@@ -13,7 +13,6 @@ import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/widgets/now_playing_bar.dart';
-import 'package:lauschi/features/player/widgets/player_error_dialog.dart';
 import 'package:lauschi/features/tiles/tile_actions.dart';
 import 'package:lauschi/features/tiles/widgets/audio_tile.dart';
 import 'package:lauschi/features/tiles/widgets/tile_card.dart';
@@ -34,22 +33,6 @@ class KidHomeScreen extends ConsumerWidget {
     final playerState = ref.watch(playerGridStateProvider);
     final playerNotifier = ref.read(playerProvider.notifier);
     final isOnline = ref.watch(isOnlineProvider);
-
-    // Show error dialog as a side effect, not inline in the tree.
-    ref.listen(
-      playerProvider.select((s) => s.error),
-      (prev, next) {
-        if (next != null && next != prev) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (context.mounted) {
-              unawaited(
-                showPlayerErrorDialog(context, error: next),
-              );
-            }
-          });
-        }
-      },
-    );
 
     return Scaffold(
       body: SafeArea(

@@ -2,13 +2,13 @@ import 'dart:async' show unawaited;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/player_state.dart';
 import 'package:lauschi/features/player/screens/player/widgets/interpolated_progress.dart';
 import 'package:lauschi/features/player/screens/player/widgets/player_album_art.dart';
 import 'package:lauschi/features/player/screens/player/widgets/player_controls.dart';
-import 'package:lauschi/features/player/widgets/player_error_dialog.dart';
 import 'package:shimmer/shimmer.dart';
 
 /// Full-screen player with large album art, controls, and progress bar.
@@ -25,21 +25,15 @@ class PlayerScreen extends ConsumerStatefulWidget {
 class _PlayerScreenState extends ConsumerState<PlayerScreen> {
   @override
   Widget build(BuildContext context) {
-    ref.listen(
-      playerProvider.select((s) => s.error),
-      (prev, next) {
-        if (next != null && next != prev) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (!context.mounted) return;
-            unawaited(
-              showPlayerErrorDialog(context, error: next).then((_) {
-                if (context.mounted) Navigator.of(context).pop();
-              }),
-            );
-          });
-        }
-      },
-    );
+    // This screen's content just failed and the error dialog handled it
+    // (error went non-null then back to null on dismiss); leaving the
+    // kid on a dead player screen helps nobody, so pop back to the grid.
+    // PlayerErrorHost owns showing the dialog itself.
+    ref.listen(playerProvider.select((s) => s.error), (prev, next) {
+      if (prev != null && next == null && context.mounted && context.canPop()) {
+        context.pop();
+      }
+    });
 
     final state = ref.watch(
       playerProvider.select(

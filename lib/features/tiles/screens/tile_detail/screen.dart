@@ -16,7 +16,6 @@ import 'package:lauschi/core/settings/kid_settings.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/widgets/now_playing_bar.dart';
-import 'package:lauschi/features/player/widgets/player_error_dialog.dart';
 import 'package:lauschi/features/tiles/screens/tile_detail/widgets/child_tile_grid.dart';
 import 'package:lauschi/features/tiles/screens/tile_detail/widgets/episode_grid.dart';
 import 'package:lauschi/features/tiles/screens/tile_detail/widgets/tile_group_header.dart';
@@ -45,21 +44,6 @@ class TileDetailScreen extends ConsumerWidget {
     final playerNotifier = ref.read(playerProvider.notifier);
     final isOnline = ref.watch(isOnlineProvider);
 
-    // Show error dialog as a side effect, not inline in the tree.
-    ref.listen(
-      playerProvider.select((s) => s.error),
-      (prev, next) {
-        if (next != null && next != prev) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (context.mounted) {
-              unawaited(
-                showPlayerErrorDialog(context, error: next),
-              );
-            }
-          });
-        }
-      },
-    );
     final nfcEnabled =
         ref
             .watch(debugSettingsProvider)

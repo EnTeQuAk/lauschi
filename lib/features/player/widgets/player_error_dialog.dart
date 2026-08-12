@@ -3,52 +3,62 @@ import 'dart:async' show unawaited;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/player/player_error.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 
-/// Every screen that listens for player errors (kid home, tile detail,
-/// player) reacts to the same state change, so a single error would
-/// otherwise stack one dialog per mounted screen.
-Future<bool>? _activeDialog;
-
-/// Resets the single-dialog guard, which is module state and would
-/// otherwise leak across tests that leave a dialog open.
-@visibleForTesting
-void resetPlayerErrorDialogGuard() => _activeDialog = null;
-
-/// Shows a kid-friendly error dialog with mascot illustration.
+/// Owns the player error dialog. Mounted once above the router
+/// (app.dart's MaterialApp builder), so player errors surface no
+/// matter which screen is open, and exactly one dialog exists at a
+/// time — the dialog re-renders in place when a different error
+/// arrives while it is open.
 ///
-/// Call from any screen when `playerState.error` is set. The dialog
-/// handles clearing the error and popping navigation as needed. Only
-/// one dialog is shown at a time: while one is visible, further calls
-/// return the visible dialog's future rather than stacking another.
-/// Callers can therefore always chain "after the dialog was dismissed"
-/// logic onto the returned future.
-///
-/// Returns true if the user tapped "retry", false otherwise.
-Future<bool> showPlayerErrorDialog(
-  BuildContext context, {
-  required PlayerError error,
-}) {
-  final active = _activeDialog;
-  if (active != null) return active;
+/// Dismissing the dialog clears the error. Leaving the dead player
+/// screen when its content fails is the player screen's own concern
+/// (it pops itself once the error clears).
+class PlayerErrorHost extends ConsumerStatefulWidget {
+  const PlayerErrorHost({required this.child, super.key});
 
-  late final Future<bool> dialog;
-  dialog = showDialog<bool>(
-    context: context,
-    barrierDismissible: false,
-    barrierColor: Colors.black54,
-    builder: (_) => _PlayerErrorDialog(initialError: error),
-  ).then((result) {
-    // Only clear our own registration: after a guard reset, a newer
-    // dialog may already occupy the slot.
-    if (identical(_activeDialog, dialog)) {
-      _activeDialog = null;
-    }
-    return result ?? false;
-  });
-  return _activeDialog = dialog;
+  final Widget child;
+
+  @override
+  ConsumerState<PlayerErrorHost> createState() => _PlayerErrorHostState();
+}
+
+class _PlayerErrorHostState extends ConsumerState<PlayerErrorHost> {
+  bool _dialogOpen = false;
+
+  void _showDialogFor(PlayerError error) {
+    final navContext = ref.read(rootNavigatorKeyProvider).currentContext;
+    if (navContext == null) return; // router not mounted yet
+    _dialogOpen = true;
+    unawaited(
+      showDialog<bool>(
+        context: navContext,
+        barrierDismissible: false,
+        barrierColor: Colors.black54,
+        builder: (_) => _PlayerErrorDialog(initialError: error),
+      ).whenComplete(() => _dialogOpen = false),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    ref.listen(playerProvider.select((s) => s.error), (prev, next) {
+      if (next == null || next == prev || _dialogOpen) return;
+      // Post-frame: the error can be set during a build/navigation.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted || _dialogOpen) return;
+        // Re-read: the error may already be gone by the time the
+        // frame ends (cleared by a successful retry elsewhere).
+        final error = ref.read(playerProvider).error;
+        if (error == null) return;
+        _showDialogFor(error);
+      });
+    });
+    return widget.child;
+  }
 }
 
 /// Gets its own [WidgetRef] via [ConsumerWidget]: the dialog lives on

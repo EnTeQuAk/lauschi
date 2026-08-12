@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/auth/pin_service.dart';
 import 'package:lauschi/core/feature_flags.dart';
@@ -31,6 +32,12 @@ part 'app_router.g.dart';
 const _tag = 'AppRouter';
 
 // Route paths — single source of truth
+/// Root navigator key, shared between the router and overlays that need
+/// a navigator context from outside the widget tree (PlayerErrorHost).
+final rootNavigatorKeyProvider = Provider<GlobalKey<NavigatorState>>(
+  (ref) => GlobalKey<NavigatorState>(debugLabel: 'rootNavigator'),
+);
+
 abstract final class AppRoutes {
   // Onboarding
   static const onboarding = '/onboarding';
@@ -78,7 +85,7 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
   }
   ref.onDispose(refreshNotifier.dispose);
 
-  final rootNavigatorKey = GlobalKey<NavigatorState>();
+  final rootNavigatorKey = ref.watch(rootNavigatorKeyProvider);
 
   return GoRouter(
     navigatorKey: rootNavigatorKey,
