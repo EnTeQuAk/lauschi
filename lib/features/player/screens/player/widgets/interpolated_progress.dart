@@ -1,4 +1,4 @@
-import 'dart:async' show unawaited;
+import 'dart:async' show Timer, unawaited;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,8 +35,16 @@ class _InterpolatedProgressState extends ConsumerState<InterpolatedProgress>
   /// the pre-seek position before the seek confirmation arrives. This
   /// would snap the slider back to the old position, then forward again.
   /// While set, position snaps are suppressed until the backend reports
-  /// a position within 2s of the seek target.
+  /// a position within 2s of the seek target, or [_pendingSeekTimer]
+  /// gives up.
   int? _pendingSeekMs;
+
+  /// Lifts the seek suppression if the target position is never
+  /// reported (a failed seek that resumed elsewhere via recovery).
+  /// Without it, suppression would stick forever and freeze the bar at
+  /// the target while the audio plays from a different position.
+  Timer? _pendingSeekTimer;
+  static const _pendingSeekTimeout = Duration(seconds: 3);
 
   @override
   void initState() {
@@ -46,6 +54,7 @@ class _InterpolatedProgressState extends ConsumerState<InterpolatedProgress>
 
   @override
   void dispose() {
+    _pendingSeekTimer?.cancel();
     _controller.dispose();
     super.dispose();
   }
@@ -67,7 +76,7 @@ class _InterpolatedProgressState extends ConsumerState<InterpolatedProgress>
     final serverMs = state.positionMs;
     if (_pendingSeekMs != null) {
       if ((serverMs - _pendingSeekMs!).abs() <= 2000) {
-        _pendingSeekMs = null;
+        _clearPendingSeek();
         _lastServerMs = serverMs;
       }
     } else if (serverMs != _lastServerMs) {
@@ -93,6 +102,8 @@ class _InterpolatedProgressState extends ConsumerState<InterpolatedProgress>
   void _seekTo(int ms) {
     _scrubbing = false;
     _pendingSeekMs = ms;
+    _pendingSeekTimer?.cancel();
+    _pendingSeekTimer = Timer(_pendingSeekTimeout, _giveUpPendingSeek);
     if (_lastDurationMs > 0) {
       _lastServerMs = ms;
       _controller.value = (ms / _lastDurationMs).clamp(0.0, 1.0);
@@ -100,6 +111,24 @@ class _InterpolatedProgressState extends ConsumerState<InterpolatedProgress>
     widget.onSeek(ms);
     if (ref.read(playerProvider).isPlaying && _lastDurationMs > 0) {
       unawaited(_controller.forward());
+    }
+  }
+
+  void _clearPendingSeek() {
+    _pendingSeekMs = null;
+    _pendingSeekTimer?.cancel();
+    _pendingSeekTimer = null;
+  }
+
+  /// The seek target was never confirmed: give up suppressing snaps and
+  /// re-sync the bar to wherever playback actually is now.
+  void _giveUpPendingSeek() {
+    if (_pendingSeekMs == null) return;
+    _clearPendingSeek();
+    final state = ref.read(playerProvider);
+    if (state.durationMs > 0) {
+      _lastServerMs = state.positionMs;
+      _controller.value = (state.positionMs / state.durationMs).clamp(0.0, 1.0);
     }
   }
 

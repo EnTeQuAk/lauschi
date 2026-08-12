@@ -35,6 +35,14 @@ class FakePlayerNotifier extends PlayerNotifier {
     state = state.copyWith(error: error);
   }
 
+  /// Replace the whole playback state, so tests can drive position/track
+  /// updates that trigger `ref.listen` callbacks (e.g. the progress bar
+  /// sync).
+  // ignore: use_setters_to_change_properties
+  void emit(PlaybackState newState) {
+    state = newState;
+  }
+
   @override
   void clearError() {
     clearErrorCalled = true;
