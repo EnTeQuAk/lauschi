@@ -173,10 +173,6 @@ class PlayerNotifier extends _$PlayerNotifier {
   /// Set to true when completion is handled; reset in playCard().
   bool _completionHandledForSession = false;
 
-  /// Minimum play time before saving position. Prevents brief taps from
-  /// marking episodes as "in progress".
-  static const _minPlayTimeMs = 20000; // 20 seconds
-
   @override
   PlaybackState build() {
     _mediaSession = ref.watch(mediaSessionHandlerProvider);
@@ -407,6 +403,15 @@ class PlayerNotifier extends _$PlayerNotifier {
       data: {'cardId': cardId, 'previous': state.activeCardId ?? 'none'},
     );
 
+    // Fold the running stopwatch into the old card's play time and
+    // capture it before the reset below zeroes it. The save-on-switch
+    // guard needs the OLD card's play time; reading _playTimeMs there
+    // (post-reset) is always 0, so that save never ran and up to ~10s
+    // of the old episode's progress was lost since the last periodic
+    // tick.
+    _updatePlayTime();
+    final oldPlayTimeMs = _playTimeMs;
+
     // Cancel pending timers and reset tracking.
 
     _positionSaveTimer?.cancel();
@@ -460,7 +465,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     );
 
     // Save position from the old backend before tearing it down.
-    if (_playTimeMs >= _minPlayTimeMs &&
+    if (shouldSavePosition(playTimeMs: oldPlayTimeMs) &&
         oldCardId != null &&
         oldTrack != null) {
       Log.info(
@@ -469,7 +474,7 @@ class PlayerNotifier extends _$PlayerNotifier {
         data: {
           'oldCardId': oldCardId,
           'positionMs': oldPos,
-          'playTimeMs': _playTimeMs,
+          'playTimeMs': oldPlayTimeMs,
         },
       );
       unawaited(_savePosition(oldCardId, oldTrack, oldPos));
