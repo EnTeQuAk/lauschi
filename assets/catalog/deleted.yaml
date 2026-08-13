@@ -40,3 +40,15 @@ deleted:
     there, deliberately excluded as same_provider_duplicate — consistent with deleting kalle_blomquist over that same vintage. This entry carried null episode numbers and, being last in file order, was
     winning the app's album index and suppressing Bullerbü's numbering. Last of the astrid_lindgren_* duplicate family. Decided by Chris 2026-07-26."
   deleted_at: '2026-07-26T08:25:47+00:00'
+- id: eliot_und_isabella
+  title: 'Eliot und Isabella'
+  reason: 'Curation found 0 includable albums: the 7 releases are gekürzte Lesungen / Hörbuch readings (wrong_content_type), not Hörspiel. Decided by Chris 2026-08.'
+  deleted_at: '2026-08-13T20:19:42+00:00'
+- id: emil_und_die_detektive
+  title: 'Emil und die Detektive - Düsseldorfer Schauspielhaus'
+  reason: 'Curation found 0 includable albums: the Düsseldorfer Schauspielhaus artist has only music singles and audiobook material, no Hörspiel. Decided by Chris 2026-08.'
+  deleted_at: '2026-08-13T20:19:42+00:00'
+- id: bibi_und_tina_klangreise
+  title: 'Bibi und Tina: Klangreise'
+  reason: 'Curation found 0 includable albums: the split-off Klangreise sub-series is ASMR ambient (wrong_content_type), not Hörspiel episodes. Decided by Chris 2026-08.'
+  deleted_at: '2026-08-13T20:19:42+00:00'

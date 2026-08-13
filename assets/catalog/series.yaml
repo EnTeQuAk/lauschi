@@ -29562,21 +29562,6 @@ series:
       curated_at: '2026-07-24T07:40:16.987539+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-24T07:40:16.987539+00:00'
-- id: eliot_und_isabella
-  title: Eliot und Isabella
-  providers:
-    spotify:
-      artist_ids:
-      - 7wuKnjjgUlPDhrh72u4MI8
-- id: emil_und_die_detektive
-  title: Emil und die Detektive - Düsseldorfer Schauspielhaus
-  providers:
-    spotify:
-      artist_ids:
-      - 3p7nf31e3wMZyrDz2sBifV
-    apple_music:
-      artist_ids:
-      - '1780428951'
 - id: ferien_auf_saltkrokan
   title: Ferien auf Saltkrokan
   providers:
@@ -40551,19 +40536,6 @@ series:
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:14:52.642421+00:00'
   content_type: hoerspiel
-- id: bibi_und_tina_klangreise
-  title: 'Bibi und Tina: Klangreise'
-  aliases: []
-  episode_pattern:
-  content_type: hoerspiel
-  split_from: bibi_und_tina
-  providers:
-    spotify:
-      artist_ids:
-      - 2x8vG4f0HYXzMEo3xNsoiI
-    apple_music:
-      artist_ids:
-      - '220152697'
 - id: boss_baby_kinofilm
   title: 'Boss Baby: Kinofilm'
   aliases: []
