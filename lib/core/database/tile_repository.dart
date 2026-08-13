@@ -246,9 +246,9 @@ class TileRepository {
         },
       );
 
-      // Auto-dissolve parent folder if it has ≤1 child left.
+      // Auto-dissolve the parent folder if it now has no children left.
       if (parentId != null) {
-        await _dissolveIfEmpty(parentId, grandparentId);
+        await _dissolveIfEmpty(parentId);
       }
     });
   }
@@ -257,10 +257,7 @@ class TileRepository {
   ///
   /// A folder with 1 child is still valid (like iOS). Only truly
   /// empty folders get cleaned up.
-  Future<void> _dissolveIfEmpty(
-    String folderId,
-    String? parentLevel,
-  ) async {
+  Future<void> _dissolveIfEmpty(String folderId) async {
     final childCount =
         await _db
             .customSelect(
