@@ -363,7 +363,7 @@ class ContentImporter extends _$ContentImporter {
   ) async {
     final card = await _cardRepo.getByProviderUri(providerUri);
     if (card != null && card.groupId != groupId) {
-      await _cardRepo.updateArdFields(
+      await _cardRepo.assignToTile(
         itemId: card.id,
         tileId: groupId,
         episodeNumber: episodeNumber,

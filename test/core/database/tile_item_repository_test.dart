@@ -469,6 +469,48 @@ void main() {
     expect(card.episodeNumber, isNull);
   });
 
+  test(
+    'assignToTile without episodeNumber keeps the existing number',
+    () async {
+      // A curated episode carries its number (e.g. TKKG Folge 140). When
+      // the parent moves it to another tile via the group picker or a
+      // drag — neither of which passes an episode number — the number must
+      // survive. Writing Value(null) here erases it and drops the item to
+      // the bottom of the tile via the sortLast sentinel; for ARD items,
+      // which reconcile never repairs, the number is gone for good.
+      final tileA = await tiles.insert(title: 'Tile A');
+      final tileB = await tiles.insert(title: 'Tile B');
+      final cardId = await repo.insert(
+        title: 'TKKG Folge 140',
+        providerUri: 'ard:item:tkkg140',
+        cardType: 'episode',
+      );
+
+      await repo.assignToTile(
+        itemId: cardId,
+        tileId: tileA,
+        episodeNumber: 140,
+      );
+      var card = await repo.getById(cardId);
+      expect(
+        card!.episodeNumber,
+        140,
+        reason: 'setup: number assigned in tile A',
+      );
+      expect(card.groupId, tileA, reason: 'setup: card is in tile A');
+
+      // Reassign to a different tile without passing an episode number.
+      await repo.assignToTile(itemId: cardId, tileId: tileB);
+      card = await repo.getById(cardId);
+      expect(card!.groupId, tileB, reason: 'card moved to tile B');
+      expect(
+        card.episodeNumber,
+        140,
+        reason: 'omitting episodeNumber must not erase the stored number',
+      );
+    },
+  );
+
   test('markHeard and markUnheard toggle flag', () async {
     final id = await repo.insert(
       title: 'Story',

@@ -270,7 +270,11 @@ class TileItemRepository {
     return count;
   }
 
-  /// Assign an item to a tile with optional episode number.
+  /// Assign an item to a tile, optionally setting its episode number.
+  ///
+  /// Omitting [episodeNumber] leaves the stored number untouched, so a card
+  /// moved between tiles keeps its place in the run. It is never used to
+  /// clear a number; [removeFromTile] does that when unassigning.
   Future<void> assignToTile({
     required String itemId,
     required String tileId,
@@ -279,7 +283,8 @@ class TileItemRepository {
     await (_db.update(_db.cards)..where((t) => t.id.equals(itemId))).write(
       CardsCompanion(
         groupId: Value(tileId),
-        episodeNumber: Value(episodeNumber),
+        episodeNumber:
+            episodeNumber != null ? Value(episodeNumber) : const Value.absent(),
       ),
     );
     Log.info(
