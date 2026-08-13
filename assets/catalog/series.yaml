@@ -18234,9 +18234,6 @@ series:
       artist_ids:
       - '1112695110'
       albums:
-      - id: '1434660745'
-        episode: 3
-        title: 'Folge 3: Waka Chaka / Sieg oder Niederlage (Das Original-Hörspiel zur TV-Serie)'
       - id: '1562967926'
         episode: 21
         title: 'Folge 21: Das Drachenauge, Teil 1 & 2 (Das Original-Hörspiel zur TV-Serie)'
@@ -27625,9 +27622,6 @@ series:
       - id: 2j8MLSIh2MUh0UAJ6epLoU
         episode: 29
         title: 'Folge 29: Tierisch abenteuerliche Ferien'
-      - id: 5lmnZ84aWnQHdRLHr0siGW
-        episode: 44
-        title: 'Folge 44: Der rostrote Ritter'
     apple_music:
       artist_ids:
       - '1534558064'
@@ -27719,9 +27713,6 @@ series:
       - id: '1877642471'
         episode: 29
         title: 'Folge 29: Tierisch abenteuerliche Ferien'
-      - id: '1856157442'
-        episode: 44
-        title: 'Folge 44: Der rostrote Ritter'
   episode_pattern:
   - '^Folge (\d+):'
   - ^0*(\d+)/
@@ -41742,9 +41733,6 @@ series:
       artist_ids:
       - '51919817'
       albums:
-      - id: '6784607492'
-        episode: 5
-        title: 'Folge 5: Laura und das Pony'
       - id: '6784982910'
         title: Laura kommt in die Schule
       - id: '6784978472'

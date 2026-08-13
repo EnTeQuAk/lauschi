@@ -105,16 +105,20 @@ void main() {
   });
 
   test('cross-series shared album ids do not grow', () {
-    // 78 shared ids exist today, almost all collaboration music albums
-    // (kati_breuer + stephen_janetzko, the Sing-Kinderlieder family).
-    // For those, any owner is defensible. New entries usually mean
-    // curation bleed: the same Hörspiel folge curated into two series
-    // resolves to an arbitrary one, and bulk-add silently skips it for
-    // the other. Lower the bound as the data gets cleaned; never raise
-    // it without checking the new entries by hand.
+    // 74 shared ids remain, all collaboration music albums (kati_breuer +
+    // stephen_janetzko, the Sing-Kinderlieder / Flohtöne / Kalle Klang
+    // family, emmalu, mama_sandy + piano_papa, dikka on Giraffenaffen).
+    // For those, any owner is defensible. The four Hörspiel crossovers
+    // that used to bleed (Hui Buh 44 into hedda_hex, Trolljäger 3 into
+    // dragons, Laura 5 into lauras_stern_laura) are now excluded from the
+    // wrong series. New entries usually mean fresh curation bleed: the
+    // same Hörspiel folge curated into two series resolves to an
+    // arbitrary one, and bulk-add silently skips it for the other. Lower
+    // the bound as the data gets cleaned; never raise it without checking
+    // the new entries by hand.
     expect(
       shared.length,
-      lessThanOrEqualTo(78),
+      lessThanOrEqualTo(74),
       reason:
           'New cross-series shared album ids appeared:\n'
           '${shared.entries.take(90).map((e) => '${e.key}: ${e.value.join(' + ')}').join('\n')}',
