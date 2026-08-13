@@ -91,14 +91,7 @@ class TileRepository {
   }) async {
     final trimmedTitle = title.trim();
     final id = _uuid.v4();
-
-    final maxOrder =
-        await _db
-            .customSelect(
-              'SELECT COALESCE(MAX(sort_order), -1) AS max_order FROM groups',
-            )
-            .getSingle();
-    final nextOrder = (maxOrder.read<int>('max_order')) + 1;
+    final nextOrder = await _nextSortOrder();
 
     await _db
         .into(_db.groups)

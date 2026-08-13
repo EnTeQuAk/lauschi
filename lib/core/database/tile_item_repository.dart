@@ -399,6 +399,10 @@ class TileItemRepository {
         if (album == null) continue; // not curated: nothing authoritative
         if (album.episode == item.episodeNumber) continue;
 
+        // album.episode may be null: the catalog is authoritative even when
+        // it assigns no number, so an album reclassified as a compilation
+        // clears the stored number and sorts as bonus content instead of
+        // keeping a now-stale one.
         await (_db.update(_db.cards)..where((t) => t.id.equals(item.id))).write(
           CardsCompanion(episodeNumber: Value(album.episode)),
         );
