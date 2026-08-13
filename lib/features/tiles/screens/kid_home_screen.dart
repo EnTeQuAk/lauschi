@@ -10,6 +10,7 @@ import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
+import 'package:lauschi/core/settings/kid_settings.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/widgets/now_playing_bar.dart';
@@ -33,6 +34,7 @@ class KidHomeScreen extends ConsumerWidget {
     final playerState = ref.watch(playerGridStateProvider);
     final playerNotifier = ref.read(playerProvider.notifier);
     final isOnline = ref.watch(isOnlineProvider);
+    final showTitles = ref.watch(showEpisodeTitlesProvider).value ?? false;
 
     return Scaffold(
       body: SafeArea(
@@ -145,6 +147,7 @@ class KidHomeScreen extends ConsumerWidget {
                   activeUri: playerState.activeContextUri,
                   isPlaying: playerState.isPlaying,
                   isActive: playerState.track != null,
+                  showEpisodeTitles: showTitles,
                   // Never gate taps on isReady: backends only report
                   // ready after the Spotify bridge connects or a first
                   // playCard, so a gate leaves every card dead in
@@ -234,6 +237,7 @@ class _HomeGrid extends StatelessWidget {
     required this.activeUri,
     required this.isPlaying,
     required this.isActive,
+    required this.showEpisodeTitles,
     required this.onCardTap,
     required this.onGroupTap,
   });
@@ -243,6 +247,7 @@ class _HomeGrid extends StatelessWidget {
   final String? activeUri;
   final bool isPlaying;
   final bool isActive;
+  final bool showEpisodeTitles;
   final void Function(db.TileItem) onCardTap;
   final void Function(db.Tile) onGroupTap;
 
@@ -284,6 +289,7 @@ class _HomeGrid extends StatelessWidget {
               progress: albumProgress(card),
               kidMode: true,
               episodeNumber: card.episodeNumber,
+              showEpisodeTitles: showEpisodeTitles,
               onTap: () => onCardTap(card),
             );
           },

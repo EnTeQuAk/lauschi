@@ -8,6 +8,7 @@ import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/router/app_router.dart';
+import 'package:lauschi/core/settings/kid_settings.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
@@ -60,10 +61,14 @@ List<Override> _testOverrides({
   List<db.TileItem> ungrouped = const [],
   List<db.TileItem> grouped = const [],
   List<db.Tile> tiles = const [],
+  bool showEpisodeTitles = false,
   _TrackingPlayerNotifier? playerNotifier,
 }) {
   return [
     spotifySessionProvider.overrideWith(_FakeSession.new),
+    showEpisodeTitlesProvider.overrideWith(
+      () => _FakeShowTitles(value: showEpisodeTitles),
+    ),
     if (playerNotifier != null)
       playerProvider.overrideWith(() => playerNotifier)
     else
@@ -237,6 +242,44 @@ void main() {
     expect(find.byKey(const ValueKey('valid-1')), findsOneWidget);
   });
 
+  testWidgets('ungrouped cards show the title when "Titel anzeigen" is on', (
+    tester,
+  ) async {
+    // The setting must reach ungrouped home cards, not just cards inside
+    // a tile: two standalone episodes with near-identical covers are
+    // otherwise indistinguishable to a kid.
+    final cards = [_card(id: '1', title: 'Folge 5: Der geheime Auftrag')];
+
+    final container = ProviderContainer(
+      overrides: _testOverrides(ungrouped: cards, showEpisodeTitles: true),
+    );
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(_buildApp(container));
+    await tester.pump();
+    await tester.pump();
+
+    expect(find.text('5 · Der geheime Auftrag'), findsOneWidget);
+  });
+
+  testWidgets('ungrouped cards show only the number when the setting is off', (
+    tester,
+  ) async {
+    final cards = [_card(id: '1', title: 'Folge 5: Der geheime Auftrag')];
+
+    final container = ProviderContainer(
+      overrides: _testOverrides(ungrouped: cards),
+    );
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(_buildApp(container));
+    await tester.pump();
+    await tester.pump();
+
+    expect(find.text('5 · Der geheime Auftrag'), findsNothing);
+    expect(find.text('5'), findsOneWidget);
+  });
+
   testWidgets('now playing bar visible when track is set', (tester) async {
     final cards = [_card(id: '1', title: 'Episode')];
 
@@ -268,6 +311,15 @@ void main() {
 class _FakeSession extends SpotifySession {
   @override
   SpotifySessionState build() => const SpotifyUnauthenticated();
+}
+
+class _FakeShowTitles extends ShowEpisodeTitles {
+  _FakeShowTitles({required bool value}) : _value = value;
+
+  final bool _value;
+
+  @override
+  Future<bool> build() async => _value;
 }
 
 class _FakeOnboarding extends OnboardingComplete {
