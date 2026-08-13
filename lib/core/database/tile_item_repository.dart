@@ -425,8 +425,10 @@ class TileItemRepository {
     Log.info(_tag, 'Item marked unheard', data: {'itemId': itemId});
   }
 
-  /// Set ARD-specific fields after initial insert (audio URL, duration, tile).
-  Future<void> updateArdFields({
+  /// Set ARD fields after an item's initial insert (audio URL, duration,
+  /// expiry) along with its tile and episode number. Internal to
+  /// [insertArdEpisode], which is the only caller.
+  Future<void> _updateArdFields({
     required String itemId,
     String? audioUrl,
     int? durationMs,
@@ -452,7 +454,7 @@ class TileItemRepository {
 
   /// Insert an ARD Audiothek episode as an item in a single transaction.
   ///
-  /// Combines insertIfAbsent + updateArdFields atomically — if either
+  /// Combines insertIfAbsent + _updateArdFields atomically — if either
   /// step fails, neither is committed.
   Future<String> insertArdEpisode({
     required String title,
@@ -471,7 +473,7 @@ class TileItemRepository {
         cardType: 'episode',
         coverUrl: coverUrl,
       );
-      await updateArdFields(
+      await _updateArdFields(
         itemId: id,
         audioUrl: audioUrl,
         durationMs: durationMs,

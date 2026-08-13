@@ -171,16 +171,7 @@ class TileRepository {
         'Cannot nest tile $childId into $parentId: would create a cycle',
       );
     }
-    // Get the next sort order within the parent
-    final maxOrder =
-        await _db
-            .customSelect(
-              'SELECT COALESCE(MAX(sort_order), -1) AS max_order '
-              'FROM groups WHERE parent_tile_id = ?',
-              variables: [Variable.withString(parentId)],
-            )
-            .getSingle();
-    final nextOrder = (maxOrder.read<int>('max_order')) + 1;
+    final nextOrder = await _nextSortOrder(parentId: parentId);
 
     await (_db.update(_db.groups)..where((t) => t.id.equals(childId))).write(
       GroupsCompanion(
@@ -216,20 +207,7 @@ class TileRepository {
         grandparentId = parent.parentTileId;
       }
 
-      final maxOrder =
-          await _db
-              .customSelect(
-                grandparentId != null
-                    ? 'SELECT COALESCE(MAX(sort_order), -1) AS max_order '
-                        'FROM groups WHERE parent_tile_id = ?'
-                    : 'SELECT COALESCE(MAX(sort_order), -1) AS max_order '
-                        'FROM groups WHERE parent_tile_id IS NULL',
-                variables: [
-                  if (grandparentId != null) Variable.withString(grandparentId),
-                ],
-              )
-              .getSingle();
-      final nextOrder = (maxOrder.read<int>('max_order')) + 1;
+      final nextOrder = await _nextSortOrder(parentId: grandparentId);
 
       await (_db.update(_db.groups)..where((t) => t.id.equals(tileId))).write(
         GroupsCompanion(
@@ -348,14 +326,7 @@ class TileRepository {
               .whereType<String>()
               .firstOrNull;
 
-      final maxOrder =
-          await _db
-              .customSelect(
-                'SELECT COALESCE(MAX(sort_order), -1) AS max_order '
-                'FROM groups WHERE parent_tile_id IS NULL',
-              )
-              .getSingle();
-      final nextOrder = (maxOrder.read<int>('max_order')) + 1;
+      final nextOrder = await _nextSortOrder();
 
       tileId = _uuid.v4();
       await _db
@@ -503,6 +474,27 @@ class TileRepository {
         )).write(GroupsCompanion(sortOrder: Value(i)));
       }
     });
+  }
+
+  /// Next free sort order for a new tile at a given level: one past the
+  /// current max among its siblings. [parentId] null scopes to the root
+  /// level (parent_tile_id IS NULL); non-null scopes to that parent's
+  /// children.
+  Future<int> _nextSortOrder({String? parentId}) async {
+    final row =
+        await _db
+            .customSelect(
+              parentId != null
+                  ? 'SELECT COALESCE(MAX(sort_order), -1) AS max_order '
+                      'FROM groups WHERE parent_tile_id = ?'
+                  : 'SELECT COALESCE(MAX(sort_order), -1) AS max_order '
+                      'FROM groups WHERE parent_tile_id IS NULL',
+              variables: [
+                if (parentId != null) Variable.withString(parentId),
+              ],
+            )
+            .getSingle();
+    return row.read<int>('max_order') + 1;
   }
 
   /// Check if [tileId] is a descendant of [ancestorId] by walking up
