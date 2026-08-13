@@ -162,7 +162,13 @@ class ContentImporter extends _$ContentImporter {
       );
 
       state = ImportDone(added: added, showTitle: showTitle);
-    } on Exception catch (e) {
+      // Catch Error too, not just Exception: a malformed providerUri makes
+      // ProviderType.fromUri throw ArgumentError (an Error). If it escaped,
+      // state would stay ImportRunning and every later import would be
+      // blocked until app restart. Same tolerant-catch reasoning as
+      // reconcileEpisodeNumbersAtStartup.
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
       Log.error(_tag, 'ARD show import failed', exception: e);
       state = ImportFailed(
         message:
@@ -203,7 +209,12 @@ class ContentImporter extends _$ContentImporter {
       state = ImportDone(added: added, showTitle: groupTitle);
       _autoReset(gen);
       return ImportResult(added: added, groupTitle: groupTitle);
-    } on Exception catch (e) {
+      // Catch Error too, not just Exception: a malformed providerUri makes
+      // ProviderType.fromUri throw ArgumentError (an Error). If it escaped,
+      // state would stay ImportRunning and every later import would be
+      // blocked until app restart. The rethrow still surfaces the failure
+      // to the caller (and satisfies avoid_catches_without_on_clauses).
+    } catch (e) {
       state = ImportFailed(
         message:
             added > 0

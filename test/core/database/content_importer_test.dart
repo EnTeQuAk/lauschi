@@ -276,4 +276,50 @@ void main() {
     expect(result.added, 1);
     expect(await items.getAll(), hasLength(1));
   });
+
+  test('a malformed providerUri fails the import without wedging it', () async {
+    final importer = container.read(contentImporterProvider.notifier);
+    final items = container.read(tileItemRepositoryProvider);
+
+    // ProviderType.fromUri throws ArgumentError (an Error, not an
+    // Exception) on an unknown prefix. If the importer only caught
+    // Exception, that error would escape, state would stay ImportRunning,
+    // and every later import would be blocked until the app restarts.
+    await expectLater(
+      importer.importToGroup(
+        groupTitle: 'Broken',
+        cards: const [
+          PendingCard(
+            title: 'Bad',
+            providerUri: 'bogus:album:1',
+            cardType: 'album',
+          ),
+        ],
+      ),
+      throwsArgumentError,
+    );
+
+    // The importer released itself into a terminal state.
+    expect(
+      importer.state.isImporting,
+      isFalse,
+      reason: 'a failed import must not stay stuck in ImportRunning',
+    );
+
+    // Prove it is usable again: a subsequent valid import runs to
+    // completion instead of throwing StateError('Import already in
+    // progress').
+    final result = await importer.importToGroup(
+      groupTitle: 'Good',
+      cards: const [
+        PendingCard(
+          title: 'Fine',
+          providerUri: 'spotify:album:ok1',
+          cardType: 'album',
+        ),
+      ],
+    );
+    expect(result.added, 1);
+    expect(await items.getAll(), hasLength(1));
+  });
 }
