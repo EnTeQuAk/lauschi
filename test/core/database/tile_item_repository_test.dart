@@ -294,6 +294,11 @@ void main() {
     );
     expect(card.lastTrackNumber, 7);
     expect(card.lastPositionMs, 90000);
+    expect(
+      card.lastPlayedAt,
+      isNotNull,
+      reason: 'setup: savePosition stamps lastPlayedAt',
+    );
 
     // Reset and verify position fields are cleared.
     await repo.resetPlaybackPosition(id);
@@ -303,6 +308,10 @@ void main() {
     expect(card!.lastTrackUri, isNull, reason: 'lastTrackUri cleared');
     expect(card.lastTrackNumber, 0, reason: 'lastTrackNumber cleared');
     expect(card.lastPositionMs, 0, reason: 'lastPositionMs cleared');
+    // lastPlayedAt must clear too, matching clearPositions. A finished
+    // standalone episode (handleAlbumCompleted calls this) that kept its
+    // timestamp would still win lastPlayed() and resume-on-launch at 0.
+    expect(card.lastPlayedAt, isNull, reason: 'lastPlayedAt cleared');
     // Untouched fields stay intact.
     expect(card.title, 'Audiobook', reason: 'title preserved');
     expect(card.providerUri, 'spotify:album:book2', reason: 'URI preserved');

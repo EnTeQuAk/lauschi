@@ -156,16 +156,20 @@ class TileItemRepository {
     Log.debug(_tag, 'Items reordered', data: {'count': '${idsInOrder.length}'});
   }
 
-  /// Reset saved playback position for a single item. Next playback
-  /// of this item will start from the beginning instead of resuming.
-  /// Used by integration tests that exercise the same item across
-  /// repeated assertions and need a clean starting position each time.
+  /// Reset saved playback position for a single item, so next playback
+  /// starts from the beginning instead of resuming.
+  ///
+  /// Clears lastPlayedAt too, matching clearPositions: a finished
+  /// standalone episode (handleAlbumCompleted resets it) that kept its
+  /// timestamp would still win lastPlayed() and resume-on-launch at 0.
+  /// Also used by integration tests needing a clean position each run.
   Future<void> resetPlaybackPosition(String itemId) async {
     await (_db.update(_db.cards)..where((t) => t.id.equals(itemId))).write(
       const CardsCompanion(
         lastTrackUri: Value(null),
         lastTrackNumber: Value(0),
         lastPositionMs: Value(0),
+        lastPlayedAt: Value(null),
       ),
     );
     Log.debug(_tag, 'Position reset', data: {'itemId': itemId});
