@@ -277,6 +277,41 @@ void main() {
     expect(await items.getAll(), hasLength(1));
   });
 
+  test('duplicate URIs in one batch are counted once', () async {
+    final importer = container.read(contentImporterProvider.notifier);
+    final items = container.read(tileItemRepositoryProvider);
+
+    // Two cards share a providerUri. insertIfAbsent dedupes the row, so
+    // `added` must report 1, not 2 — it drives the "X hinzugefügt" line
+    // the parent sees after an import.
+    final result = await importer.importToGroup(
+      groupTitle: 'Dupes',
+      cards: const [
+        PendingCard(
+          title: 'A',
+          providerUri: 'spotify:album:dup',
+          cardType: 'album',
+        ),
+        PendingCard(
+          title: 'B',
+          providerUri: 'spotify:album:dup',
+          cardType: 'album',
+        ),
+      ],
+    );
+
+    expect(
+      await items.getAll(),
+      hasLength(1),
+      reason: 'insertIfAbsent inserts a single row',
+    );
+    expect(
+      result.added,
+      1,
+      reason: 'added must match the rows actually inserted',
+    );
+  });
+
   test('a malformed providerUri fails the import without wedging it', () async {
     final importer = container.read(contentImporterProvider.notifier);
     final items = container.read(tileItemRepositoryProvider);

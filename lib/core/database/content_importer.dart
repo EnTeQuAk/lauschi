@@ -238,12 +238,16 @@ class ContentImporter extends _$ContentImporter {
   }) async {
     final groupId =
         tileId ?? await _findOrCreateGroup(groupTitle, groupCoverUrl);
-    final existingUris = ref.read(existingItemUrisProvider);
+    // URIs already stored, plus the ones inserted as this batch runs, so a
+    // duplicate within the same batch is assigned instead of counted twice.
+    // insertIfAbsent stays the real guard against duplicate rows; this only
+    // keeps `added` honest for the "X hinzugefügt" message.
+    final seen = {...ref.read(existingItemUrisProvider)};
 
     var added = 0;
     for (var i = 0; i < cards.length; i++) {
       final card = cards[i];
-      if (existingUris.contains(card.providerUri)) {
+      if (seen.contains(card.providerUri)) {
         await _assignExistingToGroup(
           card.providerUri,
           groupId,
@@ -251,6 +255,7 @@ class ContentImporter extends _$ContentImporter {
         );
       } else {
         await _insertCard(card, groupId: groupId);
+        seen.add(card.providerUri);
         added++;
       }
       onProgress?.call(i + 1, cards.length);
