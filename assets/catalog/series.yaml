@@ -27459,70 +27459,19 @@ series:
       - id: 2xto6MS3O5kFfJ9ro7CEhG
         episode: 1
         title: Das Sams 1. Eine Woche voller Samstage
-      - id: 5EDsQpTrSoAbH2aOkAemsr
-        episode: 1
-        title: Das Sams 1. Eine Woche voller Samstage
-      - id: 40pHFqjf9m00ckHNLHpeeS
-        episode: 1
-        title: Das Sams 1. Eine Woche voller Samstage
-      - id: 5bHodA8YdOQZIt4nuJ6TMS
-        episode: 2
-        title: Das Sams 2. Am Samstag kam das Sams zurück
       - id: 1wqVcEMkS80HriPRDMgcIi
         episode: 2
         title: Das Sams 2. Am Samstag kam das Sams zurück
       - id: 76RNK8qPfpJoPpW1W5qvtp
         episode: 3
         title: Das Sams 3. Neue Punkte für das Sams
-      - id: 1GFIOHPvVDwy7vjVQUinTa
-        episode: 3
-        title: Das Sams 3. Neue Punkte für das Sams
       - id: 2MiRyV93MmCSqgGNV6ULyL
         episode: 4
         title: Das Sams 4. Ein Sams für Martin Taschenbier
-      - id: 0ygMkaldUnRqyDWh5NenDi
-        episode: 4
-        title: Das Sams 4. Ein Sams für Martin Taschenbier
-      - id: 0NnSr5K3FGCnKlIBLzldci
-        episode: 5
-        title: Das Sams 5. Sams in Gefahr
-      - id: 22SNdtsRPtmVeUj1eLaMfl
-        episode: 5
-        title: Das Sams 5. Sams in Gefahr
-      - id: 20msysjjMv1g2tiOOfAokQ
-        episode: 6
-        title: Das Sams 6. Onkel Alwin und das Sams
-      - id: 4KeOh5uVjGcNx0nDKQTY4f
-        episode: 6
-        title: Das Sams 6. Onkel Alwin und das Sams
-      - id: 5ghsOkrgV3X91sFPXatcGt
-        episode: 8
-        title: Das Sams 8. Ein Sams zu viel
-      - id: 5SsYiuXWqN0fxPKp47YTgY
-        episode: 9
-        title: Das Sams 9. Das Sams feiert Weihnachten
-      - id: 1JjkQ53xpIzLDRyeL7Yo5D
-        episode: 10
-        title: Das Sams 10. Das Sams und der blaue Drache
-      - id: 6sUBnKxutUBRKsIK74VNi6
-        episode: 11
-        title: Das Sams 11. Das Sams und die große Weihnachtssuche
-      - id: 1sLoetsPK1ZP36QVqiX4eA
-        episode: 12
-        title: Das Sams 12. Das Mini-Sams ist weg
     apple_music:
       artist_ids:
       - '456935540'
       albums:
-      - id: '1448238424'
-        episode: 2
-        title: Das Sams 2. Am Samstag kam das Sams zurück
-      - id: '1448236653'
-        episode: 3
-        title: Das Sams 3. Neue Punkte für das Sams
-      - id: '1448233599'
-        episode: 4
-        title: Das Sams 4. Ein Sams für Martin Taschenbier
   episode_pattern: ^Das Sams (\d+)\.
   series_facts:
     era_boundaries:
@@ -44248,3 +44197,61 @@ series:
         title: 'Folge 23: Die Reise nach Mandolan'
       - id: '1356622351'
         title: Das Buch des Drachen
+- id: das_sams_hoerbuch
+  title: Das Sams (Hörbuch)
+  aliases: []
+  episode_pattern:
+  - ^Das Sams (\d+)\.
+  content_type: hoerspiel
+  split_from: das_sams
+  providers:
+    spotify:
+      artist_ids:
+      - 5XxY429tXrkPUdlOZbmNg0
+      albums:
+      - id: 40pHFqjf9m00ckHNLHpeeS
+        episode: 1
+        title: Das Sams 1. Eine Woche voller Samstage
+      - id: 5bHodA8YdOQZIt4nuJ6TMS
+        episode: 2
+        title: Das Sams 2. Am Samstag kam das Sams zurück
+      - id: 1GFIOHPvVDwy7vjVQUinTa
+        episode: 3
+        title: Das Sams 3. Neue Punkte für das Sams
+      - id: 0ygMkaldUnRqyDWh5NenDi
+        episode: 4
+        title: Das Sams 4. Ein Sams für Martin Taschenbier
+      - id: 0NnSr5K3FGCnKlIBLzldci
+        episode: 5
+        title: Das Sams 5. Sams in Gefahr
+      - id: 4KeOh5uVjGcNx0nDKQTY4f
+        episode: 6
+        title: Das Sams 6. Onkel Alwin und das Sams
+      - id: 5ghsOkrgV3X91sFPXatcGt
+        episode: 8
+        title: Das Sams 8. Ein Sams zu viel
+      - id: 5SsYiuXWqN0fxPKp47YTgY
+        episode: 9
+        title: Das Sams 9. Das Sams feiert Weihnachten
+      - id: 1JjkQ53xpIzLDRyeL7Yo5D
+        episode: 10
+        title: Das Sams 10. Das Sams und der blaue Drache
+      - id: 6sUBnKxutUBRKsIK74VNi6
+        episode: 11
+        title: Das Sams 11. Das Sams und die große Weihnachtssuche
+      - id: 1sLoetsPK1ZP36QVqiX4eA
+        episode: 12
+        title: Das Sams 12. Das Mini-Sams ist weg
+    apple_music:
+      artist_ids:
+      - '456935540'
+      albums:
+      - id: '1448238424'
+        episode: 2
+        title: Das Sams 2. Am Samstag kam das Sams zurück
+      - id: '1448236653'
+        episode: 3
+        title: Das Sams 3. Neue Punkte für das Sams
+      - id: '1448233599'
+        episode: 4
+        title: Das Sams 4. Ein Sams für Martin Taschenbier

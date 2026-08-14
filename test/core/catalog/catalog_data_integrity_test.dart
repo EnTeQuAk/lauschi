@@ -132,16 +132,15 @@ void main() {
 
   test('series with duplicate episode numbers do not grow', () {
     // Within one series+provider, two albums carrying the same episode
-    // number sort on top of each other in the kid's tile. 1 series still
-    // has this: das_sams (a Hörspiel/Hörbuch mix awaiting a curation call).
-    // Everything
-    // resolvable by a line split or a data fix has been: the two-numbered-
-    // line series were split (classic-vs-CGI, original-vs-reboot,
+    // number sort on top of each other in the kid's tile. Zero remain:
+    // every series either has a single numbered run, or its second run was
+    // split into its own series (classic-vs-CGI, original-vs-reboot,
     // tabaluga/mia_and_me/die_schluempfe, leo_lausemaus's book line,
-    // hexe_lilli's films), h2o was renumbered into one 1-52 run, and
-    // spirit's mislabeled album was corrected. Lower the bound as the rest
-    // are resolved; never raise it without checking the new collisions by
-    // hand.
+    // hexe_lilli's films, das_sams's Hörbuch readings), renumbered into one
+    // sequence (h2o 1-52, spirit), or had its off-run/reused numbers
+    // dropped or unnumbered (teufelskicker Wissen, wieso_weshalb_warum).
+    // Keep this at zero; never raise it without resolving the new
+    // collisions by hand.
     final offenders = <String>[];
     for (final series in catalog.all) {
       for (final provider in _providers) {
@@ -162,10 +161,10 @@ void main() {
     final seriesWithDupes = offenders.map((o) => o.split('/').first).toSet();
 
     expect(
-      seriesWithDupes.length,
-      lessThanOrEqualTo(1),
+      seriesWithDupes,
+      isEmpty,
       reason:
-          'Series with duplicate episode numbers grew:\n'
+          'Series with duplicate episode numbers appeared:\n'
           '${offenders.join('\n')}',
     );
   });
