@@ -33982,10 +33982,6 @@ series:
         title: Die tollsten Tage mit DIKKA
       - id: 63ThtvQO6K2GfOZp0pRy6u
         title: Badewannensong
-      - id: 0tjFugr3lvDchnY359nQhb
-        title: Wenn ich groß bin
-      - id: 566dlGwEhIJYa8gbocEQg0
-        title: REISE
       - id: 5sVGQ575arA1rGe3arh87N
         title: Ich bin Ich
       - id: 5B1NvoguoTzfsgBkAktnrn
@@ -35936,34 +35932,16 @@ series:
       artist_ids:
       - 0FaGQhzs7L0uIuUdjolB1n
       albums:
-      - id: 4gDvWioaiyrWrSmAWxLf6t
-        title: Sing mit mir Kinderlieder
-      - id: 4lTsgSv1tV6npPi0p7rTdN
-        title: Sing mit mir Kinderlieder 2
-      - id: 2Z1IZ5uLBTXFTrW4E38fsU
-        title: Sing mit mir Kinderlieder 3
-      - id: 5SgiKSIJZIr6nhEoYNEIIY
-        title: Sing mit mir Kinderlieder 4
-      - id: 5QBZjM8j374zr3irDKFtRZ
-        title: Sing mit mir Spiel- und Bewegungslieder
-      - id: 3LiYJfLx7zzzOxWNDjGeY7
-        title: Sing mit mir Weihnachtslieder
       - id: 7HFVqjUlQmIJ9C5zipdf2X
         title: Papa Müsli, Vol. 1
       - id: 2KDpfZkxaijQvyNclFDzUz
         title: Mutausbruch
       - id: 0Z0p71rVSs8B0bY99nwT0H
         title: Tierisch gute Kinderlieder!
-      - id: 545vw5QOT10xxtw1UFa6X9
-        title: Sing mit mir - Die schönsten Herbstlieder
-      - id: 3typ4tyA4ZNRVmYTVuAGaf
-        title: Sing mit mir - Faschings- und Partylieder
       - id: 7t2I4cbF8ZoMCYzXIDVePf
         title: Autos raten, das macht Spaß
       - id: 1sb0oV8Qk7G84B9HMrKWly
         title: Hubi, der Hubschrauber
-      - id: 6pSxTURrEwQjlB9gAD6lRG
-        title: Sing mit mir - Die schönsten Fahrzeuglieder (Bagger Mats & seine Freunde)
       - id: 2jYg6uNvuUBHXDgh72inN8
         title: Das Kutschen-Lied (So unendlich frei)
       - id: 1q3sKMsQetadXOjwI6Ftrr
@@ -36018,46 +35996,22 @@ series:
         title: Rattenparty
       - id: 33MIhi7HLfUhL1o3Cu3VUT
         title: Dr. Sperrmüll
-      - id: 2NJgYqFGrg01D8dE4sIDdm
-        title: Sing mit mir Schlaflieder
       - id: 1uS7RTrNCgCxe6piQQkP5f
         title: Pippa mit der Post
       - id: 4HTTK7caZ60GYVN8DWRajq
         title: Tierischer Spaß
-      - id: 7iLFUsQ7bwJCDenijWW3qI
-        title: Sing mit mir - Die schönsten Stadtlieder (Milo, das Müllautokind & seine Freunde)
       - id: 3bRpZtxTVTH5Jnc7tzEqGR
         title: Weihnachten mit Kalle Klang
-      - id: 2KPileD9kgdK0ThjNDUkQu
-        title: Frühling und Ostern mit Kalle Klang
-      - id: 7G0NtavEtvJAORJDm0nrvH
-        title: Kita-Spaß mit Kalle Klang
-      - id: 5BDc72tBZX8TmB0DvfEQcq
-        title: Sing mit mir - Die schönsten Bauernhoflieder (Timmy Traktor & seine Freunde)
     apple_music:
       artist_ids:
       - '1505131248'
       albums:
-      - id: '1689827401'
-        title: Sing mit mir Kinderlieder
-      - id: '1689827731'
-        title: Sing mit mir Kinderlieder 2
-      - id: '1689826770'
-        title: Sing mit mir Kinderlieder 3
-      - id: '1689826468'
-        title: Sing mit mir Kinderlieder, Vol. 4
-      - id: '1689819242'
-        title: Sing mit mir Spiel- und Bewegungslieder
       - id: '1689808684'
         title: Papa Müsli, Vol. 1
       - id: '1689808840'
         title: Mutausbruch
       - id: '1692782326'
         title: Tierisch gute Kinderlieder!
-      - id: '1725179362'
-        title: Sing mit mir - Faschings- und Partylieder
-      - id: '1707902453'
-        title: Sing mit mir - Die schönsten Fahrzeuglieder
       - id: '1734277864'
         title: Das Kutschen-Lied (So unendlich frei) - Single
       - id: '1735356624'
@@ -36078,20 +36032,10 @@ series:
         title: Kloalabär - Single
       - id: '1770612971'
         title: Billy Betonmischer (Drehen und mischen) - Single
-      - id: '1801200583'
-        title: Sing mit mir Schlaflieder
       - id: '1814003289'
         title: Tierischer Spaß
-      - id: '1770291827'
-        title: Sing mit mir - Die schönsten Stadtlieder (Milo, das Müllautokind & seine Freunde)
       - id: '1853868014'
         title: Weihnachten mit Kalle Klang - EP
-      - id: '1881622996'
-        title: Frühling und Ostern mit Kalle Klang - EP
-      - id: '1893021123'
-        title: Kita-Spaß mit Kalle Klang
-      - id: '1894866614'
-        title: Sing mit mir - Die schönsten Bauernhoflieder (Timmy Traktor & seine Freunde)
   content_type: music
   series_facts:
     era_boundaries:
@@ -36258,8 +36202,6 @@ series:
         title: '24 Lieblingslieder für Krabbelkinder: Zum Mitsingen, Zuhören und Bewegen'
       - id: 7Mn5ZQU46kZsQBotcmgiuw
         title: Weiße Flocken überall (Winterlieder aus dem Kindergarten)
-      - id: 1a0NSWD3iVyaAP6ilpH6hr
-        title: Polonäse - Neue Kinderlieder zum ankommen, bewegen, mitmachen, ausruhen und Tschüs sagen
       - id: 2jFNFc2RYj35JdMIcSQ6a4
         title: Unsere Lieder aus der Eltern-Kind-Gruppe
       - id: 5hABqASP9RESoZVBLZhqHO
@@ -36408,8 +36350,6 @@ series:
         title: Spiel mal mit dem Becher und zwar ganz genau im Takt (Becher-Song)
       - id: 6c8t8LZ24I326jhOqq64xW
         title: Ein Männlein steht im Walde - Neue und alte Kinderlieder
-      - id: 7cS8rXfsX9NMsVTAkGS2fe
-        title: 15 tolle Kinderlieder zum Spielen, Toben und Ausruhen
       - id: 79v5RzhvqI7haH7bdDaH4w
         title: Meine Sommerlieder
       - id: 0ltbLJBK3TF84AHA5q2T9X
@@ -36468,8 +36408,6 @@ series:
         title: Eine Muh, eine Mäh, eine Täterätätä (Der Weihnachtsmann kommt)
       - id: 64z9c67mXGfFjQoJKqRdR9
         title: Winterlied - Weihnachten im Märchenwald
-      - id: 3pEIUmkvZNhoQZkAWYjZbY
-        title: Ich wünsche dir einen Engel - Zauberhafte Lieder in verzauberter Zeit
       - id: 13KVOGVOGaFbBmo6gIC0B0
         title: Heute ist ein guter Tag
       - id: 7yBJOamhaxp8VvED8PXgmw
@@ -36706,8 +36644,6 @@ series:
         title: Frohe Weihnacht
       - id: '1022769708'
         title: Kinderlieder für Kinder
-      - id: '1023345530'
-        title: 'Durch die Straßen auf und nieder: Viele schöne Herbst- und Laternenlieder'
       - id: '1035660838'
         title: Die 30 schönsten Laternenlieder
       - id: '1035658834'
@@ -36812,8 +36748,6 @@ series:
         title: Spiel mal mit dem Becher und zwar ganz genau im Takt (Becher-Song)
       - id: '1566877082'
         title: Ein Männlein steht im Walde - Neue und alte Kinderlieder
-      - id: '1572416388'
-        title: 15 tolle Kinderlieder zum Spielen, Toben und Ausruhen
       - id: '1573391438'
         title: Meine Sommerlieder
       - id: '1576185441'
@@ -36872,8 +36806,6 @@ series:
         title: Eine Muh, eine Mäh, eine Täterätätä (Der Weihnachtsmann kommt) - Single
       - id: '1655137783'
         title: Winterlied - Weihnachten im Märchenwald - Single
-      - id: '1655653784'
-        title: Ich wünsche dir einen Engel - Zauberhafte Lieder in verzauberter Zeit
       - id: '1659636355'
         title: Heute ist ein guter Tag
       - id: '1656441850'
@@ -37254,8 +37186,6 @@ series:
         title: Was machen die Mäuse im Advent? 24 Lieder für die Weihnachtszeit
       - id: 0q7KeTbGePSz4be590oT0z
         title: Hallo Herbst, hallo Winter!
-      - id: 5I21OulIBgAkqIROlX0h92
-        title: Der Advent ist da - 15 Lieder für die Kerzenzeit
       - id: 0ZdIfkmBDb7nVYBz5Iwfer
         title: Heute machen wir Musik, alle Kinder spielen mit! 27 Kinderlieder zum Singen, Spielen & Musik machen
       - id: 7E4qljS1AEpfayjIouA7ez
@@ -37264,42 +37194,26 @@ series:
         title: Ich bin ein bunter Schmetterling - 24 Lieblingslieder aus der Eltern-Kind-Gruppe
       - id: 60AORjDFcoccINjOU5X0gI
         title: Wir machen was mit Klanghölzern - Kinderlieder und Playbacks zum Mitsingen
-      - id: 1AcHqW4oClh2zvcefDgHib
-        title: Laterne, Laterne - Die 10 schönsten Kinderlieder zu Sankt Martin (Laternenlieder zum Mitsingen mit Gesangsversionen und Playbacks)
       - id: 4dNxkFONG9Jfrn5hFZXQ7Q
         title: 'Teddybär, ich mag dich sehr: Bekannte und neue Lieder für Babys'
       - id: 3Le1qp2N1qSdmOiHrb4LaD
         title: Kinderlieder für alle vier Jahreszeiten
       - id: 65uu1grjvV7Ly3mLcjC4Ii
         title: Wenn Weihnachtswichtel tanzen gehen - 24 Lieder für Advent und Weihnachten
-      - id: 3wAaxbObShCSbKIWv4WWpL
-        title: 'Ich schenk dir einen Stern: 25 Winter- und Weihnachtslieder'
-      - id: 5Zv8tXARHaA74vboc4ouRf
-        title: Aus der Raupe wird ein Schmetterling - Fröhlich krabbelige Kinderlieder
       - id: 7xSB9J0gKRhd8vYZiJtzVv
         title: Ich bin da - 24 Wohlfühllieder für Kinder (Lustige und ruhige Entspannungs-, Massage- und Mutmachlieder für mehr Körperwahrnehmung)
-      - id: 6o11457W01M4VTiZHm4xUy
-        title: Kürbis, Kürbis, schau mich an (Kürbislieder, Herbstsongs & Halloweenhits)
       - id: 2iSy7qonQ66xOh7W13Uao8
         title: Mach Musik zu Haus! (Lieder, Verse und Spielideen für eine fröhliche Eltern-Kind-Musikzeit im Wohnzimmer)
       - id: 7ADnbjNMHmWuGJbf0ksbiu
         title: Tanz den Löwentanz - Meine liebsten Mitmachlieder
-      - id: 0cNxnuoQoBeCAqhD5TKVda
-        title: Weihnachten ist immer schön
       - id: 0WI0LEjkadaSGMNNtC6Wcr
         title: Wir machen einen Winterschlaf (12 Winterlieder)
       - id: 7cS8rXfsX9NMsVTAkGS2fe
         title: 15 tolle Kinderlieder zum Spielen, Toben und Ausruhen
-      - id: 72Brm1kh3nKMqutCXFF39j
-        title: Bunt sind meine Herbstlieder
       - id: 7afBfvems8urxBwX4MTe2E
         title: Ich geh heut zum Weihnachtsmarkt - 24 Lieder zur Advents- und Weihnachtszeit
-      - id: 4svVe3AOMEAxszmoozI6pN
-        title: Finger und Hände - Mit Kinderliedern lernen (22 Kinderlieder zum Mitsingen & Mitmachen)
       - id: 3pEIUmkvZNhoQZkAWYjZbY
         title: Ich wünsche dir einen Engel - Zauberhafte Lieder in verzauberter Zeit
-      - id: 5oCFn1d4sc1rmMS0ycy4iD
-        title: Hund, Katze, Maus - Kinderlieder für Babys und Kleinkinder
       - id: 2wcBctukaVkmuTTP5c2h6k
         title: In meinem Frühlingsgarten (20 Lieder für Krippe, Kita und Familie für die Frühlingszeit)
     apple_music:
@@ -37320,8 +37234,6 @@ series:
         title: Was machen die Mäuse im Advent? 24 Lieder für die Weihnachtszeit
       - id: '1136632869'
         title: Hallo Herbst, hallo Winter!
-      - id: '1174295651'
-        title: Der Advent ist da - 15 Lieder für die Kerzenzeit
       - id: '1180640470'
         title: Heute machen wir Musik, alle Kinder spielen mit! (27 Kinderlieder zum Singen, Spielen & Musik machen)
       - id: '1200497908'
@@ -37330,22 +37242,14 @@ series:
         title: Ich bin ein bunter Schmetterling - 24 Lieblingslieder aus der Eltern-Kind-Gruppe
       - id: '1340383291'
         title: Wir machen was mit Klanghölzern - Kinderlieder und Playbacks zum Mitsingen
-      - id: '1373434395'
-        title: Laterne, Laterne - Die 10 schönsten Kinderlieder zu Sankt Martin (Laternenlieder zum Mitsingen mit Gesangsversionen und Playbacks)
       - id: '1410716239'
         title: 'Teddybär, ich mag dich sehr: Bekannte und neue Lieder für Babys'
       - id: '1411377325'
         title: Kinderlieder für alle vier Jahreszeiten
       - id: '1424194854'
         title: Wenn Weihnachtswichtel tanzen gehen - 24 Lieder für Advent und Weihnachten
-      - id: '1437371150'
-        title: 'Ich schenk dir einen Stern: 25 Winter- und Weihnachtslieder'
-      - id: '1469244054'
-        title: 'Aus der Raupe wird ein Schmetterling: Fröhlich krabbelige Kinderlieder'
       - id: '1473156272'
         title: Ich bin da - 24 Wohlfühllieder für Kinder (Lustige und ruhige Entspannungs-, Massage- und Mutmachlieder für mehr Körperwahrnehmung)
-      - id: '1482120402'
-        title: Kürbis, Kürbis, schau mich an (Kürbislieder, Herbstsongs & Halloweenhits)
       - id: '1511971004'
         title: Mach Musik zu Haus! (Lieder, Verse und Spielideen für eine fröhliche Eltern-Kind-Musikzeit im Wohnzimmer)
       - id: '1521986541'
@@ -37354,16 +37258,10 @@ series:
         title: Wir machen einen Winterschlaf (12 Winterlieder)
       - id: '1572416388'
         title: 15 tolle Kinderlieder zum Spielen, Toben und Ausruhen
-      - id: '1589251522'
-        title: Bunt sind meine Herbstlieder
       - id: '1589260639'
         title: Ich geh heut zum Weihnachtsmarkt - 24 Lieder zur Advents- und Weihnachtszeit
-      - id: '1622595787'
-        title: Finger und Hände - Mit Kinderliedern lernen (22 Kinderlieder zum Mitsingen & Mitmachen)
       - id: '1655653784'
         title: Ich wünsche dir einen Engel - Zauberhafte Lieder in verzauberter Zeit
-      - id: '1674863680'
-        title: Hund, Katze, Maus - Kinderlieder für Babys und Kleinkinder
       - id: '1678066172'
         title: In meinem Frühlingsgarten (20 Lieder für Krippe, Kita und Familie für die Frühlingszeit)
   content_type: music
@@ -37992,8 +37890,6 @@ series:
         title: Wir lassen Drachen steigen - In den Herbst mit Kalle Klang
       - id: 4E55eXzf6CEKfnHfuVnMiK
         title: Halloween mit Kalle Klang
-      - id: 3bRpZtxTVTH5Jnc7tzEqGR
-        title: Weihnachten mit Kalle Klang
       - id: 4FRCwudhi5sqZfQuu7Itpe
         title: Fasching und Karneval mit Kalle Klang 2
       - id: 2KPileD9kgdK0ThjNDUkQu
@@ -38034,8 +37930,6 @@ series:
         title: Wir lassen Drachen steigen - In den Herbst mit Kalle Klang - EP
       - id: '1842384158'
         title: Halloween mit Kalle Klang - EP
-      - id: '1853868014'
-        title: Weihnachten mit Kalle Klang - EP
       - id: '1870213479'
         title: Fasching und Karneval mit Kalle Klang 2 - EP
       - id: '1881622996'
@@ -39035,96 +38929,16 @@ series:
       artist_ids:
       - 1udPbK2uKdBxyEfBpTl1mm
       albums:
-      - id: 4gDvWioaiyrWrSmAWxLf6t
-        title: Sing mit mir Kinderlieder
-      - id: 4lTsgSv1tV6npPi0p7rTdN
-        title: Sing mit mir Kinderlieder 2
-      - id: 2Z1IZ5uLBTXFTrW4E38fsU
-        title: Sing mit mir Kinderlieder 3
-      - id: 5SgiKSIJZIr6nhEoYNEIIY
-        title: Sing mit mir Kinderlieder 4
-      - id: 5QBZjM8j374zr3irDKFtRZ
-        title: Sing mit mir Spiel- und Bewegungslieder
-      - id: 3LiYJfLx7zzzOxWNDjGeY7
-        title: Sing mit mir Weihnachtslieder
-      - id: 545vw5QOT10xxtw1UFa6X9
-        title: Sing mit mir - Die schönsten Herbstlieder
       - id: 157sYRKxlVdvSi9ek8T5OY
         title: Hallo, lieber Weihnachtsstern
-      - id: 3typ4tyA4ZNRVmYTVuAGaf
-        title: Sing mit mir - Faschings- und Partylieder
-      - id: 6iwzsJXjaz6MkoGVJEVVUN
-        title: Von den Schultern bis zum Zeh
       - id: 0jc1lGYVuJcRjRwoyLaMb2
         title: Endlich Weihnachten
-      - id: 6w7Zm5rxdnk55Bz3hj86jG
-        title: Fasching und Karneval mit Kalle Klang
-      - id: 2NJgYqFGrg01D8dE4sIDdm
-        title: Sing mit mir Schlaflieder
-      - id: 7u90MtUkmZA58OqtxdBMZB
-        title: Die Welt ist farbenfroh - Lernlieder mit Kalle Klang
-      - id: 4quVgDbGVROVCCfNkegK6r
-        title: Stopptanz - Spiel und Spaß mit Kalle Klang
-      - id: 2cxc0EWVVyW25TLMZUxHeu
-        title: Essen macht Spaß mit Kalle Klang
-      - id: 76wd7S1ucbQqC307kEWFIr
-        title: Wir lassen Drachen steigen - In den Herbst mit Kalle Klang
-      - id: 4E55eXzf6CEKfnHfuVnMiK
-        title: Halloween mit Kalle Klang
-      - id: 3bRpZtxTVTH5Jnc7tzEqGR
-        title: Weihnachten mit Kalle Klang
-      - id: 4FRCwudhi5sqZfQuu7Itpe
-        title: Fasching und Karneval mit Kalle Klang 2
-      - id: 2KPileD9kgdK0ThjNDUkQu
-        title: Frühling und Ostern mit Kalle Klang
-      - id: 7G0NtavEtvJAORJDm0nrvH
-        title: Kita-Spaß mit Kalle Klang
     apple_music:
       artist_ids:
       - '1533825602'
       albums:
-      - id: '1689827401'
-        title: Sing mit mir Kinderlieder
-      - id: '1689827731'
-        title: Sing mit mir Kinderlieder 2
-      - id: '1689826770'
-        title: Sing mit mir Kinderlieder 3
-      - id: '1689826468'
-        title: Sing mit mir Kinderlieder, Vol. 4
-      - id: '1689819242'
-        title: Sing mit mir Spiel- und Bewegungslieder
-      - id: '1689809725'
-        title: Sing mit mir Weihnachtslieder
-      - id: '1705219429'
-        title: Sing mit mir - Die schönsten Herbstlieder
       - id: '1720062375'
         title: Hallo, lieber Weihnachtsstern - Single
-      - id: '1725179362'
-        title: Sing mit mir - Faschings- und Partylieder
-      - id: '1740984741'
-        title: Von den Schultern bis zum Zeh - Single
-      - id: '1790690858'
-        title: Fasching und Karneval mit Kalle Klang - EP
-      - id: '1801200583'
-        title: Sing mit mir Schlaflieder
-      - id: '1807362246'
-        title: Die Welt ist farbenfroh - Lernlieder mit Kalle Klang - EP
-      - id: '1819971380'
-        title: Stopptanz - Spiel und Spaß mit Kalle Klang - EP
-      - id: '1826811648'
-        title: Essen macht Spaß mit Kalle Klang - EP
-      - id: '1833897967'
-        title: Wir lassen Drachen steigen - In den Herbst mit Kalle Klang - EP
-      - id: '1842384158'
-        title: Halloween mit Kalle Klang - EP
-      - id: '1853868014'
-        title: Weihnachten mit Kalle Klang - EP
-      - id: '1870213479'
-        title: Fasching und Karneval mit Kalle Klang 2 - EP
-      - id: '1881622996'
-        title: Frühling und Ostern mit Kalle Klang - EP
-      - id: '1893021123'
-        title: Kita-Spaß mit Kalle Klang
   content_type: music
 - id: mama_sandy
   title: Mama Sandy
@@ -39141,14 +38955,8 @@ series:
         title: Mein Abend
       - id: 2rErEsKAzWlvQsIKhSMIZ7
         title: Sommertag
-      - id: 7IqtP3dBv1A9x06P3PDkwk
-        title: Es ist Winterzeit
       - id: 738Z0Y5q5t8jwXKfLuR5UC
         title: Stopp, kein Mobbing!
-      - id: 59ixrjPBh0IwOSGA2QzKce
-        title: Zwischen Fantasie & Wirklichkeit
-      - id: 0CXz9LHyI8HPmuchLS16NE
-        title: Musik ist überall
     apple_music:
       artist_ids:
       - '1596159720'
