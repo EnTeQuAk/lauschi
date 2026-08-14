@@ -132,9 +132,9 @@ void main() {
 
   test('series with duplicate episode numbers do not grow', () {
     // Within one series+provider, two albums carrying the same episode
-    // number sort on top of each other in the kid's tile. 5 series still
-    // have this: edition/number-reuse cases (das_sams, teufelskicker +
-    // wissen, wieso_weshalb_warum + junior). Everything
+    // number sort on top of each other in the kid's tile. 3 series still
+    // have this: das_sams (a Hörspiel/Hörbuch mix) and
+    // wieso_weshalb_warum + junior (publisher number-reuse). Everything
     // resolvable by a line split or a data fix has been: the two-numbered-
     // line series were split (classic-vs-CGI, original-vs-reboot,
     // tabaluga/mia_and_me/die_schluempfe, leo_lausemaus's book line,
@@ -163,7 +163,7 @@ void main() {
 
     expect(
       seriesWithDupes.length,
-      lessThanOrEqualTo(5),
+      lessThanOrEqualTo(3),
       reason:
           'Series with duplicate episode numbers grew:\n'
           '${offenders.join('\n')}',

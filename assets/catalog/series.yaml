@@ -8807,37 +8807,26 @@ series:
       - 752p3IcSA76CVOvqoGcFWH
       albums:
       - id: 4xrCJyGPtrZO4CFCAGYyVL
-        episode: 1
         title: EM-Wissen 01 - Die Geschichte der EM - Teil 1! (1960 - 1988)
       - id: 0CCzcdyi1y6d5xcNytC8it
-        episode: 2
         title: EM-Wissen 02 - Die Geschichte der EM - Teil 2! (1992 - 2016)
       - id: 3AobuV6r3DyKL8qsgmdgGi
-        episode: 2
         title: 'Wissen zur EM 2024 - Folge 2: Überraschungen der EM-Geschichte'
       - id: 2K0MtpwfBc8QwODAxXQLbe
-        episode: 3
         title: EM-Wissen 03 - Der Henri Delaunay Pokal!
       - id: 2wAAqBryuhdVqva5HnPAUL
-        episode: 3
         title: 'Wissen zur EM 2024 - Folge 3: Das Eigentor'
       - id: 2dpOLqCm0FODnqMWcM5LoC
-        episode: 4
         title: EM-Wissen 04 - Regelwerk und Neuerungen!
       - id: 7fCZW8vbTTkQ3rjeyVpZJW
-        episode: 4
         title: 'Wissen zur EM 2024 - Folge 4: Regeländerungen und Kurioses'
       - id: 6tA8PxoNRheUcURTAvK9Qk
-        episode: 5
         title: EM-Wissen 05 - Rekorde und Legenden!
       - id: 34hIb66KUmsVPXg9fDtudi
-        episode: 5
         title: 'Wissen zur EM 2024 - Folge 5: Favoriten und Geheimtipps'
       - id: 1CK5OkoDEjYUVTwy1vJXdz
-        episode: 6
         title: EM-Wissen 06 - Technische Hilfsmittel und Ausrüstung!
       - id: 0Earlnp1hudWRpWZtchZQ3
-        episode: 7
         title: EM-Wissen 07 - Trainer, Schiedsrichter und Kapitäne!
       - id: 5wZ8Zot5cQ0uCKUXgXdeNd
         episode: 8
@@ -9159,55 +9148,44 @@ series:
         episode: 1
         title: 'Folge 1: Moritz macht das Spiel'
       - id: '1567874902'
-        episode: 1
         title: EM-Wissen 01 - Die Geschichte der EM - Teil 1! (1960 - 1988)
       - id: '1029947034'
         episode: 2
         title: 'Folge 2: Eine knallharte Saison'
       - id: '1567875851'
-        episode: 2
         title: EM-Wissen 02 - Die Geschichte der EM - Teil 2! (1992 - 2016)
       - id: '1742936063'
-        episode: 2
         title: 'Wissen zur EM 2024 - Folge 2: Überraschungen der EM-Geschichte - EP'
       - id: '1029960791'
         episode: 3
         title: 'Folge 3: Holt euch den Cup!'
       - id: '1567876030'
-        episode: 3
         title: EM-Wissen 03 - Der Henri Delaunay Pokal!
       - id: '1742936478'
-        episode: 3
         title: 'Wissen zur EM 2024 - Folge 3: Das Eigentor - EP'
       - id: '1029954365'
         episode: 4
         title: 'Folge 4: Stürmer gesucht!'
       - id: '1567876579'
-        episode: 4
         title: EM-Wissen 04 - Regelwerk und Neuerungen!
       - id: '1742936475'
-        episode: 4
         title: 'Wissen zur EM 2024 - Folge 4: Regeländerungen und Kurioses - EP'
       - id: '1029951004'
         episode: 5
         title: 'Folge 5: Torschuss mit Folgen'
       - id: '1567880262'
-        episode: 5
         title: EM-Wissen 05 - Rekorde und Legenden!
       - id: '1747717081'
-        episode: 5
         title: 'Wissen zur EM 2024 - Folge 5: Favoriten und Geheimtipps - EP'
       - id: '1029950705'
         episode: 6
         title: 'Folge 6: Ein unheimlich starker Gegner'
       - id: '1567877413'
-        episode: 6
         title: EM-Wissen 06 - Technische Hilfsmittel und Ausrüstung!
       - id: '1029946578'
         episode: 7
         title: 'Folge 7: La Ola mit Opa'
       - id: '1567878139'
-        episode: 7
         title: EM-Wissen 07 - Trainer, Schiedsrichter und Kapitäne!
       - id: '1029945921'
         episode: 8
@@ -42922,22 +42900,16 @@ series:
       - 752p3IcSA76CVOvqoGcFWH
       albums:
       - id: 0KgZch2JpidNVDv58PPjAq
-        episode: 1
         title: Frauen-WM-Wissen 01 - Die Anfänge
       - id: 3VjRGwNViaZnjdhOs3tC8S
-        episode: 1
         title: 'Wissen zur EM 2024 - Folge 1: Die EM-Stadien und ihre Namen'
       - id: 2bSWLKPljqhhuKO6avVPTt
-        episode: 2
         title: Frauen-WM-Wissen 02 - Legenden und Rekorde
       - id: 2Cg2pCV2WPXZRBXjsoVICZ
-        episode: 3
         title: Frauen-WM-Wissen 03 - (Der lange Weg zur) Gleichberechtigung
       - id: 0Ka13m5enZ0FtgzFkKeEwK
-        episode: 4
         title: Frauen-WM-Wissen 04 - Deutsche Legenden
       - id: 6G6RcNLJ6N21nOxOxuTg8P
-        episode: 5
         title: Frauen-WM-Wissen 05 - Favoriten und Geheimtipps
       - id: 036GNQLwnsQjeNvTSiw3u6
         title: 'WM-Wissen: Rote Karte!'
@@ -42964,22 +42936,16 @@ series:
       - '374902873'
       albums:
       - id: '1691270921'
-        episode: 1
         title: Frauen-WM-Wissen 01 - Die Anfänge - EP
       - id: '1742934510'
-        episode: 1
         title: 'Wissen zur EM 2024 - Folge 1:  Die EM-Stadien und ihre Namen - EP'
       - id: '1691270950'
-        episode: 2
         title: Frauen-WM-Wissen 02 - Legenden und Rekorde - EP
       - id: '1691271159'
-        episode: 3
         title: Frauen-WM-Wissen 03 - (Der lange Weg zur) Gleichberechtigung - EP
       - id: '1691271627'
-        episode: 4
         title: Frauen-WM-Wissen 04 - Deutsche Legenden - EP
       - id: '1691271968'
-        episode: 5
         title: Frauen-WM-Wissen 05 - Favoriten und Geheimtipps - EP
       - id: '1398251896'
         title: 'WM-Wissen: Abseits!'
