@@ -122,4 +122,40 @@ void main() {
           '${shared.entries.take(90).map((e) => '${e.key}: ${e.value.join(' + ')}').join('\n')}',
     );
   });
+
+  test('series with duplicate episode numbers do not grow', () {
+    // Within one series+provider, two albums carrying the same episode
+    // number sort on top of each other in the kid's tile. 19 series still
+    // have this, almost all because two distinct numbered lines share a
+    // series entry (classic vs CGI, an original vs a "neue" run) and want
+    // splitting, plus a few publisher number-reuses. Lower the bound as
+    // they are split or de-duplicated; never raise it without checking the
+    // new collisions by hand.
+    final offenders = <String>[];
+    for (final series in catalog.all) {
+      for (final provider in _providers) {
+        final counts = <int, int>{};
+        for (final album in series.albumsForProvider(provider)) {
+          final ep = album.episode;
+          if (ep != null) counts[ep] = (counts[ep] ?? 0) + 1;
+        }
+        final dupes = counts.entries.where((e) => e.value > 1).toList();
+        if (dupes.isNotEmpty) {
+          offenders.add(
+            '${series.id}/${provider.value}: '
+            '${dupes.map((e) => 'ep ${e.key} x${e.value}').join(', ')}',
+          );
+        }
+      }
+    }
+    final seriesWithDupes = offenders.map((o) => o.split('/').first).toSet();
+
+    expect(
+      seriesWithDupes.length,
+      lessThanOrEqualTo(19),
+      reason:
+          'Series with duplicate episode numbers grew:\n'
+          '${offenders.join('\n')}',
+    );
+  });
 }

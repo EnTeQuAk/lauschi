@@ -23469,19 +23469,10 @@ series:
       - id: 3rJwKjLsgKEXcB3dNKevTl
         episode: 1
         title: 'Miss Melody 1: Verrückt vor Glück'
-      - id: 6NY3zQtb5q7TY7yxufM4wN
-        episode: 1
-        title: 'Miss Melody 1: Verrückt vor Glück'
       - id: 2WSjySlaVcDbUm8UpnAAsI
         episode: 2
         title: 'Folge 2: Summerset in Gefahr'
-      - id: 5FBfFYpIqH5YEDPwjgZWp2
-        episode: 2
-        title: 'Folge 2: Summerset in Gefahr'
       - id: 2qmru4GNQJeQ3jH8aR6k8C
-        episode: 3
-        title: 'Folge 3: Das Glück ist zurück'
-      - id: 4ydUBTj3cyDI34fbxRjWiI
         episode: 3
         title: 'Folge 3: Das Glück ist zurück'
     apple_music:
@@ -23911,9 +23902,6 @@ series:
       - id: 6xK1T3x0PgZrvpKiENf48W
         episode: 37
         title: 'Folge 37: Die magische Karte'
-      - id: 0RleVfMyttZoqg7A0f6anm
-        episode: 37
-        title: 'Folge 37: Die magische Karte (Kopfhörer-Hörspiel)'
       - id: 0soSVlJbtjWh2K9Hi7YMLh
         episode: 38
         title: 'Folge 38: Die listige Lüge'
@@ -37962,9 +37950,6 @@ series:
       - id: 0MaXXnUtLMakUfqMccJjxy
         episode: 6
         title: 006/Auf ins Traumland
-      - id: 5b0anPJgs1WXftTDMfQ5B9
-        episode: 6
-        title: 6/Auf ins Traumland
       - id: 68UdzSihs3zlEsMM9y1q4v
         episode: 7
         title: 007/Wo schlafen die Tierbabys?
