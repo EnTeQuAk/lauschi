@@ -43,7 +43,14 @@ void main() {
 
     // Doppel-numbered title where the curation deliberately picks the
     // inner number: "Folge 10: Gute-Nacht-Geschichten Folge 19+20 ...".
-    const knownAmbiguous = {'spotify:4J7VLI47aJNd2vQEdbfdDO'};
+    // Second entry: Apple mislabels Spirit's "Ein Pferd für Turo" as
+    // "Folge 2" but it is canonically Folge 3 (publisher + Spotify agree,
+    // and Apple has no Folge 3), so the curation stores 3 against a title
+    // that prints 2.
+    const knownAmbiguous = {
+      'spotify:4J7VLI47aJNd2vQEdbfdDO',
+      'apple_music:1434409926',
+    };
 
     final disagreements = <String>[];
     var compared = 0;
@@ -155,7 +162,7 @@ void main() {
 
     expect(
       seriesWithDupes.length,
-      lessThanOrEqualTo(10),
+      lessThanOrEqualTo(9),
       reason:
           'Series with duplicate episode numbers grew:\n'
           '${offenders.join('\n')}',
