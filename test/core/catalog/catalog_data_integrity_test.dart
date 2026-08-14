@@ -125,14 +125,15 @@ void main() {
 
   test('series with duplicate episode numbers do not grow', () {
     // Within one series+provider, two albums carrying the same episode
-    // number sort on top of each other in the kid's tile. 13 series still
-    // have this, almost all because two distinct numbered lines share a
-    // series entry (an original vs a "neue" run) and want splitting, plus
-    // a few publisher number-reuses. The classic-vs-CGI pairs (biene_maja,
-    // heidi, wickie) and the original-vs-reboot pairs (pumuckl, jan_tenner,
-    // hanni_und_nanni) were split into their two numbered lines. Lower the
-    // bound as the rest are split or de-duplicated; never raise it without
-    // checking the new collisions by hand.
+    // number sort on top of each other in the kid's tile. 10 series still
+    // have this, mostly publisher number-reuses and edition mismatches
+    // plus a couple more two-line series. The two-numbered-line series
+    // resolved so far were split into their lines: classic-vs-CGI
+    // (biene_maja, heidi, wickie), original-vs-reboot (pumuckl, jan_tenner,
+    // hanni_und_nanni), and the classic-vs-newer/other-line pairs
+    // (tabaluga, mia_and_me, die_schluempfe). Lower the bound as the rest
+    // are split or de-duplicated; never raise it without checking the new
+    // collisions by hand.
     final offenders = <String>[];
     for (final series in catalog.all) {
       for (final provider in _providers) {
@@ -154,7 +155,7 @@ void main() {
 
     expect(
       seriesWithDupes.length,
-      lessThanOrEqualTo(13),
+      lessThanOrEqualTo(10),
       reason:
           'Series with duplicate episode numbers grew:\n'
           '${offenders.join('\n')}',

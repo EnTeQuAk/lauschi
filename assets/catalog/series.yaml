@@ -15467,21 +15467,12 @@ series:
       - id: 5kc4tEfYKk5QxDkaA2EvjP
         episode: 1
         title: 'Folge 1: Ankunft in Centopia / Eine neue Hoffnung (Das Original-Hörspiel zur TV-Serie)'
-      - id: 3jMDTLSXAB85wBZJybqFCx
-        episode: 1
-        title: 'Folge 1: Die allerschönste Blume (Das Original-Hörspiel)'
       - id: 0Cs0e2xuUVBD2OPFOnZw2Q
         episode: 2
         title: 'Folge 2: Ein seltsames Orakel / Der verlorene Trumptus (Das Original-Hörspiel zur TV-Serie)'
-      - id: 4Cy2DhdYwRfi83a9esOD06
-        episode: 2
-        title: 'Folge 2: Der verliebte Polytheus (Das Original-Hörspiel)'
       - id: 5pcuF1TRY91B9nt5hTYoqs
         episode: 3
         title: 'Folge 3: Das goldene Einhorn / Onchao und das Paradies (Das Original-Hörspiel zur TV-Serie)'
-      - id: 3QbTeOUmMaIsYrN7GUOHpS
-        episode: 3
-        title: 'Folge 3: Die große Prinzenprüfung (Das Original-Hörspiel)'
       - id: 76XTYONoE1T3jxmBtxtbsP
         episode: 4
         title: 'Folge 4: Beeren für Phuddle / Ziggos freier Tag (Das Original-Hörspiel zur TV-Serie)'
@@ -15635,21 +15626,12 @@ series:
       - id: '1491004471'
         episode: 1
         title: 'Folge 1: Ankunft in Centopia / Eine neue Hoffnung (Das Original-Hörspiel zur TV-Serie)'
-      - id: '1808972478'
-        episode: 1
-        title: 'Folge 1: Die allerschönste Blume (Das Original-Hörspiel)'
       - id: '1491001799'
         episode: 2
         title: 'Folge 2: Ein seltsames Orakel / Der verlorene Trumptus (Das Original-Hörspiel zur TV-Serie)'
-      - id: '1818635047'
-        episode: 2
-        title: 'Folge 2: Der verliebte Polytheus (Das Original-Hörspiel)'
       - id: '1491103665'
         episode: 3
         title: 'Folge 3: Das goldene Einhorn / Onchao und das Paradies (Das Original-Hörspiel zur TV-Serie)'
-      - id: '1825325766'
-        episode: 3
-        title: 'Folge 3: Die große Prinzenprüfung (Das Original-Hörspiel)'
       - id: '1494187182'
         episode: 4
         title: 'Folge 4: Beeren für Phuddle / Ziggos freier Tag (Das Original-Hörspiel zur TV-Serie)'
@@ -30297,45 +30279,24 @@ series:
       - id: 2ZOZddzoAe6Avydf93Cwu5
         episode: 1
         title: 01/Das große Ereignis
-      - id: 52BaPmadnpTkDhNSP87luz
-        episode: 1
-        title: 'Folge 1: Die große Stadt'
       - id: 0IsukZuqX2H7A58SOH39xO
         episode: 2
         title: 02/Ein ganz heißes Ding
-      - id: 4rP8iu8oRrYsR91ELChdG7
-        episode: 2
-        title: 'Folge 2: Am wilden Meer'
       - id: 7528UKeBiYNKUkfwSLUG3n
         episode: 3
         title: 03/Ein Drache zuviel
-      - id: 31I8XXIgxv7MdAX6WdygeU
-        episode: 3
-        title: 'Folge 3: In den eisigen Bergen'
       - id: 6jETrm2u1F369py7bv2vxK
         episode: 4
         title: 04/Der Bessere gewinnt
-      - id: 6hWbLvmZuYNxByx9zaceSu
-        episode: 4
-        title: 'Folge 4: Im stürmischen Wald'
       - id: 5Ig0Mmb6pCWMGcrGeK9blg
         episode: 5
         title: 05/Drachen weinen nicht
-      - id: 3lqNB64CRZVTacJYx5QT1H
-        episode: 5
-        title: 'Folge 5: Im Eisbären-Land'
       - id: 3f9YEzfwGbt52kNH7QMrrg
         episode: 6
         title: 06/Ein friedlicher Überfall
-      - id: 0IklRy7YgVQGESlc4nmy1E
-        episode: 6
-        title: 'Folge 6: Wirbelwind auf dem Bauernhof'
       - id: 3bZNkrAEioFfUCbVZ7s803
         episode: 7
         title: 07/Einer spielt falsch
-      - id: 3FiJp9SBLabeDIN21MyJ3S
-        episode: 7
-        title: 'Folge 7: Schneesturm auf dem Weihnachtsmarkt'
       - id: 0wGZGHCV3P2k3eevStskPh
         episode: 8
         title: 08/Eine versalzene Suppe
@@ -30397,51 +30358,28 @@ series:
         title: Tabaluga und Leo
       - id: 77POHjj5tE6PN3fNWjbwoz
         title: Tabaluga (Das Original-Hörspiel zum Kinofilm)
-      - id: 5aLSAfjjLWa1sgoeW1DAzz
-        title: 'Tabaluga: Ungekürzte Version (Das Original-Hörspiel zum Film)'
     apple_music:
       artist_ids:
       - '1124144497'
       albums:
-      - id: '1590163969'
-        episode: 1
-        title: 'Folge 1: Die große Stadt'
       - id: '1124144342'
         episode: 2
         title: 'Folge 2: Ein ganz heißes Ding'
-      - id: '1600096515'
-        episode: 2
-        title: 'Folge 2: Am wilden Meer'
       - id: '1124144339'
         episode: 3
         title: 'Folge 3: Ein Drache zuviel'
-      - id: '1690340915'
-        episode: 3
-        title: 'Folge 3: In den eisigen Bergen'
       - id: '1124161147'
         episode: 4
         title: 'Folge 4: Der Bessere gewinnt'
-      - id: '1690341318'
-        episode: 4
-        title: 'Folge 4: Im stürmischen Wald'
       - id: '1124161455'
         episode: 5
         title: 'Folge 5: Drachen weinen nicht'
-      - id: '1677582988'
-        episode: 5
-        title: 'Folge 5: Im Eisbären-Land'
       - id: '1124162474'
         episode: 6
         title: 'Folge 6: Ein friedlicher Überfall'
-      - id: '1697490025'
-        episode: 6
-        title: 'Folge 6: Wirbelwind auf dem Bauernhof'
       - id: '1124144273'
         episode: 7
         title: 'Folge 7: Einer spielt falsch'
-      - id: '1714463264'
-        episode: 7
-        title: 'Folge 7: Schneesturm auf dem Weihnachtsmarkt'
       - id: '1124159311'
         episode: 8
         title: 'Folge 8: Eine versalzene Suppe'
@@ -30503,8 +30441,6 @@ series:
         title: Tabaluga und Leo
       - id: '1439101988'
         title: Tabaluga (Das Original-Hörspiel zum Kinofilm)
-      - id: '1439620689'
-        title: 'Tabaluga: Ungekürzte Version (Das Original-Hörspiel zum Film)'
   episode_pattern:
   - ^(\d+)/
   - '^Folge (\d+): '
@@ -33564,120 +33500,63 @@ series:
       artist_ids:
       - 0ONNMDruuhqjpTB9uRhbYs
       albums:
-      - id: 2eMjO7p7ZDQVz0YjpTLZp9
-        episode: 1
-        title: 'Folge 1: Das Buch, das alles sagt'
       - id: 2PamhIIkxUEfNYswLoruH2
         episode: 1
         title: 'Folge 1: Ein tollpatschiger Held'
-      - id: 4KfM86ZxYZao5tqqOk1ENS
-        episode: 2
-        title: 'Folge 2: Die unsichtbare Pfeife'
       - id: 6fQLD8MTbcyK5vF3zEkTh8
         episode: 2
         title: 'Folge 2: Ein unwiderschlumpfliches Lächeln'
-      - id: 3i4sII6KEcoqHyS2yFVJyU
-        episode: 3
-        title: 'Folge 3: Die Wassersucher'
       - id: 6NaSxEeldWBI4uahBDlyor
         episode: 3
         title: 'Folge 3: Wer ist heftiger?'
-      - id: 3cJErcioeJA3SzIEmWdDvg
-        episode: 4
-        title: 'Folge 4: Jokeys Reise'
       - id: 4S5nRTGrXoU6VIdg3if5HL
         episode: 4
         title: 'Folge 4: Mein Schlumpf, der Held'
-      - id: 6o1DX4goYgIF61oOQrpvFZ
-        episode: 5
-        title: 'Folge 5: Die wundervolle Pflanze'
       - id: 1I0LEec7rsYlMjuwIvSAZs
         episode: 5
         title: 'Folge 5: Schlumpf Fu'
-      - id: 6yvUkCgUrjdslKvHLfdAfg
-        episode: 6
-        title: 'Folge 6: Die Schlümpfe in der Mine'
       - id: 01ek7vgiYOT77OYG7GIUAT
         episode: 6
         title: 'Folge 6: Die Plümpfe'
-      - id: 2bZY7BOt9Xo0NSWaA8xmiH
-        episode: 7
-        title: 'Folge 7: Unten! Ganz unten!'
       - id: 0rKKL584q3GAAvy3zYZBcQ
         episode: 7
         title: 'Folge 7: Ein schlumpfiger Kindergarten'
-      - id: 78imwjhQfMhp1Hnhep9ASh
-        episode: 8
-        title: 'Folge 8: Der Schlumpf, der alles mag'
       - id: 74vhZGHIMJzMBWPHt9ibAE
         episode: 8
         title: 'Folge 8: Gargaschlumpf'
-      - id: 2kxFmDF5dydiOCKFH2ijsz
-        episode: 9
-        title: 'Folge 9: Der freche Geist'
       - id: 0Hji0C3fP2Vxoke0x593MD
         episode: 9
         title: 'Folge 9: Sturm verliert ihr Mojo'
       - id: 1z5eT8gtOv4Jf6eS1CtsZm
         episode: 10
         title: 'Folge 10: Die Schlumpfshow'
-      - id: 6tL1mRFStmjyKZq2dus0Jw
-        episode: 11
-        title: 'Folge 11: Die traurige Zauberweide'
       - id: 6Ts4JNHicpgwrqKZ5AQ2IF
         episode: 11
         title: 'Folge 11: Der Laborassistent'
-      - id: 6KUZd9v2JnOB3JE9S7A9Q3
-        episode: 12
-        title: 'Folge 12: Die Entdeckerschlümpfe'
       - id: 4AVOhPoLFZoBxl0qlQazBd
         episode: 12
         title: 'Folge 12: Der doppelte Papa Schlumpf'
-      - id: 1bb3h2wVqhmjvPKZZYI12q
-        episode: 13
-        title: 'Folge 13: Eine Kette für Schlumpfine'
       - id: 30PyLsUW7zm2sRJpWS3VL2
         episode: 13
         title: 'Folge 13: Ihr seid gefeuert!'
-      - id: 6YP4B0VNbXvVQeHzlhq5Jy
-        episode: 14
-        title: 'Folge 14: Ritter Norbert Nulltalent'
       - id: 2cD99DptS2to8bMstweM1k
         episode: 14
         title: 'Folge 14: Schlumpfige Manieren'
-      - id: 7ap6j7cgyAW5n7gKRdA82h
-        episode: 15
-        title: 'Folge 15: Das Ei des Tirilirulis'
       - id: 2MrQz8NwuH96ubXo4plybL
         episode: 15
         title: 'Folge 15: Der Gast, der nicht gehen wollte'
-      - id: 1ImJM1ylufGHY8JAZuX65e
-        episode: 16
-        title: 'Folge 16: Sparakel und Pitipus'
       - id: 5knSY3nl6mTL5Zl9hOhMm1
         episode: 16
         title: 'Folge 16: Ogerliebe'
-      - id: 3Wt2rG4hm051Au1P1W9Cci
-        episode: 17
-        title: 'Folge 17: Gargamel verkleidet sich'
       - id: 03YSG980Jls0yZ8kVdOtcS
         episode: 17
         title: 'Folge 17: Blüte zieht aus'
-      - id: 070exhjgYDaq2EvyNf1fhA
-        episode: 18
-        title: 'Folge 18: Die Hexenschülerin'
       - id: 3qKKWSQcKfecrfM7QIUZys
         episode: 18
         title: 'Folge 18: Okey Dokey!'
-      - id: 7rMpaXtiMOc1vSwOkfClPj
-        episode: 19
-        title: 'Folge 19: Die drei Kerne'
       - id: 0EiLKoOMJwvrCwYrusBiTx
         episode: 19
         title: 'Folge 19: Baby Sensei'
-      - id: 39e9AXlk6nQ6nLsZDll613
-        episode: 20
-        title: 'Folge 20: Blümchen ist verschwunden'
       - id: 3GSN1dzwUvdKzYXI6aoLnN
         episode: 20
         title: 'Folge 20: Die fliegenden Schlümpfe'
@@ -33733,90 +33612,48 @@ series:
       - id: '1684282793'
         episode: 2
         title: 'Folge 2: Ein unwiderschlumpfliches Lächeln'
-      - id: '1508334934'
-        episode: 3
-        title: 'Folge 3: Die Wassersucher'
       - id: '1684283577'
         episode: 3
         title: 'Folge 3: Wer ist heftiger?'
       - id: '1684284967'
         episode: 4
         title: 'Folge 4: Mein Schlumpf, der Held'
-      - id: '1508288846'
-        episode: 5
-        title: 'Folge 5: Die wundervolle Pflanze'
       - id: '1684284006'
         episode: 5
         title: 'Folge 5: Schlumpf Fu'
-      - id: '1508289452'
-        episode: 6
-        title: 'Folge 6: Die Schlümpfe in der Mine'
       - id: '1684293546'
         episode: 6
         title: 'Folge 6: Die Plümpfe'
-      - id: '1508322434'
-        episode: 7
-        title: 'Folge 7: Unten! Ganz unten!'
       - id: '1684292460'
         episode: 7
         title: 'Folge 7: Ein schlumpfiger Kindergarten'
-      - id: '1508285539'
-        episode: 8
-        title: 'Folge 8: Der Schlumpf, der alles mag'
       - id: '1684302420'
         episode: 8
         title: 'Folge 8: Gargaschlumpf'
-      - id: '1508290056'
-        episode: 9
-        title: 'Folge 9: Der freche Geist'
       - id: '1678594012'
         episode: 9
         title: 'Folge 9: Sturm verliert ihr Mojo'
-      - id: '1508285488'
-        episode: 10
-        title: 'Folge 10: Ein Geschenk für Yolanda'
       - id: '1682456400'
         episode: 10
         title: 'Folge 10: Die Schlumpfshow'
-      - id: '1508288124'
-        episode: 11
-        title: 'Folge 11: Die traurige Zauberweide'
       - id: '1686586500'
         episode: 11
         title: 'Folge 11: Der Laborassistent'
-      - id: '1508288250'
-        episode: 12
-        title: 'Folge 12: Die Entdeckerschlümpfe'
       - id: '1689744811'
         episode: 12
         title: 'Folge 12: Der doppelte Papa Schlumpf'
-      - id: '1508290322'
-        episode: 13
-        title: 'Folge 13: Eine Kette für Schlumpfine'
       - id: '1697334651'
         episode: 13
         title: 'Folge 13: Ihr seid gefeuert!'
-      - id: '1508288116'
-        episode: 14
-        title: 'Folge 14: Ritter Norbert Nulltalent'
       - id: '1737230837'
         episode: 14
         title: 'Folge 14: Schlumpfige Manieren'
-      - id: '1508335315'
-        episode: 15
-        title: 'Folge 15: Das Ei des Tirilirulis'
       - id: '1740495236'
         episode: 15
         title: 'Folge 15: Der Gast, der nicht gehen wollte'
-      - id: '1508335340'
-        episode: 16
-        title: 'Folge 16: Sparakel und Pitipus'
       - id: '1743231228'
         episode: 16
         title: 'Folge 16: Ogerliebe'
-      - id: '1508285843'
-        episode: 17
-        title: 'Folge 17: Gargamel verkleidet sich'
       - id: '1748109824'
         episode: 17
         title: 'Folge 17: Blüte zieht aus'
@@ -44283,3 +44120,210 @@ series:
       - id: '1468872534'
         episode: 12
         title: 'Folge 12: Aufstand in Flake'
+- id: tabaluga_neue_abenteuer
+  title: Tabaluga - Die neuen Abenteuer
+  aliases: []
+  episode_pattern:
+  - '^Folge (\d+):'
+  content_type: hoerspiel
+  split_from: tabaluga
+  providers:
+    spotify:
+      artist_ids:
+      - 4M0PZyOPSvjzFEBRg3G8xA
+      albums:
+      - id: 52BaPmadnpTkDhNSP87luz
+        episode: 1
+        title: 'Folge 1: Die große Stadt'
+      - id: 4rP8iu8oRrYsR91ELChdG7
+        episode: 2
+        title: 'Folge 2: Am wilden Meer'
+      - id: 31I8XXIgxv7MdAX6WdygeU
+        episode: 3
+        title: 'Folge 3: In den eisigen Bergen'
+      - id: 6hWbLvmZuYNxByx9zaceSu
+        episode: 4
+        title: 'Folge 4: Im stürmischen Wald'
+      - id: 3lqNB64CRZVTacJYx5QT1H
+        episode: 5
+        title: 'Folge 5: Im Eisbären-Land'
+      - id: 0IklRy7YgVQGESlc4nmy1E
+        episode: 6
+        title: 'Folge 6: Wirbelwind auf dem Bauernhof'
+      - id: 3FiJp9SBLabeDIN21MyJ3S
+        episode: 7
+        title: 'Folge 7: Schneesturm auf dem Weihnachtsmarkt'
+    apple_music:
+      artist_ids:
+      - '1124144497'
+      albums:
+      - id: '1590163969'
+        episode: 1
+        title: 'Folge 1: Die große Stadt'
+      - id: '1600096515'
+        episode: 2
+        title: 'Folge 2: Am wilden Meer'
+      - id: '1690340915'
+        episode: 3
+        title: 'Folge 3: In den eisigen Bergen'
+      - id: '1690341318'
+        episode: 4
+        title: 'Folge 4: Im stürmischen Wald'
+      - id: '1677582988'
+        episode: 5
+        title: 'Folge 5: Im Eisbären-Land'
+      - id: '1697490025'
+        episode: 6
+        title: 'Folge 6: Wirbelwind auf dem Bauernhof'
+      - id: '1714463264'
+        episode: 7
+        title: 'Folge 7: Schneesturm auf dem Weihnachtsmarkt'
+- id: mia_and_me_originals
+  title: 'Mia and Me: Original-Hörspiele'
+  aliases: []
+  episode_pattern:
+  - '^Folge (\d+):'
+  content_type: hoerspiel
+  split_from: mia_and_me
+  providers:
+    spotify:
+      artist_ids:
+      - 5enzAipom8L2RuY9KtG9Fv
+      albums:
+      - id: 3jMDTLSXAB85wBZJybqFCx
+        episode: 1
+        title: 'Folge 1: Die allerschönste Blume (Das Original-Hörspiel)'
+      - id: 4Cy2DhdYwRfi83a9esOD06
+        episode: 2
+        title: 'Folge 2: Der verliebte Polytheus (Das Original-Hörspiel)'
+      - id: 3QbTeOUmMaIsYrN7GUOHpS
+        episode: 3
+        title: 'Folge 3: Die große Prinzenprüfung (Das Original-Hörspiel)'
+    apple_music:
+      artist_ids:
+      - '553475434'
+      albums:
+      - id: '1808972478'
+        episode: 1
+        title: 'Folge 1: Die allerschönste Blume (Das Original-Hörspiel)'
+      - id: '1818635047'
+        episode: 2
+        title: 'Folge 2: Der verliebte Polytheus (Das Original-Hörspiel)'
+      - id: '1825325766'
+        episode: 3
+        title: 'Folge 3: Die große Prinzenprüfung (Das Original-Hörspiel)'
+- id: die_schluempfe_klassik
+  title: Die Schlümpfe (Klassik)
+  aliases: []
+  episode_pattern:
+  - '^Folge (\d+):'
+  content_type: hoerspiel
+  split_from: die_schluempfe
+  providers:
+    spotify:
+      artist_ids:
+      - 0ONNMDruuhqjpTB9uRhbYs
+      albums:
+      - id: 2eMjO7p7ZDQVz0YjpTLZp9
+        episode: 1
+        title: 'Folge 1: Das Buch, das alles sagt'
+      - id: 4KfM86ZxYZao5tqqOk1ENS
+        episode: 2
+        title: 'Folge 2: Die unsichtbare Pfeife'
+      - id: 3i4sII6KEcoqHyS2yFVJyU
+        episode: 3
+        title: 'Folge 3: Die Wassersucher'
+      - id: 3cJErcioeJA3SzIEmWdDvg
+        episode: 4
+        title: 'Folge 4: Jokeys Reise'
+      - id: 6o1DX4goYgIF61oOQrpvFZ
+        episode: 5
+        title: 'Folge 5: Die wundervolle Pflanze'
+      - id: 6yvUkCgUrjdslKvHLfdAfg
+        episode: 6
+        title: 'Folge 6: Die Schlümpfe in der Mine'
+      - id: 2bZY7BOt9Xo0NSWaA8xmiH
+        episode: 7
+        title: 'Folge 7: Unten! Ganz unten!'
+      - id: 78imwjhQfMhp1Hnhep9ASh
+        episode: 8
+        title: 'Folge 8: Der Schlumpf, der alles mag'
+      - id: 2kxFmDF5dydiOCKFH2ijsz
+        episode: 9
+        title: 'Folge 9: Der freche Geist'
+      - id: 6tL1mRFStmjyKZq2dus0Jw
+        episode: 11
+        title: 'Folge 11: Die traurige Zauberweide'
+      - id: 6KUZd9v2JnOB3JE9S7A9Q3
+        episode: 12
+        title: 'Folge 12: Die Entdeckerschlümpfe'
+      - id: 1bb3h2wVqhmjvPKZZYI12q
+        episode: 13
+        title: 'Folge 13: Eine Kette für Schlumpfine'
+      - id: 6YP4B0VNbXvVQeHzlhq5Jy
+        episode: 14
+        title: 'Folge 14: Ritter Norbert Nulltalent'
+      - id: 7ap6j7cgyAW5n7gKRdA82h
+        episode: 15
+        title: 'Folge 15: Das Ei des Tirilirulis'
+      - id: 1ImJM1ylufGHY8JAZuX65e
+        episode: 16
+        title: 'Folge 16: Sparakel und Pitipus'
+      - id: 3Wt2rG4hm051Au1P1W9Cci
+        episode: 17
+        title: 'Folge 17: Gargamel verkleidet sich'
+      - id: 070exhjgYDaq2EvyNf1fhA
+        episode: 18
+        title: 'Folge 18: Die Hexenschülerin'
+      - id: 7rMpaXtiMOc1vSwOkfClPj
+        episode: 19
+        title: 'Folge 19: Die drei Kerne'
+      - id: 39e9AXlk6nQ6nLsZDll613
+        episode: 20
+        title: 'Folge 20: Blümchen ist verschwunden'
+    apple_music:
+      artist_ids:
+      - '128557561'
+      albums:
+      - id: '1508334934'
+        episode: 3
+        title: 'Folge 3: Die Wassersucher'
+      - id: '1508288846'
+        episode: 5
+        title: 'Folge 5: Die wundervolle Pflanze'
+      - id: '1508289452'
+        episode: 6
+        title: 'Folge 6: Die Schlümpfe in der Mine'
+      - id: '1508322434'
+        episode: 7
+        title: 'Folge 7: Unten! Ganz unten!'
+      - id: '1508285539'
+        episode: 8
+        title: 'Folge 8: Der Schlumpf, der alles mag'
+      - id: '1508290056'
+        episode: 9
+        title: 'Folge 9: Der freche Geist'
+      - id: '1508285488'
+        episode: 10
+        title: 'Folge 10: Ein Geschenk für Yolanda'
+      - id: '1508288124'
+        episode: 11
+        title: 'Folge 11: Die traurige Zauberweide'
+      - id: '1508288250'
+        episode: 12
+        title: 'Folge 12: Die Entdeckerschlümpfe'
+      - id: '1508290322'
+        episode: 13
+        title: 'Folge 13: Eine Kette für Schlumpfine'
+      - id: '1508288116'
+        episode: 14
+        title: 'Folge 14: Ritter Norbert Nulltalent'
+      - id: '1508335315'
+        episode: 15
+        title: 'Folge 15: Das Ei des Tirilirulis'
+      - id: '1508335340'
+        episode: 16
+        title: 'Folge 16: Sparakel und Pitipus'
+      - id: '1508285843'
+        episode: 17
+        title: 'Folge 17: Gargamel verkleidet sich'
