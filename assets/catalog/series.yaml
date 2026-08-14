@@ -12419,12 +12419,6 @@ series:
         title: Und das wilde Indianerabenteuer
       - id: 4S9JLpOKw8B5AxduUu8U88
         title: Und der Vampir mit dem Wackelzahn
-      - id: 4IzmCaIX0eEgRb7xsQFkfv
-        title: Das Buch des Drachen
-      - id: 7iQo6EXjMtLPorNrw2vlXW
-        title: Die Reise nach Mandolan
-      - id: 2UFXuzfiqd0cThQRCalzdy
-        title: Hexe Lilli rettet Weihnachten - Das Hörspiel zum Kinofilm
     apple_music:
       artist_ids:
       - '218659264'
@@ -12436,7 +12430,6 @@ series:
         episode: 2
         title: 'Folge 2: macht Zauberquatsch'
       - id: '1056436201'
-        episode: 2
         title: 'Folge 2: im wilden Wilden Westen'
       - id: '1356624929'
         episode: 3
@@ -12454,7 +12447,6 @@ series:
         episode: 7
         title: 007/und das Geheimnis der Mumie
       - id: '1056441922'
-        episode: 8
         title: 'Folge 8: zaubert Hausaufgaben'
       - id: '1356628115'
         episode: 8
@@ -12466,7 +12458,6 @@ series:
         episode: 10
         title: 010/auf Schloss Dracula
       - id: '1056433966'
-        episode: 11
         title: 'Folge 11: und das wilde Indianerabenteuer'
       - id: '1356630478'
         episode: 11
@@ -12490,7 +12481,6 @@ series:
         episode: 17
         title: 'Folge 17: und Hektors verzwickte Drachenprüfung'
       - id: '1056433273'
-        episode: 18
         title: 'Folge 18: und der Vampir mit dem Wackelzahn'
       - id: '1356652069'
         episode: 18
@@ -12507,17 +12497,12 @@ series:
       - id: '1356658082'
         episode: 22
         title: 'Folge 22: und der Weihnachtszauber'
-      - id: '1055056779'
-        episode: 23
-        title: 'Folge 23: Die Reise nach Mandolan'
       - id: '1498180422'
         episode: 23
         title: 023/und die verzauberte Klassenfahrt
       - id: '1690334161'
         episode: 24
         title: 'Folge 24: Hexe Lilli auf magischer Rettungsmission'
-      - id: '1356622351'
-        title: Das Buch des Drachen
   episode_pattern:
   - ^(\d{3})/
   - '^Folge (\d+):'
@@ -14658,157 +14643,157 @@ series:
         episode: 1
         title: '01: Eine folgenschwere Bootstour / Die Poolparty'
       - id: 0JamxW6fjcBcLyJXoqwfXV
-        episode: 1
+        episode: 27
         title: 'Staffel 3, Episode 1: Neue Zeiten - Neue Freunde (Das Original-Hörspiel zur TV-Serie)'
       - id: 08fnRYl3NicLkAmQ2uHLPv
         episode: 2
         title: '02: Im Netz / Übernachtung bei Emma'
       - id: 7ACcYGbm3METQUMORJRaaI
-        episode: 2
+        episode: 28
         title: 'Staffel 3, Episode 2: Will will es wissen (Das Original-Hörspiel zur TV-Serie)'
       - id: 656HKmvCxBOmlVJD08qCGS
         episode: 3
         title: '03: Miss Meereskönigin / Elliots geliebte Retterin'
       - id: 0pCWMB3twga6jpH90ro8S8
-        episode: 3
+        episode: 29
         title: 'Staffel 3, Episode 3: Traumjob oder Albtraum? (Das Original-Hörspiel zur TV-Serie)'
       - id: 4J5eIVuo5bWtnulUQMYGr8
         episode: 4
         title: '04: Emma und der Vollmond / Dr. Baywatch'
       - id: 3BtqIaxpf2zvrm1WRoA6qY
-        episode: 4
+        episode: 30
         title: 'Staffel 3, Episode 4: Valentinstag (Das Original-Hörspiel zur TV-Serie)'
       - id: 3dQGzfmIFUjtW9g96yYyc9
         episode: 5
         title: '05: Rikki macht fette Beute / Der Filmpreis'
       - id: 6JjLcvO0uVOJmnN0nxEH0G
-        episode: 5
+        episode: 31
         title: 'Staffel 3, Episode 5: Zane fährt falsch (Das Original-Hörspiel zur TV-Serie)'
       - id: 1qclOmlbxfniZn6Fcy5L6Z
         episode: 6
         title: '06: Duell im Wasser / Gesang der Sirenen'
       - id: 3f0vTZC7XPYDKXHz5VmzXa
-        episode: 6
+        episode: 32
         title: 'Staffel 3, Episode 6: Bella irrt (Das Original-Hörspiel zur TV-Serie)'
       - id: 0Gou6mmhj8co7sSlxaGt0t
         episode: 7
         title: '07: Zanes Untergang / Kindergeburtstag und Seeungeheuer'
       - id: 3ZHqdO4qxSYrNcFo8pJ3wM
-        episode: 7
+        episode: 33
         title: 'Staffel 3, Episode 7: Sonne, Sand und mehr (Das Original-Hörspiel zur TV-Serie)'
       - id: 1Lat0foMxAGBV73dltRgN9
         episode: 8
         title: '08: Miriam eiskalt / Cleos geheimer Freund'
       - id: 4lv42w3n8p8is0K8jsqwax
-        episode: 8
+        episode: 34
         title: 'Staffel 3, Episode 8: Die Grotte lebt (Das Original-Hörspiel zur TV-Serie)'
       - id: 7ol15iqVoQi3BrKNZRdfqP
         episode: 9
         title: '09: Das Virus / Rikkis Vollmondnacht'
       - id: 0uQEfxyZdYrB9igcgWpVh2
-        episode: 9
+        episode: 35
         title: 'Staffel 3, Episode 9: Hector auf Abwegen (Das Original-Hörspiel zur TV-Serie)'
       - id: 3GlYooJpW4Q7r3aGlsEP3F
         episode: 10
         title: '10: Nerviger Besuch / Der perfekte Köder'
       - id: 3Ww7NiaUq6l1J0cDnShff2
-        episode: 10
+        episode: 36
         title: 'Staffel 3, Episode 10: Unfreiwillige Enthüllung (Das Original-Hörspiel zur TV-Serie)'
       - id: 3xEM3kdTcHLdJ2WJACeiAL
         episode: 11
         title: '11: Zane auf heißer Spur / Rikkis Geheimnis'
       - id: 6A0KFx4cnkwVCWQqku61Av
-        episode: 11
+        episode: 37
         title: 'Staffel 3, Episode 11: Rikko, der Clown (Das Original-Hörspiel zur TV-Serie)'
       - id: 2cUxcrJjL2zArEjPxn7vsC
         episode: 12
         title: "12: Der Anhänger / Lewis' Spezial-Deo"
       - id: 4gS2VV4kf9vFcmWTXmJISZ
-        episode: 12
+        episode: 38
         title: 'Staffel 3, Episode 12: Blüten an Bord (Das Original-Hörspiel zur TV-Serie)'
       - id: 6gB6WEj3MnXgdNlJphDSGD
         episode: 13
         title: '13: Dicht auf der Spur / In der Falle'
       - id: 5w7qEZlifC4meWwsH7ZRPi
-        episode: 13
+        episode: 39
         title: 'Staffel 3, Episode 13: Schlechtes Timing (Das Original-Hörspiel zur TV-Serie)'
       - id: 0Oiruh70d5KHRwpxD8IxUP
         episode: 14
         title: '14: Stürmische Zeiten / Superkräfte'
       - id: 5bwcOJIlP5tkqG1Vd75Yik
-        episode: 14
+        episode: 40
         title: 'Staffel 3, Episode 14: Ein Unterwasserengel (Das Original-Hörspiel zur TV-Serie)'
       - id: 3g8SmysBgZgYyhSpsElPgU
         episode: 15
         title: '15: Alte Liebe rostet nicht / Feuer und Eis'
       - id: 2dhuL3GvOoVSljyUvHPPK8
-        episode: 15
+        episode: 41
         title: 'Staffel 3, Episode 15: Gesang für Delfine (Das Original-Hörspiel zur TV-Serie)'
       - id: 39qG8faFGa6sFwJuCMThBQ
         episode: 16
         title: "16: Wünsch' dir was / Verflixtes Fischmenü"
       - id: 2bCR2mPmFFtulEoObiEIAk
-        episode: 16
+        episode: 42
         title: 'Staffel 3, Episode 16: Rikkis Alleingang (Das Original-Hörspiel zur TV-Serie)'
       - id: 3eWJdV9yp9bjTxnImTZbmZ
         episode: 17
         title: '17: Lewis unter Verdacht / Falsche Adresse'
       - id: 2G7FeTbZliE5WK0Ycd0KR6
-        episode: 17
+        episode: 43
         title: 'Staffel 3, Episode 17: Mondgestein (Das Original-Hörspiel zur TV-Serie)'
       - id: 69u7RrLcjP7k293gvx7FP6
         episode: 18
         title: '18: Hochmut kommt vor dem Fall / Nachhilfestunden'
       - id: 0cDDElX1Zku90HmhBymnNU
-        episode: 18
+        episode: 44
         title: 'Staffel 3, Episode 18: Ryan lässt nicht locker (Das Original-Hörspiel zur TV-Serie)'
       - id: 6yIv4wDU8gSb5iu4r4Kh1S
         episode: 19
         title: '19: Schatzsuche / Fischfieber'
       - id: 6ByLDSEpXCQGT39AYUosWs
-        episode: 19
+        episode: 45
         title: 'Staffel 3, Episode 19: Der Tauchwettbewerb (Das Original-Hörspiel zur TV-Serie)'
       - id: 2SYNUR7e2Yo5eRraBJNfrP
         episode: 20
         title: '20: Der Campingausflug / Der neue Chef'
       - id: 1AUgRkv4HmUrY8ugCnUdvs
-        episode: 20
+        episode: 46
         title: 'Staffel 3, Episode 20: Mysteriöse Niesanfälle (Das Original-Hörspiel zur TV-Serie)'
       - id: 7bxroY2zsgfauHpRsbpPw6
         episode: 21
         title: '21: Nate unwiderstehlich / Teure Verabredung'
       - id: 4jPqaaFwnESjSxKnxcidkp
-        episode: 21
+        episode: 47
         title: 'Staffel 3, Episode 21: Blauer Kristall und Stromausfall (Das Original-Hörspiel zur TV-Serie)'
       - id: 2aFzkVSGYzCRqg6QIqUEiq
         episode: 22
         title: '22: Romantisches Dinner / Jungs!'
       - id: 6mKPhSoen4YGqbCYVpiSEh
-        episode: 22
+        episode: 48
         title: 'Staffel 3, Episode 22: Prüfungsstress (Das Original-Hörspiel zur TV-Serie)'
       - id: 31GstnRBnCifZeP3PrxB66
         episode: 23
         title: '23: Alles wie damals / Schwarzweiß und brisant'
       - id: 3RFq24uSvgAHOL02sqCFXE
-        episode: 23
+        episode: 49
         title: 'Staffel 3, Episode 23: Die Strandparty (Das Original-Hörspiel zur TV-Serie)'
       - id: 6AJc55zt6Fpo7QgXVtfGYe
         episode: 24
         title: '24: Charlottes Verwandlung / Die Super-Meerjungfrau'
       - id: 7oaDf3LGZUZHYIAGMWrZL3
-        episode: 24
+        episode: 50
         title: "Staffel 3, Episode 24: Käpt'n Don (Das Original-Hörspiel zur TV-Serie)"
       - id: 7CqP5TIFM6nKlT6pV339RG
         episode: 25
         title: '25: Außer Kontrolle / Überraschungsparty für Lewis'
       - id: 6QXvgycjMmJ3xImCNOiL97
-        episode: 25
+        episode: 51
         title: 'Staffel 3, Episode 25: Jagd nach den Kristallen (Das Original-Hörspiel zur TV-Serie)'
       - id: 1ohIG6KfOxsCwml0itcNAK
         episode: 26
         title: '26: Teuflische Charlotte / Die Entscheidung'
       - id: 4St0AlKtOORkQc6zLCDD7H
-        episode: 26
+        episode: 52
         title: 'Staffel 3, Episode 26: Komet im Anflug (Das Original-Hörspiel zur TV-Serie)'
     apple_music:
       artist_ids:
@@ -14818,157 +14803,157 @@ series:
         episode: 1
         title: '01: Eine folgenschwere Bootstour / Die Poolparty'
       - id: '1807755550'
-        episode: 1
+        episode: 27
         title: 'Staffel 3, Episode 1: Neue Zeiten - Neue Freunde (Das Original-Hörspiel zur TV-Serie)'
       - id: '1686230393'
         episode: 2
         title: '02: Im Netz / Übernachtung bei Emma'
       - id: '1808698127'
-        episode: 2
+        episode: 28
         title: 'Staffel 3, Episode 2: Will will es wissen (Das Original-Hörspiel zur TV-Serie)'
       - id: '1686221245'
         episode: 3
         title: '03: Miss Meereskönigin / Elliots geliebte Retterin'
       - id: '1808698155'
-        episode: 3
+        episode: 29
         title: 'Staffel 3, Episode 3: Traumjob oder Albtraum? (Das Original-Hörspiel zur TV-Serie)'
       - id: '1686224469'
         episode: 4
         title: '04: Emma und der Vollmond / Dr. Baywatch'
       - id: '1815985291'
-        episode: 4
+        episode: 30
         title: 'Staffel 3, Episode 4: Valentinstag (Das Original-Hörspiel zur TV-Serie)'
       - id: '1686241254'
         episode: 5
         title: '05: Rikki macht fette Beute / Der Filmpreis'
       - id: '1815985256'
-        episode: 5
+        episode: 31
         title: 'Staffel 3, Episode 5: Zane fährt falsch (Das Original-Hörspiel zur TV-Serie)'
       - id: '1686230788'
         episode: 6
         title: '06: Duell im Wasser / Gesang der Sirenen'
       - id: '1821195227'
-        episode: 6
+        episode: 32
         title: 'Staffel 3, Episode 6: Bella irrt (Das Original-Hörspiel zur TV-Serie)'
       - id: '1686233389'
         episode: 7
         title: '07: Zanes Untergang / Kindergeburtstag und Seeungeheuer'
       - id: '1825396449'
-        episode: 7
+        episode: 33
         title: 'Staffel 3, Episode 7: Sonne, Sand und mehr (Das Original-Hörspiel zur TV-Serie)'
       - id: '1686261332'
         episode: 8
         title: '08: Miriam eiskalt / Cleos geheimer Freund'
       - id: '1828139512'
-        episode: 8
+        episode: 34
         title: 'Staffel 3, Episode 8: Die Grotte lebt (Das Original-Hörspiel zur TV-Serie)'
       - id: '1686230763'
         episode: 9
         title: '09: Das Virus / Rikkis Vollmondnacht'
       - id: '1830263139'
-        episode: 9
+        episode: 35
         title: 'Staffel 3, Episode 9: Hector auf Abwegen (Das Original-Hörspiel zur TV-Serie)'
       - id: '1686271735'
         episode: 10
         title: '10: Nerviger Besuch / Der perfekte Köder'
       - id: '1830263220'
-        episode: 10
+        episode: 36
         title: 'Staffel 3, Episode 10: Unfreiwillige Enthüllung (Das Original-Hörspiel zur TV-Serie)'
       - id: '1686230354'
         episode: 11
         title: '11: Zane auf heißer Spur / Rikkis Geheimnis'
       - id: '1836117761'
-        episode: 11
+        episode: 37
         title: 'Staffel 3, Episode 11: Rikko, der Clown (Das Original-Hörspiel zur TV-Serie)'
       - id: '1686221844'
         episode: 12
         title: "12: Der Anhänger / Lewis' Spezial-Deo"
       - id: '1836117591'
-        episode: 12
+        episode: 38
         title: 'Staffel 3, Episode 12: Blüten an Bord (Das Original-Hörspiel zur TV-Serie)'
       - id: '1686228356'
         episode: 13
         title: '13: Dicht auf der Spur / In der Falle'
       - id: '1842351593'
-        episode: 13
+        episode: 39
         title: 'Staffel 3, Episode 13: Schlechtes Timing (Das Original-Hörspiel zur TV-Serie)'
       - id: '1686223824'
         episode: 14
         title: '14: Stürmische Zeiten / Superkräfte'
       - id: '1842364420'
-        episode: 14
+        episode: 40
         title: 'Staffel 3, Episode 14: Ein Unterwasserengel (Das Original-Hörspiel zur TV-Serie)'
       - id: '1686228888'
         episode: 15
         title: '15: Alte Liebe rostet nicht / Feuer und Eis'
       - id: '1849684495'
-        episode: 15
+        episode: 41
         title: 'Staffel 3, Episode 15: Gesang für Delfine (Das Original-Hörspiel zur TV-Serie)'
       - id: '1686229389'
         episode: 16
         title: "16: Wünsch' dir was / Verflixtes Fischmenü"
       - id: '1849684541'
-        episode: 16
+        episode: 42
         title: 'Staffel 3, Episode 16: Rikkis Alleingang (Das Original-Hörspiel zur TV-Serie)'
       - id: '1686217895'
         episode: 17
         title: '17: Lewis unter Verdacht / Falsche Adresse'
       - id: '1854502993'
-        episode: 17
+        episode: 43
         title: 'Staffel 3, Episode 17: Mondgestein (Das Original-Hörspiel zur TV-Serie)'
       - id: '1686227930'
         episode: 18
         title: '18: Hochmut kommt vor dem Fall / Nachhilfestunden'
       - id: '1854503708'
-        episode: 18
+        episode: 44
         title: 'Staffel 3, Episode 18: Ryan lässt nicht locker (Das Original-Hörspiel zur TV-Serie)'
       - id: '1686264395'
         episode: 19
         title: '19: Schatzsuche / Fischfieber'
       - id: '1862129095'
-        episode: 19
+        episode: 45
         title: 'Staffel 3, Episode 19: Der Tauchwettbewerb (Das Original-Hörspiel zur TV-Serie)'
       - id: '1686263523'
         episode: 20
         title: '20: Der Campingausflug / Der neue Chef'
       - id: '1862099399'
-        episode: 20
+        episode: 46
         title: 'Staffel 3, Episode 20: Mysteriöse Niesanfälle (Das Original-Hörspiel zur TV-Serie)'
       - id: '1686224803'
         episode: 21
         title: '21: Nate unwiderstehlich / Teure Verabredung'
       - id: '1869684424'
-        episode: 21
+        episode: 47
         title: 'Staffel 3, Episode 21: Blauer Kristall und Stromausfall (Das Original-Hörspiel zur TV-Serie)'
       - id: '1686211436'
         episode: 22
         title: '22: Romantisches Dinner / Jungs!'
       - id: '1869698299'
-        episode: 22
+        episode: 48
         title: 'Staffel 3, Episode 22: Prüfungsstress (Das Original-Hörspiel zur TV-Serie)'
       - id: '1686227902'
         episode: 23
         title: '23: Alles wie damals / Schwarzweiß und brisant'
       - id: '1874869965'
-        episode: 23
+        episode: 49
         title: 'Staffel 3, Episode 23: Die Strandparty (Das Original-Hörspiel zur TV-Serie)'
       - id: '1686222995'
         episode: 24
         title: '24: Charlottes Verwandlung / Die Super-Meerjungfrau'
       - id: '1874899325'
-        episode: 24
+        episode: 50
         title: "Staffel 3, Episode 24: Käpt'n Don (Das Original-Hörspiel zur TV-Serie)"
       - id: '1686226884'
         episode: 25
         title: '25: Außer Kontrolle / Überraschungsparty für Lewis'
       - id: '1882987246'
-        episode: 25
+        episode: 51
         title: 'Staffel 3, Episode 25: Jagd nach den Kristallen (Das Original-Hörspiel zur TV-Serie)'
       - id: '1686224158'
         episode: 26
         title: '26: Teuflische Charlotte / Die Entscheidung'
       - id: '1882985012'
-        episode: 26
+        episode: 52
         title: 'Staffel 3, Episode 26: Komet im Anflug (Das Original-Hörspiel zur TV-Serie)'
   episode_pattern:
   - '^Staffel \d+, Episode (\d+):'
@@ -33901,39 +33886,21 @@ series:
       - id: 7kb7UbGpSWIbpFMduQQFPn
         episode: 10
         title: 'Folge 10: Babysitter? Nein Danke!'
-      - id: 24buaw3qXTDggAgJYUnf0c
-        episode: 11
-        title: 'Folge 11: Leo will alles alleine machen'
       - id: 61sVa8n3jJwmzApfSHu32n
         episode: 11
         title: 'Folge 11: Ich will ein Haustier!'
-      - id: 7srD0uvQ1i6gHrPhPjR40N
-        episode: 12
-        title: 'Folge 12: Leo verläuft sich'
       - id: 4Vg5HIkSPuRHlXcTML58np
         episode: 12
         title: 'Folge 12: Das war keine Absicht!'
-      - id: 6JhgZ0EwcAQDhGwzGDfo9s
-        episode: 13
-        title: 'Folge 13: Leo lässt sich nicht ärgern'
       - id: 5duPJN3HRwCvuMyxOPCzZn
         episode: 13
         title: 'Folge 13: Beste Freunde'
-      - id: 6Yjp76n80lWc1krTbq7Z7m
-        episode: 14
-        title: 'Folge 14: Lilis Geburtstag'
       - id: 50W2WML56LTWAaZ6xSAkuZ
         episode: 14
         title: 'Folge 14: Bitte lächeln!'
-      - id: 09YkqrFbSLRs4QZOzO2xJo
-        episode: 15
-        title: 'Folge 15: Leo im Kaufhaus'
       - id: 59OM9eZcPvHnGExDjl2rwN
         episode: 15
         title: 'Folge 15: Das Schatten-Monster'
-      - id: 0fwNMMRv7xTgQ2fEAyssd7
-        episode: 16
-        title: 'Folge 16: Leo und die bunten Blätter'
       - id: 38FVy2nmVK32Q39Zukk9wD
         episode: 16
         title: 'Folge 16: Didis Lieblingsspielzeug'
@@ -33952,15 +33919,9 @@ series:
       - id: 0KnPAG3bE4CwsTVef5tAbh
         episode: 21
         title: 'Folge 21: Für immer wütend!'
-      - id: 4RyCFkxrN9X3aVKxAKJPQL
-        episode: 21
-        title: 'Folge 21: Leo wird wieder gesund'
       - id: 4uxjfSUjQmmxemnEqWyJIw
         episode: 22
         title: 'Folge 22: Das Kostüm'
-      - id: 7DTFxbu2wz1b772SAgHwr9
-        episode: 22
-        title: 'Folge 22: Leo wird Baggerfahrer'
       - id: 2GIuP6K5Xwb1p6lVnRcrcm
         episode: 23
         title: 'Folge 23: Der Schnupfen'
@@ -34213,102 +34174,36 @@ series:
       artist_ids:
       - '263499755'
       albums:
-      - id: '1038173200'
-        episode: 1
-        title: Folge 1
       - id: '1801168957'
         episode: 1
         title: 'Folge 01: Regeln sind blöd!'
-      - id: '1038084918'
-        episode: 2
-        title: Folge 2
-      - id: '1038096044'
-        episode: 3
-        title: Folge 3
       - id: '1801166489'
         episode: 3
         title: 'Folge 03: Das Algenmonster'
-      - id: '1038181251'
-        episode: 4
-        title: Folge 4
-      - id: '1038173238'
-        episode: 5
-        title: Folge 5
-      - id: '1038136999'
-        episode: 6
-        title: Folge 6
-      - id: '1038176873'
-        episode: 7
-        title: Folge 7
       - id: '1801211237'
         episode: 7
         title: 'Folge 07: Ich will gewinnen!'
-      - id: '1038148297'
-        episode: 8
-        title: Folge 8
       - id: '1801168209'
         episode: 8
         title: 'Folge 08: Wer einmal lügt? - EP'
-      - id: '1340438225'
-        episode: 9
-        title: Folge 9
-      - id: '1340422826'
-        episode: 10
-        title: Folge 10
-      - id: '1475767678'
-        episode: 11
-        title: Folge 11
-      - id: '1481234515'
-        episode: 12
-        title: Folge 12
-      - id: '1503065305'
-        episode: 13
-        title: 'Folge 13: Lässt sich nicht ärgern'
-      - id: '1534328975'
-        episode: 14
-        title: Folge 14
-      - id: '1561147430'
-        episode: 15
-        title: Folge 15
       - id: '1801167767'
         episode: 15
         title: 'Folge 15: Das Schatten-Monster - EP'
-      - id: '1584989632'
-        episode: 16
-        title: Folge 16
       - id: '1801166979'
         episode: 16
         title: 'Folge 16: Didis Lieblingsspielzeug - EP'
-      - id: '1708129186'
-        episode: 17
-        title: Folge 17
       - id: '1801168738'
         episode: 17
         title: 'Folge 17: Igitt, Gemüse! - EP'
-      - id: '1728474757'
-        episode: 18
-        title: Folge 18
-      - id: '1777542415'
-        episode: 19
-        title: Folge 19
       - id: '1801167761'
         episode: 19
         title: 'Folge 19: Papas Werkstatt - EP'
-      - id: '1780930061'
-        episode: 20
-        title: Folge 20
       - id: '1801167208'
         episode: 20
         title: 'Folge 20: Wo ist Teddy? - EP'
-      - id: '1843641465'
-        episode: 21
-        title: Folge 21
       - id: '1802173476'
         episode: 22
         title: 'Folge 22: Das Kostüm - EP'
-      - id: '1877854980'
-        episode: 22
-        title: 'Folge 22: Leo wird Baggerfahrer'
       - id: '1802174530'
         episode: 23
         title: 'Folge 23: Der Schnupfen - EP'
@@ -44327,3 +44222,135 @@ series:
       - id: '1508285843'
         episode: 17
         title: 'Folge 17: Gargamel verkleidet sich'
+- id: leo_lausemaus_buecher
+  title: Leo Lausemaus – Das Original-Hörspiel zu den Büchern
+  aliases: []
+  episode_pattern:
+  - '^Folge (\d+):'
+  - ^Folge (\d+)$
+  content_type: hoerspiel
+  split_from: leo_lausemaus
+  providers:
+    spotify:
+      artist_ids:
+      - 6b9DQDp0xKeYM2vdK9pAE6
+      albums:
+      - id: 24buaw3qXTDggAgJYUnf0c
+        episode: 11
+        title: 'Folge 11: Leo will alles alleine machen'
+      - id: 7srD0uvQ1i6gHrPhPjR40N
+        episode: 12
+        title: 'Folge 12: Leo verläuft sich'
+      - id: 6JhgZ0EwcAQDhGwzGDfo9s
+        episode: 13
+        title: 'Folge 13: Leo lässt sich nicht ärgern'
+      - id: 6Yjp76n80lWc1krTbq7Z7m
+        episode: 14
+        title: 'Folge 14: Lilis Geburtstag'
+      - id: 09YkqrFbSLRs4QZOzO2xJo
+        episode: 15
+        title: 'Folge 15: Leo im Kaufhaus'
+      - id: 0fwNMMRv7xTgQ2fEAyssd7
+        episode: 16
+        title: 'Folge 16: Leo und die bunten Blätter'
+      - id: 4RyCFkxrN9X3aVKxAKJPQL
+        episode: 21
+        title: 'Folge 21: Leo wird wieder gesund'
+      - id: 7DTFxbu2wz1b772SAgHwr9
+        episode: 22
+        title: 'Folge 22: Leo wird Baggerfahrer'
+    apple_music:
+      artist_ids:
+      - '263499755'
+      albums:
+      - id: '1038173200'
+        episode: 1
+        title: Folge 1
+      - id: '1038084918'
+        episode: 2
+        title: Folge 2
+      - id: '1038096044'
+        episode: 3
+        title: Folge 3
+      - id: '1038181251'
+        episode: 4
+        title: Folge 4
+      - id: '1038173238'
+        episode: 5
+        title: Folge 5
+      - id: '1038136999'
+        episode: 6
+        title: Folge 6
+      - id: '1038176873'
+        episode: 7
+        title: Folge 7
+      - id: '1038148297'
+        episode: 8
+        title: Folge 8
+      - id: '1340438225'
+        episode: 9
+        title: Folge 9
+      - id: '1340422826'
+        episode: 10
+        title: Folge 10
+      - id: '1475767678'
+        episode: 11
+        title: Folge 11
+      - id: '1481234515'
+        episode: 12
+        title: Folge 12
+      - id: '1503065305'
+        episode: 13
+        title: 'Folge 13: Lässt sich nicht ärgern'
+      - id: '1534328975'
+        episode: 14
+        title: Folge 14
+      - id: '1561147430'
+        episode: 15
+        title: Folge 15
+      - id: '1584989632'
+        episode: 16
+        title: Folge 16
+      - id: '1708129186'
+        episode: 17
+        title: Folge 17
+      - id: '1728474757'
+        episode: 18
+        title: Folge 18
+      - id: '1777542415'
+        episode: 19
+        title: Folge 19
+      - id: '1780930061'
+        episode: 20
+        title: Folge 20
+      - id: '1843641465'
+        episode: 21
+        title: Folge 21
+      - id: '1877854980'
+        episode: 22
+        title: 'Folge 22: Leo wird Baggerfahrer'
+- id: hexe_lilli_kinofilm
+  title: Hexe Lilli (Kinofilm)
+  aliases: []
+  episode_pattern: null
+  content_type: hoerspiel
+  split_from: hexe_lilli
+  providers:
+    spotify:
+      artist_ids:
+      - 2IYME9b8x0ptqROxrDvAQ0
+      albums:
+      - id: 4IzmCaIX0eEgRb7xsQFkfv
+        title: Das Buch des Drachen
+      - id: 7iQo6EXjMtLPorNrw2vlXW
+        title: Die Reise nach Mandolan
+      - id: 2UFXuzfiqd0cThQRCalzdy
+        title: Hexe Lilli rettet Weihnachten - Das Hörspiel zum Kinofilm
+    apple_music:
+      artist_ids:
+      - '218659264'
+      albums:
+      - id: '1055056779'
+        title: 'Folge 23: Die Reise nach Mandolan'
+      - id: '1356622351'
+        title: Das Buch des Drachen
