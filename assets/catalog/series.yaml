@@ -18466,7 +18466,6 @@ series:
         episode: 36
         title: Unsere Erde (Wieso? Weshalb? Warum? Folge 36)
       - id: 7877oEqMxeD7FmiaYXQqJ7
-        episode: 37
         title: Wir entdecken die Steinzeit (Wieso? Weshalb? Warum?)
       - id: 6qS1NQq3edvJDOq4Iu6rW6
         episode: 37
@@ -18481,19 +18480,16 @@ series:
         episode: 40
         title: Alles über Piraten (Wieso? Weshalb? Warum? Folge 40)
       - id: 4ql1R24M0uULTTNJFwDPxV
-        episode: 40
         title: Abenteurer und Entdecker (Wieso? Weshalb? Warum? Folge 40)
       - id: 1BChl9yd6B710OuCfIMLWU
         episode: 41
         title: Wir entdecken Wale und Delfine (Wieso? Weshalb? Warum? Folge 41)
       - id: 1C0R0MmGoWOUXNIvBIJhJJ
-        episode: 43
         title: Unser Garten (Wieso? Weshalb? Warum? Folge 43)
       - id: 4fax79LJBEYG0QuRrNrfio
         episode: 43
         title: Wir schützen die Tiere (Wieso? Weshalb? Warum? Folge 43)
       - id: 1dJnKGmhG2k3Pc0djKULBv
-        episode: 44
         title: Alles über den Zirkus (Wieso? Weshalb? Warum? Folge 44)
       - id: 3cJ4YZvufqq9sEU9QLGChk
         episode: 44
@@ -18508,7 +18504,6 @@ series:
         episode: 47
         title: Alles über Roboter (Wieso? Weshalb? Warum? Folge 47)
       - id: 3y4LoVtRfrPX7UEaM6z16P
-        episode: 48
         title: Bei den Wikingern (Wieso? Weshalb? Warum? Folge 48)
       - id: 41gQkWwBJ4tRP405gt8k5X
         episode: 48
@@ -18520,7 +18515,6 @@ series:
         episode: 51
         title: Mutig, stark und selbstbewusst (Wieso? Weshalb? Warum? Folge 51)
       - id: 1xeSaIDaeK20AQwtccyzWO
-        episode: 52
         title: Wir erforschen die Polargebiete (Wieso? Weshalb? Warum? Folge 52)
       - id: 4sZdJbSIRJedMvNj4BNTkF
         episode: 52
@@ -18532,7 +18526,6 @@ series:
         episode: 55
         title: Wir erforschen die Dinosaurier (Wieso? Weshalb? Warum? Folge 55)
       - id: 5LjCg5xL2kMZPweUNcxYom
-        episode: 58
         title: Wir entdecken Österreich (Wieso? Weshalb? Warum? Folge 58)
       - id: 5lnYsIZ9ctS0x0NPK4XxAD
         episode: 58
@@ -18580,9 +18573,6 @@ series:
       - id: '1863411962'
         episode: 1
         title: Wir entdecken unseren Körper (Wieso? Weshalb? Warum? Folge 1)
-      - id: '1561043992'
-        episode: 2
-        title: Wieso? Weshalb? Warum? Alles über die Feuerwehr
       - id: '1863401236'
         episode: 2
         title: Alles über die Feuerwehr (Wieso? Weshalb? Warum? Folge 2)
@@ -18598,24 +18588,15 @@ series:
       - id: '1863385989'
         episode: 7
         title: Fahrzeuge auf der Baustelle (Wieso? Weshalb? Warum? Folge 7)
-      - id: '1561046383'
-        episode: 7
-        title: Wieso? Weshalb? Warum? Fahrzeuge auf der Baustelle
       - id: '1863391125'
         episode: 8
         title: Alles über die Eisenbahn (Wieso? Weshalb? Warum? Folge 8)
       - id: '1863397575'
         episode: 10
         title: Unser Wetter (Wieso? Weshalb? Warum? Folge 10)
-      - id: '1561050284'
-        episode: 11
-        title: Wieso? Weshalb? Warum? Wir entdecken die Ritterburg
       - id: '1863400754'
         episode: 11
         title: Wir entdecken die Ritterburg (Wieso? Weshalb? Warum? Folge 11)
-      - id: '1561043931'
-        episode: 12
-        title: Wieso? Weshalb? Warum? Alles über Dinosaurier
       - id: '1863412784'
         episode: 12
         title: Alles über Dinosaurier (Wieso? Weshalb? Warum? Folge 12)
@@ -18637,15 +18618,9 @@ series:
       - id: '1863407452'
         episode: 20
         title: Alles über Flugzeuge (Wieso? Weshalb? Warum? Folge 20)
-      - id: '1561045500'
-        episode: 20
-        title: Wieso? Weshalb? Warum? Alles über Flugzeuge
       - id: '1863403938'
         episode: 21
         title: Alles über Pferde und Ponys (Wieso? Weshalb? Warum? Folge 21)
-      - id: '1561043782'
-        episode: 22
-        title: Wieso? Weshalb? Warum? Alles über die Polizei
       - id: '1863412809'
         episode: 22
         title: Alles über die Polizei (Wieso? Weshalb? Warum? Folge 22)
@@ -18667,27 +18642,18 @@ series:
       - id: '1863412376'
         episode: 28
         title: Wir entdecken Autos (Wieso? Weshalb? Warum? Folge 28)
-      - id: '1561046777'
-        episode: 30
-        title: Wieso? Weshalb? Warum? Bei den Römern
       - id: '1863402249'
         episode: 30
         title: Bei den Römern (Wieso? Weshalb? Warum? Folge 30)
       - id: '1863397626'
         episode: 31
         title: Wir entdecken Deutschland (Wieso? Weshalb? Warum?)
-      - id: '1561045519'
-        episode: 32
-        title: Wieso? Weshalb? Warum? Wir entdecken den Weltraum
       - id: '1863404702'
         episode: 32
         title: Wir entdecken den Weltraum (Wieso? Weshalb? Warum? Folge 32)
       - id: '1863395917'
         episode: 33
         title: Wir entdecken die Bibel (Wieso? Weshalb? Warum?)
-      - id: '1561043417'
-        episode: 34
-        title: Wieso? Weshalb? Warum? Wir feiern Weihnachten
       - id: '1863401061'
         episode: 34
         title: Wir feiern Weihnachten (Wieso? Weshalb? Warum? Folge 34)
@@ -18698,14 +18664,10 @@ series:
         episode: 36
         title: Unsere Erde (Wieso? Weshalb? Warum? Folge 36)
       - id: '1883037667'
-        episode: 37
         title: Wir entdecken die Steinzeit (Wieso? Weshalb? Warum?)
       - id: '1863379616'
         episode: 37
         title: Alles über Tierwanderungen (Wieso? Weshalb? Warum? Folge 37)
-      - id: '1561045683'
-        episode: 38
-        title: Wieso? Weshalb? Warum? Alles über Laster, Bagger und Traktoren
       - id: '1863400020'
         episode: 38
         title: Alles über Laster, Bagger und Traktoren (Wieso? Weshalb? Warum? Folge 38
@@ -18716,22 +18678,16 @@ series:
         episode: 40
         title: Alles über Piraten (Wieso? Weshalb? Warum? Folge 40)
       - id: '1863406072'
-        episode: 40
         title: Abenteurer und Entdecker (Wieso? Weshalb? Warum? Folge 40)
-      - id: '1561043533'
-        episode: 40
-        title: Wieso? Weshalb? Warum? Alles über Piraten
       - id: '1863411599'
         episode: 41
         title: Wir entdecken Wale und Delfine (Wieso? Weshalb? Warum? Folge 41)
       - id: '1863401057'
-        episode: 43
         title: Unser Garten (Wieso? Weshalb? Warum? Folge 43)
       - id: '1863378015'
         episode: 43
         title: Wir schützen die Tiere (Wieso? Weshalb? Warum? Folge 43)
       - id: '1863400902'
-        episode: 44
         title: Alles über den Zirkus (Wieso? Weshalb? Warum? Folge 44)
       - id: '1863378186'
         episode: 44
@@ -18746,7 +18702,6 @@ series:
         episode: 47
         title: Alles über Roboter (Wieso? Weshalb? Warum? Folge 47)
       - id: '1863388136'
-        episode: 48
         title: Bei den Wikingern (Wieso? Weshalb? Warum? Folge 48)
       - id: '1863411327'
         episode: 48
@@ -18758,14 +18713,10 @@ series:
         episode: 51
         title: Mutig, stark und selbstbewusst (Wieso? Weshalb? Warum? Folge 51)
       - id: '1863390752'
-        episode: 52
         title: Wir erforschen die Polargebiete (Wieso? Weshalb? Warum? Folge 52)
       - id: '1863394403'
         episode: 52
         title: Alles über Bäume (Wieso? Weshalb? Warum? Folge 52)
-      - id: '1561045644'
-        episode: 53
-        title: Wieso? Weshalb? Warum? Was passiert im Krankenhaus?
       - id: '1863399792'
         episode: 53
         title: Was passiert im Krankenhaus? (Wieso? Weshalb? Warum? Folge 53)
@@ -18773,7 +18724,6 @@ series:
         episode: 55
         title: Wir erforschen die Dinosaurier (Wieso? Weshalb? Warum? Folge 55)
       - id: '1863399080'
-        episode: 58
         title: Wir entdecken Österreich (Wieso? Weshalb? Warum? Folge 58)
       - id: '1870573453'
         episode: 58
@@ -18799,9 +18749,6 @@ series:
       - id: '1863406219'
         episode: 67
         title: Wir schützen unsere Umwelt (Wieso? Weshalb? Warum? Folge 67)
-      - id: '1561043804'
-        episode: 68
-        title: Wieso? Weshalb? Warum? Wir entdecken Märchen
       - id: '1863402068'
         episode: 68
         title: Wir entdecken Märchen (Wieso? Weshalb? Warum? Folge 68)
@@ -18811,9 +18758,6 @@ series:
       - id: '1863410268'
         episode: 71
         title: Wir entdecken heimische Tiere (Wieso? Weshalb? Warum? Folge 71)
-      - id: '1561045790'
-        episode: 72
-        title: Wieso? Weshalb? Warum? Wir entdecken Feste und Bräuche
       - id: '1863405664'
         episode: 72
         title: Wir entdecken Feste und Bräuche (Wieso? Weshalb? Warum? Folge 72)
@@ -30489,7 +30433,6 @@ series:
         episode: 29
         title: Der Pinguin (Wieso? Weshalb? Warum? JUNIOR, Folge 29)
       - id: '1863376779'
-        episode: 29
         title: Wir sind Geschwister (Wieso? Weshalb? Warum? JUNIOR, Folge 29)
       - id: '1863395723'
         episode: 30
@@ -30558,7 +30501,6 @@ series:
         episode: 58
         title: Was machen wir im Winter? (Wieso? Weshalb? Warum? JUNIOR, Folge 58)
       - id: '1863405667'
-        episode: 58
         title: Was machen wir im Sommer? (Wieso? Weshalb? Warum? JUNIOR, Folge 58)
       - id: '1868966527'
         episode: 59
@@ -30691,7 +30633,6 @@ series:
         episode: 29
         title: Der Pinguin (Wieso? Weshalb? Warum? JUNIOR, Folge 29)
       - id: 0zyklUecdmBkUqKQyjobbC
-        episode: 29
         title: Wir sind Geschwister (Wieso? Weshalb? Warum? JUNIOR, Folge 29)
       - id: 6UfcMvEeQnqnGpqHKTgnNA
         episode: 30
@@ -30760,7 +30701,6 @@ series:
         episode: 58
         title: Was machen wir im Winter? (Wieso? Weshalb? Warum? JUNIOR, Folge 58)
       - id: 2pLXJc6saebrCxLsgQbj4p
-        episode: 58
         title: Was machen wir im Sommer? (Wieso? Weshalb? Warum? JUNIOR, Folge 58)
       - id: 3iupva6Blzpc0coPBOLYC3
         episode: 59
