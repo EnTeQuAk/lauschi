@@ -16936,75 +16936,39 @@ series:
       - id: 3GfHcYxBcxdfG19nK1duKG
         episode: 1
         title: 01/Die Falle
-      - id: 6CIMPRkR2vOuJfFIDgZCpD
-        episode: 1
-        title: 01/Wasser auf die Mühlen (CGI)
       - id: 7oJFr1NBIY2ZPbDwwAXx9O
         episode: 2
         title: 02/Der schreckliche Sven
-      - id: 0bYKBtwukDkGX1pIscACVB
-        episode: 2
-        title: 02/Die Königin der Winde (CGI)
       - id: 1CdXMdjbZfMXakGMhaPOZg
         episode: 3
         title: 03/Die Befreiung
-      - id: 2tU47IvruPorwTXemNvtPm
-        episode: 3
-        title: 03/Tanz mit dem Wolf (CGI)
       - id: 05h2BBcnThxpRG94DQTzhr
         episode: 4
         title: 04/Sturm auf die Festung
-      - id: 1Pa9rFvXXrJtWh0uzuYOq7
-        episode: 4
-        title: 04/Der Donnergott (CGI)
       - id: 3FFQngaEjrgfoExaqm1tiv
         episode: 5
         title: 05/Der dicke König
-      - id: 541fqlrrZtVsg9KC7lUMra
-        episode: 5
-        title: 05/Thors Urteil (CGI)
       - id: 0oSdlbWKm4U2A7IDzRSsQP
         episode: 6
         title: 06/Das Geisterschiff
-      - id: 0FTkpZ3ZBHTMX3BXXUdv3E
-        episode: 6
-        title: 06/Das Drachenbootrennen (CGI)
       - id: 04kR6QDFNrop1YiB8KDlCE
         episode: 7
         title: 07/Die Olympiade der Wikinger
-      - id: 2kpxd3X4dl9BrNSOiCXK9N
-        episode: 7
-        title: 07/Thors Hammer (CGI)
       - id: 1go9LHY7bLy9wVd7oAC4xn
         episode: 8
         title: 08/Der Überfall aufs Winkadorf
-      - id: 3mfCuDzB1d2gMaQDk95H8n
-        episode: 8
-        title: 08/Der falsche Druide (CGI)
       - id: 7wnpoLGgZJSE8kDARH5oOY
         episode: 9
         title: 09/Bullermann gibt nicht auf
-      - id: 3Y2o8ZoqYDjNOTt8Bvn81R
-        episode: 9
-        title: 09/Nächtlicher Diebstahl (CGI)
       - id: 4Ml3HsC8N4mxfRTllpl8HS
         episode: 10
         title: 10/Die Schatztruhe
-      - id: 05H6JvPTDlRpMnk5XqcwBe
-        episode: 10
-        title: 10/Olympische Spiele (CGI)
       - id: 2dbeOdckSx25T5jJjnFH2A
         episode: 11
         title: 11/Der Zirkus kommt
-      - id: 60G01rHe6aphE5Uex6gOPL
-        episode: 11
-        title: 11/Svens Schiffbruch (CGI)
       - id: 24j06IRKeE52NFXr5mBbM5
         episode: 12
         title: 12/Auf der Dracheninsel
-      - id: 01MSgNKzQsCisg5Z1mQlw5
-        episode: 12
-        title: 12/Aufstand in Flake (CGI)
       - id: 1C4RG6Sxo0n7XIr26CkLlX
         episode: 13
         title: 13/Wer anderen eine Grube gräbt
@@ -17023,75 +16987,39 @@ series:
       - id: '1468871638'
         episode: 1
         title: 01/Die Falle
-      - id: '1468872248'
-        episode: 1
-        title: 'Folge 1: Wasser auf die Mühlen'
       - id: '1468871494'
         episode: 2
         title: 02/Der schreckliche Sven
-      - id: '1468856231'
-        episode: 2
-        title: 'Folge 2: Die Königin der Winde'
       - id: '1468867569'
         episode: 3
         title: 'Folge 03: Die Befreiung'
-      - id: '1468869322'
-        episode: 3
-        title: 'Folge 3: Tanz mit dem Wolf'
       - id: '1468865195'
         episode: 4
         title: 'Klassiker, Folge 4: Sturm auf die Festung / Nochmal davongekommen'
-      - id: '1468859634'
-        episode: 4
-        title: 'Folge 4: Der Donnergott'
       - id: '1468869682'
         episode: 5
         title: 05/Der dicke König
-      - id: '1468868320'
-        episode: 5
-        title: 'Folge 5: Thors Urteil'
       - id: '1468863182'
         episode: 6
         title: 06/Das Geisterschiff
-      - id: '1468857981'
-        episode: 6
-        title: 06/Das Drachenbootrennen  (CGI)
       - id: '1468862256'
         episode: 7
         title: 07/Die Olympiade der Wikinger
-      - id: '1468861997'
-        episode: 7
-        title: 'Folge 7: Thors Hammer'
       - id: '1468870095'
         episode: 8
         title: 08/Der Überfall aufs Winkadorf
-      - id: '1468868003'
-        episode: 8
-        title: 'Folge 8: Der falsche Druide'
       - id: '1468872771'
         episode: 9
         title: 09/Bullermann gibt nicht auf
-      - id: '1468870486'
-        episode: 9
-        title: 09/Nächtlicher Diebstahl (CGI)
       - id: '1469195781'
         episode: 10
         title: 'Folge 10: Die Schatztruhe'
-      - id: '1468872065'
-        episode: 10
-        title: 'Folge 10: Olympische Spiele'
       - id: '1468859358'
         episode: 11
         title: 11/Der Zirkus kommt
-      - id: '1468874513'
-        episode: 11
-        title: 'Folge 11: Svens Schiffbruch'
       - id: '1468866910'
         episode: 12
         title: 'Klassiker, Folge 12: Auf der Dracheninsel'
-      - id: '1468872534'
-        episode: 12
-        title: 'Folge 12: Aufstand in Flake'
       - id: '1468874106'
         episode: 13
         title: 'Klassiker, Folge 13: Wer anderen eine Grube gräbt'
@@ -21871,98 +21799,48 @@ series:
       - id: 3cehJgGlcIPTuNKI8wDsR2
         episode: 1
         title: 01/Maja lernt fliegen
-      - id: 3j0eypsRnSTiMQm3ddIRH7
-        episode: 1
-        title: 01/Majas Geburt (CGI)
       - id: 42cyl3CWY1bEhZPhBGeuhA
         episode: 2
         title: 02/Der Waldbrand
-      - id: 2MrJDH3Vr4U1xRflFoxLRg
-        episode: 2
-        title: 02/Der Schmetterlingsball (CGI)
       - id: 7IWaaCsBw7d1H7mWiD33IB
         episode: 3
         title: 03/Maja und der Regenwurm Max
-      - id: 7vGsiOczDbWl1DYyHZZRUb
-        episode: 3
-        title: 03/Willi zieht aus (CGI)
       - id: 7IFKNhSolczHxX9AoozUBZ
         episode: 4
         title: 04/Flip sitzt in der Falle
-      - id: 1JFzgTGNZrDlPpDBBDzQyo
-        episode: 4
-        title: 04/Majas Kuchenrezept (CGI)
       - id: 7uAVSr8QyzjpjmZRJt0bY9
         episode: 5
         title: 05/Die Fahrt in der Limonadenflasche
-      - id: 6R51c15NOqALq06zzTQsMl
-        episode: 5
-        title: 05/Die falsche Wespe (CGI)
       - id: 566vH5dm9S6oaExyeYYbSf
         episode: 6
         title: 06/Wie Maja einen Floh rettet
-      - id: 67Kbq6lX6JqLRFaaE8IbJD
-        episode: 6
-        title: 06/Das Zepter der Königin (CGI)
       - id: 5XGNl84HBzLU1WPZeSUzZM
         episode: 7
         title: 07/Der Kampf um die Blattläuse
-      - id: 487jVjvsebSknq2vulCq4u
-        episode: 7
-        title: 07/Die Sonnenfinsternis (CGI)
       - id: 7MU7lEVgwi1M5OYZzxxyih
         episode: 8
         title: 08/Der Schönheitswettbewerb
-      - id: 5iI5hQh4fU2HNnbz2LxTqp
-        episode: 8
-        title: 08/Majas Schatz (CGI)
       - id: 51V03ZPJ91nBLNJ7iP9g4o
         episode: 9
         title: 09/Der Frühling ist da
-      - id: 07s0uMtUGiOgc5qS8tyCKs
-        episode: 9
-        title: 09/Maja feiert Schlüpftag (CGI)
       - id: 1KT1hrgeecibGerVbSftXb
         episode: 10
         title: 10/Maja sucht einen Wald
-      - id: 12ZHLjObPDVv6yxD4z0dVx
-        episode: 10
-        title: 10/Königin für einen Tag (CGI)
       - id: 1DNzHc4uEk33W88Nw8j9G8
         episode: 11
         title: 11/Der Blumenelf
-      - id: 1I4ANUvTxrahaAWhmcp983
-        episode: 11
-        title: 11/Die Austauschbiene (CGI)
       - id: 14NZvaavDNQKIxEkjeQXqj
         episode: 12
         title: 12/Wie die Fliege gefoppt wird
-      - id: 1CR4nb9spAdW7lk2Z3fCxr
-        episode: 12
-        title: 12/Der kleine Ausreißer (CGI)
       - id: 3vxuclJbCOp1HGeg6Rl9hf
         episode: 13
         title: 13/Maja kommt nach Hause
-      - id: 6ZCZ7KXwZugFPewoW7kZVc
-        episode: 13
-        title: 13/Die Wiesenfreunde (CGI)
       - id: 54zXsMPC1UbvjS2zLLR1eP
         episode: 14
         title: 14/Bei ganz feinen Leuten
-      - id: 58owbHyrjYUk6J9LqZHB2Y
-        episode: 14
-        title: 14/Das süße Geheimnis (CGI)
       - id: 3PMOEl2R7oqqL5kiRT7h2w
         episode: 15
         title: 15/Spuk auf der Waldwiese
-      - id: 6D9DMe61lCQwmaVP4rtezc
-        episode: 15
-        title: 15/Ein Salto für die Freundschaft (CGI)
-      - id: 3lThbsoEt20TnapXJTFydW
-        episode: 16
-        title: 16/Die fantastischen Vier (CGI)
-      - id: 6ySf1Q9HHKZcQENOpdgOyw
-        title: Der Regentanz/Geheimnisvolle Spuren
     apple_music:
       artist_ids:
       - '253463055'
@@ -21970,149 +21848,48 @@ series:
       - id: '1468867660'
         episode: 1
         title: 'Klassiker, Folge 1: Maja lernt fliegen'
-      - id: '1468864060'
-        episode: 1
-        title: 'Folge 1: Majas Geburt / Der Buschwindbote /  Maja und die Mondblume'
-      - id: '1815572151'
-        episode: 1
-        title: Majas Flucht aus der Heimatstadt (Biene Maja, Folge 1)
       - id: '1468862593'
         episode: 2
         title: 'Klassiker, Folge 2: Der Waldbrand'
-      - id: '1468869961'
-        episode: 2
-        title: 'Folge 2: Der Schmetterlingsball'
-      - id: '1815522943'
-        episode: 2
-        title: Peppis Rosenhaus (Biene Maja, Folge 2)
       - id: '1468873629'
         episode: 3
         title: 'Klassiker, Folge 3: Maja und der Regenwurm Max'
-      - id: '1468862092'
-        episode: 3
-        title: 'Folge 3: Willi zieht aus'
-      - id: '1815254223'
-        episode: 3
-        title: Der Waldsee und seine Leute (Biene Maja, Folge 3)
       - id: '1468870497'
         episode: 4
         title: 'Klassiker, Folge 4: Flip sitzt in der Falle'
-      - id: '1468864490'
-        episode: 4
-        title: 'Folge 4: Majas Kuchenrezept'
-      - id: '1815254211'
-        episode: 4
-        title: Iffi und Kurt (Biene Maja, Folge 4)
       - id: '1468869072'
         episode: 5
         title: 'Klassiker, Folge 5: Die Fahrt in der Limonadenflasche'
-      - id: '1468860831'
-        episode: 5
-        title: 'Folge 5: Die falsche Wespe'
-      - id: '1815253984'
-        episode: 5
-        title: Der Grashüpfer (Biene Maja, Folge 5)
       - id: '1468863141'
         episode: 6
         title: 'Klassiker, Folge 6: Der doppelte Flip'
-      - id: '1468871179'
-        episode: 6
-        title: 'Folge 6: Das Zepter der Königin'
-      - id: '1815565808'
-        episode: 6
-        title: Puck (Biene Maja, Folge 6)
       - id: '1468874385'
         episode: 7
         title: 'Klassiker, Folge 7: Der Kampf um die Blattläuse'
-      - id: '1468863276'
-        episode: 7
-        title: 'Folge 7: Edgar die Pechbiene / Der meistgesuchte Mist / Pauls Himbeere / Die Sonnenfinsternis / Ringkampf im Wald / Majas Blume / Die verwirrte Irma'
-      - id: '1815572354'
-        episode: 7
-        title: Majas Gefangenschaft bei der Spinne (Biene Maja, Folge 7)
       - id: '1468870182'
         episode: 8
         title: 'Klassiker, Folge 8: Der Schönheitswettbewerb'
-      - id: '1468873857'
-        episode: 8
-        title: 'Folge 8: Majas Schatz'
-      - id: '1815571915'
-        episode: 8
-        title: Die Wanze und der Schmetterling (Biene Maja, Folge 8) - EP
       - id: '1468868630'
         episode: 9
         title: 'Klassiker, Folge 9: Der Frühling ist da'
-      - id: '1468861761'
-        episode: 9
-        title: 'Folge 9: Maja feiert Schlüpftag'
-      - id: '1815571918'
-        episode: 9
-        title: Hannibals Kampf mit dem Menschen (Biene Maja, Folge 9)
       - id: '1468856639'
         episode: 10
         title: 'Klassiker, Folge 10: Maja sucht einen Wald'
-      - id: '1468870106'
-        episode: 10
-        title: 'Folge 10: Königin für einen Tag'
-      - id: '1815753942'
-        episode: 10
-        title: Die Wunder der Nacht (Biene Maja, Folge 10)
       - id: '1468859423'
         episode: 11
         title: 'Klassiker, Folge 11: Der Blumenelf'
-      - id: '1468862416'
-        episode: 11
-        title: 'Folge 11: Die Austauschbiene'
-      - id: '1815252189'
-        episode: 11
-        title: Die Elfenfahrt (Biene Maja, Folge 11)
       - id: '1468864866'
         episode: 12
         title: 'Klassiker, Folge 12: Wie die Fliege gefoppt wird'
-      - id: '1468860605'
-        episode: 12
-        title: 'Folge 12: Der kleine Ausreißer'
-      - id: '1815251881'
-        episode: 12
-        title: Der Dichter Alois Siebenpunkt (Biene Maja, Folge 12) - EP
       - id: '1468859157'
         episode: 13
         title: 'Klassiker, Folge 13: Maja kommt nach Hause'
-      - id: '1468866994'
-        episode: 13
-        title: 'Folge 13: Die Wiesenfreunde'
-      - id: '1815251561'
-        episode: 13
-        title: Die Räuberburg (Biene Maja, Folge 13)
       - id: '1468868342'
         episode: 14
         title: 'Klassiker, Folge 14: Bei ganz feinen Leuten'
-      - id: '1468871339'
-        episode: 14
-        title: 'Folge 14: Das süße Geheimnis'
-      - id: '1815250688'
-        episode: 14
-        title: Die Flucht (Biene Maja, Folge 14)
       - id: '1468869431'
         episode: 15
         title: 'Klassiker, Folge 15: Spuk auf der Waldwiese'
-      - id: '1472006542'
-        episode: 15
-        title: 'Folge 15: Ein Salto für die Freundschaft'
-      - id: '1815250467'
-        episode: 15
-        title: Die Heimkehr (Biene Maja, Folge 15)
-      - id: '1472007408'
-        episode: 16
-        title: 'Folge 16: Die fantastischen Vier'
-      - id: '1815250480'
-        episode: 16
-        title: Die Schlacht der Bienen und Hornissen (Biene Maja, Folge 16)
-      - id: '1815249573'
-        episode: 17
-        title: Die Freundin der Königin (Biene Maja, Folge 17) - EP
-      - id: '1676649857'
-        title: Der Regentanz/Geheimnisvolle Spuren
   episode_pattern:
   - ^(\d+)/
   - '^Klassiker, Folge (\d+):'
@@ -29590,72 +29367,33 @@ series:
       - id: 1jpq9xAPC4AEXANKOVCC5S
         episode: 1
         title: 01/Großvaters Hütte
-      - id: 6h3slvubJGxkelMTQTmdGs
-        episode: 1
-        title: 01/Die Reise zum Großvater (CGI)
       - id: 1K9X1OCZTGgAq6PKVkZ7qA
         episode: 2
         title: 02/Winter in den Bergen
-      - id: 5EjZ1RjwyNbgjAYS7UtcOH
-        episode: 2
-        title: 02/Freunde für immer (CGI)
       - id: 74Agq5r1iPYFgDWvYbIjcY
         episode: 3
         title: 03/Hilfe für Schnucki
-      - id: 31m0UdSsHngj3M9H5ZZDxO
-        episode: 3
-        title: 03/Ein Wolf im Dörfli (CGI)
       - id: 2Pqs8Kn7BAliSMSSmQCE75
         episode: 4
         title: 04/Ein neues Leben
-      - id: 7B2f4GMd62pwVO160b6Jka
-        episode: 4
-        title: 04/Peters Schatz (CGI)
       - id: 2S5xHh0jxJmdEJIEmtBygp
         episode: 5
         title: 05/Die Fahrt ins Grüne
-      - id: 66wmm6hrAuT6OX4FRrAhXJ
-        episode: 5
-        title: 05/Heidi vermisst die Berge (CGI)
       - id: 0pxquhhZbXL3j2BmE0dXb1
         episode: 6
         title: 06/Heidi kehrt zurück
-      - id: 6fJGXnRQZprvNpQVS5r7n0
-        episode: 6
-        title: 06/Das Versprechen (CGI)
       - id: 441nA6KpmiabcjX1fCh2Cw
         episode: 7
         title: 07/Ein Haus im Dörfli
-      - id: 67UX8QIZxMDuJkCGtd91Dx
-        episode: 7
-        title: 07/Heidi soll lesen lernen (CGI)
       - id: 3QewQO8dQrq6K3II0Lvmqm
         episode: 8
         title: 08/Clara kommt
-      - id: 1cVQryR5G01un8agbLFJGx
-        episode: 8
-        title: 08/Wie zwei Schwestern (CGI)
       - id: 1Kab4NGIECYT0TT3CTEIA6
         episode: 9
         title: 09/Großmutters Besuch
-      - id: 5lordaKcBxHKDP582ZLmMb
-        episode: 9
-        title: 09/Heidi kehrt zurück (CGI)
       - id: 43eptfSWtOhGS8lwdwvNDf
         episode: 10
         title: 10/Versuch zu laufen, Clara!
-      - id: 7zbLiVaNJu3HBK4pi8HUnr
-        episode: 10
-        title: 10/Glöckchen wird geboren (CGI)
-      - id: 6oY60aBfm9evnuoMqrJbiH
-        episode: 11
-        title: 11/Clara kommt, aber nicht allein (CGI)
-      - id: 6SnyRipyoLYS2MIvsx3Xoc
-        episode: 12
-        title: 12/Der Sturm (CGI)
-      - id: 1NQb8SZGASwRTZz6elYlcC
-        episode: 13
-        title: 13/Das größte Glück (CGI)
     apple_music:
       artist_ids:
       - '1277333069'
@@ -29663,72 +29401,33 @@ series:
       - id: '1468869380'
         episode: 1
         title: 01/Großvaters Hütte
-      - id: '1468860370'
-        episode: 1
-        title: 'Folge 1: Die Reise zum Großvater'
       - id: '1468859371'
         episode: 2
         title: 02/Winter in den Bergen
-      - id: '1468865738'
-        episode: 2
-        title: 02/Freunde für immer (CGI)
       - id: '1468867088'
         episode: 3
         title: 03/Hilfe für Schnucki
-      - id: '1468868423'
-        episode: 3
-        title: 03/Ein Wolf im Dörfli  (CGI)
       - id: '1468862998'
         episode: 4
         title: 'Klassiker, Folge 4: Ein neues Leben'
-      - id: '1468858361'
-        episode: 4
-        title: 04/Peters Schatz (CGI)
       - id: '1468863385'
         episode: 5
         title: 'Klassiker, Folge 5: Die Fahrt ins Grüne'
-      - id: '1468861396'
-        episode: 5
-        title: 'Folge 5: Heidi vermisst die Berge'
       - id: '1468870943'
         episode: 6
         title: 'Klassiker, Folge 6: Heidi kehrt zurück'
-      - id: '1468869050'
-        episode: 6
-        title: 06/Das Versprechen (CGI)
       - id: '1468871751'
         episode: 7
         title: 'Folge 07: Ein Haus im Dörfli'
-      - id: '1468871024'
-        episode: 7
-        title: 'Folge 7: Heidi soll lesen lernen'
       - id: '1468855893'
         episode: 8
         title: 08/Clara kommt
-      - id: '1468868745'
-        episode: 8
-        title: 08/Wie zwei Schwestern (CGI)
       - id: '1468868650'
         episode: 9
         title: 09/Großmutters Besuch
-      - id: '1468874228'
-        episode: 9
-        title: 'Folge 9: Ein Geist geht um / Kein Brief von Großvater / Heidi kehrt zurück'
       - id: '1468860240'
         episode: 10
         title: 'Folge 10: Versuch zu laufen, Clara!'
-      - id: '1468862476'
-        episode: 10
-        title: 10/Glöckchen wird geboren (CGI)
-      - id: '1468861418'
-        episode: 11
-        title: 11/Clara kommt, aber nicht allein (CGI)
-      - id: '1468870749'
-        episode: 12
-        title: 12/Der Sturm (CGI)
-      - id: '1468865785'
-        episode: 13
-        title: 'Folge 13: Das größte Glück'
   episode_pattern:
   - ^(\d{1,2})/
   - '^Folge (\d+):'
@@ -44280,3 +43979,307 @@ series:
       - id: '1875255677'
         episode: 6
         title: 'Folge 6: Tilda und der Wolf (Neue Abenteuer)'
+- id: die_biene_maja_cgi
+  title: Die Biene Maja (CGI)
+  aliases: []
+  episode_pattern:
+  - ^(\d+)/
+  - '^Folge (\d+):'
+  content_type: hoerspiel
+  split_from: die_biene_maja
+  providers:
+    spotify:
+      artist_ids:
+      - 7GfaHcpmNcrcHoyGnOBsAz
+      albums:
+      - id: 3j0eypsRnSTiMQm3ddIRH7
+        episode: 1
+        title: 01/Majas Geburt (CGI)
+      - id: 2MrJDH3Vr4U1xRflFoxLRg
+        episode: 2
+        title: 02/Der Schmetterlingsball (CGI)
+      - id: 7vGsiOczDbWl1DYyHZZRUb
+        episode: 3
+        title: 03/Willi zieht aus (CGI)
+      - id: 1JFzgTGNZrDlPpDBBDzQyo
+        episode: 4
+        title: 04/Majas Kuchenrezept (CGI)
+      - id: 6R51c15NOqALq06zzTQsMl
+        episode: 5
+        title: 05/Die falsche Wespe (CGI)
+      - id: 67Kbq6lX6JqLRFaaE8IbJD
+        episode: 6
+        title: 06/Das Zepter der Königin (CGI)
+      - id: 487jVjvsebSknq2vulCq4u
+        episode: 7
+        title: 07/Die Sonnenfinsternis (CGI)
+      - id: 5iI5hQh4fU2HNnbz2LxTqp
+        episode: 8
+        title: 08/Majas Schatz (CGI)
+      - id: 07s0uMtUGiOgc5qS8tyCKs
+        episode: 9
+        title: 09/Maja feiert Schlüpftag (CGI)
+      - id: 12ZHLjObPDVv6yxD4z0dVx
+        episode: 10
+        title: 10/Königin für einen Tag (CGI)
+      - id: 1I4ANUvTxrahaAWhmcp983
+        episode: 11
+        title: 11/Die Austauschbiene (CGI)
+      - id: 1CR4nb9spAdW7lk2Z3fCxr
+        episode: 12
+        title: 12/Der kleine Ausreißer (CGI)
+      - id: 6ZCZ7KXwZugFPewoW7kZVc
+        episode: 13
+        title: 13/Die Wiesenfreunde (CGI)
+      - id: 58owbHyrjYUk6J9LqZHB2Y
+        episode: 14
+        title: 14/Das süße Geheimnis (CGI)
+      - id: 6D9DMe61lCQwmaVP4rtezc
+        episode: 15
+        title: 15/Ein Salto für die Freundschaft (CGI)
+      - id: 3lThbsoEt20TnapXJTFydW
+        episode: 16
+        title: 16/Die fantastischen Vier (CGI)
+      - id: 6ySf1Q9HHKZcQENOpdgOyw
+        title: Der Regentanz/Geheimnisvolle Spuren
+    apple_music:
+      artist_ids:
+      - '253463055'
+      albums:
+      - id: '1468864060'
+        episode: 1
+        title: 'Folge 1: Majas Geburt / Der Buschwindbote /  Maja und die Mondblume'
+      - id: '1468869961'
+        episode: 2
+        title: 'Folge 2: Der Schmetterlingsball'
+      - id: '1468862092'
+        episode: 3
+        title: 'Folge 3: Willi zieht aus'
+      - id: '1468864490'
+        episode: 4
+        title: 'Folge 4: Majas Kuchenrezept'
+      - id: '1468860831'
+        episode: 5
+        title: 'Folge 5: Die falsche Wespe'
+      - id: '1468871179'
+        episode: 6
+        title: 'Folge 6: Das Zepter der Königin'
+      - id: '1468863276'
+        episode: 7
+        title: 'Folge 7: Edgar die Pechbiene / Der meistgesuchte Mist / Pauls Himbeere
+          / Die Sonnenfinsternis / Ringkampf im Wald / Majas Blume / Die verwirrte
+          Irma'
+      - id: '1468873857'
+        episode: 8
+        title: 'Folge 8: Majas Schatz'
+      - id: '1468861761'
+        episode: 9
+        title: 'Folge 9: Maja feiert Schlüpftag'
+      - id: '1468870106'
+        episode: 10
+        title: 'Folge 10: Königin für einen Tag'
+      - id: '1468862416'
+        episode: 11
+        title: 'Folge 11: Die Austauschbiene'
+      - id: '1468860605'
+        episode: 12
+        title: 'Folge 12: Der kleine Ausreißer'
+      - id: '1468866994'
+        episode: 13
+        title: 'Folge 13: Die Wiesenfreunde'
+      - id: '1468871339'
+        episode: 14
+        title: 'Folge 14: Das süße Geheimnis'
+      - id: '1472006542'
+        episode: 15
+        title: 'Folge 15: Ein Salto für die Freundschaft'
+      - id: '1472007408'
+        episode: 16
+        title: 'Folge 16: Die fantastischen Vier'
+      - id: '1676649857'
+        title: Der Regentanz/Geheimnisvolle Spuren
+- id: heidi_cgi
+  title: Heidi (CGI)
+  aliases: []
+  episode_pattern:
+  - ^(\d{1,2})/
+  - '^Folge (\d+):'
+  content_type: hoerspiel
+  split_from: heidi
+  providers:
+    spotify:
+      artist_ids:
+      - 2kSiXgvssxAYOIvu4lwVGf
+      albums:
+      - id: 6h3slvubJGxkelMTQTmdGs
+        episode: 1
+        title: 01/Die Reise zum Großvater (CGI)
+      - id: 5EjZ1RjwyNbgjAYS7UtcOH
+        episode: 2
+        title: 02/Freunde für immer (CGI)
+      - id: 31m0UdSsHngj3M9H5ZZDxO
+        episode: 3
+        title: 03/Ein Wolf im Dörfli (CGI)
+      - id: 7B2f4GMd62pwVO160b6Jka
+        episode: 4
+        title: 04/Peters Schatz (CGI)
+      - id: 66wmm6hrAuT6OX4FRrAhXJ
+        episode: 5
+        title: 05/Heidi vermisst die Berge (CGI)
+      - id: 6fJGXnRQZprvNpQVS5r7n0
+        episode: 6
+        title: 06/Das Versprechen (CGI)
+      - id: 67UX8QIZxMDuJkCGtd91Dx
+        episode: 7
+        title: 07/Heidi soll lesen lernen (CGI)
+      - id: 1cVQryR5G01un8agbLFJGx
+        episode: 8
+        title: 08/Wie zwei Schwestern (CGI)
+      - id: 5lordaKcBxHKDP582ZLmMb
+        episode: 9
+        title: 09/Heidi kehrt zurück (CGI)
+      - id: 7zbLiVaNJu3HBK4pi8HUnr
+        episode: 10
+        title: 10/Glöckchen wird geboren (CGI)
+      - id: 6oY60aBfm9evnuoMqrJbiH
+        episode: 11
+        title: 11/Clara kommt, aber nicht allein (CGI)
+      - id: 6SnyRipyoLYS2MIvsx3Xoc
+        episode: 12
+        title: 12/Der Sturm (CGI)
+      - id: 1NQb8SZGASwRTZz6elYlcC
+        episode: 13
+        title: 13/Das größte Glück (CGI)
+    apple_music:
+      artist_ids:
+      - '1277333069'
+      albums:
+      - id: '1468860370'
+        episode: 1
+        title: 'Folge 1: Die Reise zum Großvater'
+      - id: '1468865738'
+        episode: 2
+        title: 02/Freunde für immer (CGI)
+      - id: '1468868423'
+        episode: 3
+        title: 03/Ein Wolf im Dörfli  (CGI)
+      - id: '1468858361'
+        episode: 4
+        title: 04/Peters Schatz (CGI)
+      - id: '1468861396'
+        episode: 5
+        title: 'Folge 5: Heidi vermisst die Berge'
+      - id: '1468869050'
+        episode: 6
+        title: 06/Das Versprechen (CGI)
+      - id: '1468871024'
+        episode: 7
+        title: 'Folge 7: Heidi soll lesen lernen'
+      - id: '1468868745'
+        episode: 8
+        title: 08/Wie zwei Schwestern (CGI)
+      - id: '1468874228'
+        episode: 9
+        title: 'Folge 9: Ein Geist geht um / Kein Brief von Großvater / Heidi kehrt
+          zurück'
+      - id: '1468862476'
+        episode: 10
+        title: 10/Glöckchen wird geboren (CGI)
+      - id: '1468861418'
+        episode: 11
+        title: 11/Clara kommt, aber nicht allein (CGI)
+      - id: '1468870749'
+        episode: 12
+        title: 12/Der Sturm (CGI)
+      - id: '1468865785'
+        episode: 13
+        title: 'Folge 13: Das größte Glück'
+- id: wickie_cgi
+  title: Wickie (CGI)
+  aliases: []
+  episode_pattern:
+  - ^(\d+)/
+  - '^Folge (\d+):'
+  content_type: hoerspiel
+  split_from: wickie
+  providers:
+    spotify:
+      artist_ids:
+      - 7fMJUFfMkaB6tT8Dte6tgF
+      albums:
+      - id: 6CIMPRkR2vOuJfFIDgZCpD
+        episode: 1
+        title: 01/Wasser auf die Mühlen (CGI)
+      - id: 0bYKBtwukDkGX1pIscACVB
+        episode: 2
+        title: 02/Die Königin der Winde (CGI)
+      - id: 2tU47IvruPorwTXemNvtPm
+        episode: 3
+        title: 03/Tanz mit dem Wolf (CGI)
+      - id: 1Pa9rFvXXrJtWh0uzuYOq7
+        episode: 4
+        title: 04/Der Donnergott (CGI)
+      - id: 541fqlrrZtVsg9KC7lUMra
+        episode: 5
+        title: 05/Thors Urteil (CGI)
+      - id: 0FTkpZ3ZBHTMX3BXXUdv3E
+        episode: 6
+        title: 06/Das Drachenbootrennen (CGI)
+      - id: 2kpxd3X4dl9BrNSOiCXK9N
+        episode: 7
+        title: 07/Thors Hammer (CGI)
+      - id: 3mfCuDzB1d2gMaQDk95H8n
+        episode: 8
+        title: 08/Der falsche Druide (CGI)
+      - id: 3Y2o8ZoqYDjNOTt8Bvn81R
+        episode: 9
+        title: 09/Nächtlicher Diebstahl (CGI)
+      - id: 05H6JvPTDlRpMnk5XqcwBe
+        episode: 10
+        title: 10/Olympische Spiele (CGI)
+      - id: 60G01rHe6aphE5Uex6gOPL
+        episode: 11
+        title: 11/Svens Schiffbruch (CGI)
+      - id: 01MSgNKzQsCisg5Z1mQlw5
+        episode: 12
+        title: 12/Aufstand in Flake (CGI)
+    apple_music:
+      artist_ids:
+      - '26247225'
+      albums:
+      - id: '1468872248'
+        episode: 1
+        title: 'Folge 1: Wasser auf die Mühlen'
+      - id: '1468856231'
+        episode: 2
+        title: 'Folge 2: Die Königin der Winde'
+      - id: '1468869322'
+        episode: 3
+        title: 'Folge 3: Tanz mit dem Wolf'
+      - id: '1468859634'
+        episode: 4
+        title: 'Folge 4: Der Donnergott'
+      - id: '1468868320'
+        episode: 5
+        title: 'Folge 5: Thors Urteil'
+      - id: '1468857981'
+        episode: 6
+        title: 06/Das Drachenbootrennen  (CGI)
+      - id: '1468861997'
+        episode: 7
+        title: 'Folge 7: Thors Hammer'
+      - id: '1468868003'
+        episode: 8
+        title: 'Folge 8: Der falsche Druide'
+      - id: '1468870486'
+        episode: 9
+        title: 09/Nächtlicher Diebstahl (CGI)
+      - id: '1468872065'
+        episode: 10
+        title: 'Folge 10: Olympische Spiele'
+      - id: '1468874513'
+        episode: 11
+        title: 'Folge 11: Svens Schiffbruch'
+      - id: '1468872534'
+        episode: 12
+        title: 'Folge 12: Aufstand in Flake'
