@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:fake_async/fake_async.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/apple_music/apple_music_api.dart';
 
@@ -114,6 +117,32 @@ void main() {
           );
 
       expect(url, isNull);
+    });
+  });
+
+  group('AppleMusicApi.getAlbumCover coalescing', () {
+    test('flushes while cards keep mounting, not only after scroll stops', () {
+      fakeAsync((async) {
+        final adapter = FakeHttpAdapter((_) => {'data': <dynamic>[]});
+        final api = _apiWith(adapter);
+
+        // A fling: cards mount every 40ms, shorter than the 50ms batch
+        // window. A debounce that cancels+reschedules on every call never
+        // reaches 50ms and fires nothing until the fling stops. A throttle
+        // fires ~50ms after the first pending id regardless.
+        for (var i = 0; i < 10; i++) {
+          unawaited(api.getAlbumCover('album-$i'));
+          async.elapse(const Duration(milliseconds: 40));
+        }
+
+        expect(
+          adapter.requests,
+          isNotEmpty,
+          reason: 'covers must load while scrolling, not stall until it pauses',
+        );
+
+        async.elapse(const Duration(milliseconds: 100));
+      });
     });
   });
 

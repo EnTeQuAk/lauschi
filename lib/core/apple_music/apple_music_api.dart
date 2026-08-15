@@ -242,7 +242,10 @@ class AppleMusicApi {
 
   /// Get a single album's cover URL with request coalescing.
   ///
-  /// Collects IDs for 50ms, then fires one batched API call.
+  /// Collects IDs into a batch that fires 50ms after the first pending
+  /// id, then makes one batched API call. The window is a throttle, not
+  /// a debounce: a continuous stream of requests (a fling through a large
+  /// grid) still flushes every 50ms instead of starving until it stops.
   Future<String?> getAlbumCover(String albumId, {int size = 300}) {
     final existing = _pendingCoverIds[albumId];
     if (existing != null) return existing.future;
@@ -250,8 +253,8 @@ class AppleMusicApi {
     final completer = Completer<String?>();
     _pendingCoverIds[albumId] = completer;
 
-    _coverBatchTimer?.cancel();
-    _coverBatchTimer = Timer(const Duration(milliseconds: 50), () {
+    _coverBatchTimer ??= Timer(const Duration(milliseconds: 50), () {
+      _coverBatchTimer = null;
       unawaited(_flushCoverBatch(size));
     });
 
