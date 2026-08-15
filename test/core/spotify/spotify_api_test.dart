@@ -91,6 +91,45 @@ void main() {
     });
   });
 
+  group('SpotifyApi.searchAlbums', () {
+    test(
+      'skips a malformed album instead of failing the whole search',
+      () async {
+        // One album object missing its "name" must not take down the
+        // parent's browse grid: skip it, keep the rest.
+        final adapter = FakeHttpAdapter(
+          (_) => {
+            'albums': {
+              'items': [
+                {
+                  'id': 'album-1',
+                  'name': 'Bibi Blocksberg',
+                  'uri': 'spotify:album:album-1',
+                  'artists': [
+                    {'id': 'artist-1', 'name': 'Kiddinx'},
+                  ],
+                  'total_tracks': 12,
+                },
+                {
+                  'id': 'album-2',
+                  // no 'name'
+                  'uri': 'spotify:album:album-2',
+                  'artists': <dynamic>[],
+                  'total_tracks': 8,
+                },
+              ],
+              'total': 2,
+            },
+          },
+        );
+
+        final result = await _apiWith(adapter).searchAlbums('bibi');
+
+        expect(result.albums.map((a) => a.id), ['album-1']);
+      },
+    );
+  });
+
   group('SpotifyAlbum artwork', () {
     test('imageUrl is the largest rendition', () {
       const album = SpotifyAlbum(

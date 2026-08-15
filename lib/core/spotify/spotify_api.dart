@@ -187,6 +187,7 @@ class SpotifyApi {
           items
               .whereType<Map<String, dynamic>>()
               .map(SpotifyAlbum.fromJson)
+              .whereType<SpotifyAlbum>()
               .toList(),
       total: total,
     );
@@ -226,6 +227,7 @@ class SpotifyApi {
           items
               .whereType<Map<String, dynamic>>()
               .map(SpotifyPlaylist.fromJson)
+              .whereType<SpotifyPlaylist>()
               .toList(),
       total: total,
     );
@@ -321,6 +323,7 @@ class SpotifyApi {
     return items
         .whereType<Map<String, dynamic>>()
         .map(SpotifyAlbum.fromJson)
+        .whereType<SpotifyAlbum>()
         .toList();
   }
 
@@ -478,16 +481,24 @@ class SpotifyAlbum {
     this.releaseDate,
   });
 
-  factory SpotifyAlbum.fromJson(Map<String, dynamic> json) {
+  /// Parse an album, or null when a required field (id/name/uri) is
+  /// missing or the wrong type, so one malformed item in a search or
+  /// batch response is skipped instead of failing the whole list.
+  static SpotifyAlbum? fromJson(Map<String, dynamic> json) {
+    final id = json['id'];
+    final name = json['name'];
+    final uri = json['uri'];
+    if (id is! String || name is! String || uri is! String) return null;
+
     final images = json['images'] as List<dynamic>? ?? [];
     final artistsRaw = json['artists'] as List<dynamic>? ?? [];
     final artistMaps = artistsRaw.whereType<Map<String, dynamic>>();
 
     return SpotifyAlbum(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      uri: json['uri'] as String,
-      artists: artistMaps.map((a) => a['name'] as String).toList(),
+      id: id,
+      name: name,
+      uri: uri,
+      artists: artistMaps.map((a) => a['name']).whereType<String>().toList(),
       artistIds:
           artistMaps
               .map((a) => a['id'] as String? ?? '')
@@ -548,14 +559,22 @@ class SpotifyPlaylist {
     required this.totalTracks,
   });
 
-  factory SpotifyPlaylist.fromJson(Map<String, dynamic> json) {
+  /// Parse a playlist, or null when a required field (id/name/uri) is
+  /// missing or the wrong type, so one malformed item in a search
+  /// response is skipped instead of failing the whole list.
+  static SpotifyPlaylist? fromJson(Map<String, dynamic> json) {
+    final id = json['id'];
+    final name = json['name'];
+    final uri = json['uri'];
+    if (id is! String || name is! String || uri is! String) return null;
+
     final images = json['images'] as List<dynamic>? ?? [];
     final owner = json['owner'] as Map<String, dynamic>? ?? {};
 
     return SpotifyPlaylist(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      uri: json['uri'] as String,
+      id: id,
+      name: name,
+      uri: uri,
       ownerName: owner['display_name'] as String? ?? '',
       imageUrl:
           images.isNotEmpty
@@ -631,7 +650,15 @@ class SpotifyPlaylistDetail {
     required this.tracks,
   });
 
-  factory SpotifyPlaylistDetail.fromJson(Map<String, dynamic> json) {
+  /// Parse a playlist detail response, or null when a required field
+  /// (id/name/uri) is missing or the wrong type, so getPlaylist
+  /// reports "not found" instead of throwing.
+  static SpotifyPlaylistDetail? fromJson(Map<String, dynamic> json) {
+    final id = json['id'];
+    final name = json['name'];
+    final uri = json['uri'];
+    if (id is! String || name is! String || uri is! String) return null;
+
     final images = json['images'] as List<dynamic>? ?? [];
     final owner = json['owner'] as Map<String, dynamic>? ?? {};
     final tracksData = json['tracks'] as Map<String, dynamic>? ?? {};
@@ -645,9 +672,9 @@ class SpotifyPlaylistDetail {
     }
 
     return SpotifyPlaylistDetail(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      uri: json['uri'] as String,
+      id: id,
+      name: name,
+      uri: uri,
       ownerName: owner['display_name'] as String? ?? '',
       imageUrl:
           images.isNotEmpty
