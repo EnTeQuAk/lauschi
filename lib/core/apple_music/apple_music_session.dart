@@ -183,20 +183,15 @@ class AppleMusicSession extends _$AppleMusicSession {
           Log.warn(_tag, 'Native auth denied');
         }
       } else {
-        // Android: web auth flow.
+        // Android: web auth flow. The deep-link handleCallback drives the
+        // token exchange, configure, and setAuthenticated. It has to,
+        // since on an app-kill relaunch it runs with no connect() awaiting.
+        // connect() only supplies the dev token for the auth page and
+        // awaits completion; repeating that work here double-configured and
+        // could flip an already-authenticated session to Error.
         final devToken = await _musicKit.requestDeveloperToken();
-        final tokens = await _webAuth.login(developerToken: devToken);
-        _configure(devToken, tokens.musicUserToken, tokens.storefront);
-        state = AppleMusicAuthenticated(
-          developerToken: devToken,
-          musicUserToken: tokens.musicUserToken,
-          storefront: tokens.storefront,
-        );
-        Log.info(
-          _tag,
-          'Connected via web auth',
-          data: {'storefront': tokens.storefront},
-        );
+        await _webAuth.login(developerToken: devToken);
+        Log.info(_tag, 'Web auth flow completed');
       }
     } on Exception catch (e) {
       // The auth flow itself threw — e.g., the web auth WebView
