@@ -281,7 +281,10 @@ class SpotifyApi {
       if (data == null) break;
       final items = (data['items'] as List<dynamic>?) ?? [];
       tracks.addAll(
-        items.whereType<Map<String, dynamic>>().map(SpotifyTrack.fromJson),
+        items
+            .whereType<Map<String, dynamic>>()
+            .map(SpotifyTrack.fromJson)
+            .whereType<SpotifyTrack>(),
       );
       if (data['next'] == null || items.isEmpty) break;
       offset += pageSize;
@@ -581,17 +584,27 @@ class SpotifyTrack {
     this.artistNames,
   });
 
-  factory SpotifyTrack.fromJson(Map<String, dynamic> json) {
+  /// Parse a track, or null when a required field (id/name/uri) is
+  /// missing or the wrong type. Callers filter the nulls, so one
+  /// malformed item in a page is skipped instead of throwing a
+  /// TypeError that would take down the whole album's track list.
+  static SpotifyTrack? fromJson(Map<String, dynamic> json) {
+    final id = json['id'];
+    final name = json['name'];
+    final uri = json['uri'];
+    if (id is! String || name is! String || uri is! String) return null;
+
     final artistsRaw = json['artists'] as List<dynamic>?;
     final artistNames = artistsRaw
         ?.whereType<Map<String, dynamic>>()
-        .map((a) => a['name'] as String)
+        .map((a) => a['name'])
+        .whereType<String>()
         .join(', ');
 
     return SpotifyTrack(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      uri: json['uri'] as String,
+      id: id,
+      name: name,
+      uri: uri,
       trackNumber: json['track_number'] as int? ?? 0,
       durationMs: json['duration_ms'] as int? ?? 0,
       artistNames: artistNames,
@@ -627,9 +640,8 @@ class SpotifyPlaylistDetail {
     final tracks = <SpotifyTrack>[];
     for (final item in items.whereType<Map<String, dynamic>>()) {
       final track = item['track'] as Map<String, dynamic>?;
-      if (track != null && track['id'] != null) {
-        tracks.add(SpotifyTrack.fromJson(track));
-      }
+      final parsed = track == null ? null : SpotifyTrack.fromJson(track);
+      if (parsed != null) tracks.add(parsed);
     }
 
     return SpotifyPlaylistDetail(

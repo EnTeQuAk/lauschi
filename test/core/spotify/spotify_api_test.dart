@@ -58,6 +58,37 @@ void main() {
       expect(tracks, hasLength(2));
       expect(adapter.requests, hasLength(1));
     });
+
+    test('skips a malformed track instead of losing the whole page', () async {
+      // A single track object missing its required "name" is an Error
+      // (TypeError) when cast, not an Exception. If it escaped the parse
+      // it would take down the entire album's track list and leave the
+      // detail sheet spinning. One bad item must be skipped, not fatal.
+      final adapter = FakeHttpAdapter(
+        (_) => {
+          'items': [
+            _track(1),
+            {
+              'id': 'track-2',
+              // no 'name'
+              'uri': 'spotify:track:track-2',
+              'track_number': 2,
+              'duration_ms': 60000,
+            },
+            _track(3),
+          ],
+          'next': null,
+        },
+      );
+
+      final tracks = await _apiWith(adapter).getAlbumTracks('album-1');
+
+      expect(
+        tracks.map((t) => t.id),
+        ['track-1', 'track-3'],
+        reason: 'the malformed track is skipped, the good ones survive',
+      );
+    });
   });
 
   group('SpotifyAlbum artwork', () {
