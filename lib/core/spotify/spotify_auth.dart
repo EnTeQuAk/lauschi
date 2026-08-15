@@ -172,7 +172,16 @@ class SpotifyAuth {
     }
 
     if (!launched) {
+      // Clear the pending PKCE state we just staged, in memory and in the
+      // keychain, so a later stray/replayed callback can't pass the CSRF
+      // check against orphaned state. Mirrors handleCallback's finally.
       _loginCompleter = null;
+      _pendingVerifier = null;
+      _pendingState = null;
+      await Future.wait([
+        _storage.delete(key: _pendingVerifierKey),
+        _storage.delete(key: _pendingStateKey),
+      ]);
       throw StateError('Could not open browser for Spotify login');
     }
 
