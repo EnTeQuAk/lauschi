@@ -111,7 +111,7 @@ class AppleMusicApi {
       final albumsData = results?['albums'] as Map<String, dynamic>?;
       final data = albumsData?['data'] as List<dynamic>? ?? [];
 
-      return data.map<AppleMusicAlbum>(_parseAlbum).toList();
+      return data.map(_parseAlbum).whereType<AppleMusicAlbum>().toList();
     } on DioException catch (e) {
       Log.error(
         _tag,
@@ -140,7 +140,8 @@ class AppleMusicApi {
         );
         final data = response.data?['data'] as List<dynamic>? ?? [];
         for (final e in data) {
-          results.add(_parseAlbum(e));
+          final album = _parseAlbum(e);
+          if (album != null) results.add(album);
         }
       } on DioException catch (e) {
         Log.warn(
@@ -195,7 +196,10 @@ class AppleMusicApi {
 
         final data = response.data?['data'] as List<dynamic>? ?? [];
         tracks.addAll(
-          data.whereType<Map<String, dynamic>>().map(_parseTrack),
+          data
+              .whereType<Map<String, dynamic>>()
+              .map(_parseTrack)
+              .whereType<AppleMusicTrack>(),
         );
         if (response.data?['next'] == null || data.isEmpty) break;
         offset += pageSize;
@@ -211,11 +215,17 @@ class AppleMusicApi {
     }
   }
 
-  static AppleMusicTrack _parseTrack(Map<String, dynamic> item) {
+  /// Parse a track, or null when its required id is missing or not a
+  /// string. Callers filter the nulls, so one malformed item is skipped
+  /// instead of throwing a TypeError that would crash the whole album's
+  /// track list (and, via play(), the kid's playback).
+  static AppleMusicTrack? _parseTrack(Map<String, dynamic> item) {
+    final id = item['id'];
+    if (id is! String) return null;
     final attrs =
         item['attributes'] as Map<String, dynamic>? ?? <String, dynamic>{};
     return AppleMusicTrack(
-      id: item['id'] as String,
+      id: id,
       name: attrs['name'] as String? ?? '',
       trackNumber: attrs['trackNumber'] as int? ?? 0,
       durationMs: attrs['durationInMillis'] as int? ?? 0,
@@ -287,19 +297,29 @@ class AppleMusicApi {
 
   // ── Parsing ─────────────────────────────────────────────────────────
 
-  static AppleMusicAlbum _parseAlbum(dynamic e) {
-    final item = e as Map<String, dynamic>;
+  /// Parse an album, or null when the item is not a map or its required
+  /// id is missing or not a string. Callers filter the nulls, so one
+  /// malformed item in a search or batch response is skipped instead of
+  /// throwing a TypeError that would fail the whole request.
+  static AppleMusicAlbum? _parseAlbum(dynamic e) {
+    if (e is! Map<String, dynamic>) return null;
+    final id = e['id'];
+    if (id is! String) return null;
     final attrs =
-        item['attributes'] as Map<String, dynamic>? ?? <String, dynamic>{};
+        e['attributes'] as Map<String, dynamic>? ?? <String, dynamic>{};
     final artwork = attrs['artwork'] as Map<String, dynamic>?;
     return AppleMusicAlbum(
-      id: item['id'] as String,
+      id: id,
       name: attrs['name'] as String? ?? '',
       artistName: attrs['artistName'] as String? ?? '',
       artworkUrl: artwork?['url'] as String?,
       trackCount: attrs['trackCount'] as int? ?? 0,
       releaseDate: attrs['releaseDate'] as String?,
-      genreNames: (attrs['genreNames'] as List<dynamic>?)?.cast<String>() ?? [],
+      genreNames:
+          (attrs['genreNames'] as List<dynamic>?)
+              ?.whereType<String>()
+              .toList() ??
+          [],
     );
   }
 }

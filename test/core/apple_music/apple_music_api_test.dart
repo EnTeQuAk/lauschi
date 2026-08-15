@@ -59,5 +59,55 @@ void main() {
       expect(tracks.first.trackNumber, 1);
       expect(adapter.requests, hasLength(1));
     });
+
+    test('skips a malformed track instead of crashing playback', () async {
+      // A track item missing its id makes `item['id'] as String` throw a
+      // TypeError — an Error, not an Exception — that escapes the
+      // `on DioException` catch and propagates into play()'s queue build,
+      // killing playback for the whole album. One bad item must be skipped.
+      final adapter = FakeHttpAdapter(
+        (_) => {
+          'data': [
+            _track(1),
+            {
+              // no 'id'
+              'attributes': {'name': 'Ghost', 'trackNumber': 2},
+            },
+            _track(3),
+          ],
+        },
+      );
+
+      final tracks = await _apiWith(adapter).getAlbumTracks('album-1');
+
+      expect(tracks.map((t) => t.id), ['track-1', 'track-3']);
+    });
+  });
+
+  group('AppleMusicApi.searchAlbums', () {
+    test('skips a malformed album instead of failing the search', () async {
+      final adapter = FakeHttpAdapter(
+        (_) => {
+          'results': {
+            'albums': {
+              'data': [
+                {
+                  'id': 'album-1',
+                  'attributes': {'name': 'Bibi Blocksberg', 'trackCount': 12},
+                },
+                {
+                  // no 'id'
+                  'attributes': {'name': 'Ghost album'},
+                },
+              ],
+            },
+          },
+        },
+      );
+
+      final albums = await _apiWith(adapter).searchAlbums('bibi');
+
+      expect(albums.map((a) => a.id), ['album-1']);
+    });
   });
 }
