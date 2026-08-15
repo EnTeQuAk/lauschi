@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lauschi/core/ard/ard_helpers.dart';
 import 'package:lauschi/core/ard/ard_image.dart';
 import 'package:lauschi/core/ard/featured_shows.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
@@ -156,7 +157,7 @@ class FeaturedHeroCard extends ConsumerWidget {
     final parts = <String>[];
     if (item.publisher != null) parts.add(item.publisher!);
     if (item.isMultiPart) parts.add('${item.parts.length} Teile');
-    parts.add(_formatDuration(item.totalDurationSeconds));
+    parts.add(formatDuration(item.totalDurationSeconds));
     return parts.join(' · ');
   }
 }
@@ -305,19 +306,8 @@ class _FeaturedTile extends ConsumerWidget {
 
   String _tileSubtitle(FeaturedItem item) {
     if (item.isMultiPart) {
-      return '${item.parts.length} Teile · ${_formatDuration(item.totalDurationSeconds)}';
+      return '${item.parts.length} Teile · ${formatDuration(item.totalDurationSeconds)}';
     }
-    return _formatDuration(item.totalDurationSeconds);
+    return formatDuration(item.totalDurationSeconds);
   }
-}
-
-// ── Helpers ──────────────────────────────────────────────────────────────────
-
-String _formatDuration(int seconds) {
-  final m = seconds ~/ 60;
-  if (m < 60) return '$m Min.';
-  final h = m ~/ 60;
-  final rm = m % 60;
-  if (rm == 0) return '${h}h';
-  return '${h}h ${rm}m';
 }
