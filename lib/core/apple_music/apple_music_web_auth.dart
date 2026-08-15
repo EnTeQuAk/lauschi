@@ -101,7 +101,12 @@ class AppleMusicWebAuth {
     }
 
     if (!launched) {
+      // Clear the pending state we just staged, in memory and in the
+      // keychain, so a later stray/replayed callback can't pass the CSRF
+      // check against orphaned state.
       _loginCompleter = null;
+      _pendingState = null;
+      await _storage.delete(key: _pendingStateKey);
       throw StateError('Could not open browser for Apple Music login');
     }
 
