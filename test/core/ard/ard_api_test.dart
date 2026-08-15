@@ -62,6 +62,21 @@ void main() {
       expect(shows.map((s) => s.title), ['Maus', 'Sandmann']);
     });
 
+    test('getItem returns null for an item with no playable audio', () async {
+      // getItem's contract is "not found or no audio"; an item that exists
+      // but carries an empty audios list is unplayable and must read as
+      // null, not a non-null ArdItem with bestAudioUrl == null.
+      final api = _apiWith(
+        _JsonAdapter({
+          'data': {
+            'item': {'id': 5, 'title': 'Stumm', 'audios': <dynamic>[]},
+          },
+        }),
+      );
+
+      expect(await api.getItem('5'), isNull);
+    });
+
     test('getItems skips a malformed node', () async {
       final api = _apiWith(
         _JsonAdapter({

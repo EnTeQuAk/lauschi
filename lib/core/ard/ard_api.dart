@@ -185,7 +185,11 @@ class ArdApi {
 
     final node = data?['item'] as Map<String, dynamic>?;
     if (node == null) return null;
-    return ArdItem.fromJson(node);
+    final item = ArdItem.fromJson(node);
+    // An item with no playable audio is useless to a player; treat it as
+    // not found so callers never get an unplayable ArdItem.
+    if (item.bestAudioUrl == null) return null;
+    return item;
   }
 
   /// Search for kids items by title.
