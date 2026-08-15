@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:sentry_dio/sentry_dio.dart';
@@ -32,7 +33,9 @@ class AppleMusicAuthExpiredException implements Exception {
 /// The DRM usage is legitimate: device's Widevine CDM, Apple's own license
 /// server, authenticated subscriber tokens. No keys are extracted or leaked.
 class AppleMusicStreamResolver {
-  AppleMusicStreamResolver()
+  /// [adapter] replaces the HTTP transport in tests; base options and
+  /// interceptors stay owned by this constructor either way.
+  AppleMusicStreamResolver({@visibleForTesting HttpClientAdapter? adapter})
     : _dio = Dio(
         BaseOptions(
           connectTimeout: const Duration(seconds: 15),
@@ -40,6 +43,7 @@ class AppleMusicStreamResolver {
         ),
       ) {
     if (FeatureFlags.enableSentry) _dio.addSentry();
+    if (adapter != null) _dio.httpClientAdapter = adapter;
   }
 
   final Dio _dio;
@@ -80,103 +84,115 @@ class AppleMusicStreamResolver {
       return null;
     }
 
-    // Single retry for transient errors (503, network timeout).
     for (var attempt = 0; attempt < 2; attempt++) {
-      final result = await _resolveStreamOnce(songId);
-      if (result != null) return result;
-      if (attempt == 0) {
-        Log.info(_tag, 'Retrying stream resolve for $songId');
-        await Future<void>.delayed(const Duration(seconds: 1));
+      try {
+        return await _resolveStreamOnce(songId);
+      } on DioException catch (e) {
+        final status = e.response?.statusCode;
+        // HTTP 401/403 = token expired or revoked. Not transient; the
+        // session must re-auth.
+        if (status == 401 || status == 403) {
+          throw AppleMusicAuthExpiredException('HTTP $status from webPlayback');
+        }
+        Log.error(
+          _tag,
+          'Stream resolve failed',
+          data: {'songId': songId, 'status': '$status'},
+        );
+        // Retry once, but only for a transient network error (timeout,
+        // connection drop, 5xx). A permanent failure returns null from
+        // _resolveStreamOnce above without a wasted second retry.
+        if (attempt == 0 && _isTransient(e)) {
+          Log.info(_tag, 'Retrying stream resolve for $songId');
+          await Future<void>.delayed(const Duration(seconds: 1));
+          continue;
+        }
+        return null;
       }
     }
     return null;
   }
 
+  static const _transientTypes = {
+    DioExceptionType.connectionError,
+    DioExceptionType.connectionTimeout,
+    DioExceptionType.receiveTimeout,
+    DioExceptionType.sendTimeout,
+  };
+
+  static bool _isTransient(DioException e) {
+    if (_transientTypes.contains(e.type)) return true;
+    final status = e.response?.statusCode;
+    return status != null && status >= 500;
+  }
+
   Future<StreamResolution?> _resolveStreamOnce(String songId) async {
-    try {
-      final response = await _dio.post<Map<String, dynamic>>(
-        'https://play.music.apple.com/WebObjects/MZPlay.woa/wa/webPlayback',
-        data: {'salableAdamId': songId},
-        options: Options(
-          headers: _buildHeaders(),
-          contentType: 'application/json',
-        ),
-      );
+    final response = await _dio.post<Map<String, dynamic>>(
+      'https://play.music.apple.com/WebObjects/MZPlay.woa/wa/webPlayback',
+      data: {'salableAdamId': songId},
+      options: Options(
+        headers: _buildHeaders(),
+        contentType: 'application/json',
+      ),
+    );
 
-      final data = response.data;
-      if (data == null) {
-        Log.warn(_tag, 'Empty response');
-        return null;
-      }
+    final data = response.data;
+    if (data == null) {
+      Log.warn(_tag, 'Empty response');
+      return null;
+    }
 
-      final failureType = data['failureType'] as String?;
-      if (failureType != null) {
-        final msg = data['customerMessage'] as String? ?? failureType;
-        Log.warn(_tag, 'webPlayback failed', data: {'failure': msg});
-        // Auth-related failures: token expired, unauthorized, etc.
-        if (failureType.contains('AUTH') ||
-            failureType.contains('UNAUTHORIZED') ||
-            failureType.contains('TOKEN') ||
-            msg.contains('not authorized') ||
-            msg.contains('authenticate')) {
-          throw AppleMusicAuthExpiredException(msg);
-        }
-        return null;
-      }
-
-      final songList = data['songList'] as List<dynamic>?;
-      if (songList == null || songList.isEmpty) {
-        Log.warn(_tag, 'No songs in response');
-        return null;
-      }
-
-      final song = songList[0] as Map<String, dynamic>;
-      final licenseUrl = song['hls-key-server-url'] as String? ?? '';
-
-      final assets = song['assets'] as List<dynamic>?;
-      if (assets == null || assets.isEmpty) {
-        Log.warn(_tag, 'No assets in song');
-        return null;
-      }
-
-      // Prefer standard quality AAC (ctrp256).
-      String? streamUrl;
-      for (final asset in assets) {
-        final assetMap = asset as Map<String, dynamic>;
-        final flavor = assetMap['flavor'] as String? ?? '';
-        final url = assetMap['URL'] as String?;
-
-        if (url != null && flavor.contains('ctrp256')) {
-          streamUrl = url;
-          break;
-        }
-        streamUrl ??= url;
-      }
-
-      if (streamUrl == null) {
-        Log.warn(_tag, 'No stream URL in assets');
-        return null;
-      }
-
-      Log.info(_tag, 'Resolved stream', data: {'songId': songId});
-      return StreamResolution(hlsUrl: streamUrl, licenseUrl: licenseUrl);
-    } on AppleMusicAuthExpiredException {
-      rethrow;
-    } on DioException catch (e) {
-      final status = e.response?.statusCode;
-      Log.error(
-        _tag,
-        'Stream resolve failed',
-        data: {'songId': songId, 'status': '$status'},
-      );
-      // HTTP 401/403 = token expired or revoked.
-      if (status == 401 || status == 403) {
-        throw AppleMusicAuthExpiredException(
-          'HTTP $status from webPlayback',
-        );
+    final failureType = data['failureType'] as String?;
+    if (failureType != null) {
+      final msg = data['customerMessage'] as String? ?? failureType;
+      Log.warn(_tag, 'webPlayback failed', data: {'failure': msg});
+      // Rely on the language-independent failureType code, not the
+      // localized customerMessage: the app's DACH storefront returns
+      // German messages that English substring checks would never match.
+      if (failureType.contains('AUTH') ||
+          failureType.contains('UNAUTHORIZED') ||
+          failureType.contains('TOKEN')) {
+        throw AppleMusicAuthExpiredException(msg);
       }
       return null;
     }
+
+    final songList = data['songList'] as List<dynamic>?;
+    if (songList == null || songList.isEmpty) {
+      Log.warn(_tag, 'No songs in response');
+      return null;
+    }
+
+    final song = songList[0] as Map<String, dynamic>;
+    final licenseUrl = song['hls-key-server-url'] as String? ?? '';
+
+    final assets = song['assets'] as List<dynamic>?;
+    if (assets == null || assets.isEmpty) {
+      Log.warn(_tag, 'No assets in song');
+      return null;
+    }
+
+    // Prefer standard quality AAC (ctrp256).
+    String? streamUrl;
+    for (final asset in assets) {
+      final assetMap = asset as Map<String, dynamic>;
+      final flavor = assetMap['flavor'] as String? ?? '';
+      final url = assetMap['URL'] as String?;
+
+      if (url != null && flavor.contains('ctrp256')) {
+        streamUrl = url;
+        break;
+      }
+      streamUrl ??= url;
+    }
+
+    if (streamUrl == null) {
+      Log.warn(_tag, 'No stream URL in assets');
+      return null;
+    }
+
+    Log.info(_tag, 'Resolved stream', data: {'songId': songId});
+    return StreamResolution(hlsUrl: streamUrl, licenseUrl: licenseUrl);
   }
 
   Map<String, String> _buildHeaders() {
