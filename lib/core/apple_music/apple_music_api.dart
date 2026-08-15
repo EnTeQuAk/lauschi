@@ -237,7 +237,11 @@ class AppleMusicApi {
   // When multiple cards request covers simultaneously (per-card loading),
   // we collect IDs for a short window then fire one batched API call.
 
-  final _pendingCoverIds = <String, Completer<String?>>{};
+  // The requested size is kept per id: the batched /albums call is
+  // size-independent (it returns the `{w}x{h}` template), so callers
+  // asking for different sizes in the same window each resolve their own.
+  final _pendingCoverIds =
+      <String, ({Completer<String?> completer, int size})>{};
   Timer? _coverBatchTimer;
 
   /// Get a single album's cover URL with request coalescing.
@@ -248,14 +252,14 @@ class AppleMusicApi {
   /// grid) still flushes every 50ms instead of starving until it stops.
   Future<String?> getAlbumCover(String albumId, {int size = 300}) {
     final existing = _pendingCoverIds[albumId];
-    if (existing != null) return existing.future;
+    if (existing != null) return existing.completer.future;
 
     final completer = Completer<String?>();
-    _pendingCoverIds[albumId] = completer;
+    _pendingCoverIds[albumId] = (completer: completer, size: size);
 
     _coverBatchTimer ??= Timer(const Duration(milliseconds: 50), () {
       _coverBatchTimer = null;
-      unawaited(_flushCoverBatch(size));
+      unawaited(_flushCoverBatch());
     });
 
     return completer.future;
@@ -263,16 +267,16 @@ class AppleMusicApi {
 
   /// Remove an album from the pending cover batch.
   void cancelCover(String albumId) {
-    final completer = _pendingCoverIds.remove(albumId);
-    if (completer != null && !completer.isCompleted) {
-      completer.complete(null);
+    final pending = _pendingCoverIds.remove(albumId);
+    if (pending != null && !pending.completer.isCompleted) {
+      pending.completer.complete(null);
     }
   }
 
-  Future<void> _flushCoverBatch(int size) async {
-    final batch = Map<String, Completer<String?>>.of(_pendingCoverIds);
+  Future<void> _flushCoverBatch() async {
+    final batch = Map.of(_pendingCoverIds);
     _pendingCoverIds.clear();
-    batch.removeWhere((_, c) => c.isCompleted);
+    batch.removeWhere((_, p) => p.completer.isCompleted);
     if (batch.isEmpty) return;
 
     try {
@@ -282,21 +286,22 @@ class AppleMusicApi {
         // Apple may canonicalize a requested id to an equivalent one, so
         // the returned id need not be a key we asked for. Skip those
         // rather than null-crash; the loop below completes the rest.
-        final completer = batch[album.id];
-        if (completer == null) continue;
-        if (!completer.isCompleted) {
-          completer.complete(album.artworkUrlForSize(size));
+        final pending = batch[album.id];
+        if (pending == null) continue;
+        if (!pending.completer.isCompleted) {
+          pending.completer.complete(album.artworkUrlForSize(pending.size));
         }
         resolved.add(album.id);
       }
       for (final entry in batch.entries) {
-        if (!resolved.contains(entry.key) && !entry.value.isCompleted) {
-          entry.value.complete(null);
+        if (!resolved.contains(entry.key) &&
+            !entry.value.completer.isCompleted) {
+          entry.value.completer.complete(null);
         }
       }
     } on Exception catch (e) {
-      for (final completer in batch.values) {
-        if (!completer.isCompleted) completer.complete(null);
+      for (final pending in batch.values) {
+        if (!pending.completer.isCompleted) pending.completer.complete(null);
       }
       Log.warn(_tag, 'Cover batch failed', data: {'error': '$e'});
     }

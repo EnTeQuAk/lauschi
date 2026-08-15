@@ -144,6 +144,43 @@ void main() {
         async.elapse(const Duration(milliseconds: 100));
       });
     });
+
+    test('resolves each coalesced id at its own requested size', () {
+      fakeAsync((async) {
+        final adapter = FakeHttpAdapter(
+          (_) => {
+            'data': [
+              for (final id in ['a', 'b'])
+                {
+                  'id': id,
+                  'attributes': {
+                    'name': id,
+                    'artwork': {'url': 'https://img/$id/{w}x{h}.jpg'},
+                  },
+                },
+            ],
+          },
+        );
+        final api = _apiWith(adapter);
+
+        // Two ids coalesced into one batch but requesting different sizes.
+        // Each must resolve its own template, not share the last (or
+        // first) caller's size.
+        final results = <String, String?>{};
+        for (final (id, size) in [('a', 200), ('b', 600)]) {
+          unawaited(
+            api.getAlbumCover(id, size: size).then((u) => results[id] = u),
+          );
+        }
+
+        async
+          ..elapse(const Duration(milliseconds: 100))
+          ..flushMicrotasks();
+
+        expect(results['a'], 'https://img/a/200x200.jpg');
+        expect(results['b'], 'https://img/b/600x600.jpg');
+      });
+    });
   });
 
   group('AppleMusicApi.searchAlbums', () {
