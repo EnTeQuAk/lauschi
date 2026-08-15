@@ -4,11 +4,14 @@ import 'package:lauschi/core/ard/ard_image.dart';
 import 'package:lauschi/core/ard/ard_models.dart';
 import 'package:lauschi/core/database/content_importer.dart';
 
-/// Parse a hex color string like "#FF6B00" to a [Color].
-/// Returns null for invalid or missing input.
+/// Parse a 6-digit RGB hex string like "#FF6B00" to an opaque [Color].
+/// Returns null for missing input or anything that isn't exactly six hex
+/// digits, so an 8-digit ARGB value is rejected rather than shifted into
+/// the wrong channels.
 Color? parseHexColor(String? hex) {
-  if (hex == null || hex.length < 7) return null;
+  if (hex == null) return null;
   final cleaned = hex.replaceFirst('#', '');
+  if (cleaned.length != 6) return null;
   final value = int.tryParse(cleaned, radix: 16);
   if (value == null) return null;
   return Color(0xFF000000 | value);

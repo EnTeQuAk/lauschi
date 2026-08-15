@@ -16,6 +16,13 @@ void main() {
       expect(parseHexColor(''), isNull);
       expect(parseHexColor('#ZZZ'), isNull);
     });
+
+    test('rejects 8-digit ARGB instead of shifting channels', () {
+      // '#003D7AFF' was parsed as 0x003D7AFF then OR'd with 0xFF000000,
+      // rendering 0xFF3D7AFF (wrong channels) instead of being rejected.
+      expect(parseHexColor('#003D7AFF'), isNull);
+      expect(parseHexColor('#FF6B0000'), isNull);
+    });
   });
 
   group('ArdGroup', () {
