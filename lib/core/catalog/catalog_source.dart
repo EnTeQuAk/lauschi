@@ -1,5 +1,31 @@
 import 'package:lauschi/core/providers/provider_type.dart';
 
+/// Resolve artwork [renditions] to a URL at [size] px: the smallest
+/// rendition at least [size] wide, else [fallbackUrl] with Apple Music
+/// `{w}x{h}` templates filled, else null.
+///
+/// Works straight off a provider's rendition list, so cover-batch
+/// callers do not build a throwaway [CatalogAlbumResult] per album.
+String? resolveArtworkUrl(
+  List<({String? url, int? width})> renditions,
+  String? fallbackUrl,
+  int size,
+) {
+  String? best;
+  int? bestWidth;
+  for (final rendition in renditions) {
+    final width = rendition.width;
+    if (rendition.url == null || width == null) continue;
+    if (width >= size && (bestWidth == null || width < bestWidth)) {
+      best = rendition.url;
+      bestWidth = width;
+    }
+  }
+  if (best != null) return best;
+  if (fallbackUrl == null) return null;
+  return fallbackUrl.replaceAll('{w}', '$size').replaceAll('{h}', '$size');
+}
+
 /// Album from any catalog search (Spotify, Apple Music, etc.).
 ///
 /// Provider-agnostic representation used by the browse UI and catalog
@@ -52,21 +78,8 @@ class CatalogAlbumResult {
   /// Picks the smallest rendition still at least [size] wide when
   /// renditions exist; otherwise fills Apple Music `{w}x{h}` templates
   /// and passes other URLs through unchanged.
-  String? artworkUrlForSize(int size) {
-    String? best;
-    int? bestWidth;
-    for (final rendition in artworkRenditions) {
-      final width = rendition.width;
-      if (rendition.url == null || width == null) continue;
-      if (width >= size && (bestWidth == null || width < bestWidth)) {
-        best = rendition.url;
-        bestWidth = width;
-      }
-    }
-    if (best != null) return best;
-    if (artworkUrl == null) return null;
-    return artworkUrl!.replaceAll('{w}', '$size').replaceAll('{h}', '$size');
-  }
+  String? artworkUrlForSize(int size) =>
+      resolveArtworkUrl(artworkRenditions, artworkUrl, size);
 }
 
 /// Track within a catalog album, in album order.

@@ -47,7 +47,7 @@ class SpotifyCatalogSource implements CatalogSource {
       try {
         final albums = await _api.getAlbums(batch);
         for (final album in albums) {
-          final url = _fromSpotify(album).artworkUrlForSize(size);
+          final url = resolveArtworkUrl(album.images, album.imageUrl, size);
           if (url != null) {
             covers[album.id] = url;
           }
