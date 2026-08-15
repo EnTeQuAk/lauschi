@@ -84,6 +84,39 @@ void main() {
     });
   });
 
+  group('AppleMusicApi.getAlbumCover', () {
+    test('resolves (not hangs) when Apple returns a different id', () async {
+      // Apple can canonicalize a requested album id to an equivalent one,
+      // so the returned album's id isn't a key in the pending batch. A
+      // bare `batch[id]!` then throws a null-check Error that escapes the
+      // `on Exception` handler and leaves every pending cover completer
+      // hung on a spinner. The requested id must resolve (to null), not
+      // hang.
+      final adapter = FakeHttpAdapter(
+        (_) => {
+          'data': [
+            {
+              'id': 'canonical-id',
+              'attributes': {
+                'name': 'Album',
+                'artwork': {'url': 'https://img/{w}x{h}.jpg'},
+              },
+            },
+          ],
+        },
+      );
+
+      final url = await _apiWith(adapter)
+          .getAlbumCover('requested-id')
+          .timeout(
+            const Duration(seconds: 2),
+            onTimeout: () => 'TIMEOUT',
+          );
+
+      expect(url, isNull);
+    });
+  });
+
   group('AppleMusicApi.searchAlbums', () {
     test('skips a malformed album instead of failing the search', () async {
       final adapter = FakeHttpAdapter(

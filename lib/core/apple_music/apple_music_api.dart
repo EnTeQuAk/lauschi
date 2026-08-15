@@ -276,9 +276,13 @@ class AppleMusicApi {
       final albums = await getAlbums(batch.keys.toList());
       final resolved = <String>{};
       for (final album in albums) {
-        final url = album.artworkUrlForSize(size);
-        if (!batch[album.id]!.isCompleted) {
-          batch[album.id]!.complete(url);
+        // Apple may canonicalize a requested id to an equivalent one, so
+        // the returned id need not be a key we asked for. Skip those
+        // rather than null-crash; the loop below completes the rest.
+        final completer = batch[album.id];
+        if (completer == null) continue;
+        if (!completer.isCompleted) {
+          completer.complete(album.artworkUrlForSize(size));
         }
         resolved.add(album.id);
       }
