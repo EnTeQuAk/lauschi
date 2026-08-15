@@ -823,11 +823,17 @@ class PlayerNotifier extends _$PlayerNotifier {
     // iOS: native MusicKit (ApplicationMusicPlayer). No stream resolution,
     // no DRM plumbing. MusicKit handles everything internally.
     // Android: ExoPlayer + Widevine DRM via webPlayback API.
+    // When playback hits an expired/revoked token, flip the session to
+    // Unauthenticated so the reconnect prompt surfaces. Apple only
+    // surfaces expiry during playback, so this is the only path that can.
+    void onAuthExpired() => unawaited(amSession.handleExpiredToken());
+
     final AppleMusicBackend player;
     if (Platform.isIOS) {
       player = AppleMusicNativeBackend(
         api: amSession.api,
         musicKit: amSession.musicKit,
+        onAuthExpired: onAuthExpired,
       );
     } else {
       player = AppleMusicDrmBackend(
@@ -836,6 +842,7 @@ class PlayerNotifier extends _$PlayerNotifier {
         musicKit: amSession.musicKit,
         developerToken: auth.developerToken,
         musicUserToken: auth.musicUserToken,
+        onAuthExpired: onAuthExpired,
       );
     }
 

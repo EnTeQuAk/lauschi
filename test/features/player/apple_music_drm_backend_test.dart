@@ -141,6 +141,40 @@ void main() {
       );
     });
 
+    test(
+      'auth expiry invokes onAuthExpired so the session can re-auth',
+      () async {
+        // Emitting the player error alone leaves the session Authenticated,
+        // so the reconnect prompt never shows. The backend must also signal
+        // onAuthExpired, which the player wires to the session transition.
+        var authExpiredCalls = 0;
+        final backend = AppleMusicDrmBackend(
+          streamResolver: mockResolver,
+          api: mockApi,
+          musicKit: mockMusicKit,
+          developerToken: 'test-dev-token',
+          musicUserToken: 'test-user-token',
+          onAuthExpired: () => authExpiredCalls++,
+        );
+        addTearDown(backend.dispose);
+
+        when(
+          () => mockApi.getAlbumTracks(any()),
+        ).thenAnswer((_) async => _twoTracks);
+        when(
+          () => mockResolver.resolveStream(any()),
+        ).thenThrow(const AppleMusicAuthExpiredException('token expired'));
+
+        await backend.play(
+          albumId: 'album-1',
+          trackInfo: const TrackInfo(uri: 'test:uri', name: 'Test'),
+        );
+
+        await Future<void>.delayed(const Duration(milliseconds: 50));
+        expect(authExpiredCalls, 1);
+      },
+    );
+
     test('play with out-of-bounds trackIndex falls back to 0', () async {
       when(
         () => mockApi.getAlbumTracks(any()),

@@ -25,6 +25,7 @@ class AppleMusicDrmBackend extends AppleMusicBackend {
     required super.musicKit,
     required String developerToken,
     required String musicUserToken,
+    super.onAuthExpired,
   }) : _streamResolver = streamResolver,
        _developerToken = developerToken,
        _musicUserToken = musicUserToken,

@@ -96,11 +96,6 @@ class AppleMusicSession extends _$AppleMusicSession {
       } else {
         await _initAndroid();
       }
-    } on AppleMusicAuthExpiredException {
-      // Token expiry is a normal lifecycle event: the user needs to
-      // re-authenticate. Not an error.
-      state = AppleMusicUnauthenticated();
-      Log.info(_tag, 'Stored token expired, needs re-auth');
     } on Exception catch (e) {
       // Anything else (JWT generation failure, native plugin throw,
       // platform channel error) is a real error. Surface the message
@@ -243,6 +238,20 @@ class AppleMusicSession extends _$AppleMusicSession {
     // The user manages this in Settings → Privacy → Media & Apple Music.
     state = AppleMusicUnauthenticated();
     Log.info(_tag, 'Disconnected');
+  }
+
+  /// Handle a token rejected mid-use (expired or revoked). Apple only
+  /// surfaces this during playback (resolveStream), so the player wires
+  /// the backend's onAuthExpired here. Drops the stale credentials and
+  /// returns to Unauthenticated so the UI prompts re-auth, the transition
+  /// the init path used to imply but could never actually reach.
+  Future<void> handleExpiredToken() async {
+    if (state is AppleMusicUnauthenticated) return;
+    Log.info(_tag, 'Token expired during use, needs re-auth');
+    if (!Platform.isIOS) {
+      await _webAuth.logout();
+    }
+    state = AppleMusicUnauthenticated();
   }
 
   // ── Internal ────────────────────────────────────────────────────────

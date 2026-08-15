@@ -22,9 +22,16 @@ abstract class AppleMusicBackend extends PlayerBackend {
     required AppleMusicApi api,
     required this.musicKit,
     required this.logTag,
+    this.onAuthExpired,
   }) : _api = api;
 
   final AppleMusicApi _api;
+
+  /// Invoked when playback surfaces an expired or revoked Apple Music
+  /// token, so the session can drop the stale credentials and return to
+  /// Unauthenticated (prompting re-auth). The player error
+  /// (appleMusicAuthExpired) is emitted regardless of whether this is set.
+  final void Function()? onAuthExpired;
 
   @protected
   final MusicKit musicKit;
@@ -296,5 +303,6 @@ abstract class AppleMusicBackend extends PlayerBackend {
         error: error,
       ),
     );
+    if (error == PlayerError.appleMusicAuthExpired) onAuthExpired?.call();
   }
 }

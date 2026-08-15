@@ -15,6 +15,7 @@ class AppleMusicNativeBackend extends AppleMusicBackend {
   AppleMusicNativeBackend({
     required super.api,
     required super.musicKit,
+    super.onAuthExpired,
   }) : super(logTag: _tag);
 
   @override
