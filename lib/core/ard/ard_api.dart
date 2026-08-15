@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:lauschi/core/ard/ard_config.dart';
 import 'package:lauschi/core/ard/ard_models.dart';
 import 'package:lauschi/core/feature_flags.dart';
@@ -25,7 +26,9 @@ const _itemFields = '''
 /// No authentication required. All queries are POST to /graphql.
 /// See https://api.ardaudiothek.de/graphiql for the schema explorer.
 class ArdApi {
-  ArdApi()
+  /// [adapter] replaces the HTTP transport in tests; base options and
+  /// interceptors stay owned by this constructor either way.
+  ArdApi({@visibleForTesting HttpClientAdapter? adapter})
     : _dio = Dio(
         BaseOptions(
           baseUrl: 'https://api.ardaudiothek.de',
@@ -34,6 +37,7 @@ class ArdApi {
         ),
       ) {
     if (FeatureFlags.enableSentry) _dio.addSentry();
+    if (adapter != null) _dio.httpClientAdapter = adapter;
   }
 
   final Dio _dio;
@@ -144,7 +148,8 @@ class ArdApi {
 
     final items = data?['items'] as Map<String, dynamic>? ?? {};
     final nodes =
-        (items['nodes'] as List<dynamic>? ?? []).cast<Map<String, dynamic>>();
+        (items['nodes'] as List<dynamic>? ?? [])
+            .whereType<Map<String, dynamic>>();
     final pageInfo = items['pageInfo'] as Map<String, dynamic>? ?? {};
 
     final result = ArdItemPage(
@@ -228,7 +233,11 @@ class ArdApi {
     Map<String, dynamic>? variables,
   }) async {
     try {
-      final response = await _dio.post<Map<String, dynamic>>(
+      // Decode as dynamic, not Map<String, dynamic>: a 200 carrying a JSON
+      // array or an HTML error page would fail Dio's cast to Map, which it
+      // wraps as a DioException surfacing as a spurious "Network error".
+      // An unexpected shape is treated as no data instead.
+      final response = await _dio.post<dynamic>(
         '/graphql',
         data: {
           'query': query,
@@ -237,7 +246,7 @@ class ArdApi {
       );
 
       final body = response.data;
-      if (body == null) return null;
+      if (body is! Map<String, dynamic>) return null;
 
       final errors = body['errors'] as List<dynamic>?;
       if (errors != null && errors.isNotEmpty) {
@@ -277,7 +286,8 @@ class ArdApi {
   ) {
     final container = data?[field] as Map<String, dynamic>? ?? {};
     return (container['nodes'] as List<dynamic>? ?? [])
-        .cast<Map<String, dynamic>>();
+        .whereType<Map<String, dynamic>>()
+        .toList();
   }
 }
 

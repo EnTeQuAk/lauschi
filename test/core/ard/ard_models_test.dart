@@ -145,6 +145,26 @@ void main() {
       expect(item.displayTitle, 'Superhelden: Turnverein');
     });
 
+    test('skips a malformed audio entry instead of throwing', () {
+      // A non-map entry in the audios list would make `a as Map` throw a
+      // TypeError that escapes the fetch and takes down the whole item.
+      // The good audio must survive.
+      final json = <String, dynamic>{
+        'id': 7,
+        'title': 'Folge 7',
+        'publishDate': '2025-02-25T00:00:00Z',
+        'audios': <dynamic>[
+          'not-a-map',
+          {'url': 'https://cdn/audio.mp3', 'mimeType': 'audio/mp3'},
+        ],
+      };
+
+      final item = ArdItem.fromJson(json);
+
+      expect(item.audios, hasLength(1));
+      expect(item.bestAudioUrl, 'https://cdn/audio.mp3');
+    });
+
     test('displayTitle falls back to title when titleClean is null', () {
       final json = <String, dynamic>{
         'id': 123,

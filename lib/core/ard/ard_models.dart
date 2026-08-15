@@ -118,7 +118,8 @@ class ArdItem {
     final audioList = json['audios'] as List<dynamic>? ?? [];
     final audios =
         audioList
-            .map((a) => ArdAudio.fromJson(a as Map<String, dynamic>))
+            .whereType<Map<String, dynamic>>()
+            .map(ArdAudio.fromJson)
             .toList();
 
     return ArdItem(
