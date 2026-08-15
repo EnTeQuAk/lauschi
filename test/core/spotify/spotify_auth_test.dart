@@ -123,6 +123,33 @@ void main() {
       );
     });
 
+    test('throws SpotifyAuthException on a 200 body missing access_token', () {
+      // A malformed 200 (proxy/captive-portal HTML parsed as JSON, or a
+      // truncated body) has no access_token. A bare cast would throw a
+      // TypeError — an Error, not an Exception — that slips past every
+      // `on DioException`/`on Exception` handler up the stack and leaves
+      // the session's refresh future hanging. It must surface as a
+      // SpotifyAuthException so the session keeps the tokens and retries.
+      when(
+        () => dio.post<Map<String, dynamic>>(
+          any(),
+          data: any(named: 'data'),
+          options: any(named: 'options'),
+        ),
+      ).thenAnswer(
+        (_) async => Response(
+          requestOptions: RequestOptions(path: '/api/token'),
+          statusCode: 200,
+          data: <String, dynamic>{'token_type': 'Bearer', 'expires_in': 3600},
+        ),
+      );
+
+      expect(
+        () => auth.refresh('some-refresh-token'),
+        throwsA(isA<SpotifyAuthException>()),
+      );
+    });
+
     test('does not treat other 400 errors as invalid_grant', () {
       when(
         () => dio.post<Map<String, dynamic>>(

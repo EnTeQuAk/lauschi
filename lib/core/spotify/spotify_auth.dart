@@ -388,10 +388,21 @@ class SpotifyAuth {
     String? fallbackRefreshToken,
     DateTime? authorizedAt,
   }) async {
-    final accessToken = data['access_token'] as String;
+    // Guard every field: a malformed 200 body (missing access_token, or
+    // a field of the wrong type) would otherwise throw a TypeError — an
+    // Error, not an Exception — that slips past the `on DioException` and
+    // `on Exception` handlers up the stack and hangs the refresh future.
+    final accessTokenRaw = data['access_token'];
+    if (accessTokenRaw is! String) {
+      throw const SpotifyAuthException('Ungültige Token-Antwort von Spotify');
+    }
+    final accessToken = accessTokenRaw;
+    final refreshTokenRaw = data['refresh_token'];
     final refreshToken =
-        (data['refresh_token'] as String?) ?? fallbackRefreshToken;
-    final expiresIn = data['expires_in'] as int? ?? 3600;
+        (refreshTokenRaw is String ? refreshTokenRaw : null) ??
+        fallbackRefreshToken;
+    final expiresInRaw = data['expires_in'];
+    final expiresIn = expiresInRaw is int ? expiresInRaw : 3600;
     final expiry = DateTime.now().add(Duration(seconds: expiresIn));
 
     // On initial authorization, authorizedAt is provided by the caller.
