@@ -52,7 +52,7 @@ run = "flutter build apk --dart-define-from-file=.env.app"
 [tasks.check]
 description = "Full CI check: format + analyze + test"
 run = """
-dart format --set-exit-if-changed .
+dart format --set-exit-if-changed lib test integration_test tool
 flutter analyze --fatal-infos
 flutter test --dart-define-from-file=.env.app
 """
