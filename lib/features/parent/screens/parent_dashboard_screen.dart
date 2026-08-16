@@ -128,7 +128,7 @@ class ParentDashboardScreen extends ConsumerWidget {
             ),
           ],
           const Divider(indent: 56),
-          ListTile(
+          _SettingsTile(
             key: const Key('about_settings'),
             leading: ClipRRect(
               borderRadius: BorderRadius.circular(4),
@@ -138,24 +138,8 @@ class ParentDashboardScreen extends ConsumerWidget {
                 height: 24,
               ),
             ),
-            title: const Text(
-              'Über lauschi',
-              style: TextStyle(
-                fontFamily: 'Nunito',
-                fontWeight: FontWeight.w600,
-                fontSize: 15,
-              ),
-            ),
-            subtitle: const Text(
-              'Einstellungen & Version',
-              style: TextStyle(
-                fontFamily: 'Nunito',
-                fontSize: 13,
-                color: AppColors.textSecondary,
-              ),
-            ),
-            trailing: const Icon(Icons.chevron_right_rounded),
-            tileColor: AppColors.parentSurface,
+            title: 'Über lauschi',
+            subtitle: 'Einstellungen & Version',
             onTap: () => context.push(AppRoutes.parentSettings),
           ),
         ],
@@ -205,20 +189,18 @@ class ParentDashboardScreen extends ConsumerWidget {
     final svgAsset = provider.type.svgAsset;
     final isWide = provider.type == ProviderType.ardAudiothek;
 
-    // Greyscale provider logos to match other settings icons
+    // Greyscale provider logos to match other settings icons. No fixed-width
+    // wrapper: a wide logo (ARD) needs `width: null` to keep its aspect ratio
+    // at 24px tall instead of being squashed into a 24x24 box.
     final leading =
         svgAsset != null
-            ? SizedBox(
-              width: 24,
+            ? SvgPicture.asset(
+              svgAsset,
               height: 24,
-              child: SvgPicture.asset(
-                svgAsset,
-                height: 24,
-                width: isWide ? null : 24,
-                colorFilter: const ColorFilter.mode(
-                  AppColors.textSecondary,
-                  BlendMode.srcIn,
-                ),
+              width: isWide ? null : 24,
+              colorFilter: const ColorFilter.mode(
+                AppColors.textSecondary,
+                BlendMode.srcIn,
               ),
             )
             : Icon(provider.type.icon, color: AppColors.textSecondary);
