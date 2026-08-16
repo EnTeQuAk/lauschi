@@ -155,7 +155,7 @@ class FeaturedHeroCard extends ConsumerWidget {
 
   String _heroSubtitle(FeaturedItem item) {
     final parts = <String>[];
-    if (item.publisher != null) parts.add(item.publisher!);
+    if (item.showTitle != null) parts.add(item.showTitle!);
     if (item.isMultiPart) parts.add('${item.parts.length} Teile');
     parts.add(formatDuration(item.totalDurationSeconds));
     return parts.join(' · ');
@@ -288,7 +288,7 @@ class _FeaturedTile extends ConsumerWidget {
 
             // Show name + duration (secondary info)
             Text(
-              '${item.publisher ?? ''} · ${_tileSubtitle(item)}',
+              '${item.showTitle ?? ''} · ${_tileSubtitle(item)}',
               style: const TextStyle(
                 fontFamily: 'Nunito',
                 fontSize: 10,

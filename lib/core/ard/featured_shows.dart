@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:lauschi/core/ard/ard_api.dart';
 import 'package:lauschi/core/ard/ard_models.dart';
@@ -19,10 +20,9 @@ const _itemsPerShow = 10;
 // ── Config model ────────────────────────────────────────────────────────────
 
 class FeaturedShowEntry {
-  const FeaturedShowEntry({required this.id, this.minDurationSeconds = 1200});
+  const FeaturedShowEntry({required this.id});
 
   final String id;
-  final int minDurationSeconds;
 }
 
 class FeaturedShowsConfig {
@@ -36,10 +36,7 @@ class FeaturedShowsConfig {
       shows:
           list.map((entry) {
             final map = entry as YamlMap;
-            return FeaturedShowEntry(
-              id: '${map['id']}',
-              minDurationSeconds: map['min_duration_seconds'] as int? ?? 1200,
-            );
+            return FeaturedShowEntry(id: '${map['id']}');
           }).toList(),
     );
   }
@@ -54,7 +51,7 @@ class FeaturedItem {
   FeaturedItem({
     required this.title,
     required this.parts,
-    required this.publisher,
+    required this.showTitle,
     required this.showId,
   });
 
@@ -64,16 +61,22 @@ class FeaturedItem {
   /// Individual episode parts, sorted by part number.
   final List<ArdItem> parts;
 
-  /// Publisher name (e.g., "SWR Kultur").
-  final String? publisher;
+  /// The show (programSet) this item belongs to, e.g. "Die Maus". Shown
+  /// as the card subtitle so a parent sees which show it came from.
+  final String? showTitle;
 
   /// ARD show ID this item was fetched from.
   final String showId;
 
-  /// The primary (first) part — used for display metadata.
+  /// The primary (first) part — used for display metadata like the cover.
   ArdItem get primary => parts.first;
   String? get imageUrl => primary.imageUrl;
-  DateTime get publishDate => primary.publishDate;
+
+  /// The newest part's publish date: when the story last had activity.
+  /// Sorting and the "Neu" badge use this so a story that just finished a
+  /// new part ranks as fresh, not by its oldest part.
+  DateTime get publishDate =>
+      parts.map((p) => p.publishDate).reduce((a, b) => a.isAfter(b) ? a : b);
 
   /// Earliest endDate across all parts, or null.
   DateTime? get endDate {
@@ -91,23 +94,37 @@ class FeaturedItem {
 /// Regex for multi-part titles: "Title (1/2)" → (title, part, total).
 final _multiPartRegex = RegExp(r'^(.+?)\s*\((\d+)/(\d+)\)\s*$');
 
-/// Group items by base title, merging multi-part episodes.
-List<FeaturedItem> _groupMultiPart(List<ArdItem> items, String showId) {
-  final groups = <String, List<ArdItem>>{};
-  final publisherMap = <String, String?>{};
+/// Group a show's items into featured items, merging explicit multi-part
+/// stories and leaving standalone episodes separate.
+///
+/// Only episodes carrying an explicit "(N/M)" suffix that share a base
+/// title are merged into one multi-part item. Episodes without a suffix
+/// each stay standalone (keyed by id), so distinct episodes that happen to
+/// share a title (a daily "Gute-Nacht-Geschichte") don't collapse into one
+/// fake multi-part card.
+@visibleForTesting
+List<FeaturedItem> groupFeaturedItems(List<ArdItem> items, String showId) {
+  final groups =
+      <String, ({List<ArdItem> parts, String title, String? show})>{};
 
   for (final item in items) {
     final match = _multiPartRegex.firstMatch(item.title);
     final baseTitle = match != null ? match.group(1)!.trim() : item.title;
+    final key = match != null ? baseTitle : item.id;
 
-    groups.putIfAbsent(baseTitle, () => []).add(item);
-    publisherMap.putIfAbsent(baseTitle, () => item.programSetTitle);
+    groups
+        .putIfAbsent(
+          key,
+          () => (parts: [], title: baseTitle, show: item.programSetTitle),
+        )
+        .parts
+        .add(item);
   }
 
-  return groups.entries.map((entry) {
+  return groups.values.map((group) {
       // Sort parts by part number if multi-part, else by publish date.
       final parts =
-          entry.value..sort((a, b) {
+          group.parts..sort((a, b) {
             final matchA = _multiPartRegex.firstMatch(a.title);
             final matchB = _multiPartRegex.firstMatch(b.title);
             if (matchA != null && matchB != null) {
@@ -119,9 +136,9 @@ List<FeaturedItem> _groupMultiPart(List<ArdItem> items, String showId) {
           });
 
       return FeaturedItem(
-        title: entry.key,
+        title: group.title,
         parts: parts,
-        publisher: publisherMap[entry.key],
+        showTitle: group.show,
         showId: showId,
       );
     }).toList()
@@ -138,8 +155,7 @@ List<FeaturedItem> _groupMultiPart(List<ArdItem> items, String showId) {
 Future<List<FeaturedItem>> _fetchFeaturedItems(ArdApi api) async {
   final configYaml = await rootBundle.loadString(_configPath);
   final config = FeaturedShowsConfig.fromYaml(configYaml);
-  final now = DateTime.now();
-  final cutoff = now.subtract(_maxAge);
+  final cutoff = DateTime.now().subtract(_maxAge);
 
   // Fetch all shows in parallel — they're independent.
   // Returns (showId, items) pairs so we can group per-show.
@@ -151,19 +167,16 @@ Future<List<FeaturedItem>> _fetchFeaturedItems(ArdApi api) async {
           first: _itemsPerShow,
         );
 
+        // Drop only unplayable parts here. Recency is decided per story
+        // below (on its newest part), not per part, so a recently finished
+        // multi-part story isn't gapped by an old early part.
+        //
         // endDate is the editorial broadcast window, NOT content removal.
         // Audio URLs remain accessible on CDN after endDate passes.
         // Verified: WDR shows have 1-day windows but CDN serves for weeks.
-        final items =
-            page.items
-                .where(
-                  (item) =>
-                      item.duration >= show.minDurationSeconds &&
-                      item.publishDate.isAfter(cutoff) &&
-                      item.bestAudioUrl != null,
-                )
-                .toList();
-        return (showId: show.id, items: items);
+        final playable =
+            page.items.where((item) => item.bestAudioUrl != null).toList();
+        return (showId: show.id, items: playable);
       } on Exception catch (e) {
         // Skip shows that fail — don't let one bad show break all.
         Log.error(_tag, 'Failed to fetch show ${show.id}', exception: e);
@@ -172,9 +185,13 @@ Future<List<FeaturedItem>> _fetchFeaturedItems(ArdApi api) async {
     }),
   );
 
-  // Group per-show so each FeaturedItem carries its source show ID.
+  // Group per-show (each FeaturedItem carries its source show ID), then
+  // keep stories whose newest part is recent enough, newest first.
   final allItems =
-      results.expand((r) => _groupMultiPart(r.items, r.showId)).toList()
+      results
+          .expand((r) => groupFeaturedItems(r.items, r.showId))
+          .where((item) => item.publishDate.isAfter(cutoff))
+          .toList()
         ..sort((a, b) => b.publishDate.compareTo(a.publishDate));
 
   Log.info(
