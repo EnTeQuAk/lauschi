@@ -21,6 +21,68 @@ void main() {
 
   Widget noopWrap(Widget child) => MaterialApp(home: Scaffold(body: child));
 
+  group('dropZoneIndexAt', () {
+    // 800-tall screen, 48px bottom safe area, 2 zones (52px each) rendered
+    // above the inset: they occupy [800-48-104, 800-48] = [648, 752).
+    test('hits the visible top of a zone', () {
+      // 649 is the top of zone 0 — the region the old screen-bottom math
+      // treated as dead.
+      expect(
+        dropZoneIndexAt(
+          globalY: 649,
+          screenHeight: 800,
+          bottomInset: 48,
+          zoneCount: 2,
+        ),
+        0,
+      );
+      expect(
+        dropZoneIndexAt(
+          globalY: 701,
+          screenHeight: 800,
+          bottomInset: 48,
+          zoneCount: 2,
+        ),
+        1,
+      );
+    });
+
+    test('ignores the safe area below the zones', () {
+      // 760 is inside the bottom inset, below the visible zones — the old
+      // math falsely activated the last zone here.
+      expect(
+        dropZoneIndexAt(
+          globalY: 760,
+          screenHeight: 800,
+          bottomInset: 48,
+          zoneCount: 2,
+        ),
+        isNull,
+      );
+    });
+
+    test('returns null above the zones and with no zones', () {
+      expect(
+        dropZoneIndexAt(
+          globalY: 600,
+          screenHeight: 800,
+          bottomInset: 48,
+          zoneCount: 2,
+        ),
+        isNull,
+      );
+      expect(
+        dropZoneIndexAt(
+          globalY: 760,
+          screenHeight: 800,
+          bottomInset: 48,
+          zoneCount: 0,
+        ),
+        isNull,
+      );
+    });
+  });
+
   group('DraggableTileGrid', () {
     testWidgets('renders inside SliverToBoxAdapter with shrinkWrap=true', (
       tester,

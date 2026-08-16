@@ -15,6 +15,31 @@ const _nestDelay = Duration(milliseconds: 500);
 /// Long-press before drag starts.
 const _longPressDelay = Duration(milliseconds: 300);
 
+/// Rendered height of one bottom drop zone. The drag hit-test and the
+/// visual zones must agree on this.
+const dropZoneHeight = 52.0;
+
+/// Which drop zone a global Y coordinate falls in, or null.
+///
+/// The zones render stacked directly above the bottom safe-area inset
+/// (see `_buildDropZonesPadding`), so the hit-test region is
+/// `[screenHeight - bottomInset - zoneCount*height, screenHeight -
+/// bottomInset)`, not down to the raw screen bottom. Using the screen
+/// bottom left the visible top of each zone dead and let the safe-area
+/// padding below the zones falsely activate the last one.
+int? dropZoneIndexAt({
+  required double globalY,
+  required double screenHeight,
+  required double bottomInset,
+  required int zoneCount,
+}) {
+  if (zoneCount == 0) return null;
+  final bottom = screenHeight - bottomInset;
+  final top = bottom - zoneCount * dropZoneHeight;
+  if (globalY < top || globalY >= bottom) return null;
+  return ((globalY - top) / dropZoneHeight).floor().clamp(0, zoneCount - 1);
+}
+
 /// Configuration for a drop zone at the bottom of the grid.
 class DropZoneConfig {
   const DropZoneConfig({
@@ -301,19 +326,17 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
     if (gridBox == null) return;
     final local = gridBox.globalToLocal(details.globalPosition);
 
-    // Check if pointer is in any drop zone (bottom of screen).
+    // Check if pointer is in any drop zone (above the bottom safe area).
     if (widget.dropZones.isNotEmpty) {
-      final screenHeight = MediaQuery.of(context).size.height;
-      final zoneCount = widget.dropZones.length;
-      const zoneHeight = 56.0;
-      final zonesTop = screenHeight - zoneCount * zoneHeight;
-      final globalY = details.globalPosition.dy;
+      final media = MediaQuery.of(context);
+      final zoneIdx = dropZoneIndexAt(
+        globalY: details.globalPosition.dy,
+        screenHeight: media.size.height,
+        bottomInset: media.padding.bottom,
+        zoneCount: widget.dropZones.length,
+      );
 
-      if (globalY > zonesTop) {
-        final zoneIdx = ((globalY - zonesTop) / zoneHeight).floor().clamp(
-          0,
-          zoneCount - 1,
-        );
+      if (zoneIdx != null) {
         if (_activeDropZone != zoneIdx) {
           setState(() => _activeDropZone = zoneIdx);
           _cancelNest();
@@ -789,7 +812,7 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
     final isActive = _activeDropZone == index;
     return AnimatedContainer(
       duration: const Duration(milliseconds: 150),
-      height: 52,
+      height: dropZoneHeight,
       decoration: BoxDecoration(
         color: isActive ? zone.color : zone.color.withAlpha(20),
         border: Border(
