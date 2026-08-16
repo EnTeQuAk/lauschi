@@ -115,7 +115,7 @@ class ArdEpisodeTile extends StatelessWidget {
                         Icons.check_circle,
                         color: AppColors.success,
                       ),
-                      onPressed: onRemove,
+                      onPressed: enabled ? onRemove : null,
                       tooltip: 'Entfernen',
                       padding: EdgeInsets.zero,
                     )

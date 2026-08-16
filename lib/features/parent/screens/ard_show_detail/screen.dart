@@ -147,7 +147,9 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
         );
       }
     } finally {
-      setState(() => _removingUris.remove(item.providerUri));
+      if (mounted) {
+        setState(() => _removingUris.remove(item.providerUri));
+      }
     }
   }
 
@@ -211,8 +213,9 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
           );
         case ImportDone(:final added, :final showTitle):
           _dismissDialog();
+          final label = added == 1 ? 'Folge' : 'Folgen';
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('$added Folgen zu $showTitle hinzugefügt')),
+            SnackBar(content: Text('$added $label zu $showTitle hinzugefügt')),
           );
           ref.read(contentImporterProvider.notifier).acknowledge();
         case ImportFailed(:final message):
@@ -322,7 +325,7 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
                         (context, index) {
                           if (index == others.length && page.hasNextPage) {
                             return _TruncationNotice(
-                              shown: others.length,
+                              shown: highlighted.length + others.length,
                               total: page.totalCount,
                             );
                           }
@@ -363,12 +366,7 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
           final playable = page.items.where((i) => i.bestAudioUrl != null);
           final remaining =
               playable
-                  .where(
-                    (e) =>
-                        !ref
-                            .watch(existingItemUrisProvider)
-                            .contains(e.providerUri),
-                  )
+                  .where((e) => !existingUris.contains(e.providerUri))
                   .length;
 
           if (remaining == 0 && !page.hasNextPage) return null;
@@ -377,14 +375,13 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
             remaining: remaining,
             total: page.totalCount,
             hasMorePages: page.hasNextPage,
-            isImporting: ref.watch(
-              contentImporterProvider.select((s) => s.isImporting),
-            ),
-            onAddAll:
-                () => _addAll(
-                  ref.read(ardShowDetailProvider(widget.showId)).value!,
-                  page.items,
-                ),
+            isImporting: isImporting,
+            onAddAll: () {
+              // The bar renders from episodesAsync, which can resolve before
+              // the independent show provider; skip if the show isn't ready.
+              final show = ref.read(ardShowDetailProvider(widget.showId)).value;
+              if (show != null) _addAll(show, page.items);
+            },
           );
         },
         loading: () => null,
@@ -515,8 +512,6 @@ class _AddAllBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final label = hasMorePages ? 'Alle $total' : '$remaining';
-
-    if (remaining == 0 && !hasMorePages) return const SizedBox.shrink();
 
     return SafeArea(
       child: Padding(
