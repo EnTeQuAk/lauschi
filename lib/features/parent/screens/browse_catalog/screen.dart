@@ -15,6 +15,7 @@ import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+import 'package:lauschi/features/parent/screens/browse_catalog/add_snack_queue.dart';
 import 'package:lauschi/features/parent/screens/browse_catalog/catalog_search_notifier.dart';
 import 'package:lauschi/features/parent/screens/browse_catalog/widgets/album_detail_sheet.dart';
 import 'package:lauschi/features/parent/screens/browse_catalog/widgets/batch_add_banner.dart';
@@ -74,11 +75,9 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
   bool _isMatchingExpanded = false;
   db.Tile? _autoGroup;
 
-  // Snackbar batching
-  Timer? _snackTimer;
-  int _pendingAdded = 0;
-  final _pendingAssignedCardIds = <String>[];
-  String _lastSeriesTitle = '';
+  // Batches rapid adds into one snackbar; flushes on an incompatible add
+  // so each undo is scoped to exactly the cards its snackbar names.
+  late final AddSnackQueue _addQueue = AddSnackQueue(onFlush: _showAddSnack);
 
   bool get _isSearchActive => _searchController.text.trim().isNotEmpty;
   bool get _isAutoAssignMode => widget.autoAssignTileId != null;
@@ -102,7 +101,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
     _searchController.dispose();
     _searchFocusNode.dispose();
     _debounce?.cancel();
-    _snackTimer?.cancel();
+    _addQueue.dispose();
     super.dispose();
   }
 
@@ -259,71 +258,18 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
 
     if (silent) return;
 
-    if (showUndo) {
-      _pendingAssignedCardIds.add(cardId);
-      _lastSeriesTitle = match?.series.title ?? '';
-      _snackTimer?.cancel();
-      _snackTimer = Timer(const Duration(milliseconds: 500), () {
-        if (!mounted) return;
-        final ids = List<String>.of(_pendingAssignedCardIds);
-        _pendingAssignedCardIds.clear();
-        final label =
-            ids.length == 1
-                ? 'Zu »$_lastSeriesTitle« hinzugefügt'
-                : '${ids.length} Einträge zu »$_lastSeriesTitle« hinzugefügt';
-        ScaffoldMessenger.of(context)
-          ..clearSnackBars()
-          ..showSnackBar(
-            SnackBar(
-              content: Text(label),
-              behavior: SnackBarBehavior.floating,
-              action: SnackBarAction(
-                label: 'Rückgängig',
-                onPressed: () async {
-                  try {
-                    final repo = ref.read(tileItemRepositoryProvider);
-                    await Future.wait(ids.map(repo.removeFromTile));
-                  } on Exception catch (e) {
-                    Log.error(_tag, 'Undo failed', exception: e);
-                    if (!context.mounted) return;
-                    // The mounted check above guards this context use.
-                    // ignore: use_build_context_synchronously
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Rückgängig fehlgeschlagen'),
-                        behavior: SnackBarBehavior.floating,
-                      ),
-                    );
-                  }
-                },
-              ),
-            ),
-          );
-      });
-    } else {
-      _pendingAdded++;
-      _snackTimer?.cancel();
-      _snackTimer = Timer(const Duration(milliseconds: 500), () {
-        if (!mounted) return;
-        final n = _pendingAdded;
-        _pendingAdded = 0;
-        final label =
-            n == 1 ? '${album.name} hinzugefügt' : '$n Einträge hinzugefügt';
-        ScaffoldMessenger.of(context)
-          ..clearSnackBars()
-          ..showSnackBar(
-            SnackBar(
-              content: Text(label),
-              duration: const Duration(seconds: 2),
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
-      });
-    }
+    // Matched adds are undoable and labelled by series; auto-assign adds
+    // are a plain count. The queue keeps the two from colliding.
+    _addQueue.add(
+      cardId: cardId,
+      albumName: album.name,
+      undoable: showUndo,
+      seriesTitle: showUndo ? match?.series.title : null,
+    );
   }
 
   Future<void> _addOnly(CatalogAlbumResult album) async {
-    await ref
+    final cardId = await ref
         .read(tileItemRepositoryProvider)
         .insertIfAbsent(
           title: album.name,
@@ -334,24 +280,59 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
           totalTracks: album.totalTracks,
         );
     if (!mounted) return;
-    _pendingAdded++;
-    _snackTimer?.cancel();
-    _snackTimer = Timer(const Duration(milliseconds: 500), () {
+    _addQueue.add(cardId: cardId, albumName: album.name, undoable: false);
+  }
+
+  /// Render a flushed add batch as a snackbar, with undo when the batch
+  /// is undoable (matched adds).
+  void _showAddSnack(AddSnackBatch batch) {
+    if (!mounted) return;
+    final n = batch.cardIds.length;
+    final String label;
+    if (batch.seriesTitle != null) {
+      label =
+          n == 1
+              ? 'Zu »${batch.seriesTitle}« hinzugefügt'
+              : '$n Einträge zu »${batch.seriesTitle}« hinzugefügt';
+    } else {
+      label =
+          n == 1
+              ? '${batch.firstAlbumName ?? 'Eintrag'} hinzugefügt'
+              : '$n Einträge hinzugefügt';
+    }
+
+    ScaffoldMessenger.of(context)
+      ..clearSnackBars()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(label),
+          duration: Duration(seconds: batch.undoable ? 4 : 2),
+          behavior: SnackBarBehavior.floating,
+          action:
+              batch.undoable
+                  ? SnackBarAction(
+                    label: 'Rückgängig',
+                    onPressed: () => unawaited(_undoAdds(batch.cardIds)),
+                  )
+                  : null,
+        ),
+      );
+  }
+
+  Future<void> _undoAdds(List<String> cardIds) async {
+    try {
+      final repo = ref.read(tileItemRepositoryProvider);
+      await Future.wait(cardIds.map(repo.removeFromTile));
+    } on Exception catch (e) {
+      Log.error(_tag, 'Undo failed', exception: e);
       if (!mounted) return;
-      final n = _pendingAdded;
-      _pendingAdded = 0;
-      ScaffoldMessenger.of(context)
-        ..clearSnackBars()
-        ..showSnackBar(
-          SnackBar(
-            content: Text(
-              n == 1 ? '${album.name} hinzugefügt' : '$n Einträge hinzugefügt',
-            ),
-            duration: const Duration(seconds: 2),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-    });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Rückgängig fehlgeschlagen'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
   }
 
   Future<void> _addPlaylist(SpotifyPlaylist playlist) async {
