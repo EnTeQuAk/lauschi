@@ -49,6 +49,29 @@ void main() {
     expect(all.first.title, 'Yakari');
   });
 
+  test(
+    'findOrCreateByTitle serializes concurrent adds into one group',
+    () async {
+      // The catalog add buttons fire fire-and-forget, so two quick taps on
+      // episodes of a not-yet-grouped series run findOrCreate concurrently.
+      // A non-transactional find-then-insert lets both pass the existence
+      // check and create duplicate groups. All concurrent calls must return
+      // the same id, and exactly one group must exist.
+      final results = await Future.wait([
+        groups.findOrCreateByTitle('Bibi Blocksberg'),
+        groups.findOrCreateByTitle('Bibi Blocksberg'),
+        groups.findOrCreateByTitle('Bibi Blocksberg'),
+      ]);
+
+      expect(results.toSet(), hasLength(1), reason: 'all calls return one id');
+      final matching =
+          (await groups.getAll())
+              .where((t) => t.title == 'Bibi Blocksberg')
+              .toList();
+      expect(matching, hasLength(1), reason: 'only one group is created');
+    },
+  );
+
   test('sortOrder auto-increments', () async {
     final id1 = await groups.insert(title: 'First');
     final id2 = await groups.insert(title: 'Second');

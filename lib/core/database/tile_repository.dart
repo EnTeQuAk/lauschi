@@ -520,6 +520,20 @@ class TileRepository {
         .firstOrNull;
   }
 
+  /// Find a tile by title, or create one if none exists.
+  ///
+  /// Runs in a transaction so concurrent adds of the same series don't
+  /// each pass the existence check and create duplicate groups. The
+  /// catalog add buttons fire fire-and-forget, so double-taps race here
+  /// the same way they do on TileItemRepository.insertIfAbsent.
+  Future<String> findOrCreateByTitle(String title) {
+    return _db.transaction(() async {
+      final existing = await findByTitle(title);
+      if (existing != null) return existing.id;
+      return insert(title: title);
+    });
+  }
+
   /// Watch items belonging to a tile.
   /// Sort: manual order (sortOrder) if set, otherwise episodeNumber, then
   /// creation time as tiebreaker for items with neither.

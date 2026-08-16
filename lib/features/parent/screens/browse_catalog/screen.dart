@@ -227,11 +227,8 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
     }
   }
 
-  Future<String> _findOrCreateGroup(String seriesTitle) async {
-    final groupRepo = ref.read(tileRepositoryProvider);
-    final existing = await groupRepo.findByTitle(seriesTitle);
-    if (existing != null) return existing.id;
-    return groupRepo.insert(title: seriesTitle);
+  Future<String> _findOrCreateGroup(String seriesTitle) {
+    return ref.read(tileRepositoryProvider).findOrCreateByTitle(seriesTitle);
   }
 
   Future<void> _addAndAssign(
