@@ -64,6 +64,7 @@ class _AlbumDetailSheetState extends ConsumerState<AlbumDetailSheet> {
       maxChildSize: 0.9,
       expand: false,
       builder: (context, scrollController) {
+        final artworkUrl = widget.album.artworkUrlForSize(200);
         return Column(
           children: [
             Container(
@@ -90,9 +91,9 @@ class _AlbumDetailSheetState extends ConsumerState<AlbumDetailSheet> {
                       width: 64,
                       height: 64,
                       child:
-                          widget.album.artworkUrlForSize(200) != null
+                          artworkUrl != null
                               ? CachedNetworkImage(
-                                imageUrl: widget.album.artworkUrlForSize(200)!,
+                                imageUrl: artworkUrl,
                                 fit: BoxFit.cover,
                                 fadeInDuration: const Duration(
                                   milliseconds: 200,
