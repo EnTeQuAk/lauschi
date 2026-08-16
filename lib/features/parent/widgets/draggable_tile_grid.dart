@@ -96,7 +96,6 @@ class DraggableTileGrid extends StatefulWidget {
     required this.onReorder,
     required this.onNest,
     required this.onTap,
-    required this.onLongPress,
     super.key,
     this.dropZones = const [],
     this.shrinkWrap = false,
@@ -106,7 +105,6 @@ class DraggableTileGrid extends StatefulWidget {
   final void Function(List<String> newOrder) onReorder;
   final void Function(String childId, String parentId) onNest;
   final void Function(String id) onTap;
-  final void Function(String id) onLongPress;
 
   /// Drop zones shown at the bottom during drag.
   final List<DropZoneConfig> dropZones;
