@@ -464,6 +464,43 @@ void main() {
         reason: 'the mid-drag addition is reflected after the drag',
       );
     });
+
+    testWidgets('a quick tap fires onTap, a held press does not', (
+      tester,
+    ) async {
+      // With DateTime.now() timing, a held press read as a tap under the
+      // fake clock (now() doesn't advance on pump). The Timer-based window
+      // must expire on a hold so it is not mistaken for a tap.
+      String? tapped;
+      await tester.pumpWidget(
+        noopWrap(
+          SizedBox(
+            width: 400,
+            height: 800,
+            child: DraggableTileGrid(
+              items: twoTiles,
+              onReorder: (_) {},
+              onNest: (_, _) {},
+              onTap: (id) => tapped = id,
+              onLongPress: (_) {},
+            ),
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Alpha'));
+      await tester.pump();
+      expect(tapped, 'a', reason: 'a quick tap fires onTap');
+
+      tapped = null;
+      final gesture = await tester.startGesture(
+        tester.getCenter(find.text('Beta')),
+      );
+      await tester.pump(const Duration(milliseconds: 400)); // window expires
+      await gesture.up();
+      await tester.pump(const Duration(milliseconds: 250)); // drop settle timer
+      expect(tapped, isNull, reason: 'a held press is a drag, not a tap');
+    });
   });
 }
 

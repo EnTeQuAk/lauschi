@@ -957,7 +957,27 @@ class _TappableTile extends StatefulWidget {
 
 class _TappableTileState extends State<_TappableTile> {
   Offset? _downPos;
-  DateTime? _downTime;
+
+  // A Timer marks when the press has outlived the tap window, rather than
+  // measuring elapsed DateTime.now() at pointer-up. DateTime.now() doesn't
+  // advance under the widget-test fake clock, so a held press there read
+  // as a tap; a Timer fires on tester.pump(Duration) like real time.
+  // (The sibling _checkNestIdle uses a Timer for the same reason.)
+  Timer? _tapWindow;
+  bool _windowExpired = false;
+
+  void _reset() {
+    _tapWindow?.cancel();
+    _tapWindow = null;
+    _downPos = null;
+    _windowExpired = false;
+  }
+
+  @override
+  void dispose() {
+    _tapWindow?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -965,23 +985,20 @@ class _TappableTileState extends State<_TappableTile> {
       behavior: HitTestBehavior.opaque,
       onPointerDown: (e) {
         _downPos = e.localPosition;
-        _downTime = DateTime.now();
+        _windowExpired = false;
+        _tapWindow?.cancel();
+        _tapWindow = Timer(_longPressDelay, () => _windowExpired = true);
       },
       onPointerUp: (e) {
-        if (_downPos == null || _downTime == null) return;
-        final dt = DateTime.now().difference(_downTime!);
+        if (_downPos == null) return;
         final dist = (e.localPosition - _downPos!).distance;
-        // Quick tap: under 300ms and didn't move more than 20px.
-        if (dt.inMilliseconds < 300 && dist < 20) {
-          widget.onTap();
-        }
-        _downPos = null;
-        _downTime = null;
+        final expired = _windowExpired;
+        _reset();
+        // Quick tap: released within the long-press window and moved
+        // less than 20px.
+        if (!expired && dist < 20) widget.onTap();
       },
-      onPointerCancel: (_) {
-        _downPos = null;
-        _downTime = null;
-      },
+      onPointerCancel: (_) => _reset(),
       child: widget.child,
     );
   }
