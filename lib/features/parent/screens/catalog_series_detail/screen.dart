@@ -39,6 +39,11 @@ class _CatalogSeriesDetailScreenState
   bool _selectAll = true;
   bool _isAdding = false;
 
+  // Guards the initial "select all unadded" so it runs once, when cards
+  // first load. Without it, emptying _selected by unchecking (or after a
+  // successful add) re-triggered the auto-select and re-checked everything.
+  bool _didAutoSelect = false;
+
   CatalogSeries? _findSeries(CatalogService catalog) {
     final matches = catalog.all.where((s) => s.id == widget.seriesId);
     return matches.isEmpty ? null : matches.first;
@@ -226,7 +231,8 @@ class _CatalogSeriesDetailScreenState
             '${widget.provider.value}:${albums.map((a) => a.id).join(',')}';
         final coverMap = ref.watch(albumCoversProvider(coverKey)).value ?? {};
 
-        if (_selected.isEmpty && _selectAll && cardsLoaded) {
+        if (!_didAutoSelect && cardsLoaded) {
+          _didAutoSelect = true;
           for (final album in albums) {
             if (!existingUris.contains(album.uri)) {
               _selected.add(album.id);
