@@ -201,21 +201,28 @@ class EpisodeTile extends ConsumerWidget {
                   child: const Text('Abbrechen'),
                 ),
                 FilledButton(
-                  onPressed: () {
+                  onPressed: () async {
                     Navigator.of(ctx).pop();
-                    Log.info(
-                      _tag,
-                      'Card removed from tile',
-                      data: {
-                        'cardId': card.id,
-                        'tileId': tileId,
-                      },
-                    );
-                    unawaited(
-                      ref
+                    try {
+                      await ref
                           .read(tileItemRepositoryProvider)
-                          .removeFromTile(card.id),
-                    );
+                          .removeFromTile(card.id);
+                      Log.info(
+                        _tag,
+                        'Card removed from tile',
+                        data: {'cardId': card.id, 'tileId': tileId},
+                      );
+                    } on Exception catch (e) {
+                      Log.error(_tag, 'Remove from tile failed', exception: e);
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Entfernen fehlgeschlagen'),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                      }
+                    }
                   },
                   child: const Text('Entfernen'),
                 ),
@@ -241,12 +248,24 @@ class EpisodeTile extends ConsumerWidget {
                   child: const Text('Abbrechen'),
                 ),
                 FilledButton(
-                  onPressed: () {
+                  onPressed: () async {
                     Navigator.of(ctx).pop();
-                    Log.info(_tag, 'Card deleted', data: {'cardId': card.id});
-                    unawaited(
-                      ref.read(tileItemRepositoryProvider).delete(card.id),
-                    );
+                    try {
+                      await ref
+                          .read(tileItemRepositoryProvider)
+                          .delete(card.id);
+                      Log.info(_tag, 'Card deleted', data: {'cardId': card.id});
+                    } on Exception catch (e) {
+                      Log.error(_tag, 'Delete card failed', exception: e);
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Löschen fehlgeschlagen'),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                      }
+                    }
                   },
                   style: FilledButton.styleFrom(
                     backgroundColor: AppColors.error,
