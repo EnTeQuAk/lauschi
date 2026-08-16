@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
+import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/features/tiles/screens/tile_detail/screen.dart';
 
 db.TileItem _episode({

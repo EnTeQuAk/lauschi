@@ -11,7 +11,6 @@ import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/parent/widgets/draggable_tile_grid.dart';
-import 'package:lauschi/features/tiles/screens/tile_detail/screen.dart';
 
 const _tag = 'ManageTilesScreen';
 

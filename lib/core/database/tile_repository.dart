@@ -587,6 +587,19 @@ final allTilesProvider = StreamProvider<List<Tile>>((ref) {
   return ref.watch(tileRepositoryProvider).watchAll();
 });
 
+/// The tile metadata for a given ID, reactive to DB changes.
+final tileByIdProvider = StreamProvider.family<Tile?, String>((ref, tileId) {
+  return ref.watch(tileRepositoryProvider).watchById(tileId);
+});
+
+/// The items (episodes) belonging to a tile, ordered, reactive to DB changes.
+final tileItemsProvider = StreamProvider.family<List<TileItem>, String>((
+  ref,
+  tileId,
+) {
+  return ref.watch(tileRepositoryProvider).watchItems(tileId);
+});
+
 /// Stream of child tiles for a given parent tile.
 final childTilesProvider = StreamProvider.family<List<Tile>, String>((
   ref,

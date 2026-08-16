@@ -348,20 +348,6 @@ class _EmptyGroupState extends StatelessWidget {
   }
 }
 
-final tileItemsProvider = StreamProvider.family<List<db.TileItem>, String>(
-  (ref, tileId) {
-    return ref.watch(tileRepositoryProvider).watchItems(tileId);
-  },
-);
-
-/// The group metadata for a given ID — reactive to DB changes.
-final tileByIdProvider = StreamProvider.family<db.Tile?, String>((
-  ref,
-  tileId,
-) {
-  return ref.watch(tileRepositoryProvider).watchById(tileId);
-});
-
 /// The episode to show the "Weiter" badge on.
 ///
 /// Each tile is a CD player: at most one episode can be in progress.
