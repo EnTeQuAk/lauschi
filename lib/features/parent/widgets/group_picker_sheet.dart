@@ -6,8 +6,12 @@ import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
+import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+import 'package:lauschi/core/ui/undo_snackbar.dart';
+
+const _tag = 'GroupPickerSheet';
 
 /// Bottom sheet for assigning a card to a tile group.
 class GroupPickerSheet extends ConsumerWidget {
@@ -49,11 +53,20 @@ class GroupPickerSheet extends ConsumerWidget {
                 'Aus Kachel entfernen',
                 style: TextStyle(fontFamily: 'Nunito'),
               ),
-              onTap: () {
+              onTap: () async {
+                final tileRepo = ref.read(tileRepositoryProvider);
+                final itemRepo = ref.read(tileItemRepositoryProvider);
                 Navigator.of(context).pop();
-                unawaited(
-                  ref.read(tileItemRepositoryProvider).removeFromTile(card.id),
-                );
+                try {
+                  final undo = await itemRepo.removeFromTile(card.id);
+                  showUndoSnackBar(
+                    'Aus Kachel entfernt',
+                    onUndo: () => unawaited(tileRepo.restore(undo)),
+                  );
+                } on Exception catch (e) {
+                  Log.error(_tag, 'Remove from tile failed', exception: e);
+                  showAppSnackBar('Entfernen fehlgeschlagen');
+                }
               },
             ),
           groupsAsync.when(
