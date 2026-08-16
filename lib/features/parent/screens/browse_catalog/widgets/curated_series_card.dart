@@ -61,32 +61,32 @@ class CuratedSeriesCard extends ConsumerWidget {
     final allAdded = added == total && total > 0;
 
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
+        // Resolve the group with findByTitle (all tiles, incl. nested) so
+        // a series nested into a folder still opens its editor, matching
+        // the add path. allTilesProvider is root-only and would miss it.
         if (allAdded) {
-          final groups = ref.read(allTilesProvider).value ?? [];
-          final matchingGroup = groups.where(
-            (g) => g.title.toLowerCase() == series.title.toLowerCase(),
-          );
-          if (matchingGroup.isNotEmpty) {
-            unawaited(
-              context.push(
-                AppRoutes.parentTileEdit(matchingGroup.first.id),
-              ),
-            );
+          final tile = await ref
+              .read(tileRepositoryProvider)
+              .findByTitle(series.title);
+          if (!context.mounted) return;
+          if (tile != null) {
+            unawaited(context.push(AppRoutes.parentTileEdit(tile.id)));
             return;
           }
         }
-        if (series.hasCuratedAlbumsFor(provider)) {
-          unawaited(
-            context.push(
-              '${AppRoutes.parentCatalogSeries(series.id)}'
-              '?provider=${provider.value}',
-              extra: autoAssignTileId,
-            ),
-          );
-        } else {
+        if (!series.hasCuratedAlbumsFor(provider)) {
           onSearchSeries?.call(series.title);
+          return;
         }
+        if (!context.mounted) return;
+        unawaited(
+          context.push(
+            '${AppRoutes.parentCatalogSeries(series.id)}'
+            '?provider=${provider.value}',
+            extra: autoAssignTileId,
+          ),
+        );
       },
       child: Column(
         children: [

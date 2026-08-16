@@ -691,36 +691,36 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
                 provider: _provider,
                 addedCount: added,
                 allAdded: allAdded,
-                onTap: () {
+                onTap: () async {
+                  // Resolve the group with findByTitle (all tiles, incl.
+                  // nested) so a series nested into a folder still opens its
+                  // editor, matching the lookup the add path uses. The
+                  // allTilesProvider is root-only and would miss it.
                   if (allAdded) {
-                    final tilesAsync = ref.read(allTilesProvider);
-                    if (tilesAsync case AsyncData(:final value)) {
-                      final match = value.where(
-                        (t) =>
-                            t.title.toLowerCase() == series.title.toLowerCase(),
+                    final tile = await ref
+                        .read(tileRepositoryProvider)
+                        .findByTitle(series.title);
+                    if (!context.mounted) return;
+                    if (tile != null) {
+                      unawaited(
+                        context.push(AppRoutes.parentTileEdit(tile.id)),
                       );
-                      if (match.isNotEmpty) {
-                        unawaited(
-                          context.push(
-                            AppRoutes.parentTileEdit(match.first.id),
-                          ),
-                        );
-                        return;
-                      }
+                      return;
                     }
                   }
-                  if (series.hasCuratedAlbumsFor(_provider)) {
-                    unawaited(
-                      context.push(
-                        '${AppRoutes.parentCatalogSeries(series.id)}'
-                        '?provider=${_provider.value}',
-                        extra: widget.autoAssignTileId,
-                      ),
-                    );
-                  } else {
+                  if (!series.hasCuratedAlbumsFor(_provider)) {
                     _searchController.text = series.title;
                     unawaited(_search(series.title));
+                    return;
                   }
+                  if (!context.mounted) return;
+                  unawaited(
+                    context.push(
+                      '${AppRoutes.parentCatalogSeries(series.id)}'
+                      '?provider=${_provider.value}',
+                      extra: widget.autoAssignTileId,
+                    ),
+                  );
                 },
               );
             },

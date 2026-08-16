@@ -72,6 +72,26 @@ void main() {
     },
   );
 
+  test('findByTitle finds a nested group, not just root tiles', () async {
+    // The catalog "all added" card resolves its group via findByTitle so a
+    // series nested into a folder still opens its editor. watchAll (behind
+    // allTilesProvider) is root-only and would miss it, sending the tap
+    // back to the catalog instead.
+    final folderId = await groups.insert(title: 'Ordner');
+    final childId = await groups.insert(title: 'TKKG');
+    await groups.nestInto(childId: childId, parentId: folderId);
+
+    final found = await groups.findByTitle('TKKG');
+    expect(found?.id, childId, reason: 'findByTitle sees nested tiles');
+
+    final roots = await groups.watchAll().first;
+    expect(
+      roots.any((t) => t.id == childId),
+      isFalse,
+      reason: 'the nested tile is absent from the root-only list',
+    );
+  });
+
   test('sortOrder auto-increments', () async {
     final id1 = await groups.insert(title: 'First');
     final id2 = await groups.insert(title: 'Second');
