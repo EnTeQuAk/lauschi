@@ -443,7 +443,9 @@ DraggableTileItem buildItemDisplayItem(db.TileItem item) {
   );
 }
 
-/// "A & B" for 2, "A, B & 1 weiterer" for 3, etc.
+/// Human label for a folder from its children: the single name for one,
+/// "A & B" for two, "A, B & mehr" for three or more, "Leerer Ordner" when
+/// empty.
 String folderName(List<db.Tile> children) {
   if (children.isEmpty) return 'Leerer Ordner';
   final names = children.map((t) => t.title).toList();
