@@ -78,6 +78,25 @@ void main() {
     test('handles empty list', () {
       expect(sortByCatalogMatch([], 0), isEmpty);
     });
+
+    test('preserves relevance order for a large result set', () {
+      // Past ~32 elements Dart's List.sort switches from a stable
+      // insertion sort to an unstable quicksort, so a comparator that
+      // returns 0 for same-group pairs shuffles them. Even indices are
+      // matched, odd unmatched; the result must be every matched index in
+      // its original order, then every unmatched index in its order.
+      final matches = <CatalogMatch?>[
+        for (var i = 0; i < 50; i++) i.isEven ? _match('s$i') : null,
+      ];
+
+      final sorted = sortByCatalogMatch(matches, 50);
+
+      final expected = [
+        for (var i = 0; i < 50; i += 2) i,
+        for (var i = 1; i < 50; i += 2) i,
+      ];
+      expect(sorted, expected);
+    });
   });
 
   group('partitionByHeroSeries', () {

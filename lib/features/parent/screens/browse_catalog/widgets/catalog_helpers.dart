@@ -11,15 +11,21 @@ import 'package:lauschi/core/theme/app_theme.dart';
 
 // ── Search result processing ────────────────────────────────────────────────
 
-/// Sort album indices so catalog-matched albums come first.
-/// Preserves the provider's relevance order within each group.
+/// Order album indices so catalog-matched albums come first, preserving
+/// the provider's relevance order within each group.
+///
+/// A stable partition, not a sort: Dart's List.sort isn't guaranteed
+/// stable (it switches to an unstable quicksort past ~32 elements), so a
+/// comparator returning 0 for same-group pairs would shuffle a large
+/// result set out of relevance order.
 List<int> sortByCatalogMatch(List<CatalogMatch?> matches, int count) {
-  return List.generate(count, (i) => i)..sort((a, b) {
-    final aMatch = a < matches.length && matches[a] != null;
-    final bMatch = b < matches.length && matches[b] != null;
-    if (aMatch != bMatch) return aMatch ? -1 : 1;
-    return 0;
-  });
+  final matched = <int>[];
+  final unmatched = <int>[];
+  for (var i = 0; i < count; i++) {
+    final isMatch = i < matches.length && matches[i] != null;
+    (isMatch ? matched : unmatched).add(i);
+  }
+  return [...matched, ...unmatched];
 }
 
 /// Partition album indices into those matching hero series and the rest.
