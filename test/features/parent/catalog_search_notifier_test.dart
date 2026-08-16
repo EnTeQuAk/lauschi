@@ -48,6 +48,14 @@ class _FailingSource extends _FakeSource {
   }
 }
 
+class _ErrorSource extends _FakeSource {
+  @override
+  Future<List<CatalogAlbumResult>> searchAlbums(String query) {
+    // An Error, not an Exception — the class a provider TypeError falls in.
+    throw ArgumentError('bad cast');
+  }
+}
+
 CatalogAlbumResult _album(String id, {String name = 'Album'}) =>
     CatalogAlbumResult(
       id: id,
@@ -240,6 +248,29 @@ void main() {
       final state = container.read(catalogSearchProvider(ProviderType.spotify));
       expect(state.isSearching, isFalse, reason: 'reset after error');
       expect(state.hasSearched, isFalse, reason: 'never completed');
+    });
+
+    test('resets isSearching even when the source throws an Error', () async {
+      // A provider TypeError from an unexpected cast is an Error, not an
+      // Exception, so the `on Exception` catch never fires. The spinner
+      // must still reset (via finally), not spin forever.
+      final s = setup();
+      container = s.container;
+      final notifier = container.read(
+        catalogSearchProvider(ProviderType.spotify).notifier,
+      );
+
+      await expectLater(
+        notifier.search('boom', _ErrorSource()),
+        throwsA(isA<Error>()),
+      );
+
+      final state = container.read(catalogSearchProvider(ProviderType.spotify));
+      expect(
+        state.isSearching,
+        isFalse,
+        reason: 'finally resets the spinner for an Error too',
+      );
     });
   });
 

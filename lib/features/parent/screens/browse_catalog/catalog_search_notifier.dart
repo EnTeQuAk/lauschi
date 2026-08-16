@@ -106,10 +106,20 @@ class CatalogSearch extends _$CatalogSearch {
     return const CatalogSearchState();
   }
 
-  /// Run album search + catalog matching + hero series computation.
-  Future<void> search(String query, CatalogSource source) async {
-    state = state.copyWith(isSearching: true);
+  /// Run a search: album search + catalog matching + hero series, and
+  /// (in music mode on Spotify) playlist results.
+  ///
+  /// Album and playlist fetches share one generation, so overlapping
+  /// searches discard each other's results cleanly instead of one leaking
+  /// its playlists over another's albums. [playlistSession] is only used
+  /// in music mode; pass null outside Spotify.
+  Future<void> search(
+    String query,
+    CatalogSource source, {
+    SpotifySession? playlistSession,
+  }) async {
     final gen = ++_generation;
+    state = state.copyWith(isSearching: true);
 
     try {
       final albums = await source.searchAlbums(query);
@@ -159,32 +169,32 @@ class CatalogSearch extends _$CatalogSearch {
         catalogMatches: sortedMatches,
         heroSeries: allCatalogHits.take(maxCatalogResults).toList(),
         totalCatalogHits: allCatalogHits.length,
-        isSearching: false,
         hasSearched: true,
       );
+
+      // Music mode on Spotify: append playlist results under the same
+      // generation so a superseding search discards these too.
+      if (isMusicMode && playlistSession != null) {
+        final result = await playlistSession.api.searchPlaylists(query);
+        if (gen != _generation) return;
+        Log.info(
+          _tag,
+          'Search (playlists)',
+          data: {'query': query, 'results': '${result.playlists.length}'},
+        );
+        state = state.copyWith(playlists: result.playlists);
+      }
     } on Exception catch (e) {
       Log.error(_tag, 'Search failed', exception: e);
+      rethrow;
+    } finally {
+      // Reset the spinner for any throwable — a provider TypeError is an
+      // Error, not an Exception — but only if this search still owns the
+      // latest generation (a superseding search manages its own spinner).
       if (gen == _generation) {
         state = state.copyWith(isSearching: false);
       }
-      rethrow;
     }
-  }
-
-  /// Append playlist results (Spotify-only, Musik mode).
-  Future<void> searchPlaylists(String query, SpotifySession session) async {
-    final gen = ++_generation;
-    final result = await session.api.searchPlaylists(query);
-    if (gen != _generation) return;
-    Log.info(
-      _tag,
-      'Search (playlists)',
-      data: {'query': query, 'results': '${result.playlists.length}'},
-    );
-    state = state.copyWith(
-      playlists: result.playlists,
-      isSearching: false,
-    );
   }
 
   /// Change search mode. Resets results.

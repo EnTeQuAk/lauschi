@@ -131,14 +131,14 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
 
   Future<void> _search(String query) async {
     try {
-      await _searchNotifier.search(query, _source);
-      final searchState = ref.read(catalogSearchProvider(_provider));
-      if (searchState.isMusicMode && _source.provider == ProviderType.spotify) {
-        await _searchNotifier.searchPlaylists(
-          query,
-          ref.read(spotifySessionProvider.notifier),
-        );
-      }
+      await _searchNotifier.search(
+        query,
+        _source,
+        playlistSession:
+            _source.provider == ProviderType.spotify
+                ? ref.read(spotifySessionProvider.notifier)
+                : null,
+      );
       if (mounted) setState(() => _isMatchingExpanded = false);
     } on Exception catch (e) {
       Log.error(_tag, 'Search failed', exception: e);
