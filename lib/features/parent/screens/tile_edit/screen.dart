@@ -191,6 +191,16 @@ class _TileEditScreenState extends ConsumerState<TileEditScreen> {
     );
   }
 
+  void _showSaveError() {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Speichern fehlgeschlagen'),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
+
   Future<void> _save() async {
     final title = _titleController.text.trim();
     if (title.isEmpty) {
@@ -221,14 +231,7 @@ class _TileEditScreenState extends ConsumerState<TileEditScreen> {
           );
     } on Exception catch (e) {
       Log.error(_tag, 'Save tile failed', exception: e);
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Speichern fehlgeschlagen'),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-      }
+      _showSaveError();
       return;
     }
     if (mounted) {
@@ -261,14 +264,7 @@ class _TileEditScreenState extends ConsumerState<TileEditScreen> {
           );
     } on Exception catch (e) {
       Log.error(_tag, 'Save cover failed', exception: e);
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Speichern fehlgeschlagen'),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-      }
+      _showSaveError();
       return;
     }
     // The cover is saved. Clear the dirty flag only when the title field
