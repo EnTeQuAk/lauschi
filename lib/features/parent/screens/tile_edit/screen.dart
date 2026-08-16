@@ -255,6 +255,7 @@ class _TileEditScreenState extends ConsumerState<TileEditScreen> {
               child: const Text('Speichern'),
             ),
           PopupMenuButton<String>(
+            key: const Key('tile_edit_menu'),
             onSelected: (action) {
               switch (action) {
                 case 'delete_cards':
