@@ -371,5 +371,76 @@ void main() {
         reason: 'Alpha moved to the end, after Beta',
       );
     });
+
+    testWidgets('a mid-drag items change shows after a no-op drag', (
+      tester,
+    ) async {
+      // didUpdateWidget skips resyncing _order while a drag is active, so a
+      // background provider re-emit mid-drag was dropped until an unrelated
+      // rebuild. A no-op drag must pull the change in on release.
+      final key = GlobalKey<_HostState>();
+      await tester.pumpWidget(noopWrap(_Host(key: key)));
+
+      expect(find.text('Charlie'), findsNothing, reason: 'setup: A, B only');
+
+      final gesture = await tester.startGesture(
+        tester.getCenter(find.text('Alpha')),
+      );
+      await tester.pump(const Duration(milliseconds: 400)); // long-press
+
+      // Parent adds a tile mid-drag.
+      key.currentState!.addCharlie();
+      await tester.pump();
+
+      // Release without moving — nothing committed.
+      await gesture.up();
+      await tester.pump(const Duration(milliseconds: 250));
+
+      expect(
+        find.text('Charlie'),
+        findsOneWidget,
+        reason: 'the mid-drag addition is reflected after the drag',
+      );
+    });
   });
+}
+
+/// Hosts the grid with a mutable item list so a test can change items
+/// mid-drag.
+class _Host extends StatefulWidget {
+  const _Host({super.key});
+
+  @override
+  State<_Host> createState() => _HostState();
+}
+
+class _HostState extends State<_Host> {
+  List<DraggableTileItem> _items = const [
+    DraggableTileItem(id: 'a', title: 'Alpha'),
+    DraggableTileItem(id: 'b', title: 'Beta'),
+  ];
+
+  void addCharlie() {
+    setState(() {
+      _items = [
+        ..._items,
+        const DraggableTileItem(id: 'c', title: 'Charlie'),
+      ];
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 400,
+      height: 800,
+      child: DraggableTileGrid(
+        items: _items,
+        onReorder: (_) {},
+        onNest: (_, _) {},
+        onTap: (_) {},
+        onLongPress: (_) {},
+      ),
+    );
+  }
 }

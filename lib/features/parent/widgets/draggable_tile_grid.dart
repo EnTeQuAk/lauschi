@@ -451,6 +451,7 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
       },
     );
 
+    var committed = true;
     if (_activeDropZone != null && _activeDropZone! < widget.dropZones.length) {
       final zone = widget.dropZones[_activeDropZone!];
       Log.info(
@@ -482,6 +483,7 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
       );
       widget.onReorder(_order.map((t) => t.id).toList());
     } else {
+      committed = false;
       Log.debug(_tag, 'Drop (no change)');
     }
 
@@ -489,6 +491,14 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
     setState(() {
       _draggedId = null;
       _activeDropZone = null;
+      // A committing drag triggers a parent rebuild (via the callback ->
+      // repo -> provider) that resyncs _order. A no-op drag doesn't, so
+      // pull in any widget.items change that arrived mid-drag —
+      // didUpdateWidget skips the resync while a drag is active.
+      if (!committed) {
+        _order = List.of(widget.items);
+        _recomputeBoundary();
+      }
     });
     _cancelNest();
 
