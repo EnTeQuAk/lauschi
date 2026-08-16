@@ -245,6 +245,43 @@ class _TileEditScreenState extends ConsumerState<TileEditScreen> {
     }
   }
 
+  /// Persists just the cover, bypassing the required-title validation in
+  /// [_save]. Picking or clearing a cover auto-saves; it must not be
+  /// dropped (or surface a name error) when the title field happens to be
+  /// empty, since the two edits are independent.
+  Future<void> _saveCover() async {
+    final cover = _coverController.text.trim();
+    try {
+      await ref
+          .read(tileRepositoryProvider)
+          .update(
+            id: widget.tileId,
+            coverUrl: cover.isEmpty ? null : cover,
+            clearCoverUrl: cover.isEmpty,
+          );
+    } on Exception catch (e) {
+      Log.error(_tag, 'Save cover failed', exception: e);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Speichern fehlgeschlagen'),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+      return;
+    }
+    // The cover is saved. Clear the dirty flag only when the title field
+    // still matches what's stored, so a pending (unsaved) title edit keeps
+    // the Save button around.
+    if (!mounted) return;
+    final persistedTitle =
+        ref.read(tileByIdProvider(widget.tileId)).value?.title;
+    if (_titleController.text.trim() == persistedTitle) {
+      setState(() => _dirty = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final groupAsync = ref.watch(tileByIdProvider(widget.tileId));
@@ -367,6 +404,7 @@ class _TileEditScreenState extends ConsumerState<TileEditScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextField(
+                  key: const Key('tile_title_field'),
                   controller: _titleController,
                   decoration: const InputDecoration(
                     labelText: 'Name der Kachel',
@@ -380,7 +418,7 @@ class _TileEditScreenState extends ConsumerState<TileEditScreen> {
                   episodeCovers: episodeCovers,
                   artistIds: artistIds,
                   onChanged: () => setState(() => _dirty = true),
-                  onAutoSave: _save,
+                  onAutoSave: _saveCover,
                 ),
               ],
             ),
