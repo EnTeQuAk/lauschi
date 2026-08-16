@@ -34,4 +34,13 @@ class OnboardingComplete extends _$OnboardingComplete {
     Log.info(_tag, 'Onboarding marked complete');
     state = true;
   }
+
+  /// Reset onboarding (e.g. on logout), so the router redirects back to the
+  /// login flow.
+  Future<void> markIncomplete() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_key, false);
+    Log.info(_tag, 'Onboarding marked incomplete');
+    state = false;
+  }
 }

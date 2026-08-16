@@ -15,7 +15,6 @@ import 'package:lauschi/features/parent/screens/settings/widgets/provider_attrib
 import 'package:lauschi/features/parent/screens/settings/widgets/provider_row.dart';
 import 'package:lauschi/features/parent/screens/settings/widgets/support_card.dart';
 import 'package:lauschi/features/parent/widgets/parent_section_header.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 const _buildFlavour = kDebugMode ? 'debug' : 'release';
 
@@ -29,7 +28,7 @@ class SettingsScreen extends ConsumerStatefulWidget {
 }
 
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
-  // Track whether any setting changed this session — used to show the
+  // Track whether any setting changed this session, used to show the
   // "Neustart erforderlich" banner.
   bool _changed = false;
 
@@ -103,7 +102,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 context: context,
                 applicationName: 'lauschi',
                 applicationVersion:
-                    '${ref.watch(appVersionProvider).value ?? '…'}'
+                    '${ref.read(appVersionProvider).value ?? '…'}'
                     ' ($_buildFlavour)',
                 applicationIcon: Padding(
                   padding: const EdgeInsets.all(AppSpacing.md),
@@ -271,7 +270,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               'Kacheln mit NFC-Tags verknüpfen. '
               'Kind hält Tag ans Gerät → Wiedergabe startet.',
           value: settings.nfcEnabled,
-          onChanged: (v) => _update(settings.copyWith(nfcEnabled: v)),
+          onChanged:
+              (v) => _update(
+                settings.copyWith(nfcEnabled: v),
+                requiresRestart: false,
+              ),
         ),
       ],
     );
@@ -316,24 +319,19 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     await ref.read(spotifySessionProvider.notifier).logout();
 
     // Reset onboarding so the router redirects to the login flow.
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('onboarding_complete', false);
-    unawaited(ref.read(onboardingCompleteProvider.notifier).checkAsync());
+    await ref.read(onboardingCompleteProvider.notifier).markIncomplete();
   }
 
-  Future<void> _update(DebugSettings updated) async {
-    Log.info(
-      _tag,
-      'Settings updated',
-      data: {
-        'replayEnabled': '${updated.replayEnabled}',
-        'maskAllText': '${updated.maskAllText}',
-        'maskAllImages': '${updated.maskAllImages}',
-        'nfcEnabled': '${updated.nfcEnabled}',
-      },
-    );
+  /// Persists a settings change. [requiresRestart] gates the "Neustart
+  /// erforderlich" banner: it's true for the Sentry toggles (read once in
+  /// main.dart before SentryFlutter.init) and false for settings that
+  /// apply live, like NFC (NfcListener reacts to the provider immediately).
+  Future<void> _update(
+    DebugSettings updated, {
+    bool requiresRestart = true,
+  }) async {
     await ref.read(debugSettingsProvider.notifier).save(updated);
-    if (mounted) setState(() => _changed = true);
+    if (requiresRestart && mounted) setState(() => _changed = true);
   }
 }
 
