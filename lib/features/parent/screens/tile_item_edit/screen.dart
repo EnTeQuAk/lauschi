@@ -13,6 +13,19 @@ import 'package:lauschi/features/parent/widgets/group_picker_sheet.dart';
 
 const _tag = 'TileItemEditScreen';
 
+/// The customTitle override to persist for the edited [fieldText] given
+/// the item's canonical [originalTitle]. Returns null (clear the override)
+/// when the field is empty or merely echoes the original title, so a
+/// save that only changed the cover can't silently promote the original
+/// name into a stored override that would then mask later upstream title
+/// changes.
+@visibleForTesting
+String? resolveCustomTitle(String fieldText, String originalTitle) {
+  final trimmed = fieldText.trim();
+  if (trimmed.isEmpty || trimmed == originalTitle) return null;
+  return trimmed;
+}
+
 /// Parent edit screen for a single ungrouped (or grouped) item.
 ///
 /// Mirrors the tile-edit screen's shape: title + cover meta block at
@@ -49,20 +62,25 @@ class _TileItemEditScreenState extends ConsumerState<TileItemEditScreen> {
   }
 
   Future<void> _save() async {
-    final title = _titleController.text.trim();
+    final originalTitle =
+        ref.read(tileItemByIdProvider(widget.itemId)).value?.title ?? '';
+    final customTitle = resolveCustomTitle(
+      _titleController.text,
+      originalTitle,
+    );
     final cover = _coverController.text.trim();
     Log.info(
       _tag,
       'Saving item',
-      data: {'itemId': widget.itemId, 'titleLen': '${title.length}'},
+      data: {'itemId': widget.itemId, 'override': '${customTitle != null}'},
     );
     try {
       await ref
           .read(tileItemRepositoryProvider)
           .updateMeta(
             id: widget.itemId,
-            customTitle: title.isEmpty ? null : title,
-            clearCustomTitle: title.isEmpty,
+            customTitle: customTitle,
+            clearCustomTitle: customTitle == null,
             coverUrl: cover.isEmpty ? null : cover,
             clearCoverUrl: cover.isEmpty,
           );

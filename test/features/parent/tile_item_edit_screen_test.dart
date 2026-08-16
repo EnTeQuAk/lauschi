@@ -177,4 +177,62 @@ void main() {
 
     expect(find.text('Kachel zuweisen'), findsOneWidget);
   });
+
+  testWidgets('a cover-only save does not create a title override', (
+    tester,
+  ) async {
+    final itemId = await repo.insert(
+      title: 'Upstream Title',
+      providerUri: 'spotify:album:coveronly',
+      cardType: 'album',
+    );
+    await repo.updateMeta(id: itemId, coverUrl: 'https://img/cover.jpg');
+
+    final before = await repo.getById(itemId);
+    expect(
+      before!.customTitle,
+      isNull,
+      reason: 'setup: no override, the field shows the upstream title',
+    );
+
+    final container = makeContainer();
+    await tester.pumpWidget(buildScreen(container, itemId));
+    for (var i = 0; i < 5; i++) {
+      await tester.pump(const Duration(milliseconds: 50));
+    }
+
+    // Change only the cover (clear it) — this auto-saves without the user
+    // ever touching the title field.
+    expect(find.text('Entfernen'), findsOneWidget);
+    await tester.tap(find.text('Entfernen'));
+    for (var i = 0; i < 5; i++) {
+      await tester.pump(const Duration(milliseconds: 50));
+    }
+
+    final after = await repo.getById(itemId);
+    expect(after!.coverUrl, isNull, reason: 'the cover clear persisted');
+    expect(
+      after.customTitle,
+      isNull,
+      reason:
+          'a save that only changed the cover must not promote the original '
+          'title into a stored override that would mask upstream changes',
+    );
+  });
+
+  group('resolveCustomTitle', () {
+    const original = 'Original Name';
+    for (final (fieldText, expected) in <(String, String?)>[
+      ('', null), // cleared -> restore original
+      ('   ', null), // whitespace only -> restore original
+      ('Original Name', null), // echoes original -> no override needed
+      ('  Original Name  ', null), // trims to the original -> no override
+      ('Mein Titel', 'Mein Titel'), // genuine override
+      ('  Mein Titel  ', 'Mein Titel'), // trimmed override
+    ]) {
+      test('"$fieldText" over "$original" resolves to $expected', () {
+        expect(resolveCustomTitle(fieldText, original), expected);
+      });
+    }
+  });
 }
