@@ -6,8 +6,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/auth/pin_service.dart';
 import 'package:lauschi/core/auth/pin_widgets.dart';
+import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+
+const _tag = 'PinScreen';
 
 /// PIN entry screen for parent mode access.
 ///
@@ -89,12 +92,20 @@ class _PinScreenState extends ConsumerState<PinScreen>
     if (_pin.length == _pinLength) {
       final pinStr = _pin.map((d) => d.toString()).join();
 
-      if (widget.isChange && !_changeVerified) {
-        await _handleChangeVerify(pinStr);
-      } else if (_isSettingUp) {
-        await _handleSetup(pinStr);
-      } else {
-        await _handleVerify(pinStr);
+      try {
+        if (widget.isChange && !_changeVerified) {
+          await _handleChangeVerify(pinStr);
+        } else if (_isSettingUp) {
+          await _handleSetup(pinStr);
+        } else {
+          await _handleVerify(pinStr);
+        }
+      } on Object catch (e) {
+        // A secure-storage failure must not leave the pad stuck on four dots
+        // with no way to retry (the length guard blocks further input). Log
+        // it and reset to the error state so the parent can try again.
+        Log.error(_tag, 'PIN entry failed', exception: e);
+        await _showError();
       }
     }
   }
@@ -118,10 +129,9 @@ class _PinScreenState extends ConsumerState<PinScreen>
     final valid = await pinService.verifyPin(pinStr);
 
     if (valid) {
+      if (!mounted) return;
       ref.read(parentAuthProvider.notifier).authenticate();
-      if (mounted) {
-        context.go(AppRoutes.parentDashboard);
-      }
+      context.go(AppRoutes.parentDashboard);
     } else {
       await _showError();
     }
@@ -129,21 +139,20 @@ class _PinScreenState extends ConsumerState<PinScreen>
 
   Future<void> _handleSetup(String pinStr) async {
     if (_firstPin == null) {
-      // First entry — store and ask for confirmation
+      // First entry: store and ask for confirmation.
       setState(() {
         _firstPin = pinStr;
         _pin.clear();
       });
     } else if (_firstPin == pinStr) {
-      // Confirmation matches — save
+      // Confirmation matches, save.
       final pinService = ref.read(pinServiceProvider);
       await pinService.setPin(pinStr);
+      if (!mounted) return;
       ref.read(parentAuthProvider.notifier).authenticate();
-      if (mounted) {
-        context.go(AppRoutes.parentDashboard);
-      }
+      context.go(AppRoutes.parentDashboard);
     } else {
-      // Mismatch — restart
+      // Mismatch, restart.
       _firstPin = null;
       await _showError();
     }

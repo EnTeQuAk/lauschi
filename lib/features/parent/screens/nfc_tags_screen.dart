@@ -7,7 +7,13 @@ import 'package:lauschi/core/theme/app_theme.dart';
 
 const _tag = 'NfcTagsScreen';
 
-/// NFC tag management — list paired tags, delete mappings.
+/// A short, display-safe form of a tag UID. Guards against UIDs shorter than
+/// the truncation length (a 2-byte tag is only 5 chars, e.g. `ab:cd`).
+@visibleForTesting
+String shortTagUid(String uid) =>
+    uid.length > 8 ? '${uid.substring(0, 8)}…' : uid;
+
+/// NFC tag management: list paired tags, delete mappings.
 ///
 /// Pairing happens contextually from group/card screens, not here.
 /// This screen is for overview and cleanup.
@@ -31,6 +37,15 @@ class NfcTagsScreen extends ConsumerWidget {
             return const Center(child: CircularProgressIndicator());
           }
 
+          if (snapshot.hasError) {
+            Log.error(
+              _tag,
+              'NFC tags stream failed',
+              exception: snapshot.error,
+            );
+            return const _ErrorState();
+          }
+
           final tags = snapshot.data ?? [];
 
           if (tags.isEmpty) {
@@ -45,27 +60,40 @@ class NfcTagsScreen extends ConsumerWidget {
               return _TagTile(
                 tag: tag,
                 onDelete: () async {
-                  Log.info(
-                    _tag,
-                    'NFC tag deleted',
-                    data: {
-                      'tagUid': tag.tagUid,
-                      'targetType': tag.targetType,
-                    },
-                  );
-                  await nfc.deleteMapping(tag.tagUid);
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context)
+                  // Capture the messenger before the await: deleting the last
+                  // tag empties the stream, which unmounts this list item, so
+                  // its own context can't show the confirmation afterwards.
+                  final messenger = ScaffoldMessenger.of(context);
+                  try {
+                    await nfc.deleteMapping(tag.tagUid);
+                    Log.info(
+                      _tag,
+                      'NFC tag deleted',
+                      data: {
+                        'tagUid': tag.tagUid,
+                        'targetType': tag.targetType,
+                      },
+                    );
+                  } on Exception catch (e) {
+                    Log.error(_tag, 'NFC tag delete failed', exception: e);
+                    messenger
                       ..clearSnackBars()
                       ..showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            '${tag.label ?? tag.tagUid} entfernt',
-                          ),
+                        const SnackBar(
+                          content: Text('Löschen fehlgeschlagen'),
                           behavior: SnackBarBehavior.floating,
                         ),
                       );
+                    return;
                   }
+                  messenger
+                    ..clearSnackBars()
+                    ..showSnackBar(
+                      SnackBar(
+                        content: Text('${tag.label ?? tag.tagUid} entfernt'),
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
                 },
               );
             },
@@ -93,7 +121,7 @@ class _TagTile extends StatelessWidget {
       tileColor: AppColors.parentSurface,
       leading: const Icon(Icons.nfc_rounded, color: AppColors.primary),
       title: Text(
-        tag.label ?? 'Tag ${tag.tagUid.substring(0, 8)}…',
+        tag.label ?? 'Tag ${shortTagUid(tag.tagUid)}',
         style: const TextStyle(
           fontFamily: 'Nunito',
           fontWeight: FontWeight.w600,
@@ -124,6 +152,39 @@ class _TagTile extends StatelessWidget {
         icon: const Icon(Icons.delete_outline_rounded),
         color: AppColors.error,
         tooltip: 'Entfernen',
+      ),
+    );
+  }
+}
+
+class _ErrorState extends StatelessWidget {
+  const _ErrorState();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Padding(
+        padding: EdgeInsets.all(AppSpacing.xxl),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.error_outline_rounded,
+              size: 48,
+              color: AppColors.textSecondary,
+            ),
+            SizedBox(height: AppSpacing.md),
+            Text(
+              'NFC-Tags konnten nicht geladen werden.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'Nunito',
+                fontSize: 14,
+                color: AppColors.textSecondary,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
