@@ -330,5 +330,46 @@ void main() {
             'cancel an active nest target.',
       );
     });
+
+    testWidgets('dragging a tile into empty space moves it to the end', (
+      tester,
+    ) async {
+      // Regression for the move-to-end off-by-one: inserting at
+      // endOfBlock - 1 landed the dragged tile second-to-last, so for a
+      // two-tile block the "move to end" reorder was a no-op.
+      List<String>? newOrder;
+      await tester.pumpWidget(
+        noopWrap(
+          SizedBox(
+            width: 400,
+            height: 800,
+            child: DraggableTileGrid(
+              items: twoTiles,
+              onReorder: (order) => newOrder = order,
+              onNest: (_, _) {},
+              onTap: (_) {},
+              onLongPress: (_) {},
+            ),
+          ),
+        ),
+      );
+
+      // Long-press-drag Alpha (leftmost), then move into empty space well
+      // below the single row of tiles and release.
+      final gesture = await tester.startGesture(
+        tester.getCenter(find.text('Alpha')),
+      );
+      await tester.pump(const Duration(milliseconds: 400));
+      await gesture.moveTo(const Offset(200, 500));
+      await tester.pump(const Duration(milliseconds: 50));
+      await gesture.up();
+      await tester.pump(const Duration(milliseconds: 250));
+
+      expect(
+        newOrder,
+        ['b', 'a'],
+        reason: 'Alpha moved to the end, after Beta',
+      );
+    });
   });
 }

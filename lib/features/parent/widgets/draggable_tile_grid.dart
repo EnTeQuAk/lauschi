@@ -573,11 +573,12 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
     if (local.dy < lastCellBottom) return;
 
     final removed = _order.removeAt(draggedIdx);
-    // After removal, items at index > draggedIdx shifted down by one.
-    // For a same-kind move-to-end, the new endOfBlock is endOfBlock - 1
-    // if draggedIdx was before it (always true since dragged was in the
-    // block), so insert at that adjusted index.
-    final insertAt = endOfBlock - 1;
+    // After removal, items at index > draggedIdx shift down by one, so the
+    // block's former last element now sits at endOfBlock - 1. Insert the
+    // dragged item just after it — at endOfBlock — to land it at the very
+    // end of the block. (Inserting at endOfBlock - 1 would put it
+    // second-to-last, a no-op for a two-item block.)
+    final insertAt = endOfBlock;
     _order.insert(insertAt.clamp(0, _order.length), removed);
     _orderChanged = true;
     unawaited(HapticFeedback.selectionClick());
