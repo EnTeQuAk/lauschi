@@ -1,12 +1,25 @@
 import 'dart:async' show unawaited;
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/foundation.dart' show listEquals;
+import 'package:flutter/foundation.dart' show listEquals, visibleForTesting;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+
+/// Whether an artist-image fetch's results should still be applied: the
+/// picker is still mounted and the ids we [ranFor] still match the
+/// [current] ones. A different id set means didUpdateWidget already
+/// cleared the images and kicked off a fresh fetch, so this batch is
+/// stale and would otherwise mix a previous artist's images into the new
+/// set.
+@visibleForTesting
+bool shouldApplyArtistImages({
+  required List<String> ranFor,
+  required List<String> current,
+  required bool mounted,
+}) => mounted && listEquals(ranFor, current);
 
 /// Cover image picker for tile editing.
 ///
@@ -50,12 +63,17 @@ class _CoverPickerState extends ConsumerState<CoverPicker> {
   @override
   void initState() {
     super.initState();
+    widget.controller.addListener(_onControllerChanged);
     unawaited(_fetchArtistImages());
   }
 
   @override
   void didUpdateWidget(CoverPicker oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (oldWidget.controller != widget.controller) {
+      oldWidget.controller.removeListener(_onControllerChanged);
+      widget.controller.addListener(_onControllerChanged);
+    }
     if (!listEquals(oldWidget.artistIds, widget.artistIds)) {
       _artistImagesFetched = false;
       _artistImages.clear();
@@ -63,14 +81,29 @@ class _CoverPickerState extends ConsumerState<CoverPicker> {
     }
   }
 
+  @override
+  void dispose() {
+    widget.controller.removeListener(_onControllerChanged);
+    super.dispose();
+  }
+
+  /// The preview, the selection highlight, and the "Entfernen" affordance
+  /// all read `controller.text`, so rebuild whenever it changes. Without
+  /// this the parent's deferred (post-frame) controller init leaves an
+  /// existing cover invisible until some unrelated setState rebuilds us.
+  void _onControllerChanged() {
+    if (mounted) setState(() {});
+  }
+
   Future<void> _fetchArtistImages() async {
     if (!FeatureFlags.enableSpotify) return;
     if (widget.artistIds.isEmpty || _artistImagesFetched) return;
     _artistImagesFetched = true;
 
+    final ranFor = widget.artistIds;
     final api = ref.read(spotifySessionProvider.notifier).api;
 
-    final futures = widget.artistIds.map((id) async {
+    final futures = ranFor.map((id) async {
       try {
         return await api.getArtistImage(id);
       } on Exception {
@@ -78,10 +111,15 @@ class _CoverPickerState extends ConsumerState<CoverPicker> {
       }
     });
     final results = await Future.wait(futures);
-    if (mounted) {
-      final urls = results.whereType<String>().toList();
-      if (urls.isNotEmpty) setState(() => _artistImages.addAll(urls));
+    if (!shouldApplyArtistImages(
+      ranFor: ranFor,
+      current: widget.artistIds,
+      mounted: mounted,
+    )) {
+      return;
     }
+    final urls = results.whereType<String>().toList();
+    if (urls.isNotEmpty) setState(() => _artistImages.addAll(urls));
   }
 
   void _pickCover(String url) {
