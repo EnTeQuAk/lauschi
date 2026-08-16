@@ -32,10 +32,11 @@ import 'package:lauschi/features/player/player_state.dart';
 ///
 /// 503 events across 10 minutes on screens that don't even use
 /// `DraggableTileGrid` (parent-dashboard, kid-home, pin-entry,
-/// parent-settings). The fix (shrinkWrap: true in the sliver branch)
-/// prevents the root layout failure, and per Flutter's semantic-tree
-/// machinery the cascading parentDataDirty errors disappear with it
-/// (no corruption = no stale dirty state).
+/// parent-settings). The grid now renders inside a bounded
+/// `Column[Expanded]`, never an unbounded sliver, which prevents the root
+/// layout failure, and per Flutter's semantic-tree machinery the cascading
+/// parentDataDirty errors disappear with it (no corruption = no stale
+/// dirty state).
 ///
 /// This test reproduces the exact DB shape that broke production:
 /// several tiles plus one ungrouped item. On the buggy code the pump
@@ -278,7 +279,7 @@ void main() {
     'guards against the fix breaking the unbroken path',
     (tester) async {
       // Tiles but ZERO ungrouped items. This is the pre-bug happy path
-      // that always worked; we want to make sure the shrinkWrap fix
+      // that always worked; we want to make sure the bounded-layout fix
       // didn't break it.
       await tiles.insert(title: 'Asterix');
       await tiles.insert(title: 'Biene Maja');

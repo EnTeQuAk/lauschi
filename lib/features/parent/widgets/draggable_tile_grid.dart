@@ -98,7 +98,6 @@ class DraggableTileGrid extends StatefulWidget {
     required this.onTap,
     super.key,
     this.dropZones = const [],
-    this.shrinkWrap = false,
   });
 
   final List<DraggableTileItem> items;
@@ -108,13 +107,6 @@ class DraggableTileGrid extends StatefulWidget {
 
   /// Drop zones shown at the bottom during drag.
   final List<DropZoneConfig> dropZones;
-
-  /// When true, the grid sizes itself to its content (height comes from
-  /// row count and tile aspect ratio) and doesn't try to fill the parent.
-  /// Use when placing the grid inside an unbounded parent like
-  /// [SliverToBoxAdapter] or another scroll view. The parent then handles
-  /// scrolling instead of the grid's internal [SingleChildScrollView].
-  final bool shrinkWrap;
 
   @override
   State<DraggableTileGrid> createState() => _DraggableTileGridState();
@@ -686,21 +678,8 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
 
     final showDropZones = _draggedId != null && widget.dropZones.isNotEmpty;
 
-    if (widget.shrinkWrap) {
-      // Caller provides unbounded height (e.g. SliverToBoxAdapter). Don't
-      // wrap in Expanded — the SizedBox inside [grid] sets the height,
-      // and the outer scroll view handles overflow.
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          grid,
-          if (showDropZones) _buildDropZonesPadding(context),
-        ],
-      );
-    }
-
-    // Bounded mode: take all available height. The internal scroll view
-    // handles overflow when there are more rows than fit on screen.
+    // Takes all available height from a bounded parent; the internal scroll
+    // view handles overflow when there are more rows than fit on screen.
     return Column(
       children: [
         Expanded(

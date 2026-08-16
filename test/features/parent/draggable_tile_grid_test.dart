@@ -2,17 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/features/parent/widgets/draggable_tile_grid.dart';
 
-/// Regression tests for [DraggableTileGrid] layout. The bug fixed here
-/// (LAUSCHI-1M and 13 cascading semantic-tree errors): when the grid was
-/// placed inside an unbounded parent like [SliverToBoxAdapter], its
-/// internal `Column[Expanded[SingleChildScrollView[...]]]` wrapper threw
-/// 'RenderFlex children have non-zero flex but incoming height
-/// constraints are unbounded'. The whole "Kacheln verwalten" screen
-/// rendered blank as soon as a user had any ungrouped items, because
-/// `_SeriesBody` switches to a `CustomScrollView` in that case.
-///
-/// The fix added a [DraggableTileGrid.shrinkWrap] flag that drops the
-/// Expanded wrapper and lets the grid size itself to its content.
+/// Tests for [DraggableTileGrid]: rendering, the drop-zone hit-test, and
+/// the drag/reorder/nest behaviour. The grid lives in a bounded parent
+/// (Scaffold body + Expanded); its SingleChildScrollView handles overflow.
 void main() {
   final twoTiles = [
     const DraggableTileItem(id: 'a', title: 'Alpha'),
@@ -84,79 +76,10 @@ void main() {
   });
 
   group('DraggableTileGrid', () {
-    testWidgets('renders inside SliverToBoxAdapter with shrinkWrap=true', (
-      tester,
-    ) async {
-      // The exact failure mode from LAUSCHI-1M: a SliverToBoxAdapter
-      // gives the child unbounded vertical constraints. Without
-      // shrinkWrap=true the grid throws.
-      await tester.pumpWidget(
-        noopWrap(
-          CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: DraggableTileGrid(
-                  items: twoTiles,
-                  shrinkWrap: true,
-                  onReorder: (_) {},
-                  onNest: (_, _) {},
-                  onTap: (_) {},
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-
-      expect(tester.takeException(), isNull);
-      expect(find.text('Alpha'), findsOneWidget);
-      expect(find.text('Beta'), findsOneWidget);
-    });
-
-    testWidgets('shrinkWrap=false (default) throws in unbounded parent', (
-      tester,
-    ) async {
-      // Documents the failure mode: with shrinkWrap=false (the broken
-      // path) inside a sliver, the grid throws a layout assertion. This
-      // test exists to make the regression obvious if someone removes
-      // the shrinkWrap branch in the future.
-      await tester.pumpWidget(
-        noopWrap(
-          CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: DraggableTileGrid(
-                  items: twoTiles,
-                  // shrinkWrap defaults to false → broken
-                  onReorder: (_) {},
-                  onNest: (_, _) {},
-                  onTap: (_) {},
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-
-      // Flutter wraps multiple errors during a single frame; we expect
-      // at least one. Take all and verify the first is the layout error.
-      final exception = tester.takeException();
-      expect(
-        exception,
-        isNotNull,
-        reason:
-            'shrinkWrap=false in an unbounded parent should still throw '
-            '— if this passes, the bug fix may have grown a workaround '
-            'that hides the failure',
-      );
-    });
-
-    testWidgets('renders in bounded mode (Scaffold body, no shrinkWrap)', (
-      tester,
-    ) async {
-      // The other valid usage: inside a fixed-height parent (Scaffold
-      // body, Expanded). Default shrinkWrap=false, fills available space,
-      // SingleChildScrollView handles overflow.
+    testWidgets('renders in a bounded parent', (tester) async {
+      // Production usage: inside a fixed-height parent (Scaffold body,
+      // Expanded). The grid fills the space; its SingleChildScrollView
+      // handles overflow.
       await tester.pumpWidget(
         noopWrap(
           DraggableTileGrid(
@@ -173,24 +96,15 @@ void main() {
       expect(find.text('Beta'), findsOneWidget);
     });
 
-    testWidgets('empty grid renders without exceptions in shrinkWrap mode', (
-      tester,
-    ) async {
+    testWidgets('empty grid renders without exceptions', (tester) async {
       // Edge case: zero tiles shouldn't trip the rowCount==0 branch.
       await tester.pumpWidget(
         noopWrap(
-          CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: DraggableTileGrid(
-                  items: const [],
-                  shrinkWrap: true,
-                  onReorder: (_) {},
-                  onNest: (_, _) {},
-                  onTap: (_) {},
-                ),
-              ),
-            ],
+          DraggableTileGrid(
+            items: const [],
+            onReorder: (_) {},
+            onNest: (_, _) {},
+            onTap: (_) {},
           ),
         ),
       );
@@ -295,26 +209,15 @@ void main() {
       expect(find.text('1 einzelne Folgen'), findsNothing);
     });
 
-    testWidgets('mixed grid renders all cells in shrinkWrap mode', (
-      tester,
-    ) async {
-      // Inside an unbounded parent — the bug-prone path. The boundary
-      // band adds vertical real estate that the bounded-height path
-      // doesn't see, so we test the sliver case explicitly.
+    testWidgets('mixed grid renders all cells', (tester) async {
+      // Both blocks plus the boundary band render together.
       await tester.pumpWidget(
         noopWrap(
-          CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: DraggableTileGrid(
-                  items: const [tileA, tileB, epX, epY],
-                  shrinkWrap: true,
-                  onReorder: (_) {},
-                  onNest: (_, _) {},
-                  onTap: (_) {},
-                ),
-              ),
-            ],
+          DraggableTileGrid(
+            items: const [tileA, tileB, epX, epY],
+            onReorder: (_) {},
+            onNest: (_, _) {},
+            onTap: (_) {},
           ),
         ),
       );
