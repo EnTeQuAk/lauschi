@@ -69,10 +69,16 @@ String? detectBatchSeries(
 
 // ── UI helpers ──────────────────────────────────────────────────────────────
 
-/// Hue-based placeholder for album art that hasn't loaded yet.
+/// Hue-based placeholder for cover art that hasn't loaded yet. The hue is
+/// derived from the title so a given item always gets the same colour.
 class CatalogPlaceholder extends StatelessWidget {
-  const CatalogPlaceholder({required this.title, super.key});
+  const CatalogPlaceholder({
+    required this.title,
+    this.icon = Icons.headphones_rounded,
+    super.key,
+  });
   final String title;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +92,7 @@ class CatalogPlaceholder extends StatelessWidget {
       ),
       child: Center(
         child: Icon(
-          Icons.headphones_rounded,
+          icon,
           color: HSLColor.fromAHSL(1, hue, 0.4, 0.5).toColor(),
           size: 32,
         ),

@@ -10,6 +10,7 @@ import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/parent/screens/ard_show_detail/screen.dart';
+import 'package:lauschi/features/parent/screens/browse_catalog/widgets/catalog_helpers.dart';
 import 'package:lauschi/features/parent/widgets/featured_section.dart';
 import 'package:lauschi/features/tiles/widgets/tile_card.dart';
 
@@ -33,6 +34,14 @@ class DiscoverScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Log a failed featured load once per transition, not on every rebuild
+    // (the error builder below runs on every frame it's shown).
+    ref.listen(featuredItemsProvider, (prev, next) {
+      if (next is AsyncError && prev is! AsyncError) {
+        Log.error('Discover', 'Featured items failed', exception: next.error);
+      }
+    });
+
     final showsAsync = ref.watch(ardKidsShowsProvider);
     final featuredAsync = ref.watch(featuredItemsProvider);
 
@@ -89,14 +98,7 @@ class DiscoverScreen extends ConsumerWidget {
                       padding: EdgeInsets.all(AppSpacing.lg),
                       child: Center(child: CircularProgressIndicator()),
                     ),
-                error: (e, _) {
-                  Log.error(
-                    'Discover',
-                    'Featured items failed',
-                    exception: e,
-                  );
-                  return const SizedBox.shrink();
-                },
+                error: (_, _) => const SizedBox.shrink(),
                 data: (featured) {
                   if (featured.isEmpty) return const SizedBox.shrink();
 
@@ -205,6 +207,10 @@ class _ShowCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final imageUrl = ardImageUrl(show.imageUrl, width: 300);
+    final broadcaster = show.organizationName ?? show.publisher;
+    final count = show.numberOfElements;
+    final folgen = '$count ${count == 1 ? 'Folge' : 'Folgen'}';
+    final subtitle = broadcaster != null ? '$broadcaster · $folgen' : folgen;
 
     return GestureDetector(
       onTap:
@@ -225,39 +231,25 @@ class _ShowCard extends StatelessWidget {
                         memCacheWidth: 400,
                         width: double.infinity,
                         height: double.infinity,
-                        placeholder: (_, _) => _Placeholder(title: show.title),
+                        placeholder:
+                            (_, _) => CatalogPlaceholder(
+                              title: show.title,
+                              icon: Icons.radio_rounded,
+                            ),
                         errorWidget:
-                            (_, _, _) => _Placeholder(title: show.title),
+                            (_, _, _) => CatalogPlaceholder(
+                              title: show.title,
+                              icon: Icons.radio_rounded,
+                            ),
                       )
-                      : _Placeholder(title: show.title),
+                      : CatalogPlaceholder(
+                        title: show.title,
+                        icon: Icons.radio_rounded,
+                      ),
             ),
           ),
-          TileLabel(
-            title: show.title,
-            subtitle:
-                '${show.organizationName ?? show.publisher ?? ''} · ${show.numberOfElements} Folgen',
-          ),
+          TileLabel(title: show.title, subtitle: subtitle),
         ],
-      ),
-    );
-  }
-}
-
-class _Placeholder extends StatelessWidget {
-  const _Placeholder({required this.title});
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    final hue = (title.hashCode % 360).abs().toDouble();
-    return ColoredBox(
-      color: HSLColor.fromAHSL(1, hue, 0.3, 0.25).toColor(),
-      child: Center(
-        child: Icon(
-          Icons.radio_rounded,
-          color: HSLColor.fromAHSL(1, hue, 0.4, 0.5).toColor(),
-          size: 32,
-        ),
       ),
     );
   }
