@@ -26,19 +26,13 @@ class EpisodeReorderList extends ConsumerWidget {
     return ReorderableListView.builder(
       padding: const EdgeInsets.only(bottom: AppSpacing.fabClearance),
       buildDefaultDragHandles: false,
-      proxyDecorator: (child, index, animation) {
-        return AnimatedBuilder(
-          animation: animation,
-          builder:
-              (context, child) => Material(
-                elevation: 4,
-                shadowColor: Colors.black26,
-                borderRadius: const BorderRadius.all(Radius.circular(8)),
-                child: child,
-              ),
-          child: child,
-        );
-      },
+      proxyDecorator:
+          (child, index, animation) => Material(
+            elevation: 4,
+            shadowColor: Colors.black26,
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            child: child,
+          ),
       onReorderItem: (oldIndex, newIndex) {
         final reordered = List<db.TileItem>.from(episodes);
         final item = reordered.removeAt(oldIndex);

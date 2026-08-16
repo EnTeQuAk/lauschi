@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lauschi/core/apple_music/apple_music_catalog_source.dart';
 import 'package:lauschi/core/apple_music/apple_music_session.dart';
-import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/providers/provider_registry.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/spotify/spotify_catalog_source.dart';
@@ -11,6 +10,7 @@ import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/parent/screens/browse_catalog/screen.dart';
 import 'package:lauschi/features/parent/screens/discover_screen.dart';
+import 'package:lauschi/features/tiles/screens/tile_detail/screen.dart';
 
 /// Screen for discovering and adding content from available providers.
 ///
@@ -189,13 +189,7 @@ class _AutoAssignBanner extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tilesAsync = ref.watch(allTilesProvider);
-    final tileName = tilesAsync.whenOrNull(
-      data: (tiles) {
-        final tile = tiles.where((t) => t.id == tileId).firstOrNull;
-        return tile?.title;
-      },
-    );
+    final tileName = ref.watch(tileByIdProvider(tileId)).value?.title;
 
     return Container(
       width: double.infinity,
