@@ -167,18 +167,29 @@ class _CatalogSeriesDetailScreenState
           _isAdding = false;
         });
       }
-    } on Exception catch (e) {
+      // Catch-all, not `on Exception`: importToGroup throws StateError (an
+      // Error) when another import is already running. If it escaped, the
+      // dialog would stay up, _isAdding would stick, and the finally below
+      // would dispose notifiers the live dialog still references.
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
       Log.error(_tag, 'Failed to add cards', exception: e);
       if (mounted) {
         Navigator.of(context).pop(); // dismiss dialog
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Fehler: $e')),
+          const SnackBar(content: Text('Hinzufügen fehlgeschlagen.')),
         );
         setState(() => _isAdding = false);
       }
     } finally {
-      progressNotifier.dispose();
-      statusNotifier.dispose();
+      // Only dispose while mounted. On the unmounted path an orphaned
+      // progress dialog may still be listening to these notifiers;
+      // disposing them would crash it on its next rebuild. They leak until
+      // that dialog closes, then get collected.
+      if (mounted) {
+        progressNotifier.dispose();
+        statusNotifier.dispose();
+      }
     }
   }
 
