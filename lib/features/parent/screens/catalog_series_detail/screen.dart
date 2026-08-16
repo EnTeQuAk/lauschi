@@ -49,6 +49,13 @@ class _CatalogSeriesDetailScreenState
     return matches.isEmpty ? null : matches.first;
   }
 
+  /// German count unit, singular for one: "1 Folge" / "5 Folgen",
+  /// "1 Album" / "3 Alben".
+  String _countUnit(int n, {required bool music}) {
+    if (music) return n == 1 ? 'Album' : 'Alben';
+    return n == 1 ? 'Folge' : 'Folgen';
+  }
+
   void _toggleSelectAll(CatalogSeries series) {
     setState(() {
       _selectAll = !_selectAll;
@@ -163,7 +170,7 @@ class _CatalogSeriesDetailScreenState
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              '${result.added} ${series.isMusic ? 'Alben' : 'Folgen'} zu ${series.title} hinzugefügt',
+              '${result.added} ${_countUnit(result.added, music: series.isMusic)} zu ${series.title} hinzugefügt',
             ),
           ),
         );
@@ -302,7 +309,7 @@ class _CatalogSeriesDetailScreenState
                                 )
                                 : const Icon(Icons.add_rounded),
                         label: Text(
-                          '${_selected.length} ${series.isMusic ? 'Alben' : 'Folgen'} hinzufügen',
+                          '${_selected.length} ${_countUnit(_selected.length, music: series.isMusic)} hinzufügen',
                           style: const TextStyle(fontFamily: 'Nunito'),
                         ),
                       ),
