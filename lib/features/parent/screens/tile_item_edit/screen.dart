@@ -5,9 +5,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/tile_item_repository.dart';
+import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+import 'package:lauschi/core/ui/undo_snackbar.dart';
 import 'package:lauschi/features/parent/screens/tile_edit/widgets/cover_picker.dart';
 import 'package:lauschi/features/parent/widgets/group_picker_sheet.dart';
 
@@ -110,67 +112,29 @@ class _TileItemEditScreenState extends ConsumerState<TileItemEditScreen> {
     }
   }
 
-  void _confirmDelete(BuildContext context, db.TileItem item) {
-    Log.info(
-      _tag,
-      'Delete item dialog shown',
-      data: {'itemId': widget.itemId},
+  Future<void> _deleteItem(BuildContext context) async {
+    Log.info(_tag, 'Deleting item', data: {'itemId': widget.itemId});
+    final tileRepo = ref.read(tileRepositoryProvider);
+    final TileSnapshot undo;
+    try {
+      undo = await ref.read(tileItemRepositoryProvider).delete(widget.itemId);
+    } on Exception catch (e) {
+      Log.error(_tag, 'Delete item failed', exception: e);
+      showAppSnackBar('Löschen fehlgeschlagen');
+      return;
+    }
+    if (undo.isEmpty) return; // Already gone; nothing to undo.
+    showUndoSnackBar(
+      'Folge gelöscht',
+      onUndo: () => unawaited(tileRepo.restore(undo)),
     );
-    unawaited(
-      showDialog<void>(
-        context: context,
-        builder:
-            (ctx) => AlertDialog(
-              title: const Text('Folge entfernen?'),
-              content: Text(
-                '„${item.customTitle ?? item.title}“ wird aus der '
-                'Sammlung entfernt.',
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(ctx).pop(),
-                  child: const Text('Abbrechen'),
-                ),
-                FilledButton(
-                  onPressed: () async {
-                    Navigator.of(ctx).pop();
-                    try {
-                      await ref
-                          .read(tileItemRepositoryProvider)
-                          .delete(widget.itemId);
-                      Log.info(
-                        _tag,
-                        'Item deleted',
-                        data: {'itemId': widget.itemId},
-                      );
-                      if (context.mounted) {
-                        if (context.canPop()) {
-                          context.pop();
-                        } else {
-                          context.go(AppRoutes.parentManageTiles);
-                        }
-                      }
-                    } on Exception catch (e) {
-                      Log.error(_tag, 'Delete item failed', exception: e);
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Entfernen fehlgeschlagen'),
-                            behavior: SnackBarBehavior.floating,
-                          ),
-                        );
-                      }
-                    }
-                  },
-                  style: FilledButton.styleFrom(
-                    backgroundColor: AppColors.error,
-                  ),
-                  child: const Text('Entfernen'),
-                ),
-              ],
-            ),
-      ),
-    );
+    if (context.mounted) {
+      if (context.canPop()) {
+        context.pop();
+      } else {
+        context.go(AppRoutes.parentManageTiles);
+      }
+    }
   }
 
   @override
@@ -244,7 +208,7 @@ class _TileItemEditScreenState extends ConsumerState<TileItemEditScreen> {
             onSelected: (action) {
               switch (action) {
                 case 'delete':
-                  _confirmDelete(context, item);
+                  unawaited(_deleteItem(context));
               }
             },
             itemBuilder:

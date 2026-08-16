@@ -9,6 +9,7 @@ import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+import 'package:lauschi/core/ui/undo_snackbar.dart';
 import 'package:lauschi/features/parent/screens/tile_edit/widgets/cover_picker.dart';
 import 'package:lauschi/features/parent/screens/tile_edit/widgets/episode_reorder_list.dart';
 
@@ -47,147 +48,48 @@ class _TileEditScreenState extends ConsumerState<TileEditScreen> {
     super.dispose();
   }
 
-  void _confirmDeleteAllCards(BuildContext context) {
-    Log.info(
-      _tag,
-      'Delete all cards dialog shown',
-      data: {'tileId': widget.tileId},
-    );
-    unawaited(
-      showDialog<void>(
-        context: context,
-        builder:
-            (ctx) => AlertDialog(
-              title: const Text('Alle Folgen löschen?'),
-              content: const Text(
-                'Alle Einträge in dieser Kachel werden unwiderruflich '
-                'entfernt. Die Kachel selbst bleibt bestehen.',
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(ctx).pop(),
-                  child: const Text('Abbrechen'),
-                ),
-                FilledButton(
-                  onPressed: () async {
-                    Navigator.of(ctx).pop();
-                    try {
-                      final count = await ref
-                          .read(tileItemRepositoryProvider)
-                          .deleteByTile(widget.tileId);
-                      Log.info(
-                        _tag,
-                        'All cards deleted',
-                        data: {'tileId': widget.tileId, 'count': '$count'},
-                      );
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context)
-                          ..clearSnackBars()
-                          ..showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                '$count ${count == 1 ? 'Eintrag' : 'Einträge'} '
-                                'entfernt',
-                              ),
-                              behavior: SnackBarBehavior.floating,
-                            ),
-                          );
-                      }
-                    } on Exception catch (e) {
-                      Log.error(
-                        _tag,
-                        'Delete all cards failed',
-                        exception: e,
-                      );
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Löschen fehlgeschlagen'),
-                            behavior: SnackBarBehavior.floating,
-                          ),
-                        );
-                      }
-                    }
-                  },
-                  style: FilledButton.styleFrom(
-                    backgroundColor: AppColors.error,
-                  ),
-                  child: const Text('Alle löschen'),
-                ),
-              ],
-            ),
-      ),
+  Future<void> _deleteAllCards() async {
+    Log.info(_tag, 'Deleting all cards', data: {'tileId': widget.tileId});
+    final tileRepo = ref.read(tileRepositoryProvider);
+    final TileSnapshot undo;
+    try {
+      undo = await ref
+          .read(tileItemRepositoryProvider)
+          .deleteByTile(widget.tileId);
+    } on Exception catch (e) {
+      Log.error(_tag, 'Delete all cards failed', exception: e);
+      showAppSnackBar('Löschen fehlgeschlagen');
+      return;
+    }
+    final count = undo.items.length;
+    showUndoSnackBar(
+      '$count ${count == 1 ? 'Eintrag' : 'Einträge'} gelöscht',
+      onUndo: () => unawaited(tileRepo.restore(undo)),
     );
   }
 
-  void _confirmDeleteGroup(BuildContext context) {
-    Log.info(
-      _tag,
-      'Delete tile dialog shown',
-      data: {'tileId': widget.tileId},
+  Future<void> _deleteGroup(BuildContext context) async {
+    Log.info(_tag, 'Deleting tile', data: {'tileId': widget.tileId});
+    final tileRepo = ref.read(tileRepositoryProvider);
+    final TileSnapshot undo;
+    try {
+      undo = await tileRepo.delete(widget.tileId);
+    } on Exception catch (e) {
+      Log.error(_tag, 'Delete tile failed', exception: e);
+      showAppSnackBar('Löschen fehlgeschlagen');
+      return;
+    }
+    showUndoSnackBar(
+      'Kachel gelöscht',
+      onUndo: () => unawaited(tileRepo.restore(undo)),
     );
-    unawaited(
-      showDialog<void>(
-        context: context,
-        builder:
-            (ctx) => AlertDialog(
-              title: const Text('Kachel löschen?'),
-              content: const Text(
-                'Die Kachel und alle zugehörigen Einträge werden '
-                'unwiderruflich entfernt.',
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(ctx).pop(),
-                  child: const Text('Abbrechen'),
-                ),
-                FilledButton(
-                  onPressed: () async {
-                    Navigator.of(ctx).pop();
-                    try {
-                      await ref
-                          .read(tileItemRepositoryProvider)
-                          .deleteByTile(widget.tileId);
-                      await ref
-                          .read(tileRepositoryProvider)
-                          .delete(widget.tileId);
-                      Log.info(
-                        _tag,
-                        'Tile deleted',
-                        data: {'tileId': widget.tileId},
-                      );
-                      if (context.mounted) {
-                        if (context.canPop()) {
-                          context.pop();
-                        } else {
-                          context.go(AppRoutes.parentManageTiles);
-                        }
-                      }
-                    } on Exception catch (e) {
-                      Log.error(
-                        _tag,
-                        'Delete tile failed',
-                        exception: e,
-                      );
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Löschen fehlgeschlagen'),
-                            behavior: SnackBarBehavior.floating,
-                          ),
-                        );
-                      }
-                    }
-                  },
-                  style: FilledButton.styleFrom(
-                    backgroundColor: AppColors.error,
-                  ),
-                  child: const Text('Kachel löschen'),
-                ),
-              ],
-            ),
-      ),
-    );
+    if (context.mounted) {
+      if (context.canPop()) {
+        context.pop();
+      } else {
+        context.go(AppRoutes.parentManageTiles);
+      }
+    }
   }
 
   void _showSaveError() {
@@ -356,9 +258,9 @@ class _TileEditScreenState extends ConsumerState<TileEditScreen> {
             onSelected: (action) {
               switch (action) {
                 case 'delete_cards':
-                  _confirmDeleteAllCards(context);
+                  unawaited(_deleteAllCards());
                 case 'delete_group':
-                  _confirmDeleteGroup(context);
+                  unawaited(_deleteGroup(context));
               }
             },
             itemBuilder:

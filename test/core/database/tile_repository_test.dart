@@ -136,7 +136,7 @@ void main() {
     expect(after.contentType, before.contentType);
   });
 
-  test('delete unassigns cards and removes group', () async {
+  test('delete removes the group and its cards', () async {
     final groupId = await groups.insert(title: 'To Delete');
     final cardId = await cards.insert(
       title: 'Episode 1',
@@ -145,10 +145,10 @@ void main() {
     );
     await cards.assignToTile(itemId: cardId, tileId: groupId);
 
-    // Context: setup put the group in the DB AND the card is
-    // actually assigned to it. If `assignToTile` was a no-op, the
-    // delete-unassigns assertion below would pass for the wrong
-    // reason (`groupId` would already be null).
+    // Context: setup put the group in the DB AND the card is actually
+    // assigned to it, so the delete assertion below can't pass for the
+    // wrong reason (an unassigned card would be deleted too, but here we
+    // prove the assigned one goes with the tile).
     expect(
       await groups.getAll(),
       hasLength(1),
@@ -165,13 +165,13 @@ void main() {
     await groups.delete(groupId);
 
     expect(await groups.getAll(), isEmpty);
-
-    // Card still exists but is ungrouped. Data intact.
-    final card = await cards.getById(cardId);
-    expect(card, isNotNull, reason: 'card row should survive group delete');
-    expect(card!.groupId, isNull, reason: 'card.groupId should be cleared');
-    expect(card.title, 'Episode 1');
-    expect(card.providerUri, 'spotify:album:ep1');
+    // Deleting a tile deletes its episodes too (undo restores them; see
+    // tile_undo_test).
+    expect(
+      await cards.getById(cardId),
+      isNull,
+      reason: "the tile's episodes are deleted with it",
+    );
   });
 
   test('reorder updates sortOrder', () async {

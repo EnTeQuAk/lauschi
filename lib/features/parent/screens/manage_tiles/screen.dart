@@ -10,6 +10,7 @@ import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+import 'package:lauschi/core/ui/undo_snackbar.dart';
 import 'package:lauschi/features/parent/widgets/draggable_tile_grid.dart';
 
 const _tag = 'ManageTilesScreen';
@@ -322,26 +323,57 @@ class _MixedGrid extends ConsumerWidget {
     }
   }
 
-  void _onUnnestDrop(BuildContext context, WidgetRef ref, String encoded) {
+  Future<void> _onUnnestDrop(
+    BuildContext context,
+    WidgetRef ref,
+    String encoded,
+  ) async {
     final (kind, raw) = _decode(encoded);
     if (kind != GridItemKind.tile) return; // episodes can't be unnested here
     Log.info(_tag, 'Unnest via drop zone', data: {'tileId': raw});
-    unawaited(ref.read(tileRepositoryProvider).unnest(raw));
+    final repo = ref.read(tileRepositoryProvider);
+    try {
+      final undo = await repo.unnest(raw);
+      showUndoSnackBar(
+        'Aus Ordner gelöst',
+        onUndo: () => unawaited(repo.restore(undo)),
+      );
+    } on Exception catch (e) {
+      Log.error(_tag, 'Unnest via drop zone failed', exception: e);
+      showAppSnackBar('Aktion fehlgeschlagen');
+      return;
+    }
+    // A dissolved folder (its last child just left) means this screen has
+    // nothing left to show; step back to the dashboard.
     final remaining = tiles.where((t) => t.id != raw).length;
     if (remaining == 0 && context.mounted) context.pop();
   }
 
-  void _onDeleteDrop(WidgetRef ref, String encoded) {
+  Future<void> _onDeleteDrop(WidgetRef ref, String encoded) async {
     final (kind, raw) = _decode(encoded);
     Log.info(
       _tag,
       'Delete via drop zone',
       data: {'kind': kind.name, 'id': raw},
     );
-    if (kind == GridItemKind.tile) {
-      unawaited(ref.read(tileRepositoryProvider).delete(raw));
-    } else {
-      unawaited(ref.read(tileItemRepositoryProvider).delete(raw));
+    final tileRepo = ref.read(tileRepositoryProvider);
+    try {
+      if (kind == GridItemKind.tile) {
+        final undo = await tileRepo.delete(raw);
+        showUndoSnackBar(
+          'Kachel gelöscht',
+          onUndo: () => unawaited(tileRepo.restore(undo)),
+        );
+      } else {
+        final undo = await ref.read(tileItemRepositoryProvider).delete(raw);
+        showUndoSnackBar(
+          'Eintrag gelöscht',
+          onUndo: () => unawaited(tileRepo.restore(undo)),
+        );
+      }
+    } on Exception catch (e) {
+      Log.error(_tag, 'Delete via drop zone failed', exception: e);
+      showAppSnackBar('Löschen fehlgeschlagen');
     }
   }
 }

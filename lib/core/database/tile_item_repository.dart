@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/catalog/catalog_service.dart';
 import 'package:lauschi/core/database/app_database.dart';
 import 'package:lauschi/core/database/tables.dart' show cardOrder;
+import 'package:lauschi/core/database/tile_repository.dart' show TileSnapshot;
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -223,9 +224,11 @@ class TileItemRepository {
   }
 
   /// Delete an item by ID.
-  Future<void> delete(String id) async {
+  Future<TileSnapshot> delete(String id) async {
+    final item = await getById(id);
     await (_db.delete(_db.cards)..where((t) => t.id.equals(id))).go();
     Log.info(_tag, 'Item deleted', data: {'id': id});
+    return TileSnapshot(items: [if (item != null) item]);
   }
 
   /// Mark an item as unavailable (content removed or license expired).
@@ -262,16 +265,17 @@ class TileItemRepository {
   }
 
   /// Delete all items in a tile.
-  Future<int> deleteByTile(String tileId) async {
-    final count =
-        await (_db.delete(_db.cards)
-          ..where((t) => t.groupId.equals(tileId))).go();
+  Future<TileSnapshot> deleteByTile(String tileId) async {
+    final items =
+        await (_db.select(_db.cards)
+          ..where((t) => t.groupId.equals(tileId))).get();
+    await (_db.delete(_db.cards)..where((t) => t.groupId.equals(tileId))).go();
     Log.info(
       _tag,
       'Deleted items by tile',
-      data: {'tileId': tileId, 'count': '$count'},
+      data: {'tileId': tileId, 'count': '${items.length}'},
     );
-    return count;
+    return TileSnapshot(items: items);
   }
 
   /// Assign an item to a tile, optionally setting its episode number.
@@ -303,7 +307,8 @@ class TileItemRepository {
   }
 
   /// Remove an item from its tile.
-  Future<void> removeFromTile(String itemId) async {
+  Future<TileSnapshot> removeFromTile(String itemId) async {
+    final item = await getById(itemId);
     await (_db.update(_db.cards)..where((t) => t.id.equals(itemId))).write(
       const CardsCompanion(
         groupId: Value(null),
@@ -312,6 +317,7 @@ class TileItemRepository {
       ),
     );
     Log.info(_tag, 'Item removed from tile', data: {'itemId': itemId});
+    return TileSnapshot(items: [if (item != null) item]);
   }
 
   /// Mark an item as heard.

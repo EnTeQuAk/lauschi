@@ -15,6 +15,7 @@ import 'package:lauschi/core/nfc/nfc_listener.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+import 'package:lauschi/core/ui/undo_snackbar.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
 import 'package:lauschi/features/player/widgets/player_error_dialog.dart';
 import 'package:webview_flutter/webview_flutter.dart'; // Used by _SpotifyWebViewHost
@@ -155,6 +156,7 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
       title: 'lauschi',
       debugShowCheckedModeBanner: false,
       theme: buildAppTheme(),
+      scaffoldMessengerKey: rootScaffoldMessengerKey,
       routerConfig: router,
       builder: (context, child) {
         // Player errors surface from one place, no matter which screen

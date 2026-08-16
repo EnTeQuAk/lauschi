@@ -12,6 +12,25 @@ part 'tile_repository.g.dart';
 const _uuid = Uuid();
 const _tag = 'TileRepo';
 
+/// A snapshot of the tile/item rows a destructive action removed or moved,
+/// with enough state to put them back exactly. [TileRepository.restore]
+/// re-inserts deleted rows and resets moved ones. [tiles] are in dependency
+/// order: a parent always precedes its children, so restore never dangles a
+/// foreign key.
+class TileSnapshot {
+  const TileSnapshot({
+    this.tiles = const [],
+    this.items = const [],
+    this.nfcTags = const [],
+  });
+
+  final List<Tile> tiles;
+  final List<TileItem> items;
+  final List<NfcTag> nfcTags;
+
+  bool get isEmpty => tiles.isEmpty && items.isEmpty && nfcTags.isEmpty;
+}
+
 /// CRUD operations for tiles (DB table: `groups`).
 class TileRepository {
   TileRepository(this._db);
@@ -183,18 +202,19 @@ class TileRepository {
   ///
   /// If the parent folder has 0 remaining children after this, it is
   /// deleted automatically. A folder with 1 child is still valid.
-  Future<void> unnest(String tileId) async {
-    await _db.transaction(() async {
-      // Read the tile to find its parent.
+  Future<TileSnapshot> unnest(String tileId) {
+    return _db.transaction(() async {
+      // Read the tile (pre-move) to find its parent.
       final tile =
           await (_db.select(_db.groups)
             ..where((t) => t.id.equals(tileId))).getSingle();
       final parentId = tile.parentTileId;
 
       // Move tile to the parent's level (grandparent, or root).
+      Tile? parent;
       String? grandparentId;
       if (parentId != null) {
-        final parent =
+        parent =
             await (_db.select(_db.groups)
               ..where((t) => t.id.equals(parentId))).getSingle();
         grandparentId = parent.parentTileId;
@@ -221,6 +241,10 @@ class TileRepository {
       if (parentId != null) {
         await _dissolveIfEmpty(parentId);
       }
+
+      // Undo re-nests the tile (old parent + sort order); the parent goes
+      // first so it's re-created if the dissolve above removed it.
+      return TileSnapshot(tiles: [if (parent != null) parent, tile]);
     });
   }
 
@@ -406,9 +430,10 @@ class TileRepository {
   /// Items in deleted tiles become ungrouped. NFC tags pointing to
   /// deleted tiles are removed. Children are recursively deleted
   /// (SQLite FK cascade is not enforced; we handle it explicitly).
-  Future<void> delete(String id) async {
-    await _db.transaction(() async {
-      // Collect all tile IDs in the subtree (breadth-first).
+  Future<TileSnapshot> delete(String id) {
+    return _db.transaction(() async {
+      // Collect all tile IDs in the subtree, breadth-first so parents
+      // precede their children (the order restore needs).
       final subtreeIds = <String>[id];
       var queue = [id];
       while (queue.isNotEmpty) {
@@ -423,38 +448,61 @@ class TileRepository {
         }
       }
 
-      // Unassign all tile items in the subtree.
+      // Snapshot everything for undo before touching it: the tiles
+      // (parents-first), their items, and their NFC tags.
+      final tiles = <Tile>[];
       for (final tileId in subtreeIds) {
-        await (_db.update(_db.cards)..where(
-          (t) => t.groupId.equals(tileId),
-        )).write(
-          const CardsCompanion(
-            groupId: Value(null),
-            episodeNumber: Value(null),
-            sortOrder: Value(null),
-          ),
-        );
+        final tile =
+            await (_db.select(_db.groups)
+              ..where((t) => t.id.equals(tileId))).getSingleOrNull();
+        if (tile != null) tiles.add(tile);
       }
+      final items =
+          await (_db.select(_db.cards)
+            ..where((t) => t.groupId.isIn(subtreeIds))).get();
+      final nfcTags =
+          await (_db.select(_db.nfcTags)
+            ..where((t) => t.targetId.isIn(subtreeIds))).get();
 
-      // Remove NFC tags pointing to any tile in the subtree.
-      for (final tileId in subtreeIds) {
-        await (_db.delete(_db.nfcTags)..where(
-          (t) => t.targetId.equals(tileId),
-        )).go();
-      }
-
-      // Delete all tiles in the subtree (children first, then parent).
+      // Delete the items, then the NFC tags, then the tiles (children
+      // first so no child dangles off a deleted parent).
+      await (_db.delete(_db.cards)
+        ..where((t) => t.groupId.isIn(subtreeIds))).go();
+      await (_db.delete(_db.nfcTags)
+        ..where((t) => t.targetId.isIn(subtreeIds))).go();
       for (final tileId in subtreeIds.reversed) {
-        await (_db.delete(_db.groups)..where(
-          (t) => t.id.equals(tileId),
-        )).go();
+        await (_db.delete(_db.groups)..where((t) => t.id.equals(tileId))).go();
       }
 
       Log.info(
         _tag,
         'Tile deleted',
-        data: {'id': id, 'subtreeSize': '${subtreeIds.length}'},
+        data: {
+          'id': id,
+          'subtreeSize': '${subtreeIds.length}',
+          'items': '${items.length}',
+        },
       );
+      return TileSnapshot(tiles: tiles, items: items, nfcTags: nfcTags);
+    });
+  }
+
+  /// Puts back the rows captured in [snapshot], undoing a prior destructive
+  /// action. Runs in one transaction so a restore is all-or-nothing: tiles
+  /// first (parents before children), then items, then NFC tags, so every
+  /// foreign key resolves. Re-inserts deleted rows and resets moved ones.
+  Future<void> restore(TileSnapshot snapshot) async {
+    if (snapshot.isEmpty) return;
+    await _db.transaction(() async {
+      for (final tile in snapshot.tiles) {
+        await _db.into(_db.groups).insertOnConflictUpdate(tile);
+      }
+      for (final item in snapshot.items) {
+        await _db.into(_db.cards).insertOnConflictUpdate(item);
+      }
+      for (final tag in snapshot.nfcTags) {
+        await _db.into(_db.nfcTags).insertOnConflictUpdate(tag);
+      }
     });
   }
 

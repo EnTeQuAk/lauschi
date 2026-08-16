@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/tile_item_repository.dart';
+import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+import 'package:lauschi/core/ui/undo_snackbar.dart';
 
 /// Whether the item is confirmed unavailable (runtime flag, not endDate).
 bool _isUnavailable(db.TileItem card) => card.markedUnavailable != null;
@@ -93,9 +95,9 @@ class EpisodeTile extends ConsumerWidget {
             onSelected: (action) {
               switch (action) {
                 case 'remove':
-                  _removeFromGroup(context, ref);
+                  unawaited(_removeFromGroup(ref));
                 case 'delete':
-                  _deleteCard(context, ref);
+                  unawaited(_deleteCard(ref));
               }
             },
             itemBuilder:
@@ -184,97 +186,41 @@ class EpisodeTile extends ConsumerWidget {
     );
   }
 
-  void _removeFromGroup(BuildContext context, WidgetRef ref) {
-    unawaited(
-      showDialog<void>(
-        context: context,
-        builder:
-            (ctx) => AlertDialog(
-              title: const Text('Aus Kachel entfernen?'),
-              content: Text(
-                '„${card.customTitle ?? card.title}" wird aus der Kachel entfernt '
-                '(nicht gelöscht).',
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(ctx).pop(),
-                  child: const Text('Abbrechen'),
-                ),
-                FilledButton(
-                  onPressed: () async {
-                    Navigator.of(ctx).pop();
-                    try {
-                      await ref
-                          .read(tileItemRepositoryProvider)
-                          .removeFromTile(card.id);
-                      Log.info(
-                        _tag,
-                        'Card removed from tile',
-                        data: {'cardId': card.id, 'tileId': tileId},
-                      );
-                    } on Exception catch (e) {
-                      Log.error(_tag, 'Remove from tile failed', exception: e);
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Entfernen fehlgeschlagen'),
-                            behavior: SnackBarBehavior.floating,
-                          ),
-                        );
-                      }
-                    }
-                  },
-                  child: const Text('Entfernen'),
-                ),
-              ],
-            ),
-      ),
+  Future<void> _removeFromGroup(WidgetRef ref) async {
+    final tileRepo = ref.read(tileRepositoryProvider);
+    final TileSnapshot undo;
+    try {
+      undo = await ref.read(tileItemRepositoryProvider).removeFromTile(card.id);
+      Log.info(
+        _tag,
+        'Card removed from tile',
+        data: {'cardId': card.id, 'tileId': tileId},
+      );
+    } on Exception catch (e) {
+      Log.error(_tag, 'Remove from tile failed', exception: e);
+      showAppSnackBar('Entfernen fehlgeschlagen');
+      return;
+    }
+    showUndoSnackBar(
+      'Aus Kachel entfernt',
+      onUndo: () => unawaited(tileRepo.restore(undo)),
     );
   }
 
-  void _deleteCard(BuildContext context, WidgetRef ref) {
-    unawaited(
-      showDialog<void>(
-        context: context,
-        builder:
-            (ctx) => AlertDialog(
-              title: const Text('Eintrag löschen?'),
-              content: Text(
-                '„${card.customTitle ?? card.title}" wird endgültig gelöscht.',
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(ctx).pop(),
-                  child: const Text('Abbrechen'),
-                ),
-                FilledButton(
-                  onPressed: () async {
-                    Navigator.of(ctx).pop();
-                    try {
-                      await ref
-                          .read(tileItemRepositoryProvider)
-                          .delete(card.id);
-                      Log.info(_tag, 'Card deleted', data: {'cardId': card.id});
-                    } on Exception catch (e) {
-                      Log.error(_tag, 'Delete card failed', exception: e);
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Löschen fehlgeschlagen'),
-                            behavior: SnackBarBehavior.floating,
-                          ),
-                        );
-                      }
-                    }
-                  },
-                  style: FilledButton.styleFrom(
-                    backgroundColor: AppColors.error,
-                  ),
-                  child: const Text('Löschen'),
-                ),
-              ],
-            ),
-      ),
+  Future<void> _deleteCard(WidgetRef ref) async {
+    final tileRepo = ref.read(tileRepositoryProvider);
+    final TileSnapshot undo;
+    try {
+      undo = await ref.read(tileItemRepositoryProvider).delete(card.id);
+      Log.info(_tag, 'Card deleted', data: {'cardId': card.id});
+    } on Exception catch (e) {
+      Log.error(_tag, 'Delete card failed', exception: e);
+      showAppSnackBar('Löschen fehlgeschlagen');
+      return;
+    }
+    showUndoSnackBar(
+      'Eintrag gelöscht',
+      onUndo: () => unawaited(tileRepo.restore(undo)),
     );
   }
 }
