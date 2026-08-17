@@ -2,6 +2,7 @@ import 'dart:async' show Timer;
 import 'dart:isolate';
 
 import 'package:bcrypt/bcrypt.dart';
+import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -69,11 +70,24 @@ PinService pinService(Ref ref) => PinService();
 /// How long a parent session stays active without interaction.
 const _sessionTimeout = Duration(minutes: 15);
 
+/// Whether a parent session started at [authenticatedAt] has expired as of
+/// [now]. A null [authenticatedAt] counts as expired (no active session).
+@visibleForTesting
+bool isSessionExpired({
+  required DateTime? authenticatedAt,
+  required DateTime now,
+}) {
+  if (authenticatedAt == null) return true;
+  return now.difference(authenticatedAt) >= _sessionTimeout;
+}
+
 /// Whether the user is currently authenticated in parent mode.
 /// Resets when the app is closed or after [_sessionTimeout] of inactivity.
 @Riverpod(keepAlive: true)
 class ParentAuth extends _$ParentAuth {
   Timer? _expiryTimer;
+  DateTime? _authenticatedAt;
+  String? _lastTouchLocation;
 
   @override
   bool build() {
@@ -83,6 +97,8 @@ class ParentAuth extends _$ParentAuth {
 
   void authenticate() {
     Log.info(_tag, 'Parent authenticated');
+    _authenticatedAt = DateTime.now();
+    _lastTouchLocation = null;
     _resetTimer();
     state = true;
   }
@@ -90,13 +106,35 @@ class ParentAuth extends _$ParentAuth {
   void deauthenticate() {
     Log.info(_tag, 'Parent deauthenticated');
     _expiryTimer?.cancel();
+    _authenticatedAt = null;
+    _lastTouchLocation = null;
     state = false;
   }
 
-  /// Call on meaningful user interaction in parent mode to extend the session.
-  void touch() {
+  /// Extend the session on genuine navigation to [location]. Repeated calls
+  /// for the same location (router refreshes, e.g. a Spotify token refresh
+  /// re-evaluating the redirect) are ignored, so background churn can't keep
+  /// the session alive while the parent sits idle.
+  void touch(String location) {
     if (!state) return;
+    if (location == _lastTouchLocation) return;
+    _lastTouchLocation = location;
+    _authenticatedAt = DateTime.now();
     _resetTimer();
+  }
+
+  /// Re-check expiry against wall-clock time. Call on app resume: the Dart
+  /// [_expiryTimer] can be frozen while the process is suspended, so a
+  /// backgrounded session could otherwise outlive the timeout.
+  void checkExpiry() {
+    if (!state) return;
+    if (isSessionExpired(
+      authenticatedAt: _authenticatedAt,
+      now: DateTime.now(),
+    )) {
+      Log.info(_tag, 'Parent session expired (wall-clock re-check)');
+      deauthenticate();
+    }
   }
 
   void _resetTimer() {

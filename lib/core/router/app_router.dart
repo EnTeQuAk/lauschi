@@ -31,7 +31,7 @@ part 'app_router.g.dart';
 
 const _tag = 'AppRouter';
 
-// Route paths — single source of truth
+// Route paths: single source of truth
 /// Root navigator key, shared between the router and overlays that need
 /// a navigator context from outside the widget tree (PlayerErrorHost).
 final rootNavigatorKeyProvider = Provider<GlobalKey<NavigatorState>>(
@@ -298,9 +298,11 @@ String? _globalRedirect(Ref ref, GoRouterState state) {
       );
       return AppRoutes.pinEntry;
     }
-    // Reset the session timer on every parent-route navigation so
-    // parents don't get logged out while actively managing content.
-    ref.read(parentAuthProvider.notifier).touch();
+    // Extend the session on genuine navigation so active parents aren't
+    // logged out. touch() ignores repeats for the same location, so a
+    // refresh-triggered re-eval (e.g. a Spotify token refresh) can't keep
+    // resetting the inactivity timer while the parent sits idle.
+    ref.read(parentAuthProvider.notifier).touch(state.matchedLocation);
   }
 
   return null;

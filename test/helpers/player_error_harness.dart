@@ -101,7 +101,7 @@ class FakeParentAuth extends ParentAuth {
   bool build() => true;
 
   @override
-  void touch() {}
+  void touch(String location) {}
 }
 
 class FakeOnline extends IsOnline {

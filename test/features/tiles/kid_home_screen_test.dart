@@ -332,7 +332,7 @@ class _FakeParentAuth extends ParentAuth {
   bool build() => true;
 
   @override
-  void touch() {}
+  void touch(String location) {}
 }
 
 class _FakeOnline extends IsOnline {
