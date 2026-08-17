@@ -112,9 +112,6 @@ abstract class CatalogSource {
   /// Search albums by query string.
   Future<List<CatalogAlbumResult>> searchAlbums(String query);
 
-  /// Fetch full album details (may include tracks).
-  Future<CatalogAlbumResult?> getAlbum(String albumId);
-
   /// Fetch tracks for an album.
   Future<List<CatalogTrackResult>> getAlbumTracks(String albumId);
 

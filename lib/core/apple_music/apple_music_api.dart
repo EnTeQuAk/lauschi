@@ -157,26 +157,6 @@ class AppleMusicApi {
     return results;
   }
 
-  /// Get a single album by ID.
-  Future<AppleMusicAlbum?> getAlbum(String albumId) async {
-    _requireConfigured();
-    try {
-      final response = await _dio.get<Map<String, dynamic>>(
-        '/albums/$albumId',
-      );
-      final data = response.data?['data'] as List<dynamic>?;
-      if (data == null || data.isEmpty) return null;
-      return _parseAlbum(data[0]);
-    } on DioException catch (e) {
-      Log.error(
-        _tag,
-        'Get album failed',
-        data: {'albumId': albumId, 'status': '${e.response?.statusCode}'},
-      );
-      return null;
-    }
-  }
-
   /// Get every track of an album, following pagination.
   ///
   /// The tracks relationship is paged; long albums (Kinderlieder

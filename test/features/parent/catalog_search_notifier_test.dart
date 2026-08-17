@@ -26,9 +26,6 @@ class _FakeSource implements CatalogSource {
   }
 
   @override
-  Future<CatalogAlbumResult?> getAlbum(String albumId) async => null;
-
-  @override
   Future<List<CatalogTrackResult>> getAlbumTracks(String albumId) async => [];
 
   @override

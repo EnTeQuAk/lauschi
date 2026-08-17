@@ -18,12 +18,6 @@ class AppleMusicCatalogSource implements CatalogSource {
   }
 
   @override
-  Future<CatalogAlbumResult?> getAlbum(String albumId) async {
-    final album = await _api.getAlbum(albumId);
-    return album != null ? _fromAppleMusic(album) : null;
-  }
-
-  @override
   Future<List<CatalogTrackResult>> getAlbumTracks(String albumId) async {
     final tracks = await _api.getAlbumTracks(albumId);
     return tracks.map(_trackFromAppleMusic).toList();

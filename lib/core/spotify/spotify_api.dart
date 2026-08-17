@@ -233,24 +233,6 @@ class SpotifyApi {
     );
   }
 
-  /// Get album metadata. Track lists come from [getAlbumTracks], which
-  /// pages past the 50-track cap of the embedded list.
-  Future<SpotifyAlbum?> getAlbum(String albumId) async {
-    Log.info(_tag, 'GET /albums/$albumId');
-
-    final resp = await _request(
-      () => _dio.get<Map<String, dynamic>>(
-        '/albums/$albumId',
-        queryParameters: {
-          'market': SpotifyConfig.market,
-        },
-      ),
-    );
-
-    if (resp?.data == null) return null;
-    return SpotifyAlbum.fromJson(resp!.data!);
-  }
-
   /// Get every track of an album, following pagination.
   ///
   /// GET /albums/{id}/tracks returns at most 50 tracks per page; the

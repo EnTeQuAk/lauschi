@@ -18,12 +18,6 @@ class SpotifyCatalogSource implements CatalogSource {
   }
 
   @override
-  Future<CatalogAlbumResult?> getAlbum(String albumId) async {
-    final album = await _api.getAlbum(albumId);
-    return album != null ? _fromSpotify(album) : null;
-  }
-
-  @override
   Future<List<CatalogTrackResult>> getAlbumTracks(String albumId) async {
     // Paged endpoint, not the embedded track list on the album detail:
     // that list is capped at 50 tracks and would silently truncate
