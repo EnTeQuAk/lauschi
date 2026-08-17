@@ -129,7 +129,16 @@ abstract class AppleMusicBackend extends PlayerBackend {
       data: {'albumId': albumId, 'track': '$trackIndex'},
     );
 
-    final albumTracks = await _api.getAlbumTracks(albumId);
+    final List<AppleMusicTrack> albumTracks;
+    try {
+      albumTracks = await _api.getAlbumTracks(albumId);
+    } on Exception catch (e) {
+      // getAlbumTracks throws rather than return a truncated list, so a
+      // failed load surfaces as an error instead of playing a short queue.
+      Log.error(logTag, 'Failed to load album tracks', exception: e);
+      emitState(error: PlayerError.playbackFailed);
+      return;
+    }
     if (albumTracks.isEmpty) {
       Log.warn(logTag, 'No tracks found for album $albumId');
       emitState(error: PlayerError.contentUnavailable);

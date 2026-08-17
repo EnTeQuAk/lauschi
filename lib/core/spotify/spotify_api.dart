@@ -280,7 +280,14 @@ class SpotifyApi {
       );
 
       final data = resp?.data;
-      if (data == null) break;
+      if (data == null) {
+        // _request already exhausted its retries, so a null response here is
+        // a persistent failure. Fail loudly instead of returning a truncated
+        // list the caller would treat as the complete album.
+        throw Exception(
+          'Failed to load album $albumId tracks at offset $offset',
+        );
+      }
       final items = (data['items'] as List<dynamic>?) ?? [];
       tracks.addAll(
         items

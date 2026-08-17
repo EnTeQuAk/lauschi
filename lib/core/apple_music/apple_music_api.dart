@@ -187,31 +187,54 @@ class AppleMusicApi {
     const pageSize = 100;
     final tracks = <AppleMusicTrack>[];
     var offset = 0;
-    try {
-      while (true) {
+    while (true) {
+      final page = await _fetchTracksPage(albumId, offset, pageSize);
+      final data = page['data'] as List<dynamic>? ?? [];
+      tracks.addAll(
+        data
+            .whereType<Map<String, dynamic>>()
+            .map(_parseTrack)
+            .whereType<AppleMusicTrack>(),
+      );
+      if (page['next'] == null || data.isEmpty) break;
+      offset += pageSize;
+    }
+    return tracks;
+  }
+
+  /// Fetch one page of an album's tracks, retrying a transient failure a
+  /// couple of times. Throws once retries are exhausted, so [getAlbumTracks]
+  /// never returns a silently truncated list (a short album for the play
+  /// queue) when a page fails mid-pagination.
+  Future<Map<String, dynamic>> _fetchTracksPage(
+    String albumId,
+    int offset,
+    int pageSize,
+  ) async {
+    const maxAttempts = 3;
+    for (var attempt = 1; ; attempt++) {
+      try {
         final response = await _dio.get<Map<String, dynamic>>(
           '/albums/$albumId/tracks',
           queryParameters: {'limit': pageSize, 'offset': offset},
         );
-
-        final data = response.data?['data'] as List<dynamic>? ?? [];
-        tracks.addAll(
-          data
-              .whereType<Map<String, dynamic>>()
-              .map(_parseTrack)
-              .whereType<AppleMusicTrack>(),
-        );
-        if (response.data?['next'] == null || data.isEmpty) break;
-        offset += pageSize;
+        return response.data ?? const <String, dynamic>{};
+      } on DioException catch (e) {
+        if (attempt >= maxAttempts) {
+          Log.error(
+            _tag,
+            'Get album tracks failed',
+            data: {
+              'albumId': albumId,
+              'offset': '$offset',
+              'status': '${e.response?.statusCode}',
+            },
+          );
+          throw Exception(
+            'Failed to load album $albumId tracks at offset $offset',
+          );
+        }
       }
-      return tracks;
-    } on DioException catch (e) {
-      Log.error(
-        _tag,
-        'Get album tracks failed',
-        data: {'albumId': albumId, 'status': '${e.response?.statusCode}'},
-      );
-      return tracks;
     }
   }
 

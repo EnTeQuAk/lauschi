@@ -63,6 +63,56 @@ void main() {
       expect(adapter.requests, hasLength(1));
     });
 
+    test('throws instead of returning a truncated list on a persistent '
+        'mid-pagination failure', () async {
+      final adapter = FakeHttpAdapter((options) {
+        final offset = options.queryParameters['offset']! as int;
+        if (offset == 0) {
+          return {
+            'data': [for (var n = 1; n <= 100; n++) _track(n)],
+            'next': '/v1/catalog/de/albums/album-1/tracks?offset=100',
+          };
+        }
+        throw Exception('network down'); // page 2 always fails
+      });
+
+      await expectLater(
+        _apiWith(adapter).getAlbumTracks('album-1'),
+        throwsA(isA<Exception>()),
+        reason: 'a failed page must not become a silently short track list',
+      );
+    });
+
+    test(
+      'retries a transient page failure and returns the full list',
+      () async {
+        var page2Calls = 0;
+        final adapter = FakeHttpAdapter((options) {
+          final offset = options.queryParameters['offset']! as int;
+          if (offset == 0) {
+            return {
+              'data': [for (var n = 1; n <= 100; n++) _track(n)],
+              'next': '/v1/catalog/de/albums/album-1/tracks?offset=100',
+            };
+          }
+          page2Calls++;
+          if (page2Calls == 1) throw Exception('transient blip');
+          return {
+            'data': [for (var n = 101; n <= 150; n++) _track(n)],
+          };
+        });
+
+        final tracks = await _apiWith(adapter).getAlbumTracks('album-1');
+
+        expect(tracks, hasLength(150));
+        expect(
+          page2Calls,
+          2,
+          reason: 'page 2 failed once, then succeeded on retry',
+        );
+      },
+    );
+
     test('skips a malformed track instead of crashing playback', () async {
       // A track item missing its id makes `item['id'] as String` throw a
       // TypeError — an Error, not an Exception — that escapes the
