@@ -569,6 +569,15 @@ void main() {
           'Staffel 2: Die neuen Abenteuer von Bobo',
         );
       });
+
+      test('strips stacked trailing suffixes, not just the last one', () {
+        // "(Ungekürzt)" is trailing; removing it exposes "(Hörspiel)",
+        // which a single pass would leave behind.
+        expect(
+          cleanEpisodeTitle('Die drei ??? (Hörspiel) (Ungekürzt)'),
+          'Die drei ???',
+        );
+      });
     });
   });
 }

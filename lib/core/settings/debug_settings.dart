@@ -91,6 +91,7 @@ class DebugSettingsNotifier extends _$DebugSettingsNotifier {
         'replay': updated.replayEnabled,
         'maskText': updated.maskAllText,
         'maskImages': updated.maskAllImages,
+        'nfc': updated.nfcEnabled,
       },
     );
   }

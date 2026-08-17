@@ -45,7 +45,24 @@ abstract final class Log {
     unawaited(_sentryLog(source, message, level: 'error', data: data));
     _breadcrumb(source, message, level: SentryLevel.error, data: data);
     if (exception != null) {
-      unawaited(Sentry.captureException(exception, stackTrace: stackTrace));
+      // Attach the human-readable message and structured data to the event
+      // itself, not just the breadcrumb, so the Sentry issue isn't titled by
+      // the bare exception.toString() with no context.
+      unawaited(
+        Sentry.captureException(
+          exception,
+          stackTrace: stackTrace,
+          message: SentryMessage(_fmt(source, message)),
+          withScope: (scope) async {
+            if (data != null) {
+              await scope.setContexts(
+                'log_data',
+                data.map((k, v) => MapEntry(k, v.toString())),
+              );
+            }
+          },
+        ),
+      );
     }
   }
 
@@ -59,10 +76,12 @@ abstract final class Log {
     String source,
     Map<String, Object>? data,
   ) => {
-    'source': SentryAttribute.string(source),
     if (data != null)
       for (final e in data.entries)
         e.key: SentryAttribute.string(e.value.toString()),
+    // Injected last so a caller's data key named 'source' can't clobber the
+    // real source tag.
+    'source': SentryAttribute.string(source),
   };
 
   /// Async wrapper so callers can use [unawaited] without fighting

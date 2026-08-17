@@ -12,10 +12,16 @@ String cleanEpisodeTitle(String raw, {int? episodeNumber}) {
   var t = raw;
 
   // Strip parenthetical/bracket suffixes containing common boilerplate.
-  // These patterns appear at the END of titles.
-  for (final pattern in _suffixPatterns) {
-    t = t.replaceAll(pattern, '');
-  }
+  // These patterns are anchored to the END of the title, so repeat until
+  // stable: removing a trailing suffix can expose another that was not
+  // trailing before (e.g. "... (Hörspiel) (Ungekürzt)").
+  String previous;
+  do {
+    previous = t;
+    for (final pattern in _suffixPatterns) {
+      t = t.replaceAll(pattern, '');
+    }
+  } while (t != previous);
 
   // Strip "Folge N: " / "Folge N - " prefix when we show number separately.
   if (episodeNumber != null) {

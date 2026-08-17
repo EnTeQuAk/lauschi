@@ -125,7 +125,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           subtitle: 'Titel neben Episodennummer auf Kacheln zeigen',
           value: ref.watch(showEpisodeTitlesProvider).value ?? false,
           onChanged:
-              (_) => ref.read(showEpisodeTitlesProvider.notifier).toggle(),
+              (value) => ref
+                  .read(showEpisodeTitlesProvider.notifier)
+                  .set(value: value),
         ),
 
         const SizedBox(height: AppSpacing.lg),

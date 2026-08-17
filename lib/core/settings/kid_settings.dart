@@ -15,10 +15,13 @@ class ShowEpisodeTitles extends _$ShowEpisodeTitles {
     return prefs.getBool(_keyShowEpisodeTitles) ?? false;
   }
 
-  Future<void> toggle() async {
-    final current = state.value ?? false;
+  /// Set the flag directly. Driven by the settings switch, which already
+  /// carries the desired value, so there's no read-then-flip: a still-loading
+  /// state can't be misread as false, and rapid taps settle to the switch's
+  /// final position instead of collapsing a double-toggle.
+  Future<void> set({required bool value}) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_keyShowEpisodeTitles, !current);
-    state = AsyncData(!current);
+    await prefs.setBool(_keyShowEpisodeTitles, value);
+    state = AsyncData(value);
   }
 }
