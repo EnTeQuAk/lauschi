@@ -29,10 +29,12 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   static const _hasStreamingProviders =
       FeatureFlags.enableSpotify || FeatureFlags.enableAppleMusic;
 
+  // Welcome + PIN, plus the connect-providers page when streaming is enabled.
+  static const _pageCount = _hasStreamingProviders ? 3 : 2;
+
   List<Widget> get _pages => [
     WelcomePage(onNext: _next),
-    if (_hasStreamingProviders)
-      ConnectProvidersPage(onNext: _next, onSkip: _next),
+    if (_hasStreamingProviders) ConnectProvidersPage(onNext: _next),
     PinSetupPage(onComplete: _complete),
   ];
 
@@ -43,7 +45,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   }
 
   void _next() {
-    if (_currentPage < _pages.length - 1) {
+    if (_currentPage < _pageCount - 1) {
       unawaited(
         _pageController.nextPage(
           duration: const Duration(milliseconds: 300),
@@ -56,6 +58,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   Future<void> _complete() async {
     await ref.read(onboardingCompleteProvider.notifier).markComplete();
     if (mounted) {
+      // Kid home's empty state has a clear "Hörspiel hinzufügen" CTA, no need
+      // to dump parents into settings behind another PIN prompt.
       context.go(AppRoutes.kidHome);
     }
   }
@@ -63,7 +67,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     final pages = _pages;
-    final pageCount = pages.length;
+    const pageCount = _pageCount;
 
     return Scaffold(
       body: SafeArea(

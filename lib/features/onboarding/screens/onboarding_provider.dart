@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -5,32 +6,33 @@ import 'package:shared_preferences/shared_preferences.dart';
 part 'onboarding_provider.g.dart';
 
 const _tag = 'OnboardingComplete';
-const _key = 'onboarding_complete';
 
-/// Tracks whether onboarding has been completed.
-///
-/// Reads from SharedPreferences on first access. The router
-/// redirects to /onboarding if this is false.
+/// SharedPreferences key for the onboarding-complete flag.
+const onboardingCompleteKey = 'onboarding_complete';
+
+/// The onboarding-complete flag as read once in main() before the first
+/// frame, overridden there. It seeds [OnboardingComplete] so the router's
+/// first redirect has the real value; without it the flag would default
+/// optimistically and flash the empty kid-home screen before bouncing a new
+/// user to onboarding.
+final onboardingCompletePreloadProvider = Provider<bool>(
+  (ref) =>
+      throw UnimplementedError(
+        'onboardingCompletePreloadProvider must be overridden in main()',
+      ),
+);
+
+/// Tracks whether onboarding has been completed. The router redirects to
+/// /onboarding when this is false.
 @Riverpod(keepAlive: true)
 class OnboardingComplete extends _$OnboardingComplete {
   @override
-  bool build() {
-    // Start as true (don't redirect) until async check completes.
-    return true;
-  }
-
-  /// Check SharedPreferences for the onboarding flag.
-  Future<void> checkAsync() async {
-    final prefs = await SharedPreferences.getInstance();
-    final done = prefs.getBool(_key) ?? false;
-    Log.info(_tag, 'Checked onboarding state', data: {'complete': '$done'});
-    state = done;
-  }
+  bool build() => ref.watch(onboardingCompletePreloadProvider);
 
   /// Mark onboarding as complete.
   Future<void> markComplete() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_key, true);
+    await prefs.setBool(onboardingCompleteKey, true);
     Log.info(_tag, 'Onboarding marked complete');
     state = true;
   }
@@ -39,7 +41,7 @@ class OnboardingComplete extends _$OnboardingComplete {
   /// login flow.
   Future<void> markIncomplete() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_key, false);
+    await prefs.setBool(onboardingCompleteKey, false);
     Log.info(_tag, 'Onboarding marked incomplete');
     state = false;
   }

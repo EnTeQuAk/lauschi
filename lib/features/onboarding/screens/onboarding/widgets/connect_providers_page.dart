@@ -13,14 +13,9 @@ import 'package:lauschi/core/theme/app_theme.dart';
 /// (Spotify, Apple Music) appear based on feature flags with connect
 /// buttons.
 class ConnectProvidersPage extends ConsumerWidget {
-  const ConnectProvidersPage({
-    required this.onNext,
-    required this.onSkip,
-    super.key,
-  });
+  const ConnectProvidersPage({required this.onNext, super.key});
 
   final VoidCallback onNext;
-  final VoidCallback onSkip;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

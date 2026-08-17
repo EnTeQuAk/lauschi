@@ -6,16 +6,33 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  test('markIncomplete resets state and persists false', () async {
-    SharedPreferences.setMockInitialValues({'onboarding_complete': true});
-    final container = ProviderContainer();
+  ProviderContainer withPreload({required bool done}) {
+    final container = ProviderContainer(
+      overrides: [onboardingCompletePreloadProvider.overrideWithValue(done)],
+    );
     addTearDown(container.dispose);
+    return container;
+  }
 
-    await container.read(onboardingCompleteProvider.notifier).checkAsync();
+  test('build reflects the preloaded value (no optimistic default)', () {
+    expect(
+      withPreload(done: false).read(onboardingCompleteProvider),
+      isFalse,
+      reason: 'a fresh user starts incomplete on the very first read',
+    );
+    expect(
+      withPreload(done: true).read(onboardingCompleteProvider),
+      isTrue,
+    );
+  });
+
+  test('markIncomplete resets state and persists false', () async {
+    SharedPreferences.setMockInitialValues({});
+    final container = withPreload(done: true);
     expect(
       container.read(onboardingCompleteProvider),
       isTrue,
-      reason: 'setup: onboarding starts complete',
+      reason: 'setup: preloaded as complete',
     );
 
     await container.read(onboardingCompleteProvider.notifier).markIncomplete();
@@ -27,7 +44,7 @@ void main() {
     );
     final prefs = await SharedPreferences.getInstance();
     expect(
-      prefs.getBool('onboarding_complete'),
+      prefs.getBool(onboardingCompleteKey),
       isFalse,
       reason: 'the flag is persisted, not just held in memory',
     );

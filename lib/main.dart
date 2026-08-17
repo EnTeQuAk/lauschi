@@ -8,6 +8,7 @@ import 'package:lauschi/app.dart';
 import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/settings/debug_settings.dart';
+import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
 import 'package:lauschi/features/player/media_session_handler.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -39,8 +40,15 @@ Future<void> main() async {
     ),
   );
 
+  // Read prefs once, before the first frame. The onboarding flag seeds its
+  // provider so the router's first redirect has the real value (no kid-home
+  // flash before a new user is bounced to onboarding).
+  final prefs = await SharedPreferences.getInstance();
+  final onboardingDone = prefs.getBool(onboardingCompleteKey) ?? false;
+
   final overrides = [
     mediaSessionHandlerProvider.overrideWithValue(mediaHandler),
+    onboardingCompletePreloadProvider.overrideWithValue(onboardingDone),
   ];
 
   const dsn = String.fromEnvironment('SENTRY_DSN');
@@ -57,9 +65,8 @@ Future<void> main() async {
   );
   const isDev = env == 'development';
 
-  // Read user-controlled diagnostics preferences before Sentry init,
-  // replay options are init-time only and can't be changed at runtime.
-  final prefs = await SharedPreferences.getInstance();
+  // User-controlled diagnostics preferences (from the prefs read above).
+  // Replay options are init-time only and can't be changed at runtime.
   final debugSettings = DebugSettings.fromPrefs(prefs);
 
   await SentryFlutter.init(

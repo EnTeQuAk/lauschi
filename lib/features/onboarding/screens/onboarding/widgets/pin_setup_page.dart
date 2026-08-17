@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/auth/pin_service.dart';
 import 'package:lauschi/core/auth/pin_widgets.dart';
+import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+
+const _tag = 'PinSetupPage';
 
 /// PIN setup page for the onboarding flow.
 class PinSetupPage extends ConsumerStatefulWidget {
@@ -16,17 +19,18 @@ class PinSetupPage extends ConsumerStatefulWidget {
 class _PinSetupPageState extends ConsumerState<PinSetupPage> {
   final _pin = <int>[];
   String? _firstPin;
-  bool _error = false;
+  String? _errorMessage;
+  bool _saving = false;
 
   bool get _isConfirming => _firstPin != null;
   static const _pinLength = 4;
 
   Future<void> _onDigit(int digit) async {
-    if (_pin.length >= _pinLength) return;
+    if (_saving || _pin.length >= _pinLength) return;
 
     setState(() {
       _pin.add(digit);
-      _error = false;
+      _errorMessage = null;
     });
 
     if (_pin.length < _pinLength) return;
@@ -39,23 +43,39 @@ class _PinSetupPageState extends ConsumerState<PinSetupPage> {
         _pin.clear();
       });
     } else if (_firstPin == pinStr) {
-      final pinService = ref.read(pinServiceProvider);
-      await pinService.setPin(pinStr);
-      widget.onComplete();
+      // Persist the PIN. setPin runs bcrypt in an isolate (slow), so show a
+      // spinner; a secure-storage failure must reset instead of trapping the
+      // parent on four filled dots with no feedback.
+      setState(() => _saving = true);
+      try {
+        await ref.read(pinServiceProvider).setPin(pinStr);
+      } on Object catch (e) {
+        Log.error(_tag, 'PIN setup failed', exception: e);
+        if (mounted) {
+          setState(() {
+            _saving = false;
+            _pin.clear();
+            _firstPin = null;
+            _errorMessage = 'Speichern fehlgeschlagen, bitte erneut versuchen';
+          });
+        }
+        return;
+      }
+      if (mounted) widget.onComplete();
     } else {
       setState(() {
         _firstPin = null;
         _pin.clear();
-        _error = true;
+        _errorMessage = 'PINs stimmen nicht überein';
       });
     }
   }
 
   void _onBackspace() {
-    if (_pin.isEmpty) return;
+    if (_saving || _pin.isEmpty) return;
     setState(() {
       _pin.removeLast();
-      _error = false;
+      _errorMessage = null;
     });
   }
 
@@ -94,13 +114,13 @@ class _PinSetupPageState extends ConsumerState<PinSetupPage> {
           PinDots(
             length: _pinLength,
             filled: _pin.length,
-            hasError: _error,
+            hasError: _errorMessage != null,
           ),
-          if (_error) ...[
+          if (_errorMessage != null) ...[
             const SizedBox(height: AppSpacing.sm),
-            const Text(
-              'PINs stimmen nicht überein',
-              style: TextStyle(
+            Text(
+              _errorMessage!,
+              style: const TextStyle(
                 fontFamily: 'Nunito',
                 fontSize: 13,
                 color: AppColors.error,
@@ -108,10 +128,13 @@ class _PinSetupPageState extends ConsumerState<PinSetupPage> {
             ),
           ],
           const SizedBox(height: AppSpacing.xl),
-          PinNumpad(
-            onDigit: _onDigit,
-            onBackspace: _onBackspace,
-          ),
+          if (_saving)
+            const CircularProgressIndicator()
+          else
+            PinNumpad(
+              onDigit: _onDigit,
+              onBackspace: _onBackspace,
+            ),
         ],
       ),
     );
