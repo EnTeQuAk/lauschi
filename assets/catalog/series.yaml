@@ -39872,9 +39872,11 @@ series:
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:29:29.422290+00:00'
 - id: hanni_und_nanni_neue_abenteuer
-  title: 'Hanni und Nanni: Neue Abenteuer'
+  title: Hanni und Nanni - Neue Abenteuer
   aliases: []
-  episode_pattern: '^Folge (\d+):'
+  episode_pattern:
+  - '^Folge (\d+):'
+  content_type: hoerspiel
   split_from: hanni_und_nanni
   providers:
     spotify:
@@ -39896,10 +39898,16 @@ series:
       - id: 2caWpGESEVfs0hTNLHqyh3
         episode: 5
         title: 'Folge 5: So ein Zirkus! (Neue Abenteuer)'
+      - id: 0GnYzpykZas1Y4EoT94MCj
+        episode: 6
+        title: 'Folge 6: Tilda und der Wolf (Neue Abenteuer)'
     apple_music:
       artist_ids:
       - '218657672'
       albums:
+      - id: '1836393124'
+        episode: 1
+        title: 'Folge 1: Warum denn ausgerechnet Internat Lindenhof? (Neue Abenteuer)'
       - id: '1844309469'
         episode: 3
         title: 'Folge 3: Ein heimlicher Gast auf Lindenhof (Neue Abenteuer)'
@@ -39909,6 +39917,9 @@ series:
       - id: '1869033566'
         episode: 5
         title: 'Folge 5: So ein Zirkus! (Neue Abenteuer)'
+      - id: '1875255677'
+        episode: 6
+        title: 'Folge 6: Tilda und der Wolf (Neue Abenteuer)'
 - id: hexe_lilli_erstlesergeschichten
   title: 'Hexe Lilli: Erstlesergeschichten'
   aliases: []
@@ -43529,31 +43540,6 @@ series:
         title: 'Der neue Superheld - Spezialfolge: Sturm über Shamazaar - Teil 1'
       - id: '1735989786'
         title: 'Der neue Superheld - Spezialfolge: Das silberne Unheil - Teil 2'
-- id: hanni_und_nanni_neue_abenteuer
-  title: Hanni und Nanni - Neue Abenteuer
-  aliases: []
-  episode_pattern:
-  - '^Folge (\d+):'
-  content_type: hoerspiel
-  split_from: hanni_und_nanni
-  providers:
-    spotify:
-      artist_ids:
-      - 3iiABQlNuezpR3DcrlyPoA
-      albums:
-      - id: 0GnYzpykZas1Y4EoT94MCj
-        episode: 6
-        title: 'Folge 6: Tilda und der Wolf (Neue Abenteuer)'
-    apple_music:
-      artist_ids:
-      - '218657672'
-      albums:
-      - id: '1836393124'
-        episode: 1
-        title: 'Folge 1: Warum denn ausgerechnet Internat Lindenhof? (Neue Abenteuer)'
-      - id: '1875255677'
-        episode: 6
-        title: 'Folge 6: Tilda und der Wolf (Neue Abenteuer)'
 - id: die_biene_maja_cgi
   title: Die Biene Maja (CGI)
   aliases: []
