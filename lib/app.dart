@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/apple_music/apple_music_session.dart';
 import 'package:lauschi/core/ard/ard_api.dart';
 import 'package:lauschi/core/ard/ard_availability_recheck.dart';
+import 'package:lauschi/core/auth/pin_service.dart';
 import 'package:lauschi/core/catalog/catalog_service.dart';
 import 'package:lauschi/core/database/data_migrations.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
@@ -32,8 +33,6 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
   late final AppLinks _appLinks;
   StreamSubscription<Uri>? _linkSub;
 
-  bool _dataMigrationsRun = false;
-
   @override
   void initState() {
     super.initState();
@@ -42,17 +41,48 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
       ref.read(onboardingCompleteProvider.notifier).checkAsync(),
     );
     unawaited(_initDeepLinks());
+    _runStartupTasks();
+  }
+
+  /// Fire-and-forget startup maintenance: data migrations, ARD availability
+  /// recheck, and episode-number reconcile. Runs once per launch (initState),
+  /// never from build().
+  void _runStartupTasks() {
+    final itemRepo = ref.read(tileItemRepositoryProvider);
+    unawaited(runDataMigrations(DataMigrationContext(items: itemRepo)));
+    unawaited(
+      recheckArdAvailability(api: ref.read(ardApiProvider), items: itemRepo),
+    );
+    // The catalog is the authority for episode numbers, so each correction
+    // shipped in a release has to reach tiles a parent already built. Writes
+    // only differences, so it is a no-op once in sync.
+    unawaited(
+      reconcileEpisodeNumbersAtStartup(
+        catalog: ref.read(catalogServiceProvider.future),
+        items: itemRepo,
+      ),
+    );
   }
 
   Future<void> _initDeepLinks() async {
     _appLinks = AppLinks();
 
-    // Handle link that launched the app (cold start)
-    final initial = await _appLinks.getInitialLink();
-    if (initial != null) await _handleDeepLink(initial);
-
-    // Handle links while app is running (warm start)
+    // Subscribe to warm-start links first, so a failing getInitialLink can't
+    // stop us from catching later OAuth callbacks (Spotify / Apple Music).
     _linkSub = _appLinks.uriLinkStream.listen(_onDeepLink);
+
+    // Handle the link that cold-started the app, if any.
+    try {
+      final initial = await _appLinks.getInitialLink();
+      if (initial != null) await _handleDeepLink(initial);
+    } on Exception catch (e, stack) {
+      Log.error(
+        'DeepLink',
+        'Initial link failed',
+        exception: e,
+        stackTrace: stack,
+      );
+    }
   }
 
   void _onDeepLink(Uri uri) {
@@ -93,7 +123,14 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.resumed && FeatureFlags.enableAppleMusic) {
+    if (state != AppLifecycleState.resumed) return;
+
+    // Re-check the parent session against wall-clock time: the inactivity
+    // Timer can be frozen while suspended, so a backgrounded session could
+    // otherwise outlive its timeout.
+    ref.read(parentAuthProvider.notifier).checkExpiry();
+
+    if (FeatureFlags.enableAppleMusic) {
       // Re-warm TLS connections when the app comes back to foreground.
       // OkHttp's connection pool may have evicted connections during
       // idle/background time. This ensures playback starts fast even
@@ -127,31 +164,6 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
       ref.watch(appleMusicSessionProvider);
     }
 
-    // Run data migrations + availability recheck once on first build.
-    if (!_dataMigrationsRun) {
-      _dataMigrationsRun = true;
-      final itemRepo = ref.read(tileItemRepositoryProvider);
-      unawaited(
-        runDataMigrations(DataMigrationContext(items: itemRepo)),
-      );
-      unawaited(
-        recheckArdAvailability(
-          api: ref.read(ardApiProvider),
-          items: itemRepo,
-        ),
-      );
-      // Runs on every start rather than once: the catalog is the
-      // authority for episode numbers, so each correction shipped in a
-      // release has to reach tiles a parent already built. Writes only
-      // differences, so it is a no-op once in sync.
-      unawaited(
-        reconcileEpisodeNumbersAtStartup(
-          catalog: ref.read(catalogServiceProvider.future),
-          items: itemRepo,
-        ),
-      );
-    }
-
     return MaterialApp.router(
       title: 'lauschi',
       debugShowCheckedModeBanner: false,
@@ -166,7 +178,7 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
             children: [
               child ?? const SizedBox.shrink(),
               // Hidden WebView for Spotify Web Playback SDK.
-              // Needs real dimensions (300x300) — WebView suspends media
+              // Needs real dimensions (300x300); WebView suspends media
               // in undersized containers.
               if (FeatureFlags.enableSpotify && spotifyAuthenticated)
                 Positioned(
@@ -216,7 +228,7 @@ class _SpotifyWebViewHostState extends ConsumerState<_SpotifyWebViewHost> {
       _initialized = true;
       if (mounted) setState(() {});
     } on Exception catch (e) {
-      // Don't set _initialized — allows retry on next mount.
+      // Don't set _initialized, allows retry on next mount.
       Log.error('WebViewHost', 'Bridge init failed', exception: e);
     }
   }

@@ -16,10 +16,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Lock phones to portrait; tablets can rotate freely.
-  final view = WidgetsBinding.instance.platformDispatcher.views.first;
-  final shortestSide = view.physicalSize.shortestSide / view.devicePixelRatio;
-  if (shortestSide < 600) {
+  // Lock phones to portrait; tablets can rotate freely. Read via the
+  // implicit view (nullable): this early at cold start there may be no view
+  // yet, or its size may still be zero. When the size is unknown, skip the
+  // lock rather than risk pinning a tablet to portrait (shortestSide 0 < 600).
+  final view = WidgetsBinding.instance.platformDispatcher.implicitView;
+  final shortestSide =
+      (view?.physicalSize.shortestSide ?? 0) / (view?.devicePixelRatio ?? 1);
+  if (shortestSide > 0 && shortestSide < 600) {
     await SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
@@ -53,7 +57,7 @@ Future<void> main() async {
   );
   const isDev = env == 'development';
 
-  // Read user-controlled diagnostics preferences before Sentry init —
+  // Read user-controlled diagnostics preferences before Sentry init,
   // replay options are init-time only and can't be changed at runtime.
   final prefs = await SharedPreferences.getInstance();
   final debugSettings = DebugSettings.fromPrefs(prefs);
@@ -65,9 +69,9 @@ Future<void> main() async {
         ..environment = env
         // TODO(#211): reduce to 0.2 once iOS OAuth is stable
         ..tracesSampleRate = 1.0
-        // Structured logs — visible in Sentry Logs tab.
+        // Structured logs, visible in Sentry Logs tab.
         ..enableLogs = true
-        // Session replay — respects user preference; error captures always on.
+        // Session replay, respects user preference; error captures always on.
         ..replay.sessionSampleRate =
             debugSettings.replayEnabled ? (isDev ? 1.0 : 0.0) : 0.0
         ..replay.onErrorSampleRate = debugSettings.replayEnabled ? 1.0 : 0.0
