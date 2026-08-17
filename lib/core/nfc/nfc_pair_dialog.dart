@@ -2,8 +2,11 @@ import 'dart:async' show unawaited;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/nfc/nfc_service.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+
+const _tag = 'NfcPairDialog';
 
 /// Shows a dialog that scans for an NFC tag and maps it to the given target.
 ///
@@ -69,12 +72,25 @@ class _NfcPairDialogState extends State<_NfcPairDialog> {
 
     await nfc.startScan(
       onTagScanned: (tagUid) async {
-        await nfc.writeMapping(
-          tagUid: tagUid,
-          targetType: widget.targetType,
-          targetId: widget.targetId,
-          label: widget.targetLabel,
-        );
+        // onDiscovered calls this without awaiting, so a writeMapping throw
+        // would otherwise hang the dialog on the spinner; catch it here.
+        try {
+          await nfc.writeMapping(
+            tagUid: tagUid,
+            targetType: widget.targetType,
+            targetId: widget.targetId,
+            label: widget.targetLabel,
+          );
+        } on Exception catch (e) {
+          Log.error(_tag, 'Pairing write failed', exception: e);
+          if (mounted) {
+            setState(() {
+              _state = _PairState.error;
+              _errorMessage = 'Speichern fehlgeschlagen';
+            });
+          }
+          return;
+        }
         if (mounted) {
           setState(() => _state = _PairState.success);
           // Auto-close after brief success display

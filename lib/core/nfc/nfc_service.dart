@@ -23,7 +23,7 @@ String redactUid(String uid) =>
 /// Manages NFC tag ↔ content mappings using hardware UIDs.
 ///
 /// UID-based approach: we read the tag's unique hardware ID and map it
-/// to a group or card in the local database. No NDEF write needed — works
+/// to a group or card in the local database. No NDEF write needed, works
 /// with any NFC chip type (NTAG, iCode SLIX, Mifare, etc.).
 class NfcService {
   NfcService(this._db);
@@ -118,25 +118,34 @@ class NfcService {
     }
 
     unawaited(
-      NfcManager.instance.startSession(
-        pollingOptions: {NfcPollingOption.iso14443, NfcPollingOption.iso15693},
-        onDiscovered: (tag) {
-          final uid = _extractUid(tag);
-          if (uid == null) {
-            onError?.call('Tag-UID nicht lesbar');
-            unawaited(NfcManager.instance.stopSession());
-            return;
-          }
-          Log.info(_tag, 'Tag scanned (one-shot)', data: {'uid': uid});
-          onTagScanned(uid);
-          unawaited(NfcManager.instance.stopSession());
-        },
-      ),
+      NfcManager.instance
+          .startSession(
+            pollingOptions: {
+              NfcPollingOption.iso14443,
+              NfcPollingOption.iso15693,
+            },
+            onDiscovered: (tag) {
+              final uid = _extractUid(tag);
+              if (uid == null) {
+                onError?.call('Tag-UID nicht lesbar');
+                unawaited(NfcManager.instance.stopSession());
+                return;
+              }
+              Log.info(
+                _tag,
+                'Tag scanned (one-shot)',
+                data: {'uid': redactUid(uid)},
+              );
+              onTagScanned(uid);
+              unawaited(NfcManager.instance.stopSession());
+            },
+          )
+          .catchError(_onSessionError(onError)),
     );
   }
 
   /// Continuous reader mode: keeps the session open and fires [onTagScanned]
-  /// for every tag discovered. Does NOT stop between scans — this prevents
+  /// for every tag discovered. Does NOT stop between scans, this prevents
   /// Android's default tag dispatch from taking over (screen flash, etc.).
   ///
   /// Call [stopScan] to end the session.
@@ -150,20 +159,36 @@ class NfcService {
     }
 
     unawaited(
-      NfcManager.instance.startSession(
-        pollingOptions: {NfcPollingOption.iso14443, NfcPollingOption.iso15693},
-        onDiscovered: (tag) {
-          final uid = _extractUid(tag);
-          if (uid == null) {
-            Log.warn(_tag, 'Tag UID not readable');
-            return;
-          }
-          Log.info(_tag, 'Tag scanned', data: {'uid': uid});
-          onTagScanned(uid);
-          // Session stays open — reader mode remains active.
-        },
-      ),
+      NfcManager.instance
+          .startSession(
+            pollingOptions: {
+              NfcPollingOption.iso14443,
+              NfcPollingOption.iso15693,
+            },
+            onDiscovered: (tag) {
+              final uid = _extractUid(tag);
+              if (uid == null) {
+                Log.warn(_tag, 'Tag UID not readable');
+                return;
+              }
+              Log.info(_tag, 'Tag scanned', data: {'uid': redactUid(uid)});
+              onTagScanned(uid);
+              // Session stays open, reader mode remains active.
+            },
+          )
+          .catchError(_onSessionError(onError)),
     );
+  }
+
+  /// Error handler for a failed [NfcManager.startSession]: logs and surfaces
+  /// the failure via [onError] instead of letting it vanish (unawaited).
+  Future<void> Function(Object) _onSessionError(
+    void Function(String error)? onError,
+  ) {
+    return (Object e) async {
+      Log.error(_tag, 'NFC session failed', exception: e);
+      onError?.call('NFC-Sitzung fehlgeschlagen');
+    };
   }
 
   /// Stop any active NFC scan session.

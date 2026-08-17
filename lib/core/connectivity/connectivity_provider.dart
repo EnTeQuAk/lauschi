@@ -14,12 +14,17 @@ const _tag = 'Connectivity';
 @Riverpod(keepAlive: true)
 class IsOnline extends _$IsOnline {
   StreamSubscription<List<ConnectivityResult>>? _sub;
+  bool _disposed = false;
 
   @override
   bool build() {
+    _disposed = false;
     unawaited(_sub?.cancel());
     _sub = Connectivity().onConnectivityChanged.listen(_onChanged);
-    ref.onDispose(() => unawaited(_sub?.cancel()));
+    ref.onDispose(() {
+      _disposed = true;
+      unawaited(_sub?.cancel());
+    });
 
     // Assume online until first check
     unawaited(_check());
@@ -32,6 +37,9 @@ class IsOnline extends _$IsOnline {
   }
 
   void _onChanged(List<ConnectivityResult> results) {
+    // The initial _check() and a queued stream event can resolve after the
+    // provider is disposed; don't touch state then.
+    if (_disposed) return;
     final online = results.any((r) => r != ConnectivityResult.none);
     if (online != state) {
       Log.info(_tag, online ? 'Online' : 'Offline');
