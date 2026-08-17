@@ -217,8 +217,8 @@ class _CatalogSeriesDetailScreenState
             body: Center(child: CircularProgressIndicator()),
           ),
       error:
-          (e, _) => Scaffold(
-            body: Center(child: Text('Fehler: $e')),
+          (_, _) => const Scaffold(
+            body: Center(child: Text('Serie konnte nicht geladen werden')),
           ),
       data: (catalog) {
         final series = _findSeries(catalog);

@@ -518,7 +518,10 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
                         () => const Center(
                           child: CircularProgressIndicator(),
                         ),
-                    error: (e, _) => Center(child: Text('Fehler: $e')),
+                    error:
+                        (_, _) => const Center(
+                          child: Text('Katalog konnte nicht geladen werden'),
+                        ),
                     data:
                         (catalog) => _buildCuratedGrid(
                           catalog,

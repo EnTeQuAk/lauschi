@@ -102,7 +102,7 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
       );
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Fehler: $e')),
+          const SnackBar(content: Text('Konnte nicht hinzugefügt werden')),
         );
       }
     } finally {
@@ -143,7 +143,7 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
       );
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Fehler: $e')),
+          const SnackBar(content: Text('Konnte nicht entfernt werden')),
         );
       }
     } finally {
@@ -220,8 +220,9 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
           ref.read(contentImporterProvider.notifier).acknowledge();
         case ImportFailed(:final message):
           _dismissDialog();
+          Log.warn(_tag, 'Import failed', data: {'message': message});
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Fehler: $message')),
+            const SnackBar(content: Text('Import fehlgeschlagen')),
           );
           ref.read(contentImporterProvider.notifier).acknowledge();
         case _:
@@ -234,10 +235,14 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
       body: showAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error:
-            (e, _) => Column(
+            (_, _) => Column(
               children: [
                 AppBar(backgroundColor: AppColors.parentBackground),
-                Expanded(child: Center(child: Text('Fehler: $e'))),
+                const Expanded(
+                  child: Center(
+                    child: Text('Sendung konnte nicht geladen werden'),
+                  ),
+                ),
               ],
             ),
         data: (show) {
@@ -257,7 +262,10 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
 
           return episodesAsync.when(
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (e, _) => Center(child: Text('Fehler: $e')),
+            error:
+                (_, _) => const Center(
+                  child: Text('Folgen konnten nicht geladen werden'),
+                ),
             data: (page) {
               final playable =
                   page.items.where((i) => i.bestAudioUrl != null).toList();

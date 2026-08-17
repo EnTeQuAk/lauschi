@@ -45,7 +45,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       body: settingsAsync.when(
         data: (settings) => _buildBody(context, settings),
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(child: Text('Fehler: $e')),
+        error:
+            (_, _) => const Center(
+              child: Text('Einstellungen konnten nicht geladen werden'),
+            ),
       ),
     );
   }
