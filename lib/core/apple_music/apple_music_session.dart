@@ -1,6 +1,7 @@
 import 'dart:async' show unawaited;
 import 'dart:io' show Platform;
 
+import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:lauschi/core/apple_music/apple_music_api.dart';
 import 'package:lauschi/core/apple_music/apple_music_stream_resolver.dart';
 import 'package:lauschi/core/apple_music/apple_music_web_auth.dart';
@@ -66,12 +67,30 @@ class AppleMusicError extends AppleMusicState {
 ///   FlutterSecureStorage, injected into the DRM player.
 @Riverpod(keepAlive: true)
 class AppleMusicSession extends _$AppleMusicSession {
-  // Native MusicKit SDK: only for developer token generation (JWT from .p8 key).
-  final MusicKit _musicKit = MusicKit();
+  /// Platform-backed dependencies default to the real implementations.
+  /// The [visibleForTesting] parameters let session tests inject fakes for
+  /// the MusicKit SDK, web-auth flow, catalog API, and stream resolver, plus
+  /// pin the platform branch. Mirrors the adapter seam on [AppleMusicApi] and
+  /// [AppleMusicStreamResolver]. Riverpod constructs this with no arguments.
+  AppleMusicSession({
+    @visibleForTesting MusicKit? musicKit,
+    @visibleForTesting AppleMusicApi? api,
+    @visibleForTesting AppleMusicStreamResolver? streamResolver,
+    @visibleForTesting AppleMusicWebAuth? webAuth,
+    @visibleForTesting bool? isIOS,
+  }) : _musicKit = musicKit ?? MusicKit(),
+       _api = api ?? AppleMusicApi(),
+       _streamResolver = streamResolver ?? AppleMusicStreamResolver(),
+       _webAuth = webAuth ?? AppleMusicWebAuth(),
+       _isIOS = isIOS ?? Platform.isIOS;
 
-  final AppleMusicApi _api = AppleMusicApi();
-  final AppleMusicStreamResolver _streamResolver = AppleMusicStreamResolver();
-  final AppleMusicWebAuth _webAuth = AppleMusicWebAuth();
+  // Native MusicKit SDK: only for developer token generation (JWT from .p8 key).
+  final MusicKit _musicKit;
+
+  final AppleMusicApi _api;
+  final AppleMusicStreamResolver _streamResolver;
+  final AppleMusicWebAuth _webAuth;
+  final bool _isIOS;
 
   @override
   AppleMusicState build() {
@@ -91,7 +110,7 @@ class AppleMusicSession extends _$AppleMusicSession {
 
   Future<void> _init() async {
     try {
-      if (Platform.isIOS) {
+      if (_isIOS) {
         await _initIos();
       } else {
         await _initAndroid();
@@ -161,7 +180,7 @@ class AppleMusicSession extends _$AppleMusicSession {
   Future<void> connect() async {
     state = AppleMusicLoading();
     try {
-      if (Platform.isIOS) {
+      if (_isIOS) {
         // Native MusicKit auth: system popup.
         final authStatus = await _musicKit.requestAuthorizationStatus();
         if (authStatus is MusicAuthorizationStatusAuthorized) {
@@ -226,7 +245,7 @@ class AppleMusicSession extends _$AppleMusicSession {
   }
 
   Future<void> disconnect() async {
-    if (!Platform.isIOS) {
+    if (!_isIOS) {
       await _webAuth.logout();
     }
     // On iOS, native MusicKit auth can't be revoked from within the app.
@@ -243,7 +262,7 @@ class AppleMusicSession extends _$AppleMusicSession {
   Future<void> handleExpiredToken() async {
     if (state is AppleMusicUnauthenticated) return;
     Log.info(_tag, 'Token expired during use, needs re-auth');
-    if (!Platform.isIOS) {
+    if (!_isIOS) {
       await _webAuth.logout();
     }
     state = AppleMusicUnauthenticated();
@@ -266,7 +285,7 @@ class AppleMusicSession extends _$AppleMusicSession {
     // TLS pre-warm is Android-only (Fairphone 6 TLS handshake issue).
     // iOS uses Network.framework which handles TLS session resumption
     // automatically. With native MusicKit, no direct HTTP calls are made.
-    if (Platform.isIOS) return;
+    if (_isIOS) return;
     if (state is! AppleMusicAuthenticated) return;
     final auth = state as AppleMusicAuthenticated;
     unawaited(_musicKit.setMusicUserToken(auth.musicUserToken));
