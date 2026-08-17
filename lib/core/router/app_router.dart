@@ -94,7 +94,7 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
     refreshListenable: refreshNotifier,
     observers: [
       SentryNavigatorObserver(),
-      _SnackBarClearObserver(rootNavigatorKey),
+      SnackBarClearObserver(rootNavigatorKey),
     ],
     redirect: (context, state) => _globalRedirect(ref, state),
     routes: [
@@ -311,10 +311,16 @@ class _RouterRefreshNotifier extends ChangeNotifier {
   void notify() => notifyListeners();
 }
 
-/// Clears any visible snackbars when navigating between screens.
-/// Prevents stale "hinzugefügt" messages from lingering across routes.
-class _SnackBarClearObserver extends NavigatorObserver {
-  _SnackBarClearObserver(this._navigatorKey);
+/// Clears stale snackbars when navigating *forward* into a new screen, so a
+/// leftover "hinzugefügt" message doesn't linger across routes.
+///
+/// Deliberately does not clear on `didPop`: the delete-then-pop flows (tile
+/// and item delete) show their "Rückgängig" undo snackbar for the screen
+/// they pop back to, and a pop-triggered clear would wipe it before the
+/// parent could tap it.
+@visibleForTesting
+class SnackBarClearObserver extends NavigatorObserver {
+  SnackBarClearObserver(this._navigatorKey);
 
   final GlobalKey<NavigatorState> _navigatorKey;
 
@@ -327,10 +333,6 @@ class _SnackBarClearObserver extends NavigatorObserver {
 
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) =>
-      _clearSnackBars();
-
-  @override
-  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) =>
       _clearSnackBars();
 
   @override
