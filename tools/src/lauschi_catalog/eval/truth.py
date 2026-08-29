@@ -76,6 +76,25 @@ def _parent_albums(curation: dict, curation_dir: Path) -> frozenset[AlbumKey]:
     return _album_keys(parent.get("albums", []), include=None)
 
 
+def _child_albums(curation: dict, curation_dir: Path) -> frozenset[AlbumKey]:
+    """Albums of the series split off from this one.
+
+    The mirror of ``_parent_albums``: apply-splits moved those albums
+    out of the parent's committed curation, so the parent has no
+    opinion on them, while a fresh curation of the parent sees them on
+    the shared artist pages. For the parent they are wrong inclusions.
+    """
+    own_id = curation.get("id")
+    if not own_id:
+        return frozenset()
+    keys: set[AlbumKey] = set()
+    for path in curation_dir.glob("*.json"):
+        child = json.loads(path.read_text(encoding="utf-8"))
+        if child.get("split_from") == own_id:
+            keys |= _album_keys(child.get("albums", []), include=None)
+    return frozenset(keys)
+
+
 def canon_missing_from_verdict(verdict: dict) -> frozenset[int]:
     """Episode numbers the canon audit named as missing from the catalog.
 
@@ -101,7 +120,10 @@ def load_truth(
 ) -> SeriesTruth:
     curation = json.loads(curation_path.read_text(encoding="utf-8"))
     included, excluded = truth_from_curation(curation)
-    excluded |= _parent_albums(curation, curation_path.parent) - included
+    relatives = _parent_albums(curation, curation_path.parent) | _child_albums(
+        curation, curation_path.parent
+    )
+    excluded |= relatives - included
     return SeriesTruth(
         series_id=series_id,
         included=included,

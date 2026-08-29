@@ -101,6 +101,38 @@ class TestSplitSeriesTruth:
         assert s.include_recall == 1.0
         assert s.n_outside_truth == 0
 
+    def test_child_albums_count_as_wrong_inclusions_for_the_parent(
+        self, tmp_path: Path
+    ) -> None:
+        truth_dir = tmp_path / "truth"
+        parent = _curation([("p1", True, 1), ("p2", True, 2)])
+        parent["id"] = "benjamin_bluemchen"
+        _write(truth_dir / "benjamin_bluemchen.json", parent)
+        child = _curation([("mini1", True, 1), ("mini2", True, 2)])
+        child["id"] = "benjamin_minis"
+        child["split_from"] = "benjamin_bluemchen"
+        _write(truth_dir / "benjamin_minis.json", child)
+
+        # a fresh curation of the parent sees the minis on the shared
+        # artist page and keeps one of them
+        scratch = tmp_path / "scratch"
+        c = _curation(
+            [("p1", True, 1), ("p2", True, 2), ("mini1", True, 1), ("mini2", False, 2)]
+        )
+        c["id"] = "benjamin_bluemchen"
+        _write(scratch / "assets/catalog/curation/benjamin_bluemchen.json", c)
+        scores, _ = score_root(
+            scratch,
+            model="m",
+            truth_curation_dir=truth_dir,
+            providers=[_Provider("spotify", ["p1", "p2", "mini1", "mini2"])],
+            verdicts={},
+            series_ids=("benjamin_bluemchen",),
+        )
+        (s,) = scores
+        assert s.include_precision == 2 / 3
+        assert s.n_outside_truth == 0
+
     def test_a_series_without_a_parent_is_unaffected(self, tmp_path: Path) -> None:
         truth_dir = tmp_path / "truth"
         _write(truth_dir / "kira_kolumna.json", _curation([("a", True, 1)]))
