@@ -310,6 +310,38 @@ def test_real_bibi_kartoffelbrei_is_its_own_chunk():
     chunks = plan_chunks(c, lint_curation(c))
     labels = [ch.label for ch in chunks]
     assert "kampf um kartoffelbrei (special)" in labels
+
+
+def test_chunk_labels_carry_no_album_count():
+    # The progress line and the chunk prompt append the count themselves;
+    # a label that also carries it printed "(30 albums) (30 albums)".
+    albums = [
+        {
+            "album_id": f"k{i}",
+            "provider": "spotify",
+            "include": True,
+            "episode_num": None,
+            "title": f"Kurzhörspiel {'x' * 40}",
+            "confidence": "high",
+        }
+        for i in range(400)
+    ]
+    for i, word in enumerate(["Apfel", "Birne", "Kirsche"]):
+        albums.append(
+            {
+                "album_id": f"s{i}",
+                "provider": "spotify",
+                "include": True,
+                "episode_num": None,
+                "title": f"Das Lied vom {word}",
+                "confidence": "high",
+            }
+        )
+    chunks = plan_chunks({"id": "s", "title": "S", "albums": albums}, [])
+    assert len(chunks) >= 3
+    assert any(ch.label.endswith("(unnumbered)") for ch in chunks)
+    assert any("small title groups" in ch.label for ch in chunks)
+    assert not any("albums)" in ch.label for ch in chunks)
     kk = next(ch for ch in chunks if ch.label == "kampf um kartoffelbrei (special)")
     assert any(a["include"] for a in kk.albums) and any(
         not a["include"] for a in kk.albums

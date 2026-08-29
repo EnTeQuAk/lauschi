@@ -531,7 +531,7 @@ def _range_label(shape: str, albums: list[dict]) -> str:
     eps = [a["episode_num"] for a in albums if a.get("episode_num") is not None]
     if eps:
         return f"{shape} episodes {min(eps)}-{max(eps)}"
-    return f"{shape} ({len(albums)} albums)"
+    return f"{shape} (unnumbered)"
 
 
 def plan_chunks(curation: dict, lint_issues: list[str]) -> list[Chunk]:
@@ -566,7 +566,7 @@ def plan_chunks(curation: dict, lint_issues: list[str]) -> list[Chunk]:
         if pack:
             chunks.append(
                 Chunk(
-                    label=f"{len(pack_shapes)} small title groups ({len(pack)} albums)",
+                    label=f"{len(pack_shapes)} small title groups",
                     albums=pack,
                 )
             )
