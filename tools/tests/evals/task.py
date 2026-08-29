@@ -8,12 +8,11 @@ and model settings as production.
 from __future__ import annotations
 
 import os
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 from pydantic_ai import Agent
-from pydantic_ai.settings import ModelSettings
 
-from lauschi_catalog._opencode import OPENCODE_BASE_URL, build_model, get_model_settings
+from lauschi_catalog._opencode import build_model, get_model_settings
 from lauschi_catalog.agent_tools import build_agent_tools
 from lauschi_catalog.catalog.curate_ops import BatchResult, CurateDeps
 from lauschi_catalog.catalog.prompt import format_albums_xml

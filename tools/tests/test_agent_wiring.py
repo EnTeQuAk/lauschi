@@ -10,7 +10,6 @@ from __future__ import annotations
 import asyncio
 from typing import Any
 
-import pytest
 from pydantic_ai.capabilities.hooks import Hooks
 from pydantic_ai.models.test import TestModel
 
