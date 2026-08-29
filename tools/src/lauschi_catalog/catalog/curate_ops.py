@@ -21,6 +21,7 @@ from typing import Literal
 from pydantic import BaseModel, Field, field_validator, model_validator
 from pydantic_ai import Agent, ModelRetry, RunContext, capture_run_messages
 from pydantic_ai.messages import ModelMessage, ModelMessagesTypeAdapter
+from pydantic_ai.usage import RunUsage
 
 from lauschi_catalog._opencode import (
     build_model,
@@ -417,6 +418,9 @@ class CuratedSeries(BaseModel):
     series_facts: SeriesFacts = Field(default_factory=SeriesFacts)
     incomplete: bool = False
     incomplete_reason: str = ""
+    curated_by: str = ""
+    #: requests / input_tokens / output_tokens spent producing this
+    usage: dict[str, int] = Field(default_factory=dict)
     # Deterministic regressions vs the previous curation (see
     # lint_ops.lint_regression). CRITICAL entries hard-gate audit
     # approval.
@@ -484,6 +488,8 @@ class CurateDeps(AgentDeps):
     proposed_facts: SeriesFacts | None = field(default=None, init=False)
     all_decisions: list[AlbumDecision] = field(default_factory=list)
     current_batch_ids: set[tuple[str, str]] = field(default_factory=set, init=False)
+    #: requests and tokens across every agent run that shares these deps
+    usage: RunUsage = field(default_factory=RunUsage)
     _pattern_check_count: int = field(default=0, init=False)
     _MAX_PATTERN_CHECKS: int = 5
 
@@ -1042,7 +1048,18 @@ def _build_finalize_agent(
 
 async def _run_agent(agent, prompt, deps):
     """Run an agent and return its structured output."""
-    return await run_agent(agent, prompt, deps, request_limit=200)
+    return await run_agent(
+        agent, prompt, deps, request_limit=200, tally=getattr(deps, "usage", None)
+    )
+
+
+def usage_summary(usage: RunUsage) -> dict[str, int]:
+    """The three numbers a cost estimate needs, as plain JSON."""
+    return {
+        "requests": usage.requests,
+        "input_tokens": usage.input_tokens,
+        "output_tokens": usage.output_tokens,
+    }
 
 
 def describe_failure(exc: BaseException) -> str:
@@ -1356,6 +1373,7 @@ async def _run_large(
         titles=all_titles,
         seen_details=prefetch_details,
         on_progress=on_progress,
+        usage=meta_deps.usage,
     )
 
     for batch_num, batch in enumerate(batches, 1):
@@ -1840,7 +1858,10 @@ async def _run_large(
 
     overall = _fmt_elapsed(time.monotonic() - t_overall)
     on_progress(
-        f"\n== Done == {total_inc} included, {total_exc} excluded [{overall}]\n"
+        f"\n== Done == {total_inc} included, {total_exc} excluded [{overall}] "
+        f"{shared_deps.usage.requests} requests, "
+        f"{shared_deps.usage.input_tokens} in / "
+        f"{shared_deps.usage.output_tokens} out tokens\n"
     )
 
     write_cover_cache(meta.id, all_discovered)
@@ -1857,6 +1878,8 @@ async def _run_large(
         series_facts=merged_facts or SeriesFacts(),
         incomplete=incomplete,
         incomplete_reason="; ".join(provider_errors) if incomplete else "",
+        curated_by=model_name,
+        usage=usage_summary(shared_deps.usage),
     )
 
 
@@ -1989,6 +2012,8 @@ def save_curation(
             "albums": [a.model_dump() for a in series.albums],
             "incomplete": series.incomplete,
             "incomplete_reason": series.incomplete_reason,
+            "curated_by": series.curated_by,
+            "usage": series.usage,
         }
     )
 
