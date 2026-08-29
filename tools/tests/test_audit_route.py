@@ -13,6 +13,7 @@ failing on fake data.
 
 from __future__ import annotations
 
+import asyncio
 import json
 
 import pytest
@@ -22,11 +23,15 @@ from lauschi_catalog.catalog.audit_ops import (
     _CHUNK_FRAMING_TOKENS,
     _CHUNK_TARGET_TOKENS,
     AUDIT_ONE_SHOT_MAX_TOKENS,
+    AuditFactUpdate,
+    AuditOverride,
+    AuditResult,
     Chunk,
     _album_line,
     audit_route,
     build_overview,
     build_prompt,
+    merge_results,
     plan_chunks,
     prompt_size,
 )
@@ -324,3 +329,129 @@ def test_real_paw_patrol_ranges_are_ordered_and_under_target():
         assert eps[0] >= last
         last = eps[-1]
         assert _chunk_tokens(c, ch, lint) <= _CHUNK_TARGET_TOKENS + 200
+
+
+# ── merge_results: fold chunk verdicts without losing or inventing ───
+
+
+def _ov(album_id: str, action: str, reason: str = "r") -> AuditOverride:
+    return AuditOverride(
+        album_id=album_id, provider="spotify", action=action, reason=reason
+    )
+
+
+def test_merge_keeps_agreeing_overrides_and_approves_when_all_do():
+    merged = merge_results(
+        [
+            AuditResult(approve=True, overrides=[_ov("a", "exclude")]),
+            AuditResult(approve=True, overrides=[_ov("b", "include")]),
+        ]
+    )
+    assert merged.approve is True
+    assert {(o.album_id, o.action) for o in merged.overrides} == {
+        ("a", "exclude"),
+        ("b", "include"),
+    }
+
+
+def test_merge_contradiction_drops_both_and_does_not_approve():
+    """Two chunks overriding one album both ways is a disagreement the
+    merge must never resolve silently: a human decides."""
+    merged = merge_results(
+        [
+            AuditResult(approve=True, overrides=[_ov("a", "exclude", "compilation")]),
+            AuditResult(approve=True, overrides=[_ov("a", "include", "real episode")]),
+        ]
+    )
+    assert merged.approve is False
+    assert merged.overrides == []
+    assert any("[chunk_conflict] spotify:a" in c for c in merged.concerns)
+
+
+def test_merge_forces_fact_updates_to_merge_mode():
+    """A chunk sees one slice; a replace from it would wipe facts other
+    chunks or earlier audits established."""
+    merged = merge_results(
+        [AuditResult(approve=True, fact_updates=[AuditFactUpdate(mode="replace")])]
+    )
+    assert merged.fact_updates[0].mode == "merge"
+    assert any("[chunk_facts]" in c for c in merged.concerns)
+
+
+def test_merge_dedups_repeated_concerns_before_the_escalation_count():
+    """Every chunk repeating the same known-gap note must not escalate on
+    volume: six copies of one concern are one concern."""
+    same = "known gap 62 is documented and correct"
+    merged = merge_results(
+        [AuditResult(approve=True, concerns=[same]) for _ in range(6)]
+    )
+    assert merged.concerns == [same]
+
+
+def test_merge_any_disapproving_chunk_disapproves():
+    merged = merge_results(
+        [AuditResult(approve=True), AuditResult(approve=False, concerns=["bad"])]
+    )
+    assert merged.approve is False
+
+
+def test_merge_of_nothing_does_not_approve():
+    assert merge_results([]).approve is False
+
+
+# ── audit_one: the one-shot path is untouched by the dispatch ────────
+
+
+def test_one_shot_series_runs_exactly_todays_prompt_once(monkeypatch, tmp_path):
+    """276 series route one-shot. For them audit_one must call the model
+    exactly once with exactly build_prompt's text: the dispatch is a
+    no-op on the path the size boundary was probed against."""
+    import lauschi_catalog.catalog.audit_ops as m
+
+    c = _curation(20)
+    (tmp_path / "s.json").write_text(json.dumps(c))
+    monkeypatch.setattr(m, "CURATION_DIR", tmp_path)
+    monkeypatch.setenv("OPENCODE_API_KEY", "test")
+    monkeypatch.setattr(m, "build_model", lambda *a, **k: object())
+    monkeypatch.setattr(m, "_build_audit_agent", lambda *a, **k: object())
+    calls: list[str] = []
+
+    async def fake_run(prepared, prompt, **kw):
+        calls.append(prompt)
+        return AuditResult(approve=True)
+
+    monkeypatch.setattr(m, "_run_audit_prompt", fake_run)
+    result = asyncio.run(m.audit_one("s", force=True))
+    assert result is not None and result.approve is True
+    assert calls == [build_prompt(c, lint_curation(c))]
+
+
+def test_chunked_series_runs_one_prompt_per_chunk_and_merges(monkeypatch, tmp_path):
+    import lauschi_catalog.catalog.audit_ops as m
+
+    # size, not album count, decides the route: pad titles so the prompt is
+    # past the one-shot boundary, and assert that precondition explicitly
+    c = {"id": "s", "title": "S", "albums": _numbered(700)}
+    for a in c["albums"]:
+        a["title"] += " " + "x" * 40
+    lint = lint_curation(c)
+    assert audit_route(c, lint) == "chunked"
+    (tmp_path / "s.json").write_text(json.dumps(c))
+    monkeypatch.setattr(m, "CURATION_DIR", tmp_path)
+    monkeypatch.setenv("OPENCODE_API_KEY", "test")
+    monkeypatch.setattr(m, "build_model", lambda *a, **k: object())
+    monkeypatch.setattr(m, "_build_audit_agent", lambda *a, **k: object())
+    prompts: list[str] = []
+
+    async def fake_run(prepared, prompt, **kw):
+        prompts.append(prompt)
+        return AuditResult(approve=True, concerns=[f"seen {len(prompts)}"])
+
+    monkeypatch.setattr(m, "_run_audit_prompt", fake_run)
+    expected = len(plan_chunks(c, lint))
+    result = asyncio.run(m.audit_one("s", force=True))
+    assert len(prompts) == expected >= 2
+    overview = build_overview(c, lint)
+    assert all(p.startswith(overview) for p in prompts)
+    assert all("### This chunk (" in p for p in prompts)
+    assert result is not None and len(result.concerns) == expected

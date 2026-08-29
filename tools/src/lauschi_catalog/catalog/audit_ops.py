@@ -618,15 +618,25 @@ def audit_route(curation: dict, lint_issues: list[str]) -> AuditRoute:
 # -- Core audit --
 
 
-async def audit_one(
+@dataclass
+class _PreparedAudit:
+    curation: dict
+    lint_issues: list[str]
+    agent: Agent[AuditDeps, AuditResult]
+    deps: AuditDeps
+
+
+def _prepare_audit(
     series_id: str,
     *,
-    model_name: str = _DEFAULT_MODEL,
-    timeout: int = 600,
-    force: bool = False,
-    providers: list | None = None,
-    on_progress: Progress = _noop,
-) -> AuditResult | None:
+    model_name: str,
+    force: bool,
+    providers: list | None,
+    on_progress: Progress,
+) -> _PreparedAudit | None:
+    """Everything both audit paths share before the model runs: load,
+    skip checks, lint, agent and deps. Returns None when there is nothing
+    to audit (and has already said why)."""
     api_key = os.environ.get("OPENCODE_API_KEY", "")
     if not api_key:
         on_progress("OPENCODE_API_KEY not set")
@@ -675,8 +685,6 @@ async def audit_one(
         discography_span_years=discography_span_years,
         on_progress=on_progress,
     )
-    prompt = build_prompt(curation, lint_issues)
-
     deps = AuditDeps(
         series_id=series_id,
         curation=curation,
@@ -684,16 +692,218 @@ async def audit_one(
         providers=providers or [],
         on_progress=on_progress,
     )
+    return _PreparedAudit(
+        curation=curation, lint_issues=lint_issues, agent=agent, deps=deps
+    )
+
+
+async def _run_audit_prompt(
+    prepared: _PreparedAudit,
+    prompt: str,
+    *,
+    phase: str,
+    timeout: int,
+    on_progress: Progress,
+) -> AuditResult:
     return await run_with_rate_limit_retry(
         lambda: asyncio.wait_for(
-            run_agent(agent, prompt, deps, request_limit=_AUDIT_REQUEST_LIMIT),
+            run_agent(
+                prepared.agent,
+                prompt,
+                prepared.deps,
+                request_limit=_AUDIT_REQUEST_LIMIT,
+            ),
             timeout=timeout,
         ),
-        phase=f"audit {series_id}",
+        phase=phase,
         max_retries=_MAX_RETRIES,
         base_delay=float(_RETRY_DELAY),
         max_delay=300.0,
         retry_timeout=False,
+        on_progress=on_progress,
+    )
+
+
+# -- Chunked audit --
+
+
+def _rolling_summary(partials: list[AuditResult]) -> list[str]:
+    """What earlier chunks already decided, carried into the next chunk so
+    it stays consistent with them. Same idea as curate's batch summary."""
+    overrides = [o for r in partials for o in r.overrides]
+    facts = [u for r in partials for u in r.fact_updates]
+    if not overrides and not facts:
+        return []
+    lines = ["", "### Decisions from earlier chunks of this audit"]
+    for o in overrides:
+        lines.append(f"  {o.action} {o.provider}:{o.album_id} -- {o.reason}")
+    for u in facts:
+        n = len(u.era_boundaries) + len(u.known_gaps) + len(u.sub_series)
+        lines.append(f"  proposed {n} fact update(s)")
+    lines.append(
+        "Do not contradict these. Extend them only if this chunk shows something new."
+    )
+    return lines
+
+
+def _chunk_prompt(
+    overview: str,
+    chunk: Chunk,
+    index: int,
+    total: int,
+    partials: list[AuditResult],
+) -> str:
+    """One chunk's prompt: the whole-series overview, what earlier chunks
+    decided, this chunk's albums, and what is being asked."""
+    included = _sorted_included(chunk.albums)
+    excluded = [a for a in chunk.albums if not a.get("include")]
+    lines = [
+        overview,
+        "",
+        f"### This chunk ({index} of {total}): {chunk.label}",
+        "This series is too large to audit in one request, so it is audited in "
+        "chunks. The overview above is the whole series; the albums below are "
+        "the only ones this chunk decides. Judge them against the overview. "
+        "Use search_included_albums and get_album_details for any album "
+        "outside this chunk you need to see.",
+        "",
+        f"#### Included in this chunk ({len(included)})",
+        *[_included_line(a) for a in included],
+        f"\n#### Excluded in this chunk ({len(excluded)})",
+        *[_excluded_line(a) for a in excluded],
+        *_rolling_summary(partials),
+        "",
+        "Audit the albums in this chunk. Propose overrides only for them. "
+        "Propose fact updates in merge mode only: you see one chunk, so never "
+        "replace the series facts. Record concerns for anything worth human "
+        "attention, and approve when this chunk is sound.",
+    ]
+    return "\n".join(lines)
+
+
+def merge_results(partials: list[AuditResult]) -> AuditResult:
+    """Fold per-chunk results into one verdict without losing a finding
+    or silently resolving a disagreement.
+
+    - The same album overridden by two chunks with different actions is a
+      contradiction. Neither override is applied; the conflict becomes a
+      concern and the audit does not approve, so a human decides.
+    - Fact updates are forced to merge mode. A chunk sees one slice; a
+      replace from it would wipe facts other chunks or earlier audits
+      established.
+    - Concerns are deduplicated first, so a finding every chunk repeats
+      (the same known gap) does not escalate on volume alone.
+    """
+    approve = all(r.approve for r in partials) if partials else False
+    concerns: list[str] = []
+    seen_concerns: set[str] = set()
+    for r in partials:
+        for c in r.concerns:
+            if c not in seen_concerns:
+                seen_concerns.add(c)
+                concerns.append(c)
+
+    by_album: dict[tuple[str, str], list[AuditOverride]] = {}
+    for r in partials:
+        for o in r.overrides:
+            by_album.setdefault((o.provider, o.album_id), []).append(o)
+    overrides: list[AuditOverride] = []
+    for (prov, aid), group in by_album.items():
+        actions = {o.action for o in group}
+        if len(actions) == 1:
+            overrides.append(group[0])
+            continue
+        approve = False
+        concerns.append(
+            f"[chunk_conflict] {prov}:{aid} was overridden both ways by different "
+            f"chunks ({'; '.join(f'{o.action}: {o.reason}' for o in group)}); "
+            "neither applied, needs a human decision"
+        )
+
+    fact_updates: list[AuditFactUpdate] = []
+    for r in partials:
+        for u in r.fact_updates:
+            if u.mode == "replace":
+                concerns.append(
+                    "[chunk_facts] a chunk proposed replacing the series facts; "
+                    "applied as a merge instead, since a chunk sees one slice"
+                )
+                u = u.model_copy(update={"mode": "merge"})
+            fact_updates.append(u)
+
+    return AuditResult(
+        approve=approve,
+        concerns=concerns,
+        overrides=overrides,
+        fact_updates=fact_updates,
+    )
+
+
+async def _audit_chunked(
+    prepared: _PreparedAudit,
+    series_id: str,
+    *,
+    timeout: int,
+    on_progress: Progress,
+) -> AuditResult:
+    overview = build_overview(prepared.curation, prepared.lint_issues)
+    chunks = plan_chunks(prepared.curation, prepared.lint_issues)
+    on_progress(
+        f"  Chunked audit: {len(prepared.curation.get('albums', []))} albums in "
+        f"{len(chunks)} chunks (overview {prompt_size(overview)} tokens)"
+    )
+    partials: list[AuditResult] = []
+    for i, chunk in enumerate(chunks, 1):
+        on_progress(
+            f"  Chunk {i}/{len(chunks)}: {chunk.label} ({len(chunk.albums)} albums)"
+        )
+        prompt = _chunk_prompt(overview, chunk, i, len(chunks), partials)
+        result = await _run_audit_prompt(
+            prepared,
+            prompt,
+            phase=f"audit {series_id} chunk {i}/{len(chunks)}",
+            timeout=timeout,
+            on_progress=on_progress,
+        )
+        on_progress(
+            f"    -> {'approve' if result.approve else 'disapprove'}, "
+            f"{len(result.overrides)} overrides, {len(result.concerns)} concerns"
+        )
+        partials.append(result)
+    return merge_results(partials)
+
+
+async def audit_one(
+    series_id: str,
+    *,
+    model_name: str = _DEFAULT_MODEL,
+    timeout: int = 600,
+    force: bool = False,
+    providers: list | None = None,
+    on_progress: Progress = _noop,
+) -> AuditResult | None:
+    prepared = _prepare_audit(
+        series_id,
+        model_name=model_name,
+        force=force,
+        providers=providers,
+        on_progress=on_progress,
+    )
+    if prepared is None:
+        return None
+
+    route = audit_route(prepared.curation, prepared.lint_issues)
+    if route == "chunked":
+        return await _audit_chunked(
+            prepared, series_id, timeout=timeout, on_progress=on_progress
+        )
+
+    prompt = build_prompt(prepared.curation, prepared.lint_issues)
+    return await _run_audit_prompt(
+        prepared,
+        prompt,
+        phase=f"audit {series_id}",
+        timeout=timeout,
         on_progress=on_progress,
     )
 
