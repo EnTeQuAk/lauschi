@@ -48,8 +48,9 @@ def render_table(scores: list[Score]) -> str:
         "|---|---|---:|---:|---:|---:|---:|---:|",
     ]
     for s in sorted(scores, key=lambda x: (_STRATUM.get(x.series_id, ""), x.series_id)):
+        name = f"{s.series_id} (INCOMPLETE run)" if s.incomplete else s.series_id
         rows.append(
-            f"| {s.series_id} | {_STRATUM.get(s.series_id, '?')} | {_pct(s.include_precision)} "
+            f"| {name} | {_STRATUM.get(s.series_id, '?')} | {_pct(s.include_precision)} "
             f"| {_pct(s.include_recall)} | {_pct(s.gap_recovery)} | {len(s.hallucinated)} "
             f"| {s.n_auto_included} | {s.n_included}/{s.n_truth_included} |"
         )
@@ -60,6 +61,20 @@ def render_table(scores: list[Score]) -> str:
         f"| {agg['auto_included_total']} | |"
     )
     return "\n".join(rows)
+
+
+def render_details(scores: list[Score]) -> str:
+    """Every disagreement, so a number can be traced to an album."""
+    lines: list[str] = []
+    for s in sorted(scores, key=lambda x: x.series_id):
+        if not s.disagreements:
+            continue
+        lines.append(f"\n{s.series_id}: {len(s.disagreements)} disagreement(s)")
+        for d in s.disagreements:
+            arrow = "truth OUT, model IN" if d.model_include else "truth IN, model OUT"
+            reason = f"  [{d.reason}]" if d.reason else ""
+            lines.append(f"  {arrow}  {d.provider}:{d.album_id}  {d.title}{reason}")
+    return "\n".join(lines)
 
 
 def write_json(scores: list[Score], path: Path) -> None:

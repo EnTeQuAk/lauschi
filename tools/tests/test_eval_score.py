@@ -201,6 +201,33 @@ class TestScore:
         assert s.include_precision == 1.0
         assert s.n_outside_truth == 1
 
+    def test_disagreements_name_only_albums_the_truth_knows(self) -> None:
+        curation = {
+            "albums": [
+                # real episode dropped, with a reason
+                dict(
+                    COMMITTED["albums"][1], include=False, exclude_reason="compilation"
+                ),
+                COMMITTED["albums"][0],
+                COMMITTED["albums"][2],
+                # box set kept
+                dict(COMMITTED["albums"][3], include=True),
+                COMMITTED["albums"][4],
+                # unknown to the truth: not a disagreement
+                _album("released_later", include=True, episode_num=9),
+            ]
+        }
+        s = score(curation, _truth(), model="m")
+        got = {
+            (d.album_id, d.truth_include, d.model_include, d.reason)
+            for d in s.disagreements
+        }
+        assert got == {("a2", True, False, "compilation"), ("box", False, True, "")}
+
+    def test_the_incomplete_flag_of_the_run_is_carried(self) -> None:
+        assert score({**COMMITTED, "incomplete": True}, _truth(), model="m").incomplete
+        assert not score(COMMITTED, _truth(), model="m").incomplete
+
     def test_albums_the_model_never_decided_are_counted(self) -> None:
         # curate's _restore_dropped_albums marks these with a fixed note
         # prefix; the count is the curator's coverage failure.

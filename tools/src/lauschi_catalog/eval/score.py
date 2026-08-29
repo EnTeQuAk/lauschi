@@ -12,6 +12,17 @@ from lauschi_catalog.eval.truth import AlbumKey, SeriesTruth
 
 
 @dataclass(frozen=True)
+class Disagreement:
+    provider: str
+    album_id: str
+    title: str
+    truth_include: bool
+    model_include: bool
+    #: the model's exclude_reason or notes, whichever it gave
+    reason: str
+
+
+@dataclass(frozen=True)
 class Score:
     series_id: str
     model: str
@@ -35,6 +46,11 @@ class Score:
     n_outside_truth: int
     n_included: int
     n_truth_included: int
+    #: curate gave up part-way (a batch failed) and auto-included the
+    #: rest; the ratios above describe that artifact, not the model
+    incomplete: bool
+    #: every album the truth knows where the model decided differently
+    disagreements: tuple[Disagreement, ...]
 
 
 def _included_keys(curation: dict) -> frozenset[AlbumKey]:
@@ -62,6 +78,32 @@ def _auto_included(curation: dict) -> int:
         for a in curation.get("albums", [])
         if str(a.get("notes") or "").startswith(AUTO_INCLUDED_NOTE)
     )
+
+
+def disagreements(curation: dict, truth: SeriesTruth) -> tuple[Disagreement, ...]:
+    out: list[Disagreement] = []
+    for a in curation.get("albums", []):
+        key = AlbumKey(a.get("provider", "?"), a["album_id"])
+        if key in truth.included:
+            truth_include = True
+        elif key in truth.excluded:
+            truth_include = False
+        else:
+            continue
+        model_include = bool(a.get("include"))
+        if model_include == truth_include:
+            continue
+        out.append(
+            Disagreement(
+                provider=key.provider,
+                album_id=key.album_id,
+                title=str(a.get("title") or ""),
+                truth_include=truth_include,
+                model_include=model_include,
+                reason=str(a.get("exclude_reason") or a.get("notes") or ""),
+            )
+        )
+    return tuple(sorted(out, key=lambda d: (d.provider, d.title, d.album_id)))
 
 
 def _ratio(num: int, den: int) -> float:
@@ -96,4 +138,6 @@ def score(curation: dict, truth: SeriesTruth, *, model: str) -> Score:
         n_outside_truth=len(grounded - judged),
         n_included=len(included),
         n_truth_included=len(truth.included),
+        incomplete=bool(curation.get("incomplete")),
+        disagreements=disagreements(curation, truth),
     )

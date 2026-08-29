@@ -9,7 +9,7 @@ from rich.console import Console
 
 from lauschi_catalog.catalog.paths import CURATION_DIR
 from lauschi_catalog.catalog.providers_init import init_providers
-from lauschi_catalog.eval.report import render_table, write_json
+from lauschi_catalog.eval.report import render_details, render_table, write_json
 from lauschi_catalog.eval.run import load_verdicts, score_root
 
 console = Console()
@@ -38,7 +38,18 @@ console = Console()
     type=click.Path(dir_okay=False, path_type=Path),
     help="Write the scores as JSON here",
 )
-def eval_cmd(scratch_root: Path, model: str, verdicts: Path, out_path: Path | None):
+@click.option(
+    "--details",
+    is_flag=True,
+    help="List every album the model and the truth disagree on",
+)
+def eval_cmd(
+    scratch_root: Path,
+    model: str,
+    verdicts: Path,
+    out_path: Path | None,
+    details: bool,
+):
     """Score the sample curations under a scratch root.
 
     Ground truth is the committed curation directory of the real repo,
@@ -73,7 +84,11 @@ def eval_cmd(scratch_root: Path, model: str, verdicts: Path, out_path: Path | No
     )
     if missing:
         console.print(f"[yellow]no curation yet for:[/yellow] {', '.join(missing)}")
-    console.print(render_table(scores))
+    # Exclude reasons print as "[duplicate]"; Rich would read that as a
+    # style tag and drop it.
+    console.print(render_table(scores), markup=False, highlight=False)
+    if details:
+        console.print(render_details(scores), markup=False, highlight=False)
     if out_path:
         write_json(scores, out_path)
         console.print(f"wrote {out_path}")

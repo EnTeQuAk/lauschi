@@ -5,8 +5,13 @@ from pathlib import Path
 
 import pytest
 
-from lauschi_catalog.eval.report import aggregate, render_table, write_json
-from lauschi_catalog.eval.score import Score
+from lauschi_catalog.eval.report import (
+    aggregate,
+    render_details,
+    render_table,
+    write_json,
+)
+from lauschi_catalog.eval.score import Disagreement, Score
 from lauschi_catalog.eval.truth import AlbumKey
 
 
@@ -22,6 +27,8 @@ def _score(series_id: str, **kw) -> Score:
         n_outside_truth=0,
         n_included=10,
         n_truth_included=10,
+        incomplete=False,
+        disagreements=(),
     )
     base.update(kw)
     return Score(**base)
@@ -69,6 +76,35 @@ class TestAggregate:
 
 
 class TestRender:
+    def test_an_incomplete_run_is_labelled_in_its_row(self) -> None:
+        table = render_table([_score("fuenf_freunde", incomplete=True)])
+        assert "| fuenf_freunde (INCOMPLETE run) |" in table
+
+    def test_details_list_each_disagreement_with_direction_and_reason(self) -> None:
+        d = Disagreement(
+            provider="spotify",
+            album_id="x1",
+            title="Folge 9: Box",
+            truth_include=False,
+            model_include=True,
+            reason="",
+        )
+        e = Disagreement(
+            provider="apple_music",
+            album_id="y2",
+            title="Folge 3",
+            truth_include=True,
+            model_include=False,
+            reason="compilation",
+        )
+        text = render_details(
+            [_score("kira_kolumna", disagreements=(d, e)), _score("clean")]
+        )
+        assert "kira_kolumna: 2 disagreement(s)" in text
+        assert "truth OUT, model IN  spotify:x1  Folge 9: Box" in text
+        assert "truth IN, model OUT  apple_music:y2  Folge 3  [compilation]" in text
+        assert "clean" not in text
+
     def test_table_has_one_row_per_series_plus_mean(self) -> None:
         table = render_table([_score("kira_kolumna"), _score("paw_patrol")])
         lines = table.splitlines()
