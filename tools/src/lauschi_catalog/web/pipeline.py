@@ -87,8 +87,9 @@ def pipeline_status(
         if not has_curation:
             current_step = 1
 
-    # Step 2: Audit
-    review = curation.get("review", {}) if curation else {}
+    # Step 2: Audit. A curation can carry "review": null (twelve real files
+    # do), which .get() returns as-is; treat it like an absent block.
+    review = (curation.get("review") if curation else None) or {}
     has_audit = bool(review.get("audited_at"))
     audit_status = review.get("status", "")
     if has_curation:
