@@ -310,6 +310,10 @@ def test_real_bibi_kartoffelbrei_is_its_own_chunk():
     chunks = plan_chunks(c, lint_curation(c))
     labels = [ch.label for ch in chunks]
     assert "kampf um kartoffelbrei (special)" in labels
+    kk = next(ch for ch in chunks if ch.label == "kampf um kartoffelbrei (special)")
+    assert any(a["include"] for a in kk.albums) and any(
+        not a["include"] for a in kk.albums
+    )
 
 
 def test_chunk_labels_carry_no_album_count():
@@ -342,10 +346,6 @@ def test_chunk_labels_carry_no_album_count():
     assert any(ch.label.endswith("(unnumbered)") for ch in chunks)
     assert any("small title groups" in ch.label for ch in chunks)
     assert not any("albums)" in ch.label for ch in chunks)
-    kk = next(ch for ch in chunks if ch.label == "kampf um kartoffelbrei (special)")
-    assert any(a["include"] for a in kk.albums) and any(
-        not a["include"] for a in kk.albums
-    )
 
 
 def test_real_paw_patrol_ranges_are_ordered_and_under_target():
@@ -456,6 +456,57 @@ def test_one_shot_series_runs_exactly_todays_prompt_once(monkeypatch, tmp_path):
     result = asyncio.run(m.audit_one("s", force=True))
     assert result is not None and result.approve is True
     assert calls == [build_prompt(c, lint_curation(c))]
+
+
+def _chunked_setup(monkeypatch, tmp_path):
+    import lauschi_catalog.catalog.audit_ops as m
+
+    c = {"id": "s", "title": "S", "albums": _numbered(700)}
+    for a in c["albums"]:
+        a["title"] += " " + "x" * 40
+    lint = lint_curation(c)
+    assert audit_route(c, lint) == "chunked"
+    (tmp_path / "s.json").write_text(json.dumps(c))
+    monkeypatch.setattr(m, "CURATION_DIR", tmp_path)
+    monkeypatch.setenv("OPENCODE_API_KEY", "test")
+    monkeypatch.setattr(m, "build_model", lambda *a, **k: object())
+    monkeypatch.setattr(m, "_build_audit_agent", lambda *a, **k: object())
+    return m, c, lint
+
+
+def test_a_chunk_that_fails_once_is_retried_from_a_fresh_context(monkeypatch, tmp_path):
+    m, c, lint = _chunked_setup(monkeypatch, tmp_path)
+    calls: list[str] = []
+    progress: list[str] = []
+
+    async def flaky_run(prepared, prompt, **kw):
+        calls.append(prompt)
+        if "### This chunk (2 of" in prompt and calls.count(prompt) == 1:
+            raise RuntimeError("Model token limit (32768) exceeded")
+        return AuditResult(approve=True)
+
+    monkeypatch.setattr(m, "_run_audit_prompt", flaky_run)
+    result = asyncio.run(m.audit_one("s", force=True, on_progress=progress.append))
+    expected = len(plan_chunks(c, lint))
+    assert result is not None and result.approve
+    assert len(calls) == expected + 1
+    assert any("chunk 2 attempt 1/3 failed" in p for p in progress)
+
+
+def test_a_chunk_that_keeps_failing_fails_the_series_after_three_attempts(
+    monkeypatch, tmp_path
+):
+    m, _, _ = _chunked_setup(monkeypatch, tmp_path)
+    calls: list[str] = []
+
+    async def broken_run(prepared, prompt, **kw):
+        calls.append(prompt)
+        raise RuntimeError("Model token limit (32768) exceeded")
+
+    monkeypatch.setattr(m, "_run_audit_prompt", broken_run)
+    with pytest.raises(RuntimeError):
+        asyncio.run(m.audit_one("s", force=True))
+    assert len(calls) == 3
 
 
 def test_chunked_series_runs_one_prompt_per_chunk_and_merges(monkeypatch, tmp_path):

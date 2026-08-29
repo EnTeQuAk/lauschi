@@ -839,6 +839,16 @@ def merge_results(partials: list[AuditResult]) -> AuditResult:
     )
 
 
+# Attempts per chunk before the series fails. A chunk call fails on its
+# own, independent of size: MiniMax M2.7 at low effort spent its whole
+# output budget reasoning on a 30-album chunk and a 25-album chunk
+# (2026-08-30, Bibi Blocksberg 16/17, Bibi und Tina Kinofilm 7/20) after
+# passing larger ones. With 17-20 chunks per series, a per-call failure
+# rate of a few percent made series failure near certain when one
+# failed chunk ended the series. A retry starts from a fresh context.
+_CHUNK_ATTEMPTS = 3
+
+
 async def _audit_chunked(
     prepared: _PreparedAudit,
     series_id: str,
@@ -858,13 +868,23 @@ async def _audit_chunked(
             f"  Chunk {i}/{len(chunks)}: {chunk.label} ({len(chunk.albums)} albums)"
         )
         prompt = _chunk_prompt(overview, chunk, i, len(chunks), partials)
-        result = await _run_audit_prompt(
-            prepared,
-            prompt,
-            phase=f"audit {series_id} chunk {i}/{len(chunks)}",
-            timeout=timeout,
-            on_progress=on_progress,
-        )
+        for attempt in range(1, _CHUNK_ATTEMPTS + 1):
+            try:
+                result = await _run_audit_prompt(
+                    prepared,
+                    prompt,
+                    phase=f"audit {series_id} chunk {i}/{len(chunks)}",
+                    timeout=timeout,
+                    on_progress=on_progress,
+                )
+                break
+            except Exception as exc:
+                if attempt == _CHUNK_ATTEMPTS:
+                    raise
+                on_progress(
+                    f"    chunk {i} attempt {attempt}/{_CHUNK_ATTEMPTS} failed: "
+                    f"{type(exc).__name__}: {exc}. Retrying with a fresh context."
+                )
         on_progress(
             f"    -> {'approve' if result.approve else 'disapprove'}, "
             f"{len(result.overrides)} overrides, {len(result.concerns)} concerns"
