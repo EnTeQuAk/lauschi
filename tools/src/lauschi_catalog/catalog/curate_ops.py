@@ -65,7 +65,7 @@ from lauschi_catalog.catalog.lint_ops import (
 from lauschi_catalog.prompts import load_curate_skill
 from lauschi_catalog.providers import CatalogProvider
 from lauschi_catalog.rate_limit import RateLimiter, run_with_rate_limit_retry
-from lauschi_catalog.run import run_agent
+from lauschi_catalog.run import run_agent, usage_summary
 
 _DEFAULT_MODEL = "kimi-k2.6"
 
@@ -1051,15 +1051,6 @@ async def _run_agent(agent, prompt, deps):
     return await run_agent(
         agent, prompt, deps, request_limit=200, tally=getattr(deps, "usage", None)
     )
-
-
-def usage_summary(usage: RunUsage) -> dict[str, int]:
-    """The three numbers a cost estimate needs, as plain JSON."""
-    return {
-        "requests": usage.requests,
-        "input_tokens": usage.input_tokens,
-        "output_tokens": usage.output_tokens,
-    }
 
 
 def describe_failure(exc: BaseException) -> str:

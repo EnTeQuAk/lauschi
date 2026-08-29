@@ -10,6 +10,15 @@ from __future__ import annotations
 from pydantic_ai.usage import RunUsage, UsageLimits
 
 
+def usage_summary(usage: RunUsage) -> dict[str, int]:
+    """The three numbers a cost estimate needs, as plain JSON."""
+    return {
+        "requests": usage.requests,
+        "input_tokens": usage.input_tokens,
+        "output_tokens": usage.output_tokens,
+    }
+
+
 async def run_agent(
     agent,
     prompt,

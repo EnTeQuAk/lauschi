@@ -17,6 +17,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent, ModelRetry, RunContext, ToolOutput
+from pydantic_ai.usage import RunUsage
 
 from lauschi_catalog._opencode import (
     build_model,
@@ -43,7 +44,7 @@ from lauschi_catalog.catalog.lint_ops import (
 from lauschi_catalog.prompts import load_curate_skill
 from lauschi_catalog.agent_hooks import build_progress_hooks
 from lauschi_catalog.rate_limit import run_with_rate_limit_retry
-from lauschi_catalog.run import run_agent
+from lauschi_catalog.run import run_agent, usage_summary
 
 _DEFAULT_MODEL = "minimax-m2.7"
 _MAX_RETRIES = 12
@@ -120,6 +121,8 @@ class AuditDeps(AgentDeps):
     series_id: str = ""
     curation: dict = field(default_factory=dict)
     lint_issues: list[str] = field(default_factory=list)
+    #: requests and tokens across every chunk of this audit
+    usage: RunUsage = field(default_factory=RunUsage)
     # Query -> how many times search_included_albums has answered it. A
     # repeated identical query returns an identical answer, so past the
     # allowance the tool says so instead of re-computing; see the guard.
@@ -712,6 +715,7 @@ async def _run_audit_prompt(
                 prompt,
                 prepared.deps,
                 request_limit=_AUDIT_REQUEST_LIMIT,
+                tally=prepared.deps.usage,
             ),
             timeout=timeout,
         ),
@@ -901,7 +905,10 @@ async def audit_one(
     force: bool = False,
     providers: list | None = None,
     on_progress: Progress = _noop,
+    usage: RunUsage | None = None,
 ) -> AuditResult | None:
+    """``usage``, when given, accumulates the requests and tokens of
+    every model call this audit makes."""
     prepared = _prepare_audit(
         series_id,
         model_name=model_name,
@@ -911,6 +918,8 @@ async def audit_one(
     )
     if prepared is None:
         return None
+    if usage is not None:
+        prepared.deps.usage = usage
 
     route = audit_route(prepared.curation, prepared.lint_issues)
     if route == "chunked":
@@ -962,8 +971,13 @@ def apply_audit(
     model_name: str = _DEFAULT_MODEL,
     dry_run: bool = False,
     on_progress: Progress = _noop,
+    usage: dict[str, int] | None = None,
 ) -> str:
-    """Store audit result. Returns 'approved', 'escalated', or 'overridden'."""
+    """Store audit result. Returns 'approved', 'escalated', or 'overridden'.
+
+    ``usage`` (requests / input_tokens / output_tokens) is recorded in
+    the review block next to who audited and when.
+    """
     path = CURATION_DIR / f"{series_id}.json"
     data = json.loads(path.read_text())
     review = data.setdefault("review", {})
@@ -1042,6 +1056,8 @@ def apply_audit(
 
     review["audited_by"] = model_name
     review["audited_at"] = now
+    if usage is not None:
+        review["usage"] = usage
     review["concerns"] = result.concerns + gate_concerns
 
     if not dry_run:
@@ -1096,6 +1112,7 @@ async def audit_series(
     for sid in series_ids:
         on_progress(f"\n{sid}")
         try:
+            usage = RunUsage()
             result = await audit_one(
                 sid,
                 model_name=model_name,
@@ -1103,15 +1120,21 @@ async def audit_series(
                 force=force,
                 providers=providers,
                 on_progress=on_progress,
+                usage=usage,
             )
             if result is None:
                 continue
+            on_progress(
+                f"  Usage: {usage.requests} requests, "
+                f"{usage.input_tokens} in / {usage.output_tokens} out tokens"
+            )
             action = apply_audit(
                 sid,
                 result,
                 model_name=model_name,
                 dry_run=dry_run,
                 on_progress=on_progress,
+                usage=usage_summary(usage),
             )
             if action == "approved":
                 summary.approved += 1
