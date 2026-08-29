@@ -2846,6 +2846,9 @@ series:
       - id: 2v399vbSTonNeHlB1xi41a
         episode: 164
         title: 'Folge 164: Hexerei im Cluburlaub'
+      - id: 5qiASpdjFzGVqHTzNu0Nca
+        episode: 165
+        title: 'Folge 165: Die doppelte Klassenfahrt'
       - id: 4tjQJ8CEeQu8E8cf23aNnj
         title: Der verhexte Weihnachtsmarkt [Der Adventskalender zum Hören]
       - id: 7HIgLk8Y8m3KQIFjPiYWQW
@@ -3396,6 +3399,9 @@ series:
       - id: '1886730705'
         episode: 164
         title: 'Folge 164: Hexerei im Cluburlaub'
+      - id: '6772208931'
+        episode: 165
+        title: 'Folge 165: Die doppelte Klassenfahrt'
       - id: '1069121458'
         title: Der verhexte Weihnachtsmarkt (Der Adventskalender zum Hören)
       - id: '1069102309'
@@ -3462,25 +3468,87 @@ series:
   - '^Folge (\d+):'
   series_facts:
     known_gaps:
-    - number: 44
-      range_end:
-      reason: 'Cross-provider gap: episode 44 exists on Spotify but Apple Music has no matching entry. Not a missing episode in the canon.'
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T09:47:27.369541+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T09:47:27.369541+00:00'
+      number: 44
+      range_end:
+      reason: 'Cross-provider gap: episode 44 exists on Spotify but Apple Music has no matching entry. Not a missing episode in the canon.'
     - curated_by: minimax-m2.7
       curated_at: '2026-05-28T18:47:07.663948+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-05-28T18:47:07.663948+00:00'
       number: 62
+      range_end:
       reason: Folge 62 never released; famously absent from original MC/cassette collections. Episodes 61 and 63 exist. Well-documented gap in the Bibi Blocksberg Hörspiel canon.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-19T03:50:21.835844+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-19T03:50:21.835844+00:00'
-      number: 165
-      reason: Episode 165 (Die doppelte Klassenfahrt) only exists on Apple Music; Spotify has no matching entry. Cross-provider gap, not a missing episode in the canon.
+    sub_series:
+    - curated_by: curate
+      curated_at: '2026-08-29T16:17:56.079727+00:00'
+      audited_by: chris (human review)
+      audited_at: '2026-08-29T16:36:27.211911+00:00'
+      label: bibi_erzaehlt
+      album_ids:
+      - apple_music:1465951895
+      - apple_music:1476061825
+      - apple_music:1476558897
+      - apple_music:1476559558
+      - apple_music:1477113585
+      - apple_music:1477114049
+      - apple_music:1477114243
+      - apple_music:1477114620
+      - apple_music:1495409525
+      - apple_music:1532939500
+      - apple_music:1560190831
+      - apple_music:1584989504
+      - apple_music:1613760880
+      - apple_music:1632615598
+      - apple_music:1672655932
+      - apple_music:1706870843
+      - apple_music:1739367063
+      - apple_music:1770238628
+      - apple_music:1798506107
+      - apple_music:1827427597
+      - apple_music:1873129555
+      - apple_music:6795416010
+      - spotify:02Kn2SoIna6hNJGWeXOMUy
+      - spotify:0ULD2ilRFbYzJwGpTj9PvU
+      - spotify:0cho4lxj0pMU05YLvn3d6b
+      - spotify:0wXyygsfQ3zdeQ5TJ5TbdE
+      - spotify:12DCazEt3HrcqhSre7i2Qr
+      - spotify:1YxIFAuzmIlNwQjbq4ayFj
+      - spotify:1jm3pmeimB4v2dQnseJ1g3
+      - spotify:3JSgtEbyjSSd2SlF4DqHCg
+      - spotify:3rOPn20HBIk5rnlwoPgcBV
+      - spotify:3sueFjrg3Vc2uVeojaWaHs
+      - spotify:4OFQcpklILyntR0CA0YwUK
+      - spotify:4UtbzU2piW8JL61Md3AqRN
+      - spotify:4a3LKUotBcb6adgjefMWNV
+      - spotify:4kU5RcCic1cYsy8ruIMGV1
+      - spotify:4ty58ME24lhUWwtHnlvUSh
+      - spotify:5IzzaGth9lzu3Wd8IsjgPO
+      - spotify:5LKLw2DejyrWbDKPAlCk8P
+      - spotify:5NYbsIJK9UwkBlxhTE5DpW
+      - spotify:63gO4K2x4xOmJvn8bWnk3S
+      - spotify:68yjM7W4zz2To5L1yYUpsv
+      - spotify:6WpOdxZIwoSazFwCTX79fX
+      - spotify:7HaemL752TozKMqkQ0OGqi
+      - spotify:7uz12MVJH6pVlPW4q3qMAR
+      reason: Short Hörspiele narrated by Bibi, distinct product line from main episodes
+    - curated_by: curate
+      curated_at: '2026-08-29T16:17:56.079727+00:00'
+      audited_by: chris (human review)
+      audited_at: '2026-08-29T16:36:27.211911+00:00'
+      label: kinofilm
+      album_ids:
+      - apple_music:1228734010
+      - apple_music:1228748853
+      - apple_music:1851429423
+      - apple_music:6798866356
+      - spotify:1BsPIjY5OGVilHg51ZURXI
+      - spotify:1LueDXY6cF4HllLN8HfeqW
+      - spotify:5MuK38H2p9v1O7mnVUMRTP
+      reason: Theatrical film Hörspiele with distinct branding, disrupt episode sequence
 - id: die_drei_ausrufezeichen
   title: Die drei !!!
   providers:
