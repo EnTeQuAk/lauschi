@@ -19,10 +19,15 @@ import pytest
 
 from lauschi_catalog.catalog import paths
 from lauschi_catalog.catalog.audit_ops import (
+    _CHUNK_FRAMING_TOKENS,
+    _CHUNK_TARGET_TOKENS,
     AUDIT_ONE_SHOT_MAX_TOKENS,
+    Chunk,
+    _album_line,
     audit_route,
     build_overview,
     build_prompt,
+    plan_chunks,
     prompt_size,
 )
 from lauschi_catalog.catalog.lint_ops import lint_curation
@@ -188,3 +193,134 @@ def test_tail_series_overviews_fit_the_chunk_budget():
     for sid in _TAIL_SERIES:
         ov = build_overview(curations[sid], lint_curation(curations[sid]))
         assert prompt_size(ov) <= 2_000, (sid, prompt_size(ov))
+
+
+# ── plan_chunks: every album in exactly one chunk that fits ──────────
+
+
+def _numbered(n: int, *, shape: str = "Folge") -> list[dict]:
+    return [
+        {
+            "album_id": f"{shape[:2].lower()}{i}",
+            "provider": "spotify",
+            "include": True,
+            "episode_num": i,
+            "title": f"{shape} {i}: Ein Titel für Nummer {i}",
+            "confidence": "high",
+        }
+        for i in range(1, n + 1)
+    ]
+
+
+def _chunk_tokens(c: dict, chunk: Chunk, lint: list[str]) -> int:
+    ov = prompt_size(build_overview(c, lint))
+    return (
+        ov
+        + _CHUNK_FRAMING_TOKENS
+        + sum(prompt_size(_album_line(a)) + 1 for a in chunk.albums)
+    )
+
+
+def test_every_album_lands_in_exactly_one_chunk():
+    c = {"id": "s", "title": "S", "albums": _numbered(700)}
+    chunks = plan_chunks(c, [])
+    ids = [a["album_id"] for ch in chunks for a in ch.albums]
+    assert sorted(ids) == sorted(a["album_id"] for a in c["albums"])
+    assert len(ids) == len(set(ids))
+
+
+def test_no_chunk_exceeds_the_one_shot_cap():
+    c = {"id": "s", "title": "S", "albums": _numbered(900)}
+    for chunk in plan_chunks(c, []):
+        assert _chunk_tokens(c, chunk, []) <= AUDIT_ONE_SHOT_MAX_TOKENS
+
+
+def test_oversized_cluster_is_split_by_episode_in_order():
+    """A main line of hundreds of 'Folge N' is subdivided by episode
+    number; each range chunk holds a contiguous, ascending run."""
+    c = {"id": "s", "title": "S", "albums": _numbered(600)}
+    chunks = [
+        ch for ch in plan_chunks(c, []) if ch.label.startswith("folge n episodes")
+    ]
+    assert len(chunks) >= 2
+    last = 0
+    for ch in chunks:
+        eps = [a["episode_num"] for a in ch.albums]
+        assert eps == sorted(eps)
+        assert eps[0] > last
+        last = eps[-1]
+
+
+def test_sub_line_cluster_stays_whole_in_its_own_chunk():
+    """Kampf um Kartoffelbrei (Special) - Teil N, some included and some
+    excluded: the whole line must be judged together, so it is one chunk
+    with both sides in it."""
+    main = _numbered(300)
+    special = [
+        {
+            "album_id": f"kk{i}",
+            "provider": "spotify",
+            "include": i <= 4,
+            "episode_num": None,
+            "title": f"Kampf um Kartoffelbrei (Special) - Teil {i}: Geschichte {i}",
+            "confidence": "high",
+            "exclude_reason": None if i <= 4 else "sub_series",
+        }
+        for i in range(1, 12)
+    ]
+    c = {"id": "s", "title": "S", "albums": main + special}
+    chunks = plan_chunks(c, [])
+    kk = [ch for ch in chunks if ch.label == "kampf um kartoffelbrei (special)"]
+    assert len(kk) == 1
+    assert {a["album_id"] for a in kk[0].albums} == {f"kk{i}" for i in range(1, 12)}
+
+
+def test_cross_provider_pairs_are_packed_not_chunked_alone():
+    """Two-member clusters are one album on two providers, not a sub-line.
+    Two hundred of them must pack into a few chunks, not two hundred."""
+    # title_shape collapses digits, so distinct albums need distinct words
+    # in their titles or they would merge into one oversized cluster
+    words = [f"Wort{chr(65 + i // 26)}{chr(65 + i % 26)}" for i in range(200)]
+    albums = []
+    for i, word in enumerate(words):
+        for prov in ("spotify", "apple_music"):
+            albums.append(
+                {
+                    "album_id": f"{prov[:2]}{i}",
+                    "provider": prov,
+                    "include": True,
+                    "episode_num": None,
+                    "title": f"Das Lied vom {word}",
+                    "confidence": "high",
+                }
+            )
+    chunks = plan_chunks({"id": "s", "title": "S", "albums": albums}, [])
+    assert 1 <= len(chunks) <= 6
+    assert all("small title groups" in ch.label for ch in chunks)
+
+
+def test_real_bibi_kartoffelbrei_is_its_own_chunk():
+    curations = _real_curations()
+    c = curations["bibi_blocksberg"]
+    chunks = plan_chunks(c, lint_curation(c))
+    labels = [ch.label for ch in chunks]
+    assert "kampf um kartoffelbrei (special)" in labels
+    kk = next(ch for ch in chunks if ch.label == "kampf um kartoffelbrei (special)")
+    assert any(a["include"] for a in kk.albums) and any(
+        not a["include"] for a in kk.albums
+    )
+
+
+def test_real_paw_patrol_ranges_are_ordered_and_under_target():
+    curations = _real_curations()
+    c = curations["paw_patrol"]
+    lint = lint_curation(c)
+    chunks = plan_chunks(c, lint)
+    ranges = [ch for ch in chunks if ch.label.startswith("folge n episodes")]
+    assert len(ranges) >= 4
+    last = 0
+    for ch in ranges:
+        eps = [a["episode_num"] for a in ch.albums]
+        assert eps[0] >= last
+        last = eps[-1]
+        assert _chunk_tokens(c, ch, lint) <= _CHUNK_TARGET_TOKENS + 200

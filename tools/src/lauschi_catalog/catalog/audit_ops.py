@@ -31,7 +31,7 @@ from lauschi_catalog.catalog.facts import (
     SubSeriesProposal,
     fact_provenance,
 )
-from lauschi_catalog.catalog.analysis import analyze_series
+from lauschi_catalog.catalog.analysis import analyze_series, group_by_shape
 from lauschi_catalog.catalog.io import safe_write_json
 from lauschi_catalog.catalog.lifecycle import audit_is_stale
 from lauschi_catalog.catalog.paths import CURATION_DIR
@@ -244,33 +244,39 @@ def _header_lines(curation: dict) -> list[str]:
     return lines
 
 
+def _included_line(a: dict) -> str:
+    ep = a.get("episode_num")
+    ep_str = f"Ep {ep}: " if ep is not None else ""
+    rel = a.get("release_date") or ""
+    rel_str = f" ({rel})" if rel else ""
+    conf = a.get("confidence", "high")
+    conf_tag = f" [{conf}]" if conf != "high" else ""
+    notes = a.get("notes", "")
+    notes_str = f" -- notes: {notes}" if notes and conf != "high" else ""
+    return f"  [{a.get('provider', '?')}:{a['album_id']}] {ep_str}{a['title']}{rel_str}{conf_tag}{notes_str}"
+
+
+def _excluded_line(a: dict) -> str:
+    reason = a.get("exclude_reason", "")
+    rel = a.get("release_date") or ""
+    rel_str = f" ({rel})" if rel else ""
+    reason_str = f" -- {reason}" if reason else ""
+    notes = a.get("notes", "")
+    notes_str = f" (notes: {notes})" if notes else ""
+    return f"  [{a.get('provider', '?')}:{a['album_id']}] {a['title']}{rel_str}{reason_str}{notes_str}"
+
+
+def _album_line(a: dict) -> str:
+    return _included_line(a) if a.get("include") else _excluded_line(a)
+
+
 def _album_lines(albums: list[dict]) -> list[str]:
     included = _sorted_included(albums)
     excluded = [a for a in albums if not a.get("include")]
     lines = ["", f"### Included albums ({len(included)})"]
-    for a in included:
-        ep = a.get("episode_num")
-        ep_str = f"Ep {ep}: " if ep is not None else ""
-        rel = a.get("release_date") or ""
-        rel_str = f" ({rel})" if rel else ""
-        conf = a.get("confidence", "high")
-        conf_tag = f" [{conf}]" if conf != "high" else ""
-        notes = a.get("notes", "")
-        notes_str = f" -- notes: {notes}" if notes and conf != "high" else ""
-        lines.append(
-            f"  [{a.get('provider', '?')}:{a['album_id']}] {ep_str}{a['title']}{rel_str}{conf_tag}{notes_str}"
-        )
+    lines.extend(_included_line(a) for a in included)
     lines.append(f"\n### Excluded albums ({len(excluded)})")
-    for a in excluded:
-        reason = a.get("exclude_reason", "")
-        rel = a.get("release_date") or ""
-        rel_str = f" ({rel})" if rel else ""
-        reason_str = f" -- {reason}" if reason else ""
-        notes = a.get("notes", "")
-        notes_str = f" (notes: {notes})" if notes else ""
-        lines.append(
-            f"  [{a.get('provider', '?')}:{a['album_id']}] {a['title']}{rel_str}{reason_str}{notes_str}"
-        )
+    lines.extend(_excluded_line(a) for a in excluded)
     return lines
 
 
@@ -437,6 +443,152 @@ def build_overview(curation: dict, lint_issues: list[str]) -> str:
         *_lint_lines(lint_issues),
     ]
     return "\n".join(lines)
+
+
+# -- Chunk planner --
+#
+# Only the four series whose one-shot prompt is past AUDIT_ONE_SHOT_MAX_TOKENS
+# are chunked. A chunk is a small one-shot audit: the overview plus a
+# subset of albums, and it must itself fit the one-shot limit. Albums are
+# grouped so the judgment each chunk is asked for stays possible:
+#
+# - a title cluster that fits is one chunk, included and excluded members
+#   together, so a split line (Kartoffelbrei parts 1-4 in, 5-11 out) is
+#   seen whole;
+# - a cluster too large to fit (a main line of hundreds of 'Folge N') is
+#   subdivided by episode number, in order; a homogeneous numbered line
+#   is "more of the same" and the overview already holds the range facts;
+# - clusters too small to stand alone are packed together up to the
+#   budget, which puts the outliers and one-offs side by side.
+#
+# Every album lands in exactly one chunk. Nothing is sampled or skipped.
+
+
+@dataclass
+class Chunk:
+    label: str
+    albums: list[dict]
+
+
+# Per-chunk framing (the "Albums in this chunk" header, the rolling
+# summary of earlier chunks, the closing instruction) that the budget
+# must leave room for on top of the overview and the album lines.
+_CHUNK_FRAMING_TOKENS = 600
+
+# Size a chunk fills toward. AUDIT_ONE_SHOT_MAX_TOKENS is the hard cap a
+# chunk may never exceed, but a chunk filled to the cap is a slightly
+# smaller copy of the prompt that failed. The audit's comfortable working
+# size is far lower: across the 275 series the one-shot handles, the
+# prompt median is 1,163 tokens and the 90th percentile 6,035. Chunks
+# fill to that 90th percentile, so each is a judgment the model is known
+# to make well, and stop before the cap on the rare oversized album.
+_CHUNK_TARGET_TOKENS = 6_000
+
+# Members a title cluster needs to be a sub-line that gets its own chunk.
+# On the chunked series, two-member clusters are cross-provider pairs of
+# one album (wieso_weshalb_warum: 163 of 163; stephen_janetzko: 255 of
+# 264), which must pack. Real sub-lines start at eight (Bibi: Kampf um
+# Kartoffelbrei 20, Kurzgeschichte 22, Kurzhörspiele 24). Six sits in
+# the observed gap.
+_SUB_LINE_MIN_MEMBERS = 6
+
+
+def _album_cost(a: dict) -> int:
+    """Size of this album's line in the same units as the budget.
+
+    Measured by rendering the real line, because per-album cost varies
+    several-fold across series (short titles vs long notes) and a fixed
+    estimate would let a chunk overflow.
+    """
+    return prompt_size(_album_line(a)) + 1
+
+
+def _episode_key(a: dict) -> tuple[int, int, str]:
+    ep = a.get("episode_num")
+    return (ep is None, ep if ep is not None else 0, a.get("title", ""))
+
+
+def _split_by_range(shape: str, members: list[dict], target: int) -> list[Chunk]:
+    """Subdivide one oversized cluster into episode-ordered chunks that
+    each fill toward ``target``."""
+    ordered = sorted(members, key=_episode_key)
+    chunks: list[Chunk] = []
+    cur: list[dict] = []
+    cur_cost = 0
+    for a in ordered:
+        cost = _album_cost(a)
+        if cur and cur_cost + cost > target:
+            chunks.append(Chunk(label=_range_label(shape, cur), albums=cur))
+            cur, cur_cost = [], 0
+        cur.append(a)
+        cur_cost += cost
+    if cur:
+        chunks.append(Chunk(label=_range_label(shape, cur), albums=cur))
+    return chunks
+
+
+def _range_label(shape: str, albums: list[dict]) -> str:
+    eps = [a["episode_num"] for a in albums if a.get("episode_num") is not None]
+    if eps:
+        return f"{shape} episodes {min(eps)}-{max(eps)}"
+    return f"{shape} ({len(albums)} albums)"
+
+
+def plan_chunks(curation: dict, lint_issues: list[str]) -> list[Chunk]:
+    """Group a chunked series' albums into chunks that each fit the
+    one-shot limit alongside the overview. Pure; no model call."""
+    albums = curation.get("albums", [])
+    overview_cost = prompt_size(build_overview(curation, lint_issues))
+    fixed = overview_cost + _CHUNK_FRAMING_TOKENS
+    cap = AUDIT_ONE_SHOT_MAX_TOKENS - fixed
+    if cap <= 0:
+        raise ValueError(
+            f"overview alone ({overview_cost} tokens) leaves no room for albums "
+            f"under AUDIT_ONE_SHOT_MAX_TOKENS={AUDIT_ONE_SHOT_MAX_TOKENS}"
+        )
+    # what a chunk fills toward; never above what fits under the cap
+    budget = min(_CHUNK_TARGET_TOKENS - fixed, cap)
+    if budget <= 0:
+        budget = cap
+
+    by_shape = group_by_shape(albums)
+    # largest clusters first, so the big sub-lines get their own chunks
+    # and the tail of small shapes is what gets packed
+    ordered = sorted(by_shape.items(), key=lambda kv: (-len(kv[1]), kv[0]))
+
+    chunks: list[Chunk] = []
+    pack: list[dict] = []
+    pack_shapes: list[str] = []
+    pack_cost = 0
+
+    def flush_pack() -> None:
+        nonlocal pack, pack_shapes, pack_cost
+        if pack:
+            chunks.append(
+                Chunk(
+                    label=f"{len(pack_shapes)} small title groups ({len(pack)} albums)",
+                    albums=pack,
+                )
+            )
+        pack, pack_shapes, pack_cost = [], [], 0
+
+    for shape, members in ordered:
+        cost = sum(_album_cost(a) for a in members)
+        if cost > budget:
+            flush_pack()
+            chunks.extend(_split_by_range(shape, members, budget))
+        elif len(members) >= _SUB_LINE_MIN_MEMBERS:
+            # a real sub-line: judged whole, in its own chunk
+            flush_pack()
+            chunks.append(Chunk(label=shape, albums=list(members)))
+        else:
+            if pack and pack_cost + cost > budget:
+                flush_pack()
+            pack.extend(members)
+            pack_shapes.append(shape)
+            pack_cost += cost
+    flush_pack()
+    return chunks
 
 
 def prompt_size(prompt: str) -> int:
