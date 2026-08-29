@@ -1043,6 +1043,25 @@ async def _run_agent(agent, prompt, deps):
     return await run_agent(agent, prompt, deps, request_limit=200)
 
 
+def describe_failure(exc: BaseException) -> str:
+    """``Type: message`` for an exception and everything it was raised from.
+
+    pydantic-ai wraps the last validation error in
+    ``UnexpectedModelBehavior("Exceeded maximum output retries")`` and
+    keeps the reason only on ``__cause__``. A batch that fails for that
+    reason is useless to debug without it.
+    """
+    parts: list[str] = []
+    seen: set[int] = set()
+    cur: BaseException | None = exc
+    while cur is not None and id(cur) not in seen:
+        seen.add(id(cur))
+        text = str(cur)
+        parts.append(f"{type(cur).__name__}: {text}" if text else type(cur).__name__)
+        cur = cur.__cause__
+    return " <- ".join(parts)
+
+
 def _fmt_elapsed(seconds: float) -> str:
     s = int(seconds)
     if s < 60:
@@ -1165,7 +1184,7 @@ async def _run_large(
             on_progress(f"  [{p.name}] {len(albums)} albums")
             provider_album_counts[p.name] = len(albums)
         except Exception as e:
-            err = f"{type(e).__name__}: {e}" if str(e) else type(e).__name__
+            err = describe_failure(e)
             on_progress(f"  [{p.name}] Discovery failed: {err}")
             provider_errors.append(f"{p.name}: {err}")
 
@@ -1418,7 +1437,7 @@ async def _run_large(
                 on_progress=on_progress,
             )
         except Exception as exc:
-            err = f"{type(exc).__name__}: {exc}" if str(exc) else type(exc).__name__
+            err = describe_failure(exc)
             on_progress(
                 f"  Batch {batch_num}/{len(batches)} failed after retries: "
                 f"{err}. Saving {len(all_decisions)} partial results.\n",
@@ -1762,7 +1781,7 @@ async def _run_large(
                         )
             except Exception as exc:
                 incomplete = True
-                err = f"{type(exc).__name__}: {exc}" if str(exc) else type(exc).__name__
+                err = describe_failure(exc)
                 provider_errors.append(f"finalize: {err}")
                 on_progress(
                     f"  Finalize phase failed: {exc}. "
