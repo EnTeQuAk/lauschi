@@ -14591,18 +14591,15 @@ series:
       - id: '1872675390'
         episode: 26
         title: 'Folge 26: Zusammengewachsen'
+      - id: '1889874170'
+        episode: 27
+        title: 'Folge 27: Gangsterjagd'
       - id: '6777077801'
         episode: 28
         title: 'Folge 28: Der Praktikums-Fail'
   episode_pattern: '^Folge (\d+):'
   series_facts:
     known_gaps:
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:23:10.262210+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:23:10.262210+00:00'
-      number: 27
-      reason: Missing on Spotify; only present on Apple Music as 'Gangsterjagd' (2026-06-12). May be a future release or platform-specific gap.
     - number: 28
       range_end:
       reason: "Platform-specific gap: Episode 28 exists on Apple Music but not on Spotify. Not an error—Spotify simply hasn't added this release yet."
