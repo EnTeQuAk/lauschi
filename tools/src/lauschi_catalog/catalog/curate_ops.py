@@ -19,7 +19,8 @@ from pathlib import Path
 from typing import Literal
 
 from pydantic import BaseModel, Field, field_validator, model_validator
-from pydantic_ai import Agent, ModelRetry, RunContext
+from pydantic_ai import Agent, ModelRetry, RunContext, capture_run_messages
+from pydantic_ai.messages import ModelMessage, ModelMessagesTypeAdapter
 
 from lauschi_catalog._opencode import (
     build_model,
@@ -51,6 +52,7 @@ from lauschi_catalog.catalog.paths import (
     CURATION_DIR,
     cover_cache_dir,
     cover_cache_path,
+    log_dir,
 )
 from lauschi_catalog.catalog.prompt import album_to_dict, format_albums_xml
 from lauschi_catalog.agent_hooks import build_progress_hooks
@@ -1062,6 +1064,34 @@ def describe_failure(exc: BaseException) -> str:
     return " <- ".join(parts)
 
 
+def dump_batch_failure(
+    series_id: str,
+    batch_num: int,
+    prompt: str,
+    messages: list[ModelMessage],
+    exc: BaseException,
+) -> Path:
+    """Write what the model saw and answered for a batch that failed.
+
+    A batch that exhausts its output retries takes the rest of the
+    series with it (every later album is auto-included), so the
+    exchange that led there is worth keeping: the exact prompt and
+    every request/response, including the retry prompts and what the
+    model returned to each. Returns the file written.
+    """
+    path = log_dir() / "curate-failures" / f"{series_id}-batch{batch_num:02d}.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "series_id": series_id,
+        "batch": batch_num,
+        "error": describe_failure(exc),
+        "prompt": prompt,
+        "messages": json.loads(ModelMessagesTypeAdapter.dump_json(messages)),
+    }
+    path.write_text(json.dumps(payload, indent=1, ensure_ascii=False), encoding="utf-8")
+    return path
+
+
 def _fmt_elapsed(seconds: float) -> str:
     s = int(seconds)
     if s < 60:
@@ -1426,25 +1456,30 @@ async def _run_large(
 
         shared_deps.current_batch_ids = {(a["provider"], a["id"]) for a in batch}
         t_batch = time.monotonic()
-        try:
-            result: BatchResult = await _run_with_retry(
-                lambda p=prompt: asyncio.wait_for(
-                    _run_agent(batch_agent, p, shared_deps),
-                    timeout=timeout,
-                ),
-                phase=f"batch {batch_num}/{len(batches)}",
-                model_name=model_name,
-                on_progress=on_progress,
-            )
-        except Exception as exc:
-            err = describe_failure(exc)
-            on_progress(
-                f"  Batch {batch_num}/{len(batches)} failed after retries: "
-                f"{err}. Saving {len(all_decisions)} partial results.\n",
-            )
-            incomplete = True
-            provider_errors.append(f"batch {batch_num}/{len(batches)}: {err}")
-            break
+        with capture_run_messages() as batch_messages:
+            try:
+                result: BatchResult = await _run_with_retry(
+                    lambda p=prompt: asyncio.wait_for(
+                        _run_agent(batch_agent, p, shared_deps),
+                        timeout=timeout,
+                    ),
+                    phase=f"batch {batch_num}/{len(batches)}",
+                    model_name=model_name,
+                    on_progress=on_progress,
+                )
+            except Exception as exc:
+                err = describe_failure(exc)
+                evidence = dump_batch_failure(
+                    meta.id, batch_num, prompt, batch_messages, exc
+                )
+                on_progress(
+                    f"  Batch {batch_num}/{len(batches)} failed after retries: "
+                    f"{err}. Saving {len(all_decisions)} partial results. "
+                    f"Evidence: {evidence}\n",
+                )
+                incomplete = True
+                provider_errors.append(f"batch {batch_num}/{len(batches)}: {err}")
+                break
 
         batch_index = {(a["provider"], a["id"]): a for a in batch}
         for a in result.albums:
