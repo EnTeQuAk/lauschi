@@ -89,3 +89,77 @@ def test_curate_and_finalize_keep_provider_default_output_cap():
 
     assert "max_tokens" not in get_model_settings("curate", "kimi-k2.5")
     assert "max_tokens" not in get_model_settings("finalize", "kimi-k2.5")
+
+
+# ── transport follows the model ───────────────────────────────────────
+
+
+def test_gpt_5_6_routes_to_the_responses_api():
+    """opencode-zen serves the GPT-5.6 family on /responses; on
+    /chat/completions it returns "Internal server error" (verified live
+    2026-08-30). The transport must follow the model name."""
+    from pydantic_ai.models.openai import OpenAIResponsesModel
+
+    from lauschi_catalog._opencode import uses_responses_api
+
+    assert uses_responses_api("gpt-5.6-luna")
+    model = build_model("gpt-5.6-luna", api_key="test-key")
+    assert isinstance(model, OpenAIResponsesModel)
+    assert model.model_name == "gpt-5.6-luna"
+
+
+def test_everything_else_stays_on_chat_completions():
+    """Every audit was probed on chat completions and the 276 one-shot
+    series run on it. Adding a Responses-API route must not move them."""
+    from pydantic_ai.models.openai import OpenAIChatModel
+
+    from lauschi_catalog._opencode import uses_responses_api
+
+    for name in ("kimi-k2.5", "kimi-k2.6", "minimax-m2.7", "minimax-m3", "glm-5.2"):
+        assert not uses_responses_api(name), name
+        assert isinstance(build_model(name, api_key="test-key"), OpenAIChatModel), name
+
+
+def test_chat_completions_keeps_the_inline_defs_transformer():
+    """The chat-completions relay cannot resolve $ref; InlineDefs is why
+    build_model exists. The 276 one-shot audits run on this path."""
+    model = build_model("kimi-k2.5", api_key="test-key")
+    assert model.profile.json_schema_transformer is InlineDefsJsonSchemaTransformer
+
+
+def test_responses_api_uses_the_strict_mode_transformer():
+    """Zen's Responses endpoint enforces strict tool schemas: every object
+    must carry additionalProperties: false, which InlineDefs does not
+    emit ("'additionalProperties' is required to be supplied and to be
+    false", verified live 2026-08-30). pydantic-ai's strict transformer
+    emits it. It leaves $ref in place, and that is fine here: the same
+    probe showed the Responses path resolves a $ref-bearing strict
+    schema for the nested BatchResult, unlike the chat relay."""
+    from pydantic_ai.profiles.openai import OpenAIJsonSchemaTransformer
+
+    model = build_model("gpt-5.6-luna", api_key="test-key")
+    assert model.profile.json_schema_transformer is OpenAIJsonSchemaTransformer
+
+
+def test_gpt_5_6_runs_every_phase_at_low_reasoning():
+    """Luna's effort dial is honored on /responses (reasoning_tokens 0 at
+    low, verified live). Curation is classification against provider
+    data; low keeps the output budget for the verdict, on every phase."""
+    from lauschi_catalog._opencode import get_model_settings
+
+    for phase in ("curate", "finalize", "audit"):
+        s = get_model_settings(phase, "gpt-5.6-luna")
+        assert s.get("openai_reasoning_effort") == "low", phase
+
+
+def test_gpt_5_6_sends_no_sampling_parameters():
+    """The endpoint rejects temperature, seed and top_p for this family
+    ("'temperature' is not supported with this model", verified live
+    2026-08-30). The phase defaults carry temperature and seed; the Luna
+    override must not inherit them or every curate call fails with 400."""
+    from lauschi_catalog._opencode import get_model_settings
+
+    for phase in ("curate", "finalize", "audit"):
+        s = get_model_settings(phase, "gpt-5.6-luna")
+        assert "temperature" not in s, phase
+        assert "seed" not in s, phase

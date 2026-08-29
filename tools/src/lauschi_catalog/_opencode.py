@@ -8,8 +8,9 @@ here so agents don't carry per-model configuration.
 from __future__ import annotations
 
 from pydantic_ai import InlineDefsJsonSchemaTransformer
-from pydantic_ai.models.openai import OpenAIChatModel
-from pydantic_ai.profiles.openai import OpenAIModelProfile
+from pydantic_ai.models import Model
+from pydantic_ai.models.openai import OpenAIChatModel, OpenAIResponsesModel
+from pydantic_ai.profiles.openai import OpenAIJsonSchemaTransformer, OpenAIModelProfile
 from pydantic_ai.providers.openai import OpenAIProvider
 from pydantic_ai.settings import ModelSettings
 
@@ -47,7 +48,36 @@ _OVERRIDES: dict[str, dict[str, ModelSettings]] = {
             openai_reasoning_effort="low",
         ),
     },
+    # GPT-5.6 Luna is a reasoning model with an explicit effort dial
+    # (none/low/medium/high/xhigh/max). Verified against Zen's
+    # /responses endpoint 2026-08-30: at "low" it returns
+    # reasoning_tokens 0 and still makes strict tool calls correctly.
+    # Curation is classification against provider data, not open-ended
+    # reasoning, so low keeps the output budget for the verdict.
+    #
+    # No temperature, seed or top_p: the endpoint rejects all three for
+    # this family ("'temperature' is not supported with this model",
+    # verified live 2026-08-30). The pipeline's temperature=0/seed=42
+    # determinism principle cannot be applied here; run-to-run variance
+    # on Luna is measured by the eval harness rather than assumed away.
+    "gpt-5.6-": {
+        "curate": ModelSettings(openai_reasoning_effort="low"),
+        "finalize": ModelSettings(openai_reasoning_effort="low"),
+        "audit": ModelSettings(openai_reasoning_effort="low"),
+    },
 }
+
+# Model-name prefixes that opencode-zen serves on the OpenAI Responses
+# API (`/responses`) rather than chat completions. Verified 2026-08-30:
+# gpt-5.6-luna returns "Internal server error" on /chat/completions and
+# works on /responses, with strict function calling and reasoning
+# effort honored. Everything not listed uses chat completions, which is
+# what the whole pipeline has run on and what every audit was probed on.
+_RESPONSES_API_PREFIXES = ("gpt-5.6-",)
+
+
+def uses_responses_api(model_name: str) -> bool:
+    return model_name.startswith(_RESPONSES_API_PREFIXES)
 
 
 def get_model_settings(phase: str, model_name: str) -> ModelSettings:
@@ -68,9 +98,14 @@ def get_model_settings(phase: str, model_name: str) -> ModelSettings:
     return defaults[phase]
 
 
-def build_model(model_name: str, api_key: str) -> OpenAIChatModel:
-    """Construct an OpenAIChatModel pointed at opencode-zen with
-    ``$defs`` inlined in the output schema.
+def build_model(model_name: str, api_key: str) -> Model:
+    """Construct a model pointed at opencode-zen with ``$defs`` inlined
+    in the output schema.
+
+    The transport follows the model: the GPT-5.6 family is served on
+    Zen's Responses API, everything else on chat completions. Both get
+    the same provider and the same profile, so a model swap changes
+    nothing but the wire format.
 
     The inlined-defs transformer drops every ``$ref`` indirection
     in favour of the resolved value, so the schema we send is
@@ -78,6 +113,20 @@ def build_model(model_name: str, api_key: str) -> OpenAIChatModel:
     pydantic models; correctness-preserving when it does.
     """
     provider = OpenAIProvider(base_url=OPENCODE_BASE_URL, api_key=api_key)
+    if uses_responses_api(model_name):
+        # The Responses API enforces strict tool schemas: every object
+        # needs additionalProperties: false, which InlineDefs does not
+        # emit (verified live 2026-08-30: "'additionalProperties' is
+        # required to be supplied and to be false"). pydantic-ai's
+        # strict-mode transformer emits it and also resolves $ref, so
+        # the relay's $defs limitation is covered on this path too.
+        return OpenAIResponsesModel(
+            model_name,
+            provider=provider,
+            profile=OpenAIModelProfile(
+                json_schema_transformer=OpenAIJsonSchemaTransformer,
+            ),
+        )
     return OpenAIChatModel(
         model_name,
         provider=provider,
