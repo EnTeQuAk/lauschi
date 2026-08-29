@@ -28,7 +28,7 @@ _CLUSTER_EXAMPLE_LIMIT = 3
 _OUTLIER_LIST_LIMIT = 20
 
 
-def _title_shape(title: str) -> str:
+def title_shape(title: str) -> str:
     """Reduce a title to its structural shape for clustering.
 
     Lowercases, truncates at the first structural delimiter (``:``, ``/``,
@@ -52,10 +52,10 @@ def _title_shape(title: str) -> str:
     return re.sub(r"\d+", "n", s).strip()
 
 
-def _group_by_shape(albums: list[dict]) -> dict[str, list[dict]]:
+def group_by_shape(albums: list[dict]) -> dict[str, list[dict]]:
     by_shape: dict[str, list[dict]] = {}
     for a in albums:
-        by_shape.setdefault(_title_shape(a["title"]), []).append(a)
+        by_shape.setdefault(title_shape(a["title"]), []).append(a)
     return by_shape
 
 
@@ -201,7 +201,7 @@ def analyze_series(curation: dict) -> dict[str, Any]:
                 title_counter[w] += 1
 
     providers = Counter(a.get("provider", "spotify") for a in albums)
-    by_shape = _group_by_shape(albums)
+    by_shape = group_by_shape(albums)
     outliers, outlier_count = _outliers(by_shape)
 
     return {

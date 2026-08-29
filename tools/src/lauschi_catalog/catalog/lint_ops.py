@@ -13,6 +13,7 @@ from __future__ import annotations
 
 from datetime import date
 
+from lauschi_catalog.catalog.analysis import group_by_shape
 from lauschi_catalog.catalog.facts import SeriesFacts
 from lauschi_catalog.catalog.matcher import extract_episode
 
@@ -107,6 +108,43 @@ def _norm_title(title: str) -> str:
     return t
 
 
+def _reason_key(exclude_reason: str | None) -> str:
+    """Reduce an exclude_reason to its classifying key.
+
+    Reasons are written by several models and by hand, so the same
+    classification shows up as ``wrong_content_type``, ``Wrong content
+    type``, or ``sub_series_bleed: lives in ...``. Keep the part before
+    any ``:`` or `` - `` detail, casefold, and join words with
+    underscores so all of those compare equal.
+    """
+    key = (exclude_reason or "").split(":")[0].split(" - ")[0]
+    return "_".join(key.casefold().split())
+
+
+# Reasons that classify the *content* of an album (it is a single, a
+# compilation, the wrong kind of thing, another line). The same content
+# cannot be classified one way for one member and the opposite way for
+# a sibling, so these are the reasons that make a split contradictory.
+# Redundancy reasons (duplicate, format_variant) describe a relationship
+# to another album, not the content, and a split on them is deliberate.
+_CONTENT_REASONS = frozenset(
+    {
+        "music_single",
+        "music_album",
+        "compilation",
+        "multi_artist_compilation",
+        "kinderlieder_compilation",
+        "compilation_as_episode",
+        "wrong_content_type",
+        "not_kids_content",
+        "audiobook",
+        "sub_series",
+        "sub_series_bleed",
+        "different_series",
+    }
+)
+
+
 def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
     """Run deterministic checks on a curation.
 
@@ -151,7 +189,9 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
                 era_eps: list[int] = []
                 for ep, ep_albums in eps_albums_by_provider[prov].items():
                     for a in ep_albums:
-                        if _year(a.get("release_date", "")) in range(start_y, end_y + 1):
+                        if _year(a.get("release_date", "")) in range(
+                            start_y, end_y + 1
+                        ):
                             era_eps.append(ep)
                 dupes = _find_duplicates(era_eps)
                 if dupes:
@@ -174,7 +214,7 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
         gaps = _find_gaps(nums)
         # Filter out known gaps (individual numbers and ranges)
         known: set[int] = set()
-        for g in (facts.known_gaps if facts else []):
+        for g in facts.known_gaps if facts else []:
             known |= g.episode_numbers()
         unknown = [g for g in gaps if g not in known]
         if unknown:
@@ -328,19 +368,16 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
     # (duplicate) are deliberate and stay silent, matching Rule 5's
     # "properly excluded" convention. Complements Rule 5, which needs
     # episode numbers; this catches the unnumbered case (music albums).
-    contradictory_reasons = {
-        "music_single",
-        "compilation",
-        "wrong_content_type",
-        "sub_series_bleed",
-    }
     included_titles: dict[str, str] = {}
     for a in included:
         included_titles.setdefault(
             _norm_title(a.get("title") or ""), a.get("provider", "?")
         )
     for a in albums:
-        if a.get("include") or a.get("exclude_reason") not in contradictory_reasons:
+        if (
+            a.get("include")
+            or _reason_key(a.get("exclude_reason")) not in _CONTENT_REASONS
+        ):
             continue
         norm = _norm_title(a.get("title") or "")
         other = included_titles.get(norm)
@@ -349,6 +386,37 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
                 f"[title_counterpart] {a.get('title', '?')!r} excluded on "
                 f"{a.get('provider', '?')} ({a.get('exclude_reason')}) but its "
                 f"counterpart is included on {other}"
+            )
+
+    # ── Rule 12: Split title clusters ────────────────────────────────
+    # Albums sharing a title shape are one line ("Kampf um Kartoffelbrei
+    # (Special) - Teil N"). When some members are included and others
+    # excluded for a CONTENT reason, the same line was judged fine for
+    # part of itself and wrong content for the rest: that is a real
+    # inconsistency a whole-list read found on Bibi Blocksberg (parts
+    # 1-4 in, 5-11 out as sub_series) and no rule caught. Splits on
+    # redundancy reasons (a duplicate excluded beside its twin) are
+    # deliberate and stay silent, so a main line like 'folge n' with a
+    # few duplicates does not fire. Whether a flagged split is a defect
+    # or a legitimate boundary is the audit's call; this only makes sure
+    # it is asked.
+    for shape, members in sorted(group_by_shape(albums).items()):
+        if len(members) < 2:
+            continue
+        inc_n = sum(1 for m in members if m.get("include"))
+        content_exc = [
+            m
+            for m in members
+            if not m.get("include")
+            and _reason_key(m.get("exclude_reason")) in _CONTENT_REASONS
+        ]
+        if inc_n and content_exc:
+            reasons = sorted(
+                {_reason_key(m.get("exclude_reason")) for m in content_exc}
+            )
+            issues.append(
+                f"[split_cluster] {shape!r}: {inc_n} included, "
+                f"{len(content_exc)} excluded as {', '.join(reasons)}"
             )
 
     return issues

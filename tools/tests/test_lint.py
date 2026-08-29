@@ -526,3 +526,122 @@ class TestAutoIncludedRule:
         }
         issues = lint_curation(curation)
         assert not any("auto_included" in i for i in issues)
+
+
+# ── Rule 12: split title clusters ─────────────────────────────────────
+
+
+def _kartoffelbrei(n: int, *, include: bool, reason: str | None = None) -> dict:
+    return _make_album(
+        f"kk{n}",
+        f"Kampf um Kartoffelbrei (Special) - Teil {n}: Geschichte {n}",
+        include=include,
+        exclude_reason=reason,
+    )
+
+
+class TestSplitClusterRule:
+    """A title cluster is one line. Judging part of it fine and the rest
+    wrong content is the inconsistency a whole-list read found on Bibi
+    Blocksberg (parts 1-4 in, 5-11 out as sub_series) and no rule caught."""
+
+    def test_content_reason_split_fires_with_counts(self):
+        albums = [_kartoffelbrei(n, include=True) for n in (1, 2, 3, 4)] + [
+            _kartoffelbrei(n, include=False, reason="sub_series") for n in (5, 6, 7)
+        ]
+        issues = lint_curation({"albums": albums})
+        hits = [i for i in issues if i.startswith("[split_cluster]")]
+        assert len(hits) == 1
+        assert "4 included, 3 excluded as sub_series" in hits[0]
+
+    def test_duplicate_split_is_deliberate_and_silent(self):
+        """A main line with a duplicate excluded beside its twin is a
+        correct split, not a contradiction. 'folge n' must not fire."""
+        albums = [
+            _make_album("f1", "Folge 1: A", episode_num=1),
+            _make_album("f2", "Folge 2: B", episode_num=2),
+            _make_album(
+                "f2b",
+                "Folge 2: B",
+                episode_num=2,
+                include=False,
+                exclude_reason="duplicate",
+            ),
+            _make_album(
+                "f3",
+                "Folge 3: C",
+                episode_num=3,
+                include=False,
+                exclude_reason="format_variant",
+            ),
+        ]
+        issues = lint_curation({"albums": albums})
+        assert not [i for i in issues if i.startswith("[split_cluster]")]
+
+    def test_case_and_suffix_variants_of_a_reason_count(self):
+        """Reasons are written by several models and by hand: 'Wrong content
+        type: ...' and 'sub_series_bleed - lives in x' must classify the
+        same as their canonical keys, or the split goes unseen."""
+        albums = [
+            _kartoffelbrei(1, include=True),
+            _kartoffelbrei(
+                2, include=False, reason="Wrong content type: audiobook chapters"
+            ),
+            _kartoffelbrei(
+                3, include=False, reason="sub_series_bleed - lives in other_series"
+            ),
+        ]
+        issues = lint_curation({"albums": albums})
+        hits = [i for i in issues if i.startswith("[split_cluster]")]
+        assert len(hits) == 1
+        assert "excluded as sub_series_bleed, wrong_content_type" in hits[0]
+
+    def test_singleton_cluster_never_fires(self):
+        albums = [
+            _make_album(
+                "x", "Ein Einzeltitel", include=False, exclude_reason="compilation"
+            )
+        ]
+        assert not [
+            i for i in lint_curation({"albums": albums}) if "split_cluster" in i
+        ]
+
+
+# ── Rule 11: cross-provider title counterparts (normalized reasons) ───
+
+
+class TestTitleCounterpartRule:
+    """Rule 11 compared the raw exclude_reason with ==, so a reason with a
+    free-text suffix or different casing never matched and the
+    contradiction went unreported: on the live catalog it found 7 of ~71.
+    """
+
+    def _pair(self, reason: str) -> list[dict]:
+        return [
+            _make_album("s1", "Seeräuber Wackelzahn", provider="spotify"),
+            _make_album(
+                "a1",
+                "Seeräuber Wackelzahn",
+                provider="apple_music",
+                include=False,
+                exclude_reason=reason,
+            ),
+        ]
+
+    def test_canonical_reason_fires(self):
+        issues = lint_curation({"albums": self._pair("compilation")})
+        assert any(i.startswith("[title_counterpart]") for i in issues)
+
+    def test_suffixed_reason_fires(self):
+        issues = lint_curation(
+            {"albums": self._pair("sub_series_bleed - bonus track from ep 50")}
+        )
+        assert any(i.startswith("[title_counterpart]") for i in issues)
+
+    def test_capitalized_reason_fires(self):
+        issues = lint_curation({"albums": self._pair("Wrong content type: audiobook")})
+        assert any(i.startswith("[title_counterpart]") for i in issues)
+
+    def test_redundancy_reason_stays_silent(self):
+        issues = lint_curation({"albums": self._pair("duplicate")})
+        assert not any(i.startswith("[title_counterpart]") for i in issues)
