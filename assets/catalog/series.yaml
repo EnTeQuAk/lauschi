@@ -43125,8 +43125,7 @@ series:
         title: '05: Eder ist an allem schuld (Neue Geschichten vom Pumuckl)'
       - id: 1aTk0FeiimvscYkptrCl6K
         episode: 6
-        title: '06: Pumuckl und die Geburtstagsüberraschung (Neue Geschichten vom
-          Pumuckl)'
+        title: '06: Pumuckl und die Geburtstagsüberraschung (Neue Geschichten vom Pumuckl)'
       - id: 6vewGeULWJmBGLUsEKjufI
         episode: 7
         title: '07: Pumuckl geht Angeln (Neue Geschichten vom Pumuckl)'
@@ -43171,8 +43170,7 @@ series:
         title: '20: Pumuckl und der krumme Weihnachtsbaum (Neue Geschichten vom Pumuckl)'
       - id: 6goqplQl6q2jnLVCzgGSDZ
         episode: 21
-        title: '21: Pumuckl und der sprechende Schreibtisch (Neue Geschichten vom
-          Pumuckl)'
+        title: '21: Pumuckl und der sprechende Schreibtisch (Neue Geschichten vom Pumuckl)'
       - id: 3g1E3OmyLwLAtKIw0Yfpsv
         episode: 22
         title: '22: Pumuckl und die schlechte Verliererin (Neue Geschichten vom Pumuckl)'
@@ -43189,8 +43187,7 @@ series:
         episode: 26
         title: '26: Wiedersehen mit Pumuckl (Neue Geschichten vom Pumuckl)'
       - id: 3Nu2btZxxyTFoW3UISjRH5
-        title: Pumuckl und das große Missverständnis (Das Original-Hörspiel zum Kinofilm)
-          (Neue Geschichten vom Pumuckl)
+        title: Pumuckl und das große Missverständnis (Das Original-Hörspiel zum Kinofilm) (Neue Geschichten vom Pumuckl)
     apple_music:
       artist_ids:
       - '1710040920'
@@ -43212,8 +43209,7 @@ series:
         title: '05: Eder ist an allem schuld (Neue Geschichten vom Pumuckl)'
       - id: '1729621436'
         episode: 6
-        title: '06: Pumuckl und die Geburtstagsüberraschung (Neue Geschichten vom
-          Pumuckl)'
+        title: '06: Pumuckl und die Geburtstagsüberraschung (Neue Geschichten vom Pumuckl)'
       - id: '1730795277'
         episode: 7
         title: '07: Pumuckl geht Angeln (Neue Geschichten vom Pumuckl)'
@@ -43258,8 +43254,7 @@ series:
         title: '20: Pumuckl und der krumme Weihnachtsbaum (Neue Geschichten vom Pumuckl)'
       - id: '1889471596'
         episode: 21
-        title: '21: Pumuckl und der sprechende Schreibtisch (Neue Geschichten vom
-          Pumuckl)'
+        title: '21: Pumuckl und der sprechende Schreibtisch (Neue Geschichten vom Pumuckl)'
       - id: '1889472265'
         episode: 22
         title: '22: Pumuckl und die schlechte Verliererin (Neue Geschichten vom Pumuckl)'
@@ -43276,8 +43271,7 @@ series:
         episode: 26
         title: '26: Wiedersehen mit Pumuckl (Neue Geschichten vom Pumuckl)'
       - id: '1847324343'
-        title: Pumuckl und das große Missverständnis (Das Original-Hörspiel zum Kinofilm)
-          (Neue Geschichten vom Pumuckl)
+        title: Pumuckl und das große Missverständnis (Das Original-Hörspiel zum Kinofilm) (Neue Geschichten vom Pumuckl)
 - id: jan_tenner_der_neue_superheld
   title: Jan Tenner - Der neue Superheld
   aliases: []
@@ -43627,9 +43621,7 @@ series:
         title: 'Folge 6: Das Zepter der Königin'
       - id: '1468863276'
         episode: 7
-        title: 'Folge 7: Edgar die Pechbiene / Der meistgesuchte Mist / Pauls Himbeere
-          / Die Sonnenfinsternis / Ringkampf im Wald / Majas Blume / Die verwirrte
-          Irma'
+        title: 'Folge 7: Edgar die Pechbiene / Der meistgesuchte Mist / Pauls Himbeere / Die Sonnenfinsternis / Ringkampf im Wald / Majas Blume / Die verwirrte Irma'
       - id: '1468873857'
         episode: 8
         title: 'Folge 8: Majas Schatz'
@@ -43741,8 +43733,7 @@ series:
         title: 08/Wie zwei Schwestern (CGI)
       - id: '1468874228'
         episode: 9
-        title: 'Folge 9: Ein Geist geht um / Kein Brief von Großvater / Heidi kehrt
-          zurück'
+        title: 'Folge 9: Ein Geist geht um / Kein Brief von Großvater / Heidi kehrt zurück'
       - id: '1468862476'
         episode: 10
         title: 10/Glöckchen wird geboren (CGI)
@@ -44161,7 +44152,7 @@ series:
 - id: hexe_lilli_kinofilm
   title: Hexe Lilli (Kinofilm)
   aliases: []
-  episode_pattern: null
+  episode_pattern:
   content_type: hoerspiel
   split_from: hexe_lilli
   providers:
