@@ -121,6 +121,41 @@ class TestSplitSeriesTruth:
         assert scores[0].n_outside_truth == 1
 
 
+class TestScoreCriticRoot:
+    def test_compares_the_audited_copy_with_the_curator_output(
+        self, tmp_path: Path
+    ) -> None:
+        from lauschi_catalog.eval.run import score_critic_root
+
+        truth_dir = tmp_path / "truth"
+        _write(
+            truth_dir / "kira_kolumna.json",
+            _curation([("a", True, 1), ("box", False, None)]),
+        )
+        curator = tmp_path / "curator"
+        _write(
+            curator / "assets/catalog/curation/kira_kolumna.json",
+            _curation([("a", True, 1), ("box", True, None)]),
+        )
+        audited = tmp_path / "audited"
+        fixed = _curation([("a", True, 1), ("box", False, None)])
+        fixed["review"] = {"status": "approved", "overrides": [{"album_id": "box"}]}
+        _write(audited / "assets/catalog/curation/kira_kolumna.json", fixed)
+
+        scores, missing = score_critic_root(
+            curator,
+            audited,
+            critic="c",
+            truth_curation_dir=truth_dir,
+            providers=[_Provider("spotify", ["a", "box"])],
+            verdicts={},
+            series_ids=("kira_kolumna", "paw_patrol"),
+        )
+        assert missing == ["paw_patrol"]
+        (s,) = scores
+        assert (s.n_mistakes, s.n_fixed, s.n_broken, s.approved) == (1, 1, 0, True)
+
+
 class TestScoreRoot:
     def test_scores_present_series_and_names_the_unfinished_ones(
         self, tmp_path: Path

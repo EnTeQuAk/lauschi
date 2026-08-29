@@ -9,8 +9,13 @@ from rich.console import Console
 
 from lauschi_catalog.catalog.paths import CURATION_DIR
 from lauschi_catalog.catalog.providers_init import init_providers
-from lauschi_catalog.eval.report import render_details, render_table, write_json
-from lauschi_catalog.eval.run import load_verdicts, score_root
+from lauschi_catalog.eval.report import (
+    render_critic_table,
+    render_details,
+    render_table,
+    write_json,
+)
+from lauschi_catalog.eval.run import load_verdicts, score_critic_root, score_root
 
 console = Console()
 
@@ -43,12 +48,20 @@ console = Console()
     is_flag=True,
     help="List every album the model and the truth disagree on",
 )
+@click.option(
+    "--audited-root",
+    type=click.Path(exists=True, file_okay=False, path_type=Path),
+    help="A copy of --root that a critic audited; scores the critic too",
+)
+@click.option("--critic", help="Critic model name, recorded in the report")
 def eval_cmd(
     scratch_root: Path,
     model: str,
     verdicts: Path,
     out_path: Path | None,
     details: bool,
+    audited_root: Path | None,
+    critic: str | None,
 ):
     """Score the sample curations under a scratch root.
 
@@ -89,6 +102,26 @@ def eval_cmd(
     console.print(render_table(scores), markup=False, highlight=False)
     if details:
         console.print(render_details(scores), markup=False, highlight=False)
+    if (audited_root is None) != (critic is None):
+        console.print("[red]--audited-root and --critic go together[/red]")
+        raise SystemExit(1)
+    if audited_root is not None and critic is not None:
+        critic_scores, critic_missing = score_critic_root(
+            scratch_root,
+            audited_root,
+            critic=critic,
+            truth_curation_dir=truth_dir,
+            providers=result.providers,
+            verdicts=load_verdicts(verdicts),
+        )
+        console.print(
+            f"\n[bold]{critic}[/bold] as critic of {model}, {len(critic_scores)} series"
+        )
+        if critic_missing:
+            console.print(
+                f"[yellow]not audited yet:[/yellow] {', '.join(critic_missing)}"
+            )
+        console.print(render_critic_table(critic_scores), markup=False, highlight=False)
     if out_path:
         write_json(scores, out_path)
         console.print(f"wrote {out_path}")

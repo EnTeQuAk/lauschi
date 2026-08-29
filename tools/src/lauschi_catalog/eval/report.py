@@ -6,6 +6,7 @@ import json
 from dataclasses import asdict
 from pathlib import Path
 
+from lauschi_catalog.eval.critic import CriticScore
 from lauschi_catalog.eval.sample import SAMPLE
 from lauschi_catalog.eval.score import Score
 
@@ -59,6 +60,28 @@ def render_table(scores: list[Score]) -> str:
         f"| **mean** | | {_pct(agg['include_precision'])} | {_pct(agg['include_recall'])} "
         f"| {_pct(agg['gap_recovery'])} | {agg['hallucinated_total']} "
         f"| {agg['auto_included_total']} | |"
+    )
+    return "\n".join(rows)
+
+
+def render_critic_table(scores: list[CriticScore]) -> str:
+    rows = [
+        "| series | mistakes | fixed | broken | fix rate | overrides | verdict |",
+        "|---|---:|---:|---:|---:|---:|---|",
+    ]
+    verdict = {True: "approved", False: "escalated", None: "none"}
+    for s in sorted(scores, key=lambda x: (_STRATUM.get(x.series_id, ""), x.series_id)):
+        rows.append(
+            f"| {s.series_id} | {s.n_mistakes} | {s.n_fixed} | {s.n_broken} "
+            f"| {_pct(s.fix_rate)} | {s.n_overrides} | {verdict[s.approved]} |"
+        )
+    n_mistakes = sum(s.n_mistakes for s in scores)
+    n_fixed = sum(s.n_fixed for s in scores)
+    n_broken = sum(s.n_broken for s in scores)
+    rate = n_fixed / n_mistakes if n_mistakes else None
+    rows.append(
+        f"| **total** | {n_mistakes} | {n_fixed} | {n_broken} | {_pct(rate)} "
+        f"| {sum(s.n_overrides for s in scores)} | |"
     )
     return "\n".join(rows)
 
