@@ -291,6 +291,35 @@ def _restore_dropped_albums(
         )
 
 
+def drop_orphan_decisions(
+    decisions: list[AlbumDecision],
+    batch_ids: set[tuple[str, str]],
+    on_progress: Progress = _noop,
+) -> tuple[list[AlbumDecision], list[str]]:
+    """Keep only decisions for albums that were in the batch.
+
+    A model can answer with an id it was never given: a plausible
+    provider id attached to a real title. Luna did this once on Bibi
+    Blocksberg (apple_music 1143565835, "Folge 75: Die neue Lehrerin",
+    an id Apple Music does not have). Such a decision is an invented
+    album; kept, it would ship into series.yaml through apply and the
+    app would show a tile that cannot play. Returns the kept decisions
+    and the dropped ``provider:album_id`` keys.
+    """
+    kept: list[AlbumDecision] = []
+    orphans: list[str] = []
+    for d in decisions:
+        if (d.provider, d.album_id) in batch_ids:
+            kept.append(d)
+            continue
+        key = f"{d.provider}:{d.album_id}"
+        orphans.append(key)
+        on_progress(
+            f"  Dropped decision for {key} ({d.title!r}): not an album in this batch"
+        )
+    return kept, orphans
+
+
 def _stratified_sample(items: list, n: int) -> list:
     """Pick ``n`` items spread evenly across ``items`` rather than
     taking the head.
@@ -421,6 +450,9 @@ class CuratedSeries(BaseModel):
     curated_by: str = ""
     #: requests / input_tokens / output_tokens spent producing this
     usage: dict[str, int] = Field(default_factory=dict)
+    #: ``provider:album_id`` decisions the model returned for albums it
+    #: was never given; dropped, see drop_orphan_decisions
+    orphan_ids: list[str] = Field(default_factory=list)
     # Deterministic regressions vs the previous curation (see
     # lint_ops.lint_regression). CRITICAL entries hard-gate audit
     # approval.
@@ -1344,6 +1376,7 @@ async def _run_large(
         all_albums[i : i + _BATCH_SIZE] for i in range(0, len(all_albums), _BATCH_SIZE)
     ]
 
+    orphan_ids: list[str] = []
     t_curation = time.monotonic()
     on_progress(
         f"== Curation == {len(all_albums)} albums in "
@@ -1490,6 +1523,10 @@ async def _run_large(
                 provider_errors.append(f"batch {batch_num}/{len(batches)}: {err}")
                 break
 
+        result.albums, dropped = drop_orphan_decisions(
+            result.albums, shared_deps.current_batch_ids, on_progress
+        )
+        orphan_ids.extend(dropped)
         batch_index = {(a["provider"], a["id"]): a for a in batch}
         for a in result.albums:
             src = batch_index.get((a.provider, a.album_id))
@@ -1871,6 +1908,7 @@ async def _run_large(
         incomplete_reason="; ".join(provider_errors) if incomplete else "",
         curated_by=model_name,
         usage=usage_summary(shared_deps.usage),
+        orphan_ids=orphan_ids,
     )
 
 
@@ -2005,6 +2043,7 @@ def save_curation(
             "incomplete_reason": series.incomplete_reason,
             "curated_by": series.curated_by,
             "usage": series.usage,
+            "orphan_ids": series.orphan_ids,
         }
     )
 
