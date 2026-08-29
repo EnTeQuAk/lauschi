@@ -171,7 +171,17 @@ class TestScoreCriticRoot:
         )
         audited = tmp_path / "audited"
         fixed = _curation([("a", True, 1), ("box", False, None)])
-        fixed["review"] = {"status": "approved", "overrides": [{"album_id": "box"}]}
+        fixed["review"] = {
+            "status": "approved",
+            "overrides": [
+                {
+                    "album_id": "box",
+                    "provider": "spotify",
+                    "action": "exclude",
+                    "reason": "box set",
+                }
+            ],
+        }
         _write(audited / "assets/catalog/curation/kira_kolumna.json", fixed)
 
         scores, missing = score_critic_root(

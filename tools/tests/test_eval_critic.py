@@ -38,15 +38,25 @@ BEFORE = {
 }
 
 
-def _after(**flips: bool) -> dict:
+def _after(status: str = "approved", **flips: bool) -> dict:
+    # an approved audit materializes its overrides into the flags; an
+    # escalated one leaves the flags alone and only records the proposals
     albums = [
         dict(a, include=flips.get(a["album_id"], a["include"]))
+        if status == "approved"
+        else dict(a)
         for a in BEFORE["albums"]
     ]
-    return {
-        "albums": albums,
-        "review": {"status": "approved", "overrides": [{"album_id": k} for k in flips]},
-    }
+    overrides = [
+        {
+            "album_id": k,
+            "provider": "spotify",
+            "action": "include" if v else "exclude",
+            "reason": "x",
+        }
+        for k, v in flips.items()
+    ]
+    return {"albums": albums, "review": {"status": status, "overrides": overrides}}
 
 
 def test_a_critic_that_fixes_one_of_two_mistakes_scores_half() -> None:
@@ -55,6 +65,23 @@ def test_a_critic_that_fixes_one_of_two_mistakes_scores_half() -> None:
     assert s.fix_rate == 0.5
     assert s.approved is True
     assert s.n_overrides == 1
+
+
+def test_an_escalating_critic_is_judged_on_its_proposals() -> None:
+    # nothing was materialized, but the critic proposed the right fix
+    after = _after("escalated", ep2=True)
+    assert all(
+        a["include"] == b["include"] for a, b in zip(after["albums"], BEFORE["albums"])
+    )
+    s = critic_score(BEFORE, after, TRUTH, critic="c")
+    assert (s.n_mistakes, s.n_fixed, s.n_broken) == (2, 1, 0)
+    assert s.approved is False
+
+
+def test_a_proposal_that_restates_the_curator_is_neither_fixed_nor_broken() -> None:
+    # the critic "overrides" ep1 to include, which it already was
+    s = critic_score(BEFORE, _after(ep1=True), TRUTH, critic="c")
+    assert (s.n_fixed, s.n_broken) == (0, 0)
 
 
 def test_flipping_a_correct_decision_counts_as_broken() -> None:

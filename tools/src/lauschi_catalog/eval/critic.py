@@ -1,12 +1,14 @@
-"""Score a critic (audit model) by what it did to a curation.
+"""Score a critic (audit model) by what it proposed for a curation.
 
-The audit materializes its overrides into the album flags, so a
-critic is judged by comparing the curation before the audit with the
-same curation after it, against the truth:
+The critic's judgment is its overrides: ``action: include|exclude``
+per album in ``review.overrides``. The pipeline materializes them into
+the album flags only when the audit approves, so an escalating critic
+leaves the flags alone and the proposals are the only trace of what
+it saw. Both are judged the same way, against the truth:
 
 - a *mistake* is an album where the curator disagreed with the truth;
-- *fixed* mistakes are the ones the critic flipped to the truth;
-- *broken* albums were right before the audit and wrong after it.
+- *fixed* mistakes are the ones the critic proposed to flip to the truth;
+- *broken* albums were right and the critic proposed to flip them wrong.
 
 A critic that fixes nothing and breaks nothing is harmless. One that
 breaks more than it fixes is worse than no audit at all.
@@ -42,6 +44,18 @@ def _decisions(curation: dict) -> dict[AlbumKey, bool]:
     }
 
 
+def _proposals(review: dict) -> dict[AlbumKey, bool]:
+    """What the critic wanted each album to be; the last word wins when
+    the trail names an album twice."""
+    out: dict[AlbumKey, bool] = {}
+    for o in review.get("overrides") or []:
+        if o.get("action") in ("include", "exclude"):
+            out[AlbumKey(o.get("provider", "?"), o["album_id"])] = (
+                o["action"] == "include"
+            )
+    return out
+
+
 def _truth_decisions(truth: SeriesTruth) -> dict[AlbumKey, bool]:
     return {**{k: False for k in truth.excluded}, **{k: True for k in truth.included}}
 
@@ -51,17 +65,17 @@ def critic_score(
 ) -> CriticScore:
     known = _truth_decisions(truth)
     was = _decisions(before)
-    now = _decisions(after)
+    review = after.get("review") or {}
+    proposed = _proposals(review)
 
     mistakes = {k for k, inc in was.items() if k in known and inc != known[k]}
-    fixed = {k for k in mistakes if now.get(k) == known[k]}
+    fixed = {k for k in mistakes if proposed.get(k) == known[k]}
     broken = {
         k
         for k, inc in was.items()
-        if k in known and inc == known[k] and now.get(k) != known[k]
+        if k in known and inc == known[k] and k in proposed and proposed[k] != known[k]
     }
 
-    review = after.get("review") or {}
     return CriticScore(
         series_id=truth.series_id,
         critic=critic,
