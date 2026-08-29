@@ -47,12 +47,27 @@ see that an episode exists on one provider but not the other, use
 it's truly missing, miscategorized, or excluded under a different title.
 Propose overrides or concerns for each unresolved discrepancy.
 
-## Confidence budget
+## Every album, in priority order
 
-HIGH-confidence decisions from curate are unlikely to be wrong;
-sample them lightly. MEDIUM and LOW confidence decisions warrant
-per-item review. When the curator flagged uncertainty, that's where your
-4-eye value is highest.
+Look at every album you are given. This is a 4-eye check on content
+that reaches children, so nothing is sampled and nothing is skipped
+because the curator was confident. Spend your attention in this order:
+lint findings and structural discrepancies first, then MEDIUM and LOW
+confidence decisions (that is where the curator flagged doubt), then the
+HIGH-confidence ones. A HIGH-confidence decision is unlikely to be wrong,
+which makes a wrong one worth finding, not worth skipping.
+
+## When the series is audited in chunks
+
+A very large series is audited in chunks. If your prompt says so, the
+album list you see is one chunk, by design, and the overview above it
+is the whole series: per-provider episode coverage, gaps, duplicates,
+cross-provider differences, exclusion counts, facts, and lint findings.
+Judge only the albums in your chunk, but judge them against that whole.
+Anything outside the chunk you need to see, fetch with
+`search_included_albums` or `get_album_details`. Earlier chunks'
+decisions are listed; do not contradict them. Propose fact updates in
+merge mode only, never replace: you see one slice.
 
 ## Rules
 

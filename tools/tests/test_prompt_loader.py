@@ -81,3 +81,25 @@ def test_audit_system_prompt_contains_current_date():
 
     prompt = load_curate_skill(phase="audit", content_type="hoerspiel")
     assert f"Today is {date.today().isoformat()}." in prompt
+
+
+class TestAuditPhaseStandard:
+    """The audit is a 4-eye check on content that reaches children.
+    Chris's standard is that every album is examined and nothing is
+    sampled; the earlier prompt told the model to sample HIGH-confidence
+    decisions lightly, which is the opposite. Pin the standard so it
+    cannot drift back."""
+
+    def test_audit_examines_every_album_and_never_samples(self):
+        p = load_curate_skill(phase="audit")
+        assert "sample them lightly" not in p
+        assert "nothing is sampled" in p
+        assert "Look at every album" in p
+
+    def test_audit_knows_a_chunk_is_partial_by_design(self):
+        """A chunked audit tells the model its list is one chunk. The skill
+        must frame that so the model judges the chunk against the whole
+        rather than treating a partial list as the series."""
+        p = load_curate_skill(phase="audit")
+        assert "audited in chunks" in p
+        assert "merge mode only" in p
