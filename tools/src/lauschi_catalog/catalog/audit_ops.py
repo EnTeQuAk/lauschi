@@ -54,6 +54,24 @@ _RETRY_DELAY = 10
 # calls actually checking albums.
 _AUDIT_REQUEST_LIMIT = 40
 
+# Largest audit prompt the one-shot audit is known to handle, in the same
+# units prompt_size() reports. Located empirically with dry-run probes on
+# 2026-08-29 (low reasoning, max_tokens 32768): fuenf_freunde 8.6k,
+# die_playmos 10.0k, benjamin_bluemchen 11.3k, lego_ninjago 13.1k (533
+# included albums), and feuerwehrmann_sam 13.6k all produced a verdict;
+# bibi_blocksberg at 14.8k never did, across five runs and every setting.
+# Included-album count does not predict the break (Ninjago audited 533 in
+# one shot); prompt size does. The boundary lies between the largest
+# measured pass (feuerwehrmann_sam, 13,591) and the smallest measured
+# failure (bibi_blocksberg, 14,806). 14,000 keeps every series shown to
+# fit on the one-shot path and routes the first known failure to the
+# chunked one with ~800 tokens of margin. Four series exceed it.
+# Everything below keeps the one-shot audit: one model, the whole series
+# in view.
+AUDIT_ONE_SHOT_MAX_TOKENS = 14_000
+
+AuditRoute = Literal["one_shot", "chunked"]
+
 Provider = Literal["spotify", "apple_music"]
 
 # -- Output models --
@@ -318,6 +336,30 @@ def build_prompt(curation: dict, lint_issues: list[str]) -> str:
         "and approve when sound."
     )
     return "\n".join(lines)
+
+
+def prompt_size(prompt: str) -> int:
+    """Estimate a prompt's size in tokens as ``len(prompt) // 4``.
+
+    Deliberately the same crude measure the one-shot boundary was probed
+    with, so AUDIT_ONE_SHOT_MAX_TOKENS keeps meaning what the probes
+    established. A real tokenizer would be more accurate and would
+    silently invalidate that boundary.
+    """
+    return len(prompt) // 4
+
+
+def audit_route(curation: dict, lint_issues: list[str]) -> AuditRoute:
+    """Decide whether a series gets the one-shot audit or the chunked one.
+
+    Pure and free: it builds the prompt the one-shot audit would send and
+    measures it. No model call is spent on the decision. One-shot is the
+    default because a model that sees the whole series at once gives the
+    best judgment; chunking is paid for only where the prompt is past the
+    size the one-shot audit has been shown to handle.
+    """
+    size = prompt_size(build_prompt(curation, lint_issues))
+    return "one_shot" if size <= AUDIT_ONE_SHOT_MAX_TOKENS else "chunked"
 
 
 # -- Core audit --
