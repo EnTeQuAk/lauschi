@@ -1107,6 +1107,7 @@ async def audit_series(
     on_progress(
         f"\nDone: {summary.approved} approved, "
         f"{summary.overridden} overridden, "
-        f"{summary.escalated} escalated"
+        f"{summary.escalated} escalated, "
+        f"{len(summary.failed)} failed"
     )
     return summary

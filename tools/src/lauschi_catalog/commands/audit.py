@@ -64,7 +64,7 @@ def audit(
     for w in prov_result.warnings:
         console.print(f"[yellow]{w}[/yellow]")
 
-    asyncio.run(
+    summary = asyncio.run(
         audit_series(
             series_ids,
             model_name=model,
@@ -75,3 +75,8 @@ def audit(
             on_progress=lambda msg: console.print(msg, markup=False),
         )
     )
+    if summary.failed:
+        console.print(
+            f"[red]{len(summary.failed)} series failed: {', '.join(summary.failed)}[/red]"
+        )
+        raise SystemExit(1)
