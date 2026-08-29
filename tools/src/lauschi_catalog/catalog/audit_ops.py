@@ -492,11 +492,23 @@ def apply_audit(
         canonicalize(data)
         safe_write_json(path, data)
     else:
+        # A dry run has to show *what* it would change, not just how
+        # much: an override on an already hand-edited album replaces
+        # that album's trail entry, so the reviewer needs the targets.
         on_progress(f"Dry-run for {series_id}")
         on_progress(f"  Action: {action}")
         on_progress(f"  Concerns: {len(result.concerns)}")
+        for c in result.concerns:
+            on_progress(f"    - {c}")
         on_progress(f"  Overrides: {len(result.overrides)}")
+        for o in result.overrides:
+            on_progress(f"    - {o.action} {o.provider}:{o.album_id}: {o.reason}")
         on_progress(f"  Fact updates: {len(result.fact_updates)}")
+        for update in result.fact_updates:
+            on_progress(
+                f"    - mode={update.mode} eras={len(update.era_boundaries)} "
+                f"gaps={len(update.known_gaps)} sub_series={len(update.sub_series)}"
+            )
 
     return action
 

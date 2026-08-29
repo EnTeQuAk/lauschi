@@ -854,3 +854,85 @@ class TestApplyAuditMaterialization:
         assert data["review"]["status"] == "escalated"
         # Proposal still recorded for the human reviewer.
         assert data["review"]["overrides"][0]["album_id"] == "a1"
+
+
+# ── apply_audit: dry run itemizes what it would change ───────────────────
+
+
+class TestApplyAuditDryRun:
+    """A dry run must show *which* albums and facts it would touch.
+
+    An override on an already hand-edited album replaces that album's
+    trail entry, so a reviewer deciding whether to run live needs the
+    targets, not just counts.
+    """
+
+    def _dry_run(self, tmp_path, result: AuditResult) -> tuple[list[str], dict]:
+        path = tmp_path / "test_series.json"
+        original = _curation()
+        path.write_text(json.dumps(original))
+
+        import lauschi_catalog.catalog.audit_ops as audit_mod
+
+        lines: list[str] = []
+        orig = audit_mod.CURATION_DIR
+        audit_mod.CURATION_DIR = tmp_path
+        try:
+            apply_audit(
+                "test_series",
+                result,
+                model_name="test-model",
+                dry_run=True,
+                on_progress=lines.append,
+            )
+        finally:
+            audit_mod.CURATION_DIR = orig
+        return lines, json.loads(path.read_text())
+
+    def test_itemizes_override_targets(self, tmp_path):
+        result = AuditResult(
+            approve=True,
+            overrides=[
+                AuditOverride(
+                    album_id="a2",
+                    provider="spotify",
+                    action="include",
+                    reason="real episode",
+                ),
+            ],
+        )
+        lines, _ = self._dry_run(tmp_path, result)
+        assert any("include spotify:a2: real episode" in line for line in lines)
+
+    def test_itemizes_fact_update_summary(self, tmp_path):
+        result = AuditResult(
+            approve=True,
+            fact_updates=[
+                AuditFactUpdate(
+                    mode="replace",
+                    known_gaps=[KnownGapProposal(number=27, reason="stale")],
+                ),
+            ],
+        )
+        lines, _ = self._dry_run(tmp_path, result)
+        assert any("mode=replace" in line and "gaps=1" in line for line in lines)
+
+    def test_itemizes_concerns(self, tmp_path):
+        result = AuditResult(approve=True, concerns=["known_gap for 27 is wrong"])
+        lines, _ = self._dry_run(tmp_path, result)
+        assert any("known_gap for 27 is wrong" in line for line in lines)
+
+    def test_dry_run_writes_nothing(self, tmp_path):
+        result = AuditResult(
+            approve=True,
+            overrides=[
+                AuditOverride(
+                    album_id="a1",
+                    provider="spotify",
+                    action="exclude",
+                    reason="wrong",
+                ),
+            ],
+        )
+        _, data = self._dry_run(tmp_path, result)
+        assert data == _curation()
