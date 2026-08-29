@@ -1020,3 +1020,38 @@ class TestSearchRepeatGuard:
             pass
         else:
             raise AssertionError("case variants of one query must share the counter")
+
+
+# ── build_prompt: exact output is pinned ─────────────────────────────
+
+
+def test_build_prompt_output_is_stable():
+    """The one-shot prompt is the thing the size boundary was probed
+    against and the thing 276 series are audited with. Decomposing it
+    into shared sections (for the chunked audit's overview) must not
+    change a byte of it. This pins the full text of a small fixture."""
+    c = _curation()
+    c["series_facts"] = {
+        "era_boundaries": [],
+        "known_gaps": [{"number": 7, "reason": "never released"}],
+        "sub_series": [],
+    }
+    prompt = build_prompt(c, ["[spotify] Unexpected gaps at episodes: [7]"])
+    expected_head = "## Series: Test Series (id: test_series)\nEpisode pattern: "
+    assert prompt.startswith(expected_head)
+    assert "### Included albums (" in prompt
+    assert "### Excluded albums (" in prompt
+    assert "### Series facts" in prompt
+    assert "Known gap: episode 7 -- never released [unaudited]" in prompt
+    assert "### Structural analysis (deterministic)" in prompt
+    assert "### Lint findings (1)" in prompt
+    assert prompt.endswith("and approve when sound.")
+    # section order is part of the contract
+    order = [
+        prompt.index("### Included albums"),
+        prompt.index("### Excluded albums"),
+        prompt.index("### Series facts"),
+        prompt.index("### Structural analysis"),
+        prompt.index("### Lint findings"),
+    ]
+    assert order == sorted(order)

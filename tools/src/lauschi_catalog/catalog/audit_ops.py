@@ -35,7 +35,11 @@ from lauschi_catalog.catalog.analysis import analyze_series
 from lauschi_catalog.catalog.io import safe_write_json
 from lauschi_catalog.catalog.lifecycle import audit_is_stale
 from lauschi_catalog.catalog.paths import CURATION_DIR
-from lauschi_catalog.catalog.lint_ops import critical_issues, lint_curation
+from lauschi_catalog.catalog.lint_ops import (
+    compress_runs,
+    critical_issues,
+    lint_curation,
+)
 from lauschi_catalog.prompts import load_curate_skill
 from lauschi_catalog.agent_hooks import build_progress_hooks
 from lauschi_catalog.rate_limit import run_with_rate_limit_retry
@@ -207,11 +211,15 @@ def _build_audit_agent(
 
 
 # -- Prompt builder --
+#
+# The one-shot prompt and the chunked audit's overview are built from the
+# same section builders, so the two cannot drift apart. build_prompt's
+# output is pinned byte-for-byte by a test: it is what the size boundary
+# was probed against and what most series are audited with.
 
 
-def build_prompt(curation: dict, lint_issues: list[str]) -> str:
-    albums = curation.get("albums", [])
-    included = sorted(
+def _sorted_included(albums: list[dict]) -> list[dict]:
+    return sorted(
         [a for a in albums if a.get("include")],
         key=lambda a: (
             a.get("episode_num") is None,
@@ -220,8 +228,9 @@ def build_prompt(curation: dict, lint_issues: list[str]) -> str:
             a["title"],
         ),
     )
-    excluded = [a for a in albums if not a.get("include")]
 
+
+def _header_lines(curation: dict) -> list[str]:
     lines = [
         f"## Series: {curation.get('title', '?')} (id: {curation.get('id', '?')})",
         f"Episode pattern: {curation.get('episode_pattern', 'none')}",
@@ -232,10 +241,13 @@ def build_prompt(curation: dict, lint_issues: list[str]) -> str:
             f"Note: This series was split from '{split_from}'. "
             "The albums were moved from the parent's curation, not re-discovered."
         )
-    lines += [
-        "",
-        f"### Included albums ({len(included)})",
-    ]
+    return lines
+
+
+def _album_lines(albums: list[dict]) -> list[str]:
+    included = _sorted_included(albums)
+    excluded = [a for a in albums if not a.get("include")]
+    lines = ["", f"### Included albums ({len(included)})"]
     for a in included:
         ep = a.get("episode_num")
         ep_str = f"Ep {ep}: " if ep is not None else ""
@@ -248,7 +260,6 @@ def build_prompt(curation: dict, lint_issues: list[str]) -> str:
         lines.append(
             f"  [{a.get('provider', '?')}:{a['album_id']}] {ep_str}{a['title']}{rel_str}{conf_tag}{notes_str}"
         )
-
     lines.append(f"\n### Excluded albums ({len(excluded)})")
     for a in excluded:
         reason = a.get("exclude_reason", "")
@@ -260,38 +271,81 @@ def build_prompt(curation: dict, lint_issues: list[str]) -> str:
         lines.append(
             f"  [{a.get('provider', '?')}:{a['album_id']}] {a['title']}{rel_str}{reason_str}{notes_str}"
         )
+    return lines
 
+
+def _coverage_lines(albums: list[dict]) -> list[str]:
+    """Per-provider included episodes as compressed runs, plus what each
+    provider is excluding and why. This is the whole-series picture the
+    chunked audit carries into every chunk in place of the album list."""
+    eps_by_provider: dict[str, set[int]] = {}
+    reasons_by_provider: dict[str, dict[str, int]] = {}
+    for a in albums:
+        prov = a.get("provider", "?")
+        if a.get("include"):
+            ep = a.get("episode_num")
+            if ep is not None:
+                eps_by_provider.setdefault(prov, set()).add(ep)
+        else:
+            key = (a.get("exclude_reason") or "unspecified").split(":")[0].strip()
+            counts = reasons_by_provider.setdefault(prov, {})
+            counts[key] = counts.get(key, 0) + 1
+    lines = ["", "### Coverage"]
+    for prov in sorted(eps_by_provider):
+        eps = sorted(eps_by_provider[prov])
+        lines.append(f"  {prov} included episodes ({len(eps)}): {compress_runs(eps)}")
+    for prov in sorted(reasons_by_provider):
+        top = sorted(reasons_by_provider[prov].items(), key=lambda kv: (-kv[1], kv[0]))
+        summary = ", ".join(f"{r} {n}" for r, n in top)
+        lines.append(f"  {prov} excluded: {summary}")
+    return lines
+
+
+def _facts_lines(curation: dict) -> list[str]:
     facts = curation.get("series_facts")
-    if facts:
-        lines.append("\n### Series facts")
-        for e in facts.get("era_boundaries", []):
-            aud = e.get("audited_by")
-            status = f" [audited by {aud}]" if aud else " [unaudited]"
-            lines.append(
-                f"  Era: {e.get('label', '?')} ({e.get('release_date_range', '?')}){status}"
-            )
-        for g in facts.get("known_gaps", []):
-            aud = g.get("audited_by")
-            status = f" [audited by {aud}]" if aud else " [unaudited]"
-            num = g.get("number", "?")
-            rend = g.get("range_end")
-            ep_label = f"{num}-{rend}" if rend else str(num)
-            lines.append(
-                f"  Known gap: episode {ep_label} -- {g.get('reason', '')}{status}"
-            )
-        for s in facts.get("sub_series", []):
-            aud = s.get("audited_by")
-            status = f" [audited by {aud}]" if aud else " [unaudited]"
-            aids = s.get("album_ids", [])
-            ids_str = f" (album_ids: {aids})" if aids else " (no album_ids)"
-            lines.append(
-                f"  Sub-series: {s.get('label', '?')} -- {s.get('reason', '')}{ids_str}{status}"
-            )
+    if not facts:
+        return []
+    lines = ["\n### Series facts"]
+    for e in facts.get("era_boundaries", []):
+        aud = e.get("audited_by")
+        status = f" [audited by {aud}]" if aud else " [unaudited]"
+        lines.append(
+            f"  Era: {e.get('label', '?')} ({e.get('release_date_range', '?')}){status}"
+        )
+    for g in facts.get("known_gaps", []):
+        aud = g.get("audited_by")
+        status = f" [audited by {aud}]" if aud else " [unaudited]"
+        num = g.get("number", "?")
+        rend = g.get("range_end")
+        ep_label = f"{num}-{rend}" if rend else str(num)
+        lines.append(
+            f"  Known gap: episode {ep_label} -- {g.get('reason', '')}{status}"
+        )
+    for s in facts.get("sub_series", []):
+        aud = s.get("audited_by")
+        status = f" [audited by {aud}]" if aud else " [unaudited]"
+        aids = s.get("album_ids", [])
+        ids_str = f" (album_ids: {aids})" if aids else " (no album_ids)"
+        lines.append(
+            f"  Sub-series: {s.get('label', '?')} -- {s.get('reason', '')}{ids_str}{status}"
+        )
+    return lines
 
+
+def _analysis_lines(curation: dict, *, max_clusters: int | None = None) -> list[str]:
+    """Deterministic structural summary.
+
+    ``max_clusters`` caps the title-cluster listing. Clusters are sorted
+    by size, so the cap keeps the big shapes and folds the long tail of
+    one-off titles into a single count line. The one-shot prompt leaves
+    it unlimited (it has room); the overview caps it, because on a
+    fragmented discography (stephen_janetzko: 174 clusters) listing every
+    shape with examples is the album dump under another name.
+    """
     analysis = analyze_series(curation)
-    analysis_parts: list[str] = []
+    parts: list[str] = []
     if analysis.get("gaps"):
-        analysis_parts.append(
+        parts.append(
             f"  Gaps: {len(analysis['gaps'])} missing episodes ({analysis['gaps']})"
         )
     dupes = analysis.get("duplicates_within_provider") or []
@@ -300,41 +354,88 @@ def build_prompt(curation: dict, lint_issues: list[str]) -> str:
         for d in dupes:
             by_prov.setdefault(d["provider"], []).append(d["episode_num"])
         for prov, eps in by_prov.items():
-            analysis_parts.append(f"  Duplicates on {prov}: episodes {sorted(eps)}")
+            parts.append(f"  Duplicates on {prov}: episodes {sorted(eps)}")
     xpc = analysis.get("cross_provider_coverage") or {}
-    missing_per = xpc.get("missing_per_provider") or {}
-    for prov, missing_eps in missing_per.items():
+    for prov, missing_eps in (xpc.get("missing_per_provider") or {}).items():
         if missing_eps:
-            analysis_parts.append(f"  {prov} missing: {missing_eps}")
+            parts.append(f"  {prov} missing: {missing_eps}")
     clusters = analysis.get("title_clusters") or []
     if clusters:
-        analysis_parts.append(f"  Title clusters ({len(clusters)} groups):")
-        for c in clusters:
+        parts.append(f"  Title clusters ({len(clusters)} groups):")
+        shown = clusters if max_clusters is None else clusters[:max_clusters]
+        for c in shown:
             examples = ", ".join(c["examples"][:3])
-            analysis_parts.append(
-                f"    {c['shape']!r} ({c['count']} albums): {examples}"
+            parts.append(f"    {c['shape']!r} ({c['count']} albums): {examples}")
+        rest = clusters[len(shown) :]
+        if rest:
+            parts.append(
+                f"    ... and {len(rest)} smaller shapes covering "
+                f"{sum(c['count'] for c in rest)} albums"
             )
     pc = analysis.get("pattern_coverage")
     if isinstance(pc, dict):
-        analysis_parts.append(f"  Pattern coverage: {pc['percentage']}%")
-    if analysis_parts:
-        lines.append("\n### Structural analysis (deterministic)")
-        lines.extend(analysis_parts)
+        parts.append(f"  Pattern coverage: {pc['percentage']}%")
+    if not parts:
+        return []
+    return ["\n### Structural analysis (deterministic)", *parts]
 
-    if lint_issues:
-        lines.append(f"\n### Lint findings ({len(lint_issues)})")
-        lines.append(
-            "Each finding below is a data-driven structural warning. "
-            "For each one: fix it (override/fact_update), record as a "
-            "concern, or explain why it's a false positive."
-        )
-        for issue in lint_issues:
-            lines.append(f"  {issue}")
 
-    lines.append(
-        "\nAudit the above. Flag genuine errors, propose targeted fixes, "
-        "and approve when sound."
-    )
+def _lint_lines(lint_issues: list[str]) -> list[str]:
+    if not lint_issues:
+        return []
+    return [
+        f"\n### Lint findings ({len(lint_issues)})",
+        "Each finding below is a data-driven structural warning. "
+        "For each one: fix it (override/fact_update), record as a "
+        "concern, or explain why it's a false positive.",
+        *[f"  {issue}" for issue in lint_issues],
+    ]
+
+
+# Title clusters shown in the overview before the tail is folded into one
+# count line. Clusters are size-sorted, so this keeps every shape that
+# describes a real sub-line and drops only the one-off titles, which the
+# chunked audit sees in full inside their own packed chunk anyway.
+_OVERVIEW_MAX_CLUSTERS = 15
+
+_PROMPT_FOOTER = (
+    "\nAudit the above. Flag genuine errors, propose targeted fixes, "
+    "and approve when sound."
+)
+
+
+def build_prompt(curation: dict, lint_issues: list[str]) -> str:
+    """The one-shot audit prompt: the whole series, every album listed."""
+    albums = curation.get("albums", [])
+    lines = [
+        *_header_lines(curation),
+        *_album_lines(albums),
+        *_facts_lines(curation),
+        *_analysis_lines(curation),
+        *_lint_lines(lint_issues),
+        _PROMPT_FOOTER,
+    ]
+    return "\n".join(lines)
+
+
+def build_overview(curation: dict, lint_issues: list[str]) -> str:
+    """The whole-series picture without the album list.
+
+    Carried into every chunk of a chunked audit so each judgment is made
+    with the total story in view: per-provider coverage as runs, what is
+    excluded and why, the series facts, the deterministic structural
+    analysis, and the lint findings. It shares every section with
+    build_prompt except the album lines, which the model pulls on demand
+    through its tools instead.
+    """
+    albums = curation.get("albums", [])
+    lines = [
+        *_header_lines(curation),
+        *_coverage_lines(albums),
+        *_facts_lines(curation),
+        *_analysis_lines(curation, max_clusters=_OVERVIEW_MAX_CLUSTERS),
+        *_lint_lines(lint_issues),
+    ]
     return "\n".join(lines)
 
 

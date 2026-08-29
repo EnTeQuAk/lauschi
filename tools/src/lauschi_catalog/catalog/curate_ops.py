@@ -54,7 +54,11 @@ from lauschi_catalog.catalog.paths import (
 )
 from lauschi_catalog.catalog.prompt import album_to_dict, format_albums_xml
 from lauschi_catalog.agent_hooks import build_progress_hooks
-from lauschi_catalog.catalog.lint_ops import lint_curation, lint_regression
+from lauschi_catalog.catalog.lint_ops import (
+    compress_runs,
+    lint_curation,
+    lint_regression,
+)
 from lauschi_catalog.prompts import load_curate_skill
 from lauschi_catalog.providers import CatalogProvider
 from lauschi_catalog.rate_limit import RateLimiter, run_with_rate_limit_retry
@@ -128,17 +132,7 @@ def _build_batch_summary(
             lines.append("Prior included episodes (by provider):")
             for prov in sorted(eps_by_provider):
                 eps = sorted(set(eps_by_provider[prov]))
-                # Compress consecutive runs: 1,2,3,5,6 -> 1-3, 5-6
-                runs: list[str] = []
-                start = prev = eps[0]
-                for e in eps[1:]:
-                    if e == prev + 1:
-                        prev = e
-                    else:
-                        runs.append(f"{start}-{prev}" if prev > start else str(start))
-                        start = prev = e
-                runs.append(f"{start}-{prev}" if prev > start else str(start))
-                lines.append(f"  {prov}: {', '.join(runs)}")
+                lines.append(f"  {prov}: {compress_runs(eps)}")
 
     if pattern is not None:
         pat_str = pattern if isinstance(pattern, str) else " | ".join(pattern)
@@ -198,16 +192,18 @@ def _inject_split_children(
             key = (album.get("provider"), album.get("album_id"))
             if key in existing_keys:
                 continue
-            existing_curation.setdefault("albums", []).append({
-                "album_id": album.get("album_id", ""),
-                "provider": album.get("provider", ""),
-                "title": album.get("title", ""),
-                "include": False,
-                "exclude_reason": "sub_series_bleed",
-                "confidence": "high",
-                "notes": f"Belongs to split series '{child.id}'",
-                "release_date": album.get("release_date"),
-            })
+            existing_curation.setdefault("albums", []).append(
+                {
+                    "album_id": album.get("album_id", ""),
+                    "provider": album.get("provider", ""),
+                    "title": album.get("title", ""),
+                    "include": False,
+                    "exclude_reason": "sub_series_bleed",
+                    "confidence": "high",
+                    "notes": f"Belongs to split series '{child.id}'",
+                    "release_date": album.get("release_date"),
+                }
+            )
             existing_keys.add(key)
             injected += 1
 
@@ -253,10 +249,7 @@ def _preseed_decisions(
         return [], all_albums
 
     carried_ids = {(d.provider, d.album_id) for d in carried}
-    remaining = [
-        a for a in all_albums
-        if (a["provider"], a["id"]) not in carried_ids
-    ]
+    remaining = [a for a in all_albums if (a["provider"], a["id"]) not in carried_ids]
     return carried, remaining
 
 
@@ -1003,13 +996,19 @@ def _build_finalize_agent(
         for g in accumulated.known_gaps:
             all_nums |= g.episode_numbers()
         for proposal in known_gaps:
-            prop_nums = set(range(proposal.number, (proposal.range_end or proposal.number) + 1))
+            prop_nums = set(
+                range(proposal.number, (proposal.range_end or proposal.number) + 1)
+            )
             if prop_nums & all_nums:
                 continue
             accumulated.known_gaps.append(
                 KnownGap(**proposal.model_dump(), **prov),
             )
-            label = f"{proposal.number}-{proposal.range_end}" if proposal.range_end else str(proposal.number)
+            label = (
+                f"{proposal.number}-{proposal.range_end}"
+                if proposal.range_end
+                else str(proposal.number)
+            )
             recorded.append(f"gap: {label}")
             all_nums |= prop_nums
 
@@ -1275,8 +1274,7 @@ async def _run_large(
     total_inc = sum(1 for d in all_decisions if d.include)
     total_exc = sum(1 for d in all_decisions if not d.include)
     episode_nums: list[int] = [
-        d.episode_num for d in all_decisions
-        if d.include and d.episode_num is not None
+        d.episode_num for d in all_decisions if d.include and d.episode_num is not None
     ]
     if all_decisions:
         on_progress(
@@ -1426,9 +1424,7 @@ async def _run_large(
                 f"{err}. Saving {len(all_decisions)} partial results.\n",
             )
             incomplete = True
-            provider_errors.append(
-                f"batch {batch_num}/{len(batches)}: {err}"
-            )
+            provider_errors.append(f"batch {batch_num}/{len(batches)}: {err}")
             break
 
         batch_index = {(a["provider"], a["id"]): a for a in batch}
@@ -1493,9 +1489,7 @@ async def _run_large(
         unnumbered = [d for d in all_decisions if d.include and d.episode_num is None]
 
         era_evidence_lines: list[str] = []
-        n_existing_eras = len(
-            (existing_facts or SeriesFacts()).era_boundaries
-        )
+        n_existing_eras = len((existing_facts or SeriesFacts()).era_boundaries)
         era_decisions = [
             d
             for d in all_decisions
@@ -1596,9 +1590,7 @@ async def _run_large(
                 f"titles excluded as sub_series_bleed or sub_series."
             )
 
-        needs_finalize = (
-            bool(unnumbered) or bool(era_evidence_lines) or has_sub_bleed
-        )
+        needs_finalize = bool(unnumbered) or bool(era_evidence_lines) or has_sub_bleed
         if needs_finalize:
             _MAX_INLINE_TRACKS = 3
             lines: list[str] = []
@@ -1610,7 +1602,9 @@ async def _run_large(
                     track_names = [t["name"] for t in detail["tracks"]]
                     shown = track_names[:_MAX_INLINE_TRACKS]
                     if len(track_names) > _MAX_INLINE_TRACKS:
-                        shown.append(f"... +{len(track_names) - _MAX_INLINE_TRACKS} more")
+                        shown.append(
+                            f"... +{len(track_names) - _MAX_INLINE_TRACKS} more"
+                        )
                     tracks = " | tracks: " + " | ".join(shown)
                 lines.append(f"  {d.provider}:{d.album_id} | {d.title}{tracks}")
             facts_lines: list[str] = []
@@ -1622,7 +1616,11 @@ async def _run_large(
                 if existing_facts.known_gaps:
                     facts_lines.append("Existing known_gaps:")
                     for g in existing_facts.known_gaps:
-                        label = f"{g.number}-{g.range_end}" if g.range_end else str(g.number)
+                        label = (
+                            f"{g.number}-{g.range_end}"
+                            if g.range_end
+                            else str(g.number)
+                        )
                         facts_lines.append(f"  - Episode {label}: {g.reason}")
                 if existing_facts.sub_series:
                     facts_lines.append("Existing sub_series:")
@@ -1667,8 +1665,7 @@ async def _run_large(
                 )
             if era_evidence_lines:
                 work_items.append(
-                    "- Era evidence: propose era_boundaries "
-                    "from flagged albums"
+                    "- Era evidence: propose era_boundaries from flagged albums"
                 )
             elif era_decisions and n_existing_eras:
                 work_items.append(
@@ -1688,15 +1685,15 @@ async def _run_large(
                 f"Episode pattern: {shared_deps.pattern}",
             ]
             if work_items:
-                prompt_parts.append(
-                    "## Work items\n" + "\n".join(work_items)
-                )
-            prompt_parts.extend([
-                "",
-                "\n".join(facts_lines),
-                "",
-                "\n".join(era_evidence_lines),
-            ])
+                prompt_parts.append("## Work items\n" + "\n".join(work_items))
+            prompt_parts.extend(
+                [
+                    "",
+                    "\n".join(facts_lines),
+                    "",
+                    "\n".join(era_evidence_lines),
+                ]
+            )
             if analysis_lines:
                 prompt_parts.append(
                     "### Structural analysis (deterministic)\n"
@@ -2064,7 +2061,8 @@ async def curate_one(
         if content_type == "music":
             on_progress("  Mode: music artist (not Hoerspiel)")
         existing_curation = _inject_split_children(
-            existing_curation, series_id,
+            existing_curation,
+            series_id,
         )
         # Carry facts from the prior curation JSON forward, not just the
         # frozen series.yaml facts: re-curation is an incremental update,

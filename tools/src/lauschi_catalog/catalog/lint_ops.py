@@ -286,7 +286,7 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
                 asym.setdefault(key, []).append(ep)
 
         for (present_key, prov, reason_type), eps in sorted(asym.items()):
-            eps_str = _compress_runs(sorted(eps))
+            eps_str = compress_runs(sorted(eps))
             issues.append(
                 f"Episodes {eps_str} on {present_key} but {reason_type} on {prov}"
             )
@@ -440,7 +440,7 @@ def _year(release_date: str) -> int:
     return 0
 
 
-def _compress_runs(nums: list[int]) -> str:
+def compress_runs(nums: list[int]) -> str:
     """Compress a sorted list of integers into run notation.
 
     1,2,3,5,6,8 -> "1-3, 5-6, 8"

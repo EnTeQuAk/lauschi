@@ -21,6 +21,7 @@ from lauschi_catalog.catalog import paths
 from lauschi_catalog.catalog.audit_ops import (
     AUDIT_ONE_SHOT_MAX_TOKENS,
     audit_route,
+    build_overview,
     build_prompt,
     prompt_size,
 )
@@ -129,3 +130,61 @@ def test_catalog_routing_matches_the_measured_boundary():
         )
         == "one_shot"
     )
+
+
+# ── build_overview: the whole-series picture without the album list ──
+
+
+_TAIL_SERIES = sorted(_CHUNKED_SERIES)
+
+
+def test_overview_has_no_album_lines():
+    """The overview replaces the album list; the model pulls albums on
+    demand through its tools. If an album line leaks in, the overview is
+    the dump under another name."""
+    c = _curation(40)
+    ov = build_overview(c, [])
+    assert "### Included albums" not in ov
+    assert "### Excluded albums" not in ov
+    assert not any(line.strip().startswith("[spotify:") for line in ov.splitlines())
+
+
+def test_overview_carries_coverage_runs_facts_and_lint():
+    c = _curation(6)
+    c["albums"][2]["include"] = False
+    c["albums"][2]["exclude_reason"] = "duplicate"
+    c["series_facts"] = {
+        "era_boundaries": [],
+        "known_gaps": [{"number": 3, "reason": "dup excluded"}],
+        "sub_series": [],
+    }
+    ov = build_overview(c, ["[spotify] a finding"])
+    assert "spotify included episodes (5): 1-2, 4-6" in ov
+    assert "spotify excluded: duplicate 1" in ov
+    assert "Known gap: episode 3 -- dup excluded" in ov
+    assert "### Lint findings (1)" in ov and "[spotify] a finding" in ov
+
+
+def test_overview_folds_the_cluster_tail_on_a_fragmented_series():
+    """A fragmented discography has hundreds of one-off title shapes.
+    Listing every one with examples is the album dump under another
+    name, so the overview shows the big shapes and folds the rest into
+    one count line. A small series has nothing to fold."""
+    curations = _real_curations()
+    janetzko = build_overview(
+        curations["stephen_janetzko"], lint_curation(curations["stephen_janetzko"])
+    )
+    assert "smaller shapes covering" in janetzko
+    small = build_overview(_curation(5), [])
+    assert "smaller shapes covering" not in small
+
+
+def test_tail_series_overviews_fit_the_chunk_budget():
+    """Every chunk of a chunked audit carries the overview, so it must be
+    small on exactly the series that get chunked. Measured 2026-08-29:
+    bibi 1,202 · wieso_weshalb_warum 1,494 · paw_patrol 340 ·
+    stephen_janetzko 940 (6,165 before the cluster fold)."""
+    curations = _real_curations()
+    for sid in _TAIL_SERIES:
+        ov = build_overview(curations[sid], lint_curation(curations[sid]))
+        assert prompt_size(ov) <= 2_000, (sid, prompt_size(ov))
