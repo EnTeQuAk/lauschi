@@ -57,6 +57,25 @@ def discography_from_curation(curation: dict) -> frozenset[AlbumKey]:
     return _album_keys(curation.get("albums", []), include=None)
 
 
+def _parent_albums(curation: dict, curation_dir: Path) -> frozenset[AlbumKey]:
+    """Albums of the series this one was split from.
+
+    A split-off sub-series shares its artist pages with the parent, so
+    a fresh curation sees the whole parent discography. The committed
+    sub-series curation holds only its own albums and says nothing
+    about the rest. The parent's curation does: everything in it that
+    is not in the sub-series is, for the sub-series, a wrong inclusion.
+    """
+    parent_id = curation.get("split_from")
+    if not parent_id:
+        return frozenset()
+    parent_path = curation_dir / f"{parent_id}.json"
+    if not parent_path.is_file():
+        return frozenset()
+    parent = json.loads(parent_path.read_text(encoding="utf-8"))
+    return _album_keys(parent.get("albums", []), include=None)
+
+
 def canon_missing_from_verdict(verdict: dict) -> frozenset[int]:
     """Episode numbers the canon audit named as missing from the catalog.
 
@@ -82,6 +101,7 @@ def load_truth(
 ) -> SeriesTruth:
     curation = json.loads(curation_path.read_text(encoding="utf-8"))
     included, excluded = truth_from_curation(curation)
+    excluded |= _parent_albums(curation, curation_path.parent) - included
     return SeriesTruth(
         series_id=series_id,
         included=included,

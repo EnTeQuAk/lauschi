@@ -69,6 +69,58 @@ def _curation(albums: list[tuple[str, bool, int | None]]) -> dict:
     }
 
 
+class TestSplitSeriesTruth:
+    def test_parent_albums_count_as_wrong_inclusions_for_the_split_off(
+        self, tmp_path: Path
+    ) -> None:
+        truth_dir = tmp_path / "truth"
+        parent = _curation([("p1", True, 1), ("p2", True, 2), ("k1", True, None)])
+        parent["id"] = "hanni_und_nanni"
+        _write(truth_dir / "hanni_und_nanni.json", parent)
+        child = _curation([("k1", True, 1)])
+        child["id"] = "kira_kolumna"
+        child["split_from"] = "hanni_und_nanni"
+        _write(truth_dir / "kira_kolumna.json", child)
+
+        # the curator saw the shared artist page and kept everything
+        scratch = tmp_path / "scratch"
+        _write(
+            scratch / "assets/catalog/curation/kira_kolumna.json",
+            _curation([("k1", True, 1), ("p1", True, 1), ("p2", True, 2)]),
+        )
+        scores, _ = score_root(
+            scratch,
+            model="m",
+            truth_curation_dir=truth_dir,
+            providers=[_Provider("spotify", ["k1", "p1", "p2"])],
+            verdicts={},
+            series_ids=("kira_kolumna",),
+        )
+        (s,) = scores
+        assert s.include_precision == 1 / 3
+        assert s.include_recall == 1.0
+        assert s.n_outside_truth == 0
+
+    def test_a_series_without_a_parent_is_unaffected(self, tmp_path: Path) -> None:
+        truth_dir = tmp_path / "truth"
+        _write(truth_dir / "kira_kolumna.json", _curation([("a", True, 1)]))
+        scratch = tmp_path / "scratch"
+        _write(
+            scratch / "assets/catalog/curation/kira_kolumna.json",
+            _curation([("a", True, 1), ("b", True, 2)]),
+        )
+        scores, _ = score_root(
+            scratch,
+            model="m",
+            truth_curation_dir=truth_dir,
+            providers=[_Provider("spotify", ["a", "b"])],
+            verdicts={},
+            series_ids=("kira_kolumna",),
+        )
+        assert scores[0].include_precision == 1.0
+        assert scores[0].n_outside_truth == 1
+
+
 class TestScoreRoot:
     def test_scores_present_series_and_names_the_unfinished_ones(
         self, tmp_path: Path
