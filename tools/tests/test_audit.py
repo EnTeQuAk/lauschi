@@ -936,3 +936,87 @@ class TestApplyAuditDryRun:
         )
         _, data = self._dry_run(tmp_path, result)
         assert data == _curation()
+
+
+# ── audit request budget ─────────────────────────────────────────────────
+
+
+def test_audit_request_limit_fits_a_large_series():
+    """Across 184 June audits the median tool-call count was 5 and the
+    90th percentile 9, and none hit the limit. Bibi Blocksberg (~490
+    albums, 3 lint issues) needed more than the old 20 once reasoning was
+    disabled and the model spent its calls verifying albums on both
+    providers:
+
+        UsageLimitExceeded: The next request would exceed the
+        request_limit of 20
+
+    The budget must clear that while staying far below curate's 200, so
+    a model looping on fruitless web searches still fails fast."""
+    from lauschi_catalog.catalog.audit_ops import _AUDIT_REQUEST_LIMIT
+
+    assert _AUDIT_REQUEST_LIMIT == 40
+
+
+# ── search_included_albums: repeated identical query is a loop ───────────
+
+
+class TestSearchRepeatGuard:
+    """A model with reasoning off re-ran search_included_albums('Folge
+    165') 18 times in a row on Bibi Blocksberg until it exhausted the
+    request budget. An identical query returns an identical answer, so
+    past the allowance the tool refuses with a ModelRetry that tells the
+    model to use the hits it already has or submit its verdict.
+    """
+
+    def _tool_and_deps(self):
+        import lauschi_catalog.catalog.audit_ops as audit_mod
+        from pydantic_ai.models.test import TestModel
+
+        agent = audit_mod._build_audit_agent(TestModel(), model_name="test")
+        tool = agent._function_toolset.tools["search_included_albums"]
+        deps = audit_mod.AuditDeps(series_id="s", curation=_curation())
+        return tool, deps
+
+    def _call(self, tool, deps, query: str):
+        from pydantic_ai import RunContext
+
+        ctx = RunContext(deps=deps, model=None, usage=None, prompt=None)
+        return tool.function(ctx, query)
+
+    def test_allowance_then_refuses_identical_query(self):
+        from pydantic_ai import ModelRetry
+
+        tool, deps = self._tool_and_deps()
+        first = self._call(tool, deps, "Folge 1")
+        second = self._call(tool, deps, "Folge 1")
+        assert first == second
+        try:
+            self._call(tool, deps, "Folge 1")
+        except ModelRetry as e:
+            assert "already searched" in str(e)
+        else:
+            raise AssertionError("third identical query must be refused")
+
+    def test_different_query_is_not_refused(self):
+        tool, deps = self._tool_and_deps()
+        for _ in range(3):
+            self._call(tool, deps, "Folge 1")
+            break
+        # a fresh query has its own allowance regardless of prior queries
+        self._call(tool, deps, "Folge 1")
+        self._call(tool, deps, "Folge 2")
+        self._call(tool, deps, "Folge 2")
+
+    def test_query_match_is_case_insensitive_for_the_counter(self):
+        from pydantic_ai import ModelRetry
+
+        tool, deps = self._tool_and_deps()
+        self._call(tool, deps, "folge 1")
+        self._call(tool, deps, "FOLGE 1")
+        try:
+            self._call(tool, deps, "Folge 1")
+        except ModelRetry:
+            pass
+        else:
+            raise AssertionError("case variants of one query must share the counter")

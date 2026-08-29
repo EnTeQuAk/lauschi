@@ -26,7 +26,28 @@ _DEFAULT_AUDIT = ModelSettings(temperature=0.0, seed=42)
 # Model-specific overrides. Keyed by model-name prefix; first match wins.
 # Use this to tune per-model behavior as we discover what each model
 # needs. Format: {prefix: {phase: ModelSettings(...)}}.
-_OVERRIDES: dict[str, dict[str, ModelSettings]] = {}
+_OVERRIDES: dict[str, dict[str, ModelSettings]] = {
+    # MiniMax M2.x started returning extended reasoning it did not in
+    # June. The audit sends a whole series in one request, and on a
+    # large one (Bibi Blocksberg, ~490 albums) full reasoning spent the
+    # entire output budget narrating albums and never produced a
+    # verdict, even at max_tokens=32768. Disabling reasoning outright
+    # (MiniMax's thinking switch) fixed that but broke the other way:
+    # with no working memory across turns the model re-ran the same
+    # search_included_albums query 18 times until it hit the request
+    # budget. Low effort is the middle: enough reasoning to remember
+    # what it already checked and stop (June's audits, which worked,
+    # reasoned lightly and finished in ~9 calls), bounded enough to
+    # leave room for the verdict. max_tokens stays as a backstop.
+    "minimax-": {
+        "audit": ModelSettings(
+            temperature=0.0,
+            seed=42,
+            max_tokens=32768,
+            openai_reasoning_effort="low",
+        ),
+    },
+}
 
 
 def get_model_settings(phase: str, model_name: str) -> ModelSettings:

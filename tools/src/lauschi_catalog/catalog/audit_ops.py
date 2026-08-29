@@ -16,7 +16,7 @@ from datetime import UTC, datetime
 from typing import Literal
 
 from pydantic import BaseModel, Field
-from pydantic_ai import Agent, RunContext, ToolOutput
+from pydantic_ai import Agent, ModelRetry, RunContext, ToolOutput
 
 from lauschi_catalog._opencode import (
     build_model,
@@ -44,6 +44,15 @@ from lauschi_catalog.run import run_agent
 _DEFAULT_MODEL = "minimax-m2.7"
 _MAX_RETRIES = 12
 _RETRY_DELAY = 10
+# Model round-trips per audit. Across 184 June audits the median was 5
+# and the 90th percentile 9, so this is not a working budget but a
+# backstop: it lets a large series verify every lint issue against both
+# providers while still failing fast if the model loops on web searches
+# (which return nothing useful for this job) instead of burning the 200
+# that curate allows. Bibi Blocksberg (~490 albums, 3 lint issues) needed
+# more than the old 20 once reasoning was disabled and the model spent its
+# calls actually checking albums.
+_AUDIT_REQUEST_LIMIT = 40
 
 Provider = Literal["spotify", "apple_music"]
 
@@ -89,6 +98,17 @@ class AuditDeps(AgentDeps):
     series_id: str = ""
     curation: dict = field(default_factory=dict)
     lint_issues: list[str] = field(default_factory=list)
+    # Query -> how many times search_included_albums has answered it. A
+    # repeated identical query returns an identical answer, so past the
+    # allowance the tool says so instead of re-computing; see the guard.
+    _search_counts: dict[str, int] = field(default_factory=dict, init=False)
+
+
+# An identical search_included_albums query answered this many times is a
+# loop, not research: the result cannot change within a run. A model with
+# reasoning off did exactly this on Bibi Blocksberg (the same 'Folge 165'
+# query 18 times in a row) until it exhausted the request budget.
+_SEARCH_REPEAT_ALLOWANCE = 2
 
 
 def _build_audit_agent(
@@ -142,6 +162,17 @@ def _build_audit_agent(
             for a in albums
             if a.get("include") and q in a["title"].lower()
         ]
+        seen = ctx.deps._search_counts.get(q, 0) + 1
+        ctx.deps._search_counts[q] = seen
+        if seen > _SEARCH_REPEAT_ALLOWANCE:
+            ctx.deps.on_progress(
+                f"  search_included_albums({query!r}) -> repeated {seen}x, refused",
+            )
+            raise ModelRetry(
+                f"You already searched {query!r} {seen - 1} times and got the "
+                f"same {len(results)} hit(s) each time; the result cannot change "
+                "within this audit. Use those hits, or submit your verdict."
+            )
         ctx.deps.on_progress(
             f"  search_included_albums({query!r}) -> {len(results)} hits",
         )
@@ -360,7 +391,7 @@ async def audit_one(
     )
     return await run_with_rate_limit_retry(
         lambda: asyncio.wait_for(
-            run_agent(agent, prompt, deps, request_limit=20),
+            run_agent(agent, prompt, deps, request_limit=_AUDIT_REQUEST_LIMIT),
             timeout=timeout,
         ),
         phase=f"audit {series_id}",
