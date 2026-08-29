@@ -8,6 +8,7 @@ from lauschi_catalog.commands.apply_splits import apply_splits
 from lauschi_catalog.commands.delete import delete
 from lauschi_catalog.commands.discover import discover
 from lauschi_catalog.commands.edit import edit
+from lauschi_catalog.commands.eval import eval_cmd
 from lauschi_catalog.commands.lint import lint
 from lauschi_catalog.commands.log_summary import log_summary
 from lauschi_catalog.commands.report import report
@@ -33,6 +34,7 @@ cli.add_command(apply_splits)
 cli.add_command(delete)
 cli.add_command(discover)
 cli.add_command(edit)
+cli.add_command(eval_cmd)
 cli.add_command(lint)
 cli.add_command(log_summary)
 cli.add_command(reconcile)
