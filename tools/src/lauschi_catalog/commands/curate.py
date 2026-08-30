@@ -177,7 +177,13 @@ def _dry_run_prompts(
 @click.command()
 @click.argument("query", required=False)
 @click.option("--all", "run_all", is_flag=True, help="Curate all series in the catalog")
-@click.option("--force", is_flag=True, help="Re-curate even if curation JSON exists")
+@click.option(
+    "--force",
+    is_flag=True,
+    help="Re-curate series that already have a curation. Prior decisions "
+    "carry forward as a pre-seed the model may override, so this is "
+    "incremental; use catalog-edit to change individual albums instead.",
+)
 @click.option("--model", default=_DEFAULT_MODEL, help="AI model to use")
 @click.option(
     "--timeout",
@@ -220,7 +226,15 @@ def curate(
     """AI-curate a Hörspiel series or music artist across providers.
 
     Pass a series name to curate one, or --all to curate the entire catalog.
-    Existing curations are skipped unless --force is given.
+    Existing curations are skipped unless --force is given. Re-curation is
+    incremental: prior decisions are carried forward as a pre-seed the model
+    may override, and albums the model does not decide stay absent from the
+    curation (the run is then marked incomplete and apply skips it).
+
+    A prior curation with invalid album records (e.g. an off-vocabulary
+    exclude_reason) aborts the run. Normalize them first with
+    `lauschi-catalog reconcile --all --normalize`.
+
     Use --music for children's music artists (includes albums, not episodes).
     """
     if not query and not run_all:

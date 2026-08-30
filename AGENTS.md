@@ -97,7 +97,12 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
    search fallback), prefetch of album details, a metadata agent, batched
    album decisions (~30 per batch), a finalize agent (episode pattern, series
    facts). Re-curation is incremental: `--force` re-enters a series but
-   carries prior decisions forward, so a decided album is not re-asked.
+   carries prior decisions forward as a pre-seed the model may override, so
+   a decided album is not re-asked. Albums the model does not decide stay
+   absent from the curation; the run is then marked incomplete and apply
+   skips it. A prior curation with invalid album records (e.g. an
+   off-vocabulary exclude_reason) aborts the run; normalize first with
+   `lauschi-catalog reconcile --all --normalize`.
    Split-off children (`split_from`) are refused; curate the parent.
    Output: `assets/catalog/curation/{series_id}.json` (committed to git).
 

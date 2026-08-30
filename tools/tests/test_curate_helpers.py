@@ -744,9 +744,13 @@ def test_legacy_json_without_confidence_loads_as_high():
     assert d.confidence == "high"
 
 
-def test_excluded_without_reason_autofills_from_notes():
-    """Models occasionally omit exclude_reason; raising burned an output
-    retry per batch, so the validator auto-fills from notes instead."""
+def test_excluded_without_reason_autofills_unspecified_even_with_notes():
+    """Models occasionally omit exclude_reason. The validator used to
+    copy `notes` into the field, but notes are free text and not enum
+    values: that write bypassed the Literal (pydantic does not
+    re-validate inside a model validator), so 795 committed albums
+    carried off-vocabulary reasons. The auto-fill is now always the
+    catch-all; the notes stay in `notes`."""
     d = AlbumDecision(
         album_id="x",
         provider="spotify",
@@ -755,7 +759,8 @@ def test_excluded_without_reason_autofills_from_notes():
         title="t",
         notes="multi-artist compilation",
     )
-    assert d.exclude_reason == "multi-artist compilation"
+    assert d.exclude_reason == "unspecified"
+    assert d.notes == "multi-artist compilation"
 
 
 def test_excluded_without_reason_or_notes_autofills_unspecified():
@@ -1597,3 +1602,22 @@ class TestPreseedDecisions:
         assert len(carried) == 1
         assert carried[0].album_id == "a2"
         assert len(remaining) == 1
+
+    def test_raises_on_carried_entry_that_fails_validation(self):
+        """An entry that matches a discovered album but fails
+        AlbumDecision validation must surface, not silently re-decide.
+        A silently dropped entry gets re-decided by the model while its
+        neighbours are carried forward, which quietly rewrites the
+        catalog."""
+        discovered = [_album("spotify", "a1"), _album("spotify", "a2")]
+        existing = {
+            "albums": [
+                {
+                    **_curation_album("spotify", "a1", False, "Bad"),
+                    "exclude_reason": "totally-off-vocabulary free text",
+                },
+                _curation_album("spotify", "a2", True, "OK"),
+            ],
+        }
+        with pytest.raises(ValueError, match="a1"):
+            _preseed_decisions(discovered, existing)
