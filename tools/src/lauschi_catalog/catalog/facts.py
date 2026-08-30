@@ -12,10 +12,9 @@ it, audited_by/audited_at record who last reviewed it.
 
 from __future__ import annotations
 
-from pydantic import BaseModel, Field, field_validator
-
-
 import re as _re
+
+from pydantic import BaseModel, Field, field_validator
 
 
 class _FactProvenance(BaseModel):

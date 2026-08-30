@@ -16,7 +16,6 @@ from lauschi_catalog.providers._validate import (
     is_valid_id,
 )
 
-
 # ── Spotify ───────────────────────────────────────────────────────────────
 
 

@@ -7,15 +7,14 @@ from lauschi_catalog.commands.apply import apply
 from lauschi_catalog.commands.apply_splits import apply_splits
 from lauschi_catalog.commands.delete import delete
 from lauschi_catalog.commands.discover import discover
+from lauschi_catalog.commands.drift import drift
 from lauschi_catalog.commands.edit import edit
 from lauschi_catalog.commands.eval import eval_cmd
 from lauschi_catalog.commands.lint import lint
 from lauschi_catalog.commands.log_summary import log_summary
-from lauschi_catalog.commands.report import report
 from lauschi_catalog.commands.reconcile import reconcile
+from lauschi_catalog.commands.report import report
 from lauschi_catalog.commands.review_human import review_human
-
-from lauschi_catalog.commands.drift import drift
 from lauschi_catalog.commands.validate import validate
 
 
@@ -48,8 +47,8 @@ cli.add_command(drift)
 # installed; surface any other import error loudly so a typo in our
 # own modules doesn't cause a command to disappear without explanation.
 try:
-    from lauschi_catalog.commands.curate import curate
     from lauschi_catalog.commands.audit import audit
+    from lauschi_catalog.commands.curate import curate
 except ModuleNotFoundError as e:
     if e.name and e.name.split(".")[0] != "pydantic_ai":
         raise

@@ -8,8 +8,8 @@ import pytest
 from click.testing import CliRunner
 from ruamel.yaml import YAML
 
-from lauschi_catalog.catalog import paths as paths_mod
 from lauschi_catalog.catalog import loader as loader_mod
+from lauschi_catalog.catalog import paths as paths_mod
 from lauschi_catalog.commands import apply_splits as splits_mod
 
 yaml = YAML()

@@ -17,9 +17,10 @@ import pytest
 from lauschi_catalog.providers._retry import (
     _RETRY_AFTER_DEFAULT,
     _RETRY_AFTER_MAX,
+)
+from lauschi_catalog.providers._retry import (
     parse_retry_after as _parse_retry_after,
 )
-
 
 # ── delta-seconds form ────────────────────────────────────────────────────
 

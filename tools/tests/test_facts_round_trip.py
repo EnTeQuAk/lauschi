@@ -6,11 +6,10 @@ load -> incremental curate without being dropped or corrupted.
 
 from __future__ import annotations
 
-
-from lauschi_catalog.catalog.facts import SeriesFacts
-from lauschi_catalog.catalog.loader import load_catalog
 from lauschi_catalog.catalog.apply_ops import filter_confirmed_facts
+from lauschi_catalog.catalog.facts import SeriesFacts
 from lauschi_catalog.catalog.lint_ops import lint_curation
+from lauschi_catalog.catalog.loader import load_catalog
 
 
 class TestFactsRoundTrip:
@@ -408,6 +407,7 @@ class TestEraBoundaryProposalValidation:
 
     def test_single_year_rejected(self):
         import pytest
+
         from lauschi_catalog.catalog.facts import EraBoundaryProposal
 
         with pytest.raises(ValueError, match="release_date_range must be"):
@@ -415,6 +415,7 @@ class TestEraBoundaryProposalValidation:
 
     def test_full_date_string_rejected(self):
         import pytest
+
         from lauschi_catalog.catalog.facts import EraBoundaryProposal
 
         with pytest.raises(ValueError, match="release_date_range must be"):
@@ -425,6 +426,7 @@ class TestEraBoundaryProposalValidation:
 
     def test_empty_rejected(self):
         import pytest
+
         from lauschi_catalog.catalog.facts import EraBoundaryProposal
 
         with pytest.raises(ValueError):

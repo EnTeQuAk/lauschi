@@ -9,8 +9,8 @@ from __future__ import annotations
 
 import asyncio
 import time
-from dataclasses import dataclass, field
 from collections.abc import Callable
+from dataclasses import dataclass, field
 from typing import Any
 
 from pydantic_ai import ModelHTTPError
@@ -23,7 +23,6 @@ from tenacity import (
 
 from lauschi_catalog.agent_deps import Progress, _noop
 from lauschi_catalog.retry import is_retryable
-
 
 # Known rate limits (requests per second) by model provider prefix.
 # First match wins. Add entries when a provider's free/paid tier has

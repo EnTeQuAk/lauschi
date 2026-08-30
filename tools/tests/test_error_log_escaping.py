@@ -18,7 +18,6 @@ import re
 from rich.console import Console
 from rich.markup import escape
 
-
 # ── Pin the failure-mode at the rich layer ────────────────────────────────
 
 

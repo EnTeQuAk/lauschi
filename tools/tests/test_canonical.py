@@ -12,7 +12,6 @@ from copy import deepcopy
 
 from lauschi_catalog.catalog.canonical import canonicalize
 
-
 # ── albums ────────────────────────────────────────────────────────────────
 
 

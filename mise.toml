@@ -55,11 +55,21 @@ run = """
 dart format --set-exit-if-changed lib test integration_test tool
 flutter analyze --fatal-infos
 flutter test --dart-define-from-file=.env.app
+mise run tools-check
 """
 
 # ── Catalog tooling (multi-provider) ─────────────────────────────────
 #
 # All commands via lauschi-catalog CLI (tools/ package).
+
+[tasks.tools-check]
+description = "Full Python tools check: ruff lint/format + pytest"
+run = """
+cd tools
+uv run ruff check src tests
+uv run ruff format --check src tests
+uv run --extra ai pytest
+"""
 
 [tasks.catalog-add]
 description = "Add a new series to the catalog"

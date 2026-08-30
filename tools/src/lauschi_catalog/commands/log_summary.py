@@ -38,10 +38,9 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 
-from lauschi_catalog.catalog.series_ops import SERIES_ID_PATTERN
-
 from lauschi_catalog.catalog.loader import load_catalog
 from lauschi_catalog.catalog.paths import log_dir, repo_root
+from lauschi_catalog.catalog.series_ops import SERIES_ID_PATTERN
 
 console = Console()
 

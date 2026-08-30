@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from pydantic_evals.evaluators import Evaluator, EvaluatorContext, EvaluationReason
+from pydantic_evals.evaluators import EvaluationReason, Evaluator, EvaluatorContext
 
 
 @dataclass

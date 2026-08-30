@@ -7,10 +7,10 @@ import json
 import pytest
 from ruamel.yaml import YAML
 
-from lauschi_catalog.catalog import paths as paths_mod
-from lauschi_catalog.catalog import loader as loader_mod
-from lauschi_catalog.catalog import series_ops
 from lauschi_catalog.catalog import deleted as deleted_mod
+from lauschi_catalog.catalog import loader as loader_mod
+from lauschi_catalog.catalog import paths as paths_mod
+from lauschi_catalog.catalog import series_ops
 
 yaml = YAML()
 yaml.preserve_quotes = True

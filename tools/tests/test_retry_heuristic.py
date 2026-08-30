@@ -15,7 +15,6 @@ import pytest
 
 from lauschi_catalog.retry import is_retryable as _is_retryable
 
-
 # ── Type-by-name (MRO walk) ───────────────────────────────────────────────
 
 

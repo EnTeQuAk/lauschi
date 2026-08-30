@@ -28,6 +28,7 @@ from lauschi_catalog._opencode import (
     get_model_settings,
 )
 from lauschi_catalog.agent_deps import AgentDeps, Progress, _noop
+from lauschi_catalog.agent_hooks import build_progress_hooks
 from lauschi_catalog.agent_tools import build_agent_tools
 from lauschi_catalog.catalog.analysis import analyze_series
 from lauschi_catalog.catalog.canonical import canonicalize
@@ -43,13 +44,19 @@ from lauschi_catalog.catalog.facts import (
     facts_from_curation,
     merge_facts,
 )
+from lauschi_catalog.catalog.io import safe_write_json
+from lauschi_catalog.catalog.lint_ops import (
+    compress_runs,
+    lint_curation,
+    lint_regression,
+)
 from lauschi_catalog.catalog.loader import load_catalog
-from lauschi_catalog.catalog.series_ops import split_off_refusal
 from lauschi_catalog.catalog.matcher import (
     compute_pattern_coverage as _compute_pattern_coverage,
+)
+from lauschi_catalog.catalog.matcher import (
     extract_episode,
 )
-from lauschi_catalog.catalog.io import safe_write_json
 from lauschi_catalog.catalog.paths import (
     CURATION_DIR,
     cover_cache_dir,
@@ -57,12 +64,7 @@ from lauschi_catalog.catalog.paths import (
     log_dir,
 )
 from lauschi_catalog.catalog.prompt import album_to_dict, format_albums_xml
-from lauschi_catalog.agent_hooks import build_progress_hooks
-from lauschi_catalog.catalog.lint_ops import (
-    compress_runs,
-    lint_curation,
-    lint_regression,
-)
+from lauschi_catalog.catalog.series_ops import split_off_refusal
 from lauschi_catalog.prompts import load_curate_skill
 from lauschi_catalog.providers import CatalogProvider
 from lauschi_catalog.rate_limit import RateLimiter, run_with_rate_limit_retry

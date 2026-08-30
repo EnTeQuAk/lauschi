@@ -53,8 +53,9 @@ def test_load_raw_reads_yaml(tmp_path, monkeypatch):
 
 def test_save_raw_with_lock(tmp_path, monkeypatch):
     """save_raw uses FileLock and atomic write."""
-    from lauschi_catalog.catalog import paths as paths_mod
     from ruamel.yaml import YAML
+
+    from lauschi_catalog.catalog import paths as paths_mod
 
     yaml_path = tmp_path / "series.yaml"
     yaml = YAML()

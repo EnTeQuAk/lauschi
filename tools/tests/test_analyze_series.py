@@ -13,7 +13,6 @@ from lauschi_catalog.catalog.analysis import analyze_series, effective_albums
 
 from .conftest import make_album, make_curation
 
-
 # ── effective_albums ───────────────────────────────────────────────────────
 
 

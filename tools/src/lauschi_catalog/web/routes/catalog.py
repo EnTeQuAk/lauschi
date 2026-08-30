@@ -6,7 +6,6 @@ import json
 from pathlib import Path
 from typing import Any
 
-
 from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
@@ -15,8 +14,10 @@ from lauschi_catalog.catalog.merge_ops import merge_series, normalize_album_ids
 from lauschi_catalog.catalog.paths import (
     artist_image_path,
     cover_cache_path,
-    curation_path as _curation_path,
     repo_root,
+)
+from lauschi_catalog.catalog.paths import (
+    curation_path as _curation_path,
 )
 from lauschi_catalog.catalog.series_ops import (
     SeriesChanges,

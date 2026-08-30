@@ -69,6 +69,7 @@ def test_curate_skill_contains_current_date():
     prompt carries today's date so release-date reasoning has an
     anchor."""
     from datetime import date
+
     from lauschi_catalog.prompts import load_curate_skill
 
     prompt = load_curate_skill(phase="batch", content_type="hoerspiel")
@@ -77,6 +78,7 @@ def test_curate_skill_contains_current_date():
 
 def test_audit_system_prompt_contains_current_date():
     from datetime import date
+
     from lauschi_catalog.prompts import load_curate_skill
 
     prompt = load_curate_skill(phase="audit", content_type="hoerspiel")

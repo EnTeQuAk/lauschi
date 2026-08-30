@@ -8,7 +8,7 @@ from typing import Any
 from unittest.mock import MagicMock
 
 from pydantic_ai.capabilities.hooks import Hooks
-from pydantic_ai.messages import ModelResponse, ThinkingPart, TextPart
+from pydantic_ai.messages import ModelResponse, TextPart, ThinkingPart
 from pydantic_ai.models import ModelRequestContext
 
 from lauschi_catalog.agent_hooks import build_progress_hooks

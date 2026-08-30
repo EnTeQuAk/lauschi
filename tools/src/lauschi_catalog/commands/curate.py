@@ -18,8 +18,8 @@ from rich.panel import Panel
 from rich.table import Table
 
 from lauschi_catalog.catalog.curate_ops import (
-    CuratedSeries,
     _DEFAULT_MODEL,
+    CuratedSeries,
     curate_all,
     curate_one,
     load_existing_facts,

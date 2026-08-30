@@ -13,8 +13,8 @@ from rich import box
 from rich.console import Console
 from rich.table import Table
 
-from lauschi_catalog.catalog.paths import CURATION_DIR
 from lauschi_catalog.catalog.lifecycle import review_block
+from lauschi_catalog.catalog.paths import CURATION_DIR
 
 console = Console()
 

@@ -24,7 +24,9 @@ from lauschi_catalog._opencode import (
     get_model_settings,
 )
 from lauschi_catalog.agent_deps import AgentDeps, Progress, _noop
+from lauschi_catalog.agent_hooks import build_progress_hooks
 from lauschi_catalog.agent_tools import build_agent_tools
+from lauschi_catalog.catalog.analysis import analyze_series, group_by_shape
 from lauschi_catalog.catalog.canonical import canonicalize
 from lauschi_catalog.catalog.facts import (
     EraBoundaryProposal,
@@ -32,17 +34,15 @@ from lauschi_catalog.catalog.facts import (
     SubSeriesProposal,
     fact_provenance,
 )
-from lauschi_catalog.catalog.analysis import analyze_series, group_by_shape
 from lauschi_catalog.catalog.io import safe_write_json
 from lauschi_catalog.catalog.lifecycle import audit_is_stale, review_block
-from lauschi_catalog.catalog.paths import CURATION_DIR
 from lauschi_catalog.catalog.lint_ops import (
     compress_runs,
     critical_issues,
     lint_curation,
 )
+from lauschi_catalog.catalog.paths import CURATION_DIR
 from lauschi_catalog.prompts import load_curate_skill
-from lauschi_catalog.agent_hooks import build_progress_hooks
 from lauschi_catalog.rate_limit import run_with_rate_limit_retry
 from lauschi_catalog.run import run_agent, run_with_attempts, usage_summary
 

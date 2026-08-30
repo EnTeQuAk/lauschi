@@ -26,7 +26,6 @@ from lauschi_catalog.catalog.facts import (
     fact_provenance,
 )
 
-
 # ── Fixtures ─────────────────────────────────────────────────────────────
 
 
@@ -970,8 +969,9 @@ class TestSearchRepeatGuard:
     """
 
     def _tool_and_deps(self):
-        import lauschi_catalog.catalog.audit_ops as audit_mod
         from pydantic_ai.models.test import TestModel
+
+        import lauschi_catalog.catalog.audit_ops as audit_mod
 
         agent = audit_mod._build_audit_agent(TestModel(), model_name="test")
         tool = agent._function_toolset.tools["search_included_albums"]

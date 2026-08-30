@@ -4,10 +4,10 @@ from __future__ import annotations
 
 import json
 
+from lauschi_catalog.catalog.curate_ops import write_cover_cache
+from lauschi_catalog.providers.apple_music import _pick_artwork
 from lauschi_catalog.providers.base import Album
 from lauschi_catalog.providers.spotify import _pick_image
-from lauschi_catalog.providers.apple_music import _pick_artwork
-from lauschi_catalog.catalog.curate_ops import write_cover_cache
 
 
 class TestSpotifyPickImage:

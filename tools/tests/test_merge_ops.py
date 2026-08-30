@@ -8,9 +8,9 @@ from datetime import datetime
 import pytest
 from ruamel.yaml import YAML
 
-from lauschi_catalog.catalog import paths as paths_mod
 from lauschi_catalog.catalog import loader as loader_mod
 from lauschi_catalog.catalog import merge_ops
+from lauschi_catalog.catalog import paths as paths_mod
 from lauschi_catalog.catalog.merge_ops import normalize_album_ids
 
 yaml = YAML()

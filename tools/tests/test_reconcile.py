@@ -9,7 +9,6 @@ from lauschi_catalog.catalog.reconcile import (
     reconcile_cross_provider,
 )
 
-
 # ── normalize_exclude_reason ────────────────────────────────────────────
 
 
