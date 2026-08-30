@@ -1,62 +1,61 @@
 """Shared retry-decision helpers used by curate and audit.
 
-Agent runs and provider HTTP calls need the same answer to "is this
-exception worth retrying or should it propagate immediately?" — auth
-failures and validation errors should die fast; transport errors and 5xx
-should retry.
-
-Keeping the heuristic in one module avoids copies drifting apart, and
-lets audit benefit from refinements originally driven by curate's
-failure modes (mostly opencode upstream blips).
+Classify at the pydantic-ai boundary: model-own failures (validation
+errors, exhausted output retries, usage limits) must die fast and be
+handed to the fresh-context layer; transport failures (5xx, 429,
+connection errors, timeouts) should replay.
 """
 
 from __future__ import annotations
 
-import re
 from typing import Iterable
 
-# Cloudflare HTML pages, generic transport messages embedded in
-# wrapped exceptions. Lower-case match.
-_RETRYABLE_PATTERNS: tuple[str, ...] = (
-    "<!doctype",
-    "timeout",
-    "timed out",
-    "connection",
-    "temporarily unavailable",
+import httpx
+import requests
+from openai import (
+    APIConnectionError,
+    APITimeoutError,
+    InternalServerError,
+)
+from pydantic import ValidationError
+from pydantic_ai import ModelHTTPError, UnexpectedModelBehavior
+from pydantic_ai.exceptions import UsageLimitExceeded
+
+#: Failures the model owns, not the transport. Replaying them just
+#: burns budget: a validation error will fail identically on the same
+#: prompt. The fresh-context attempt layer is what handles these.
+_MODEL_OWN: tuple[type[BaseException], ...] = (
+    ValidationError,
+    UnexpectedModelBehavior,
+    UsageLimitExceeded,
 )
 
-# Any 5xx or 429 status code embedded in an error string.
-_RETRYABLE_STATUS = re.compile(r"\b(?:5\d\d|429)\b")
-
-# Type-name match by string so we don't take an import dependency on
-# every SDK's exception namespace. Matched against the full MRO so a
-# subclass (e.g. requests.ConnectTimeout < Timeout) still hits.
-# Covers requests / urllib3 / httpx / openai SDK — the layers
-# pydantic-ai routes through to opencode.
-_RETRYABLE_TYPE_NAMES: frozenset[str] = frozenset(
-    {
-        # requests / urllib3
-        "ConnectionError",
-        "ConnectTimeout",
-        "ReadTimeout",
-        "Timeout",
-        "SSLError",
-        "ChunkedEncodingError",
-        "MaxRetryError",
-        "NewConnectionError",
-        "ProtocolError",
-        # httpx
-        "ConnectError",
-        "ReadError",
-        "WriteError",
-        "PoolTimeout",
-        "RemoteProtocolError",
-        # openai SDK
-        "APIConnectionError",
-        "APITimeoutError",
-        "InternalServerError",
-    }
+#: Transport-class errors worth replaying. Matched by type, not by
+#: class *name* so a lookalike exception named "Timeout" does not get
+#: retried.
+_RETRYABLE_TYPES: tuple[type[BaseException], ...] = (
+    httpx.TransportError,  # incl. timeouts, pool exhaustion, read errors
+    APIConnectionError,  # openai; APITimeoutError subclasses it
+    APITimeoutError,
+    InternalServerError,  # openai's 5xx
+    requests.exceptions.ConnectionError,
+    requests.exceptions.Timeout,
+    ConnectionError,  # builtin; covers ConnectionRefusedError etc.
+    TimeoutError,  # asyncio.TimeoutError is an alias of this
 )
+
+
+def _status_code(layer: BaseException) -> int | None:
+    """HTTP status the layer carries, when it does."""
+    if isinstance(layer, ModelHTTPError):
+        return layer.status_code
+    response = getattr(layer, "response", None)  # httpx / requests errors
+    status = getattr(response, "status_code", None)
+    return status if isinstance(status, int) else None
+
+
+def _is_transient_status(status: int | None) -> bool:
+    return status is not None and (status >= 500 or status == 429)
 
 
 def _exception_chain(exc: BaseException) -> Iterable[BaseException]:
@@ -84,24 +83,43 @@ def _exception_chain(exc: BaseException) -> Iterable[BaseException]:
 def is_retryable(exc: BaseException) -> bool:
     """True when the exception suggests a transient upstream failure.
 
-    Three-pronged check on the full exception chain:
-    1. MRO type-name walk — catches typed transport errors regardless
-       of the SDK that raised them.
-    2. String pattern match — catches HTML error pages and connection
-       signals embedded in wrapped exception messages.
-    3. 5xx regex — catches any 5xx status referenced in the message.
+    Two passes on the full exception chain, model-own first:
 
-    Auth / validation / 4xx errors fall through and propagate;
-    retrying them just burns budget.
+    1. Any model-own layer (validation error, exhausted output
+       retries, usage limits) makes the whole failure non-retryable.
+       Classification by string would see the episode number "503"
+       inside a validation message and replay a doomed request.
+    2. Transport types (httpx/openai/requests connection errors and
+       timeouts), real 5xx/429 status codes, and provider HTML error
+       pages embedded in a wrapped message are retryable.
     """
     for layer in _exception_chain(exc):
-        type_names = {cls.__name__ for cls in type(layer).__mro__}
-        if type_names & _RETRYABLE_TYPE_NAMES:
+        if isinstance(layer, _MODEL_OWN):
+            return False
+
+    for layer in _exception_chain(exc):
+        if isinstance(layer, _RETRYABLE_TYPES):
             return True
-        err_str = str(layer)
-        lowered = err_str.lower()
-        if any(p in lowered for p in _RETRYABLE_PATTERNS):
+        if _is_transient_status(_status_code(layer)):
             return True
-        if _RETRYABLE_STATUS.search(err_str):
+        # Some providers answer a proxy outage with an HTML error page
+        # wrapped as plain text; the doctype is the only reliable marker.
+        if "<!doctype" in str(layer).lower():
             return True
     return False
+
+
+def describe_failure(exc: BaseException) -> str:
+    """``Type: message`` for an exception and everything it was raised from.
+
+    pydantic-ai wraps the last validation error in
+    ``UnexpectedModelBehavior("Exceeded maximum output retries")`` and
+    keeps the reason only on ``__cause__``. A batch that fails for that
+    reason is useless to debug without it.
+    """
+    parts: list[str] = []
+    cur: BaseException | None = exc
+    for cur in _exception_chain(exc):
+        text = str(cur)
+        parts.append(f"{type(cur).__name__}: {text}" if text else type(cur).__name__)
+    return " <- ".join(parts)

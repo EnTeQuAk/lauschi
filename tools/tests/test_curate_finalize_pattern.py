@@ -81,7 +81,6 @@ async def test_finalize_deps_pattern_is_single_source_of_truth(monkeypatch):
     result = await curate_ops._run_with_retry(
         _fake_run,
         phase="finalize",
-        model_name="test",
         on_progress=lambda _m: None,
     )
     assert isinstance(result, FinalizeResult)

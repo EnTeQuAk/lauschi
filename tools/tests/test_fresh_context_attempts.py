@@ -4,12 +4,14 @@ series pays for it."""
 from __future__ import annotations
 
 import asyncio
+import json
 from pathlib import Path
 
 import pytest
+from pydantic_ai.messages import ModelRequest, ModelResponse, TextPart, UserPromptPart
 
-from lauschi_catalog.catalog import curate_ops
-from lauschi_catalog.catalog.curate_ops import BatchResult, _run_batch_attempts
+from lauschi_catalog.catalog import audit_ops, curate_ops
+from lauschi_catalog.catalog.audit_ops import dump_audit_failure
 from lauschi_catalog.run import run_with_attempts
 
 
@@ -62,52 +64,82 @@ class TestRunWithAttempts:
         )
         assert calls["n"] == 1
 
-
-@pytest.fixture
-def log_dir(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
-    monkeypatch.setattr(curate_ops, "log_dir", lambda: tmp_path / "logs")
-    return tmp_path / "logs"
-
-
-class TestBatchAttempts:
-    def test_a_batch_that_fails_once_completes_and_leaves_evidence(
-        self, log_dir: Path
+    def test_on_failure_receives_every_attempt_and_the_captured_exchange(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        call, calls = _flaky(1, result=BatchResult(albums=[]))
+        monkeypatch.setattr(curate_ops, "log_dir", lambda: tmp_path / "logs")
+        call, calls = _flaky(2, result="ok")
         progress: list[str] = []
-        outcome = asyncio.run(
-            _run_batch_attempts(
+        failures: list[tuple[int, str, list[str]]] = []
+
+        def _dump(attempt: int, exc: BaseException, messages: list) -> None:
+            failures.append((attempt, describe_failure_short(exc), len(messages)))
+
+        out = asyncio.run(
+            run_with_attempts(
                 call,
-                series_id="s",
-                batch_num=3,
-                n_batches=12,
-                prompt="p",
+                attempts=3,
+                label="b",
                 on_progress=progress.append,
+                on_failure=_dump,
             )
         )
-        assert outcome.result is not None and outcome.error == ""
-        assert calls["n"] == 2
-        assert any(
-            "Batch 3/12 attempt 1/2 failed: RuntimeError: boom 1" in p for p in progress
-        )
-        assert (log_dir / "curate-failures" / "s-batch03.json").is_file()
+        assert out == "ok"
+        assert calls["n"] == 3
+        assert [attempt for attempt, _, _ in failures] == [1, 2]
 
-    def test_a_batch_that_keeps_failing_reports_the_last_error(
-        self, log_dir: Path
+    def test_on_failure_also_fires_on_the_final_attempt(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        call, calls = _flaky(99)
+        monkeypatch.setattr(curate_ops, "log_dir", lambda: tmp_path / "logs")
+        call, _ = _flaky(99)
         progress: list[str] = []
-        outcome = asyncio.run(
-            _run_batch_attempts(
-                call,
-                series_id="s",
-                batch_num=3,
-                n_batches=12,
-                prompt="p",
-                on_progress=progress.append,
+        failures: list[int] = []
+
+        with pytest.raises(RuntimeError, match="boom 2"):
+            asyncio.run(
+                run_with_attempts(
+                    call,
+                    attempts=2,
+                    label="b",
+                    on_progress=progress.append,
+                    on_failure=lambda attempt, exc, messages: failures.append(attempt),
+                )
             )
-        )
-        assert outcome.result is None
-        assert outcome.error == "RuntimeError: boom 2"
-        assert calls["n"] == 2
-        assert any("failed after 2 attempts" in p for p in progress)
+        assert failures == [1, 2]
+
+
+def describe_failure_short(exc: BaseException) -> str:
+    return f"{type(exc).__name__}"
+
+
+class TestDumpAuditFailure:
+    def test_the_exchange_and_the_reason_are_written(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setattr(audit_ops, "log_dir", lambda: tmp_path / "logs")
+        messages = [
+            ModelRequest(parts=[UserPromptPart(content="audit chunk 1/3")]),
+            ModelResponse(parts=[TextPart(content='{"approve": true}')]),
+        ]
+        try:
+            raise RuntimeError("Exceeded maximum output retries (2)")
+        except RuntimeError as exc:
+            path = dump_audit_failure(
+                "benjamin_bluemchen", "chunk 1/3", "overview ...", messages, exc
+            )
+
+        assert path.parent == tmp_path / "logs" / "audit-failures"
+        data = json.loads(path.read_text(encoding="utf-8"))
+        assert data["series_id"] == "benjamin_bluemchen"
+        assert data["phase"] == "chunk 1/3"
+        assert data["error"] == "RuntimeError: Exceeded maximum output retries (2)"
+        assert data["prompt"] == "overview ..."
+        assert data["messages"][0]["parts"][0]["part_kind"] == "user-prompt"
+
+    def test_a_slash_in_the_phase_does_not_create_directories(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setattr(audit_ops, "log_dir", lambda: tmp_path / "logs")
+        path = dump_audit_failure("s", "chunk 1/3", "p", [], RuntimeError("x"))
+        assert path.parent == tmp_path / "logs" / "audit-failures"

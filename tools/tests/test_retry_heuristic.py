@@ -1,144 +1,181 @@
 """Tests for is_retryable.
 
-The retry decision in _run_with_retry gates whether a transient
-opencode/SDK failure costs us one slot or burns the whole curation.
-Pinning both prongs of the check (type-by-name and string fallback)
-because regressions here are silent: too narrow -> spurious failures,
-too broad -> wasted budget on auth errors that won't fix themselves.
+The retry decision gates whether a transient opencode/SDK failure
+costs us one slot or burns the whole curation. Classification is by
+type at the pydantic-ai boundary: too narrow -> spurious failures, too
+broad -> wasted budget on auth errors and doomed replays of validation
+failures that will never pass.
 """
 
 from __future__ import annotations
 
-import socket
-
+import httpx
+import openai
 import pytest
+from pydantic import ValidationError
+from pydantic_ai import ModelHTTPError, UnexpectedModelBehavior
+from pydantic_ai.exceptions import UsageLimitExceeded
 
-from lauschi_catalog.retry import is_retryable as _is_retryable
+from lauschi_catalog.retry import describe_failure, is_retryable
 
-# ── Type-by-name (MRO walk) ───────────────────────────────────────────────
-
-
-def _make(name: str, base: type = Exception, *, msg: str = "") -> Exception:
-    """Build a one-off exception class with the requested name and instance."""
-    cls = type(name, (base,), {})
-    return cls(msg)
+# ── Transport types retry ───────────────────────────────────────────────
 
 
 @pytest.mark.parametrize(
-    "name",
+    "make",
     [
-        "ConnectionError",
-        "ConnectTimeout",
-        "ReadTimeout",
-        "Timeout",
-        "SSLError",
-        "ChunkedEncodingError",
-        "MaxRetryError",
-        "NewConnectionError",
-        "ProtocolError",
-        "ConnectError",
-        "ReadError",
-        "WriteError",
-        "PoolTimeout",
-        "RemoteProtocolError",
-        "APIConnectionError",
-        "APITimeoutError",
-        "InternalServerError",
+        lambda: httpx.ConnectError("refused"),
+        lambda: httpx.ReadTimeout("timed out"),
+        lambda: httpx.PoolTimeout("pool exhausted"),
+        lambda: httpx.RemoteProtocolError("closed without sending a response"),
+        lambda: openai.APIConnectionError(request=httpx.Request("GET", "http://x")),
+        lambda: openai.InternalServerError(
+            "upstream broke", response=httpx.Response(500, request=_req()), body=None
+        ),
+        lambda: ConnectionError("refused"),
+        lambda: TimeoutError("deadline"),
+        pytest.param(
+            lambda: __import__("requests").exceptions.ConnectionError("reset"),
+            id="requests-connection-error",
+        ),
     ],
 )
-def test_known_network_type_names_retry(name: str):
-    """Each name in _RETRYABLE_TYPE_NAMES must trigger a retry, even
-    when the message is empty (some SDK errors set only .response)."""
-    assert _is_retryable(_make(name)) is True
+def test_transport_types_retry(make):  # noqa: ANN001
+    assert is_retryable(make()) is True
 
 
-def test_subclass_of_known_type_still_retries():
-    """The MRO walk catches subclasses too — requests.ConnectTimeout
-    inherits from Timeout, both should retry."""
-    Timeout = type("Timeout", (Exception,), {})
-    ConnectTimeout = type("ConnectTimeout", (Timeout,), {})
-    assert _is_retryable(ConnectTimeout()) is True
+def _req():
+    return httpx.Request("POST", "http://relay/v1/chat/completions")
 
 
-def test_builtin_connectionerror_retries():
-    """Python's built-in ConnectionError shares the name with requests'
-    — both go through the same MRO walk."""
-    assert _is_retryable(ConnectionError("refused")) is True
+# ── HTTP status classification ──────────────────────────────────────────
 
 
-def test_socket_error_retries_via_alias():
-    """socket.error aliases OSError but its name is still 'OSError';
-    real socket-level failures bubble up as ConnectionRefusedError /
-    ConnectionResetError, which are subclasses of ConnectionError."""
-    assert _is_retryable(socket.gaierror("name resolution failed")) is False
-    # but a connection-class subclass does retry
-    assert _is_retryable(ConnectionRefusedError("nope")) is True
+@pytest.mark.parametrize("status", [500, 502, 503, 504, 429])
+def test_model_http_error_with_5xx_and_429_retries(status: int):
+    assert (
+        is_retryable(
+            ModelHTTPError(status_code=status, model_name="m", body={"error": "x"})
+        )
+        is True
+    )
 
 
-# ── String fallback ───────────────────────────────────────────────────────
+@pytest.mark.parametrize("status", [400, 401, 403, 404])
+def test_model_http_error_with_4xx_does_not_retry(status: int):
+    assert (
+        is_retryable(
+            ModelHTTPError(status_code=status, model_name="m", body={"error": "x"})
+        )
+        is False
+    )
+
+
+def test_httpx_status_error_with_5xx_retries():
+    try:
+        raise httpx.HTTPStatusError(
+            "Server error '503'",
+            request=_req(),
+            response=httpx.Response(503, request=_req()),
+        )
+    except httpx.HTTPStatusError as e:
+        assert is_retryable(e) is True
+
+
+# ── Model-own failures never retry, whatever the message says ──────────
+
+
+def test_validation_error_with_503_in_its_message_is_not_retryable():
+    """The regression this module exists for: a curation album said
+    'Folge 503 is a box set'. Pydantic embeds the offending input in
+    the message, so a string-based 5xx regex saw the 503 and replayed
+    a doomed request 12 times with backoff to 300 s. Any validation
+    layer classifies the whole failure as model-own."""
+    from typing import Literal
+
+    from pydantic import TypeAdapter
+
+    ta = TypeAdapter(Literal["compilation", "wrong_content_type"])
+    try:
+        ta.validate_python("Folge 503 is a box set")
+    except ValidationError as ve:
+        assert "503" in str(ve)  # the trap the old string match fell into
+        try:
+            raise UnexpectedModelBehavior("Exceeded maximum output retries") from ve
+        except UnexpectedModelBehavior as exc:
+            assert is_retryable(exc) is False
+
+
+def test_plain_validation_error_retries_never():
+    assert is_retryable(ValueError("episode_pattern lacks capture group")) is False
+
+
+def test_exhausted_output_retries_are_not_retried_by_the_transport_layer():
+    assert (
+        is_retryable(UnexpectedModelBehavior("Exceeded maximum output retries"))
+        is False
+    )
+
+
+def test_usage_limit_exceeded_is_not_retried():
+    assert is_retryable(UsageLimitExceeded("request limit of 200 exceeded")) is False
+
+
+# ── String fallback: only the wrapped-HTML-page case ───────────────────
+
+
+def test_wrapped_html_error_page_retries():
+    """A provider outage answers with an HTML error page wrapped as
+    plain text; the doctype is the only reliable marker."""
+    assert (
+        is_retryable(Exception("<!DOCTYPE html><html><body>502</body></html>")) is True
+    )
 
 
 @pytest.mark.parametrize(
     "msg",
     [
-        "<!DOCTYPE html><html><body>502 Bad Gateway</body></html>",
         "HTTP 502 Bad Gateway",
         "Status 503 Service Unavailable",
-        "504 Gateway Timeout",
-        "Server returned 524",
         "Read timed out (read timeout=600)",
         "Connection reset by peer",
         "Service temporarily unavailable",
     ],
 )
-def test_string_fallback_catches_transient_messages(msg: str):
-    assert _is_retryable(Exception(msg)) is True
+def test_lookalike_strings_without_a_type_or_html_do_not_retry(msg: str):
+    """Status codes inside free text are no longer a retry signal: the
+    real transports carry typed exceptions. A validation message can
+    contain anything, including '503'."""
+    assert is_retryable(Exception(msg)) is False
 
 
-# ── Non-retryable cases ───────────────────────────────────────────────────
+# ── Non-retryable cases ────────────────────────────────────────────────
 
 
-@pytest.mark.parametrize(
-    "msg",
-    [
-        "401 Unauthorized: invalid api key",
-        "AuthenticationError: token expired",
-        "ValidationError: 1 validation error for ReviewResult",
-        "404 Not Found",
-        "400 Bad Request: malformed input",
-        "Forbidden: insufficient scope",
-    ],
-)
-def test_auth_and_validation_errors_do_not_retry(msg: str):
-    """These all need human action — retrying just burns budget."""
-    assert _is_retryable(Exception(msg)) is False
+def test_socket_error_does_not_retry():
+    assert (
+        is_retryable(__import__("socket").gaierror("name resolution failed")) is False
+    )
 
 
-def test_plain_value_error_does_not_retry():
-    """Generic non-network errors stay non-retryable. The retry layer
-    is for transport, not logic."""
-    assert _is_retryable(ValueError("episode_pattern lacks capture group")) is False
+def test_connection_refused_retries():
+    assert is_retryable(ConnectionRefusedError("nope")) is True
 
 
 def test_keyboard_interrupt_subclass_does_not_retry():
-    """The retry layer should never resurrect a user-initiated abort."""
-    # _is_retryable doesn't see KeyboardInterrupt in normal flow (it
-    # bubbles past the except Exception), but the predicate should
-    # still answer False if asked.
-    assert _is_retryable(Exception("user pressed Ctrl-C")) is False
+    assert is_retryable(Exception("user pressed Ctrl-C")) is False
 
 
-# ── exception chain walk ──────────────────────────────────────────────────
+# ── exception chain walk ──────────────────────────────────────────────
 
 
 def test_wrapped_connection_error_via_cause_retries():
     """pydantic-ai wraps SDK errors; the underlying transport class
     is reached through __cause__. The check must follow the chain."""
-    underlying = ConnectionError("refused")
     try:
-        raise RuntimeError("agent run failed") from underlying
+        raise RuntimeError("agent run failed") from ConnectionError("refused")
     except RuntimeError as e:
-        assert _is_retryable(e) is True
+        assert is_retryable(e) is True
 
 
 def test_wrapped_via_implicit_context_retries():
@@ -150,33 +187,53 @@ def test_wrapped_via_implicit_context_retries():
         except ConnectionError:
             raise RuntimeError("wrapped")
     except RuntimeError as e:
-        assert _is_retryable(e) is True
+        assert is_retryable(e) is True
+
+
+def test_model_own_failure_buried_in_a_chain_still_does_not_retry():
+    """A transport-looking message inside a validation failure stays
+    non-retryable, wherever in the chain the validation layer sits."""
+    inner = ValueError("<!doctype html>")
+    wrapped = UnexpectedModelBehavior("Exceeded maximum output retries")
+    wrapped.__cause__ = inner
+    assert is_retryable(wrapped) is False
 
 
 def test_chain_walk_does_not_loop_on_self_reference():
-    """Pathologically self-referential chains shouldn't hang. The walk
-    is bounded and cycle-safe."""
     a = RuntimeError("a")
     b = RuntimeError("b")
     a.__cause__ = b
     b.__cause__ = a
-    # Neither has retryable signals; result should be False, not infinite loop.
-    assert _is_retryable(a) is False
+    assert is_retryable(a) is False
 
 
 def test_chain_walk_handles_deep_chain():
-    """8-level chain: deepest layer carries the retryable signal.
-    Bound is generous enough for real wrapping but caps runaway."""
-    deepest = ConnectionError("deep")
+    deepest: BaseException = ConnectionError("deep")
     cur: BaseException = deepest
     for i in range(6):
         wrapper = RuntimeError(f"layer {i}")
         wrapper.__cause__ = cur
         cur = wrapper
-    assert _is_retryable(cur) is True
+    assert is_retryable(cur) is True
 
 
-def test_chain_walk_outer_layer_alone_decides():
-    """Outermost layer with retryable signal still works (no chain needed)."""
-    e = ConnectionError("transport")
-    assert _is_retryable(e) is True
+# ── describe_failure walks the whole cause chain ────────────────────────
+
+
+def test_describe_failure_includes_the_buried_cause():
+    try:
+        raise RuntimeError("Exceeded maximum output retries (2)") from ValueError(
+            "bad output"
+        )
+    except RuntimeError as exc:
+        text = describe_failure(exc)
+    assert "RuntimeError: Exceeded maximum output retries (2)" in text
+    assert "ValueError: bad output" in text
+
+
+def test_describe_failure_survives_a_self_referential_chain():
+    a: BaseException = RuntimeError("a")
+    b: BaseException = RuntimeError("b")
+    a.__cause__ = b
+    b.__cause__ = a
+    assert describe_failure(a)  # terminates, non-empty

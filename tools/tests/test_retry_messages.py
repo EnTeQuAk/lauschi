@@ -77,11 +77,15 @@ def test_retry_message_falls_back_to_str_for_plain_errors():
     async def flaky():
         calls["n"] += 1
         if calls["n"] == 1:
+            # Not retried at all (classification is by type; only an HTML
+            # error page gets a string probe), so the single attempt fails.
             raise RuntimeError("connection reset by peer")
         return "ok"
 
-    assert _run(lambda: flaky(), messages) == "ok"
-    assert any("connection reset by peer" in m for m in messages), messages
+    with pytest.raises(RuntimeError, match="connection reset by peer"):
+        _run(lambda: flaky(), messages)
+    assert calls["n"] == 1
+    assert messages == []
 
 
 def test_timeout_retried_by_default():

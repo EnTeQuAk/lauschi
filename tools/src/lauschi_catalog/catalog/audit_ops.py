@@ -13,10 +13,12 @@ import json
 import os
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
+from pathlib import Path
 from typing import Literal
 
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent, ModelRetry, RunContext, ToolOutput
+from pydantic_ai.messages import ModelMessage, ModelMessagesTypeAdapter
 from pydantic_ai.usage import RunUsage
 
 from lauschi_catalog._opencode import (
@@ -42,14 +44,13 @@ from lauschi_catalog.catalog.lint_ops import (
     critical_issues,
     lint_curation,
 )
-from lauschi_catalog.catalog.paths import CURATION_DIR
+from lauschi_catalog.catalog.paths import CURATION_DIR, log_dir
 from lauschi_catalog.prompts import load_curate_skill
 from lauschi_catalog.rate_limit import run_with_rate_limit_retry
+from lauschi_catalog.retry import describe_failure
 from lauschi_catalog.run import run_agent, run_with_attempts, usage_summary
 
 _DEFAULT_MODEL = "minimax-m2.7"
-_MAX_RETRIES = 12
-_RETRY_DELAY = 10
 
 AuditRoute = Literal["one_shot", "chunked"]
 
@@ -720,12 +721,38 @@ async def _run_audit_prompt(
             timeout=timeout,
         ),
         phase=phase,
-        max_retries=_MAX_RETRIES,
-        base_delay=float(_RETRY_DELAY),
-        max_delay=300.0,
         retry_timeout=False,
         on_progress=on_progress,
     )
+
+
+def dump_audit_failure(
+    series_id: str,
+    phase: str,
+    prompt: str,
+    messages: list[ModelMessage],
+    exc: BaseException,
+) -> Path:
+    """Write what the model saw and answered for an audit call that failed.
+
+    Chunks fail on their own like batches do (a chunk that exhausts its
+    output budget abandons the rest of the series), so the exchange that
+    led there is worth keeping: the exact prompt and every
+    request/response, including retry prompts. Returns the file written.
+    """
+    safe_phase = phase.replace("/", "-")
+    parent = log_dir() / "audit-failures"
+    parent.mkdir(parents=True, exist_ok=True)
+    path = parent / f"{series_id}-{safe_phase}.json"
+    payload = {
+        "series_id": series_id,
+        "phase": phase,
+        "error": describe_failure(exc),
+        "prompt": prompt,
+        "messages": json.loads(ModelMessagesTypeAdapter.dump_json(messages)),
+    }
+    path.write_text(json.dumps(payload, indent=1, ensure_ascii=False), encoding="utf-8")
+    return path
 
 
 # -- Chunked audit --
@@ -888,6 +915,13 @@ async def _audit_chunked(
             attempts=_AUDIT_ATTEMPTS,
             label=f"chunk {i}",
             on_progress=on_progress,
+            on_failure=lambda attempt, exc, messages: dump_audit_failure(
+                series_id,
+                f"chunk {i}/{len(chunks)}",
+                prompt,
+                messages,
+                exc,
+            ),
         )
         on_progress(
             f"    -> {'approve' if result.approve else 'disapprove'}, "
@@ -941,6 +975,13 @@ async def audit_one(
         attempts=_AUDIT_ATTEMPTS,
         label="audit",
         on_progress=on_progress,
+        on_failure=lambda attempt, exc, messages: dump_audit_failure(
+            series_id,
+            "one-shot",
+            prompt,
+            messages,
+            exc,
+        ),
     )
 
 

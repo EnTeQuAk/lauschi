@@ -19,7 +19,7 @@ from pathlib import Path
 from typing import ClassVar, Literal
 
 from pydantic import BaseModel, Field, field_validator, model_validator
-from pydantic_ai import Agent, ModelRetry, RunContext, capture_run_messages
+from pydantic_ai import Agent, ModelRetry, RunContext
 from pydantic_ai.messages import ModelMessage, ModelMessagesTypeAdapter
 from pydantic_ai.usage import RunUsage
 
@@ -68,8 +68,9 @@ from lauschi_catalog.catalog.prompt import album_to_dict, format_albums_xml
 from lauschi_catalog.catalog.series_ops import split_off_refusal
 from lauschi_catalog.prompts import load_curate_skill
 from lauschi_catalog.providers import CatalogProvider
-from lauschi_catalog.rate_limit import RateLimiter, run_with_rate_limit_retry
-from lauschi_catalog.run import run_agent, usage_summary
+from lauschi_catalog.rate_limit import run_with_rate_limit_retry
+from lauschi_catalog.retry import describe_failure
+from lauschi_catalog.run import run_agent, run_with_attempts, usage_summary
 
 _DEFAULT_MODEL = "kimi-k2.6"
 
@@ -1064,79 +1065,14 @@ async def _run_agent(agent, prompt, deps):
     )
 
 
-def describe_failure(exc: BaseException) -> str:
-    """``Type: message`` for an exception and everything it was raised from.
-
-    pydantic-ai wraps the last validation error in
-    ``UnexpectedModelBehavior("Exceeded maximum output retries")`` and
-    keeps the reason only on ``__cause__``. A batch that fails for that
-    reason is useless to debug without it.
-    """
-    parts: list[str] = []
-    seen: set[int] = set()
-    cur: BaseException | None = exc
-    while cur is not None and id(cur) not in seen:
-        seen.add(id(cur))
-        text = str(cur)
-        parts.append(f"{type(cur).__name__}: {text}" if text else type(cur).__name__)
-        cur = cur.__cause__
-    return " <- ".join(parts)
-
-
-# Fresh-context attempts per batch before the series is given up. A
+# Fresh-context attempts per batch before the series loses that batch. A
 # batch fails on its own, not because of its prompt: Luna omitted one
 # of 30 albums on Fünf Freunde batch 3 in two runs and passed the same
 # batch in a third; it returned 1 of 30 on Bibi Blocksberg batch 8 and
 # passed on the rerun; Kimi K2.5 hit its token limit on Hanni und Nanni
-# batch 2. Every one of those aborted the series and auto-included the
-# rest. A second attempt starts from a fresh context (the in-run output
-# retries keep the failed context, and failed again each time).
+# batch 2. A second attempt starts from a fresh context (the in-run
+# output retries keep the failed context, and failed again each time).
 _BATCH_ATTEMPTS = 2
-
-
-@dataclass
-class BatchOutcome:
-    result: BatchResult | None
-    error: str = ""
-
-
-async def _run_batch_attempts(
-    run_once,
-    *,
-    series_id: str,
-    batch_num: int,
-    n_batches: int,
-    prompt: str,
-    on_progress: Progress = _noop,
-) -> BatchOutcome:
-    """Run one batch with fresh-context attempts.
-
-    Each attempt captures its own model exchange; the last failure is
-    dumped as evidence and reported in the outcome instead of raised,
-    so the caller decides what a lost batch means for the series.
-    """
-    error = ""
-    for attempt in range(1, _BATCH_ATTEMPTS + 1):
-        with capture_run_messages() as messages:
-            try:
-                return BatchOutcome(result=await run_once())
-            except Exception as exc:
-                error = describe_failure(exc)
-                evidence = dump_batch_failure(
-                    series_id, batch_num, prompt, messages, exc
-                )
-                if attempt < _BATCH_ATTEMPTS:
-                    on_progress(
-                        f"  Batch {batch_num}/{n_batches} attempt "
-                        f"{attempt}/{_BATCH_ATTEMPTS} failed: {error}. "
-                        f"Evidence: {evidence}. Retrying from a fresh context.\n"
-                    )
-                    continue
-                on_progress(
-                    f"  Batch {batch_num}/{n_batches} failed after "
-                    f"{_BATCH_ATTEMPTS} attempts: {error}. Evidence: {evidence}\n"
-                )
-    return BatchOutcome(result=None, error=error)
 
 
 def dump_batch_failure(
@@ -1214,17 +1150,16 @@ async def _run_with_retry(
     coro_factory,
     *,
     phase: str = "",
-    model_name: str = "",
     on_progress: Progress = _noop,
 ):
-    rate_limiter = RateLimiter(model_name)
     return await run_with_rate_limit_retry(
         coro_factory,
         phase=phase,
-        rate_limiter=rate_limiter,
-        max_retries=12,
-        base_delay=10.0,
-        max_delay=300.0,
+        # The per-batch/phase timeout is an operation deadline, not a
+        # transient blip: replaying a 3600 s timeout 12 times with
+        # backoff could park one batch for close to a day. It counts
+        # as one failed fresh-context attempt instead.
+        retry_timeout=False,
         on_progress=on_progress,
     )
 
@@ -1423,7 +1358,6 @@ async def _run_large(
             timeout=timeout,
         ),
         phase="metadata",
-        model_name=model_name,
         on_progress=on_progress,
     )
 
@@ -1580,28 +1514,37 @@ async def _run_large(
 
         shared_deps.current_batch_ids = {(a["provider"], a["id"]) for a in batch}
         t_batch = time.monotonic()
-        outcome = await _run_batch_attempts(
-            lambda p=prompt: _run_with_retry(
-                lambda: asyncio.wait_for(
-                    _run_agent(batch_agent, p, shared_deps),
-                    timeout=timeout,
+        try:
+            result: BatchResult = await run_with_attempts(
+                lambda p=prompt: _run_with_retry(
+                    lambda: asyncio.wait_for(
+                        _run_agent(batch_agent, p, shared_deps),
+                        timeout=timeout,
+                    ),
+                    phase=f"batch {batch_num}/{len(batches)}",
+                    on_progress=on_progress,
                 ),
-                phase=f"batch {batch_num}/{len(batches)}",
-                model_name=model_name,
+                attempts=_BATCH_ATTEMPTS,
+                label=f"Batch {batch_num}/{len(batches)}",
                 on_progress=on_progress,
-            ),
-            series_id=meta.id,
-            batch_num=batch_num,
-            n_batches=len(batches),
-            prompt=prompt,
-            on_progress=on_progress,
-        )
-        if outcome.result is None:
+                on_failure=lambda _attempt, exc, messages: dump_batch_failure(
+                    meta.id,
+                    batch_num,
+                    prompt,
+                    messages,
+                    exc,
+                ),
+            )
+        except Exception as exc:
+            # A lost batch means the albums in it stay undecided. The run
+            # comes out incomplete, which blocks apply; the next run
+            # re-queues them through the batch loop.
             on_progress(f"  Saving {len(all_decisions)} partial results.\n")
             incomplete = True
-            provider_errors.append(f"batch {batch_num}/{len(batches)}: {outcome.error}")
+            provider_errors.append(
+                f"batch {batch_num}/{len(batches)}: {describe_failure(exc)}"
+            )
             break
-        result: BatchResult = outcome.result
 
         result.albums, dropped = drop_orphan_decisions(
             result.albums, shared_deps.current_batch_ids, on_progress
@@ -1630,9 +1573,6 @@ async def _run_large(
         )
 
         all_decisions.extend(result.albums)
-
-        if batch_num < len(batches):
-            await asyncio.sleep(4)
 
     curation_elapsed = _fmt_elapsed(time.monotonic() - t_curation)
     on_progress(
@@ -1908,7 +1848,6 @@ async def _run_large(
                         timeout=timeout,
                     ),
                     phase="finalize",
-                    model_name=model_name,
                     on_progress=on_progress,
                 )
                 updated = 0
