@@ -253,8 +253,11 @@ class SpotifyProvider(CatalogProvider):
             time.sleep(0.05)
             try:
                 return self._get(f"albums/{album_id}", market="DE")
-            except requests.HTTPError:
-                return None
+            except requests.HTTPError as e:
+                status = e.response.status_code if e.response is not None else None
+                if status == 404:
+                    return None
+                raise
 
         data = self._cached(f"album:{album_id}", fetch)
         if data is None or "error" in data:

@@ -239,8 +239,11 @@ class AppleMusicProvider(CatalogProvider):
                 data = self._get(f"albums/{album_id}", include="tracks")
                 items = data.get("data", [])
                 return items[0] if items else None
-            except requests.HTTPError:
-                return None
+            except requests.HTTPError as e:
+                status = e.response.status_code if e.response is not None else None
+                if status == 404:
+                    return None
+                raise
 
         data = self._cached(f"am_album:{album_id}", fetch)
         if data is None:

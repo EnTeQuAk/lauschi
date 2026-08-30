@@ -43,10 +43,21 @@ class L5ProviderResult:
     total: int = 0
     unmatched: list[str] = field(default_factory=list)
     album_check: bool = False
+    unverified: list[str] = field(default_factory=list)
+    pattern_matched: int = 0
+    pattern_total: int = 0
+    pattern_unmatched: list[str] = field(default_factory=list)
+    has_pattern: bool = False
 
     @property
     def rate(self) -> float:
         return self.matched / self.total if self.total > 0 else 0.0
+
+    @property
+    def pattern_rate(self) -> float:
+        return (
+            self.pattern_matched / self.pattern_total if self.pattern_total > 0 else 0.0
+        )
 
     @property
     def is_perfect(self) -> bool:
@@ -129,72 +140,52 @@ def validate_l5(
     entry: CatalogEntry,
     provider: CatalogProvider,
 ) -> L5ProviderResult:
-    """L5: full discography validation via artist ID."""
+    """L5: full discography validation via artist ID + configured album existence."""
     aids = entry.artist_ids(provider.name)
     pattern = entry.effective_pattern(provider.name)
     configured_ids = entry.provider_album_ids(provider.name)
 
-    if not pattern:
-        if not configured_ids:
-            return L5ProviderResult(provider=provider.name)
-        # Album-existence check. Discography membership alone is not
-        # enough: providers detach albums from artist pages while the
-        # albums stay live (Coco, Encanto, Eule findet den Beat). Only
-        # a failed direct lookup means the ID is really gone.
-        disco_ids: set[str] = set()
+    result = L5ProviderResult(provider=provider.name)
+
+    # Always check configured album IDs for existence, even when a pattern
+    # exists. `albums_by_ids` is batched and distinguishes "not found"
+    # from "could not verify" (unverified).
+    if configured_ids:
+        result.album_check = True
+        result.total = len(configured_ids)
+        batch = provider.albums_by_ids(configured_ids)
+        found_ids = {a.id for a in batch.albums}
+        result.matched = sum(1 for cid in configured_ids if cid in found_ids)
+        result.unmatched = [
+            cid
+            for cid in configured_ids
+            if cid not in found_ids and cid not in batch.unverified
+        ]
+        result.unverified = list(batch.unverified)
+
+    # Pattern match rate over the artist discography, kept as a second metric.
+    if pattern and aids:
+        result.has_pattern = True
+        all_albums: list[Album] = []
         for aid in aids:
             try:
-                disco_ids.update(a.id for a in provider.artist_albums(aid))
+                all_albums.extend(provider.artist_albums(aid))
             except requests.HTTPError as e:
                 status = e.response.status_code if e.response is not None else None
                 if status == 404:
                     continue
                 raise
-        missing = [
-            cid
-            for cid in configured_ids
-            if cid not in disco_ids and provider.album_details(cid) is None
-        ]
-        return L5ProviderResult(
-            provider=provider.name,
-            matched=len(configured_ids) - len(missing),
-            total=len(configured_ids),
-            unmatched=missing,
-            album_check=True,
-        )
 
-    if not aids:
-        return L5ProviderResult(provider=provider.name)
+        if all_albums:
+            result.pattern_total = len(all_albums)
+            result.pattern_matched = sum(
+                1 for a in all_albums if extract_episode(pattern, a.name) is not None
+            )
+            result.pattern_unmatched = [
+                a.name for a in all_albums if extract_episode(pattern, a.name) is None
+            ]
 
-    all_albums: list[Album] = []
-    for aid in aids:
-        try:
-            all_albums.extend(provider.artist_albums(aid))
-        except requests.HTTPError as e:
-            status = e.response.status_code if e.response is not None else None
-            if status == 404:
-                continue
-            raise
-
-    if not all_albums:
-        return L5ProviderResult(provider=provider.name)
-
-    matched = 0
-    unmatched: list[str] = []
-
-    for album in all_albums:
-        ep = extract_episode(pattern, album.name)
-        if ep is not None:
-            matched += 1
-        else:
-            unmatched.append(album.name)
-
-    return L5ProviderResult(
-        provider=provider.name,
-        matched=matched,
-        total=len(all_albums),
-        unmatched=unmatched,
-    )
+    return result
 
 
 def validate_catalog(
@@ -210,16 +201,14 @@ def validate_catalog(
     ``validated_at`` timestamp into each series' curation JSON.
     """
     entries = load_catalog()
-    if series_filter:
-        q = series_filter.lower()
-        entries = [e for e in entries if q in e.title.lower() or q in e.id]
+    l1_entries = entries
 
-    l1_issues = validate_l1(entries)
+    l1_issues = validate_l1(l1_entries)
     if l1_issues:
         for issue in l1_issues:
             on_progress(f"L1 SYNTAX: {issue}")
     else:
-        on_progress(f"L1 SYNTAX: {len(entries)} series, no issues")
+        on_progress(f"L1 SYNTAX: {len(l1_entries)} series, no issues")
 
     result = ValidationResult(l1_issues=l1_issues)
 
@@ -229,7 +218,13 @@ def validate_catalog(
     result.perfect = {p.name: 0 for p in providers}
     result.tested = {p.name: 0 for p in providers}
 
-    for entry in entries:
+    if series_filter:
+        q = series_filter.lower()
+        l5_entries = [e for e in entries if q in e.title.lower() or q in e.id]
+    else:
+        l5_entries = entries
+
+    for entry in l5_entries:
         has_any = any(
             entry.artist_ids(p.name) or entry.provider_album_ids(p.name)
             for p in providers
