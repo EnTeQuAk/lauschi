@@ -91,7 +91,7 @@ document them in your response rather than investigating further.
    known_gaps, sub_series. `propose_pattern_update` for pattern changes.
 
 2. **Return value**: `FinalizeResult` with `episode_updates` (album_id ->
-   episode_num) and optional `proposed_pattern_update`.
+   episode_num). Pattern updates happen through the tool only.
 
 ## Pattern updates
 
@@ -105,4 +105,4 @@ conventions into one broad regex. Each regex must be `^`-anchored.
 confirming gap reasons or sub-series boundaries, not for mapping the
 catalog.
 
-**Output:** `FinalizeResult` with episode_updates and optional pattern_update.
+**Output:** `FinalizeResult` with episode_updates.

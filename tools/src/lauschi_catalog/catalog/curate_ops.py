@@ -557,10 +557,6 @@ class FinalizeResult(BaseModel):
         default_factory=list,
         description="Albums where track listings revealed the episode number.",
     )
-    proposed_pattern_update: str | list[str] | None = Field(
-        default=None,
-        description="If track listings reveal a systematic new format not caught by the current pattern, propose an updated regex. Null if no change needed.",
-    )
 
 
 def _pattern_coverage_report(
@@ -1914,6 +1910,7 @@ async def _run_large(
                 existing_facts=existing_facts or SeriesFacts(),
                 all_decisions=all_decisions,
                 on_progress=on_progress,
+                usage=shared_deps.usage,
             )
             try:
                 finalize_result: FinalizeResult = await _run_with_retry(
@@ -1941,14 +1938,14 @@ async def _run_large(
                         f"  Finalize set {updated} episode numbers from "
                         f"track listings.\n",
                     )
-                if finalize_result.proposed_pattern_update is not None:
-                    shared_deps.pattern = finalize_result.proposed_pattern_update
-                    shared_deps.pattern_revisions.append(
-                        finalize_result.proposed_pattern_update,
-                    )
+                # Pattern updates are side effects of the
+                # propose_pattern_update tool; the output field is gone.
+                if finalize_deps.pattern != shared_deps.pattern:
+                    shared_deps.pattern = finalize_deps.pattern
+                    shared_deps.pattern_revisions.append(finalize_deps.pattern)
                     on_progress(
                         f"  Finalize proposed pattern update -> "
-                        f"{finalize_result.proposed_pattern_update}\n",
+                        f"{finalize_deps.pattern}\n",
                     )
                 proposed_facts = finalize_deps.proposed_facts
                 if proposed_facts:
