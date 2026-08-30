@@ -27,6 +27,7 @@ from lauschi_catalog.catalog.curate_ops import (
     resolve_content_type,
 )
 from lauschi_catalog.catalog.paths import CURATION_DIR
+from lauschi_catalog.catalog.series_ops import split_off_refusal
 from lauschi_catalog.prompts import load_curate_skill
 from lauschi_catalog.providers.apple_music import AppleMusicProvider
 from lauschi_catalog.providers.spotify import SpotifyProvider
@@ -235,6 +236,9 @@ def curate(
 
     if query and not run_all:
         entry = lookup_catalog_entry(query)
+        if entry is not None and entry.split_from:
+            console.print(split_off_refusal(entry.id, entry.split_from), markup=False)
+            raise SystemExit(1)
         if entry is not None:
             existing: dict | None = None
             curation_path = CURATION_DIR / f"{entry.id}.json"

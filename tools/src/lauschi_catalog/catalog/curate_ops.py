@@ -44,6 +44,7 @@ from lauschi_catalog.catalog.facts import (
     merge_facts,
 )
 from lauschi_catalog.catalog.loader import load_catalog
+from lauschi_catalog.catalog.series_ops import split_off_refusal
 from lauschi_catalog.catalog.matcher import (
     compute_pattern_coverage as _compute_pattern_coverage,
     extract_episode,
@@ -2287,6 +2288,10 @@ async def curate_all(
     )
 
     for i, entry in enumerate(entries):
+        if entry.split_from:
+            result.skipped += 1
+            on_progress(f"  Skipped: {split_off_refusal(entry.id, entry.split_from)}")
+            continue
         curation_path = CURATION_DIR / f"{entry.id}.json"
         existing: dict | None = None
         if curation_path.exists():

@@ -37,6 +37,24 @@ class EditResult:
     error: str | None = None
 
 
+def split_off_refusal(series_id: str, parent_id: str) -> str:
+    """Why a split-off sub-series is never curated on its own.
+
+    It shares its artist pages with the parent, so discovery returns
+    the parent's whole discography and the model has nothing but the
+    title to scope by. Measured 2026-08-31 on Hanni und Nanni - Neue
+    Abenteuer (3 real episodes): Luna included 187 parent albums, Kimi
+    included 188 and excluded the three real ones. The albums a
+    split-off holds are the ones apply-splits moved into it; they
+    change through catalog-edit or by re-curating the parent.
+    """
+    return (
+        f"{series_id} was split from {parent_id} and shares its artist pages; "
+        f"curating it on its own returns the parent's whole discography. "
+        f"Edit its albums with catalog-edit, or re-curate {parent_id}."
+    )
+
+
 def validate_series_changes(
     series_id: str,
     changes: SeriesChanges,
