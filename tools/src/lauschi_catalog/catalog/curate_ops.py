@@ -222,12 +222,17 @@ def _preseed_decisions(
 
     Returns (carried_decisions, remaining_albums) where remaining_albums
     is the subset of all_albums not already decided.
+
+    Invalid carried albums are surfaced as curation errors rather than
+    silently dropped, so a bad `exclude_reason` or malformed field does
+    not get re-decided by the model behind the operator's back.
     """
     if not existing_curation or not existing_curation.get("albums"):
         return [], all_albums
 
     discovered_ids = {(a["provider"], a["id"]) for a in all_albums}
     carried: list[AlbumDecision] = []
+    errors: list[str] = []
     for ea in existing_curation["albums"]:
         key = (ea.get("provider", ""), ea.get("album_id", ""))
         if key not in discovered_ids:
@@ -246,8 +251,14 @@ def _preseed_decisions(
                     notes=ea.get("notes"),
                 )
             )
-        except Exception:
-            continue
+        except Exception as exc:
+            errors.append(f"{key}: {exc}")
+
+    if errors:
+        raise ValueError(
+            "Prior curation contains invalid album records; fix or re-curate with --force.\n"
+            + "\n".join(errors)
+        )
 
     if not carried:
         return [], all_albums
@@ -255,41 +266,6 @@ def _preseed_decisions(
     carried_ids = {(d.provider, d.album_id) for d in carried}
     remaining = [a for a in all_albums if (a["provider"], a["id"]) not in carried_ids]
     return carried, remaining
-
-
-def _restore_dropped_albums(
-    decisions: list[AlbumDecision],
-    album_index: dict[tuple[str, str], dict[str, str]],
-    on_progress: Progress = _noop,
-) -> None:
-    """Add any discovered albums the agent omitted as 'not_decided'.
-
-    Mutates ``decisions`` in place.
-    """
-    discovered_ids = set(album_index.keys())
-    decided_ids = {(d.provider, d.album_id) for d in decisions}
-    dropped = discovered_ids - decided_ids
-    if not dropped:
-        return
-
-    on_progress(
-        f"  {len(dropped)} discovered album(s) missing from "
-        f"agent output, adding as 'not_decided'",
-    )
-    for prov, aid in sorted(dropped):
-        src = album_index.get((prov, aid))
-        decisions.append(
-            AlbumDecision(
-                album_id=aid,
-                provider=prov,
-                include=True,
-                title=src["name"] if src else "unknown",
-                release_date=src.get("release_date") if src else None,
-                episode_num=None,
-                confidence="low",
-                notes="auto-included: agent omitted this album from its output",
-            )
-        )
 
 
 def drop_orphan_decisions(
@@ -1679,10 +1655,13 @@ async def _run_large(
         )
 
     batch_index = {(a["provider"], a["id"]): a for a in all_albums}
-    _restore_dropped_albums(all_decisions, batch_index, on_progress=on_progress)
 
-    # Always run deterministic episode extraction after batches and after
-    # restoring dropped albums, so restored albums get a number too.
+    # Undecided albums (dropped by the model or lost to a failed batch)
+    # are left absent. They make the run incomplete, which blocks apply.
+    # On the next run _preseed_decisions carries forward whatever was
+    # decided and re-queues the rest naturally.
+
+    # Always run deterministic episode extraction on the decided albums.
     if final_pattern is not None:
         re_extracted = _reextract_episode_numbers(all_decisions, final_pattern)
         if re_extracted:

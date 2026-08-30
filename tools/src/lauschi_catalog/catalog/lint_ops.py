@@ -316,18 +316,6 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
                 f"`notes` fields."
             )
 
-    # ── Rule 8: Auto-included albums (agent omissions) ──────────────
-    auto_included = [a for a in albums if "auto-included" in (a.get("notes") or "")]
-    if auto_included:
-        titles = [a.get("title", "?") for a in auto_included[:5]]
-        suffix = (
-            f" (and {len(auto_included) - 5} more)" if len(auto_included) > 5 else ""
-        )
-        issues.append(
-            f"[auto_included] {len(auto_included)} album(s) were auto-included "
-            f"because the agent omitted them: {', '.join(titles)}{suffix}"
-        )
-
     # ── Rule 9: Future-dated releases ────────────────────────────────
     # Deterministic on purpose: models date-reason from their training
     # cutoff (an auditor once flagged a three-month-old release as

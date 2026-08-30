@@ -23,7 +23,7 @@ def _score(series_id: str, **kw) -> Score:
         include_recall=1.0,
         hallucinated=frozenset(),
         gap_recovery=None,
-        n_auto_included=0,
+        n_undecided=0,
         n_outside_truth=0,
         n_included=10,
         n_truth_included=10,

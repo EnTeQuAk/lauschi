@@ -502,8 +502,10 @@ class TestEpisodeNumSanity:
         assert lint_curation(curation) == []
 
 
-class TestAutoIncludedRule:
-    def test_flags_auto_included_albums(self):
+class TestNoAutoIncludedRule:
+    """Auto-include was removed; Rule 8 should no longer fire."""
+
+    def test_auto_included_note_is_not_flagged(self):
         curation = {
             "albums": [
                 _make_album("a1", "Ep 1", episode_num=1),
@@ -511,16 +513,6 @@ class TestAutoIncludedRule:
                     **_make_album("a2", "Mystery Album"),
                     "notes": "auto-included: agent omitted this album from its output",
                 },
-            ],
-        }
-        issues = lint_curation(curation)
-        assert any("auto_included" in i for i in issues)
-        assert any("Mystery Album" in i for i in issues)
-
-    def test_no_flag_when_notes_normal(self):
-        curation = {
-            "albums": [
-                {**_make_album("a1", "Ep 1", episode_num=1), "notes": "standard notes"},
             ],
         }
         issues = lint_curation(curation)

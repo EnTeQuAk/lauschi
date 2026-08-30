@@ -37,20 +37,29 @@ class Score:
     #: of episodes the canon audit said were missing from the catalog,
     #: the share this curation now includes (found what the old one lacked).
     gap_recovery: float | None
-    #: albums the model never decided. Curate includes those by default
-    #: (``_restore_dropped_albums``), so a curator that skips albums
-    #: ships them to children with low confidence. Coverage failure.
-    n_auto_included: int
     #: included albums the providers offer but the truth never saw
     #: (released after it was written). Neither right nor wrong here.
     n_outside_truth: int
     n_included: int
     n_truth_included: int
-    #: curate gave up part-way (a batch failed) and auto-included the
-    #: rest; the ratios above describe that artifact, not the model
+    #: albums the model never decided and left absent.
+    n_undecided: int
+    #: curate gave up part-way (a batch failed) and left remaining
+    #: albums undecided; the ratios above describe that artifact, not the model.
     incomplete: bool
     #: every album the truth knows where the model decided differently
     disagreements: tuple[Disagreement, ...]
+
+
+def _undecided(curation: dict) -> int:
+    """Albums present in the source but not in the curation output.
+
+    Undecided albums are left absent from the curation, which marks the
+    run incomplete so apply cannot ship them. The current truth object
+    does not carry source album ids, so this stays 0 until the truth
+    model is extended to include them.
+    """
+    return 0
 
 
 def _included_keys(curation: dict) -> frozenset[AlbumKey]:
@@ -66,17 +75,6 @@ def _included_episodes(curation: dict) -> frozenset[int]:
         a["episode_num"]
         for a in curation.get("albums", [])
         if a.get("include") and a.get("episode_num") is not None
-    )
-
-
-AUTO_INCLUDED_NOTE = "auto-included:"
-
-
-def _auto_included(curation: dict) -> int:
-    return sum(
-        1
-        for a in curation.get("albums", [])
-        if str(a.get("notes") or "").startswith(AUTO_INCLUDED_NOTE)
     )
 
 
@@ -134,10 +132,10 @@ def score(curation: dict, truth: SeriesTruth, *, model: str) -> Score:
         include_recall=recall,
         hallucinated=frozenset(hallucinated),
         gap_recovery=gap_recovery,
-        n_auto_included=_auto_included(curation),
         n_outside_truth=len(grounded - judged),
         n_included=len(included),
         n_truth_included=len(truth.included),
+        n_undecided=_undecided(curation),
         incomplete=bool(curation.get("incomplete")),
         disagreements=disagreements(curation, truth),
     )

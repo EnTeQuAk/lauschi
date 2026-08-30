@@ -34,7 +34,7 @@ def aggregate(scores: list[Score]) -> dict:
         "series_with_hallucination": sorted(
             s.series_id for s in scores if s.hallucinated
         ),
-        "auto_included_total": sum(s.n_auto_included for s in scores),
+        "undecided_total": sum(s.n_undecided for s in scores),
         "include_precision": _mean([s.include_precision for s in scores]),
         "include_recall": _mean([s.include_recall for s in scores]),
         "gap_recovery": _mean(
@@ -45,7 +45,7 @@ def aggregate(scores: list[Score]) -> dict:
 
 def render_table(scores: list[Score]) -> str:
     rows = [
-        "| series | stratum | precision | recall | gaps | halluc. | auto-inc | included |",
+        "| series | stratum | precision | recall | gaps | halluc. | undec. | included |",
         "|---|---|---:|---:|---:|---:|---:|---:|",
     ]
     for s in sorted(scores, key=lambda x: (_STRATUM.get(x.series_id, ""), x.series_id)):
@@ -53,13 +53,13 @@ def render_table(scores: list[Score]) -> str:
         rows.append(
             f"| {name} | {_STRATUM.get(s.series_id, '?')} | {_pct(s.include_precision)} "
             f"| {_pct(s.include_recall)} | {_pct(s.gap_recovery)} | {len(s.hallucinated)} "
-            f"| {s.n_auto_included} | {s.n_included}/{s.n_truth_included} |"
+            f"| {s.n_undecided} | {s.n_included}/{s.n_truth_included} |"
         )
     agg = aggregate(scores)
     rows.append(
         f"| **mean** | | {_pct(agg['include_precision'])} | {_pct(agg['include_recall'])} "
         f"| {_pct(agg['gap_recovery'])} | {agg['hallucinated_total']} "
-        f"| {agg['auto_included_total']} | |"
+        f"| {agg['undecided_total']} | |"
     )
     return "\n".join(rows)
 

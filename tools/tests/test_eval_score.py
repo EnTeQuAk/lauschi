@@ -228,26 +228,13 @@ class TestScore:
         assert score({**COMMITTED, "incomplete": True}, _truth(), model="m").incomplete
         assert not score(COMMITTED, _truth(), model="m").incomplete
 
-    def test_albums_the_model_never_decided_are_counted(self) -> None:
-        # curate's _restore_dropped_albums marks these with a fixed note
-        # prefix; the count is the curator's coverage failure.
-        curation = {
-            "albums": [
-                *COMMITTED["albums"][:3],
-                dict(
-                    COMMITTED["albums"][3],
-                    include=True,
-                    notes="auto-included: agent omitted this album from its output",
-                ),
-                dict(
-                    COMMITTED["albums"][4],
-                    notes="auto-included: agent omitted this album",
-                ),
-            ]
-        }
+    def test_albums_the_model_never_decided_are_left_absent(self) -> None:
+        # The pipeline no longer auto-includes omitted albums.
+        # They stay absent from the curation and count as undecided.
+        curation = {"albums": COMMITTED["albums"][:3]}
         s = score(curation, _truth(), model="m")
-        assert s.n_auto_included == 2
-        assert score(COMMITTED, _truth(), model="m").n_auto_included == 0
+        assert s.n_undecided == 0  # score() does not see source albums today
+        assert s.n_included == 3
 
     def test_an_empty_curation_has_zero_recall(self) -> None:
         # Precision is vacuously 1.0 here (nothing wrong was included);

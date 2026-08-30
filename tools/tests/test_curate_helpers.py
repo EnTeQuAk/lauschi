@@ -955,16 +955,13 @@ def test_batch_prompt_distinguishes_structure_from_numbering():
     )
 
 
-# ── dropped-album detection ───────────────────────────────────────────────
+# ── undecided albums stay absent ──────────────────────────────────────────
 
 
-def test_restore_dropped_albums_adds_missing():
-    """If the agent omits an album from its output, the validation
-    step should auto-include it with low confidence (inclusion bias)."""
-    from lauschi_catalog.catalog.curate_ops import (
-        AlbumDecision,
-        _restore_dropped_albums,
-    )
+def test_undecided_albums_are_left_absent():
+    """A discovered album the model never decided is not added to the
+    curation. It is left absent, which makes the run incomplete."""
+    from lauschi_catalog.catalog.curate_ops import AlbumDecision
 
     decisions = [
         AlbumDecision(
@@ -973,54 +970,15 @@ def test_restore_dropped_albums_adds_missing():
             include=True,
             title="T1",
             episode_num=None,
-        ),
-    ]
-    index = {
-        ("spotify", "a1"): {"name": "T1", "release_date": "2020-01-01"},
-        ("apple_music", "b1"): {"name": "T2", "release_date": "2020-02-01"},
-    }
-    _restore_dropped_albums(decisions, index)
-
-    assert len(decisions) == 2
-    dropped = [d for d in decisions if d.album_id == "b1"]
-    assert len(dropped) == 1
-    assert dropped[0].include is True
-    assert dropped[0].confidence == "low"
-    assert "auto-included" in (dropped[0].notes or "")
-    assert dropped[0].title == "T2"
-    assert dropped[0].release_date == "2020-02-01"
-
-
-def test_restore_dropped_albums_no_op_when_all_present():
-    """When every discovered album has a decision, the helper is a no-op."""
-    from lauschi_catalog.catalog.curate_ops import (
-        AlbumDecision,
-        _restore_dropped_albums,
-    )
-
-    decisions = [
-        AlbumDecision(
-            album_id="a1",
-            provider="spotify",
-            include=True,
-            title="T1",
-            episode_num=None,
-        ),
-        AlbumDecision(
-            album_id="b1",
-            provider="apple_music",
-            include=False,
-            title="T2",
-            episode_num=None,
-            exclude_reason="compilation",
         ),
     ]
     index = {
         ("spotify", "a1"): {"name": "T1"},
         ("apple_music", "b1"): {"name": "T2"},
     }
-    _restore_dropped_albums(decisions, index)
-    assert len(decisions) == 2
+    decided_ids = {(d.provider, d.album_id) for d in decisions}
+    assert set(index.keys()) - decided_ids == {("apple_music", "b1")}
+    assert len(decisions) == 1
 
 
 # ── batch summary ───────────────────────────────────────────────────────
@@ -1161,7 +1119,7 @@ def test_batch_summary_groups_included_episodes_by_provider():
 def test_batch_agent_has_output_validator():
     """The batch agent must validate that every album in the batch got
     a decision. Without this, the agent can silently omit albums and
-    the only safety net is the post-hoc _restore_dropped_albums."""
+    undecided albums would be left absent, making the run incomplete."""
     from pydantic_ai.models.test import TestModel
 
     from lauschi_catalog.catalog.curate_ops import _build_batch_agent
