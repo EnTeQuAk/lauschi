@@ -1253,22 +1253,30 @@ async def _run_with_retry(
     )
 
 
-async def _run_large(
+@dataclass
+class DiscoveryResult:
+    """Result of the provider discovery step in _run_large."""
+
+    all_albums: list[dict]
+    artist_ids: dict[str, list[str]]
+    provider_errors: list[str]
+    incomplete: bool
+
+
+async def _run_discovery(
     query: str,
     providers: list[CatalogProvider],
     *,
-    model_name: str,
-    api_key: str,
-    timeout: int,
-    existing_curation: dict | None = None,
-    content_type: str = "hoerspiel",
     known_artist_ids: dict[str, list[str]] | None = None,
-    existing_facts: SeriesFacts | None = None,
     on_progress: Progress = _noop,
-) -> CuratedSeries:
-    model = build_model(model_name, api_key)
+) -> DiscoveryResult:
+    """Discover albums for each configured/searched artist.
 
-    # -- Step 1: Discovery
+    Returns the raw discovery albums, the chosen artist ids, any
+    provider errors, and whether the run should be considered
+    incomplete (e.g. one provider returned zero albums while another
+    returned some).
+    """
     on_progress("\n== Discovery ==\n")
 
     all_albums: list[dict] = []
@@ -1288,6 +1296,9 @@ async def _run_large(
                         f"  [{p.name}] canonical artist: [{aid}] -> {len(albums)} albums",
                     )
                     all_albums.extend(_discovery_album_dict(p.name, a) for a in albums)
+                    provider_album_counts[p.name] = provider_album_counts.get(
+                        p.name, 0
+                    ) + len(albums)
                 continue
 
             artists = p.search_artists(query)
@@ -1343,6 +1354,40 @@ async def _run_large(
     on_progress(
         f"\n  Total: {len(all_albums)} albums across {len(providers)} providers\n"
     )
+
+    return DiscoveryResult(
+        all_albums=all_albums,
+        artist_ids=artist_ids,
+        provider_errors=provider_errors,
+        incomplete=incomplete,
+    )
+
+
+async def _run_large(
+    query: str,
+    providers: list[CatalogProvider],
+    *,
+    model_name: str,
+    api_key: str,
+    timeout: int,
+    existing_curation: dict | None = None,
+    content_type: str = "hoerspiel",
+    known_artist_ids: dict[str, list[str]] | None = None,
+    existing_facts: SeriesFacts | None = None,
+    on_progress: Progress = _noop,
+) -> CuratedSeries:
+    model = build_model(model_name, api_key)
+
+    discovery = await _run_discovery(
+        query,
+        providers,
+        known_artist_ids=known_artist_ids,
+        on_progress=on_progress,
+    )
+    all_albums = discovery.all_albums
+    artist_ids = discovery.artist_ids
+    provider_errors = discovery.provider_errors
+    incomplete = discovery.incomplete
 
     # -- Step 2a: Pre-fetch full album details
     on_progress("  Pre-fetching album details...")
