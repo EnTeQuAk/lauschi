@@ -26,11 +26,17 @@ def _noop(_msg: str) -> None:
 
 @dataclass
 class ApplyOneResult:
-    """Result of applying a single curation."""
+    """Result of applying a single curation.
+
+    ``refused`` marks a gate block (incomplete run, stale audit,
+    escalated): the run must fail so the refusal cannot scroll past.
+    A plain "not approved" skip is normal pipeline state, not a refusal.
+    """
 
     series_id: str
     updated: bool = False
     skipped_reason: str | None = None
+    refused: bool = False
 
 
 @dataclass
@@ -234,29 +240,51 @@ def apply_curations(
 ) -> ApplyResult:
     """Apply approved curations to series.yaml.
 
-    With ``series_id``, applies a single curation. With ``run_all``,
-    applies all approved curations. Returns a structured result.
+    With ``series_id``, applies a single curation (a missing file or a
+    filename/id mismatch is an error). With ``run_all``, applies every
+    approved curation and skips the rest. Returns a structured result;
+    ``details`` carries ``refused`` flags for gate blocks the caller
+    must fail the run on.
     """
     if not series_id and not run_all:
         return ApplyResult()
 
     if series_id:
         paths = [curation_path(series_id)]
+        single = True
     else:
         paths = sorted(curation_dir().glob("*.json"))
+        single = False
 
     yaml_data = load_raw()
     result = ApplyResult()
 
     for path in paths:
         if not path.exists():
+            if single:
+                on_progress(f"No curation file for {series_id}: {path}")
+                result.details.append(
+                    ApplyOneResult(series_id or "", skipped_reason="no curation file",
+                                   refused=True)
+                )
             continue
 
         data = _load_curation_file(path)
         sid = data.get("id", path.stem)
 
+        if sid != path.stem:
+            reason = (
+                f"curation file {path.name} declares id '{sid}'; refusing to "
+                "apply one series' albums into another's yaml entry"
+            )
+            on_progress(f"{path.name}: {reason}")
+            result.skipped += 1
+            result.details.append(ApplyOneResult(sid, skipped_reason=reason,
+                                                 refused=True))
+            continue
+
         state = CurationState.from_curation(data)
-        if state.status != "approved" and not series_id:
+        if state.status != "approved" and not single:
             result.skipped += 1
             result.details.append(ApplyOneResult(sid, skipped_reason="not approved"))
             continue
@@ -264,8 +292,10 @@ def apply_curations(
         refusal = should_apply(data, force)
         if refusal is not None:
             on_progress(f"{data.get('title', sid)}: {refusal}")
+            refused = True
             result.skipped += 1
-            result.details.append(ApplyOneResult(sid, skipped_reason=refusal))
+            result.details.append(ApplyOneResult(sid, skipped_reason=refusal,
+                                                 refused=refused))
             continue
 
         title = data.get("title", sid)

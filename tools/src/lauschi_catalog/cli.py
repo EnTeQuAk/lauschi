@@ -6,6 +6,7 @@ from lauschi_catalog.commands.add import add
 from lauschi_catalog.commands.apply import apply
 from lauschi_catalog.commands.apply_splits import apply_splits
 from lauschi_catalog.commands.audit import audit
+from lauschi_catalog.commands.audit_status import audit_status
 from lauschi_catalog.commands.curate import curate
 from lauschi_catalog.commands.delete import delete
 from lauschi_catalog.commands.discover import discover
@@ -32,6 +33,7 @@ cli.add_command(add)
 cli.add_command(apply)
 cli.add_command(apply_splits)
 cli.add_command(audit)
+cli.add_command(audit_status)
 cli.add_command(curate)
 cli.add_command(delete)
 cli.add_command(discover)

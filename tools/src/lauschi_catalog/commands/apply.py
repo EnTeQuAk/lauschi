@@ -15,36 +15,29 @@ console = Console()
 @click.command()
 @click.argument("series_id", required=False)
 @click.option("--all", "run_all", is_flag=True, help="Apply all approved curations")
-@click.option(
-    "--status",
-    default="approved,ai_verified",
-    help="Only apply curations with this status (comma-separated)",
-)
 @click.option("--dry-run", is_flag=True, help="Don't write changes")
 @click.option(
     "--force",
     is_flag=True,
-    help="Skip the lifecycle staleness check (apply even if audit is stale)",
+    help="Skip the review gates: apply incomplete, stale or escalated curations",
 )
 def apply(
-    series_id: str | None, run_all: bool, status: str, dry_run: bool, force: bool
+    series_id: str | None, run_all: bool, dry_run: bool, force: bool
 ):
     """Apply approved curations to series.yaml.
 
-    Reads curation JSONs, extracts per-provider album IDs, and writes
-    them into the providers section of series.yaml. Only processes
-    curations with the specified status (default: approved).
+    Reads curation JSONs and writes the included album IDs into the
+    providers section of series.yaml. Exits 1 when any applied series
+    was refused by the review gates, or when a named series has no
+    curation file (a typos name must not look like success).
     """
     if not series_id and not run_all:
         console.print("[red]Provide a series ID or use --all[/red]")
         raise SystemExit(1)
 
-    allowed_statuses = {s.strip() for s in status.split(",")}
-
     result = apply_curations(
         series_id,
         run_all=run_all,
-        allowed_statuses=allowed_statuses,
         dry_run=dry_run,
         force=force,
         on_progress=lambda msg: console.print(msg, markup=False),
@@ -58,3 +51,11 @@ def apply(
         console.print(f"\n[dim]Dry run: {result.applied} would be applied[/dim]")
     elif result.applied == 0:
         console.print(f"\n[dim]Nothing to apply ({result.skipped} skipped)[/dim]")
+
+    refusals = [d for d in result.details if d.refused]
+    if refusals:
+        console.print(
+            f"[red]{len(refusals)} series refused by the review gates "
+            "(see above); fix them or use --force deliberately[/red]"
+        )
+        raise SystemExit(1)
