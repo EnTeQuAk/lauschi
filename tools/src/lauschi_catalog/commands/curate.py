@@ -210,6 +210,13 @@ def _dry_run_prompts(
 @click.option(
     "--dry-run", is_flag=True, help="Print assembled prompts without calling the API"
 )
+@click.option(
+    "--concurrency",
+    "-c",
+    default=1,
+    help="Series curated in parallel in --all runs (2 is a tested "
+    "ceiling; more parallel LLM calls only change progress order)",
+)
 def curate(
     query: str | None,
     run_all: bool,
@@ -221,7 +228,8 @@ def curate(
     music: bool,
     content_type: str | None,
     dry_run: bool,
-):
+    concurrency: int,
+) -> None:
     """AI-curate a Hörspiel series or music artist across providers.
 
     Pass a series name to curate one, or --all to curate the entire catalog.
@@ -357,6 +365,7 @@ def curate(
             timeout=timeout,
             force=force,
             on_progress=lambda msg: console.print(msg, markup=False),
+            concurrency=concurrency,
         )
     )
 

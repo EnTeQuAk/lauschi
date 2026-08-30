@@ -205,11 +205,11 @@ stage() {
 }
 
 stage "Curating all series (timeout ${TIMEOUT}s per series, this takes hours)" \
-  $RUN curate --all --timeout "$TIMEOUT" $FORCE_FLAG
+  $RUN curate --all --timeout "$TIMEOUT" -c 2 $FORCE_FLAG
 
 stage "Cross-provider reconciliation" $RUN reconcile --all
 
-stage "4-eye audit" $RUN audit --timeout "$TIMEOUT"
+stage "4-eye audit" $RUN audit --timeout "$TIMEOUT" -c 2
 
 stage "Structural lint" $RUN lint --all
 

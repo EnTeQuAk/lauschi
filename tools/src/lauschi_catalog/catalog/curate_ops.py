@@ -57,6 +57,7 @@ from lauschi_catalog.catalog.matcher import (
     extract_episode,
     spread_sample,
 )
+from lauschi_catalog.catalog.models import CatalogEntry
 from lauschi_catalog.catalog.paths import (
     cover_cache_dir,
     cover_cache_path,
@@ -65,6 +66,7 @@ from lauschi_catalog.catalog.paths import (
 )
 from lauschi_catalog.catalog.prompt import album_to_dict, format_albums_xml
 from lauschi_catalog.catalog.series_ops import split_off_refusal
+from lauschi_catalog.fanout import run_bounded
 from lauschi_catalog.prompts import load_curate_skill
 from lauschi_catalog.providers import CatalogProvider
 from lauschi_catalog.rate_limit import run_with_rate_limit_retry
@@ -2266,8 +2268,15 @@ async def curate_all(
     timeout: int = 3600,
     force: bool = False,
     on_progress: Progress = _noop,
+    concurrency: int = 1,
 ) -> CurateAllResult:
-    """Curate all series in the catalog."""
+    """Curate all series in the catalog.
+
+    ``concurrency`` series may run at once; 2 overlaps two model waits
+    without leaning on unknown relay limits. Each result lands in its
+    own curation JSON and run event, so interleaved progress is the
+    only observable difference.
+    """
     entries = load_catalog()
     total = len(entries)
     result = CurateAllResult(total=total)
@@ -2275,9 +2284,12 @@ async def curate_all(
     on_progress(
         f"Curating {total} series with {model}\n"
         f"Providers: {', '.join(p.name for p in providers)}\n"
-        f"Force: {force}",
+        f"Force: {force}"
     )
 
+    # Filter the cheap skips first: split-offs and already-curated
+    # entries never touch the model, so they stay in this sync pass.
+    todo: list[tuple[int, CatalogEntry, dict | None]] = []
     for i, entry in enumerate(entries):
         if entry.split_from:
             result.skipped += 1
@@ -2307,10 +2319,13 @@ async def curate_all(
                 )
                 continue
             existing = load_curation(entry.id)
+        todo.append((i, entry, existing))
 
+    async def curate_entry(i: int, entry: CatalogEntry, existing: dict | None) -> None:
         on_progress(
-            f"\n({i + 1}/{total}) {entry.title} "
-            f"({result.succeeded} done, {result.failed} failed, {result.skipped} skipped)",
+            f"\n[{entry.id}] ({i + 1}/{total}) {entry.title} "
+            f"({result.succeeded} done, {result.failed} failed, "
+            f"{result.skipped} skipped)",
         )
 
         entry_content_type = resolve_content_type(
@@ -2335,6 +2350,12 @@ async def curate_all(
         else:
             result.failed += 1
             result.failed_ids.append(entry.id)
+
+    async def run_one(item: tuple[int, CatalogEntry, dict | None]) -> None:
+        i, entry, existing = item
+        await curate_entry(i, entry, existing)
+
+    await run_bounded(run_one, todo, concurrency=concurrency)
 
     on_progress(
         f"\nResults: {result.succeeded} curated, "

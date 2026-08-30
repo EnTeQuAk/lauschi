@@ -47,6 +47,7 @@ from lauschi_catalog.catalog.lint_ops import (
     lint_curation,
 )
 from lauschi_catalog.catalog.paths import curation_path, log_dir
+from lauschi_catalog.fanout import run_bounded
 from lauschi_catalog.prompts import load_curate_skill
 from lauschi_catalog.rate_limit import run_with_rate_limit_retry
 from lauschi_catalog.retry import describe_failure
@@ -1155,12 +1156,18 @@ async def audit_series(
     dry_run: bool = False,
     providers: list | None = None,
     on_progress: Progress = _noop,
+    concurrency: int = 1,
 ) -> AuditAllResult:
-    """Audit one or more series. Returns summary counts."""
-    summary = AuditAllResult()
+    """Audit one or more series. Returns summary counts.
 
-    on_progress(f"Auditing {len(series_ids)} series with {model_name}")
-    for sid in series_ids:
+    ``concurrency`` series may run at once (2 is the tested default in
+    the pipeline; more parallel LLM interactions only ever change
+    progress interleaving, never results). Per-series failures are
+    caught here and recorded, so one dead series cannot choose its
+    neighbours.
+    """
+
+    async def audit_one_series(sid: str) -> str:
         on_progress(f"\n{sid}")
         try:
             usage = RunUsage()
@@ -1182,9 +1189,9 @@ async def audit_series(
                         detail="already up to date (see audit logs for the reason)",
                     )
                 )
-                continue
+                return "skipped"
             on_progress(
-                f"  Usage: {usage.requests} requests, "
+                f"  [{sid}] Usage: {usage.requests} requests, "
                 f"{usage.input_tokens} in / {usage.output_tokens} out tokens"
             )
             action = apply_audit(
@@ -1208,12 +1215,7 @@ async def audit_series(
                     usage=usage_summary(usage),
                 )
             )
-            if action == "approved":
-                summary.approved += 1
-            elif action == "escalated":
-                summary.escalated += 1
-            else:
-                summary.overridden += 1
+            return action
         except Exception as e:
             err = f"{type(e).__name__}: {e}" if str(e) else type(e).__name__
             on_progress(f"Failed: {err}")
@@ -1223,6 +1225,25 @@ async def audit_series(
                 )
             )
             summary.failed.append(sid)
+            return "failed"
+
+    summary = AuditAllResult()
+
+    on_progress(f"Auditing {len(series_ids)} series with {model_name}")
+    results = await run_bounded(
+        audit_one_series,
+        series_ids,
+        concurrency=concurrency,
+    )
+    for sid, action in zip(series_ids, results, strict=True):
+        if action in ("skipped", "failed"):
+            continue
+        if action == "approved":
+            summary.approved += 1
+        elif action == "escalated":
+            summary.escalated += 1
+        else:
+            summary.overridden += 1
 
     on_progress(
         f"\nDone: {summary.approved} approved, "

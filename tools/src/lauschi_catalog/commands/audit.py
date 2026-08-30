@@ -28,12 +28,20 @@ console = Console()
 @click.option("-t", "--timeout", default=600, help="Timeout per series")
 @click.option("--force", is_flag=True, help="Re-audit even if already done")
 @click.option("--dry-run", is_flag=True, help="Print, don't save")
+@click.option(
+    "--concurrency",
+    "-c",
+    default=1,
+    help="Series audited in parallel (2 is a tested ceiling; more "
+    "parallel LLM calls only change progress interleaving)",
+)
 def audit(
     series: str | None,
     model: str,
     timeout: int,
     force: bool,
     dry_run: bool,
+    concurrency: int,
 ) -> None:
     """Run 4-eye audit on curated series."""
     if series:
@@ -68,6 +76,7 @@ def audit(
             dry_run=dry_run,
             providers=prov_result.providers,
             on_progress=lambda msg: console.print(msg, markup=False),
+            concurrency=concurrency,
         )
     )
     if summary.failed:

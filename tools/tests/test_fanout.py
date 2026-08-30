@@ -1,78 +1,96 @@
-"""Per-provider fan-out runs the providers concurrently.
+"""Bounded-concurrency runner for the per-series LLM work.
 
-One network sweep per provider used to be a serial loop although both
-providers are independent sync clients (own thread-safe disk cache).
-Outputs identical to the sequential loop; wall clock is that of the
-slowest provider instead of the sum.
+audit_series and curate_all used to run series strictly one after
+another; each is one LLM interaction of several seconds to minutes, so
+overlapping two hides latency without leaning on unknown relay limits.
+The runner must preserve the input order in its results and never
+exceed the bound.
 """
 
 from __future__ import annotations
 
-import threading
-import time
+import asyncio
 
 import pytest
 
-from lauschi_catalog.fanout import map_providers
+from lauschi_catalog.fanout import run_bounded
+
+pytestmark = pytest.mark.anyio
 
 
-class _P:
-    def __init__(self, name: str, delay: float = 0.0, fail: bool = False) -> None:
-        self.name = name
-        self._delay = delay
-        self._fail = fail
+class TestRunBounded:
+    async def test_results_preserve_input_order(self):
+        async def double(x: int) -> int:
+            return x * 2
 
+        assert await run_bounded(double, [1, 2, 3]) == [2, 4, 6]
 
-class TestMapProviders:
-    def test_outputs_keyed_by_provider_name_just_like_the_loop(self):
-        result = map_providers(lambda p: f"r-{p.name}", [_P("a"), _P("b")])
-        assert result == {"a": "r-a", "b": "r-b"}
+    async def test_slower_items_stay_in_order(self):
+        """A fast item finishing before a slow earlier one must not
+        reorder the output (gather with a per-slot task, not a set)."""
 
-    def test_slow_providers_overlap(self):
-        """With a serial loop 2 x 0.2 s = 0.4 s; concurrently it must be
-        close to 0.2 s."""
-        providers = [_P("a", delay=0.2), _P("b", delay=0.2)]
+        async def vary(i: int) -> int:
+            if i == 0:
+                await asyncio.sleep(0.03)
+            return i
 
-        def slow(p):
-            time.sleep(p._delay)
-            return p.name
+        assert await run_bounded(vary, [0, 1, 2], concurrency=3) == [0, 1, 2]
 
-        start = time.monotonic()
-        map_providers(slow, providers)
-        elapsed = time.monotonic() - start
-        assert elapsed < 0.35, elapsed  # overlapped, not summed
+    async def test_never_exceeds_the_concurrency_bound(self):
+        in_flight = 0
+        peak = 0
 
-    def test_tasks_can_block_each_other_without_deadlock(self):
-        """Each provider gets its own worker: two simultaneous blocking
-        calls must complete, not serialize (the real sweeps block on
-        independent HTTP waits)."""
-        gate = threading.Barrier(2, timeout=5)
-        starts: list[str] = []
+        async def work(i: int) -> int:
+            nonlocal in_flight, peak
+            in_flight += 1
+            peak = max(peak, in_flight)
+            await asyncio.sleep(0.01)
+            in_flight -= 1
+            return i
 
-        def wait_locked(p):
-            starts.append(p.name)
-            gate.wait()  # only passes when BOTH providers are inside
-            return p.name
+        got = await run_bounded(work, list(range(8)), concurrency=2)
+        assert got == list(range(8))
+        assert peak == 2
 
-        result = map_providers(wait_locked, [_P("a"), _P("b")])
-        assert result == {"a": "a", "b": "b"}
-        assert sorted(starts) == ["a", "b"]
+    async def test_concurrency_one_is_strictly_sequential(self):
+        log: list[str] = []
 
-    def test_failures_propagate_loudly(self):
-        def boom(_p):
-            raise RuntimeError("provider outage")
+        async def step(i: int) -> str:
+            log.append(f"start {i}")
+            await asyncio.sleep(0.001)
+            log.append(f"end {i}")
+            return str(i)
 
-        with pytest.raises(RuntimeError, match="outage"):
-            map_providers(boom, [_P("a"), _P("b")])
+        got = await run_bounded(step, [1, 2], concurrency=1)
+        assert got == ["1", "2"]
+        assert log == ["start 1", "end 1", "start 2", "end 2"]
 
-    def test_empty_provider_list_is_an_empty_result(self):
-        assert map_providers(lambda p: p.name, []) == {}
+    async def test_exceptions_propagate_immediately(self):
+        """A raising item propagates out of gather; per-series callers
+        catch it themselves. The hang-prone item never gets a slot."""
+        started: list[int] = []
 
-    def test_on_failure_caller_discerns_which_provider_failed(self):
-        def only_b_fails(p):
-            if p.name == "b":
-                raise ValueError("b broke")
-            return p.name
+        async def fail(i: int) -> int:
+            started.append(i)
+            if i == 0:
+                raise RuntimeError("model died")
+            await asyncio.sleep(30)
+            return i
 
-        with pytest.raises(ValueError, match="b broke"):
-            map_providers(only_b_fails, [_P("a"), _P("b")])
+        with pytest.raises(RuntimeError, match="model died"):
+            await run_bounded(fail, [0, 1, 2], concurrency=1)
+        assert started[0] == 0
+
+    async def test_plain_values_are_accepted(self):
+        """A stub can return a plain value; the runner must not care."""
+
+        def sync_fn(i: int) -> int:
+            return i + 1
+
+        assert await run_bounded(sync_fn, [1, 2]) == [2, 3]
+
+    async def test_empty_items_is_an_empty_list(self):
+        async def work(i: int) -> int:
+            return i
+
+        assert await run_bounded(work, []) == []
