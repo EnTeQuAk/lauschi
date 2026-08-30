@@ -8,6 +8,7 @@ writes from CLI and web processes.
 import json
 import os
 from collections.abc import Iterator
+from contextlib import contextmanager
 from io import StringIO
 from pathlib import Path
 
@@ -60,6 +61,18 @@ def save_raw(data: object, path: Path | None = None) -> None:
     lock = paths.series_lock_path()
     with FileLock(str(lock)):
         safe_write_yaml(target, data)
+
+
+@contextmanager
+def locked_raw(path: Path | None = None):
+    """series.yaml under the write lock, for load -> mutate -> save spans.
+
+    save_raw takes the lock only around its own write; a read-modify-
+    write without this window can drop a concurrent web edit.
+    """
+    lock = paths.series_lock_path()
+    with FileLock(str(lock)):
+        yield load_raw(path)
 
 
 def load_curation(series_id: str) -> dict:

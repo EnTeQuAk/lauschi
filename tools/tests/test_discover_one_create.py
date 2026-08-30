@@ -1,9 +1,10 @@
 """Tests that discover_one routes creation through add_series and
 respects deleted.yaml."""
 
+from pathlib import Path
+
 import pytest
 
-from lauschi_catalog.catalog import discover_ops
 from lauschi_catalog.catalog import loader as catalog_loader
 from lauschi_catalog.catalog.discover_ops import (
     DiscoverMatch,
@@ -37,12 +38,8 @@ class _FakeProvider:
         return True
 
 
-def _patch_loader(monkeypatch, tmp_path: object, yaml_text: str = "series: []\n"):
-    """Point all loader IO at the temp dir so tests are hermetic."""
-    real_load_catalog = catalog_loader.load_catalog
-    real_load_raw = catalog_loader.load_raw
-    real_save_raw = catalog_loader.save_raw
-
+def _patch_loader(monkeypatch, tmp_path: Path, yaml_text: str = "series: []\n"):
+    """Hermetic layout: the LAUSCHI_REPO_ROOT env var is the only patch."""
     monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
     (tmp_path / "assets" / "catalog").mkdir(parents=True)
     yaml_path = tmp_path / "assets" / "catalog" / "series.yaml"
@@ -50,25 +47,6 @@ def _patch_loader(monkeypatch, tmp_path: object, yaml_text: str = "series: []\n"
     (tmp_path / "assets" / "catalog" / "deleted.yaml").write_text("deleted: []\n")
     (tmp_path / "android").mkdir()
     (tmp_path / ".cache").mkdir()
-
-    def load_catalog(_path=None):
-        return real_load_catalog(yaml_path)
-
-    def load_raw(_path=None):
-        return real_load_raw(yaml_path)
-
-    def save_raw(data, _path=None):
-        real_save_raw(data, yaml_path)
-
-    monkeypatch.setattr("lauschi_catalog.catalog.loader.load_catalog", load_catalog)
-    monkeypatch.setattr("lauschi_catalog.catalog.loader.load_raw", load_raw)
-    monkeypatch.setattr("lauschi_catalog.catalog.loader.save_raw", save_raw)
-    monkeypatch.setattr(discover_ops, "load_catalog", load_catalog)
-    monkeypatch.setattr(discover_ops, "load_raw", load_raw)
-    monkeypatch.setattr(discover_ops, "save_raw", save_raw)
-    monkeypatch.setattr("lauschi_catalog.catalog.add_ops.load_catalog", load_catalog)
-    monkeypatch.setattr("lauschi_catalog.catalog.series_ops.load_catalog", load_catalog)
-    monkeypatch.setattr("lauschi_catalog.catalog.series_ops.load_raw", load_raw)
 
     return yaml_path
 

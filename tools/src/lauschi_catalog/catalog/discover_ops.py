@@ -9,14 +9,12 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 
 from lauschi_catalog.catalog.add_ops import add_series, title_to_id
-from lauschi_catalog.catalog.io import safe_write_json
+from lauschi_catalog.catalog.io import locked_raw, safe_write_json, safe_write_yaml
 from lauschi_catalog.catalog.loader import (
     load_catalog,
-    load_raw,
-    save_raw,
     update_provider_ids,
 )
-from lauschi_catalog.catalog.paths import artist_image_path
+from lauschi_catalog.catalog.paths import artist_image_path, series_yaml_path
 from lauschi_catalog.providers import Artist, CatalogProvider
 
 
@@ -251,35 +249,37 @@ def discover_one(
         )
         return result
 
-    raw = load_raw()
     updated = False
-    for raw_entry in raw.get("series", []):
-        if raw_entry.get("id") != entry.id:
-            continue
-        raw_providers = raw_entry.setdefault("providers", {})
-        for pname, m in discoveries.items():
-            # Only exact/substring matches are written automatically.
-            if m.confidence not in ("exact", "substring"):
-                on_progress(
-                    f"  [{pname}] weak match '{m.artist_name}' not written; "
-                    "use catalog-edit to add it manually"
-                )
+    with locked_raw() as raw:
+        for raw_entry in raw.get("series", []):
+            if raw_entry.get("id") != entry.id:
                 continue
-            raw_cfg = raw_providers.setdefault(pname, {})
-            existing: list[str] = raw_cfg.get("artist_ids") or []
-            if m.artist_id not in existing:
-                existing.append(m.artist_id)
-                raw_cfg["artist_ids"] = existing
-                updated = True
-                on_progress(f"Added {pname} artist_id {m.artist_id} to {entry.id}")
-        break
+            raw_providers = raw_entry.setdefault("providers", {})
+            for pname, m in discoveries.items():
+                # Only exact/substring matches are written automatically.
+                if m.confidence not in ("exact", "substring"):
+                    on_progress(
+                        f"  [{pname}] weak match '{m.artist_name}' not written; "
+                        "use catalog-edit to add it manually"
+                    )
+                    continue
+                raw_cfg = raw_providers.setdefault(pname, {})
+                existing: list[str] = raw_cfg.get("artist_ids") or []
+                if m.artist_id not in existing:
+                    existing.append(m.artist_id)
+                    raw_cfg["artist_ids"] = existing
+                    updated = True
+                    on_progress(f"Added {pname} artist_id {m.artist_id} to {entry.id}")
+            break
 
-    if updated:
-        save_raw(raw)
-        result.written = True
-        on_progress("Updated series.yaml")
-    else:
-        on_progress("No new artist_ids to write.")
+        if updated:
+            # still inside locked_raw's window; plain atomic write (a
+            # re-entrant save_raw lock on the same path would deadlock)
+            safe_write_yaml(series_yaml_path(), raw)
+            result.written = True
+            on_progress("Updated series.yaml")
+        else:
+            on_progress("No new artist_ids to write.")
 
     return result
 

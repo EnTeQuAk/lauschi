@@ -38,7 +38,7 @@ def test_apply_refuses_a_null_review_curation_instead_of_crashing() -> None:
             "albums": [],
             "curated_at": "2026-08-01T00:00:00+00:00",
         },
-        force=False,
+        allow_unreviewed=False,
     )
     assert reason is not None and "unaudited" in reason
 

@@ -17,19 +17,29 @@ console = Console()
 @click.option("--all", "run_all", is_flag=True, help="Apply all approved curations")
 @click.option("--dry-run", is_flag=True, help="Don't write changes")
 @click.option(
-    "--force",
+    "--allow-unreviewed",
     is_flag=True,
     help="Skip the review gates: apply incomplete, stale or escalated curations",
 )
+@click.option(
+    "--allow-loss",
+    is_flag=True,
+    help="Allow a >50% per-provider album drop (only when the drop is real)",
+)
 def apply(
-    series_id: str | None, run_all: bool, dry_run: bool, force: bool
+    series_id: str | None,
+    run_all: bool,
+    dry_run: bool,
+    allow_unreviewed: bool,
+    allow_loss: bool,
 ):
     """Apply approved curations to series.yaml.
 
     Reads curation JSONs and writes the included album IDs into the
-    providers section of series.yaml. Exits 1 when any applied series
-    was refused by the review gates, or when a named series has no
-    curation file (a typos name must not look like success).
+    providers section of series.yaml. Exits 1 when any series was
+    refused by the review gates. Each guard is its own flag: a tripped
+    guard leaves the whole yaml entry untouched, so a refusal never
+    becomes a half-applied pattern-over-old-albums state.
     """
     if not series_id and not run_all:
         console.print("[red]Provide a series ID or use --all[/red]")
@@ -39,7 +49,8 @@ def apply(
         series_id,
         run_all=run_all,
         dry_run=dry_run,
-        force=force,
+        allow_unreviewed=allow_unreviewed,
+        allow_loss=allow_loss,
         on_progress=lambda msg: console.print(msg, markup=False),
     )
 
@@ -56,6 +67,7 @@ def apply(
     if refusals:
         console.print(
             f"[red]{len(refusals)} series refused by the review gates "
-            "(see above); fix them or use --force deliberately[/red]"
+            "(see above); fix them or pass --allow-unreviewed "
+            "deliberately[/red]"
         )
         raise SystemExit(1)

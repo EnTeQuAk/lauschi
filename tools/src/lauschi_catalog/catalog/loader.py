@@ -7,6 +7,7 @@ when reading and writing series.yaml.
 from pathlib import Path
 
 from lauschi_catalog.catalog import io
+from lauschi_catalog.catalog.io import locked_raw
 from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
 from lauschi_catalog.catalog.paths import series_yaml_path
 
@@ -85,24 +86,24 @@ def update_provider_ids(
 
     Returns number of series updated.
     """
-    data = load_raw(path)
     count = 0
+    with locked_raw(path) as data:
+        for raw in data["series"]:
+            sid = raw["id"]
+            if sid not in updates:
+                continue
 
-    for raw in data["series"]:
-        sid = raw["id"]
-        if sid not in updates:
-            continue
+            if "providers" not in raw:
+                raw["providers"] = {}
 
-        if "providers" not in raw:
-            raw["providers"] = {}
+            for pname, aids in updates[sid].items():
+                if pname not in raw["providers"]:
+                    raw["providers"][pname] = {}
+                raw["providers"][pname]["artist_ids"] = aids
+                count += 1
 
-        for pname, aids in updates[sid].items():
-            if pname not in raw["providers"]:
-                raw["providers"][pname] = {}
-            raw["providers"][pname]["artist_ids"] = aids
-            count += 1
-
-    if count > 0:
-        save_raw(data, path)
+        if count > 0:
+            # still inside locked_raw's window; plain atomic write
+            io.safe_write_yaml(series_yaml_path(), data)
 
     return count

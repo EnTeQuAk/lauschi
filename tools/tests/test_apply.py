@@ -318,17 +318,17 @@ def _escalated_data() -> dict:
 
 def testshould_apply_refuses_escalated():
     data = _escalated_data()
-    result = should_apply(data, force=False)
+    result = should_apply(data)
     assert result is not None
     assert "escalated" in result
 
 
-def testshould_apply_allows_escalated_with_force():
+def test_should_apply_allows_escalated_with_allow_unreviewed():
     data = _escalated_data()
-    assert should_apply(data, force=True) is None
+    assert should_apply(data, allow_unreviewed=True) is None
 
 
-def testshould_apply_allows_approved():
+def test_should_apply_allows_approved():
     data = {
         "review": {
             "status": "approved",
@@ -339,10 +339,10 @@ def testshould_apply_allows_approved():
         },
         "curated_at": "2026-04-01T00:00:00+00:00",
     }
-    assert should_apply(data, force=False) is None
+    assert should_apply(data) is None
 
 
-def testshould_apply_refuses_stale_audit():
+def test_should_apply_refuses_stale_audit():
     data = {
         "review": {
             "status": "approved",
@@ -350,8 +350,8 @@ def testshould_apply_refuses_stale_audit():
         },
         "curated_at": "2026-02-01T00:00:00+00:00",
     }
-    assert should_apply(data, force=False) is not None
-    assert "stale" in should_apply(data, force=False)
+    assert should_apply(data) is not None
+    assert "stale" in should_apply(data)
 
 
 # ── per-provider regression guard ────────────────────────────────────────
@@ -371,18 +371,24 @@ def test_apply_refuses_provider_collapse():
     assert updated is False
     saved = yaml_data["series"][0]["providers"]["spotify"]["albums"]
     assert len(saved) == 50
-    assert any("SKIPPED" in m for m in messages)
+    assert any("REFUSED" in m for m in messages)
 
 
-def test_apply_allows_provider_collapse_with_force():
-    """--force overrides the regression guard."""
+def test_apply_allows_provider_collapse_with_allow_loss():
+    """--allow-loss overrides the loss guard."""
     yaml_data = _yaml_with(
         [{"id": f"a{i}", "episode": i, "title": f"Folge {i}"} for i in range(50)]
     )
-    curation = _curation(
-        albums=[_included(f"a{i}", episode_num=i, title=f"Folge {i}") for i in range(3)]
-    )
-    updated = apply_one("s1", curation, yaml_data, force=True)
+    curation = {
+        **_curation(
+            albums=[
+                _included(f"a{i}", episode_num=i, title=f"Folge {i}") for i in range(3)
+            ]
+        ),
+        "curated_at": "2026-04-01T00:00:00+00:00",
+        "review": {"status": "approved", "audited_at": "2026-05-01T00:00:00+00:00"},
+    }
+    updated = apply_one("s1", curation, yaml_data, allow_loss=True)
     assert updated is True
     saved = yaml_data["series"][0]["providers"]["spotify"]["albums"]
     assert len(saved) == 3
@@ -428,12 +434,12 @@ def testshould_apply_refuses_incomplete_curation():
         "incomplete": True,
         "incomplete_reason": "spotify discovery collapsed: 445 -> 47",
     }
-    result = should_apply(data, force=False)
+    result = should_apply(data)
     assert result is not None
     assert "incomplete" in result
 
 
-def testshould_apply_allows_incomplete_with_force():
+def test_should_apply_allows_incomplete_with_allow_unreviewed():
     data = {
         "review": {
             "status": "approved",
@@ -443,4 +449,4 @@ def testshould_apply_allows_incomplete_with_force():
         "incomplete": True,
         "incomplete_reason": "spotify discovery collapsed",
     }
-    assert should_apply(data, force=True) is None
+    assert should_apply(data, allow_unreviewed=True) is None

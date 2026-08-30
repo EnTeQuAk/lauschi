@@ -23,9 +23,7 @@ def audit_status(series_id: str) -> None:
         console.print(f"[red]No curation file for {series_id}[/red]")
         raise SystemExit(1)
 
-    state = CurationState.from_curation(
-        load_curation(series_id)
-    )
+    state = CurationState.from_curation(load_curation(series_id))
     console.print(state.status)
     if state.status != "approved":
         raise SystemExit(1)
