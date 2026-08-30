@@ -1,4 +1,4 @@
-"""Tests that discover only writes IDs it is sure of (T41)."""
+"""Tests that discover only writes IDs it is sure of."""
 
 from __future__ import annotations
 

@@ -1,4 +1,4 @@
-"""Tests that discovered artist IDs always win (T14)."""
+"""Tests that discovered artist IDs always win."""
 
 from __future__ import annotations
 

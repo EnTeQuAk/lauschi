@@ -1,4 +1,4 @@
-"""Tests for batch completeness validator set equality (T15)."""
+"""Tests for batch completeness validator set equality."""
 
 from __future__ import annotations
 

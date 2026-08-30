@@ -1,4 +1,5 @@
-"""Regression tests that dead code from T28 stays gone."""
+"""Regression pins for removed helpers: if any of these come back, the
+pipeline regains a path that ships unasked-for or invented data."""
 
 from __future__ import annotations
 

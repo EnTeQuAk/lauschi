@@ -1,6 +1,6 @@
 """Tests for finalize pattern handling in curate_ops.
 
-T03: the propose_pattern_update tool is the single source of truth for
+The propose_pattern_update tool is the single source of truth for
 pattern updates from the finalize agent. The FinalizeResult output field
 is gone, so a bad or missing pattern in the output cannot crash the run
 or override the validated tool value.
