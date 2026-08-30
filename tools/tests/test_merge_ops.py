@@ -222,13 +222,9 @@ class TestSplitOps:
 
     def test_accept_split_normalizes_prefixed_album_ids(self, split_env):
         """accept_split handles album_ids with provider: prefixes."""
-        curation = json.loads(
-            (split_env["curation_dir"] / "parent.json").read_text()
-        )
+        curation = json.loads((split_env["curation_dir"] / "parent.json").read_text())
         curation["series_facts"]["sub_series"][0]["album_ids"] = ["spotify:a3"]
-        (split_env["curation_dir"] / "parent.json").write_text(
-            json.dumps(curation)
-        )
+        (split_env["curation_dir"] / "parent.json").write_text(json.dumps(curation))
 
         result = merge_ops.accept_split("parent", 0)
         assert result.ok

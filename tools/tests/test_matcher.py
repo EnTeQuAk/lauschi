@@ -143,8 +143,6 @@ def test_compute_coverage_respects_max_samples():
     assert len(result_default["unmatched_regex_samples"]) == 5
 
 
-
-
 # ── capture-group walking ──────────────────────────────────────────────────
 #
 # Reading group 1 only means a pattern whose match lands on a later

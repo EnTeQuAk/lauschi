@@ -244,9 +244,7 @@ def validate_catalog(
         )
 
         for p in providers:
-            if not entry.artist_ids(p.name) and not entry.provider_album_ids(
-                p.name
-            ):
+            if not entry.artist_ids(p.name) and not entry.provider_album_ids(p.name):
                 continue
 
             l5 = validate_l5(entry, p)
@@ -258,7 +256,9 @@ def validate_catalog(
 
             if l5.total > 0:
                 prefix = "ids:" if l5.album_check else ""
-                on_progress(f"  {entry.title}/{p.name}: {prefix}{l5.matched}/{l5.total}")
+                on_progress(
+                    f"  {entry.title}/{p.name}: {prefix}{l5.matched}/{l5.total}"
+                )
 
         result.series_results.append(sv)
 

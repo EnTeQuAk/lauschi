@@ -118,9 +118,7 @@ class TestList:
 class TestShow:
     def test_shows_split_details(self, split_env):
         runner = CliRunner()
-        result = runner.invoke(
-            splits_mod.apply_splits, ["show", "parent", "kinofilm"]
-        )
+        result = runner.invoke(splits_mod.apply_splits, ["show", "parent", "kinofilm"])
         assert result.exit_code == 0, result.output
         assert "Film 1" in result.output
         assert "Film 2" in result.output
@@ -139,9 +137,7 @@ class TestShow:
 class TestAccept:
     def test_accept_creates_new_series(self, split_env):
         runner = CliRunner()
-        result = runner.invoke(
-            splits_mod.apply_splits, ["accept", "parent", "kids"]
-        )
+        result = runner.invoke(splits_mod.apply_splits, ["accept", "parent", "kids"])
         assert result.exit_code == 0, result.output
         assert "parent_kids" in result.output
 
@@ -155,9 +151,7 @@ class TestAccept:
         runner = CliRunner()
         runner.invoke(splits_mod.apply_splits, ["accept", "parent", "kids"])
 
-        parent = json.loads(
-            (split_env["curation_dir"] / "parent.json").read_text()
-        )
+        parent = json.loads((split_env["curation_dir"] / "parent.json").read_text())
         album_ids = [a["album_id"] for a in parent["albums"]]
         assert "a3" not in album_ids
         assert "a1" in album_ids
@@ -167,9 +161,13 @@ class TestAccept:
         result = runner.invoke(
             splits_mod.apply_splits,
             [
-                "accept", "parent", "kids",
-                "--id", "parent_junior",
-                "--title", "Parent Series Junior",
+                "accept",
+                "parent",
+                "kids",
+                "--id",
+                "parent_junior",
+                "--title",
+                "Parent Series Junior",
             ],
         )
         assert result.exit_code == 0, result.output
@@ -190,14 +188,10 @@ class TestAccept:
     def test_sequential_accepts_work(self, split_env):
         """Accepting one split doesn't break accepting the next."""
         runner = CliRunner()
-        r1 = runner.invoke(
-            splits_mod.apply_splits, ["accept", "parent", "kids"]
-        )
+        r1 = runner.invoke(splits_mod.apply_splits, ["accept", "parent", "kids"])
         assert r1.exit_code == 0, r1.output
 
-        r2 = runner.invoke(
-            splits_mod.apply_splits, ["accept", "parent", "kinofilm"]
-        )
+        r2 = runner.invoke(splits_mod.apply_splits, ["accept", "parent", "kinofilm"])
         assert r2.exit_code == 0, r2.output
 
         # Both new series exist
@@ -205,9 +199,7 @@ class TestAccept:
         assert (split_env["curation_dir"] / "parent_kinofilm.json").exists()
 
         # Parent has only the main episodes left
-        parent = json.loads(
-            (split_env["curation_dir"] / "parent.json").read_text()
-        )
+        parent = json.loads((split_env["curation_dir"] / "parent.json").read_text())
         album_ids = {a["album_id"] for a in parent["albums"]}
         assert album_ids == {"a1", "a2"}
 
@@ -215,17 +207,11 @@ class TestAccept:
 class TestReject:
     def test_reject_removes_proposal(self, split_env):
         runner = CliRunner()
-        result = runner.invoke(
-            splits_mod.apply_splits, ["reject", "parent", "kids"]
-        )
+        result = runner.invoke(splits_mod.apply_splits, ["reject", "parent", "kids"])
         assert result.exit_code == 0, result.output
 
-        data = json.loads(
-            (split_env["curation_dir"] / "parent.json").read_text()
-        )
-        labels = [
-            s["label"] for s in data["series_facts"]["sub_series"]
-        ]
+        data = json.loads((split_env["curation_dir"] / "parent.json").read_text())
+        labels = [s["label"] for s in data["series_facts"]["sub_series"]]
         assert "kids" not in labels
         assert "kinofilm" in labels
 
@@ -233,9 +219,7 @@ class TestReject:
         runner = CliRunner()
         runner.invoke(splits_mod.apply_splits, ["reject", "parent", "kids"])
 
-        parent = json.loads(
-            (split_env["curation_dir"] / "parent.json").read_text()
-        )
+        parent = json.loads((split_env["curation_dir"] / "parent.json").read_text())
         album_ids = [a["album_id"] for a in parent["albums"]]
         assert "a3" in album_ids
 
@@ -250,9 +234,7 @@ class TestReject:
 class TestAcceptAll:
     def test_accept_all_creates_all(self, split_env):
         runner = CliRunner()
-        result = runner.invoke(
-            splits_mod.apply_splits, ["accept-all", "parent"]
-        )
+        result = runner.invoke(splits_mod.apply_splits, ["accept-all", "parent"])
         assert result.exit_code == 0, result.output
         assert "parent_kids" in result.output
         assert "parent_kinofilm" in result.output

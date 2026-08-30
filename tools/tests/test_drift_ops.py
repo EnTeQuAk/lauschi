@@ -33,9 +33,7 @@ def test_normalize_folds_case_punctuation_and_umlauts():
     assert normalize_title("Kinderklassiker, Vol. 1") == normalize_title(
         "Kinderklassiker Vol. 1"
     )
-    assert normalize_title("Die Wilden Hühner") == normalize_title(
-        "die wilden huehner"
-    )
+    assert normalize_title("Die Wilden Hühner") == normalize_title("die wilden huehner")
 
 
 def test_normalize_strips_store_format_suffixes():

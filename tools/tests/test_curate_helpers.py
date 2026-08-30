@@ -1579,8 +1579,9 @@ class TestPreseedDecisions:
         existing = {
             "albums": [
                 _curation_album("spotify", "a1", True, "Folge 1", 1),
-                _curation_album("spotify", "a2", False, "Folge 2",
-                                exclude_reason="compilation"),
+                _curation_album(
+                    "spotify", "a2", False, "Folge 2", exclude_reason="compilation"
+                ),
             ],
         }
         carried, remaining = _preseed_decisions(discovered, existing)
@@ -1638,5 +1639,3 @@ class TestPreseedDecisions:
         assert len(carried) == 1
         assert carried[0].album_id == "a2"
         assert len(remaining) == 1
-
-

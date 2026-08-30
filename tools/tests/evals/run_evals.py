@@ -51,7 +51,8 @@ def main() -> None:
         help="Max concurrent eval cases (default: 1)",
     )
     parser.add_argument(
-        "-v", "--verbose",
+        "-v",
+        "--verbose",
         action="store_true",
         help="Show detailed output per case",
     )
@@ -61,7 +62,10 @@ def main() -> None:
     dataset = build_dataset(names)
 
     if not dataset.cases:
-        print("No cases matched. Available:", ", ".join(c.name for c in build_dataset().cases))
+        print(
+            "No cases matched. Available:",
+            ", ".join(c.name for c in build_dataset().cases),
+        )
         sys.exit(1)
 
     judge_model = _build_judge_model()

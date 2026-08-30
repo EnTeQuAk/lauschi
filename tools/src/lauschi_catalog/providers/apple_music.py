@@ -290,6 +290,7 @@ class AppleMusicProvider(CatalogProvider):
 
         def fetch_chunk(chunk: list[str]) -> None:
             try:
+
                 def fetch():
                     time.sleep(0.1)
                     return self._get("albums", ids=",".join(chunk))

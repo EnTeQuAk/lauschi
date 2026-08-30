@@ -95,7 +95,11 @@ class ExcludeReasonsCorrect(Evaluator):
             if decision.include:
                 continue
             actual = decision.exclude_reason or "unspecified"
-            acceptable = expected_reason if isinstance(expected_reason, list) else [expected_reason]
+            acceptable = (
+                expected_reason
+                if isinstance(expected_reason, list)
+                else [expected_reason]
+            )
             if actual not in acceptable:
                 wrong.append(
                     f"{provider}:{album_id}: "

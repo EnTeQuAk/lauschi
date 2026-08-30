@@ -7,5 +7,4 @@ from lauschi_catalog.providers.base import (
     CatalogProvider,
 )
 
-__all__ = ["Album",
-    "AlbumBatch", "Artist", "CatalogProvider"]
+__all__ = ["Album", "AlbumBatch", "Artist", "CatalogProvider"]

@@ -91,7 +91,15 @@ def test_per_provider_collapse_detected():
     )
     cur = _curation(
         [_album(album_id=f"s{i}", provider="spotify") for i in range(3)]
-        + [_album(album_id=f"s{i}", provider="spotify", include=False, reason="music_single") for i in range(3, 50)]
+        + [
+            _album(
+                album_id=f"s{i}",
+                provider="spotify",
+                include=False,
+                reason="music_single",
+            )
+            for i in range(3, 50)
+        ]
         + [_album(album_id=f"a{i}", provider="apple_music") for i in range(50)],
     )
     issues = lint_regression(prev, cur)

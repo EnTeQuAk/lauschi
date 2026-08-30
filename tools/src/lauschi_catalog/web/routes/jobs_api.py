@@ -506,8 +506,12 @@ def _try_in_process_discover(job_id: str, series_id: str) -> bool:
 
     log.info("job %s: running discover in-process for %s", job_id, series_id)
     launch_in_process(
-        job_id, discover_one, series.title, providers,
-        on_complete=reload_catalog, write=True,
+        job_id,
+        discover_one,
+        series.title,
+        providers,
+        on_complete=reload_catalog,
+        write=True,
     )
     return True
 

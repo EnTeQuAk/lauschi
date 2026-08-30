@@ -19,7 +19,12 @@ from pydantic_evals.evaluators import LLMJudge
 
 from lauschi_catalog.catalog.curate_ops import BatchResult
 
-from .evaluators import ConfidenceMinimum, DecisionsCorrect, ExcludeReasonsCorrect, NotesPresent
+from .evaluators import (
+    ConfidenceMinimum,
+    DecisionsCorrect,
+    ExcludeReasonsCorrect,
+    NotesPresent,
+)
 from .task import BatchInput
 
 
@@ -45,9 +50,21 @@ _BENJAMIN_SUB_SERIES = Case[BatchInput, BatchResult](
                 "total_tracks": 3,
                 "album_type": "",
                 "tracks": [
-                    {"name": "Folge 1: als Wetterelefant, Teil 1", "duration_ms": 1500000, "track_number": 1},
-                    {"name": "Folge 1: als Wetterelefant, Teil 2", "duration_ms": 1400000, "track_number": 2},
-                    {"name": "Folge 1: als Wetterelefant, Teil 3", "duration_ms": 600000, "track_number": 3},
+                    {
+                        "name": "Folge 1: als Wetterelefant, Teil 1",
+                        "duration_ms": 1500000,
+                        "track_number": 1,
+                    },
+                    {
+                        "name": "Folge 1: als Wetterelefant, Teil 2",
+                        "duration_ms": 1400000,
+                        "track_number": 2,
+                    },
+                    {
+                        "name": "Folge 1: als Wetterelefant, Teil 3",
+                        "duration_ms": 600000,
+                        "track_number": 3,
+                    },
                 ],
             },
             {
@@ -71,8 +88,16 @@ _BENJAMIN_SUB_SERIES = Case[BatchInput, BatchResult](
                 "total_tracks": 16,
                 "album_type": "",
                 "tracks": [
-                    {"name": "1+1=2, das kann ich schon", "duration_ms": 180000, "track_number": 1},
-                    {"name": "ABC, das Alphabet", "duration_ms": 195000, "track_number": 2},
+                    {
+                        "name": "1+1=2, das kann ich schon",
+                        "duration_ms": 180000,
+                        "track_number": 1,
+                    },
+                    {
+                        "name": "ABC, das Alphabet",
+                        "duration_ms": 195000,
+                        "track_number": 2,
+                    },
                 ],
             },
             {
@@ -83,7 +108,11 @@ _BENJAMIN_SUB_SERIES = Case[BatchInput, BatchResult](
                 "total_tracks": 78,
                 "album_type": "",
                 "tracks": [
-                    {"name": "Folge 75: Der geheimnisvolle Brief, Teil 1", "duration_ms": 900000, "track_number": 1},
+                    {
+                        "name": "Folge 75: Der geheimnisvolle Brief, Teil 1",
+                        "duration_ms": 900000,
+                        "track_number": 1,
+                    },
                 ],
             },
             {
@@ -94,7 +123,11 @@ _BENJAMIN_SUB_SERIES = Case[BatchInput, BatchResult](
                 "total_tracks": 3,
                 "album_type": "",
                 "tracks": [
-                    {"name": "Folge 2: rettet den Zoo, Teil 1", "duration_ms": 1400000, "track_number": 1},
+                    {
+                        "name": "Folge 2: rettet den Zoo, Teil 1",
+                        "duration_ms": 1400000,
+                        "track_number": 1,
+                    },
                 ],
             },
         ],
@@ -151,10 +184,26 @@ _BENJAMIN_EDGE_CASES = Case[BatchInput, BatchResult](
                 "total_tracks": 4,
                 "album_type": "",
                 "tracks": [
-                    {"name": "als Apotheker, Teil 1", "duration_ms": 900000, "track_number": 1},
-                    {"name": "als Apotheker, Teil 2", "duration_ms": 850000, "track_number": 2},
-                    {"name": "als Apotheker, Teil 3", "duration_ms": 800000, "track_number": 3},
-                    {"name": "Lied: Benjamin, der Elefant", "duration_ms": 120000, "track_number": 4},
+                    {
+                        "name": "als Apotheker, Teil 1",
+                        "duration_ms": 900000,
+                        "track_number": 1,
+                    },
+                    {
+                        "name": "als Apotheker, Teil 2",
+                        "duration_ms": 850000,
+                        "track_number": 2,
+                    },
+                    {
+                        "name": "als Apotheker, Teil 3",
+                        "duration_ms": 800000,
+                        "track_number": 3,
+                    },
+                    {
+                        "name": "Lied: Benjamin, der Elefant",
+                        "duration_ms": 120000,
+                        "track_number": 4,
+                    },
                 ],
             },
             {
@@ -165,7 +214,11 @@ _BENJAMIN_EDGE_CASES = Case[BatchInput, BatchResult](
                 "total_tracks": 1,
                 "album_type": "single",
                 "tracks": [
-                    {"name": "Die Jahresuhr (Benjamins Version)", "duration_ms": 195000, "track_number": 1},
+                    {
+                        "name": "Die Jahresuhr (Benjamins Version)",
+                        "duration_ms": 195000,
+                        "track_number": 1,
+                    },
                 ],
             },
             {
@@ -176,12 +229,36 @@ _BENJAMIN_EDGE_CASES = Case[BatchInput, BatchResult](
                 "total_tracks": 6,
                 "album_type": "",
                 "tracks": [
-                    {"name": "als Wetterelefant, Teil 1 (gekürzt)", "duration_ms": 600000, "track_number": 1},
-                    {"name": "als Wetterelefant, Teil 2 (gekürzt)", "duration_ms": 550000, "track_number": 2},
-                    {"name": "als Wetterelefant, Teil 3 (gekürzt)", "duration_ms": 300000, "track_number": 3},
-                    {"name": "rettet den Zoo, Teil 1 (gekürzt)", "duration_ms": 600000, "track_number": 4},
-                    {"name": "rettet den Zoo, Teil 2 (gekürzt)", "duration_ms": 550000, "track_number": 5},
-                    {"name": "rettet den Zoo, Teil 3 (gekürzt)", "duration_ms": 300000, "track_number": 6},
+                    {
+                        "name": "als Wetterelefant, Teil 1 (gekürzt)",
+                        "duration_ms": 600000,
+                        "track_number": 1,
+                    },
+                    {
+                        "name": "als Wetterelefant, Teil 2 (gekürzt)",
+                        "duration_ms": 550000,
+                        "track_number": 2,
+                    },
+                    {
+                        "name": "als Wetterelefant, Teil 3 (gekürzt)",
+                        "duration_ms": 300000,
+                        "track_number": 3,
+                    },
+                    {
+                        "name": "rettet den Zoo, Teil 1 (gekürzt)",
+                        "duration_ms": 600000,
+                        "track_number": 4,
+                    },
+                    {
+                        "name": "rettet den Zoo, Teil 2 (gekürzt)",
+                        "duration_ms": 550000,
+                        "track_number": 5,
+                    },
+                    {
+                        "name": "rettet den Zoo, Teil 3 (gekürzt)",
+                        "duration_ms": 300000,
+                        "track_number": 6,
+                    },
                 ],
             },
             {
@@ -192,7 +269,11 @@ _BENJAMIN_EDGE_CASES = Case[BatchInput, BatchResult](
                 "total_tracks": 52,
                 "album_type": "",
                 "tracks": [
-                    {"name": "Folge 100: Ottos neue Freundin, Kapitel 1", "duration_ms": 120000, "track_number": 1},
+                    {
+                        "name": "Folge 100: Ottos neue Freundin, Kapitel 1",
+                        "duration_ms": 120000,
+                        "track_number": 1,
+                    },
                 ],
             },
         ],
@@ -243,8 +324,16 @@ _PUMUCKL_MIXED = Case[BatchInput, BatchResult](
                 "total_tracks": 17,
                 "album_type": "",
                 "tracks": [
-                    {"name": "01: Koboldsgesetz, Teil 1", "duration_ms": 900000, "track_number": 1},
-                    {"name": "01: Koboldsgesetz, Teil 2", "duration_ms": 850000, "track_number": 2},
+                    {
+                        "name": "01: Koboldsgesetz, Teil 1",
+                        "duration_ms": 900000,
+                        "track_number": 1,
+                    },
+                    {
+                        "name": "01: Koboldsgesetz, Teil 2",
+                        "duration_ms": 850000,
+                        "track_number": 2,
+                    },
                 ],
             },
             {
@@ -255,7 +344,11 @@ _PUMUCKL_MIXED = Case[BatchInput, BatchResult](
                 "total_tracks": 17,
                 "album_type": "album",
                 "tracks": [
-                    {"name": "Spuk in der Werkstatt, Teil 1", "duration_ms": 900000, "track_number": 1},
+                    {
+                        "name": "Spuk in der Werkstatt, Teil 1",
+                        "duration_ms": 900000,
+                        "track_number": 1,
+                    },
                 ],
             },
             {
@@ -280,9 +373,21 @@ _PUMUCKL_MIXED = Case[BatchInput, BatchResult](
                 "total_tracks": 16,
                 "album_type": "",
                 "tracks": [
-                    {"name": "Pumuckl-Polonaise", "duration_ms": 180000, "track_number": 1},
-                    {"name": "Pumuckl Rock'n'Roll", "duration_ms": 195000, "track_number": 2},
-                    {"name": "Tanz den Pumuckl", "duration_ms": 170000, "track_number": 3},
+                    {
+                        "name": "Pumuckl-Polonaise",
+                        "duration_ms": 180000,
+                        "track_number": 1,
+                    },
+                    {
+                        "name": "Pumuckl Rock'n'Roll",
+                        "duration_ms": 195000,
+                        "track_number": 2,
+                    },
+                    {
+                        "name": "Tanz den Pumuckl",
+                        "duration_ms": 170000,
+                        "track_number": 3,
+                    },
                 ],
             },
             {
@@ -293,7 +398,11 @@ _PUMUCKL_MIXED = Case[BatchInput, BatchResult](
                 "total_tracks": 128,
                 "album_type": "",
                 "tracks": [
-                    {"name": "01: Spuk in der Werkstatt, Teil 1", "duration_ms": 900000, "track_number": 1},
+                    {
+                        "name": "01: Spuk in der Werkstatt, Teil 1",
+                        "duration_ms": 900000,
+                        "track_number": 1,
+                    },
                 ],
             },
         ],
@@ -358,7 +467,11 @@ _BIBI_KINOFILM = Case[BatchInput, BatchResult](
                 "total_tracks": 50,
                 "album_type": "",
                 "tracks": [
-                    {"name": "Folge 100: Die große Hexenparty, Kapitel 1", "duration_ms": 90000, "track_number": 1},
+                    {
+                        "name": "Folge 100: Die große Hexenparty, Kapitel 1",
+                        "duration_ms": 90000,
+                        "track_number": 1,
+                    },
                 ],
             },
             {
@@ -369,8 +482,16 @@ _BIBI_KINOFILM = Case[BatchInput, BatchResult](
                 "total_tracks": 42,
                 "album_type": "",
                 "tracks": [
-                    {"name": "Kapitel 1: Der Traum", "duration_ms": 120000, "track_number": 1},
-                    {"name": "Kapitel 2: Auf nach Blockula", "duration_ms": 150000, "track_number": 2},
+                    {
+                        "name": "Kapitel 1: Der Traum",
+                        "duration_ms": 120000,
+                        "track_number": 1,
+                    },
+                    {
+                        "name": "Kapitel 2: Auf nach Blockula",
+                        "duration_ms": 150000,
+                        "track_number": 2,
+                    },
                 ],
             },
             {
@@ -381,9 +502,17 @@ _BIBI_KINOFILM = Case[BatchInput, BatchResult](
                 "total_tracks": 18,
                 "album_type": "",
                 "tracks": [
-                    {"name": "Die Hexen kommen", "duration_ms": 210000, "track_number": 1},
+                    {
+                        "name": "Die Hexen kommen",
+                        "duration_ms": 210000,
+                        "track_number": 1,
+                    },
                     {"name": "Bibi's Lied", "duration_ms": 195000, "track_number": 2},
-                    {"name": "Die Hexen kommen (Karaoke)", "duration_ms": 210000, "track_number": 3},
+                    {
+                        "name": "Die Hexen kommen (Karaoke)",
+                        "duration_ms": 210000,
+                        "track_number": 3,
+                    },
                 ],
             },
             {
@@ -394,7 +523,11 @@ _BIBI_KINOFILM = Case[BatchInput, BatchResult](
                 "total_tracks": 1,
                 "album_type": "single",
                 "tracks": [
-                    {"name": "Bibi Blocksberg Titellied", "duration_ms": 216000, "track_number": 1},
+                    {
+                        "name": "Bibi Blocksberg Titellied",
+                        "duration_ms": 216000,
+                        "track_number": 1,
+                    },
                 ],
             },
         ],
@@ -454,7 +587,11 @@ _DDF_KIDS_MINI_FALL = Case[BatchInput, BatchResult](
                 "total_tracks": 8,
                 "album_type": "",
                 "tracks": [
-                    {"name": "Folge 1: Panik im Paradies, Kapitel 1", "duration_ms": 300000, "track_number": 1},
+                    {
+                        "name": "Folge 1: Panik im Paradies, Kapitel 1",
+                        "duration_ms": 300000,
+                        "track_number": 1,
+                    },
                 ],
             },
             {
@@ -465,7 +602,11 @@ _DDF_KIDS_MINI_FALL = Case[BatchInput, BatchResult](
                 "total_tracks": 25,
                 "album_type": "album",
                 "tracks": [
-                    {"name": "001/Panik im Paradies - Teil 01", "duration_ms": 120000, "track_number": 1},
+                    {
+                        "name": "001/Panik im Paradies - Teil 01",
+                        "duration_ms": 120000,
+                        "track_number": 1,
+                    },
                 ],
             },
             {
@@ -476,8 +617,16 @@ _DDF_KIDS_MINI_FALL = Case[BatchInput, BatchResult](
                 "total_tracks": 6,
                 "album_type": "",
                 "tracks": [
-                    {"name": "Mini-Fall: Die Räuberjagd, Teil 1", "duration_ms": 600000, "track_number": 1},
-                    {"name": "Mini-Fall: Die Räuberjagd, Teil 2", "duration_ms": 550000, "track_number": 2},
+                    {
+                        "name": "Mini-Fall: Die Räuberjagd, Teil 1",
+                        "duration_ms": 600000,
+                        "track_number": 1,
+                    },
+                    {
+                        "name": "Mini-Fall: Die Räuberjagd, Teil 2",
+                        "duration_ms": 550000,
+                        "track_number": 2,
+                    },
                 ],
             },
             {
@@ -488,9 +637,21 @@ _DDF_KIDS_MINI_FALL = Case[BatchInput, BatchResult](
                 "total_tracks": 369,
                 "album_type": "album",
                 "tracks": [
-                    {"name": "94 - Falsche Vampire - Inhaltsangabe", "duration_ms": 40320, "track_number": 1},
-                    {"name": "Die drei ??? Kids Titelsong", "duration_ms": 66792, "track_number": 2},
-                    {"name": "94 - Falsche Vampire - Teil 01", "duration_ms": 183253, "track_number": 3},
+                    {
+                        "name": "94 - Falsche Vampire - Inhaltsangabe",
+                        "duration_ms": 40320,
+                        "track_number": 1,
+                    },
+                    {
+                        "name": "Die drei ??? Kids Titelsong",
+                        "duration_ms": 66792,
+                        "track_number": 2,
+                    },
+                    {
+                        "name": "94 - Falsche Vampire - Teil 01",
+                        "duration_ms": 183253,
+                        "track_number": 3,
+                    },
                 ],
             },
             {
@@ -501,7 +662,11 @@ _DDF_KIDS_MINI_FALL = Case[BatchInput, BatchResult](
                 "total_tracks": 8,
                 "album_type": "",
                 "tracks": [
-                    {"name": "Folge 101: Geistermusik, Kapitel 1", "duration_ms": 280000, "track_number": 1},
+                    {
+                        "name": "Folge 101: Geistermusik, Kapitel 1",
+                        "duration_ms": 280000,
+                        "track_number": 1,
+                    },
                 ],
             },
         ],
@@ -566,9 +731,21 @@ _HUI_BUH_FORMAT_VARIANT = Case[BatchInput, BatchResult](
                 "total_tracks": 40,
                 "album_type": "album",
                 "tracks": [
-                    {"name": "01 - Der verfluchte Geheimgang - Teil 01", "duration_ms": 110533, "track_number": 1},
-                    {"name": "01 - Der verfluchte Geheimgang - Teil 02", "duration_ms": 112426, "track_number": 2},
-                    {"name": "01 - Der verfluchte Geheimgang - Teil 03", "duration_ms": 111480, "track_number": 3},
+                    {
+                        "name": "01 - Der verfluchte Geheimgang - Teil 01",
+                        "duration_ms": 110533,
+                        "track_number": 1,
+                    },
+                    {
+                        "name": "01 - Der verfluchte Geheimgang - Teil 02",
+                        "duration_ms": 112426,
+                        "track_number": 2,
+                    },
+                    {
+                        "name": "01 - Der verfluchte Geheimgang - Teil 03",
+                        "duration_ms": 111480,
+                        "track_number": 3,
+                    },
                 ],
             },
             {
@@ -579,9 +756,21 @@ _HUI_BUH_FORMAT_VARIANT = Case[BatchInput, BatchResult](
                 "total_tracks": 29,
                 "album_type": "album",
                 "tracks": [
-                    {"name": "37 - Die magische Karte - Inhaltsangabe", "duration_ms": 50813, "track_number": 1},
-                    {"name": "37 - Die magische Karte - Titelmelodie", "duration_ms": 60760, "track_number": 2},
-                    {"name": "37 - Die magische Karte - Teil 01", "duration_ms": 182106, "track_number": 3},
+                    {
+                        "name": "37 - Die magische Karte - Inhaltsangabe",
+                        "duration_ms": 50813,
+                        "track_number": 1,
+                    },
+                    {
+                        "name": "37 - Die magische Karte - Titelmelodie",
+                        "duration_ms": 60760,
+                        "track_number": 2,
+                    },
+                    {
+                        "name": "37 - Die magische Karte - Teil 01",
+                        "duration_ms": 182106,
+                        "track_number": 3,
+                    },
                 ],
             },
             {
@@ -592,10 +781,26 @@ _HUI_BUH_FORMAT_VARIANT = Case[BatchInput, BatchResult](
                 "total_tracks": 31,
                 "album_type": "album",
                 "tracks": [
-                    {"name": "37 - Die magische Karte - Inhaltsangabe", "duration_ms": 51866, "track_number": 1},
-                    {"name": "37 - Die magische Karte - Kopfhörer auf! (Intro)", "duration_ms": 192333, "track_number": 2},
-                    {"name": "37 - Die magische Karte - Titelmelodie", "duration_ms": 60613, "track_number": 3},
-                    {"name": "37 - Die magische Karte - Teil 01", "duration_ms": 181320, "track_number": 4},
+                    {
+                        "name": "37 - Die magische Karte - Inhaltsangabe",
+                        "duration_ms": 51866,
+                        "track_number": 1,
+                    },
+                    {
+                        "name": "37 - Die magische Karte - Kopfhörer auf! (Intro)",
+                        "duration_ms": 192333,
+                        "track_number": 2,
+                    },
+                    {
+                        "name": "37 - Die magische Karte - Titelmelodie",
+                        "duration_ms": 60613,
+                        "track_number": 3,
+                    },
+                    {
+                        "name": "37 - Die magische Karte - Teil 01",
+                        "duration_ms": 181320,
+                        "track_number": 4,
+                    },
                 ],
             },
         ],
@@ -651,9 +856,21 @@ _LILIANE_DIFFERENT_SERIES = Case[BatchInput, BatchResult](
                 "total_tracks": 20,
                 "album_type": "album",
                 "tracks": [
-                    {"name": "Kapitel 1 - Liliane Susewind - Drei Waschbären sind keiner zu viel", "duration_ms": 186185, "track_number": 1},
-                    {"name": "Kapitel 2 - Liliane Susewind - Drei Waschbären sind keiner zu viel", "duration_ms": 188504, "track_number": 2},
-                    {"name": "Kapitel 3 - Liliane Susewind - Drei Waschbären sind keiner zu viel", "duration_ms": 185223, "track_number": 3},
+                    {
+                        "name": "Kapitel 1 - Liliane Susewind - Drei Waschbären sind keiner zu viel",
+                        "duration_ms": 186185,
+                        "track_number": 1,
+                    },
+                    {
+                        "name": "Kapitel 2 - Liliane Susewind - Drei Waschbären sind keiner zu viel",
+                        "duration_ms": 188504,
+                        "track_number": 2,
+                    },
+                    {
+                        "name": "Kapitel 3 - Liliane Susewind - Drei Waschbären sind keiner zu viel",
+                        "duration_ms": 185223,
+                        "track_number": 3,
+                    },
                 ],
             },
             {
@@ -677,9 +894,21 @@ _LILIANE_DIFFERENT_SERIES = Case[BatchInput, BatchResult](
                 "total_tracks": 91,
                 "album_type": "album",
                 "tracks": [
-                    {"name": "Kapitel 1 & Kapitel 2.1 - Alea Aquarius 1. Der Ruf des Wassers", "duration_ms": 188593, "track_number": 1},
-                    {"name": "Kapitel 2.2 - Alea Aquarius 1. Der Ruf des Wassers", "duration_ms": 205800, "track_number": 2},
-                    {"name": "Kapitel 2.3 & Kapitel 3.1 - Alea Aquarius 1. Der Ruf des Wassers", "duration_ms": 189440, "track_number": 3},
+                    {
+                        "name": "Kapitel 1 & Kapitel 2.1 - Alea Aquarius 1. Der Ruf des Wassers",
+                        "duration_ms": 188593,
+                        "track_number": 1,
+                    },
+                    {
+                        "name": "Kapitel 2.2 - Alea Aquarius 1. Der Ruf des Wassers",
+                        "duration_ms": 205800,
+                        "track_number": 2,
+                    },
+                    {
+                        "name": "Kapitel 2.3 & Kapitel 3.1 - Alea Aquarius 1. Der Ruf des Wassers",
+                        "duration_ms": 189440,
+                        "track_number": 3,
+                    },
                 ],
             },
             {
@@ -690,9 +919,21 @@ _LILIANE_DIFFERENT_SERIES = Case[BatchInput, BatchResult](
                 "total_tracks": 51,
                 "album_type": "album",
                 "tracks": [
-                    {"name": "Kapitel 1 - Hummelbi - Eine Fee ist keine Elfe", "duration_ms": 206934, "track_number": 1},
-                    {"name": "Kapitel 2 - Hummelbi - Eine Fee ist keine Elfe", "duration_ms": 181349, "track_number": 2},
-                    {"name": "Kapitel 3 - Hummelbi - Eine Fee ist keine Elfe", "duration_ms": 185956, "track_number": 3},
+                    {
+                        "name": "Kapitel 1 - Hummelbi - Eine Fee ist keine Elfe",
+                        "duration_ms": 206934,
+                        "track_number": 1,
+                    },
+                    {
+                        "name": "Kapitel 2 - Hummelbi - Eine Fee ist keine Elfe",
+                        "duration_ms": 181349,
+                        "track_number": 2,
+                    },
+                    {
+                        "name": "Kapitel 3 - Hummelbi - Eine Fee ist keine Elfe",
+                        "duration_ms": 185956,
+                        "track_number": 3,
+                    },
                 ],
             },
         ],
@@ -755,11 +996,31 @@ _WAS_IST_WAS_DOPPELFOLGE = Case[BatchInput, BatchResult](
                 "total_tracks": 18,
                 "album_type": "album",
                 "tracks": [
-                    {"name": "Roboter & Androiden - Teil 01", "duration_ms": 172106, "track_number": 1},
-                    {"name": "Roboter & Androiden - Teil 02", "duration_ms": 208120, "track_number": 2},
-                    {"name": "Roboter & Androiden - Teil 03", "duration_ms": 198786, "track_number": 3},
-                    {"name": "Supercomputer - Teil 01", "duration_ms": 154066, "track_number": 10},
-                    {"name": "Supercomputer - Teil 02", "duration_ms": 202186, "track_number": 11},
+                    {
+                        "name": "Roboter & Androiden - Teil 01",
+                        "duration_ms": 172106,
+                        "track_number": 1,
+                    },
+                    {
+                        "name": "Roboter & Androiden - Teil 02",
+                        "duration_ms": 208120,
+                        "track_number": 2,
+                    },
+                    {
+                        "name": "Roboter & Androiden - Teil 03",
+                        "duration_ms": 198786,
+                        "track_number": 3,
+                    },
+                    {
+                        "name": "Supercomputer - Teil 01",
+                        "duration_ms": 154066,
+                        "track_number": 10,
+                    },
+                    {
+                        "name": "Supercomputer - Teil 02",
+                        "duration_ms": 202186,
+                        "track_number": 11,
+                    },
                 ],
             },
             {
@@ -770,9 +1031,21 @@ _WAS_IST_WAS_DOPPELFOLGE = Case[BatchInput, BatchResult](
                 "total_tracks": 34,
                 "album_type": "",
                 "tracks": [
-                    {"name": "Roboter & Androiden - Teil 01", "duration_ms": 172107, "track_number": 1},
-                    {"name": "Roboter & Androiden - Teil 02", "duration_ms": 77547, "track_number": 2},
-                    {"name": "Roboter & Androiden - Teil 03", "duration_ms": 130573, "track_number": 3},
+                    {
+                        "name": "Roboter & Androiden - Teil 01",
+                        "duration_ms": 172107,
+                        "track_number": 1,
+                    },
+                    {
+                        "name": "Roboter & Androiden - Teil 02",
+                        "duration_ms": 77547,
+                        "track_number": 2,
+                    },
+                    {
+                        "name": "Roboter & Androiden - Teil 03",
+                        "duration_ms": 130573,
+                        "track_number": 3,
+                    },
                 ],
             },
             {
@@ -783,10 +1056,26 @@ _WAS_IST_WAS_DOPPELFOLGE = Case[BatchInput, BatchResult](
                 "total_tracks": 16,
                 "album_type": "album",
                 "tracks": [
-                    {"name": "Leben der Ritter - Teil 01", "duration_ms": 168906, "track_number": 1},
-                    {"name": "Leben der Ritter - Teil 02", "duration_ms": 214093, "track_number": 2},
-                    {"name": "Mächtige Burgen - Teil 01", "duration_ms": 167360, "track_number": 9},
-                    {"name": "Mächtige Burgen - Teil 02", "duration_ms": 194133, "track_number": 10},
+                    {
+                        "name": "Leben der Ritter - Teil 01",
+                        "duration_ms": 168906,
+                        "track_number": 1,
+                    },
+                    {
+                        "name": "Leben der Ritter - Teil 02",
+                        "duration_ms": 214093,
+                        "track_number": 2,
+                    },
+                    {
+                        "name": "Mächtige Burgen - Teil 01",
+                        "duration_ms": 167360,
+                        "track_number": 9,
+                    },
+                    {
+                        "name": "Mächtige Burgen - Teil 02",
+                        "duration_ms": 194133,
+                        "track_number": 10,
+                    },
                 ],
             },
         ],

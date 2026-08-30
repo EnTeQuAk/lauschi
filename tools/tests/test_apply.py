@@ -369,9 +369,7 @@ def test_apply_refuses_provider_collapse():
         albums=[_included(f"a{i}", episode_num=i, title=f"Folge {i}") for i in range(3)]
     )
     messages: list[str] = []
-    updated = apply_one(
-        "s1", curation, yaml_data, on_progress=messages.append
-    )
+    updated = apply_one("s1", curation, yaml_data, on_progress=messages.append)
     assert updated is False
     saved = yaml_data["series"][0]["providers"]["spotify"]["albums"]
     assert len(saved) == 50
@@ -398,7 +396,9 @@ def test_apply_allows_modest_drop():
         [{"id": f"a{i}", "episode": i, "title": f"Folge {i}"} for i in range(20)]
     )
     curation = _curation(
-        albums=[_included(f"a{i}", episode_num=i, title=f"Folge {i}") for i in range(15)]
+        albums=[
+            _included(f"a{i}", episode_num=i, title=f"Folge {i}") for i in range(15)
+        ]
     )
     updated = apply_one("s1", curation, yaml_data)
     assert updated is True
@@ -446,4 +446,3 @@ def testshould_apply_allows_incomplete_with_force():
         "incomplete_reason": "spotify discovery collapsed",
     }
     assert should_apply(data, force=True) is None
-

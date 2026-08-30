@@ -54,7 +54,11 @@ def load_curate_skill(
     if content_type in _TYPE_REFS:
         parts.append(_read_resource(_TYPE_REFS[content_type]))
 
-    if discography_span_years is not None and discography_span_years >= 10 and content_type == "hoerspiel":
+    if (
+        discography_span_years is not None
+        and discography_span_years >= 10
+        and content_type == "hoerspiel"
+    ):
         parts.append(_read_resource("references/era_detection.md"))
     if phase in _SPLIT_PHASES:
         parts.append(_read_resource("references/split_guidelines.md"))

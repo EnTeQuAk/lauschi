@@ -233,7 +233,9 @@ class TestReconcileCrossProvider:
     def test_normalized_title_matching_is_case_insensitive(self):
         albums = [
             _album("sp1", "Folge 1: Der Super-Papagei", "spotify", True),
-            _album("am1", "folge 1: der super-papagei", "apple_music", False, "compilation"),
+            _album(
+                "am1", "folge 1: der super-papagei", "apple_music", False, "compilation"
+            ),
         ]
         result = reconcile_cross_provider(albums)
         assert result.flipped == 1
@@ -242,8 +244,16 @@ class TestReconcileCrossProvider:
         """Was Ist Was 'Topic A / Topic B' excluded as compilation on
         one provider but included on the other should be auto-flipped."""
         albums = [
-            _album("am1", "07: Roboter & Androiden / Supercomputer", "apple_music", True),
-            _album("sp1", "07: Roboter & Androiden / Supercomputer", "spotify", False, "compilation"),
+            _album(
+                "am1", "07: Roboter & Androiden / Supercomputer", "apple_music", True
+            ),
+            _album(
+                "sp1",
+                "07: Roboter & Androiden / Supercomputer",
+                "spotify",
+                False,
+                "compilation",
+            ),
         ]
         result = reconcile_cross_provider(albums)
         assert result.flipped == 1
@@ -254,7 +264,13 @@ class TestReconcileCrossProvider:
         partial_release on Apple Music but included on Spotify."""
         albums = [
             _album("sp1", "Brief von Captain Tolle", "spotify", True),
-            _album("am1", "Brief von Captain Tolle", "apple_music", False, "partial_release"),
+            _album(
+                "am1",
+                "Brief von Captain Tolle",
+                "apple_music",
+                False,
+                "partial_release",
+            ),
         ]
         result = reconcile_cross_provider(albums)
         assert result.flipped == 1

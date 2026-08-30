@@ -443,19 +443,25 @@ class TestKnownGapRange:
     def test_range_gap_episode_numbers(self):
         from lauschi_catalog.catalog.facts import KnownGap
 
-        gap = KnownGap(number=51, range_end=55, reason="not produced", curated_by="test")
+        gap = KnownGap(
+            number=51, range_end=55, reason="not produced", curated_by="test"
+        )
         assert gap.episode_numbers() == {51, 52, 53, 54, 55}
 
     def test_merge_range_deduplicates_with_individual(self):
         """A range already covering episode 52 prevents a single gap at 52."""
         from lauschi_catalog.catalog.facts import KnownGap, SeriesFacts, merge_facts
 
-        existing = SeriesFacts(known_gaps=[
-            KnownGap(number=51, range_end=55, reason="bulk gap", curated_by="c"),
-        ])
-        proposed = SeriesFacts(known_gaps=[
-            KnownGap(number=52, reason="individual gap", curated_by="c"),
-        ])
+        existing = SeriesFacts(
+            known_gaps=[
+                KnownGap(number=51, range_end=55, reason="bulk gap", curated_by="c"),
+            ]
+        )
+        proposed = SeriesFacts(
+            known_gaps=[
+                KnownGap(number=52, reason="individual gap", curated_by="c"),
+            ]
+        )
         merged = merge_facts(existing, proposed)
         assert merged is not None
         assert len(merged.known_gaps) == 1
@@ -466,12 +472,16 @@ class TestKnownGapRange:
         """Non-overlapping gaps are both kept."""
         from lauschi_catalog.catalog.facts import KnownGap, SeriesFacts, merge_facts
 
-        existing = SeriesFacts(known_gaps=[
-            KnownGap(number=3, reason="pulled", curated_by="c"),
-        ])
-        proposed = SeriesFacts(known_gaps=[
-            KnownGap(number=51, range_end=55, reason="bulk gap", curated_by="c"),
-        ])
+        existing = SeriesFacts(
+            known_gaps=[
+                KnownGap(number=3, reason="pulled", curated_by="c"),
+            ]
+        )
+        proposed = SeriesFacts(
+            known_gaps=[
+                KnownGap(number=51, range_end=55, reason="bulk gap", curated_by="c"),
+            ]
+        )
         merged = merge_facts(existing, proposed)
         assert merged is not None
         assert len(merged.known_gaps) == 2

@@ -59,23 +59,27 @@ def _load_pending(series_id: str | None) -> list[dict]:
                 set(album_lookup),
             )
             matched = [album_lookup[aid] for aid in resolved]
-            enriched_subs.append({
-                "label": sub.get("label", ""),
-                "reason": sub.get("reason", ""),
-                "albums": sorted(
-                    matched,
-                    key=lambda a: (
-                        a.get("episode_num") or 0,
-                        a.get("provider", ""),
+            enriched_subs.append(
+                {
+                    "label": sub.get("label", ""),
+                    "reason": sub.get("reason", ""),
+                    "albums": sorted(
+                        matched,
+                        key=lambda a: (
+                            a.get("episode_num") or 0,
+                            a.get("provider", ""),
+                        ),
                     ),
-                ),
-            })
+                }
+            )
 
-        pending.append({
-            "series_id": data.get("id", path.stem),
-            "title": data.get("title", path.stem),
-            "sub_series": enriched_subs,
-        })
+        pending.append(
+            {
+                "series_id": data.get("id", path.stem),
+                "title": data.get("title", path.stem),
+                "sub_series": enriched_subs,
+            }
+        )
 
     return pending
 
@@ -175,8 +179,7 @@ def accept(series_id: str, label: str, new_id: str | None, new_title: str | None
     result = accept_split(series_id, idx, new_id=new_id, new_title=new_title)
     if result.ok:
         console.print(
-            f"[green]Created {result.new_id}[/green] "
-            f"from {series_id}:{label}"
+            f"[green]Created {result.new_id}[/green] from {series_id}:{label}"
         )
     else:
         console.print(f"[red]Failed: {result.error}[/red]")
@@ -195,9 +198,7 @@ def reject(series_id: str, label: str):
 
     result = reject_split(series_id, idx)
     if result.ok:
-        console.print(
-            f"[green]Rejected split '{label}' from {series_id}[/green]"
-        )
+        console.print(f"[green]Rejected split '{label}' from {series_id}[/green]")
     else:
         console.print(f"[red]Failed: {result.error}[/red]")
         raise SystemExit(1)
@@ -231,8 +232,7 @@ def accept_all(series_id: str | None):
                 accepted += 1
             else:
                 console.print(
-                    f"  [red]Failed {entry['series_id']}:{label}: "
-                    f"{result.error}[/red]"
+                    f"  [red]Failed {entry['series_id']}:{label}: {result.error}[/red]"
                 )
                 failed += 1
 
