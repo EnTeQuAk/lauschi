@@ -13,6 +13,7 @@ from __future__ import annotations
 
 from datetime import date
 
+from lauschi_catalog.catalog import reasons
 from lauschi_catalog.catalog.analysis import group_by_shape
 from lauschi_catalog.catalog.facts import SeriesFacts
 from lauschi_catalog.catalog.matcher import extract_episode
@@ -121,28 +122,13 @@ def _reason_key(exclude_reason: str | None) -> str:
     return "_".join(key.casefold().split())
 
 
-# Reasons that classify the *content* of an album (it is a single, a
+# Reasons that classify what an album *is* (it is a single, a
 # compilation, the wrong kind of thing, another line). The same content
 # cannot be classified one way for one member and the opposite way for
 # a sibling, so these are the reasons that make a split contradictory.
 # Redundancy reasons (duplicate, format_variant) describe a relationship
 # to another album, not the content, and a split on them is deliberate.
-_CONTENT_REASONS = frozenset(
-    {
-        "music_single",
-        "music_album",
-        "compilation",
-        "multi_artist_compilation",
-        "kinderlieder_compilation",
-        "compilation_as_episode",
-        "wrong_content_type",
-        "not_kids_content",
-        "audiobook",
-        "sub_series",
-        "sub_series_bleed",
-        "different_series",
-    }
-)
+_CONTENT_REASONS = reasons.CONTRADICTION_REASON_KEYS
 
 
 def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:

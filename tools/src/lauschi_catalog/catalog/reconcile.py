@@ -9,52 +9,22 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
-from typing import get_args
 
-from lauschi_catalog.catalog.curate_ops import ExcludeReason
+from lauschi_catalog.catalog import reasons
 
-EXCLUDE_REASONS: frozenset[str] = frozenset(get_args(ExcludeReason))
+EXCLUDE_REASONS: frozenset[str] = frozenset(reasons.CURATE_REASON_KEYS)
 
-# Reasons set outside the curate agent (audit, manual edits)
-_EXTRA_VALID: frozenset[str] = frozenset(
-    {
-        "audit_override",
-        "same_provider_duplicate",
-        "incomplete_release",
-        "wrong_artist",
-        "compilation_as_episode",
-    }
-)
+#: Reasons set outside the curate agent (audit, manual edits)
+_EXTRA_VALID: frozenset[str] = frozenset(reasons.ALL_REASON_KEYS - EXCLUDE_REASONS)
 
-ALL_KNOWN_REASONS: frozenset[str] = EXCLUDE_REASONS | _EXTRA_VALID
+ALL_KNOWN_REASONS: frozenset[str] = reasons.ALL_REASON_KEYS
 
 # Auto-flip: these exclusions on one provider are almost certainly wrong
-# when the same title is included on the other provider. Includes
-# `compilation` because genuine compilations have distinct titles
-# ("Folge 1-10", "Sammelbox") that never match a regular episode on
-# the other provider; a title match means the label is a false positive.
-_AUTO_FLIP_REASONS: frozenset[str] = frozenset(
-    {
-        "wrong_content_type",
-        "music_single",
-        "not_kids_content",
-        "format_variant",
-        "compilation",
-        "kinderlieder_compilation",
-        "multi_artist_compilation",
-        "partial_release",
-    }
-)
+# when the same title is included on the other provider.
+_AUTO_FLIP_REASONS: frozenset[str] = reasons.AUTO_FLIP_REASON_KEYS
 
 # Flag for review: structural decisions that may be correct on both sides.
-_FLAG_REASONS: frozenset[str] = frozenset(
-    {
-        "sub_series_bleed",
-        "sub_series",
-        "different_series",
-        "audit_override",
-    }
-)
+_FLAG_REASONS: frozenset[str] = reasons.FLAG_REASON_KEYS
 
 
 def normalize_exclude_reason(reason: str | None) -> str | None:
