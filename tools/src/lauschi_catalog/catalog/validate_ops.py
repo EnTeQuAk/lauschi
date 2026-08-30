@@ -15,6 +15,7 @@ import requests
 from lauschi_catalog.catalog.loader import load_catalog
 from lauschi_catalog.catalog.matcher import extract_episode
 from lauschi_catalog.catalog.models import CatalogEntry
+from lauschi_catalog.fanout import map_providers
 from lauschi_catalog.providers import Album, CatalogProvider
 from lauschi_catalog.run_events import OUTCOME_OK, RunEvent, record_event
 
@@ -233,21 +234,30 @@ def validate_catalog(
             pattern=entry.episode_pattern,
         )
 
-        for p in providers:
-            if not entry.artist_ids(p.name) and not entry.provider_album_ids(p.name):
+        # The two providers validate concurrently: independent HTTP
+        # sweeps, own disk caches. Result values identical to the old
+        # sequential loop, wall clock is the slower provider not the sum.
+        provider_results = map_providers(
+            lambda p: (
+                None
+                if not entry.artist_ids(p.name) and not entry.provider_album_ids(p.name)
+                else validate_l5(entry, p)
+            ),
+            providers,
+        )
+        for p_name, l5 in provider_results.items():
+            if l5 is None:
                 continue
-
-            l5 = validate_l5(entry, p)
-            sv.l5_results[p.name] = l5
-            result.tested[p.name] += 1
+            sv.l5_results[p_name] = l5
+            result.tested[p_name] += 1
 
             if l5.is_perfect:
-                result.perfect[p.name] += 1
+                result.perfect[p_name] += 1
 
             if l5.total > 0:
                 prefix = "ids:" if l5.album_check else ""
                 on_progress(
-                    f"  {entry.title}/{p.name}: {prefix}{l5.matched}/{l5.total}"
+                    f"  {entry.title}/{p_name}: {prefix}{l5.matched}/{l5.total}"
                 )
 
         result.series_results.append(sv)

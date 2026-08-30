@@ -15,6 +15,7 @@ from lauschi_catalog.catalog.loader import (
     update_provider_ids,
 )
 from lauschi_catalog.catalog.paths import artist_image_path, series_yaml_path
+from lauschi_catalog.fanout import map_providers
 from lauschi_catalog.providers import Artist, CatalogProvider
 
 
@@ -177,17 +178,24 @@ def discover_one(
     matches: dict[str, DiscoverMatch | None] = {}
     all_candidates: dict[str, list[DiscoverMatch]] = {}
 
-    for p in providers:
+    def discover(p):
         candidates = discover_candidates(p, query)
         all_candidates[p.name] = [_artist_to_match(a, conf) for a, conf in candidates]
         best = match_artist(query, [a for a, _ in candidates])
         if best:
             conf = classify_match(query, best)
-            matches[p.name] = _artist_to_match(best, conf)
-            on_progress(f"  [{p.name}] {best.name} ({best.id})")
-        else:
-            matches[p.name] = None
-            on_progress(f"  [{p.name}] not found")
+            return _artist_to_match(best, conf)
+        return None
+
+    # The two providers search concurrently; results keyed by name are
+    # exactly what the sequential loop produced.
+    matches = map_providers(discover, providers)
+    for pname, match in matches.items():
+        on_progress(
+            f"  [{pname}] {match.artist_name} ({match.artist_id})"
+            if match
+            else f"  [{pname}] not found"
+        )
 
     result = DiscoverResult(query=query, matches=matches, candidates=all_candidates)
 
@@ -296,22 +304,24 @@ def discover_all(
     found_total = 0
 
     for entry in entries:
-        any_missing = False
-        for p in providers:
-            existing = entry.artist_ids(p.name)
-            if existing:
-                continue
-            any_missing = True
-            best = match_artist(entry.title, p.search_artists(entry.title))
+        missing = [p for p in providers if not entry.artist_ids(p.name)]
+        if not missing:
+            on_progress(f"  {entry.title}: all providers present")
+            continue
+
+        def search(best_p):
+            return match_artist(entry.title, best_p.search_artists(entry.title))
+
+        # The missing providers search concurrently; entry loop stays
+        # sequential so each series' progress reads as a group.
+        found = map_providers(search, missing)
+        for p_name, best in found.items():
             if best:
                 found_total += 1
-                updates.setdefault(entry.id, {})[p.name] = [best.id]
-                on_progress(f"  {entry.title}: {p.name} -> {best.id}")
+                updates.setdefault(entry.id, {})[p_name] = [best.id]
+                on_progress(f"  {entry.title}: {p_name} -> {best.id}")
             else:
-                on_progress(f"  {entry.title}: {p.name} -> not found")
-
-        if not any_missing:
-            on_progress(f"  {entry.title}: all providers present")
+                on_progress(f"  {entry.title}: {p_name} -> not found")
 
     result = DiscoverAllResult(found_total=found_total, updates=updates)
     on_progress(f"{found_total} new IDs discovered")

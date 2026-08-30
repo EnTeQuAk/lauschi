@@ -37,6 +37,7 @@ from enum import Enum
 from lauschi_catalog.catalog.matcher import extract_episode
 from lauschi_catalog.catalog.models import CatalogEntry
 from lauschi_catalog.catalog.paths import curation_path
+from lauschi_catalog.fanout import map_providers
 from lauschi_catalog.providers import Album, CatalogProvider
 
 Progress = Callable[[str], None]
@@ -345,11 +346,14 @@ def detect_drift(
 
     Fetches in batches (20 per call on Spotify, 100 on Apple Music) and
     always bypasses the disk cache: verifying our snapshot against our
-    own cached copy of it would prove nothing.
+    own cached copy of it would prove nothing. The two providers are
+    swept concurrently (independent HTTP clients); findings are merged
+    and sorted so the output is identical to the sequential sweep.
     """
-    result = DriftResult()
 
-    for provider in providers:
+    def sweep(provider) -> DriftResult:
+        provider_result = DriftResult()
+
         # Keyed by (series_id, album_id): two series can legitimately
         # include the same album id, and a last-writer-wins dict would
         # attribute the drift finding to whichever entry came second.
@@ -359,9 +363,9 @@ def detect_drift(
                 entry.id, provider.name, included_only=included_only
             )
             for message in configured_vs_curation(entry, provider.name):
-                result.divergence.append(message)
+                provider_result.divergence.append(message)
             if not records and entry.provider_album_ids(provider.name):
-                result.unresolved_series.append(f"{entry.id}/{provider.name}")
+                provider_result.unresolved_series.append(f"{entry.id}/{provider.name}")
                 continue
             for record in records:
                 album_id = str(record.get("album_id") or "")
@@ -369,7 +373,7 @@ def detect_drift(
                     wanted[(entry.id, album_id)] = (entry, record)
 
         if not wanted:
-            continue
+            return provider_result
 
         # One provider request per distinct album id; duplicates that span
         # series are fetched once and compared per (series, album).
@@ -381,8 +385,10 @@ def detect_drift(
         fetched = provider.albums_by_ids(distinct_ids)
         live: dict[str, Album] = {a.id: a for a in fetched.albums}
         unverified = set(fetched.unverified)
-        result.unverified.extend(f"{provider.name}:{i}" for i in sorted(unverified))
-        result.checked[provider.name] = len(distinct_ids) - len(unverified)
+        provider_result.unverified.extend(
+            f"{provider.name}:{i}" for i in sorted(unverified)
+        )
+        provider_result.checked[provider.name] = len(distinct_ids) - len(unverified)
 
         for (_series_id, album_id), (entry, record) in wanted.items():
             if album_id in unverified:
@@ -403,7 +409,19 @@ def detect_drift(
                 series_id=entry.id,
             )
             if finding is not None:
-                result.findings.append(finding)
+                provider_result.findings.append(finding)
+        return provider_result
+
+    per_provider = map_providers(sweep, providers)
+
+    result = DriftResult()
+    for provider in providers:
+        provider_result = per_provider[provider.name]
+        result.divergence.extend(provider_result.divergence)
+        result.unresolved_series.extend(provider_result.unresolved_series)
+        result.unverified.extend(provider_result.unverified)
+        result.checked.update(provider_result.checked)
+        result.findings.extend(provider_result.findings)
 
     result.findings.sort(
         key=lambda f: (
