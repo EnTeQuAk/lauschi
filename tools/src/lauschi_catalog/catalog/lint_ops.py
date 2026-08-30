@@ -14,7 +14,7 @@ from __future__ import annotations
 from datetime import date
 
 from lauschi_catalog.catalog import reasons
-from lauschi_catalog.catalog.analysis import group_by_shape
+from lauschi_catalog.catalog.analysis import group_by_shape, normalize_title
 from lauschi_catalog.catalog.facts import SeriesFacts
 from lauschi_catalog.catalog.matcher import extract_episode
 
@@ -98,15 +98,12 @@ def lint_regression(previous: dict | None, current: dict) -> list[str]:
 
 
 def _norm_title(title: str) -> str:
-    """Normalize a title for cross-provider comparison.
+    """Cross-provider title fold, shared with reconcile.
 
-    Apple Music decorates with ' - EP' / ' - Single' suffixes that
-    Spotify doesn't carry.
+    Kept as a private alias so the lint call sites read the same as
+    they always did; the definition lives in analysis.normalize_title.
     """
-    t = " ".join(title.casefold().split())
-    for suffix in (" - ep", " - single"):
-        t = t.removesuffix(suffix)
-    return t
+    return normalize_title(title)
 
 
 def _reason_key(exclude_reason: str | None) -> str:

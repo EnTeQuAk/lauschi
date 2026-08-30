@@ -11,6 +11,7 @@ import re
 from dataclasses import dataclass, field
 
 from lauschi_catalog.catalog import reasons
+from lauschi_catalog.catalog.analysis import normalize_title
 
 EXCLUDE_REASONS: frozenset[str] = frozenset(reasons.CURATE_REASON_KEYS)
 
@@ -67,15 +68,12 @@ class ReconcileResult:
 
 
 def _norm_title(title: str) -> str:
-    """Normalize a title for cross-provider comparison.
+    """Cross-provider title fold, shared with lint.
 
-    Same logic as lint_ops._norm_title: casefold and strip Apple Music
-    suffixes that Spotify doesn't carry.
+    Kept as a private alias so the reconcile call sites read the same
+    as they always did; the definition lives in analysis.normalize_title.
     """
-    t = " ".join(title.casefold().split())
-    for suffix in (" - ep", " - single"):
-        t = t.removesuffix(suffix)
-    return t
+    return normalize_title(title)
 
 
 def reconcile_cross_provider(albums: list[dict]) -> ReconcileResult:

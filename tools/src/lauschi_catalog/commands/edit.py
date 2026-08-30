@@ -8,6 +8,7 @@ from pathlib import Path
 import click
 from rich.console import Console
 
+from lauschi_catalog.catalog.canonical import album_sort_key
 from lauschi_catalog.catalog.io import safe_write_json
 from lauschi_catalog.catalog.paths import CURATION_DIR
 
@@ -87,15 +88,7 @@ def list_albums(series_id: str, excluded: bool):
     if excluded:
         albums = [a for a in albums if not a.get("include")]
 
-    for a in sorted(
-        albums,
-        key=lambda x: (
-            x.get("episode_num") is None,
-            x.get("episode_num"),
-            x.get("release_date") or "",
-            x["title"],
-        ),
-    ):
+    for a in sorted(albums, key=album_sort_key):
         status = "✓" if a.get("include") else "✗"
         ep = a.get("episode_num") or "?"
         prov = a.get("provider", "spotify")[:2]

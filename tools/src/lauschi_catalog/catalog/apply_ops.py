@@ -10,6 +10,7 @@ import json
 from collections.abc import Callable
 from dataclasses import dataclass, field
 
+from lauschi_catalog.catalog.canonical import album_sort_key
 from lauschi_catalog.catalog.lifecycle import apply_is_unsafe, review_block
 from lauschi_catalog.catalog.loader import load_raw, save_raw
 from lauschi_catalog.catalog.paths import CURATION_DIR
@@ -120,15 +121,7 @@ def apply_one(
     updated = False
 
     for prov_name, prov_albums in by_provider.items():
-        sorted_albums = sorted(
-            prov_albums,
-            key=lambda a: (
-                a.get("episode_num") is None,
-                a.get("episode_num"),
-                a.get("release_date") or "",
-                a.get("title", ""),
-            ),
-        )
+        sorted_albums = sorted(prov_albums, key=album_sort_key)
 
         if prov_name not in yaml_series["providers"]:
             yaml_series["providers"][prov_name] = {}

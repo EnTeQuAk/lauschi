@@ -31,7 +31,7 @@ from lauschi_catalog.agent_deps import AgentDeps, Progress, _noop
 from lauschi_catalog.agent_hooks import build_progress_hooks
 from lauschi_catalog.agent_tools import build_agent_tools
 from lauschi_catalog.catalog.analysis import analyze_series
-from lauschi_catalog.catalog.canonical import canonicalize
+from lauschi_catalog.catalog.canonical import album_sort_key, canonicalize
 from lauschi_catalog.catalog.facts import (
     EraBoundary,
     EraBoundaryProposal,
@@ -56,6 +56,7 @@ from lauschi_catalog.catalog.matcher import (
 )
 from lauschi_catalog.catalog.matcher import (
     extract_episode,
+    spread_sample,
 )
 from lauschi_catalog.catalog.paths import (
     CURATION_DIR,
@@ -305,10 +306,7 @@ def _stratified_sample(items: list, n: int) -> list:
     newest-first). Taking the first N can blind the metadata agent
     to era-specific naming conventions.
     """
-    if len(items) <= n:
-        return list(items)
-    step = len(items) / n
-    return [items[int(i * step)] for i in range(n)]
+    return spread_sample(items, n)
 
 
 def _reextract_episode_numbers(
@@ -443,12 +441,7 @@ class CuratedSeries(BaseModel):
     def included(self) -> list[AlbumDecision]:
         return sorted(
             [a for a in self.albums if a.include],
-            key=lambda a: (
-                a.episode_num is None,
-                a.episode_num,
-                a.release_date or "",
-                a.title,
-            ),
+            key=lambda a: album_sort_key(a.model_dump()),
         )
 
     def by_provider(self, provider: str) -> list[AlbumDecision]:

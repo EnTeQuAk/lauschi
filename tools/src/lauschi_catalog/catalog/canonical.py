@@ -17,6 +17,7 @@ which is where this module focuses.
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from typing import Any
 
 # Used as a sort sentinel for albums whose episode_num is unset. Picks
@@ -47,6 +48,24 @@ def _override_key(override: Any) -> tuple:
     if not isinstance(override, dict):
         return ("", "")
     return (override.get("provider") or "", override.get("album_id") or "")
+
+
+def album_sort_key(album: Mapping[str, Any]) -> tuple:
+    """Sort key for displaying albums in episode order.
+
+    Episode-less entries sort last within their provider, since an
+    unknown episode cannot be placed in the numbered run. Ties break on
+    release date, then title. Used by curation display, audit output,
+    apply, and the edit picker; one definition so a re-order in one
+    place does not silently diverge in the others.
+    """
+    ep = album.get("episode_num")
+    return (
+        ep is None,
+        ep if isinstance(ep, int) else 0,
+        album.get("release_date") or "",
+        album.get("title") or "",
+    )
 
 
 def _era_start_year(era: Any) -> int:

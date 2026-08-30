@@ -28,6 +28,24 @@ _CLUSTER_EXAMPLE_LIMIT = 3
 _OUTLIER_LIST_LIMIT = 20
 
 
+def normalize_title(title: str) -> str:
+    """Normalize a title for cross-provider comparison.
+
+    Casefolds and strips the ' - EP' / ' - Single' suffixes that Apple
+    Music decorates with but Spotify does not, so the same release
+    under both providers compares equal.
+
+    Used by duplicate detection (lint) and cross-provider reconciliation.
+    Deliberately weaker than drift_ops's title fold, which also strips
+    qualifiers: drift asks "is this still the same content?", while
+    lint and reconcile ask "did both providers ship the same album?".
+    """
+    t = " ".join(title.casefold().split())
+    for suffix in (" - ep", " - single"):
+        t = t.removesuffix(suffix)
+    return t
+
+
 def title_shape(title: str) -> str:
     """Reduce a title to its structural shape for clustering.
 

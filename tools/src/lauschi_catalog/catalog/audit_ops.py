@@ -28,7 +28,7 @@ from lauschi_catalog.agent_deps import AgentDeps, Progress, _noop
 from lauschi_catalog.agent_hooks import build_progress_hooks
 from lauschi_catalog.agent_tools import build_agent_tools
 from lauschi_catalog.catalog.analysis import analyze_series, group_by_shape
-from lauschi_catalog.catalog.canonical import canonicalize
+from lauschi_catalog.catalog.canonical import album_sort_key, canonicalize
 from lauschi_catalog.catalog.facts import (
     EraBoundaryProposal,
     KnownGapProposal,
@@ -194,12 +194,7 @@ def _build_audit_agent(
 def _sorted_included(albums: list[dict]) -> list[dict]:
     return sorted(
         [a for a in albums if a.get("include")],
-        key=lambda a: (
-            a.get("episode_num") is None,
-            a.get("episode_num"),
-            a.get("release_date") or "",
-            a["title"],
-        ),
+        key=album_sort_key,
     )
 
 

@@ -47,17 +47,24 @@ def extract_episode(
     return None
 
 
-def _spread_sample(items: list, n: int) -> list:
+def spread_sample(items: list, n: int) -> list:
     """Pick up to ``n`` items spread evenly across ``items``.
 
     Provider APIs return albums in a specific order (e.g. newest-first).
     Taking the first N blinds the model to era-specific naming. Spreading
     across the list surfaces early, middle, and late naming conventions.
+
+    Returns a copy; callers may mutate the result freely.
     """
     if len(items) <= n:
-        return items
+        return list(items)
     step = len(items) / n
     return [items[int(i * step)] for i in range(n)]
+
+
+def _spread_sample(items: list, n: int) -> list:
+    """Private alias kept so matcher call sites read as before."""
+    return spread_sample(items, n)
 
 
 def compute_pattern_coverage(
