@@ -793,18 +793,33 @@ def _build_batch_agent(
     def _validate_batch_completeness(
         ctx: RunContext[CurateDeps], result: BatchResult
     ) -> BatchResult:
-        """Every album in the batch must have a decision."""
+        """Every album in the batch must have a decision, and no extras."""
         if not ctx.deps.current_batch_ids:
             return result
         returned_ids = {(a.provider, a.album_id) for a in result.albums}
-        missing = ctx.deps.current_batch_ids - returned_ids
-        if missing:
-            samples = [f"{p}:{aid}" for p, aid in sorted(missing)[:5]]
+        batch_ids = ctx.deps.current_batch_ids
+        missing = batch_ids - returned_ids
+        extra = returned_ids - batch_ids
+        if missing or extra:
+            samples_missing = [f"{p}:{aid}" for p, aid in sorted(missing)[:5]]
+            samples_extra = [f"{p}:{aid}" for p, aid in sorted(extra)[:5]]
+            parts: list[str] = []
+            if missing:
+                parts.append(
+                    f"omitted {len(missing)} album(s). Missing: "
+                    f"{', '.join(samples_missing)}"
+                    f"{'...' if len(missing) > 5 else ''}"
+                )
+            if extra:
+                parts.append(
+                    f"added {len(extra)} extra album(s). Extra: "
+                    f"{', '.join(samples_extra)}"
+                    f"{'...' if len(extra) > 5 else ''}"
+                )
             raise ModelRetry(
-                f"You omitted {len(missing)} album(s) from your output. "
-                f"Every album in the batch needs a decision (include or "
-                f"exclude). Missing: {', '.join(samples)}"
-                f"{'...' if len(missing) > 5 else ''}",
+                f"Your output does not match the batch exactly. "
+                f"{'; '.join(parts)}. "
+                f"Return one decision for every album in the batch and no others.",
             )
         return result
 
