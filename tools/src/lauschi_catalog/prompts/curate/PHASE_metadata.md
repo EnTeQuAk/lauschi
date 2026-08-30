@@ -32,7 +32,6 @@ is acceptable, commit the pattern and move on.
 Step 3 (only if needed): Use `web_search` (max 3 queries) and
 `fetch_page` (max 2 URLs) when:
 - Coverage is ambiguous (60-80%) and you need to classify unmatched titles
-- You need to find missing artist IDs for a provider
 - The series structure is genuinely unclear from titles alone
 Don't search for every series; most are straightforward from the sample
 titles + one pattern check.
@@ -51,4 +50,8 @@ For music and audiobook series, episode_pattern is always None and no pattern
 tools are registered. Set up the metadata directly.
 
 **Output:** `SeriesMetadata` (id, title, aliases, episode_pattern, age_note,
-curator_notes, provider_artist_ids).
+curator_notes).
+
+Note: `provider_artist_ids` are discovered deterministically before this
+phase and are not part of the model's output. They cannot be overridden
+by the metadata model.

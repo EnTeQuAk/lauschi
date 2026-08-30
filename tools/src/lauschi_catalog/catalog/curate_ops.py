@@ -500,7 +500,6 @@ class SeriesMetadata(BaseModel):
     )
     age_note: str = ""
     curator_notes: str = ""
-    provider_artist_ids: dict[str, list[str]] = Field(default_factory=dict)
 
     @field_validator("episode_pattern")
     @classmethod
@@ -1461,10 +1460,13 @@ async def _run_large(
         model_name=model_name,
         on_progress=on_progress,
     )
-    if not meta.provider_artist_ids:
-        meta.provider_artist_ids = artist_ids
-
     assert meta is not None
+
+    # Discovery artist IDs are the ground truth. The metadata model no
+    # longer has access to provider_artist_ids so it cannot override
+    # them; if we later need to add an id discovered by the model, it
+    # must go through a tool gated by provider.artist_exists().
+    provider_artist_ids: dict[str, list[str]] = artist_ids
 
     on_progress(
         f"  id={meta.id}  title={meta.title!r}  "
@@ -2013,7 +2015,7 @@ async def _run_large(
         aliases=meta.aliases,
         episode_pattern=final_pattern,
         albums=all_decisions,
-        provider_artist_ids=meta.provider_artist_ids,
+        provider_artist_ids=provider_artist_ids,
         age_note=meta.age_note,
         curator_notes=meta.curator_notes,
         series_facts=merged_facts or SeriesFacts(),
