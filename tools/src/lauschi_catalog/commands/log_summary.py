@@ -38,6 +38,8 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 
+from lauschi_catalog.catalog.series_ops import SERIES_ID_PATTERN
+
 from lauschi_catalog.catalog.loader import load_catalog
 from lauschi_catalog.catalog.paths import log_dir, repo_root
 
@@ -150,7 +152,7 @@ _RE_CURATE_HEADER = re.compile(
 _RE_FLOW = re.compile(r"^\s+(\d+) albums — using (single-agent|batched) flow$")
 _RE_TOTAL = re.compile(r"^\s+Total: (\d+) albums across \d+ providers")
 # Both unindented (curate) and indented (review's "  Saved to ...") forms.
-_RE_SAVE = re.compile(r"^\s*Saved to .*/curation/([a-z][a-z0-9_]*)\.json")
+_RE_SAVE = re.compile(r"^\s*Saved to .*/curation/(" + SERIES_ID_PATTERN + r")\.json")
 _RE_FAILURE = re.compile(r"^Failed to curate (.+?): (.+)$")
 _RE_ID_LOCK = re.compile(r"Locked id to canonical: '([^']+)' → '([^']+)'")
 _RE_DISAMBIG = re.compile(r"\bchose\b\s+(\S.+?)\s+\[\S+\]\s+\(also matched: ([^)]+)\)")
@@ -164,7 +166,9 @@ _RE_PATTERN_REVISED = re.compile(
 # Review phase
 _RE_REVIEWING = re.compile(r"^Reviewing (.+?)\.{3}$")
 _RE_REVIEW_SKIP = re.compile(
-    r"^Skipping ([a-z][a-z0-9_]*) \(already (approved|ai_verified); use --force",
+    r"^Skipping ("
+    + SERIES_ID_PATTERN
+    + r") \(already (approved|ai_verified); use --force",
 )
 _RE_REVIEW_COUNTS = re.compile(
     r"^\s+(\d+) overrides, (\d+) splits, (\d+) added"
@@ -183,7 +187,7 @@ _RE_REVIEW_COERCED = re.compile(
 _RE_REVIEW_SUMMARY = re.compile(r"^\s+Summary: (.+)$")
 
 # Verify phase
-_RE_VERIFYING = re.compile(r"^Verifying ([a-z][a-z0-9_]*)\.{3}")
+_RE_VERIFYING = re.compile(r"^Verifying (" + SERIES_ID_PATTERN + r")\.{3}")
 _RE_VERIFY_APPROVED = re.compile(r"^\s+✓ Approved(?:\s+\[|$)")
 _RE_VERIFY_FLAGGED = re.compile(r"^\s+✓ Approved\s+\(flagged")
 _RE_VERIFY_ESCALATED = re.compile(r"^\s+⚠ Escalated")

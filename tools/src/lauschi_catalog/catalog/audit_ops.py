@@ -872,6 +872,8 @@ async def _audit_chunked(
         on_progress(
             f"  Chunk {i}/{len(chunks)}: {chunk.label} ({len(chunk.albums)} albums)"
         )
+        # Search-repeat allowance is per chunk, not across the whole series.
+        prepared.deps._search_counts = {}
         prompt = _chunk_prompt(overview, chunk, i, len(chunks), partials)
         result = await run_with_attempts(
             lambda p=prompt, i=i: _run_audit_prompt(

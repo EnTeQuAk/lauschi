@@ -27,13 +27,13 @@ def _noop(_msg: str) -> None:
 _PATTERNS: list[tuple[str, str]] = [
     ("NNN/", r"^(\d{1,3})/"),
     ("N:", r"^(\d{1,2}):\s"),
-    ("Folge N", r"[Ff]olge\s+(\d+)"),
-    ("Teil N", r"[Tt]eil\s+(\d+)"),
-    ("Episode N", r"[Ee]pisode\s+(\d+)"),
-    ("Fall N", r"[Ff]all\s+(\d+)"),
-    ("Band N", r"[Bb]and\s+(\d+)"),
-    ("Hörspiel N", r"[Hh]örspiel\s+(\d+)"),
-    ("Nr. N", r"[Nn]r\\.?\\s+(\\d+)"),
+    ("Folge N", r"^[Ff]olge\s+(\d+)"),
+    ("Teil N", r"^[Tt]eil\s+(\d+)"),
+    ("Episode N", r"^[Ee]pisode\s+(\d+)"),
+    ("Fall N", r"^[Ff]all\s+(\d+)"),
+    ("Band N", r"^[Bb]and\s+(\d+)"),
+    ("Hörspiel N", r"^[Hh]örspiel\s+(\d+)"),
+    ("Nr. N", r"^[Nn]r\.?\s+(\d+)"),
 ]
 
 

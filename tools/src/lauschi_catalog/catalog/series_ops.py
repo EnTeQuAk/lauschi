@@ -18,6 +18,11 @@ from lauschi_catalog.catalog.deleted import record_deletion
 from lauschi_catalog.catalog.io import safe_write_json, safe_write_yaml
 from lauschi_catalog.catalog.loader import load_catalog, load_raw
 
+# Series ids are stable snake_case ASCII. They may start with a digit
+# (e.g. "5_geschwister", "100_wolf").
+SERIES_ID_PATTERN = r"[a-z0-9][a-z0-9_]*"
+SERIES_ID_RE = re.compile(rf"^{SERIES_ID_PATTERN}$")
+
 
 @dataclass
 class SeriesChanges:
@@ -63,7 +68,7 @@ def validate_series_changes(
     errors: list[str] = []
 
     if changes.id is not None:
-        if not re.match(r"^[a-z][a-z0-9_]*$", changes.id):
+        if not SERIES_ID_RE.match(changes.id):
             errors.append("id must be snake_case")
         else:
             existing_ids = [e.id for e in load_catalog() if e.id != series_id]
@@ -87,8 +92,9 @@ def validate_series_changes(
     if changes.content_type is not None and changes.content_type not in (
         "hoerspiel",
         "music",
+        "audiobook",
     ):
-        errors.append("content_type must be 'hoerspiel' or 'music'")
+        errors.append("content_type must be 'hoerspiel', 'music' or 'audiobook'")
 
     return errors
 

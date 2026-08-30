@@ -1622,9 +1622,11 @@ async def _run_large(
             f"-> {final_pattern!r}\n",
         )
 
-    # Always run deterministic episode extraction after batches.
-    # The batch agent may return episode_num=null even when the title
-    # clearly matches the pattern.
+    batch_index = {(a["provider"], a["id"]): a for a in all_albums}
+    _restore_dropped_albums(all_decisions, batch_index, on_progress=on_progress)
+
+    # Always run deterministic episode extraction after batches and after
+    # restoring dropped albums, so restored albums get a number too.
     if final_pattern is not None:
         re_extracted = _reextract_episode_numbers(all_decisions, final_pattern)
         if re_extracted:
@@ -1632,9 +1634,6 @@ async def _run_large(
                 f"  Deterministic extraction set {re_extracted} episode "
                 f"numbers from pattern.\n",
             )
-
-    batch_index = {(a["provider"], a["id"]): a for a in all_albums}
-    _restore_dropped_albums(all_decisions, batch_index, on_progress=on_progress)
 
     # -- Finalize metadata: facts discovery + episode extraction
     t_finalize = time.monotonic()
@@ -1920,7 +1919,7 @@ async def _run_large(
                 err = describe_failure(exc)
                 provider_errors.append(f"finalize: {err}")
                 on_progress(
-                    f"  Finalize phase failed: {exc}. "
+                    f"  Finalize phase failed: {err}. "
                     f"Proceeding with batch results (marked incomplete).\n",
                 )
 

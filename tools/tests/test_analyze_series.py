@@ -157,19 +157,16 @@ def test_analyze_no_episode_nums_means_no_range():
     assert result["with_episode_num"] == 0
 
 
-def test_analyze_episode_num_zero_treated_as_missing():
-    """Current behavior: episode_num=0 is filtered out by truthiness check.
-
-    This is a quirk worth preserving deliberately. Episode numbering for
-    Hörspiele starts at 1 in practice, so 0 is not a real value.
-    """
+def test_analyze_episode_num_zero_is_counted():
+    """episode_num=0 is a valid value and must not be filtered out."""
     albums = [
         make_album("a", "Pilot", episode_num=0),
         make_album("b", "Folge 1: A", episode_num=1),
     ]
     result = analyze_series(make_curation(albums=albums))
-    assert result["with_episode_num"] == 1
-    assert result["episode_range"] == "1-1"
+    assert result["with_episode_num"] == 2
+    assert result["episode_range"] == "0-1"
+    assert result["gaps"] == []
 
 
 # ── providers ──────────────────────────────────────────────────────────────

@@ -107,7 +107,7 @@ def _cross_provider_coverage(albums: list[dict]) -> dict:
     eps_by_provider: dict[str, set[int]] = {}
     for a in albums:
         ep = a.get("episode_num")
-        if not ep:
+        if ep is None:
             continue
         eps_by_provider.setdefault(a.get("provider", "spotify"), set()).add(ep)
 
@@ -139,7 +139,7 @@ def _duplicates_within_provider(albums: list[dict]) -> list[dict]:
     by_key: dict[tuple[str, int], list[str]] = {}
     for a in albums:
         ep = a.get("episode_num")
-        if not ep:
+        if ep is None:
             continue
         key = (a.get("provider", "spotify"), ep)
         by_key.setdefault(key, []).append(a["album_id"])
@@ -179,7 +179,7 @@ def analyze_series(curation: dict) -> dict[str, Any]:
             with otherwise-clean titles signals a broken pattern.
     """
     albums = effective_albums(curation)
-    episodes = [a for a in albums if a.get("episode_num")]
+    episodes = [a for a in albums if a.get("episode_num") is not None]
     nums = sorted(a["episode_num"] for a in episodes)
 
     gaps: list[int] = []

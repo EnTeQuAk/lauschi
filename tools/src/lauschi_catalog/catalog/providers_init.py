@@ -38,15 +38,21 @@ def init_providers(
             from lauschi_catalog.providers.spotify import SpotifyProvider
 
             result.providers.append(SpotifyProvider(use_cache=use_cache))
-        except (Exception, SystemExit):
-            result.warnings.append("Spotify credentials not set, skipping")
+        except SystemExit as e:
+            # SpotifyProvider calls sys.exit(1) when SPOTIFY_CLIENT_ID /
+            # SPOTIFY_CLIENT_SECRET are missing. Surface that specifically so
+            # a network error during token fetch does not get swallowed.
+            result.warnings.append(f"Spotify credentials not set, skipping ({e})")
 
     if which in ("apple_music", "all"):
         try:
             from lauschi_catalog.providers.apple_music import AppleMusicProvider
 
             result.providers.append(AppleMusicProvider(use_cache=use_cache))
-        except (Exception, SystemExit):
-            result.warnings.append("Apple Music key not found, skipping")
+        except FileNotFoundError as e:
+            # AppleMusicProvider raises FileNotFoundError when the MusicKit
+            # key is absent. Surface that specifically so a network error at
+            # init stops the run instead of dropping the provider.
+            result.warnings.append(f"Apple Music key not found, skipping ({e})")
 
     return result
