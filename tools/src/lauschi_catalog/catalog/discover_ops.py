@@ -9,9 +9,8 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass, field
-from typing import Any
 
-from lauschi_catalog.catalog.add_ops import title_to_id
+from lauschi_catalog.catalog.add_ops import add_series, title_to_id
 from lauschi_catalog.catalog.io import safe_write_json
 from lauschi_catalog.catalog.loader import (
     load_catalog,
@@ -20,7 +19,6 @@ from lauschi_catalog.catalog.loader import (
     update_provider_ids,
 )
 from lauschi_catalog.catalog.paths import artist_image_path
-from lauschi_catalog.catalog.series_ops import add_series_entry
 from lauschi_catalog.providers import Artist, CatalogProvider
 
 
@@ -99,7 +97,10 @@ def match_artist(
 ) -> Artist | None:
     """Find the best matching artist for a series title.
 
-    Prefers exact name match, then substring, then Hörspiel genre.
+    Accepts only exact name match or substring. Genre-only or
+    single-candidate heuristics are intentionally rejected: we do not
+    want to write a random kids-audio artist to series.yaml just
+    because it is the only search result.
     """
     title_lower = series_title.lower()
 
@@ -111,15 +112,6 @@ def match_artist(
         name_lower = c.name.lower()
         if title_lower in name_lower or name_lower in title_lower:
             return c
-
-    kids_genres = {"kinder", "hörspiel", "hörbuch", "children", "kids", "spoken"}
-    for c in candidates:
-        genre_str = " ".join(c.genres).lower()
-        if any(g in genre_str for g in kids_genres):
-            return c
-
-    if len(candidates) == 1:
-        return candidates[0]
 
     return None
 
@@ -219,28 +211,45 @@ def discover_one(
     _save_artist_images(series_id, matches, all_candidates)
 
     if not entry:
-        new_id = title_to_id(query)
-        title = query
-        for m in discoveries.values():
-            if m.artist_name:
-                title = m.artist_name
-                break
+        sure: dict[str, DiscoverMatch] = {
+            pname: m
+            for pname, m in discoveries.items()
+            if m.confidence in ("exact", "substring")
+        }
+        if not sure:
+            on_progress(
+                "No sure matches; skipped creating series "
+                f"'{title_to_id(query)}' (use catalog-add to create it)"
+            )
+            return result
 
-        new_entry: dict[str, Any] = {"id": new_id, "title": title, "providers": {}}
-        for pname, m in discoveries.items():
-            new_entry["providers"][pname] = {"artist_ids": [m.artist_id]}
+        artists = {
+            pname: Artist(
+                id=m.artist_id,
+                name=m.artist_name,
+                provider=pname,
+                genres=m.genres,
+                followers=m.followers,
+                image_url=m.image_url,
+            )
+            for pname, m in sure.items()
+        }
 
-        add_result = add_series_entry(new_entry)
+        add_result = add_series(
+            query,
+            artists=artists,
+            on_progress=on_progress,
+        )
         if not add_result.ok:
             on_progress(f"Failed to create series: {add_result.error}")
             return result
 
         result.written = True
         result.created_new = True
-        result.new_series_id = new_id
+        result.new_series_id = add_result.series_id
         on_progress(
-            f"Created new series '{title}' (id: {new_id}) "
-            f"with {len(discoveries)} provider(s)"
+            f"Created new series '{query}' (id: {add_result.series_id}) "
+            f"with {len(artists)} provider(s)"
         )
         return result
 
@@ -251,6 +260,13 @@ def discover_one(
             continue
         raw_providers = raw_entry.setdefault("providers", {})
         for pname, m in discoveries.items():
+            # Only exact/substring matches are written automatically.
+            if m.confidence not in ("exact", "substring"):
+                on_progress(
+                    f"  [{pname}] weak match '{m.artist_name}' not written; "
+                    "use catalog-edit to add it manually"
+                )
+                continue
             raw_cfg = raw_providers.setdefault(pname, {})
             existing: list[str] = raw_cfg.get("artist_ids") or []
             if m.artist_id not in existing:

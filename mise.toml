@@ -77,11 +77,11 @@ run = "uv run --directory tools lauschi-catalog add"
 
 [tasks.catalog-discover]
 description = "Discover missing artist IDs across all providers"
-run = "uv run --directory tools lauschi-catalog discover --write"
+run = "uv run --directory tools lauschi-catalog discover --dry-run"
 
-[tasks.catalog-discover-dry]
-description = "Discover missing artist IDs (dry run, no write)"
-run = "uv run --directory tools lauschi-catalog discover"
+[tasks.catalog-discover-write]
+description = "Write discovered artist IDs only for exact or substring matches"
+run = "uv run --directory tools lauschi-catalog discover --write"
 
 [tasks.catalog-validate]
 description = "Validate series.yaml against all provider APIs (L1 + L5)"
