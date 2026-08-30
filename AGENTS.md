@@ -31,14 +31,27 @@ flutter test test/core/catalog/catalog_service_test.dart --dart-define-from-file
 
 ### Catalog Tools
 
-Multi-provider catalog management via the `lauschi-catalog` CLI (`tools/` package).
-Supports Spotify and Apple Music. AI commands (curate, review-ai, verify) use
-pydantic-ai with Kimi K2.5 (curation) and MiniMax M2.5 (verification) via OpenCode.
+Multi-provider catalog management via the `lauschi-catalog` CLI plus a FastAPI
+web UI (both in `tools/`, a Python package, tests with pytest). Supports
+Spotify and Apple Music. The AI commands (`curate`, `audit`) run pydantic-ai
+agents through the opencode-zen relay (OpenAI-compatible). Keys, all in `.env`
+(loaded by mise): `SPOTIFY_CLIENT_ID`/`SPOTIFY_CLIENT_SECRET` for the provider
+APIs (Apple Music uses the shared MusicKit key `android/app/AuthKey_*.p8`),
+`OPENCODE_API_KEY` for model calls, `BRAVE_API_KEY` for the agents' web search
+tool.
 
-**Full pipeline** (runs autonomously, takes hours for the full catalog):
+Default models: `kimi-k2.6` curates, `minimax-m2.7` audits. The 4-eye
+principle requires two different model families. Curate and audit pin
+temperature 0 and seed 42 for reproducibility (finalize uses 0.1);
+per-model and per-phase overrides live in `_opencode.py` (`get_model_settings`).
+
+**Full pipeline** (runs autonomously, takes hours for the full catalog; a
+failing stage does not stop the later ones, so check the log and
+`catalog-review` afterwards):
 ```bash
-mise run catalog-pipeline             # curate → review → verify → apply → validate
-mise run catalog-pipeline -- --force  # Re-curate everything from scratch
+mise run catalog-pipeline              # curate → reconcile → audit → lint → apply → validate → drift
+mise run catalog-pipeline -- --force   # Re-curate + re-audit even where curations exist
+mise run catalog-pipeline-one -- <id>  # Same stages for a single series
 ```
 
 **Individual steps:**
@@ -47,15 +60,23 @@ mise run catalog-add          # Add a new series (seed entry in series.yaml)
 mise run catalog-discover     # Find + write missing artist IDs (all providers)
 mise run catalog-curate       # AI-curate a single series
 mise run catalog-curate-all   # AI-curate all series (skips existing, --force to redo)
-mise run catalog-review-ai    # AI-review all curations for quality issues
-mise run catalog-verify       # 4-eye verification (second model checks curation)
+mise run catalog-audit        # 4-eye audit (all, or pass a series id)
 mise run catalog-apply        # Write approved curations into series.yaml
-mise run catalog-apply-splits # Apply split proposals from AI review
-mise run catalog-validate     # Validate patterns against provider APIs
+mise run catalog-splits       # Manage AI-proposed series splits
+mise run catalog-validate     # Validate series.yaml against provider APIs (L1 + L5)
+mise run catalog-drift        # Check shipped albums against live provider records
 mise run catalog-report       # Show curation statistics (included/excluded/gaps)
-mise run catalog-review       # Interactive TUI for manual review (Textual)
-mise run catalog-edit         # CLI for manual include/exclude/list on curations
+mise run catalog-review       # List series needing human attention (escalated, flagged)
+mise run catalog-edit         # Manual include/exclude on curations
+mise run catalog-log-summary  # Per-series re-run report from a pipeline log
+mise run catalog-test         # Run the tools/ pytest suite
+mise run catalog-web          # Catalog web UI (state browse, background jobs, review queue)
 ```
+
+CLI subcommands without a mise task: `lint`, `reconcile`, `eval`, `delete`.
+`eval` scores curator/auditor runs produced in a scratch repo root
+(`LAUSCHI_REPO_ROOT=/tmp/...`) against ground-truth verdicts; run it before
+changing prompts or models.
 
 **Single-provider and single-series:**
 ```bash
@@ -68,37 +89,52 @@ mise run catalog-curate -- "TKKG" --dry-run       # Print prompts without callin
 
 #### Curation Pipeline
 
-The pipeline runs fully autonomous. Each series goes through six stages:
+Each series flows through seven stages (`catalog-pipeline` runs them in order):
 
-1. **Curate** (`curate`): AI classifies every album in the artist's discography
-   as include/exclude. Two flows: single-agent (<=100 albums) or batched (~30/batch).
-   Output: `assets/catalog/curation/{series_id}.json`.
+1. **Curate** (`curate`): pydantic-ai agents classify every album on the
+   artist's provider pages as include/exclude, with an episode number for
+   includes. Per series: provider discovery (artist IDs from series.yaml,
+   search fallback), prefetch of album details, a metadata agent, batched
+   album decisions (~30 per batch), a finalize agent (episode pattern, series
+   facts). Re-curation is incremental: `--force` re-enters a series but
+   carries prior decisions forward, so a decided album is not re-asked.
+   Split-off children (`split_from`) are refused; curate the parent.
+   Output: `assets/catalog/curation/{series_id}.json` (committed to git).
 
-2. **Reconcile** (`reconcile`): Deterministic cross-provider consistency fix.
-   When the same title is included on one provider but excluded on the other
-   with a content-classification reason (compilation, wrong_content_type, etc.),
-   auto-flips to include. Structural reasons (sub_series_bleed) are flagged
-   for human review. Runs without AI.
+2. **Reconcile** (`reconcile`): Deterministic cross-provider consistency.
+   A title included on one provider but excluded on the other under a
+   whitelisted content reason (compilation, wrong_content_type, ...)
+   auto-flips to include. Structural reasons like `sub_series_bleed` are
+   left for human review. No AI.
 
-3. **Audit** (`audit`): A second AI pass checks for quality issues: sub-series
-   mixed in, episode gaps, duplicate episodes, bad patterns. Can add missing albums,
-   update episode patterns, and propose series splits. Non-destructive: writes
-   overrides into the curation JSON.
+3. **Audit** (`audit`): The second model reviews one curation: sub-series
+   bleed, episode gaps, duplicates, pattern problems, split proposals.
+   One-shot for small series, token-budgeted chunks for large ones. Writes
+   the `review` block into the curation JSON: status `approved` or
+   `escalated`, plus album overrides and fact updates. Escalates instead of
+   approving when it declines approval, has more than 5 concerns, or a
+   regression flag fired; escalated overrides are recorded, not applied.
 
-4. **Verify** (`verify`): 4-eye verification using a different model (MiniMax M2.5).
-   Auto-approves when both models agree; escalates disagreements for human review.
-   Status transitions: `curated` -> `ai_reviewed` -> `approved` | `escalated`.
+4. **Lint** (`lint`): Deterministic findings over curations: episode gaps,
+   duplicates, regressions against the previous curation, unaudited facts.
+   Advisory; findings are reported, not enforced.
 
-5. **Apply** (`apply`): Writes approved curations into `series.yaml`. Copies
-   album IDs, episode patterns, artist IDs, and keywords per provider.
+5. **Apply** (`apply`): Writes approved curations into `series.yaml`: album
+   IDs with episode numbers, patterns, artist IDs, and audited series facts
+   only. Refuses curations that are incomplete, escalated, stale (curated
+   after the last audit), or whose album loss crosses a guard threshold.
+   `--force` overrides.
 
 6. **Validate** (`validate`): Checks series.yaml against live provider APIs.
-   L1 (syntax: required fields, regex compiles, unique IDs) and L5 (artist
-   discography match rates).
+   L1 offline (structure, regex compiles, unique IDs) and L5 (artist
+   discography match rate).
 
-Escalated items need manual resolution via `mise run catalog-review` (TUI) or
-`mise run catalog-edit` (CLI). `apply-splits` handles series that the AI
-recommended splitting into separate entries.
+7. **Drift** (`drift`): Re-checks every shipped album against its live
+   provider record and reports gone or changed albums.
+
+Escalations and lint findings are resolved by hand: `catalog-review` lists
+what needs attention, `catalog-edit` and `catalog-splits` make the changes,
+`mise run catalog-audit --force` re-checks afterwards.
 
 ## Architecture
 
@@ -120,9 +156,11 @@ Provider-agnostic catalog browse: `CatalogSource` interface implemented by
 `SpotifyCatalogSource` and `AppleMusicCatalogSource`. One `BrowseCatalogScreen`
 serves all providers.
 
-**Two-Phase Catalog Matching**: `CatalogService.match()` uses:
-1. Keyword match — album title contains series keyword
-2. Artist ID fallback (Spotify + Apple Music) — catches albums whose titles omit series name (e.g. TKKG "140/Draculas Erben")
+**Catalog Matching by Album ID**: The app bundles `series.yaml` and builds an
+album-ID index at load: O(1) provider+album_id lookup to the owning series and
+the curated episode number. Episode numbers ship in the catalog; nothing is
+re-derived at runtime. Series discovery (e.g. when a parent searches for a
+series to add) uses local title/alias search (`CatalogService.search`).
 
 **PIN-Gated Parent Mode**: Parent routes (`/parent/*`) are protected by PIN. The router's `_globalRedirect` checks `parentAuthProvider` state.
 
@@ -153,14 +191,20 @@ lib/
     ├── player/              # SpotifyPlayer, StreamPlayer, AppleMusicPlayer
     └── tiles/               # Kid home screen, tile detail, card widgets
 
-tools/                       # lauschi-catalog CLI (Python package)
-├── pyproject.toml
-└── src/lauschi_catalog/
-    ├── cli.py               # Click entry point
-    ├── search.py            # Brave Search + page fetcher for AI tools
-    ├── providers/           # Spotify + Apple Music API clients
-    ├── catalog/             # Models, YAML loader, matcher
-    └── commands/            # discover, validate, curate, review, verify, apply, ...
+tools/                       # lauschi-catalog CLI + web UI (Python package)
+├── pyproject.toml           # click, ruamel.yaml, pydantic-ai-slim, diskcache; extras: ai, web
+├── src/lauschi_catalog/
+│   ├── cli.py               # Click entry point
+│   ├── catalog/             # Domain ops (curate_ops, audit_ops, apply_ops, lint_ops, ...),
+│   │                        # models, YAML loader, matcher, staleness checks (lifecycle)
+│   ├── commands/            # One thin Click command per file over the catalog/ ops
+│   ├── providers/           # Spotify + Apple Music API clients (7-day diskcache)
+│   ├── prompts/curate/      # SKILL.md + PHASE_*.md + references/, composed per phase/type
+│   ├── eval/                # Curator/auditor eval harness (ground-truth scoring)
+│   ├── web/                 # FastAPI review UI (routes, Jinja templates, background jobs)
+│   ├── _opencode.py         # Model construction and per-model/per-phase settings
+│   └── search.py            # Brave Search + page fetcher for the agents' web tools
+└── tests/                   # pytest suite, offline (no provider keys, no model calls)
 ```
 
 ### Generated Files
@@ -174,16 +218,26 @@ Run `mise run codegen` after changing annotated classes.
 
 ### Catalog Data
 
-`assets/catalog/series.yaml` — DACH Hörspiel series definitions with:
-- `id` — stable snake_case identifier
-- `keywords` — terms to match in album names (provider-agnostic)
-- `episode_pattern` — regex to extract episode numbers (works across providers)
-- `providers.spotify.artist_ids` — Spotify artist IDs for phase-2 matching
-- `providers.spotify.albums` — pre-validated Spotify album list with episode mappings
-- `providers.apple_music.artist_ids` — Apple Music artist IDs (139/171 series)
+`assets/catalog/series.yaml` is the DACH Hörspiel series catalog (~1.6 MB,
+bundled into the app) with:
+- `id`: stable snake_case identifier
+- `title` + `aliases`: runtime series search and matching
+- `episode_pattern`: regex (one capture group) extracting episode numbers
+- `content_type`: `hoerspiel` (default), `music`, or `audiobook`
+- `series_facts`: audited era boundaries, known episode gaps, sub-series
+- `split_from`: marks a series split off from a parent entry
+- `providers.spotify.albums` / `providers.apple_music.albums`: pre-validated
+  album lists (provider IDs + episode numbers), written by the pipeline
+- `providers.*.artist_ids`: artist IDs for discovery and fallback matching
 
-Validated by `lauschi-catalog validate` (tools/ package). 171 series, 6595
-curated Spotify albums, 139 Apple Music artist IDs.
+Alongside it: `assets/catalog/curation/{id}.json` (280 committed curation
+files, the pipeline's per-series state), `deleted.yaml` (ids that must not be
+re-added), `.cache/{provider}/` (7-day provider API cache, gitignored),
+`logs/catalog/` (pipeline run logs, gitignored).
+
+Validated by `lauschi-catalog validate` (tools/ package). Today: 280 series
+(113 of them split-off children), 7,170 curated Spotify and 6,750 Apple Music
+albums.
 
 ## Environment Variables
 
