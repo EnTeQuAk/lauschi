@@ -11,8 +11,6 @@ git-lfs, so a checkout that only has pointers skips it rather than
 failing on fake data.
 """
 
-from __future__ import annotations
-
 import asyncio
 import json
 

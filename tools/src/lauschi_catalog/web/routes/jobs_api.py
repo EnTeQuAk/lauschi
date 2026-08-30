@@ -1,7 +1,5 @@
 """API routes for job queue and SSE streaming."""
 
-from __future__ import annotations
-
 import asyncio
 import json
 import logging
@@ -538,7 +536,7 @@ def _try_in_process_curate(job_id: str, series_id: str) -> bool:
     if curation_path.exists():
         try:
             existing = json.loads(curation_path.read_text())
-        except (OSError, json.JSONDecodeError):
+        except OSError, json.JSONDecodeError:
             existing = None
 
     entry_content_type = resolve_content_type(

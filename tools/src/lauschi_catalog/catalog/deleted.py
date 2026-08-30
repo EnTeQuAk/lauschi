@@ -19,8 +19,6 @@ removes an entry when an operator explicitly chooses to re-introduce
 the series.
 """
 
-from __future__ import annotations
-
 from datetime import UTC, datetime
 from pathlib import Path
 

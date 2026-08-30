@@ -1,7 +1,5 @@
 """CLI wrapper for artist discovery across providers."""
 
-from __future__ import annotations
-
 import click
 from rich.console import Console
 from rich.table import Table

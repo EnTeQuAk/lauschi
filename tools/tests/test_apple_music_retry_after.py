@@ -7,8 +7,6 @@ here would propagate up through _request into provider calls and
 stop the whole pipeline. Spotify uses the same helper now too.
 """
 
-from __future__ import annotations
-
 from datetime import datetime, timedelta, timezone
 from email.utils import format_datetime
 

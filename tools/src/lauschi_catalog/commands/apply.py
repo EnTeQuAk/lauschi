@@ -4,8 +4,6 @@ Thin CLI layer over catalog.apply_ops. All business logic lives in
 the library module.
 """
 
-from __future__ import annotations
-
 import click
 from rich.console import Console
 

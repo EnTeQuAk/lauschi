@@ -7,8 +7,6 @@ data the curation runs saw, so an included album outside this set was
 not offered by any provider: the model invented it.
 """
 
-from __future__ import annotations
-
 from typing import Protocol
 
 from lauschi_catalog.eval.truth import AlbumKey

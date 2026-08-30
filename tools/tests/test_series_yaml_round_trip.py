@@ -6,8 +6,6 @@ settings (preserve_quotes, width 200), otherwise comments and quoting
 reflow and the diff becomes unreadable.
 """
 
-from __future__ import annotations
-
 from pathlib import Path
 
 from lauschi_catalog.catalog import loader, paths

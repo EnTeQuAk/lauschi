@@ -7,8 +7,6 @@ catches that before the API call. Pinning the format rules so a
 future refactor can't loosen them.
 """
 
-from __future__ import annotations
-
 import pytest
 
 from lauschi_catalog.providers._validate import (

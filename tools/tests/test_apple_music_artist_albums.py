@@ -8,8 +8,6 @@ singles, and compilation-albums return only the artist's own releases;
 appears-on-albums isolates the feature credits and is not fetched.
 """
 
-from __future__ import annotations
-
 from unittest.mock import MagicMock
 
 import pytest

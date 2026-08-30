@@ -5,8 +5,6 @@ against a small batch of albums. Uses the same prompt composition
 and model settings as production.
 """
 
-from __future__ import annotations
-
 import os
 from dataclasses import dataclass
 

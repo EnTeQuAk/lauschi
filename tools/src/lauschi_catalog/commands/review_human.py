@@ -4,8 +4,6 @@ Provides a fast CLI view of what the pipeline flagged for human eyes,
 with actionable commands.
 """
 
-from __future__ import annotations
-
 import json
 
 import click
@@ -26,7 +24,7 @@ def _load_all() -> list[dict]:
     for path in sorted(CURATION_DIR.glob("*.json")):
         try:
             data.append(json.loads(path.read_text()))
-        except (OSError, json.JSONDecodeError):
+        except OSError, json.JSONDecodeError:
             continue
     return data
 

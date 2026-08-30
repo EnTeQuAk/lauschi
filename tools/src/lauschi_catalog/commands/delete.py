@@ -8,8 +8,6 @@ Use this for series that turn out to have no streaming presence, are
 duplicates of another id, or were AI hallucinations during onboarding.
 """
 
-from __future__ import annotations
-
 import click
 from rich.console import Console
 

@@ -1,7 +1,5 @@
 """CLI wrapper for scoring a curator's scratch output against ground truth."""
 
-from __future__ import annotations
-
 from pathlib import Path
 
 import click

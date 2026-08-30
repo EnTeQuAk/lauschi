@@ -1,7 +1,5 @@
 """Tests for album art data layer (image URLs and cover cache)."""
 
-from __future__ import annotations
-
 import json
 
 from lauschi_catalog.catalog.curate_ops import write_cover_cache

@@ -4,8 +4,6 @@ Pure business logic for editing, deleting, and adding series entries.
 No HTTP, no CLI, no console output.
 """
 
-from __future__ import annotations
-
 import json
 import re
 from dataclasses import dataclass

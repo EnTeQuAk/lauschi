@@ -1,7 +1,5 @@
 """Catalog report: analyze curations and show statistics."""
 
-from __future__ import annotations
-
 import json
 from collections import Counter
 

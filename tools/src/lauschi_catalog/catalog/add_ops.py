@@ -5,8 +5,6 @@ analysis, and series entry construction. Interactive prompts and
 provider search stay in the CLI layer.
 """
 
-from __future__ import annotations
-
 import re
 from collections import Counter
 from collections.abc import Callable
@@ -94,7 +92,7 @@ def analyse_patterns(albums: list[Album]) -> dict:
             if m:
                 try:
                     numbered.append((t, int(m.group(1))))
-                except (ValueError, IndexError):
+                except ValueError, IndexError:
                     pass
     numbered.sort(key=lambda x: x[1])
 

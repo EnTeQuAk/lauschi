@@ -9,8 +9,6 @@ reason about unreliably: future dates (models live at their training
 cutoff) and year-capture episode numbers from over-broad regexes.
 """
 
-from __future__ import annotations
-
 from datetime import date
 
 from lauschi_catalog.catalog.lint_ops import (

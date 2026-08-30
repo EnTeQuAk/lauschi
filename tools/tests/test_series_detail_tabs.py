@@ -7,8 +7,6 @@ clicking Preview jumped straight back to the Pipeline tab. The tab now
 links to an explicit /preview route that bypasses the default logic.
 """
 
-from __future__ import annotations
-
 from unittest.mock import patch
 
 import pytest

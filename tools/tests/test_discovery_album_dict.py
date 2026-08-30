@@ -5,8 +5,6 @@ from repackaged compilations, which matters for artists whose primary
 releases carry compilation-sounding titles (e.g. "Die 30 besten ...").
 """
 
-from __future__ import annotations
-
 from lauschi_catalog.catalog.curate_ops import _discovery_album_dict
 from lauschi_catalog.providers.base import Album
 

@@ -6,8 +6,6 @@ fired only when the curation had zero records, so the remaining yaml
 albums were silently never checked.
 """
 
-from __future__ import annotations
-
 import json
 
 import pytest

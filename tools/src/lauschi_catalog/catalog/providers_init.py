@@ -5,8 +5,6 @@ credentials. Returns the providers that loaded successfully along
 with warnings for any that failed.
 """
 
-from __future__ import annotations
-
 from dataclasses import dataclass, field
 
 from lauschi_catalog.providers import CatalogProvider

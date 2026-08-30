@@ -1,7 +1,5 @@
 """Tests for lauschi_catalog.catalog.add_ops."""
 
-from __future__ import annotations
-
 import pytest
 
 from lauschi_catalog.catalog.add_ops import _PATTERNS, which_pattern

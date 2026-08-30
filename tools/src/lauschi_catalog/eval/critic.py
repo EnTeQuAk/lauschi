@@ -14,8 +14,6 @@ A critic that fixes nothing and breaks nothing is harmless. One that
 breaks more than it fixes is worse than no audit at all.
 """
 
-from __future__ import annotations
-
 from dataclasses import dataclass
 
 from lauschi_catalog.eval.truth import AlbumKey, SeriesTruth

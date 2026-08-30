@@ -1,7 +1,5 @@
 """Tests for the shared agent progress hooks."""
 
-from __future__ import annotations
-
 import asyncio
 import unittest
 from typing import Any

@@ -4,8 +4,6 @@ Verifies that job status always reaches a terminal state, returncode
 is handled correctly, and the safety net catches edge cases.
 """
 
-from __future__ import annotations
-
 import asyncio
 import sys
 

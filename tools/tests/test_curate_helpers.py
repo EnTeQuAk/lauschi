@@ -7,8 +7,6 @@ formatter is the diagnostic that decides whether you can tell what
 went wrong from the log.
 """
 
-from __future__ import annotations
-
 import pytest
 
 from lauschi_catalog.catalog.curate_ops import (

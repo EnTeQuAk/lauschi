@@ -5,8 +5,6 @@ endpoint. Model-specific tuning (temperature, seed) is centralized
 here so agents don't carry per-model configuration.
 """
 
-from __future__ import annotations
-
 from dataclasses import dataclass
 
 from pydantic_ai import InlineDefsJsonSchemaTransformer

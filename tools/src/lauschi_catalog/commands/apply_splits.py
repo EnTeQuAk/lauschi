@@ -1,7 +1,5 @@
 """Manage sub_series split proposals from AI curation."""
 
-from __future__ import annotations
-
 import json
 
 import click

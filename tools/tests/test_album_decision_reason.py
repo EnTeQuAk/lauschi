@@ -1,7 +1,5 @@
 """AlbumDecision must never carry free text in exclude_reason."""
 
-from __future__ import annotations
-
 import pytest
 
 from lauschi_catalog.catalog.curate_ops import AlbumDecision

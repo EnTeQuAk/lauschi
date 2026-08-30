@@ -1,7 +1,5 @@
 """Abstract provider interface for catalog operations."""
 
-from __future__ import annotations
-
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 
@@ -31,7 +29,7 @@ class Album:
     label: str = ""
     album_type: str = ""  # album | single | compilation | ep
     image_url: str = ""
-    tracks: list[Track] = field(default_factory=list)
+    tracks: list["Track"] = field(default_factory=list)
 
 
 @dataclass

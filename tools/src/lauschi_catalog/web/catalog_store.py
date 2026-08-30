@@ -9,8 +9,6 @@ Only the writer (``reload_catalog``) acquires a lock, and only to
 serialize concurrent reloads against each other.
 """
 
-from __future__ import annotations
-
 import threading
 
 from filelock import FileLock

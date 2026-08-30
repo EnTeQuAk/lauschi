@@ -5,8 +5,6 @@ from agent_hooks.build_progress_hooks(), which agents attach via
 capabilities=[build_progress_hooks()].
 """
 
-from __future__ import annotations
-
 from typing import TYPE_CHECKING
 
 from pydantic_ai import capture_run_messages

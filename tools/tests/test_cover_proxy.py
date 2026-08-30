@@ -6,8 +6,6 @@ TTL) and redirects to the CDN image. Templates use this as a universal
 img src so every album shows its real cover.
 """
 
-from __future__ import annotations
-
 from unittest.mock import MagicMock, patch
 
 import pytest

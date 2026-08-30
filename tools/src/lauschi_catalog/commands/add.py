@@ -5,8 +5,6 @@ and duplicate checks live in the library module. This module handles
 provider search with user prompts.
 """
 
-from __future__ import annotations
-
 from io import StringIO
 
 import click
@@ -272,7 +270,7 @@ def _search_and_pick(provider: SpotifyProvider, query: str) -> Artist | None:
         return None
     try:
         return candidates[int(choice)]
-    except (ValueError, IndexError):
+    except ValueError, IndexError:
         console.print("[red]Invalid choice[/red]")
         return None
 

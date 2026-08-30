@@ -6,8 +6,6 @@ timeout all look identical in the run log but demand different
 responses (wait for quota vs ride it out vs raise client timeout).
 """
 
-from __future__ import annotations
-
 import asyncio
 
 import pytest

@@ -5,8 +5,6 @@ async orchestration, and persistence live in the library module. This
 module handles CLI display with Rich formatting.
 """
 
-from __future__ import annotations
-
 import asyncio
 import json
 
@@ -259,7 +257,7 @@ def curate(
             if curation_path.exists():
                 try:
                     existing = json.loads(curation_path.read_text())
-                except (OSError, json.JSONDecodeError):
+                except OSError, json.JSONDecodeError:
                     existing = None
             entry_content_type = resolve_content_type(
                 entry_content_type=entry.content_type,

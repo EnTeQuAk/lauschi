@@ -5,8 +5,6 @@ metadata to an LLM through prompts. This module provides ONE canonical
 formatter so the representation is unified across all phases.
 """
 
-from __future__ import annotations
-
 from lauschi_catalog.providers import Album
 
 

@@ -5,8 +5,6 @@ should hold for every Hörspiel series. These tests pin the behavior
 with and without series_facts so we can trust the lint output.
 """
 
-from __future__ import annotations
-
 from lauschi_catalog.catalog.lint_ops import lint_curation
 
 

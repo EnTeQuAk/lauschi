@@ -6,8 +6,6 @@ missing (Coco, Encanto, Eule findet den Beat), so the album check must
 fall back to a direct album lookup before declaring an ID gone.
 """
 
-from __future__ import annotations
-
 from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
 from lauschi_catalog.catalog.validate_ops import validate_l1, validate_l5
 from lauschi_catalog.providers import Album

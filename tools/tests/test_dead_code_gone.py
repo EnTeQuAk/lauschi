@@ -1,8 +1,6 @@
 """Regression pins for removed helpers: if any of these come back, the
 pipeline regains a path that ships unasked-for or invented data."""
 
-from __future__ import annotations
-
 import pytest
 
 from lauschi_catalog.catalog import matcher, prompt

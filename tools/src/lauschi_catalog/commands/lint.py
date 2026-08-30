@@ -1,7 +1,5 @@
 """CLI wrapper for deterministic lint checks on curation output."""
 
-from __future__ import annotations
-
 import json
 
 import click

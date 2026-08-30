@@ -8,8 +8,6 @@ Shrinking or denoising is allowed; only a pattern that is both below
 the 30% coverage floor AND worse than its predecessor is rejected.
 """
 
-from __future__ import annotations
-
 from lauschi_catalog.catalog.curate_ops import pattern_update_impact
 
 INCLUDED = [

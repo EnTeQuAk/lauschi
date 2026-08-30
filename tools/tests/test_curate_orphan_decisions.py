@@ -6,8 +6,6 @@ Apple Music, alongside the 496 albums it was given. Nothing dropped it,
 and `apply` would have shipped it into series.yaml.
 """
 
-from __future__ import annotations
-
 import json
 from pathlib import Path
 

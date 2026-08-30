@@ -1,7 +1,5 @@
 """Tests for the shared agent FunctionToolset."""
 
-from __future__ import annotations
-
 import unittest
 
 from lauschi_catalog.agent_tools import build_agent_tools

@@ -1,7 +1,5 @@
 """Apple Music provider with disk caching."""
 
-from __future__ import annotations
-
 import time
 
 import diskcache
@@ -299,7 +297,7 @@ class AppleMusicProvider(CatalogProvider):
                     return self._get("albums", ids=",".join(chunk))
 
                 data = self._cached(f"am_albums_batch:{','.join(chunk)}", fetch)
-            except (requests.HTTPError, requests.ConnectionError, requests.Timeout):
+            except requests.HTTPError, requests.ConnectionError, requests.Timeout:
                 if len(chunk) == 1:
                     batch.unverified.extend(chunk)
                     return

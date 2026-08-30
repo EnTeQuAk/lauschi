@@ -1,7 +1,5 @@
 """Render scores as a table people read and a JSON file scripts re-read."""
 
-from __future__ import annotations
-
 import json
 from dataclasses import asdict
 from pathlib import Path

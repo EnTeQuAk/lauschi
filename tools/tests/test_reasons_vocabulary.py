@@ -6,8 +6,6 @@ changes lint or reconcile behavior. Update the literal sets and the
 tests together when the vocabulary intentionally changes.
 """
 
-from __future__ import annotations
-
 from typing import get_args
 
 from lauschi_catalog.catalog import reasons

@@ -1,7 +1,5 @@
 """Regression tests for provider discovery counts."""
 
-from __future__ import annotations
-
 import pytest
 
 from lauschi_catalog.catalog.curate_ops import _run_discovery

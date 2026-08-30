@@ -7,8 +7,6 @@ handling in each provider — and avoids the foot-gun where one provider
 gets a fix that the other doesn't.
 """
 
-from __future__ import annotations
-
 import time
 from email.utils import parsedate_to_datetime
 
@@ -44,5 +42,5 @@ def parse_retry_after(raw: str | None) -> float:
         now = time.time()
         delta = target.timestamp() - now
         return min(max(delta, 0.0), _RETRY_AFTER_MAX)
-    except (TypeError, ValueError):
+    except TypeError, ValueError:
         return _RETRY_AFTER_DEFAULT

@@ -8,8 +8,6 @@ facts_from_curation carry them forward, deduped by natural key (era
 label, gap number, sub_series label), first source wins.
 """
 
-from __future__ import annotations
-
 from lauschi_catalog.catalog.facts import (
     EraBoundary,
     KnownGap,

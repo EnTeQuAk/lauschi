@@ -4,8 +4,6 @@ Thin CLI layer over catalog.drift_ops. All logic lives in the library
 module so it can be tested without the network.
 """
 
-from __future__ import annotations
-
 import json
 from datetime import UTC, datetime
 from pathlib import Path

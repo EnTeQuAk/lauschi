@@ -13,8 +13,6 @@ repaired it in passing instead of refusing it. Rejecting at the point of
 entry is what makes that repair unnecessary.
 """
 
-from __future__ import annotations
-
 import pytest
 
 from lauschi_catalog.catalog.curate_ops import _validate_episode_pattern

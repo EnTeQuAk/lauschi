@@ -3,8 +3,6 @@ did `curation.get("review", {})` got None back for a present-but-null
 key, so a full `audit` run and `catalog-apply` crashed on the first
 such file (reproduced 2026-08-31 on das_sams_hoerbuch)."""
 
-from __future__ import annotations
-
 import pytest
 
 from lauschi_catalog.catalog import apply_ops, lifecycle

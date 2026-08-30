@@ -5,8 +5,6 @@ callbacks so both the CLI (Rich tables) and the web UI (job log) can
 consume it.
 """
 
-from __future__ import annotations
-
 from collections.abc import Callable
 from dataclasses import dataclass, field
 

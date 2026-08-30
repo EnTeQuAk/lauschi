@@ -1,8 +1,6 @@
 """Tests that discover_one routes creation through add_series and
 respects deleted.yaml."""
 
-from __future__ import annotations
-
 import pytest
 
 from lauschi_catalog.catalog import discover_ops

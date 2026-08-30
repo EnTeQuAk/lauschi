@@ -8,8 +8,6 @@ and several music-series curations included foreign compilation albums.
 See https://developer.spotify.com/documentation/web-api/reference/get-an-artists-albums
 """
 
-from __future__ import annotations
-
 from unittest.mock import MagicMock
 
 import pytest

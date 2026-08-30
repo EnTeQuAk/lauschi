@@ -14,8 +14,6 @@ pinned against cases that actually shipped rather than invented ones:
   original.
 """
 
-from __future__ import annotations
-
 from lauschi_catalog.catalog.drift_ops import (
     DriftSeverity,
     classify_album_drift,

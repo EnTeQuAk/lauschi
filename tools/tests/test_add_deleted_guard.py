@@ -6,8 +6,6 @@ The whole point of the deletion log is to catch a future curate agent
 These tests pin the contract from the add side.
 """
 
-from __future__ import annotations
-
 import pytest
 from click.testing import CliRunner
 from ruamel.yaml import YAML

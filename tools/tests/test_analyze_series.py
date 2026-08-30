@@ -5,8 +5,6 @@ review agent's prompt. Any future change to analyze_series must keep these
 green or update them deliberately.
 """
 
-from __future__ import annotations
-
 import pytest
 
 from lauschi_catalog.catalog.analysis import analyze_series, effective_albums

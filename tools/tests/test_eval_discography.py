@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from dataclasses import dataclass
 
 from lauschi_catalog.eval.discography import fetch_discography

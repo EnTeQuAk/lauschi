@@ -9,8 +9,6 @@ Missing IDs must be dropped rather than raising, because "absent" is a
 meaningful answer: it means the album is gone.
 """
 
-from __future__ import annotations
-
 import requests
 
 from lauschi_catalog.providers.apple_music import AppleMusicProvider

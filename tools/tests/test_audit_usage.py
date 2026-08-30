@@ -1,7 +1,5 @@
 """The audit records what it cost, next to who audited and when."""
 
-from __future__ import annotations
-
 import asyncio
 import json
 from pathlib import Path

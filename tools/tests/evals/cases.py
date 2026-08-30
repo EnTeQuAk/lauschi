@@ -12,8 +12,6 @@ Run:
     uv run python -m tests.evals.run_evals --cases benjamin_sub_series
 """
 
-from __future__ import annotations
-
 from pydantic_evals import Case, Dataset
 from pydantic_evals.evaluators import LLMJudge
 

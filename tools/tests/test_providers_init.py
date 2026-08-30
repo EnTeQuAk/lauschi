@@ -1,7 +1,5 @@
 """Tests for catalog.providers_init module."""
 
-from __future__ import annotations
-
 import pytest
 
 from lauschi_catalog.catalog.providers_init import init_providers

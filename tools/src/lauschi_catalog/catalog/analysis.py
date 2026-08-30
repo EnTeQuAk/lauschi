@@ -6,8 +6,6 @@ in its own module makes it cheap to test in isolation and prevents the
 review prompt from relying on undocumented heuristics.
 """
 
-from __future__ import annotations
-
 import re
 from collections import Counter
 from typing import Any

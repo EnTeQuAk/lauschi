@@ -4,8 +4,6 @@ These test the endpoint logic (merge behavior, structured response
 shape) by mocking the provider and catalog layers.
 """
 
-from __future__ import annotations
-
 from unittest.mock import MagicMock
 
 import pytest

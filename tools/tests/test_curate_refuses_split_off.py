@@ -4,8 +4,6 @@ of Hanni und Nanni's albums on "Neue Abenteuer"; Kimi included 188 and
 excluded the three real episodes as sub_series_bleed (2026-08-31).
 Nothing about the prompt fixes that; the CLI must refuse."""
 
-from __future__ import annotations
-
 import asyncio
 
 import pytest

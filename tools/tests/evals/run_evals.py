@@ -11,8 +11,6 @@ Set EVAL_MODEL to override the default model (kimi-k2.6).
 Set EVAL_JUDGE_MODEL to override the LLM judge model (minimax-m2.7).
 """
 
-from __future__ import annotations
-
 import argparse
 import asyncio
 import os

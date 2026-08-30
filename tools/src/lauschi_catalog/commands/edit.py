@@ -1,7 +1,5 @@
 """CLI for editing curation files (add/remove/toggle albums)."""
 
-from __future__ import annotations
-
 import json
 from pathlib import Path
 

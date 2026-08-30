@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from pydantic_ai.exceptions import UnexpectedModelBehavior
 
 from lauschi_catalog.catalog.curate_ops import describe_failure

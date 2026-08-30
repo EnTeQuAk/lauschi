@@ -6,8 +6,6 @@ is gone, so a bad or missing pattern in the output cannot crash the run
 or override the validated tool value.
 """
 
-from __future__ import annotations
-
 import pytest
 from pydantic_ai.usage import RunUsage
 

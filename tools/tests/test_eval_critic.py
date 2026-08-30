@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from lauschi_catalog.eval.critic import critic_score
 from lauschi_catalog.eval.truth import AlbumKey, SeriesTruth
 

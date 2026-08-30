@@ -5,8 +5,6 @@ metadata alone is ambiguous. Searches default to German results
 (country=DE, search_lang=de) since the catalog targets DACH.
 """
 
-from __future__ import annotations
-
 import os
 import re
 

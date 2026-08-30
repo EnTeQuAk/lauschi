@@ -1,7 +1,5 @@
 """Pins for the shared helpers that replaced per-module copies."""
 
-from __future__ import annotations
-
 from lauschi_catalog.catalog.canonical import album_sort_key
 
 

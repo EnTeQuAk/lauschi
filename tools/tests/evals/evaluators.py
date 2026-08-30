@@ -5,8 +5,6 @@ correct exclude_reason, confidence thresholds. Adapted from kaiko's
 eval pattern.
 """
 
-from __future__ import annotations
-
 from dataclasses import dataclass
 
 from pydantic_evals.evaluators import EvaluationReason, Evaluator, EvaluatorContext

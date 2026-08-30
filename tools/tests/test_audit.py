@@ -6,8 +6,6 @@ status determination, override/fact merging, and the auto-escalation
 threshold.
 """
 
-from __future__ import annotations
-
 import json
 
 import ruamel.yaml

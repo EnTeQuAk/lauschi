@@ -13,8 +13,6 @@ always digits). Observed from the catalog: 9-12 digits typical,
 older IDs as short as 8.
 """
 
-from __future__ import annotations
-
 import re
 
 _SPOTIFY_ID = re.compile(r"^[A-Za-z0-9]{22}$")

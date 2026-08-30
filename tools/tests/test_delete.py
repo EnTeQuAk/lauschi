@@ -8,8 +8,6 @@ pin both ends of the contract:
   - add refuses to re-introduce a deleted id without --force-readd
 """
 
-from __future__ import annotations
-
 import json
 from pathlib import Path
 

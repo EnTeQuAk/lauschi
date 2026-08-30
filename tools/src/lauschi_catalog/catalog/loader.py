@@ -4,8 +4,6 @@ Uses ruamel.yaml to preserve comments, formatting, and string quoting
 when reading and writing series.yaml.
 """
 
-from __future__ import annotations
-
 from pathlib import Path
 
 from lauschi_catalog.catalog import io

@@ -13,8 +13,6 @@ For same-request rendering (e.g. the confirm-action pattern), use
 list.  These bypass the session entirely.
 """
 
-from __future__ import annotations
-
 from typing import Any
 
 from fastapi import Request

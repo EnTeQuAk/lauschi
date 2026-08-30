@@ -12,8 +12,6 @@ made a broken lieselotte_filmhoerspiele pattern work in the pipeline
 while the app could not match it for months.
 """
 
-from __future__ import annotations
-
 import re
 
 
@@ -42,7 +40,7 @@ def extract_episode(
                 continue
             try:
                 return int(group)
-            except (TypeError, ValueError):
+            except TypeError, ValueError:
                 continue
     return None
 
@@ -118,7 +116,7 @@ def compute_pattern_coverage(
                 continue
             try:
                 int(g)
-            except (TypeError, ValueError):
+            except TypeError, ValueError:
                 # Track first non-numeric capture as evidence, but
                 # keep trying alternatives — another pattern in the
                 # list might still capture a digit on this title.

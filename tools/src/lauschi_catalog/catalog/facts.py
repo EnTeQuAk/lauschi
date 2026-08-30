@@ -10,8 +10,6 @@ Each fact carries provenance: curated_by/curated_at record who created
 it, audited_by/audited_at record who last reviewed it.
 """
 
-from __future__ import annotations
-
 import re as _re
 
 from pydantic import BaseModel, Field, field_validator

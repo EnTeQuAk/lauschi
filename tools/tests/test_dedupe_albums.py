@@ -4,8 +4,6 @@ artist page. The discovery list must dedupe by (provider, id) or the
 batches see the same album several times.
 """
 
-from __future__ import annotations
-
 from lauschi_catalog.catalog.curate_ops import _dedupe_albums
 
 

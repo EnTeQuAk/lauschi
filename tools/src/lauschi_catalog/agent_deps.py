@@ -7,8 +7,6 @@ so FunctionToolset[AgentDeps] is compatible with Agent[CurateDeps]
 and Agent[AuditDeps].
 """
 
-from __future__ import annotations
-
 from collections.abc import Callable
 from dataclasses import dataclass, field
 

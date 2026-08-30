@@ -18,8 +18,6 @@ the staleness checks won't notice. When you hand-edit, remove the
 ``review`` block or pass ``--force`` on the next audit run.
 """
 
-from __future__ import annotations
-
 from datetime import UTC, datetime
 from typing import Any
 
@@ -47,7 +45,7 @@ def _parse_ts(value: Any) -> datetime | None:
         return None
     try:
         dt = datetime.fromisoformat(value)
-    except (ValueError, TypeError):
+    except ValueError, TypeError:
         return None
     if dt.tzinfo is None:
         dt = dt.replace(tzinfo=UTC)

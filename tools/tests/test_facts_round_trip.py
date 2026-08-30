@@ -4,8 +4,6 @@ Verifies that discovered facts survive curate -> verify -> apply ->
 load -> incremental curate without being dropped or corrupted.
 """
 
-from __future__ import annotations
-
 from lauschi_catalog.catalog.apply_ops import filter_confirmed_facts
 from lauschi_catalog.catalog.facts import SeriesFacts
 from lauschi_catalog.catalog.lint_ops import lint_curation

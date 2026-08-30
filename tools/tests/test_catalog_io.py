@@ -1,7 +1,5 @@
 """Tests for catalog.io module."""
 
-from __future__ import annotations
-
 import json
 
 from lauschi_catalog.catalog import io as io_mod

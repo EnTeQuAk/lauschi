@@ -11,8 +11,6 @@ These tests pin both error paths so a future refactor can't drop
 the escape() call and re-introduce the crash.
 """
 
-from __future__ import annotations
-
 import re
 
 from rich.console import Console

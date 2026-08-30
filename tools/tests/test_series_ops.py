@@ -1,7 +1,5 @@
 """Tests for catalog.series_ops module."""
 
-from __future__ import annotations
-
 import json
 
 import pytest

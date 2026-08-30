@@ -1,7 +1,5 @@
 """Catalog browsing and series detail routes."""
 
-from __future__ import annotations
-
 import json
 from pathlib import Path
 from typing import Any
@@ -47,7 +45,7 @@ def _series_cover_url(series_id: str) -> str:
             url = images.get("spotify") or next(iter(images.values()), "")
             if url:
                 return url
-        except (json.JSONDecodeError, StopIteration):
+        except json.JSONDecodeError, StopIteration:
             pass
     cache = cover_cache_path(series_id)
     if not cache.exists():
@@ -55,7 +53,7 @@ def _series_cover_url(series_id: str) -> str:
     try:
         covers = json.loads(cache.read_text())
         return next(iter(covers.values()), "")
-    except (json.JSONDecodeError, StopIteration):
+    except json.JSONDecodeError, StopIteration:
         return ""
 
 
@@ -67,7 +65,7 @@ def _curation_album_count(series_id: str) -> int:
     try:
         data = json.loads(path.read_text())
         return sum(1 for a in data.get("albums", []) if a.get("include"))
-    except (json.JSONDecodeError, KeyError):
+    except json.JSONDecodeError, KeyError:
         return 0
 
 

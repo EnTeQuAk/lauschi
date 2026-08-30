@@ -7,8 +7,6 @@ were corrected by hand in August 2026, so their ground truth is fresh.
 The list is fixed so every model is scored on the same input.
 """
 
-from __future__ import annotations
-
 from dataclasses import dataclass
 
 

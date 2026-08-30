@@ -1,7 +1,5 @@
 """Retry orchestration for agent calls with server-hint-aware backoff."""
 
-from __future__ import annotations
-
 import asyncio
 from collections.abc import Callable
 from typing import Any
@@ -47,7 +45,7 @@ def extract_retry_delay(exc: BaseException) -> float | None:
         if headers is not None and _is_rate_limit(layer):
             try:
                 return min(max(float(headers.get("retry-after") or 0), 0.0), 60.0)
-            except (TypeError, ValueError):
+            except TypeError, ValueError:
                 pass
     return None
 

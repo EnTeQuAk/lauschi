@@ -5,8 +5,6 @@ and the web UI. Override the repo root via the LAUSCHI_REPO_ROOT
 environment variable for non-standard layouts.
 """
 
-from __future__ import annotations
-
 import os
 from pathlib import Path
 

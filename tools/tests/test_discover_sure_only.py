@@ -1,7 +1,5 @@
 """Tests that discover only writes IDs it is sure of."""
 
-from __future__ import annotations
-
 from lauschi_catalog.catalog import discover_ops
 from lauschi_catalog.catalog import loader as catalog_loader
 from lauschi_catalog.catalog.discover_ops import (

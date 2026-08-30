@@ -5,8 +5,6 @@ writes log lines to a shared SQLite row.  SSE endpoints poll the row
 and stream deltas to the browser.
 """
 
-from __future__ import annotations
-
 import json
 import sqlite3
 import uuid
@@ -92,7 +90,7 @@ class Job:
     updated_at: str
 
     @classmethod
-    def from_row(cls, row: sqlite3.Row) -> Job:
+    def from_row(cls, row: sqlite3.Row) -> "Job":
         return cls(
             id=row["id"],
             series_id=row["series_id"],

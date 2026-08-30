@@ -4,8 +4,6 @@ Pure business logic with no console output. Progress is reported via
 callbacks so both the CLI and the web UI can consume it.
 """
 
-from __future__ import annotations
-
 import json
 from collections.abc import Callable
 from dataclasses import dataclass, field

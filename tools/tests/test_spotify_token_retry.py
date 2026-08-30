@@ -7,8 +7,6 @@ had no retry — it crashed __init__ on the first transient and every
 dependent command died with it. These tests pin both failure modes.
 """
 
-from __future__ import annotations
-
 import time
 from unittest.mock import MagicMock
 

@@ -10,8 +10,6 @@ deps.on_progress. Captures two things:
 Agents attach this via capabilities=[build_progress_hooks()].
 """
 
-from __future__ import annotations
-
 from typing import Any
 
 from pydantic_ai import RunContext

@@ -1,7 +1,5 @@
 """Score every sample curation under a scratch root against ground truth."""
 
-from __future__ import annotations
-
 import json
 from pathlib import Path
 

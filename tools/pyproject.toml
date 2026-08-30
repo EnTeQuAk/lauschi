@@ -2,7 +2,7 @@
 name = "lauschi-catalog"
 version = "0.1.0"
 description = "Catalog management tools for lauschi (multi-provider Hörspiel catalog)"
-requires-python = ">=3.11"
+requires-python = ">=3.14"
 dependencies = [
     "click>=8.1",
     "diskcache>=5.6",
@@ -12,6 +12,7 @@ dependencies = [
     "PyJWT[crypto]>=2.8",
     "pydantic-ai-slim[openai]>=1.105.0",
     "tenacity>=9.0",
+    "filelock>=3.18",
 ]
 
 [project.optional-dependencies]
@@ -24,7 +25,6 @@ web = [
     "uvicorn[standard]>=0.46",
     "jinja2>=3.1.6",
     "python-multipart>=0.0.28",
-    "filelock>=3.18",
     "itsdangerous>=2.1",
 ]
 
@@ -53,13 +53,13 @@ python_files = ["test_*.py"]
 addopts = "-ra --strict-markers"
 
 [tool.basedpyright]
-pythonVersion = "3.11"
+pythonVersion = "3.14"
 typeCheckingMode = "strict"
 exclude = ["tests", ".venv", "src/lauschi_catalog_web"]
 reportMissingTypeStubs = false
 
 [tool.ruff]
-target-version = "py311"
+target-version = "py314"
 
 [tool.ruff.lint]
 select = ["E", "F", "I"]

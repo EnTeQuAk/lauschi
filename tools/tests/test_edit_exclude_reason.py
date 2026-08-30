@@ -6,8 +6,6 @@ decision when a later review pass tries to figure out whether a drop
 was intentional. The reason is now required.
 """
 
-from __future__ import annotations
-
 import json
 
 import pytest

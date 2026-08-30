@@ -1,7 +1,5 @@
 """Normalizing exclude_reasons is idempotent and never invents values."""
 
-from __future__ import annotations
-
 import pytest
 
 from lauschi_catalog.catalog.reconcile import (

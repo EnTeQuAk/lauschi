@@ -5,8 +5,6 @@ and can complete a run with TestModel. Tool behavior and output validators
 are tested separately in test_curate_helpers.py and test_agent_hooks.py.
 """
 
-from __future__ import annotations
-
 import asyncio
 from typing import Any
 

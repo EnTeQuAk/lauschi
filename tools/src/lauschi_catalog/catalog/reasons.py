@@ -12,8 +12,6 @@ Kinds:
 - "structural": the album belongs to a different series or sub-series.
 """
 
-from __future__ import annotations
-
 from dataclasses import dataclass
 from typing import Literal
 

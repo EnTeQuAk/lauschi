@@ -5,8 +5,6 @@ flash_context processor pops them on the next render so they appear
 exactly once, then disappear.
 """
 
-from __future__ import annotations
-
 import pytest
 from fastapi.testclient import TestClient
 

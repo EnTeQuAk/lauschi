@@ -5,8 +5,6 @@ live catalog disagrees with the reviewed curation. The escalation
 guard is pinned because unverified data must never ship silently.
 """
 
-from __future__ import annotations
-
 from typing import Any
 
 from lauschi_catalog.catalog.apply_ops import apply_one, should_apply

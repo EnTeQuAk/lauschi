@@ -14,8 +14,6 @@ the relay never has to follow a $ref. Same fix pydantic-ai uses
 for Meta, Amazon, Qwen, and OpenRouter providers.
 """
 
-from __future__ import annotations
-
 from pydantic_ai import InlineDefsJsonSchemaTransformer
 
 from lauschi_catalog._opencode import OPENCODE_BASE_URL, build_model

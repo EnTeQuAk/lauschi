@@ -1,7 +1,5 @@
 """Tests that discovered artist IDs always win."""
 
-from __future__ import annotations
-
 import pytest
 from pydantic_ai import Agent
 from pydantic_ai.models.test import TestModel

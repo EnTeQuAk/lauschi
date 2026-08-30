@@ -7,8 +7,6 @@ everything else. When the album set changes, stale audit state
 (overrides, concerns) is cleared since it references old album IDs.
 """
 
-from __future__ import annotations
-
 import json
 from pathlib import Path
 from typing import Any

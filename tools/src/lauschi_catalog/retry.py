@@ -6,8 +6,6 @@ handed to the fresh-context layer; transport failures (5xx, 429,
 connection errors, timeouts) should replay.
 """
 
-from __future__ import annotations
-
 from typing import Iterable
 
 import httpx

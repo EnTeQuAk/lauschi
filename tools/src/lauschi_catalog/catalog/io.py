@@ -5,8 +5,6 @@ acquire a FileLock on the series lock file to prevent concurrent
 writes from CLI and web processes.
 """
 
-from __future__ import annotations
-
 import json
 import os
 from io import StringIO

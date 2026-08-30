@@ -1,7 +1,5 @@
 """Spotify provider with disk caching."""
 
-from __future__ import annotations
-
 import os
 import sys
 import time
@@ -85,7 +83,7 @@ class SpotifyProvider(CatalogProvider):
                     },
                     timeout=10,
                 )
-            except (requests.ConnectionError, requests.Timeout):
+            except requests.ConnectionError, requests.Timeout:
                 if attempt == max_attempts - 1:
                     raise
                 time.sleep(2 * 2**attempt)
@@ -295,7 +293,7 @@ class SpotifyProvider(CatalogProvider):
                     return self._get("albums", ids=",".join(chunk), market="DE")
 
                 data = self._cached(f"albums_batch:{','.join(chunk)}", fetch)
-            except (requests.HTTPError, requests.ConnectionError, requests.Timeout):
+            except requests.HTTPError, requests.ConnectionError, requests.Timeout:
                 if len(chunk) == 1:
                     batch.unverified.extend(chunk)
                     return

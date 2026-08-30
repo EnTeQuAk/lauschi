@@ -5,8 +5,6 @@ command): series.yaml entry removed, curation JSON deleted, deletion
 recorded in deleted.yaml.
 """
 
-from __future__ import annotations
-
 from unittest.mock import patch
 
 import pytest

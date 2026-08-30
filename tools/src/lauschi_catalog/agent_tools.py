@@ -9,8 +9,6 @@ AgentDepsT is contravariant, this is compatible with Agent[CurateDeps]
 and Agent[AuditDeps] where both inherit from AgentDeps.
 """
 
-from __future__ import annotations
-
 from pydantic_ai import FunctionToolset, RunContext
 from pydantic_ai.exceptions import ModelRetry
 

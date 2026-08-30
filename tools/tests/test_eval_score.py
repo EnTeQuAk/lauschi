@@ -4,8 +4,6 @@ Every test builds a tiny synthetic curation and a truth by hand, so the
 expected numbers can be checked with a pencil.
 """
 
-from __future__ import annotations
-
 import pytest
 
 from lauschi_catalog.eval.sample import SAMPLE, SAMPLE_IDS

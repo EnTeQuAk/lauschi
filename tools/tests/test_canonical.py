@@ -6,8 +6,6 @@ sortable list MUST add a test here, or diffs across re-runs will
 silently regress.
 """
 
-from __future__ import annotations
-
 from copy import deepcopy
 
 from lauschi_catalog.catalog.canonical import canonicalize

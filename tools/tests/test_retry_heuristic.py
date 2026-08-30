@@ -7,8 +7,6 @@ broad -> wasted budget on auth errors and doomed replays of validation
 failures that will never pass.
 """
 
-from __future__ import annotations
-
 import httpx
 import openai
 import pytest

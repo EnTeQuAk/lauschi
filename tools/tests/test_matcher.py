@@ -1,7 +1,5 @@
 """Tests for catalog.matcher episode-pattern utilities."""
 
-from __future__ import annotations
-
 from lauschi_catalog.catalog.matcher import (
     compute_pattern_coverage,
     extract_episode,

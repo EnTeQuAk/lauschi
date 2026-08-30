@@ -1,7 +1,5 @@
 """Tests for the prompt loader."""
 
-from __future__ import annotations
-
 import pytest
 
 from lauschi_catalog.prompts import load_curate_skill

@@ -5,8 +5,6 @@ invalidated this downstream output?" — small functions, big
 consequences (skip logic in audit and apply depends on them).
 """
 
-from __future__ import annotations
-
 from lauschi_catalog.catalog.lifecycle import (
     apply_is_unsafe,
     audit_is_stale,

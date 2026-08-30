@@ -8,8 +8,6 @@ model like "the pattern matched nothing", sending it down wrong paths
 clean per-era regexes into one unanchored blob).
 """
 
-from __future__ import annotations
-
 from lauschi_catalog.catalog.curate_ops import _pattern_coverage_report
 
 TITLES = [

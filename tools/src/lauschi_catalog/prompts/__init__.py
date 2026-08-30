@@ -5,8 +5,6 @@ per-content-type system prompts. Pure function: no global state, no
 fs caching. Cheap enough to call per-agent-build.
 """
 
-from __future__ import annotations
-
 import importlib.resources
 from typing import Literal
 

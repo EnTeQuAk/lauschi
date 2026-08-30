@@ -15,8 +15,6 @@ data, then the review block). The churn lives in list contents,
 which is where this module focuses.
 """
 
-from __future__ import annotations
-
 from collections.abc import Mapping
 from typing import Any
 

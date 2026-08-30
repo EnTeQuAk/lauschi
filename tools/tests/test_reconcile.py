@@ -1,7 +1,5 @@
 """Tests for cross-provider reconciliation and exclude_reason normalization."""
 
-from __future__ import annotations
-
 import pytest
 
 from lauschi_catalog.catalog.reconcile import (

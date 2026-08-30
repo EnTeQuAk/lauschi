@@ -1,7 +1,5 @@
 """Shared test fixtures for the lauschi-catalog test suite."""
 
-from __future__ import annotations
-
 from typing import Any
 
 

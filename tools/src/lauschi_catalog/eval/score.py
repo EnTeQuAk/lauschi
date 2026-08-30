@@ -4,8 +4,6 @@ Every number here is a plain ratio over sets, so two people running it
 on the same files get the same result.
 """
 
-from __future__ import annotations
-
 from dataclasses import dataclass
 
 from lauschi_catalog.eval.truth import AlbumKey, SeriesTruth

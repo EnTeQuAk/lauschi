@@ -5,8 +5,6 @@ across providers and either auto-fixes (flips) or flags them for
 human review depending on the exclude_reason category.
 """
 
-from __future__ import annotations
-
 import re
 from dataclasses import dataclass, field
 

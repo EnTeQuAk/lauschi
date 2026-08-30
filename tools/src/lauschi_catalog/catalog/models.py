@@ -3,8 +3,6 @@
 Provider-agnostic series and episode representations.
 """
 
-from __future__ import annotations
-
 from dataclasses import dataclass, field
 
 

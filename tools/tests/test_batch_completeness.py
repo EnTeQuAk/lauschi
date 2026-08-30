@@ -1,7 +1,5 @@
 """Tests for batch completeness validator set equality."""
 
-from __future__ import annotations
-
 import pytest
 from pydantic_ai import RunContext
 from pydantic_ai.models.test import TestModel

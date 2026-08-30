@@ -1,7 +1,5 @@
 """CLI command for cross-provider reconciliation."""
 
-from __future__ import annotations
-
 import json
 
 import click

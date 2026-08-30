@@ -6,8 +6,6 @@ must NOT cause a removal — a transient API outage would otherwise wipe
 real catalog data.
 """
 
-from __future__ import annotations
-
 from unittest.mock import MagicMock
 
 import pytest

@@ -1,8 +1,6 @@
 """A model call that fails on its own gets a fresh start before the
 series pays for it."""
 
-from __future__ import annotations
-
 import asyncio
 import json
 from pathlib import Path

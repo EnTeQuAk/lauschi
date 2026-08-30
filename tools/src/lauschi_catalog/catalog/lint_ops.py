@@ -9,8 +9,6 @@ facts (discovered by curate, audited by a second model) guide the
 checks so they don't fire false positives on documented quirks.
 """
 
-from __future__ import annotations
-
 from datetime import date
 
 from lauschi_catalog.catalog import reasons

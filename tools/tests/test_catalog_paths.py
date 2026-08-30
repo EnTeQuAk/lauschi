@@ -1,7 +1,5 @@
 """Tests for catalog.paths module."""
 
-from __future__ import annotations
-
 from pathlib import Path
 
 from lauschi_catalog.catalog import paths

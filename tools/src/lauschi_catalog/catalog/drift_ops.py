@@ -27,8 +27,6 @@ Pure classification lives here so it can be tested without the network;
 the batched fetching is in `detect_drift`.
 """
 
-from __future__ import annotations
-
 import json
 import re
 from collections.abc import Callable, Iterable, Sequence
