@@ -182,7 +182,6 @@ set -euo pipefail
 
 AI_DEPS="--extra ai"
 RUN="uv run --directory tools $AI_DEPS lauschi-catalog"
-RUN_CORE="uv run --directory tools lauschi-catalog"
 
 TIMEOUT="${TIMEOUT:-1800}"
 
@@ -203,7 +202,7 @@ $RUN curate --all --timeout "$TIMEOUT" $FORCE_FLAG || echo "Some curations faile
 
 echo ""
 echo "Step 2/7: Cross-provider reconciliation..."
-$RUN_CORE reconcile --all
+$RUN reconcile --all
 
 echo ""
 echo "Step 3/7: 4-eye audit..."
@@ -211,20 +210,20 @@ $RUN audit --timeout "$TIMEOUT" || echo "Some audits failed. Continuing..."
 
 echo ""
 echo "Step 4/7: Structural lint..."
-$RUN_CORE lint --all || echo "Lint flagged issues. Review findings above."
+$RUN lint --all || echo "Lint flagged issues. Review findings above."
 
 echo ""
 echo "Step 5/7: Applying approved curations..."
-$RUN_CORE apply --all
+$RUN apply --all
 
 echo ""
 echo "Step 6/7: Validating..."
-$RUN_CORE validate
+$RUN validate
 
 echo ""
 echo "Step 7/7: Drift detection (report-only)..."
 # Exits 2 when critical drift is found; the pipeline reports and moves on.
-$RUN_CORE drift || true
+$RUN drift || true
 
 echo ""
 echo "Done. Run 'mise run catalog-review' to see flagged/escalated items."
@@ -248,7 +247,6 @@ TIMEOUT="${TIMEOUT:-7200}"
 
 AI_DEPS="--extra ai"
 RUN="uv run --directory tools $AI_DEPS lauschi-catalog"
-RUN_CORE="uv run --directory tools lauschi-catalog"
 
 LOGDIR="logs/catalog"
 mkdir -p "$LOGDIR"
@@ -262,7 +260,7 @@ $RUN curate "$SID" --timeout "$TIMEOUT" --force
 
 echo ""
 echo "Step 2/5: Cross-provider reconciliation..."
-$RUN_CORE reconcile -s "$SID"
+$RUN reconcile -s "$SID"
 
 echo ""
 echo "Step 3/5: 4-eye audit (timeout ${TIMEOUT}s)..."
@@ -270,7 +268,7 @@ $RUN audit -s "$SID" --timeout "$TIMEOUT" --force
 
 echo ""
 echo "Step 4/5: Structural lint..."
-$RUN_CORE lint -- "$SID"
+$RUN lint -- "$SID"
 
 echo ""
 echo "Step 5/5: Checking audit status..."
@@ -296,7 +294,7 @@ fi
 
 echo ""
 echo "Applying ($STATUS)..."
-$RUN_CORE apply "$SID"
+$RUN apply "$SID"
 
 echo ""
 echo "Done. Run 'mise run catalog-log-summary -- \\"\\$LOG\\" --detail $SID' to inspect."

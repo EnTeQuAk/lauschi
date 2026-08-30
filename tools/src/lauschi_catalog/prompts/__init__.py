@@ -43,7 +43,7 @@ def load_curate_skill(
          cross-provider consistency, inclusion bias, confidence)
       2. references/<content_type>.md — type-specific failure taxonomy
       3. references/era_detection.md (if discography_span_years >= 10)
-      4. references/split_guidelines.md (batch, finalize, audit phases)
+      4. references/split_guidelines.md (batch and finalize phases)
       5. PHASE_<phase>.md — phase-specific workflow and output contract
       6. Date anchor
     """

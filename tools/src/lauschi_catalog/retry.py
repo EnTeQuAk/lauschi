@@ -1,15 +1,13 @@
 """Shared retry-decision helpers used by curate and audit.
 
-The pipeline's three LLM commands all wrap their agent calls in a
-manual retry loop. They need the same answer to "is this exception
-worth retrying or should it propagate immediately?" — auth failures
-and validation errors should die fast; transport errors and 5xx
+Agent runs and provider HTTP calls need the same answer to "is this
+exception worth retrying or should it propagate immediately?" — auth
+failures and validation errors should die fast; transport errors and 5xx
 should retry.
 
-Keeping this in a single module avoids three copies of the heuristic
-drifting apart, and lets audit benefit from refinements that were
-originally driven by curate's failure modes (mostly opencode upstream
-blips).
+Keeping the heuristic in one module avoids copies drifting apart, and
+lets audit benefit from refinements originally driven by curate's
+failure modes (mostly opencode upstream blips).
 """
 
 from __future__ import annotations

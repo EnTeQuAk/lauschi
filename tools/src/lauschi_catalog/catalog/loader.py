@@ -34,12 +34,7 @@ def load_catalog(path: Path | None = None) -> list[CatalogEntry]:
         for pname, pdata in raw_providers.items():
             if pdata is None:
                 continue
-            # Artist IDs can be under 'artist_ids' (list) or 'artist_id' (single)
             aids = pdata.get("artist_ids", [])
-            if not aids:
-                single = pdata.get("artist_id")
-                if single:
-                    aids = [str(single)]
 
             albums_raw = pdata.get("albums") or []
             providers[pname] = ProviderConfig(

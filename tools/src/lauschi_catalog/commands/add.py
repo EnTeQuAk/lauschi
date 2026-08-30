@@ -31,13 +31,6 @@ from lauschi_catalog.providers.spotify import SpotifyProvider
 
 console = Console()
 
-# Re-export library functions so existing imports keep working.
-__all__ = [
-    "analyse_patterns",
-    "build_entry",
-    "title_to_id",
-]
-
 
 def print_analysis(artist: Artist, albums: list[Album], analysis: dict) -> None:
     """Print a summary of the discography analysis."""

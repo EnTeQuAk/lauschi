@@ -253,8 +253,6 @@ def discover_one(
         for pname, m in discoveries.items():
             raw_cfg = raw_providers.setdefault(pname, {})
             existing: list[str] = raw_cfg.get("artist_ids") or []
-            if not existing and raw_cfg.get("artist_id"):
-                existing = [raw_cfg.pop("artist_id")]
             if m.artist_id not in existing:
                 existing.append(m.artist_id)
                 raw_cfg["artist_ids"] = existing

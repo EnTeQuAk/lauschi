@@ -16,7 +16,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Literal
+from typing import ClassVar, Literal
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 from pydantic_ai import Agent, ModelRetry, RunContext, capture_run_messages
@@ -188,7 +188,6 @@ def _inject_split_children(
         for a in existing_curation.get("albums", [])
     }
 
-    injected = 0
     for child in children:
         child_path = CURATION_DIR / f"{child.id}.json"
         if not child_path.exists():
@@ -211,7 +210,6 @@ def _inject_split_children(
                 }
             )
             existing_keys.add(key)
-            injected += 1
 
     return existing_curation
 
@@ -514,7 +512,6 @@ class SeriesMetadata(BaseModel):
 class CurateDeps(AgentDeps):
     """Dependency container for all curate-phase agents."""
 
-    seen_albums: dict[str, list[dict]] = field(default_factory=dict)
     pattern: str | list[str] | None = None
     pattern_revisions: list[str | list[str]] = field(default_factory=list)
     titles: list[str] = field(default_factory=list)
@@ -525,7 +522,7 @@ class CurateDeps(AgentDeps):
     #: requests and tokens across every agent run that shares these deps
     usage: RunUsage = field(default_factory=RunUsage)
     _pattern_check_count: int = field(default=0, init=False)
-    _MAX_PATTERN_CHECKS: int = 5
+    _MAX_PATTERN_CHECKS: ClassVar[int] = 5
 
 
 class EpisodeUpdate(BaseModel):
@@ -1460,7 +1457,6 @@ async def _run_large(
         model_name=model_name,
         on_progress=on_progress,
     )
-    assert meta is not None
 
     # Discovery artist IDs are the ground truth. The metadata model no
     # longer has access to provider_artist_ids so it cannot override
@@ -1703,7 +1699,7 @@ async def _run_large(
         unnumbered = [d for d in all_decisions if d.include and d.episode_num is None]
 
         era_evidence_lines: list[str] = []
-        n_existing_eras = len((existing_facts or SeriesFacts()).era_boundaries)
+        n_existing_eras = len(existing_facts.era_boundaries)
         era_decisions = [
             d
             for d in all_decisions
@@ -1924,7 +1920,7 @@ async def _run_large(
                 seen_details=shared_deps.seen_details,
                 pattern=shared_deps.pattern,
                 titles=all_titles,
-                existing_facts=existing_facts or SeriesFacts(),
+                existing_facts=existing_facts,
                 all_decisions=all_decisions,
                 on_progress=on_progress,
                 usage=shared_deps.usage,
@@ -2201,12 +2197,10 @@ def resolve_content_type(
 def lookup_catalog_entry(query: str):
     """Resolve ``query`` to a CatalogEntry when it matches a known series.
 
-    Returns the entry on first match (by ID or title) or None.
+    Raises if the catalog cannot be loaded so a broken ``series.yaml``
+    does not silently look like a new series.
     """
-    try:
-        entries = load_catalog()
-    except Exception:
-        return None
+    entries = load_catalog()
     for entry in entries:
         if entry.id == query:
             return entry
@@ -2216,7 +2210,7 @@ def lookup_catalog_entry(query: str):
     return None
 
 
-def load_existing_facts(entry) -> SeriesFacts | None:
+def load_existing_facts(entry) -> SeriesFacts:
     """Load frozen facts from a CatalogEntry, if any."""
     if entry.series_facts:
         return SeriesFacts.model_validate(entry.series_facts)

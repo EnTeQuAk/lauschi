@@ -5,6 +5,8 @@ import click
 from lauschi_catalog.commands.add import add
 from lauschi_catalog.commands.apply import apply
 from lauschi_catalog.commands.apply_splits import apply_splits
+from lauschi_catalog.commands.audit import audit
+from lauschi_catalog.commands.curate import curate
 from lauschi_catalog.commands.delete import delete
 from lauschi_catalog.commands.discover import discover
 from lauschi_catalog.commands.drift import drift
@@ -30,6 +32,8 @@ def cli():
 cli.add_command(add)
 cli.add_command(apply)
 cli.add_command(apply_splits)
+cli.add_command(audit)
+cli.add_command(curate)
 cli.add_command(delete)
 cli.add_command(discover)
 cli.add_command(edit)
@@ -41,20 +45,6 @@ cli.add_command(report)
 cli.add_command(review_human)
 cli.add_command(validate)
 cli.add_command(drift)
-
-# Lazy-load AI commands (the 'ai' optional extra pulls in pydantic_ai,
-# which has heavy transitive deps). Skip silently when the extra isn't
-# installed; surface any other import error loudly so a typo in our
-# own modules doesn't cause a command to disappear without explanation.
-try:
-    from lauschi_catalog.commands.audit import audit
-    from lauschi_catalog.commands.curate import curate
-except ModuleNotFoundError as e:
-    if e.name and e.name.split(".")[0] != "pydantic_ai":
-        raise
-else:
-    cli.add_command(curate)
-    cli.add_command(audit)
 
 # Lazy-load web UI command (requires the 'web' optional extra).
 try:

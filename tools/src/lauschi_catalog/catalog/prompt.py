@@ -143,33 +143,3 @@ def album_to_dict(album_detail: object) -> dict:
         }
 
     raise TypeError(f"Expected dict or Album, got {type(album_detail)}")
-
-
-def curation_album_to_dict(a: dict) -> dict:
-    """Normalize a curation JSON album dict to the unified schema.
-
-    Curation albums use ``album_id`` instead of ``id`` and may carry
-    ``include`` / ``exclude_reason`` from a prior curation pass.
-    """
-    return {
-        "provider": a.get("provider", "?"),
-        "id": a.get("album_id", a.get("id", "?")),
-        "title": a.get("title", a.get("name", "")),
-        "episode_num": a.get("episode_num"),
-        "release_date": a.get("release_date", ""),
-        "album_type": a.get("album_type", ""),
-        "total_tracks": a.get("total_tracks", 0),
-        "duration_min": a.get("duration_min"),
-        "label": a.get("label", ""),
-        "artist": a.get("artist", a.get("artists", "")),
-        "include": a.get("include"),
-        "exclude_reason": a.get("exclude_reason", ""),
-        "tracks": [
-            {
-                "name": t.get("name", ""),
-                "duration_ms": t.get("duration_ms", 0),
-                "track_number": t.get("track_number"),
-            }
-            for t in a.get("tracks", [])
-        ],
-    }

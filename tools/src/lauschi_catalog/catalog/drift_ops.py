@@ -58,8 +58,7 @@ class DriftSeverity(Enum):
 
 
 #: Normalised-title similarity below this counts as different content.
-#: Calibrated against the live catalog rather than guessed; see
-#: `docs/catalog-drift.md` for the distribution this came from.
+#: Calibrated against the live catalog rather than guessed.
 SIMILARITY_FLOOR = 0.72
 
 #: Below this, a shared episode number stops being evidence of sameness.
