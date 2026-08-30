@@ -10,7 +10,7 @@ import json
 from collections.abc import Callable
 from dataclasses import dataclass, field
 
-from lauschi_catalog.catalog.lifecycle import apply_is_unsafe
+from lauschi_catalog.catalog.lifecycle import apply_is_unsafe, review_block
 from lauschi_catalog.catalog.loader import load_raw, save_raw
 from lauschi_catalog.catalog.paths import CURATION_DIR
 
@@ -68,7 +68,7 @@ def should_apply(data: dict, force: bool) -> str | None:
         if unsafe is not None:
             return f"refusing to apply — {unsafe} (use --force to override)"
 
-        cur_status = data.get("review", {}).get("status", "curated")
+        cur_status = review_block(data).get("status", "curated")
         if cur_status == "escalated":
             return (
                 "refusing to apply — status is 'escalated' "
@@ -266,7 +266,7 @@ def apply_curations(
         data = json.loads(path.read_text())
         sid = data.get("id", path.stem)
 
-        review = data.get("review", {})
+        review = review_block(data)
         cur_status = review.get("status", "curated")
         if cur_status not in allowed_statuses and not series_id:
             result.skipped += 1

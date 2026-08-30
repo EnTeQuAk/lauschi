@@ -16,7 +16,7 @@ from lauschi_catalog.catalog.audit_ops import (
     _DEFAULT_MODEL,
     audit_series,
 )
-from lauschi_catalog.catalog.lifecycle import audit_is_stale
+from lauschi_catalog.catalog.lifecycle import audit_is_stale, review_block
 from lauschi_catalog.catalog.loader import load_raw
 from lauschi_catalog.catalog.paths import CURATION_DIR
 from lauschi_catalog.catalog.providers_init import init_providers
@@ -49,7 +49,7 @@ def audit(
             if not path.exists():
                 continue
             curation = json.loads(path.read_text())
-            review = curation.get("review", {})
+            review = review_block(curation)
             status = review.get("status", "")
             needs_audit = status not in ("approved", "audited", "rejected")
             stale = audit_is_stale(curation)

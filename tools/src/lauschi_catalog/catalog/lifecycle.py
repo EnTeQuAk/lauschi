@@ -24,6 +24,18 @@ from datetime import UTC, datetime
 from typing import Any
 
 
+def review_block(curation: dict) -> dict:
+    """The audit's review block, or an empty dict when there is none.
+
+    Twelve committed curations carry ``"review": null`` (split-offs
+    written before the audit ran). ``curation.get("review", {})``
+    returns None for a present-but-null key, and every reader that did
+    that crashed on the first such file: a full ``audit`` run and
+    ``catalog-apply`` both, reproduced 2026-08-31.
+    """
+    return curation.get("review") or {}
+
+
 def _parse_ts(value: Any) -> datetime | None:
     """Parse an ISO-8601 string into a tz-aware datetime, or return None.
 
@@ -51,7 +63,7 @@ def audit_is_stale(curation: dict) -> bool:
     passes --force.
     """
     curated = _parse_ts(curation.get("curated_at"))
-    audited = _parse_ts(curation.get("review", {}).get("audited_at"))
+    audited = _parse_ts(review_block(curation).get("audited_at"))
     if curated is None or audited is None:
         return False
     return curated > audited

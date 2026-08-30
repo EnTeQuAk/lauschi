@@ -14,6 +14,7 @@ from rich.console import Console
 from rich.table import Table
 
 from lauschi_catalog.catalog.paths import CURATION_DIR
+from lauschi_catalog.catalog.lifecycle import review_block
 
 console = Console()
 
@@ -67,7 +68,7 @@ def review_human(status: tuple[str, ...], detail: bool):
     for d in all_data:
         sid = d.get("id", "?")
         title = d.get("title", sid)
-        review = d.get("review", {})
+        review = review_block(d)
         cur_status = review.get("status", "curated")
 
         effective = cur_status

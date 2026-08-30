@@ -34,7 +34,7 @@ from lauschi_catalog.catalog.facts import (
 )
 from lauschi_catalog.catalog.analysis import analyze_series, group_by_shape
 from lauschi_catalog.catalog.io import safe_write_json
-from lauschi_catalog.catalog.lifecycle import audit_is_stale
+from lauschi_catalog.catalog.lifecycle import audit_is_stale, review_block
 from lauschi_catalog.catalog.paths import CURATION_DIR
 from lauschi_catalog.catalog.lint_ops import (
     compress_runs,
@@ -652,7 +652,7 @@ def _prepare_audit(
 
     curation = json.loads(path.read_text())
 
-    review = curation.get("review", {})
+    review = review_block(curation)
     status = review.get("status")
     stale = audit_is_stale(curation)
     if not force and not stale:
