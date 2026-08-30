@@ -248,6 +248,9 @@ class DriftResult:
     findings: list[DriftFinding] = field(default_factory=list)
     checked: dict[str, int] = field(default_factory=dict)
     unresolved_series: list[str] = field(default_factory=list)
+    #: yaml-vs-curation set differences, named per series/provider.
+    #: Offline (no network), so it also runs before the sweep.
+    divergence: list[str] = field(default_factory=list)
     #: IDs whose lookup failed. Absence from the response proves nothing
     #: for these, so they are never reported as gone.
     unverified: list[str] = field(default_factory=list)
@@ -262,6 +265,49 @@ class DriftResult:
             for s in DriftSeverity
             if self.by_severity(s)
         }
+
+
+def configured_vs_curation(entry: CatalogEntry, provider: str) -> list[str]:
+    """Offline comparison of what series.yaml ships vs what the curation
+    includes for one provider.
+
+    Names both directions of the divergence: yaml albums the curation
+    never included, and curation includes yaml never configured. The
+    online sweep can only check what the curation holds, so a yaml
+    album that never made it into the curation is invisible to it;
+    this check is the only place that gap surfaces.
+
+    No network. Returns human-readable messages (empty when in sync).
+    """
+    configured = entry.provider_album_ids(provider)
+    if not configured:
+        return []
+    configured_set = set(configured)
+
+    records = stored_album_records(entry.id, provider, included_only=True)
+    included = {str(r.get("album_id") or "") for r in records}
+
+    if not records:
+        return [
+            f"{entry.id}/{provider}: {len(configured)} album(s) configured in "
+            f"series.yaml but the curation has no records for this provider: "
+            f"{', '.join(configured)}"
+        ]
+
+    messages: list[str] = []
+    missing = [aid for aid in configured if aid not in included]
+    extra = sorted(included - configured_set)
+    if missing:
+        messages.append(
+            f"{entry.id}/{provider}: {len(missing)} configured album(s) are "
+            f"not included in the curation: {', '.join(missing)}"
+        )
+    if extra:
+        messages.append(
+            f"{entry.id}/{provider}: {len(extra)} included curation album(s) "
+            f"are not configured in series.yaml: {', '.join(extra)}"
+        )
+    return messages
 
 
 def stored_album_records(
@@ -306,30 +352,41 @@ def detect_drift(
     result = DriftResult()
 
     for provider in providers:
-        wanted: dict[str, tuple[CatalogEntry, dict]] = {}
+        # Keyed by (series_id, album_id): two series can legitimately
+        # include the same album id, and a last-writer-wins dict would
+        # attribute the drift finding to whichever entry came second.
+        wanted: dict[tuple[str, str], tuple[CatalogEntry, dict]] = {}
         for entry in entries:
             records = stored_album_records(
                 entry.id, provider.name, included_only=included_only
             )
+            for message in configured_vs_curation(entry, provider.name):
+                result.divergence.append(message)
             if not records and entry.provider_album_ids(provider.name):
                 result.unresolved_series.append(f"{entry.id}/{provider.name}")
                 continue
             for record in records:
                 album_id = str(record.get("album_id") or "")
                 if album_id:
-                    wanted[album_id] = (entry, record)
+                    wanted[(entry.id, album_id)] = (entry, record)
 
         if not wanted:
             continue
 
-        on_progress(f"{provider.name}: checking {len(wanted)} albums")
-        fetched = provider.albums_by_ids(list(wanted))
+        # One provider request per distinct album id; duplicates that span
+        # series are fetched once and compared per (series, album).
+        distinct_ids = sorted({album_id for _, album_id in wanted})
+        on_progress(
+            f"{provider.name}: checking {len(distinct_ids)} albums "
+            f"across {len(wanted)} series entries"
+        )
+        fetched = provider.albums_by_ids(distinct_ids)
         live: dict[str, Album] = {a.id: a for a in fetched.albums}
         unverified = set(fetched.unverified)
         result.unverified.extend(f"{provider.name}:{i}" for i in sorted(unverified))
-        result.checked[provider.name] = len(wanted) - len(unverified)
+        result.checked[provider.name] = len(distinct_ids) - len(unverified)
 
-        for album_id, (entry, record) in wanted.items():
+        for (_series_id, album_id), (entry, record) in wanted.items():
             if album_id in unverified:
                 # Lookup failed: we know nothing about this album, and
                 # guessing "gone" here would turn an outage into a mass

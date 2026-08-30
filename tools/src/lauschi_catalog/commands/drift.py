@@ -113,6 +113,13 @@ def drift(
             )
         console.print(table)
 
+    if result.divergence:
+        table = Table(title=f"YAML/CURATION DIVERGENCE ({len(result.divergence)})")
+        table.add_column("Difference", max_width=140)
+        for message in result.divergence:
+            table.add_row(escape(message))
+        console.print(table)
+
     checked = sum(result.checked.values())
     if not result.findings:
         console.print(f"[green]No drift across {checked} albums[/green]")
@@ -149,6 +156,7 @@ def drift(
                 {
                     "checked": result.checked,
                     "counts": result.counts,
+                    "divergence": result.divergence,
                     "unresolved_series": result.unresolved_series,
                     "unverified": result.unverified,
                     "findings": [
