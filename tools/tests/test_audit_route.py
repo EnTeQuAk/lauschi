@@ -18,11 +18,11 @@ import json
 
 import pytest
 
+from lauschi_catalog._opencode import get_model_profile
 from lauschi_catalog.catalog import paths
 from lauschi_catalog.catalog.audit_ops import (
     _CHUNK_FRAMING_TOKENS,
     _CHUNK_TARGET_TOKENS,
-    AUDIT_ONE_SHOT_MAX_TOKENS,
     AuditFactUpdate,
     AuditOverride,
     AuditResult,
@@ -36,6 +36,11 @@ from lauschi_catalog.catalog.audit_ops import (
     prompt_size,
 )
 from lauschi_catalog.catalog.lint_ops import lint_curation
+
+# The one-shot boundary is a model-profile constant. The audit model is
+# minimax-m2.7, whose profile was probed at 14,000 tokens.
+_AUDIT_PROFILE = get_model_profile("minimax-m2.7")
+_ONE_SHOT_MAX = _AUDIT_PROFILE.one_shot_max_tokens
 
 # Measured 2026-08-29 against the live catalog: the only series whose
 # audit prompt exceeds the one-shot boundary. If this set changes, the
@@ -90,10 +95,10 @@ def test_route_flips_exactly_at_the_threshold():
     the boundary must route chunked and one at the boundary must not."""
     c = _curation(1)
     prompt = build_prompt(c, [])
-    room = AUDIT_ONE_SHOT_MAX_TOKENS * 4 - len(prompt)
+    room = _ONE_SHOT_MAX * 4 - len(prompt)
     # pad the single title so the prompt lands exactly on the boundary
     c["albums"][0]["title"] += "x" * room
-    assert prompt_size(build_prompt(c, [])) == AUDIT_ONE_SHOT_MAX_TOKENS
+    assert prompt_size(build_prompt(c, [])) == _ONE_SHOT_MAX
     assert audit_route(c, []) == "one_shot"
     c["albums"][0]["title"] += "xxxx"
     assert audit_route(c, []) == "chunked"
@@ -104,7 +109,7 @@ def test_lint_issues_count_toward_the_size():
     the measured size or a series could route one-shot and then overflow."""
     c = _curation(1)
     prompt = build_prompt(c, [])
-    room = AUDIT_ONE_SHOT_MAX_TOKENS * 4 - len(prompt)
+    room = _ONE_SHOT_MAX * 4 - len(prompt)
     c["albums"][0]["title"] += "x" * room
     assert audit_route(c, []) == "one_shot"
     assert audit_route(c, ["a lint finding that pushes it over"]) == "chunked"
@@ -237,7 +242,7 @@ def test_every_album_lands_in_exactly_one_chunk():
 def test_no_chunk_exceeds_the_one_shot_cap():
     c = {"id": "s", "title": "S", "albums": _numbered(900)}
     for chunk in plan_chunks(c, []):
-        assert _chunk_tokens(c, chunk, []) <= AUDIT_ONE_SHOT_MAX_TOKENS
+        assert _chunk_tokens(c, chunk, []) <= _ONE_SHOT_MAX
 
 
 def test_oversized_cluster_is_split_by_episode_in_order():
@@ -300,8 +305,11 @@ def test_cross_provider_pairs_are_packed_not_chunked_alone():
                 }
             )
     chunks = plan_chunks({"id": "s", "title": "S", "albums": albums}, [])
-    assert 1 <= len(chunks) <= 6
+    # Default chunk_max_included is 200; with 400 small albums the pack
+    # splits into two tail chunks plus the sub-line chunks.
+    assert 1 <= len(chunks) <= 8
     assert all("small title groups" in ch.label for ch in chunks)
+    assert all(len(ch.albums) <= _AUDIT_PROFILE.chunk_max_included for ch in chunks)
 
 
 def test_real_bibi_kartoffelbrei_is_its_own_chunk():
@@ -538,3 +546,19 @@ def test_chunked_series_runs_one_prompt_per_chunk_and_merges(monkeypatch, tmp_pa
     assert all(p.startswith(overview) for p in prompts)
     assert all("### This chunk (" in p for p in prompts)
     assert result is not None and len(result.concerns) == expected
+
+
+def test_hanni_shaped_fixture_routes_chunked():
+    """A series with ~187 included albums and long titles routes chunked.
+
+    Hanni und Nanni - Neue Abenteuer has ~187 included albums; the
+    one-shot boundary is prompt size, not album count, so this test
+    pads titles to push the prompt past the model profile's limit.
+    """
+    c = {"id": "s", "title": "S", "albums": _numbered(190)}
+    for a in c["albums"]:
+        a["title"] += " " + "x" * 300
+    assert audit_route(c, []) == "chunked"
+    chunks = plan_chunks(c, [])
+    assert len(chunks) >= 2
+    assert all(len(ch.albums) <= _AUDIT_PROFILE.chunk_max_included for ch in chunks)

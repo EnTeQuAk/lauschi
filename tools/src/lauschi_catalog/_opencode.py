@@ -7,6 +7,8 @@ here so agents don't carry per-model configuration.
 
 from __future__ import annotations
 
+from dataclasses import dataclass
+
 from pydantic_ai import InlineDefsJsonSchemaTransformer
 from pydantic_ai.models import Model
 from pydantic_ai.models.openai import OpenAIChatModel, OpenAIResponsesModel
@@ -23,6 +25,46 @@ OPENCODE_BASE_URL = "https://opencode.ai/zen/v1"
 _DEFAULT_CURATE = ModelSettings(temperature=0.0, seed=42)
 _DEFAULT_FINALIZE = ModelSettings(temperature=0.1, seed=42)
 _DEFAULT_AUDIT = ModelSettings(temperature=0.0, seed=42)
+
+
+@dataclass(frozen=True)
+class ModelProfile:
+    """Provider-agnostic limits for a model family.
+
+    These are empirically probed values, not theoretical maxima. A
+    model that fails at the default should get its own entry in
+    _PROFILES with measured numbers.
+    """
+
+    request_limit: int = 200
+    #: How many times an identical audit query may be answered before the
+    # tool refuses (repeated queries are a reasoning-loop signal).
+    search_repeat_allowance: int = 2
+    #: Largest one-shot audit prompt known to produce a verdict, in the
+    # same units prompt_size() reports.
+    one_shot_max_tokens: int = 14_000
+    #: Second stop for chunking: even if a cluster fits the token budget,
+    # very large included-album counts can still fail because the model
+    # narrates instead of judging. Bound the chunk by count too.
+    chunk_max_included: int = 200
+
+
+# Model-specific profiles. Keyed by model-name prefix; first match wins.
+_PROFILES: dict[str, ModelProfile] = {
+    # MiniMax M2.7 (audit model): at low reasoning the audit needs enough
+    # turns to verify the whole series but not so many that it narrates
+    # albums. 40 is the probed backstop. The one-shot boundary was probed
+    # alongside the size limit. For chunked audits, M2.7 failed at 163
+    # included albums on Benjamin and passed at 179 on another shape, so
+    # 60 bounds the narration-driven failure without removing it.
+    "minimax-": ModelProfile(
+        request_limit=40,
+        search_repeat_allowance=2,
+        one_shot_max_tokens=14_000,
+        chunk_max_included=60,
+    ),
+}
+
 
 # Model-specific overrides. Keyed by model-name prefix; first match wins.
 # Use this to tune per-model behavior as we discover what each model
@@ -91,6 +133,14 @@ _RESPONSES_API_PREFIXES = ("gpt-5.6-",)
 
 def uses_responses_api(model_name: str) -> bool:
     return model_name.startswith(_RESPONSES_API_PREFIXES)
+
+
+def get_model_profile(model_name: str) -> ModelProfile:
+    """Return the operational profile for a model family."""
+    for prefix, profile in _PROFILES.items():
+        if model_name.startswith(prefix):
+            return profile
+    return ModelProfile()
 
 
 def get_model_settings(phase: str, model_name: str) -> ModelSettings:

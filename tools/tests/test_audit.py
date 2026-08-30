@@ -952,9 +952,10 @@ def test_audit_request_limit_fits_a_large_series():
 
     The budget must clear that while staying far below curate's 200, so
     a model looping on fruitless web searches still fails fast."""
-    from lauschi_catalog.catalog.audit_ops import _AUDIT_REQUEST_LIMIT
+    from lauschi_catalog._opencode import get_model_profile
 
-    assert _AUDIT_REQUEST_LIMIT == 40
+    profile = get_model_profile("minimax-m2.7")
+    assert profile.request_limit == 40
 
 
 # ── search_included_albums: repeated identical query is a loop ───────────

@@ -21,6 +21,7 @@ from pydantic_ai.usage import RunUsage
 
 from lauschi_catalog._opencode import (
     build_model,
+    get_model_profile,
     get_model_settings,
 )
 from lauschi_catalog.agent_deps import AgentDeps, Progress, _noop
@@ -49,31 +50,6 @@ from lauschi_catalog.run import run_agent, run_with_attempts, usage_summary
 _DEFAULT_MODEL = "minimax-m2.7"
 _MAX_RETRIES = 12
 _RETRY_DELAY = 10
-# Model round-trips per audit. Across 184 June audits the median was 5
-# and the 90th percentile 9, so this is not a working budget but a
-# backstop: it lets a large series verify every lint issue against both
-# providers while still failing fast if the model loops on web searches
-# (which return nothing useful for this job) instead of burning the 200
-# that curate allows. Bibi Blocksberg (~490 albums, 3 lint issues) needed
-# more than the old 20 once reasoning was disabled and the model spent its
-# calls actually checking albums.
-_AUDIT_REQUEST_LIMIT = 40
-
-# Largest audit prompt the one-shot audit is known to handle, in the same
-# units prompt_size() reports. Located empirically with dry-run probes on
-# 2026-08-29 (low reasoning, max_tokens 32768): fuenf_freunde 8.6k,
-# die_playmos 10.0k, benjamin_bluemchen 11.3k, lego_ninjago 13.1k (533
-# included albums), and feuerwehrmann_sam 13.6k all produced a verdict;
-# bibi_blocksberg at 14.8k never did, across five runs and every setting.
-# Included-album count does not predict the break (Ninjago audited 533 in
-# one shot); prompt size does. The boundary lies between the largest
-# measured pass (feuerwehrmann_sam, 13,591) and the smallest measured
-# failure (bibi_blocksberg, 14,806). 14,000 keeps every series shown to
-# fit on the one-shot path and routes the first known failure to the
-# chunked one with ~800 tokens of margin. Four series exceed it.
-# Everything below keeps the one-shot audit: one model, the whole series
-# in view.
-AUDIT_ONE_SHOT_MAX_TOKENS = 14_000
 
 AuditRoute = Literal["one_shot", "chunked"]
 
@@ -129,13 +105,6 @@ class AuditDeps(AgentDeps):
     _search_counts: dict[str, int] = field(default_factory=dict, init=False)
 
 
-# An identical search_included_albums query answered this many times is a
-# loop, not research: the result cannot change within a run. A model with
-# reasoning off did exactly this on Bibi Blocksberg (the same 'Folge 165'
-# query 18 times in a row) until it exhausted the request budget.
-_SEARCH_REPEAT_ALLOWANCE = 2
-
-
 def _build_audit_agent(
     model,
     *,
@@ -149,6 +118,7 @@ def _build_audit_agent(
         content_type=content_type,
         discography_span_years=discography_span_years,
     )
+    profile = get_model_profile(model_name)
     agent: Agent[AuditDeps, AuditResult] = Agent(
         model,
         output_type=ToolOutput(
@@ -189,7 +159,7 @@ def _build_audit_agent(
         ]
         seen = ctx.deps._search_counts.get(q, 0) + 1
         ctx.deps._search_counts[q] = seen
-        if seen > _SEARCH_REPEAT_ALLOWANCE:
+        if seen > profile.search_repeat_allowance:
             ctx.deps.on_progress(
                 f"  search_included_albums({query!r}) -> repeated {seen}x, refused",
             )
@@ -450,10 +420,11 @@ def build_overview(curation: dict, lint_issues: list[str]) -> str:
 
 # -- Chunk planner --
 #
-# Only the four series whose one-shot prompt is past AUDIT_ONE_SHOT_MAX_TOKENS
-# are chunked. A chunk is a small one-shot audit: the overview plus a
-# subset of albums, and it must itself fit the one-shot limit. Albums are
-# grouped so the judgment each chunk is asked for stays possible:
+# Only the four series whose one-shot prompt is past the model profile's
+# one_shot_max_tokens are chunked. A chunk is a small one-shot audit: the
+# overview plus a subset of albums, and it must itself fit the one-shot
+# limit. Albums are grouped so the judgment each chunk is asked for stays
+# possible:
 #
 # - a title cluster that fits is one chunk, included and excluded members
 #   together, so a split line (Kartoffelbrei parts 1-4 in, 5-11 out) is
@@ -478,13 +449,14 @@ class Chunk:
 # must leave room for on top of the overview and the album lines.
 _CHUNK_FRAMING_TOKENS = 600
 
-# Size a chunk fills toward. AUDIT_ONE_SHOT_MAX_TOKENS is the hard cap a
-# chunk may never exceed, but a chunk filled to the cap is a slightly
-# smaller copy of the prompt that failed. The audit's comfortable working
-# size is far lower: across the 275 series the one-shot handles, the
-# prompt median is 1,163 tokens and the 90th percentile 6,035. Chunks
-# fill to that 90th percentile, so each is a judgment the model is known
-# to make well, and stop before the cap on the rare oversized album.
+# Size a chunk fills toward. The model profile's one_shot_max_tokens is
+# the hard cap a chunk may never exceed, but a chunk filled to the cap is
+# a slightly smaller copy of the prompt that failed. The audit's
+# comfortable working size is far lower: across the 275 series the
+# one-shot handles, the prompt median is 1,163 tokens and the 90th
+# percentile 6,035. Chunks fill to that 90th percentile, so each is a
+# judgment the model is known to make well, and stop before the cap on
+# the rare oversized album.
 _CHUNK_TARGET_TOKENS = 6_000
 
 # Members a title cluster needs to be a sub-line that gets its own chunk.
@@ -511,16 +483,22 @@ def _episode_key(a: dict) -> tuple[int, int, str]:
     return (ep is None, ep if ep is not None else 0, a.get("title", ""))
 
 
-def _split_by_range(shape: str, members: list[dict], target: int) -> list[Chunk]:
+def _split_by_range(
+    shape: str,
+    members: list[dict],
+    target: int,
+    max_included: int,
+) -> list[Chunk]:
     """Subdivide one oversized cluster into episode-ordered chunks that
-    each fill toward ``target``."""
+    each fill toward ``target`` and never exceed ``max_included`` albums.
+    """
     ordered = sorted(members, key=_episode_key)
     chunks: list[Chunk] = []
     cur: list[dict] = []
     cur_cost = 0
     for a in ordered:
         cost = _album_cost(a)
-        if cur and cur_cost + cost > target:
+        if cur and (cur_cost + cost > target or len(cur) >= max_included):
             chunks.append(Chunk(label=_range_label(shape, cur), albums=cur))
             cur, cur_cost = [], 0
         cur.append(a)
@@ -537,17 +515,23 @@ def _range_label(shape: str, albums: list[dict]) -> str:
     return f"{shape} (unnumbered)"
 
 
-def plan_chunks(curation: dict, lint_issues: list[str]) -> list[Chunk]:
+def plan_chunks(
+    curation: dict,
+    lint_issues: list[str],
+    *,
+    model_name: str = _DEFAULT_MODEL,
+) -> list[Chunk]:
     """Group a chunked series' albums into chunks that each fit the
     one-shot limit alongside the overview. Pure; no model call."""
+    profile = get_model_profile(model_name)
     albums = curation.get("albums", [])
     overview_cost = prompt_size(build_overview(curation, lint_issues))
     fixed = overview_cost + _CHUNK_FRAMING_TOKENS
-    cap = AUDIT_ONE_SHOT_MAX_TOKENS - fixed
+    cap = profile.one_shot_max_tokens - fixed
     if cap <= 0:
         raise ValueError(
             f"overview alone ({overview_cost} tokens) leaves no room for albums "
-            f"under AUDIT_ONE_SHOT_MAX_TOKENS={AUDIT_ONE_SHOT_MAX_TOKENS}"
+            f"under one_shot_max_tokens={profile.one_shot_max_tokens}"
         )
     # what a chunk fills toward; never above what fits under the cap
     budget = min(_CHUNK_TARGET_TOKENS - fixed, cap)
@@ -579,13 +563,22 @@ def plan_chunks(curation: dict, lint_issues: list[str]) -> list[Chunk]:
         cost = sum(_album_cost(a) for a in members)
         if cost > budget:
             flush_pack()
-            chunks.extend(_split_by_range(shape, members, budget))
+            chunks.extend(
+                _split_by_range(shape, members, budget, profile.chunk_max_included)
+            )
         elif len(members) >= _SUB_LINE_MIN_MEMBERS:
             # a real sub-line: judged whole, in its own chunk
             flush_pack()
-            chunks.append(Chunk(label=shape, albums=list(members)))
+            if len(members) > profile.chunk_max_included:
+                chunks.extend(
+                    _split_by_range(shape, members, budget, profile.chunk_max_included)
+                )
+            else:
+                chunks.append(Chunk(label=shape, albums=list(members)))
         else:
-            if pack and pack_cost + cost > budget:
+            if pack and (
+                pack_cost + cost > budget or len(pack) >= profile.chunk_max_included
+            ):
                 flush_pack()
             pack.extend(members)
             pack_shapes.append(shape)
@@ -598,14 +591,19 @@ def prompt_size(prompt: str) -> int:
     """Estimate a prompt's size in tokens as ``len(prompt) // 4``.
 
     Deliberately the same crude measure the one-shot boundary was probed
-    with, so AUDIT_ONE_SHOT_MAX_TOKENS keeps meaning what the probes
-    established. A real tokenizer would be more accurate and would
-    silently invalidate that boundary.
+    with, so the model profile's one_shot_max_tokens keeps meaning what
+    the probes established. A real tokenizer would be more accurate and
+    would silently invalidate that boundary.
     """
     return len(prompt) // 4
 
 
-def audit_route(curation: dict, lint_issues: list[str]) -> AuditRoute:
+def audit_route(
+    curation: dict,
+    lint_issues: list[str],
+    *,
+    model_name: str = _DEFAULT_MODEL,
+) -> AuditRoute:
     """Decide whether a series gets the one-shot audit or the chunked one.
 
     Pure and free: it builds the prompt the one-shot audit would send and
@@ -614,8 +612,9 @@ def audit_route(curation: dict, lint_issues: list[str]) -> AuditRoute:
     best judgment; chunking is paid for only where the prompt is past the
     size the one-shot audit has been shown to handle.
     """
+    profile = get_model_profile(model_name)
     size = prompt_size(build_prompt(curation, lint_issues))
-    return "one_shot" if size <= AUDIT_ONE_SHOT_MAX_TOKENS else "chunked"
+    return "one_shot" if size <= profile.one_shot_max_tokens else "chunked"
 
 
 # -- Core audit --
@@ -627,6 +626,7 @@ class _PreparedAudit:
     lint_issues: list[str]
     agent: Agent[AuditDeps, AuditResult]
     deps: AuditDeps
+    model_name: str = ""
 
 
 def _prepare_audit(
@@ -696,7 +696,11 @@ def _prepare_audit(
         on_progress=on_progress,
     )
     return _PreparedAudit(
-        curation=curation, lint_issues=lint_issues, agent=agent, deps=deps
+        curation=curation,
+        lint_issues=lint_issues,
+        agent=agent,
+        deps=deps,
+        model_name=model_name,
     )
 
 
@@ -708,13 +712,14 @@ async def _run_audit_prompt(
     timeout: int,
     on_progress: Progress,
 ) -> AuditResult:
+    profile = get_model_profile(prepared.model_name)
     return await run_with_rate_limit_retry(
         lambda: asyncio.wait_for(
             run_agent(
                 prepared.agent,
                 prompt,
                 prepared.deps,
-                request_limit=_AUDIT_REQUEST_LIMIT,
+                request_limit=profile.request_limit,
                 tally=prepared.deps.usage,
             ),
             timeout=timeout,
@@ -862,7 +867,9 @@ async def _audit_chunked(
     on_progress: Progress,
 ) -> AuditResult:
     overview = build_overview(prepared.curation, prepared.lint_issues)
-    chunks = plan_chunks(prepared.curation, prepared.lint_issues)
+    chunks = plan_chunks(
+        prepared.curation, prepared.lint_issues, model_name=prepared.model_name
+    )
     on_progress(
         f"  Chunked audit: {len(prepared.curation.get('albums', []))} albums in "
         f"{len(chunks)} chunks (overview {prompt_size(overview)} tokens)"
@@ -919,7 +926,9 @@ async def audit_one(
     if usage is not None:
         prepared.deps.usage = usage
 
-    route = audit_route(prepared.curation, prepared.lint_issues)
+    route = audit_route(
+        prepared.curation, prepared.lint_issues, model_name=prepared.model_name
+    )
     if route == "chunked":
         return await _audit_chunked(
             prepared, series_id, timeout=timeout, on_progress=on_progress
