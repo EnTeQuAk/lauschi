@@ -24,7 +24,8 @@ from lauschi_catalog.catalog.curate_ops import (
     lookup_catalog_entry,
     resolve_content_type,
 )
-from lauschi_catalog.catalog.paths import CURATION_DIR
+from lauschi_catalog.catalog.io import load_curation
+from lauschi_catalog.catalog.paths import curation_path
 from lauschi_catalog.catalog.series_ops import split_off_refusal
 from lauschi_catalog.prompts import load_curate_skill
 from lauschi_catalog.providers.apple_music import AppleMusicProvider
@@ -253,10 +254,10 @@ def curate(
             raise SystemExit(1)
         if entry is not None:
             existing: dict | None = None
-            curation_path = CURATION_DIR / f"{entry.id}.json"
-            if curation_path.exists():
+            cur_path = curation_path(entry.id)
+            if cur_path.exists():
                 try:
-                    existing = json.loads(curation_path.read_text())
+                    existing = load_curation(entry.id)
                 except OSError, json.JSONDecodeError:
                     existing = None
             entry_content_type = resolve_content_type(

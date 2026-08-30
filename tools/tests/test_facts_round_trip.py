@@ -142,21 +142,14 @@ class TestFactsRoundTrip:
         with open(path, "w") as f:
             yaml.dump(data, f)
 
-        import lauschi_catalog.catalog.loader as loader
-
-        orig_path = loader.SERIES_YAML
-        loader.SERIES_YAML = path
-        try:
-            entries = load_catalog(path)
-            entry = entries[0]
-            assert entry.id == "round_trip_test"
-            assert entry.series_facts is not None
-            assert "era_boundaries" in entry.series_facts
-            era = entry.series_facts["era_boundaries"][0]
-            assert era["label"] == "modern"
-            assert era["audited_by"] == "audit"
-        finally:
-            loader.SERIES_YAML = orig_path
+        entries = load_catalog(path)
+        entry = entries[0]
+        assert entry.id == "round_trip_test"
+        assert entry.series_facts is not None
+        assert "era_boundaries" in entry.series_facts
+        era = entry.series_facts["era_boundaries"][0]
+        assert era["label"] == "modern"
+        assert era["audited_by"] == "audit"
 
 
 class TestLintEraAwareDuplicates:

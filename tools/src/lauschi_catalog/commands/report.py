@@ -8,7 +8,7 @@ from rich import box
 from rich.console import Console
 from rich.table import Table
 
-from lauschi_catalog.catalog.paths import CURATION_DIR
+from lauschi_catalog.catalog.paths import curation_dir, curation_path
 
 console = Console()
 
@@ -18,9 +18,9 @@ console = Console()
 def report(series_id: str | None):
     """Analyze curations and report statistics."""
     if series_id:
-        paths = [CURATION_DIR / f"{series_id}.json"]
+        paths = [curation_path(series_id)]
     else:
-        paths = sorted(CURATION_DIR.glob("*.json"))
+        paths = sorted(curation_dir().glob("*.json"))
 
     if not paths:
         console.print("[yellow]No curation files found[/yellow]")

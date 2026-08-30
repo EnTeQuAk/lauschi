@@ -35,14 +35,18 @@ from lauschi_catalog.catalog.facts import (
     SubSeriesProposal,
     fact_provenance,
 )
-from lauschi_catalog.catalog.io import safe_write_json
-from lauschi_catalog.catalog.lifecycle import audit_is_stale, review_block
+from lauschi_catalog.catalog.io import load_curation, safe_write_json
+from lauschi_catalog.catalog.lifecycle import (
+    CurationState,
+    audit_is_stale,
+    needs_audit,
+)
 from lauschi_catalog.catalog.lint_ops import (
     compress_runs,
     critical_issues,
     lint_curation,
 )
-from lauschi_catalog.catalog.paths import CURATION_DIR, log_dir
+from lauschi_catalog.catalog.paths import curation_path, log_dir
 from lauschi_catalog.prompts import load_curate_skill
 from lauschi_catalog.rate_limit import run_with_rate_limit_retry
 from lauschi_catalog.retry import describe_failure
@@ -646,23 +650,17 @@ def _prepare_audit(
         on_progress("OPENCODE_API_KEY not set")
         return None
 
-    path = CURATION_DIR / f"{series_id}.json"
+    path = curation_path(series_id)
     if not path.exists():
         on_progress(f"Not found: {path}")
         return None
 
-    curation = json.loads(path.read_text())
-
-    review = review_block(curation)
-    status = review.get("status")
+    curation = load_curation(series_id)
+    state = CurationState.from_curation(curation)
     stale = audit_is_stale(curation)
-    if not force and not stale:
-        if status in ("approved", "audited"):
-            on_progress(f"Skipping {series_id} (already {status})")
-            return None
-        if status == "rejected":
-            on_progress(f"Skipping {series_id} (rejected)")
-            return None
+    if not force and not stale and not needs_audit(state):
+        on_progress(f"Skipping {series_id} (already {state.status})")
+        return None
     if stale:
         on_progress(f"  Re-auditing {series_id} (audit stale after re-curate)")
 
@@ -1031,7 +1029,7 @@ def apply_audit(
     ``usage`` (requests / input_tokens / output_tokens) is recorded in
     the review block next to who audited and when.
     """
-    path = CURATION_DIR / f"{series_id}.json"
+    path = curation_path(series_id)
     data = json.loads(path.read_text())
     review = data.setdefault("review", {})
     now = datetime.now(tz=UTC).isoformat()

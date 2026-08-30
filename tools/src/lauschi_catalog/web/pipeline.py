@@ -7,7 +7,7 @@ curation JSON and series.yaml. Steps are ordered:
 2. Curate    (curation JSON exists with curated_at)
 3. Audit     (curation JSON has review.audited_at)
 4. Apply     (albums written to series.yaml)
-5. Validate  (validated_at in curation JSON)
+5. Validate  (last "validate" event in logs/catalog/run-*.jsonl)
 
 """
 
@@ -15,6 +15,7 @@ import json
 from dataclasses import dataclass
 from typing import Any
 
+from lauschi_catalog.catalog.lifecycle import CurationState
 from lauschi_catalog.catalog.models import CatalogEntry
 from lauschi_catalog.catalog.paths import curation_path
 from lauschi_catalog.run_events import OUTCOME_OK, latest_outcome_for
@@ -86,13 +87,12 @@ def pipeline_status(
         if not has_curation:
             current_step = 1
 
-    # Step 2: Audit. A curation can carry "review": null (twelve real files
-    # do), which .get() returns as-is; treat it like an absent block.
-    review = (curation.get("review") if curation else None) or {}
-    has_audit = bool(review.get("audited_at"))
-    audit_status = review.get("status", "")
+    # Step 2: Audit. One reading of the review block (CurationState
+    # handles the "review": null files too).
+    state = CurationState.from_curation(curation)
+    has_audit = state.audited_at is not None
     if has_curation:
-        if audit_status == "escalated":
+        if state.status == "escalated":
             step_statuses.append("escalated")
             current_step = 2
         elif has_audit:
@@ -103,14 +103,13 @@ def pipeline_status(
 
     # Step 3: Apply
     has_applied = any(prov_cfg.has_albums for prov_cfg in series.providers.values())
-    if has_audit and audit_status != "escalated":
+    if has_audit and state.status != "escalated":
         step_statuses.append("done" if has_applied else "current")
         if not has_applied:
             current_step = 3
 
     # Step 4: Validate. A validated run leaves an event in
-    # logs/catalog/run-*.jsonl; the curation's validated_at field is
-    # the older stamp and is no longer written or read.
+    # logs/catalog/run-*.jsonl.
     has_validated = latest_outcome_for(series_id, "validate") == OUTCOME_OK
     if has_applied:
         step_statuses.append("done" if has_validated else "current")

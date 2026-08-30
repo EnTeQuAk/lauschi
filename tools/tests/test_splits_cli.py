@@ -6,8 +6,6 @@ import pytest
 from click.testing import CliRunner
 from ruamel.yaml import YAML
 
-from lauschi_catalog.catalog import loader as loader_mod
-from lauschi_catalog.catalog import paths as paths_mod
 from lauschi_catalog.commands import apply_splits as splits_mod
 
 yaml = YAML()
@@ -17,9 +15,11 @@ yaml.preserve_quotes = True
 @pytest.fixture
 def split_env(monkeypatch, tmp_path):
     """A series with two split proposals."""
-    series_yaml = tmp_path / "series.yaml"
-    curation_dir = tmp_path / "curation"
-    curation_dir.mkdir()
+    catalog = tmp_path / "assets" / "catalog"
+    curation_dir = catalog / "curation"
+    curation_dir.mkdir(parents=True)
+    series_yaml = catalog / "series.yaml"
+    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
 
     yaml.dump(
         {
@@ -60,18 +60,6 @@ def split_env(monkeypatch, tmp_path):
         },
     }
     (curation_dir / "parent.json").write_text(json.dumps(curation))
-
-    monkeypatch.setattr(paths_mod, "repo_root", lambda: tmp_path)
-    monkeypatch.setattr(paths_mod, "series_yaml_path", lambda: series_yaml)
-    monkeypatch.setattr(paths_mod, "curation_dir", lambda: curation_dir)
-    monkeypatch.setattr(
-        paths_mod, "curation_path", lambda sid: curation_dir / f"{sid}.json"
-    )
-    monkeypatch.setattr(paths_mod, "series_lock_path", lambda: tmp_path / ".lock")
-    monkeypatch.setattr(paths_mod, "SERIES_YAML", series_yaml)
-    monkeypatch.setattr(paths_mod, "CURATION_DIR", curation_dir)
-    monkeypatch.setattr(loader_mod, "SERIES_YAML", series_yaml)
-    monkeypatch.setattr(splits_mod, "CURATION_DIR", curation_dir)
 
     return {
         "series_yaml": series_yaml,

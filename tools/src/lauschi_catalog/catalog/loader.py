@@ -8,16 +8,12 @@ from pathlib import Path
 
 from lauschi_catalog.catalog import io
 from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
-from lauschi_catalog.catalog.paths import (
-    REPO_ROOT,  # noqa: F401 — re-exported for existing callers
-    SERIES_YAML,  # noqa: F401 — re-exported for existing callers
-)
+from lauschi_catalog.catalog.paths import series_yaml_path
 
 
 def _series_path(path: Path | None) -> Path:
-    # Module-level SERIES_YAML is resolved at call time so tests can
-    # monkeypatch ``loader.SERIES_YAML`` without binding stale defaults.
-    return path if path is not None else SERIES_YAML
+    """Call-time resolution so LAUSCHI_REPO_ROOT overrides always work."""
+    return path if path is not None else series_yaml_path()
 
 
 def load_catalog(path: Path | None = None) -> list[CatalogEntry]:

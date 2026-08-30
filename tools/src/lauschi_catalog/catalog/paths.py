@@ -56,13 +56,3 @@ def cache_dir(provider: str) -> Path:
 
 def log_dir() -> Path:
     return repo_root() / "logs" / "catalog"
-
-
-# Backward-compatible module-level constants.
-# These exist so that existing code and tests that monkeypatch
-# e.g. ``loader.SERIES_YAML`` or ``config.CURATION_DIR`` keep
-# working during the migration. New code should call the functions.
-REPO_ROOT = repo_root()
-SERIES_YAML = series_yaml_path()
-CURATION_DIR = curation_dir()
-SERIES_LOCK = series_lock_path()

@@ -6,7 +6,7 @@ import click
 from rich.console import Console
 
 from lauschi_catalog.catalog.lint_ops import lint_curation
-from lauschi_catalog.catalog.paths import CURATION_DIR
+from lauschi_catalog.catalog.paths import curation_dir, curation_path
 
 console = Console()
 
@@ -21,9 +21,9 @@ def lint(series_id: str | None, run_all: bool):
         raise SystemExit(1)
 
     if series_id:
-        paths = [CURATION_DIR / f"{series_id}.json"]
+        paths = [curation_path(series_id)]
     else:
-        paths = sorted(CURATION_DIR.glob("*.json"))
+        paths = sorted(curation_dir().glob("*.json"))
 
     total = 0
     with_issues = 0

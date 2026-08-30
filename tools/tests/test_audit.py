@@ -8,6 +8,7 @@ threshold.
 
 import json
 
+import pytest
 import ruamel.yaml
 
 from lauschi_catalog.catalog.audit_ops import (
@@ -280,13 +281,12 @@ class TestBuildPrompt:
 
 class TestApplyAuditStatus:
     def _apply(self, tmp_path, result: AuditResult) -> str:
-        path = tmp_path / "test_series.json"
+        curation_dir = tmp_path / "assets" / "catalog" / "curation"
+        curation_dir.mkdir(parents=True)
+        path = curation_dir / "test_series.json"
         path.write_text(json.dumps(_curation()))
-
-        import lauschi_catalog.catalog.audit_ops as audit_mod
-
-        orig = audit_mod.CURATION_DIR
-        audit_mod.CURATION_DIR = tmp_path
+        monkeypatch = pytest.MonkeyPatch()
+        monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
         try:
             action = apply_audit(
                 "test_series",
@@ -294,7 +294,7 @@ class TestApplyAuditStatus:
                 model_name="test-model",
             )
         finally:
-            audit_mod.CURATION_DIR = orig
+            monkeypatch.undo()
         yaml = ruamel.yaml.YAML()
         data = yaml.load(path)
         return action, data
@@ -372,13 +372,13 @@ class TestApplyAuditStatus:
 
 class TestApplyAuditOverrides:
     def test_override_stamps_audited_by(self, tmp_path):
-        path = tmp_path / "test_series.json"
+        curation_dir = tmp_path / "assets" / "catalog" / "curation"
+        curation_dir.mkdir(parents=True)
+        path = curation_dir / "test_series.json"
         path.write_text(json.dumps(_curation()))
 
-        import lauschi_catalog.catalog.audit_ops as audit_mod
-
-        orig = audit_mod.CURATION_DIR
-        audit_mod.CURATION_DIR = tmp_path
+        monkeypatch = pytest.MonkeyPatch()
+        monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
         try:
             result = AuditResult(
                 approve=True,
@@ -393,7 +393,7 @@ class TestApplyAuditOverrides:
             )
             apply_audit("test_series", result, model_name="test-model")
         finally:
-            audit_mod.CURATION_DIR = orig
+            monkeypatch.undo()
 
         yaml = ruamel.yaml.YAML()
         data = yaml.load(path)
@@ -416,13 +416,13 @@ class TestApplyAuditOverrides:
                 },
             ],
         }
-        path = tmp_path / "test_series.json"
+        curation_dir = tmp_path / "assets" / "catalog" / "curation"
+        curation_dir.mkdir(parents=True)
+        path = curation_dir / "test_series.json"
         path.write_text(json.dumps(c))
 
-        import lauschi_catalog.catalog.audit_ops as audit_mod
-
-        orig = audit_mod.CURATION_DIR
-        audit_mod.CURATION_DIR = tmp_path
+        monkeypatch = pytest.MonkeyPatch()
+        monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
         try:
             result = AuditResult(
                 approve=True,
@@ -437,7 +437,7 @@ class TestApplyAuditOverrides:
             )
             apply_audit("test_series", result, model_name="test-model")
         finally:
-            audit_mod.CURATION_DIR = orig
+            monkeypatch.undo()
 
         yaml = ruamel.yaml.YAML()
         data = yaml.load(path)
@@ -450,13 +450,13 @@ class TestApplyAuditOverrides:
         """The agent sometimes invents descriptive album_ids instead of
         using the real ones from the prompt. These should be silently
         dropped so they don't pollute the curation file."""
-        path = tmp_path / "test_series.json"
+        curation_dir = tmp_path / "assets" / "catalog" / "curation"
+        curation_dir.mkdir(parents=True)
+        path = curation_dir / "test_series.json"
         path.write_text(json.dumps(_curation()))
 
-        import lauschi_catalog.catalog.audit_ops as audit_mod
-
-        orig = audit_mod.CURATION_DIR
-        audit_mod.CURATION_DIR = tmp_path
+        monkeypatch = pytest.MonkeyPatch()
+        monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
         warnings = []
         try:
             result = AuditResult(
@@ -483,7 +483,7 @@ class TestApplyAuditOverrides:
                 on_progress=warnings.append,
             )
         finally:
-            audit_mod.CURATION_DIR = orig
+            monkeypatch.undo()
 
         yaml = ruamel.yaml.YAML()
         data = yaml.load(path)
@@ -608,13 +608,13 @@ class TestMergeFacts:
 
 class TestApplyAuditMultipleFactUpdates:
     def _apply_with_facts(self, tmp_path, fact_updates):
-        path = tmp_path / "test_series.json"
+        curation_dir = tmp_path / "assets" / "catalog" / "curation"
+        curation_dir.mkdir(parents=True)
+        path = curation_dir / "test_series.json"
         path.write_text(json.dumps(_curation()))
 
-        import lauschi_catalog.catalog.audit_ops as audit_mod
-
-        orig = audit_mod.CURATION_DIR
-        audit_mod.CURATION_DIR = tmp_path
+        monkeypatch = pytest.MonkeyPatch()
+        monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
         try:
             result = AuditResult(
                 approve=True,
@@ -622,7 +622,7 @@ class TestApplyAuditMultipleFactUpdates:
             )
             apply_audit("test_series", result, model_name="test-model")
         finally:
-            audit_mod.CURATION_DIR = orig
+            monkeypatch.undo()
 
         yaml = ruamel.yaml.YAML()
         return yaml.load(path)
@@ -672,14 +672,13 @@ class TestApplyAuditMultipleFactUpdates:
 
 class TestDryRun:
     def test_dry_run_does_not_write(self, tmp_path):
-        path = tmp_path / "test_series.json"
+        path = tmp_path / "assets" / "catalog" / "curation" / "test_series.json"
+        path.parent.mkdir(parents=True)
         original = _curation()
         path.write_text(json.dumps(original))
 
-        import lauschi_catalog.catalog.audit_ops as audit_mod
-
-        orig = audit_mod.CURATION_DIR
-        audit_mod.CURATION_DIR = tmp_path
+        monkeypatch = pytest.MonkeyPatch()
+        monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
         try:
             result = AuditResult(
                 approve=True,
@@ -699,7 +698,7 @@ class TestDryRun:
                 dry_run=True,
             )
         finally:
-            audit_mod.CURATION_DIR = orig
+            monkeypatch.undo()
 
         data = json.loads(path.read_text())
         assert "review" not in data
@@ -715,15 +714,14 @@ class TestApplyAuditHardGate:
     an auditor approving a curation that emptied an entire artist."""
 
     def _apply(self, tmp_path, result: AuditResult, flags: list[str]):
-        path = tmp_path / "test_series.json"
+        path = tmp_path / "assets" / "catalog" / "curation" / "test_series.json"
+        path.parent.mkdir(parents=True)
         curation = _curation()
         curation["regression_flags"] = flags
         path.write_text(json.dumps(curation))
 
-        import lauschi_catalog.catalog.audit_ops as audit_mod
-
-        orig = audit_mod.CURATION_DIR
-        audit_mod.CURATION_DIR = tmp_path
+        monkeypatch = pytest.MonkeyPatch()
+        monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
         try:
             action = apply_audit(
                 "test_series",
@@ -731,7 +729,7 @@ class TestApplyAuditHardGate:
                 model_name="test-model",
             )
         finally:
-            audit_mod.CURATION_DIR = orig
+            monkeypatch.undo()
         yaml = ruamel.yaml.YAML()
         data = yaml.load(path)
         return action, data
@@ -762,17 +760,17 @@ class TestApplyAuditMaterialization:
     entirely and shipped 183 audit-rejected albums."""
 
     def _run(self, tmp_path, curation, result):
-        path = tmp_path / "test_series.json"
+        curation_dir = tmp_path / "assets" / "catalog" / "curation"
+        curation_dir.mkdir(parents=True)
+        path = curation_dir / "test_series.json"
         path.write_text(json.dumps(curation))
 
-        import lauschi_catalog.catalog.audit_ops as audit_mod
-
-        orig = audit_mod.CURATION_DIR
-        audit_mod.CURATION_DIR = tmp_path
+        monkeypatch = pytest.MonkeyPatch()
+        monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
         try:
             apply_audit("test_series", result, model_name="test-model")
         finally:
-            audit_mod.CURATION_DIR = orig
+            monkeypatch.undo()
         return json.loads(path.read_text())
 
     def test_exclude_override_flips_album_include_flag(self, tmp_path):
@@ -865,15 +863,14 @@ class TestApplyAuditDryRun:
     """
 
     def _dry_run(self, tmp_path, result: AuditResult) -> tuple[list[str], dict]:
-        path = tmp_path / "test_series.json"
+        path = tmp_path / "assets" / "catalog" / "curation" / "test_series.json"
+        path.parent.mkdir(parents=True)
         original = _curation()
         path.write_text(json.dumps(original))
 
-        import lauschi_catalog.catalog.audit_ops as audit_mod
-
         lines: list[str] = []
-        orig = audit_mod.CURATION_DIR
-        audit_mod.CURATION_DIR = tmp_path
+        monkeypatch = pytest.MonkeyPatch()
+        monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
         try:
             apply_audit(
                 "test_series",
@@ -883,7 +880,7 @@ class TestApplyAuditDryRun:
                 on_progress=lines.append,
             )
         finally:
-            audit_mod.CURATION_DIR = orig
+            monkeypatch.undo()
         return lines, json.loads(path.read_text())
 
     def test_itemizes_override_targets(self, tmp_path):

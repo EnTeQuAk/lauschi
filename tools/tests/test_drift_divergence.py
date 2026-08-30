@@ -29,16 +29,18 @@ def scratch_root(tmp_path, monkeypatch):
     monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
     curation_dir = tmp_path / "assets" / "catalog" / "curation"
     curation_dir.mkdir(parents=True)
-    monkeypatch.setattr(drift_ops, "CURATION_DIR", curation_dir)
     return curation_dir
 
 
 def _write_curation(series_id: str, included_ids: list[str]) -> None:
+    from lauschi_catalog.catalog.paths import curation_path
+
     albums = [
         {"album_id": aid, "provider": "spotify", "include": True, "title": f"T {aid}"}
         for aid in included_ids
     ]
-    path = drift_ops.CURATION_DIR / f"{series_id}.json"
+    path = curation_path(series_id)
+    path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps({"id": series_id, "albums": albums}))
 
 

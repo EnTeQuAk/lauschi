@@ -7,7 +7,6 @@ from pydantic_ai import Agent
 from pydantic_ai.models.test import TestModel
 from pydantic_ai.usage import RunUsage
 
-from lauschi_catalog.catalog import curate_ops
 from lauschi_catalog.catalog.curate_ops import (
     CuratedSeries,
     save_curation,
@@ -43,7 +42,9 @@ def test_usage_summary_is_the_three_numbers_a_cost_needs() -> None:
 def test_save_curation_persists_who_curated_and_what_it_cost(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    monkeypatch.setattr(curate_ops, "CURATION_DIR", tmp_path)
+    curation_dir = tmp_path / "assets" / "catalog" / "curation"
+    curation_dir.mkdir(parents=True)
+    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
     series = CuratedSeries(
         id="kira_kolumna",
         title="Kira Kolumna",

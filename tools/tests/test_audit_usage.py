@@ -13,8 +13,10 @@ from lauschi_catalog.catalog.audit_ops import AuditResult, apply_audit, audit_se
 
 @pytest.fixture
 def curation_file(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
-    monkeypatch.setattr(m, "CURATION_DIR", tmp_path)
-    path = tmp_path / "s.json"
+    curation_dir = tmp_path / "assets" / "catalog" / "curation"
+    curation_dir.mkdir(parents=True)
+    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
+    path = curation_dir / "s.json"
     path.write_text(
         json.dumps(
             {

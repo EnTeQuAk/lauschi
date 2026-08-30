@@ -6,7 +6,7 @@ import click
 from rich.console import Console
 
 from lauschi_catalog.catalog.io import safe_write_json
-from lauschi_catalog.catalog.paths import CURATION_DIR
+from lauschi_catalog.catalog.paths import curation_dir, curation_path
 from lauschi_catalog.catalog.reconcile import (
     normalize_exclude_reason,
     reconcile_cross_provider,
@@ -34,9 +34,9 @@ def reconcile(series_id: str | None, run_all: bool, normalize: bool, dry_run: bo
         raise SystemExit(1)
 
     if series_id:
-        paths = [CURATION_DIR / f"{series_id}.json"]
+        paths = [curation_path(series_id)]
     else:
-        paths = sorted(CURATION_DIR.glob("*.json"))
+        paths = sorted(curation_dir().glob("*.json"))
 
     total_flipped = 0
     total_flagged = 0

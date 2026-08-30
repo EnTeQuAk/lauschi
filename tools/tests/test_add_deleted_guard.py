@@ -12,8 +12,6 @@ from ruamel.yaml import YAML
 
 from lauschi_catalog.catalog import add_ops as add_ops_mod
 from lauschi_catalog.catalog import deleted as deleted_mod
-from lauschi_catalog.catalog import loader as loader_mod
-from lauschi_catalog.catalog import paths as paths_mod
 from lauschi_catalog.commands import add as add_mod
 
 yaml = YAML()
@@ -23,22 +21,14 @@ yaml.preserve_quotes = True
 @pytest.fixture
 def env(monkeypatch, tmp_path):
     """Fresh catalog + empty deletion log + neutered providers."""
-    series_yaml = tmp_path / "series.yaml"
-    deleted_yaml = tmp_path / "deleted.yaml"
+    catalog = tmp_path / "assets" / "catalog"
+    catalog.mkdir(parents=True)
+    series_yaml = catalog / "series.yaml"
+    deleted_yaml = catalog / "deleted.yaml"
     with series_yaml.open("w") as f:
         yaml.dump({"series": []}, f)
 
-    monkeypatch.setattr(loader_mod, "SERIES_YAML", series_yaml)
-    monkeypatch.setattr(deleted_mod, "DELETED_YAML", deleted_yaml)
-    # series_ops.add_series_entry resolves the file through
-    # paths.series_yaml_path() at call time; without these patches the
-    # force-readd test writes a tom_turbo stub into the REAL series.yaml.
-    monkeypatch.setattr(paths_mod, "series_yaml_path", lambda: series_yaml)
-    monkeypatch.setattr(
-        paths_mod,
-        "series_lock_path",
-        lambda: tmp_path / ".series.yaml.lock",
-    )
+    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
 
     # Pre-seed the log with a deletion.
     deleted_mod.record_deletion(

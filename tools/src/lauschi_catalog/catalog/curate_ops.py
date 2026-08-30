@@ -43,7 +43,7 @@ from lauschi_catalog.catalog.facts import (
     facts_from_curation,
     merge_facts,
 )
-from lauschi_catalog.catalog.io import safe_write_json
+from lauschi_catalog.catalog.io import load_curation, safe_write_json
 from lauschi_catalog.catalog.lint_ops import (
     compress_runs,
     lint_curation,
@@ -58,9 +58,9 @@ from lauschi_catalog.catalog.matcher import (
     spread_sample,
 )
 from lauschi_catalog.catalog.paths import (
-    CURATION_DIR,
     cover_cache_dir,
     cover_cache_path,
+    curation_path,
     log_dir,
 )
 from lauschi_catalog.catalog.prompt import album_to_dict, format_albums_xml
@@ -197,7 +197,7 @@ def _inject_split_children(
     }
 
     for child in children:
-        child_path = CURATION_DIR / f"{child.id}.json"
+        child_path = curation_path(child.id)
         if not child_path.exists():
             continue
         child_data = json.loads(child_path.read_text())
@@ -2025,8 +2025,8 @@ def save_curation(
 
     Raises ValueError if the existing file is corrupt.
     """
-    CURATION_DIR.mkdir(parents=True, exist_ok=True)
-    path = CURATION_DIR / f"{series.id}.json"
+    path = curation_path(series.id)
+    path.parent.mkdir(parents=True, exist_ok=True)
 
     data: dict = {}
     if path.exists():
@@ -2292,9 +2292,9 @@ async def curate_all(
                 )
             )
             continue
-        curation_path = CURATION_DIR / f"{entry.id}.json"
+        cur_path = curation_path(entry.id)
         existing: dict | None = None
-        if curation_path.exists():
+        if cur_path.exists():
             if not force:
                 result.skipped += 1
                 record_event(
@@ -2306,7 +2306,7 @@ async def curate_all(
                     )
                 )
                 continue
-            existing = json.loads(curation_path.read_text())
+            existing = load_curation(entry.id)
 
         on_progress(
             f"\n({i + 1}/{total}) {entry.title} "

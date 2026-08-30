@@ -16,8 +16,6 @@ from click.testing import CliRunner
 from ruamel.yaml import YAML
 
 from lauschi_catalog.catalog import deleted as deleted_mod
-from lauschi_catalog.catalog import loader as loader_mod
-from lauschi_catalog.catalog import paths as paths_mod
 from lauschi_catalog.commands import delete as delete_mod
 
 yaml = YAML()
@@ -27,10 +25,12 @@ yaml.preserve_quotes = True
 @pytest.fixture
 def fake_catalog(monkeypatch, tmp_path):
     """A pristine catalog in tmp_path with one series and one curation."""
-    series_yaml = tmp_path / "series.yaml"
-    curation_dir = tmp_path / "curation"
-    deleted_yaml = tmp_path / "deleted.yaml"
-    curation_dir.mkdir()
+    catalog = tmp_path / "assets" / "catalog"
+    curation_dir = catalog / "curation"
+    curation_dir.mkdir(parents=True)
+    series_yaml = catalog / "series.yaml"
+    deleted_yaml = catalog / "deleted.yaml"
+    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
 
     data = {
         "series": [
@@ -48,20 +48,6 @@ def fake_catalog(monkeypatch, tmp_path):
         json.dumps({"id": "tom_turbo", "title": "Tom Turbo", "albums": []}),
     )
 
-    # Redirect all path resolution to tmp_path.
-    monkeypatch.setattr(paths_mod, "repo_root", lambda: tmp_path)
-    monkeypatch.setattr(paths_mod, "series_yaml_path", lambda: series_yaml)
-    monkeypatch.setattr(paths_mod, "curation_dir", lambda: curation_dir)
-    monkeypatch.setattr(
-        paths_mod, "curation_path", lambda sid: curation_dir / f"{sid}.json"
-    )
-    monkeypatch.setattr(paths_mod, "series_lock_path", lambda: tmp_path / ".lock")
-    monkeypatch.setattr(paths_mod, "SERIES_YAML", series_yaml)
-    monkeypatch.setattr(paths_mod, "CURATION_DIR", curation_dir)
-    monkeypatch.setattr(paths_mod, "SERIES_LOCK", tmp_path / ".lock")
-    monkeypatch.setattr(paths_mod, "REPO_ROOT", tmp_path)
-    monkeypatch.setattr(loader_mod, "SERIES_YAML", series_yaml)
-    monkeypatch.setattr(deleted_mod, "DELETED_YAML", deleted_yaml)
     return {
         "series_yaml": series_yaml,
         "curation_dir": curation_dir,

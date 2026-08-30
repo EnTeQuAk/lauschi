@@ -7,11 +7,15 @@ callbacks so both the CLI and the web UI can consume it.
 import json
 from collections.abc import Callable
 from dataclasses import dataclass, field
+from pathlib import Path
 
 from lauschi_catalog.catalog.canonical import album_sort_key
-from lauschi_catalog.catalog.lifecycle import apply_is_unsafe, review_block
+from lauschi_catalog.catalog.lifecycle import (
+    CurationState,
+    apply_blockers,
+)
 from lauschi_catalog.catalog.loader import load_raw, save_raw
-from lauschi_catalog.catalog.paths import CURATION_DIR
+from lauschi_catalog.catalog.paths import curation_dir, curation_path
 
 Progress = Callable[[str], None]
 
@@ -57,28 +61,25 @@ def filter_confirmed_facts(facts: dict) -> dict | None:
     return result if result else None
 
 
+def _load_curation_file(path: Path) -> dict:
+    """Read one curation JSON by its path; load_curation keyed by id."""
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
 def should_apply(data: dict, force: bool) -> str | None:
     """Return a human-readable refusal reason, or None if safe to apply.
 
-    Defense-in-depth checks before apply_one writes to series.yaml.
+    The one gate: any critical problem (incomplete run, stale audit,
+    critical regression) blocks regardless of the review status, an
+    escalated series stays blocked by name, and anything not approved
+    must be audited first. ``--force`` skips the gate; catalog-review
+    is how an escalated series gets resolved.
     """
-    if not force:
-        unsafe = apply_is_unsafe(data)
-        if unsafe is not None:
-            return f"refusing to apply — {unsafe} (use --force to override)"
-
-        cur_status = review_block(data).get("status", "curated")
-        if cur_status == "escalated":
-            return (
-                "refusing to apply — status is 'escalated' "
-                "(audit flagged significant problems). Resolve via "
-                "catalog-review, or use --force to override."
-            )
-        if cur_status not in ("approved", "ai_verified"):
-            return (
-                f"refusing to apply — status is '{cur_status}' "
-                f"(run audit first). Use --force to override."
-            )
+    if force:
+        return None
+    state = CurationState.from_curation(data)
+    for blocker in apply_blockers(state):
+        return f"refusing to apply — {blocker} (use --force to override)"
     return None
 
 
@@ -236,16 +237,13 @@ def apply_curations(
     With ``series_id``, applies a single curation. With ``run_all``,
     applies all approved curations. Returns a structured result.
     """
-    if allowed_statuses is None:
-        allowed_statuses = {"approved", "ai_verified"}
-
     if not series_id and not run_all:
         return ApplyResult()
 
     if series_id:
-        paths = [CURATION_DIR / f"{series_id}.json"]
+        paths = [curation_path(series_id)]
     else:
-        paths = sorted(CURATION_DIR.glob("*.json"))
+        paths = sorted(curation_dir().glob("*.json"))
 
     yaml_data = load_raw()
     result = ApplyResult()
@@ -254,14 +252,13 @@ def apply_curations(
         if not path.exists():
             continue
 
-        data = json.loads(path.read_text())
+        data = _load_curation_file(path)
         sid = data.get("id", path.stem)
 
-        review = review_block(data)
-        cur_status = review.get("status", "curated")
-        if cur_status not in allowed_statuses and not series_id:
+        state = CurationState.from_curation(data)
+        if state.status != "approved" and not series_id:
             result.skipped += 1
-            result.details.append(ApplyOneResult(sid, skipped_reason="status mismatch"))
+            result.details.append(ApplyOneResult(sid, skipped_reason="not approved"))
             continue
 
         refusal = should_apply(data, force)
@@ -272,7 +269,7 @@ def apply_curations(
             continue
 
         title = data.get("title", sid)
-        on_progress(f"{title} (status: {cur_status})")
+        on_progress(f"{title} (status: {state.status})")
 
         if apply_one(sid, data, yaml_data, force=force, on_progress=on_progress):
             result.applied += 1

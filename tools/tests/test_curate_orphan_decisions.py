@@ -11,7 +11,6 @@ from pathlib import Path
 
 import pytest
 
-from lauschi_catalog.catalog import curate_ops
 from lauschi_catalog.catalog.curate_ops import (
     AlbumDecision,
     CuratedSeries,
@@ -66,7 +65,9 @@ def test_a_clean_batch_passes_through_untouched() -> None:
 def test_orphans_are_persisted_with_the_curation(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    monkeypatch.setattr(curate_ops, "CURATION_DIR", tmp_path)
+    curation_dir = tmp_path / "assets" / "catalog" / "curation"
+    curation_dir.mkdir(parents=True)
+    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
     series = CuratedSeries(
         id="bibi_blocksberg",
         title="Bibi",

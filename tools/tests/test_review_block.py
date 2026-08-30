@@ -40,7 +40,7 @@ def test_apply_refuses_a_null_review_curation_instead_of_crashing() -> None:
         },
         force=False,
     )
-    assert reason is not None and "status is 'curated'" in reason
+    assert reason is not None and "unaudited" in reason
 
 
 def test_lifecycle_module_owns_the_helper() -> None:

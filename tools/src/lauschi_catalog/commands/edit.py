@@ -8,13 +8,13 @@ from rich.console import Console
 
 from lauschi_catalog.catalog.canonical import album_sort_key
 from lauschi_catalog.catalog.io import safe_write_json
-from lauschi_catalog.catalog.paths import CURATION_DIR
+from lauschi_catalog.catalog.paths import curation_path
 
 console = Console()
 
 
 def _load(series_id: str) -> tuple[Path, dict]:
-    path = CURATION_DIR / f"{series_id}.json"
+    path = curation_path(series_id)
     if not path.exists():
         console.print(f"[red]Not found: {path}[/red]")
         raise SystemExit(1)

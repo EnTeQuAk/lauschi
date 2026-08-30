@@ -7,6 +7,7 @@ writes from CLI and web processes.
 
 import json
 import os
+from collections.abc import Iterator
 from io import StringIO
 from pathlib import Path
 
@@ -59,3 +60,28 @@ def save_raw(data: object, path: Path | None = None) -> None:
     lock = paths.series_lock_path()
     with FileLock(str(lock)):
         safe_write_yaml(target, data)
+
+
+def load_curation(series_id: str) -> dict:
+    """One curation JSON, parsed once, through one path.
+
+    Replaces the hand-rolled ``json.loads(path.read_text())`` sites; a
+    broken file raises here so every caller sees the same failure.
+    """
+    return json.loads(paths.curation_path(series_id).read_text(encoding="utf-8"))
+
+
+def iter_curations() -> Iterator[tuple[str, dict]]:
+    """(series_id, parsed curation) for every curation file, sorted.
+
+    The single enumeration for the audit selector, apply --all, lint
+    --all, the report, and the web dashboard.
+    """
+    d = paths.curation_dir()
+    if not d.exists():
+        return iter(())
+    return iter(
+        (p.stem, json.loads(path.read_text(encoding="utf-8")))
+        for path in sorted(d.glob("*.json"))
+        for p in [path]
+    )

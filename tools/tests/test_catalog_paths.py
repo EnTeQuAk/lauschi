@@ -1,7 +1,5 @@
 """Tests for catalog.paths module."""
 
-from pathlib import Path
-
 from lauschi_catalog.catalog import paths
 
 
@@ -68,8 +66,13 @@ def test_cover_cache_path():
     assert p.parent == paths.cover_cache_dir()
 
 
-def test_module_level_constants_are_paths():
-    assert isinstance(paths.REPO_ROOT, Path)
-    assert isinstance(paths.SERIES_YAML, Path)
-    assert isinstance(paths.CURATION_DIR, Path)
-    assert isinstance(paths.SERIES_LOCK, Path)
+def test_paths_functions_resolve_at_call_time(monkeypatch, tmp_path):
+    """No module-level constants remain: env set after import still wins."""
+    import importlib
+
+    reloaded = importlib.reload(paths)
+    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
+    assert (
+        reloaded.series_yaml_path() == tmp_path / "assets" / "catalog" / "series.yaml"
+    )
+    assert reloaded.curation_dir() == tmp_path / "assets" / "catalog" / "curation"

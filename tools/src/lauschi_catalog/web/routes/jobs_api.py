@@ -21,7 +21,8 @@ from lauschi_catalog.catalog.curate_ops import (
     resolve_content_type,
 )
 from lauschi_catalog.catalog.discover_ops import discover_one
-from lauschi_catalog.catalog.paths import CURATION_DIR, repo_root
+from lauschi_catalog.catalog.io import load_curation
+from lauschi_catalog.catalog.paths import curation_path, repo_root
 from lauschi_catalog.catalog.providers_init import init_providers
 from lauschi_catalog.catalog.validate_ops import validate_catalog
 from lauschi_catalog.web.catalog_store import get_series_by_id, reload_catalog
@@ -532,10 +533,10 @@ def _try_in_process_curate(job_id: str, series_id: str) -> bool:
         return False
 
     existing: dict | None = None
-    curation_path = CURATION_DIR / f"{entry.id}.json"
-    if curation_path.exists():
+    cur_path = curation_path(entry.id)
+    if cur_path.exists():
         try:
-            existing = json.loads(curation_path.read_text())
+            existing = load_curation(entry.id)
         except OSError, json.JSONDecodeError:
             existing = None
 

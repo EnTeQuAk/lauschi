@@ -5,7 +5,6 @@ the library module.
 """
 
 import asyncio
-import json
 
 import click
 from rich.console import Console
@@ -14,9 +13,10 @@ from lauschi_catalog.catalog.audit_ops import (
     _DEFAULT_MODEL,
     audit_series,
 )
-from lauschi_catalog.catalog.lifecycle import audit_is_stale, review_block
+from lauschi_catalog.catalog.io import load_curation
+from lauschi_catalog.catalog.lifecycle import CurationState, audit_is_stale, needs_audit
 from lauschi_catalog.catalog.loader import load_raw
-from lauschi_catalog.catalog.paths import CURATION_DIR
+from lauschi_catalog.catalog.paths import curation_path
 from lauschi_catalog.catalog.providers_init import init_providers
 
 console = Console()
@@ -43,15 +43,12 @@ def audit(
         series_ids = []
         for entry in catalog.get("series", []):
             sid = entry.get("id", "")
-            path = CURATION_DIR / f"{sid}.json"
+            path = curation_path(sid)
             if not path.exists():
                 continue
-            curation = json.loads(path.read_text())
-            review = review_block(curation)
-            status = review.get("status", "")
-            needs_audit = status not in ("approved", "audited", "rejected")
-            stale = audit_is_stale(curation)
-            if needs_audit or stale or force:
+            curation = load_curation(sid)
+            needs = needs_audit(CurationState.from_curation(curation))
+            if needs or audit_is_stale(curation) or force:
                 series_ids.append(sid)
 
     if not series_ids:

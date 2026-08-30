@@ -36,7 +36,7 @@ from enum import Enum
 
 from lauschi_catalog.catalog.matcher import extract_episode
 from lauschi_catalog.catalog.models import CatalogEntry
-from lauschi_catalog.catalog.paths import CURATION_DIR
+from lauschi_catalog.catalog.paths import curation_path
 from lauschi_catalog.providers import Album, CatalogProvider
 
 Progress = Callable[[str], None]
@@ -320,7 +320,7 @@ def stored_album_records(
     the release date and the include flag, and because it is what a
     `--fix-titles` repair writes back to.
     """
-    path = CURATION_DIR / f"{series_id}.json"
+    path = curation_path(series_id)
     if not path.exists():
         return []
     # Deliberately unguarded: a corrupt or unreadable curation must fail the
@@ -431,7 +431,7 @@ def apply_cosmetic_titles(result: DriftResult) -> int:
 
     updated = 0
     for series_id, findings in by_series.items():
-        path = CURATION_DIR / f"{series_id}.json"
+        path = curation_path(series_id)
         if not path.exists():
             continue
         data = json.loads(path.read_text())

@@ -16,8 +16,9 @@ from lauschi_catalog.commands import edit as edit_mod
 
 @pytest.fixture
 def curation(monkeypatch, tmp_path):
-    cur_dir = tmp_path / "curation"
-    cur_dir.mkdir()
+    cur_dir = tmp_path / "assets" / "catalog" / "curation"
+    cur_dir.mkdir(parents=True)
+    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
     path = cur_dir / "test_series.json"
     path.write_text(
         json.dumps(
@@ -35,7 +36,6 @@ def curation(monkeypatch, tmp_path):
             },
         ),
     )
-    monkeypatch.setattr(edit_mod, "CURATION_DIR", cur_dir)
     return path
 
 

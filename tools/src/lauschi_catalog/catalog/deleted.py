@@ -25,14 +25,10 @@ from pathlib import Path
 from lauschi_catalog.catalog import io
 from lauschi_catalog.catalog.paths import deleted_yaml_path
 
-DELETED_YAML = deleted_yaml_path()
-
 
 def _resolve(path: Path | None) -> Path:
-    # The module-level DELETED_YAML is resolved at call time (not bound
-    # as a default) so monkeypatching the module attribute in tests
-    # actually takes effect.
-    return path if path is not None else DELETED_YAML
+    """Call-time resolution so LAUSCHI_REPO_ROOT overrides always work."""
+    return path if path is not None else deleted_yaml_path()
 
 
 def _load(path: Path | None = None) -> dict:

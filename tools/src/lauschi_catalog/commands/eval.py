@@ -5,7 +5,7 @@ from pathlib import Path
 import click
 from rich.console import Console
 
-from lauschi_catalog.catalog.paths import CURATION_DIR
+from lauschi_catalog.catalog.paths import curation_dir
 from lauschi_catalog.catalog.providers_init import init_providers
 from lauschi_catalog.eval.report import (
     render_critic_table,
@@ -67,7 +67,7 @@ def eval_cmd(
     so run this without LAUSCHI_REPO_ROOT set. Provider discographies
     come from the warm cache; a cold cache means live calls.
     """
-    truth_dir = CURATION_DIR
+    truth_dir = curation_dir()
     if scratch_root.resolve() == truth_dir.parents[2].resolve():
         console.print(
             "[red]--root is the real repo; the truth would be scored against itself[/red]"

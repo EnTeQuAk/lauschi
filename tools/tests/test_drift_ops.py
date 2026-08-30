@@ -14,6 +14,9 @@ pinned against cases that actually shipped rather than invented ones:
   original.
 """
 
+import json as _json
+import os
+
 from lauschi_catalog.catalog.drift_ops import (
     DriftSeverity,
     classify_album_drift,
@@ -277,21 +280,19 @@ def test_matching_episode_rescues_a_typo_fix():
 def test_corrupt_curation_raises_instead_of_reporting_no_drift(tmp_path):
     """A verification tool that hides its own blind spots is worse than
     none: silently skipping an unreadable series would report it as clean."""
-    import json as _json
-
     import pytest
 
     from lauschi_catalog.catalog import drift_ops
 
-    bad = tmp_path / "broken_series.json"
+    bad = tmp_path / "assets" / "catalog" / "curation" / "broken_series.json"
+    bad.parent.mkdir(parents=True)
     bad.write_text("{not valid json")
-    original = drift_ops.CURATION_DIR
-    drift_ops.CURATION_DIR = tmp_path
+    os.environ["LAUSCHI_REPO_ROOT"] = str(tmp_path)
     try:
         with pytest.raises(_json.JSONDecodeError):
             drift_ops.stored_album_records("broken_series", "spotify")
     finally:
-        drift_ops.CURATION_DIR = original
+        del os.environ["LAUSCHI_REPO_ROOT"]
 
 
 def test_missing_curation_is_not_an_error(tmp_path):
@@ -299,9 +300,8 @@ def test_missing_curation_is_not_an_error(tmp_path):
     reported via unresolved_series, not a crash."""
     from lauschi_catalog.catalog import drift_ops
 
-    original = drift_ops.CURATION_DIR
-    drift_ops.CURATION_DIR = tmp_path
+    os.environ["LAUSCHI_REPO_ROOT"] = str(tmp_path)
     try:
         assert drift_ops.stored_album_records("nope", "spotify") == []
     finally:
-        drift_ops.CURATION_DIR = original
+        del os.environ["LAUSCHI_REPO_ROOT"]

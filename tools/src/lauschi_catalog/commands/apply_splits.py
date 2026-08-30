@@ -11,14 +11,14 @@ from lauschi_catalog.catalog.merge_ops import (
     normalize_album_ids,
     reject_split,
 )
-from lauschi_catalog.catalog.paths import CURATION_DIR
+from lauschi_catalog.catalog.paths import curation_dir, curation_path
 
 console = Console()
 
 
 def _find_sub_index(series_id: str, label: str) -> int | None:
     """Find the current index of a sub_series by label."""
-    path = CURATION_DIR / f"{series_id}.json"
+    path = curation_path(series_id)
     if not path.exists():
         return None
     data = json.loads(path.read_text())
@@ -32,9 +32,9 @@ def _find_sub_index(series_id: str, label: str) -> int | None:
 def _load_pending(series_id: str | None) -> list[dict]:
     """Load all series with pending split proposals."""
     if series_id:
-        file_paths = [CURATION_DIR / f"{series_id}.json"]
+        file_paths = [curation_path(series_id)]
     else:
-        file_paths = sorted(CURATION_DIR.glob("*.json"))
+        file_paths = sorted(curation_dir().glob("*.json"))
 
     pending: list[dict] = []
     for path in file_paths:

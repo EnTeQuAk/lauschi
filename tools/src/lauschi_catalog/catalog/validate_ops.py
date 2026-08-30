@@ -6,19 +6,15 @@ L5  ARTIST      full discography via artist ID (per provider)
 Pure business logic with no console output.
 """
 
-import json
 import re
 from collections.abc import Callable
 from dataclasses import dataclass, field
-from datetime import UTC, datetime
 
 import requests
 
-from lauschi_catalog.catalog.io import safe_write_json
 from lauschi_catalog.catalog.loader import load_catalog
 from lauschi_catalog.catalog.matcher import extract_episode
 from lauschi_catalog.catalog.models import CatalogEntry
-from lauschi_catalog.catalog.paths import CURATION_DIR
 from lauschi_catalog.providers import Album, CatalogProvider
 from lauschi_catalog.run_events import OUTCOME_OK, RunEvent, record_event
 
@@ -196,8 +192,8 @@ def validate_catalog(
 ) -> ValidationResult:
     """Validate catalog syntax and discography match rates.
 
-    When ``stamp_curations`` is True (default), writes a
-    ``validated_at`` timestamp into each series' curation JSON.
+    When ``stamp_curations`` is True (default), records a run event
+    per validated series (the web pipeline's validate step reads it).
     """
     entries = load_catalog()
     l1_entries = entries
@@ -257,27 +253,19 @@ def validate_catalog(
         result.series_results.append(sv)
 
         if stamp_curations:
-            curation_path = CURATION_DIR / f"{entry.id}.json"
-            if curation_path.exists():
-                try:
-                    data = json.loads(curation_path.read_text())
-                    data["validated_at"] = datetime.now(UTC).isoformat()
-                    safe_write_json(curation_path, data)
-                except Exception:
-                    pass
-                record_event(
-                    RunEvent(
-                        series_id=entry.id,
-                        phase="validate",
-                        outcome=OUTCOME_OK,
-                        detail=", ".join(
-                            f"{p.name}: {sv.l5_results[p.name].matched}/"
-                            f"{sv.l5_results[p.name].total}"
-                            for p in providers
-                            if p.name in sv.l5_results
-                        ),
-                    )
+            record_event(
+                RunEvent(
+                    series_id=entry.id,
+                    phase="validate",
+                    outcome=OUTCOME_OK,
+                    detail=", ".join(
+                        f"{p.name}: {sv.l5_results[p.name].matched}/"
+                        f"{sv.l5_results[p.name].total}"
+                        for p in providers
+                        if p.name in sv.l5_results
+                    ),
                 )
+            )
 
     for p in providers:
         if result.tested[p.name] > 0:

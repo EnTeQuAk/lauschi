@@ -4,29 +4,19 @@ Provides a fast CLI view of what the pipeline flagged for human eyes,
 with actionable commands.
 """
 
-import json
-
 import click
 from rich import box
 from rich.console import Console
 from rich.table import Table
 
-from lauschi_catalog.catalog.lifecycle import review_block
-from lauschi_catalog.catalog.paths import CURATION_DIR
+from lauschi_catalog.catalog.io import iter_curations
+from lauschi_catalog.catalog.lifecycle import CurationState
 
 console = Console()
 
 
 def _load_all() -> list[dict]:
-    data: list[dict] = []
-    if not CURATION_DIR.exists():
-        return data
-    for path in sorted(CURATION_DIR.glob("*.json")):
-        try:
-            data.append(json.loads(path.read_text()))
-        except OSError, json.JSONDecodeError:
-            continue
-    return data
+    return [c for _, c in iter_curations()]
 
 
 @click.command("review-human")
@@ -34,7 +24,7 @@ def _load_all() -> list[dict]:
     "--status",
     "-s",
     multiple=True,
-    help="Filter by status (escalated, flagged, approved, curated, audited)",
+    help="Filter by status (escalated, approved, curated)",
 )
 @click.option(
     "--detail",
@@ -56,36 +46,22 @@ def review_human(status: tuple[str, ...], detail: bool):
         console.print("[dim]No curation files found.[/dim]")
         return
 
-    want = (
-        set(s.lower() for s in status)
-        if status
-        else {"escalated", "flagged", "audited", "curated"}
-    )
+    want = set(s.lower() for s in status) if status else {"escalated", "curated"}
 
     need_attention: list[dict] = []
     for d in all_data:
         sid = d.get("id", "?")
         title = d.get("title", sid)
-        review = review_block(d)
-        cur_status = review.get("status", "curated")
+        state = CurationState.from_curation(d)
+        review = dict(d.get("review") or {})
 
-        effective = cur_status
-        if cur_status == "approved":
-            effective = "approved"
-        elif cur_status == "escalated":
-            effective = "escalated"
-        elif cur_status == "approved_with_flags":
-            effective = "flagged"
-        elif cur_status == "curated":
-            effective = "curated"
-
-        if not want or effective in want or cur_status in want:
+        if not want or state.status in want:
             need_attention.append(
                 {
                     "id": sid,
                     "title": title,
-                    "status": effective,
-                    "raw_status": cur_status,
+                    "status": state.status,
+                    "raw_status": review.get("status", "curated"),
                     "review": review,
                     "facts": d.get("series_facts"),
                     "albums": d.get("albums", []),
@@ -107,7 +83,6 @@ def review_human(status: tuple[str, ...], detail: bool):
         need_attention,
         key=lambda x: (
             x["status"] != "escalated",
-            x["status"] != "flagged",
             x["title"],
         ),
     ):
@@ -121,12 +96,6 @@ def review_human(status: tuple[str, ...], detail: bool):
                 f"  then: mise run catalog-audit -- {sid} --force"
             )
             style = "red"
-        elif st == "flagged":
-            action = (
-                f"mise run catalog-edit -- {sid} list\n"
-                f"  then: mise run catalog-audit -- {sid} --force"
-            )
-            style = "yellow"
         elif st == "curated":
             action = f"mise run catalog-audit -- {sid}"
             style = "dim"

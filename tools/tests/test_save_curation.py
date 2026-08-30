@@ -13,7 +13,6 @@ from typing import Any
 
 import pytest
 
-from lauschi_catalog.catalog import curate_ops as curate_ops_mod
 from lauschi_catalog.catalog.curate_ops import (
     AlbumDecision,
     CuratedSeries,
@@ -23,8 +22,10 @@ from lauschi_catalog.catalog.curate_ops import (
 
 @pytest.fixture
 def curation_dir(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
-    monkeypatch.setattr(curate_ops_mod, "CURATION_DIR", tmp_path)
-    return tmp_path
+    d = tmp_path / "assets" / "catalog" / "curation"
+    d.mkdir(parents=True)
+    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
+    return d
 
 
 def _series(

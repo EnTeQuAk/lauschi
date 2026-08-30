@@ -6,9 +6,7 @@ from datetime import datetime
 import pytest
 from ruamel.yaml import YAML
 
-from lauschi_catalog.catalog import loader as loader_mod
 from lauschi_catalog.catalog import merge_ops
-from lauschi_catalog.catalog import paths as paths_mod
 from lauschi_catalog.catalog.merge_ops import normalize_album_ids
 
 yaml = YAML()
@@ -18,9 +16,11 @@ yaml.preserve_quotes = True
 @pytest.fixture
 def merge_env(monkeypatch, tmp_path):
     """Two series with curations, ready to merge."""
-    series_yaml = tmp_path / "series.yaml"
-    curation_dir = tmp_path / "curation"
-    curation_dir.mkdir()
+    catalog = tmp_path / "assets" / "catalog"
+    curation_dir = catalog / "curation"
+    curation_dir.mkdir(parents=True)
+    series_yaml = catalog / "series.yaml"
+    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
 
     yaml.dump(
         {
@@ -67,16 +67,6 @@ def merge_env(monkeypatch, tmp_path):
         ],
     }
     (curation_dir / "target.json").write_text(json.dumps(target_curation))
-
-    monkeypatch.setattr(paths_mod, "repo_root", lambda: tmp_path)
-    monkeypatch.setattr(paths_mod, "series_yaml_path", lambda: series_yaml)
-    monkeypatch.setattr(paths_mod, "curation_dir", lambda: curation_dir)
-    monkeypatch.setattr(
-        paths_mod, "curation_path", lambda sid: curation_dir / f"{sid}.json"
-    )
-    monkeypatch.setattr(paths_mod, "series_lock_path", lambda: tmp_path / ".lock")
-    monkeypatch.setattr(paths_mod, "SERIES_YAML", series_yaml)
-    monkeypatch.setattr(loader_mod, "SERIES_YAML", series_yaml)
 
     return {
         "series_yaml": series_yaml,
