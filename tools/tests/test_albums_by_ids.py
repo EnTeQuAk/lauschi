@@ -22,8 +22,8 @@ class _Recorder:
         self.calls: list[list[str]] = []
         self._responder = responder
 
-    def __call__(self, path, **params):
-        ids = params["ids"].split(",")
+    def __call__(self, url, *, params=None):
+        ids = (params or {}).get("ids", "").split(",")
         self.calls.append(ids)
         return self._responder(ids)
 
@@ -32,8 +32,7 @@ def _spotify_with(responder) -> tuple[SpotifyProvider, _Recorder]:
     provider = SpotifyProvider.__new__(SpotifyProvider)
     provider._use_cache = False  # noqa: SLF001
     recorder = _Recorder(responder)
-    provider._get = recorder  # type: ignore[method-assign]  # noqa: SLF001
-    provider._cached = lambda _key, fetch: fetch()  # type: ignore[method-assign]  # noqa: SLF001
+    provider._request = recorder  # type: ignore[method-assign]  # noqa: SLF001
     return provider, recorder
 
 
@@ -41,9 +40,7 @@ def _apple_with(responder) -> tuple[AppleMusicProvider, _Recorder]:
     provider = AppleMusicProvider.__new__(AppleMusicProvider)
     provider._use_cache = False  # noqa: SLF001
     recorder = _Recorder(responder)
-    provider._get = recorder  # type: ignore[method-assign]  # noqa: SLF001
-    provider._cached = lambda _key, fetch: fetch()  # type: ignore[method-assign]  # noqa: SLF001
-    provider._ensure_token = lambda: None  # type: ignore[method-assign]  # noqa: SLF001
+    provider._request = recorder  # type: ignore[method-assign]  # noqa: SLF001
     return provider, recorder
 
 

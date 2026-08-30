@@ -2,23 +2,21 @@
 
 import time
 
-import diskcache
 import jwt
 import requests
 
 from lauschi_catalog.catalog.paths import cache_dir, repo_root
-from lauschi_catalog.providers._retry import parse_retry_after
 from lauschi_catalog.providers.base import (
+    _NOT_FOUND,
     Album,
-    AlbumBatch,
     Artist,
-    CatalogProvider,
+    CachedHttpProvider,
     Track,
+    _is_not_found,
 )
 
 CACHE_DIR = cache_dir("apple_music")
 KEY_PATH = repo_root() / "android" / "app" / "AuthKey_PWHK2R76T9.p8"
-DEFAULT_TTL = 7 * 24 * 3600  # 7 days
 
 
 def _pick_artwork(attrs: dict, size: int = 300) -> str:
@@ -36,14 +34,15 @@ KEY_ID = "PWHK2R76T9"
 STOREFRONT = "de"
 
 
-class AppleMusicProvider(CatalogProvider):
+class AppleMusicProvider(CachedHttpProvider):
     """Apple Music API with transparent disk caching and auto token refresh."""
 
+    request_timeout = 15.0  # Apple Music times out on large batches under load
+    batch_size = 100  # 300 is rejected
+    row_cache_prefix = "apple_music:albums:"
+
     def __init__(self, *, use_cache: bool = True) -> None:
-        self._cache = diskcache.Cache(str(CACHE_DIR), size_limit=500 * 1024 * 1024)
-        self._use_cache = use_cache
-        self._token = self._generate_token()
-        self._token_time = time.time()
+        super().__init__(cache_dir=CACHE_DIR, use_cache=use_cache)
 
     @property
     def name(self) -> str:
@@ -63,71 +62,13 @@ class AppleMusicProvider(CatalogProvider):
             headers={"kid": KEY_ID},
         )
 
-    def _ensure_token(self) -> None:
-        """Refresh token if older than 55 minutes (expires at 60)."""
-        if time.time() - self._token_time > 3300:
-            self._token = self._generate_token()
-            self._token_time = time.time()
+    def _fetch_token(self) -> str:
+        return self._generate_token()
 
     def _get(self, path: str, **params) -> dict:
-        """Catalog endpoint GET with retry, token refresh, rate-limit honoring."""
+        """Catalog endpoint GET with retry, token refresh, rate-limit handling."""
         url = f"https://api.music.apple.com/v1/catalog/{STOREFRONT}/{path}"
-        return self._request(url, params=params)
-
-    def _request(self, url: str, *, params: dict | None = None) -> dict:
-        """HTTP GET against Apple Music with token refresh and 429 backoff.
-
-        Used for both catalog endpoints (via _get) and follow-up pagination
-        URLs (e.g. ``data["next"]`` in artist_albums) so the same retry
-        rules apply uniformly. Raw requests.get against a paginated URL
-        would skip token refresh on 401 and silently fail on 429.
-        """
-        self._ensure_token()
-        for attempt in range(3):
-            r = requests.get(
-                url,
-                headers={"Authorization": f"Bearer {self._token}"},
-                params=params,
-                timeout=15,
-            )
-            if r.status_code == 429:
-                # Apple recommends honoring Retry-After; default to 2s
-                # if absent. Last attempt falls through to raise_for_status.
-                if attempt < 2:
-                    time.sleep(parse_retry_after(r.headers.get("Retry-After")))
-                    continue
-            if r.status_code == 401:
-                self._token = self._generate_token()
-                self._token_time = time.time()
-                continue
-            # Apple Music times out on large batches under load (504 seen
-            # on a 100-id album batch). Transient, so back off and retry
-            # rather than failing a whole sweep.
-            if r.status_code >= 500 and attempt < 2:
-                time.sleep(2 * 2**attempt)
-                continue
-            r.raise_for_status()
-            return r.json()
-        r.raise_for_status()
-        return {}
-
-    def _cached(self, key: str, fetch):
-        if self._use_cache:
-            cached = self._cache.get(key)
-            if cached is not None:
-                return cached
-        result = fetch()
-        self._cache.set(key, result, expire=DEFAULT_TTL)
-        return result
-
-    def artist_exists(self, artist_id: str) -> bool:
-        try:
-            self._get(f"artists/{artist_id}")
-        except requests.HTTPError as e:
-            if e.response is not None and e.response.status_code == 404:
-                return False
-            raise
-        return True
+        return self._request(url, params=params or None)
 
     def artist_details(self, artist_id: str) -> Artist | None:
         try:
@@ -236,15 +177,15 @@ class AppleMusicProvider(CatalogProvider):
             try:
                 data = self._get(f"albums/{album_id}", include="tracks")
                 items = data.get("data", [])
-                return items[0] if items else None
+                return items[0] if items else _NOT_FOUND
             except requests.HTTPError as e:
                 status = e.response.status_code if e.response is not None else None
                 if status == 404:
-                    return None
+                    return _NOT_FOUND
                 raise
 
         data = self._cached(f"am_album:{album_id}", fetch)
-        if data is None:
+        if data is None or _is_not_found(data):
             return None
 
         attrs = data["attributes"]
@@ -279,49 +220,26 @@ class AppleMusicProvider(CatalogProvider):
             ],
         )
 
-    def albums_by_ids(self, album_ids: list[str]) -> AlbumBatch:
-        """Batch album lookup, 100 per request (300 is rejected).
+    def album_rows(self, data: dict) -> list[dict]:
+        return (data or {}).get("data") or []
 
-        Apple Music returns 504 on large batches under load. A chunk that
-        keeps failing is split and retried, and IDs that still fail land
-        in [AlbumBatch.unverified] instead of looking deleted.
-        """
-        self._ensure_token()
-        batch = AlbumBatch()
+    def raw_to_album(self, raw: dict) -> Album:
+        attrs = raw.get("attributes") or {}
+        return Album(
+            id=raw["id"],
+            name=attrs.get("name", ""),
+            provider="apple_music",
+            release_date=attrs.get("releaseDate", ""),
+            total_tracks=attrs.get("trackCount", 0),
+            artists=attrs.get("artistName", ""),
+            image_url=_pick_artwork(attrs),
+        )
 
-        def fetch_chunk(chunk: list[str]) -> None:
-            try:
+    def _album_chunk_url(self, ids: list[str]) -> str:
+        return f"https://api.music.apple.com/v1/catalog/{STOREFRONT}/albums"
 
-                def fetch():
-                    time.sleep(0.1)
-                    return self._get("albums", ids=",".join(chunk))
-
-                data = self._cached(f"am_albums_batch:{','.join(chunk)}", fetch)
-            except requests.HTTPError, requests.ConnectionError, requests.Timeout:
-                if len(chunk) == 1:
-                    batch.unverified.extend(chunk)
-                    return
-                mid = len(chunk) // 2
-                fetch_chunk(chunk[:mid])
-                fetch_chunk(chunk[mid:])
-                return
-            for raw in (data or {}).get("data") or []:
-                attrs = raw.get("attributes") or {}
-                batch.albums.append(
-                    Album(
-                        id=raw["id"],
-                        name=attrs.get("name", ""),
-                        provider="apple_music",
-                        release_date=attrs.get("releaseDate", ""),
-                        total_tracks=attrs.get("trackCount", 0),
-                        artists=attrs.get("artistName", ""),
-                        image_url=_pick_artwork(attrs),
-                    )
-                )
-
-        for i in range(0, len(album_ids), 100):
-            fetch_chunk(album_ids[i : i + 100])
-        return batch
+    def _album_chunk_params(self, ids: list[str]) -> dict:
+        return {"ids": ",".join(ids)}
 
     def search_albums(self, query: str, limit: int = 10) -> list[Album]:
         def fetch():
@@ -341,8 +259,3 @@ class AppleMusicProvider(CatalogProvider):
             )
             for a in raw
         ]
-
-    def clear_cache(self) -> int:
-        count = len(self._cache)
-        self._cache.clear()
-        return count

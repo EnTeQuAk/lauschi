@@ -4,21 +4,20 @@ import os
 import sys
 import time
 
-import diskcache
 import requests
 
 from lauschi_catalog.catalog.paths import cache_dir
 from lauschi_catalog.providers._retry import parse_retry_after
 from lauschi_catalog.providers.base import (
+    _NOT_FOUND,
     Album,
-    AlbumBatch,
     Artist,
-    CatalogProvider,
+    CachedHttpProvider,
     Track,
+    _is_not_found,
 )
 
 CACHE_DIR = cache_dir("spotify")
-DEFAULT_TTL = 7 * 24 * 3600  # 7 days
 
 
 def _pick_image(images: list[dict]) -> str:
@@ -31,13 +30,14 @@ def _pick_image(images: list[dict]) -> str:
     return images[-1].get("url", "")
 
 
-class SpotifyProvider(CatalogProvider):
+class SpotifyProvider(CachedHttpProvider):
     """Spotify Web API with transparent disk caching and auto token refresh."""
 
-    def __init__(self, *, use_cache: bool = True) -> None:
-        self._cache = diskcache.Cache(str(CACHE_DIR), size_limit=500 * 1024 * 1024)
-        self._use_cache = use_cache
+    request_timeout = 20.0  # the API reliably answers within that
+    batch_size = 20  # API maximum for /albums?ids=
+    row_cache_prefix = "spotify:albums:"
 
+    def __init__(self, *, use_cache: bool = True) -> None:
         self._cid = os.environ.get("SPOTIFY_CLIENT_ID", "")
         self._csec = os.environ.get("SPOTIFY_CLIENT_SECRET", "")
         if not self._cid or not self._csec:
@@ -46,9 +46,7 @@ class SpotifyProvider(CatalogProvider):
                 file=sys.stderr,
             )
             sys.exit(1)
-
-        self._token = self._fetch_token()
-        self._token_time = time.time()
+        super().__init__(cache_dir=CACHE_DIR, use_cache=use_cache)
 
     def _fetch_token(self) -> str:
         """Get a fresh client credentials token.
@@ -72,6 +70,7 @@ class SpotifyProvider(CatalogProvider):
         errors that won't fix themselves.
         """
         max_attempts = 5
+        r = None
         for attempt in range(max_attempts):
             try:
                 r = requests.post(
@@ -103,68 +102,15 @@ class SpotifyProvider(CatalogProvider):
         r.raise_for_status()
         return ""  # unreachable
 
-    def _ensure_token(self) -> None:
-        """Refresh the token if it's older than 55 minutes (expires at 60)."""
-        if time.time() - self._token_time > 3300:
-            self._token = self._fetch_token()
-            self._token_time = time.time()
-
     @property
     def name(self) -> str:
         return "spotify"
 
+    def _api_url(self, url: str) -> str:
+        return url if url.startswith("http") else f"https://api.spotify.com/v1/{url}"
+
     def _get(self, url: str, **params) -> dict:
-        self._ensure_token()
-        full_url = (
-            url if url.startswith("http") else f"https://api.spotify.com/v1/{url}"
-        )
-        for attempt in range(3):
-            r = requests.get(
-                full_url,
-                headers={"Authorization": f"Bearer {self._token}"},
-                params=params,
-                timeout=20,
-            )
-            if r.status_code == 429:
-                # Honor Retry-After in any of the spec-allowed forms
-                # (delta-seconds int, float, or HTTP-date). Same helper
-                # apple_music uses; previous int(...) crashed on
-                # non-integer values.
-                time.sleep(parse_retry_after(r.headers.get("Retry-After")))
-                continue
-            if r.status_code == 401:
-                # Token expired mid-request. Refresh and retry.
-                self._token = self._fetch_token()
-                self._token_time = time.time()
-                continue
-            # Transient upstream failures (502/503/504) shouldn't kill a
-            # long sweep; the token path already backs off this way.
-            if 500 <= r.status_code < 600 and attempt < 2:
-                time.sleep(2 * 2**attempt)
-                continue
-            r.raise_for_status()
-            return r.json()
-        # Exhausted retries
-        r.raise_for_status()
-        return {}  # unreachable, raise_for_status throws
-
-    def _cached(self, key: str, fetch):
-        if self._use_cache:
-            cached = self._cache.get(key)
-            if cached is not None:
-                return cached
-        result = fetch()
-        self._cache.set(key, result, expire=DEFAULT_TTL)
-        return result
-
-    def artist_exists(self, artist_id: str) -> bool:
-        try:
-            self._get(f"artists/{artist_id}")
-        except requests.HTTPError as e:
-            if e.response is not None and e.response.status_code == 404:
-                return False
-            raise
-        return True
+        return self._request(self._api_url(url), params=params or None)
 
     def artist_details(self, artist_id: str) -> Artist | None:
         try:
@@ -254,13 +200,17 @@ class SpotifyProvider(CatalogProvider):
             except requests.HTTPError as e:
                 status = e.response.status_code if e.response is not None else None
                 if status == 404:
-                    return None
+                    return _NOT_FOUND
                 raise
 
         data = self._cached(f"album:{album_id}", fetch)
-        if data is None or "error" in data:
+        if data is None or _is_not_found(data) or "error" in data:
             return None
 
+        return self._album_from_details(data)
+
+    def _album_from_details(self, data: dict) -> Album:
+        """Full album entry with track list (album_details response)."""
         return Album(
             id=data["id"],
             name=data["name"],
@@ -276,50 +226,26 @@ class SpotifyProvider(CatalogProvider):
             ],
         )
 
-    def albums_by_ids(self, album_ids: list[str]) -> AlbumBatch:
-        """Batch album lookup, 20 per request (the API maximum).
+    def album_rows(self, data: dict) -> list[dict]:
+        return [raw for raw in (data or {}).get("albums") or [] if raw]
 
-        A chunk that keeps failing is split and retried, so one bad batch
-        costs a few IDs instead of twenty. IDs that still fail land in
-        [AlbumBatch.unverified] rather than being reported as missing.
-        """
-        batch = AlbumBatch()
+    def raw_to_album(self, raw: dict) -> Album:
+        return Album(
+            id=raw["id"],
+            name=raw["name"],
+            provider="spotify",
+            release_date=raw.get("release_date", ""),
+            total_tracks=raw.get("total_tracks", 0),
+            label=raw.get("label", ""),
+            album_type=raw.get("album_type", ""),
+            image_url=_pick_image(raw.get("images", [])),
+        )
 
-        def fetch_chunk(chunk: list[str]) -> None:
-            try:
+    def _album_chunk_url(self, ids: list[str]) -> str:
+        return "https://api.spotify.com/v1/albums"
 
-                def fetch():
-                    time.sleep(0.05)
-                    return self._get("albums", ids=",".join(chunk), market="DE")
-
-                data = self._cached(f"albums_batch:{','.join(chunk)}", fetch)
-            except requests.HTTPError, requests.ConnectionError, requests.Timeout:
-                if len(chunk) == 1:
-                    batch.unverified.extend(chunk)
-                    return
-                mid = len(chunk) // 2
-                fetch_chunk(chunk[:mid])
-                fetch_chunk(chunk[mid:])
-                return
-            for raw in (data or {}).get("albums") or []:
-                if not raw:
-                    continue
-                batch.albums.append(
-                    Album(
-                        id=raw["id"],
-                        name=raw["name"],
-                        provider="spotify",
-                        release_date=raw.get("release_date", ""),
-                        total_tracks=raw.get("total_tracks", 0),
-                        label=raw.get("label", ""),
-                        album_type=raw.get("album_type", ""),
-                        image_url=_pick_image(raw.get("images", [])),
-                    )
-                )
-
-        for i in range(0, len(album_ids), 20):
-            fetch_chunk(album_ids[i : i + 20])
-        return batch
+    def _album_chunk_params(self, ids: list[str]) -> dict:
+        return {"ids": ",".join(ids), "market": "DE"}
 
     def search_albums(self, query: str, limit: int = 10) -> list[Album]:
         def fetch():
@@ -338,8 +264,3 @@ class SpotifyProvider(CatalogProvider):
             )
             for a in raw
         ]
-
-    def clear_cache(self) -> int:
-        count = len(self._cache)
-        self._cache.clear()
-        return count
