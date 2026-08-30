@@ -44,7 +44,7 @@ from lauschi_catalog.catalog.lint_ops import (
 from lauschi_catalog.prompts import load_curate_skill
 from lauschi_catalog.agent_hooks import build_progress_hooks
 from lauschi_catalog.rate_limit import run_with_rate_limit_retry
-from lauschi_catalog.run import run_agent, usage_summary
+from lauschi_catalog.run import run_agent, run_with_attempts, usage_summary
 
 _DEFAULT_MODEL = "minimax-m2.7"
 _MAX_RETRIES = 12
@@ -843,14 +843,15 @@ def merge_results(partials: list[AuditResult]) -> AuditResult:
     )
 
 
-# Attempts per chunk before the series fails. A chunk call fails on its
-# own, independent of size: MiniMax M2.7 at low effort spent its whole
-# output budget reasoning on a 30-album chunk and a 25-album chunk
-# (2026-08-30, Bibi Blocksberg 16/17, Bibi und Tina Kinofilm 7/20) after
-# passing larger ones. With 17-20 chunks per series, a per-call failure
-# rate of a few percent made series failure near certain when one
-# failed chunk ended the series. A retry starts from a fresh context.
-_CHUNK_ATTEMPTS = 3
+# Attempts per audit call (one-shot series or single chunk) before the
+# series fails. A call fails on its own, independent of size: MiniMax
+# M2.7 at low effort spent its whole output budget reasoning on a
+# 30-album chunk, a 25-album chunk and one-shot Die Playmos (2026-08-30)
+# after passing larger prompts. With 17-20 chunks per series, a per-call
+# failure rate of a few percent made series failure near certain when
+# one failed call ended the series. Benjamin Blümchen and Die Playmos
+# both passed on their first fresh attempt.
+_AUDIT_ATTEMPTS = 3
 
 
 async def _audit_chunked(
@@ -872,23 +873,18 @@ async def _audit_chunked(
             f"  Chunk {i}/{len(chunks)}: {chunk.label} ({len(chunk.albums)} albums)"
         )
         prompt = _chunk_prompt(overview, chunk, i, len(chunks), partials)
-        for attempt in range(1, _CHUNK_ATTEMPTS + 1):
-            try:
-                result = await _run_audit_prompt(
-                    prepared,
-                    prompt,
-                    phase=f"audit {series_id} chunk {i}/{len(chunks)}",
-                    timeout=timeout,
-                    on_progress=on_progress,
-                )
-                break
-            except Exception as exc:
-                if attempt == _CHUNK_ATTEMPTS:
-                    raise
-                on_progress(
-                    f"    chunk {i} attempt {attempt}/{_CHUNK_ATTEMPTS} failed: "
-                    f"{type(exc).__name__}: {exc}. Retrying with a fresh context."
-                )
+        result = await run_with_attempts(
+            lambda p=prompt, i=i: _run_audit_prompt(
+                prepared,
+                p,
+                phase=f"audit {series_id} chunk {i}/{len(chunks)}",
+                timeout=timeout,
+                on_progress=on_progress,
+            ),
+            attempts=_AUDIT_ATTEMPTS,
+            label=f"chunk {i}",
+            on_progress=on_progress,
+        )
         on_progress(
             f"    -> {'approve' if result.approve else 'disapprove'}, "
             f"{len(result.overrides)} overrides, {len(result.concerns)} concerns"
@@ -928,11 +924,16 @@ async def audit_one(
         )
 
     prompt = build_prompt(prepared.curation, prepared.lint_issues)
-    return await _run_audit_prompt(
-        prepared,
-        prompt,
-        phase=f"audit {series_id}",
-        timeout=timeout,
+    return await run_with_attempts(
+        lambda: _run_audit_prompt(
+            prepared,
+            prompt,
+            phase=f"audit {series_id}",
+            timeout=timeout,
+            on_progress=on_progress,
+        ),
+        attempts=_AUDIT_ATTEMPTS,
+        label="audit",
         on_progress=on_progress,
     )
 

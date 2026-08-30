@@ -1104,6 +1104,62 @@ def describe_failure(exc: BaseException) -> str:
     return " <- ".join(parts)
 
 
+# Fresh-context attempts per batch before the series is given up. A
+# batch fails on its own, not because of its prompt: Luna omitted one
+# of 30 albums on Fünf Freunde batch 3 in two runs and passed the same
+# batch in a third; it returned 1 of 30 on Bibi Blocksberg batch 8 and
+# passed on the rerun; Kimi K2.5 hit its token limit on Hanni und Nanni
+# batch 2. Every one of those aborted the series and auto-included the
+# rest. A second attempt starts from a fresh context (the in-run output
+# retries keep the failed context, and failed again each time).
+_BATCH_ATTEMPTS = 2
+
+
+@dataclass
+class BatchOutcome:
+    result: BatchResult | None
+    error: str = ""
+
+
+async def _run_batch_attempts(
+    run_once,
+    *,
+    series_id: str,
+    batch_num: int,
+    n_batches: int,
+    prompt: str,
+    on_progress: Progress = _noop,
+) -> BatchOutcome:
+    """Run one batch with fresh-context attempts.
+
+    Each attempt captures its own model exchange; the last failure is
+    dumped as evidence and reported in the outcome instead of raised,
+    so the caller decides what a lost batch means for the series.
+    """
+    error = ""
+    for attempt in range(1, _BATCH_ATTEMPTS + 1):
+        with capture_run_messages() as messages:
+            try:
+                return BatchOutcome(result=await run_once())
+            except Exception as exc:
+                error = describe_failure(exc)
+                evidence = dump_batch_failure(
+                    series_id, batch_num, prompt, messages, exc
+                )
+                if attempt < _BATCH_ATTEMPTS:
+                    on_progress(
+                        f"  Batch {batch_num}/{n_batches} attempt "
+                        f"{attempt}/{_BATCH_ATTEMPTS} failed: {error}. "
+                        f"Evidence: {evidence}. Retrying from a fresh context.\n"
+                    )
+                    continue
+                on_progress(
+                    f"  Batch {batch_num}/{n_batches} failed after "
+                    f"{_BATCH_ATTEMPTS} attempts: {error}. Evidence: {evidence}\n"
+                )
+    return BatchOutcome(result=None, error=error)
+
+
 def dump_batch_failure(
     series_id: str,
     batch_num: int,
@@ -1498,30 +1554,28 @@ async def _run_large(
 
         shared_deps.current_batch_ids = {(a["provider"], a["id"]) for a in batch}
         t_batch = time.monotonic()
-        with capture_run_messages() as batch_messages:
-            try:
-                result: BatchResult = await _run_with_retry(
-                    lambda p=prompt: asyncio.wait_for(
-                        _run_agent(batch_agent, p, shared_deps),
-                        timeout=timeout,
-                    ),
-                    phase=f"batch {batch_num}/{len(batches)}",
-                    model_name=model_name,
-                    on_progress=on_progress,
-                )
-            except Exception as exc:
-                err = describe_failure(exc)
-                evidence = dump_batch_failure(
-                    meta.id, batch_num, prompt, batch_messages, exc
-                )
-                on_progress(
-                    f"  Batch {batch_num}/{len(batches)} failed after retries: "
-                    f"{err}. Saving {len(all_decisions)} partial results. "
-                    f"Evidence: {evidence}\n",
-                )
-                incomplete = True
-                provider_errors.append(f"batch {batch_num}/{len(batches)}: {err}")
-                break
+        outcome = await _run_batch_attempts(
+            lambda p=prompt: _run_with_retry(
+                lambda: asyncio.wait_for(
+                    _run_agent(batch_agent, p, shared_deps),
+                    timeout=timeout,
+                ),
+                phase=f"batch {batch_num}/{len(batches)}",
+                model_name=model_name,
+                on_progress=on_progress,
+            ),
+            series_id=meta.id,
+            batch_num=batch_num,
+            n_batches=len(batches),
+            prompt=prompt,
+            on_progress=on_progress,
+        )
+        if outcome.result is None:
+            on_progress(f"  Saving {len(all_decisions)} partial results.\n")
+            incomplete = True
+            provider_errors.append(f"batch {batch_num}/{len(batches)}: {outcome.error}")
+            break
+        result: BatchResult = outcome.result
 
         result.albums, dropped = drop_orphan_decisions(
             result.albums, shared_deps.current_batch_ids, on_progress
