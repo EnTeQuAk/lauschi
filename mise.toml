@@ -155,10 +155,6 @@ run = "uv run --directory tools lauschi-catalog apply --all"
 description = "Show statistics for all curations"
 run = "uv run --directory tools lauschi-catalog report"
 
-[tasks.catalog-log-summary]
-description = "Per-series re-run report from the latest pipeline log"
-run = "uv run --directory tools lauschi-catalog log-summary"
-
 [tasks.catalog-test]
 description = "Run the lauschi-catalog Python test suite"
 run = "uv run --directory tools --extra ai pytest"
@@ -297,7 +293,7 @@ echo "Applying ($STATUS)..."
 $RUN apply "$SID"
 
 echo ""
-echo "Done. Run 'mise run catalog-log-summary -- \\"\\$LOG\\" --detail $SID' to inspect."
+echo "Done. Per-series outcomes are in logs/catalog/run-*.jsonl."
 """
 
 [tasks.tag-release]

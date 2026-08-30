@@ -11,14 +11,13 @@ curation JSON and series.yaml. Steps are ordered:
 
 """
 
-from __future__ import annotations
-
 import json
 from dataclasses import dataclass
 from typing import Any
 
 from lauschi_catalog.catalog.models import CatalogEntry
 from lauschi_catalog.catalog.paths import curation_path
+from lauschi_catalog.run_events import OUTCOME_OK, latest_outcome_for
 from lauschi_catalog.web.catalog_store import get_series_by_id
 
 _PIPELINE_STEPS = [
@@ -109,8 +108,10 @@ def pipeline_status(
         if not has_applied:
             current_step = 3
 
-    # Step 4: Validate
-    has_validated = curation is not None and curation.get("validated_at")
+    # Step 4: Validate. A validated run leaves an event in
+    # logs/catalog/run-*.jsonl; the curation's validated_at field is
+    # the older stamp and is no longer written or read.
+    has_validated = latest_outcome_for(series_id, "validate") == OUTCOME_OK
     if has_applied:
         step_statuses.append("done" if has_validated else "current")
         if not has_validated:

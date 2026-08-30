@@ -6,8 +6,6 @@ review. Returns structured results via callbacks for progress.
 Pipeline: curated -> audited -> approved / escalated
 """
 
-from __future__ import annotations
-
 import asyncio
 import json
 import os
@@ -49,6 +47,13 @@ from lauschi_catalog.prompts import load_curate_skill
 from lauschi_catalog.rate_limit import run_with_rate_limit_retry
 from lauschi_catalog.retry import describe_failure
 from lauschi_catalog.run import run_agent, run_with_attempts, usage_summary
+from lauschi_catalog.run_events import (
+    OUTCOME_FAILED,
+    OUTCOME_OK,
+    OUTCOME_SKIPPED,
+    RunEvent,
+    record_event,
+)
 
 _DEFAULT_MODEL = "minimax-m2.7"
 
@@ -1171,6 +1176,14 @@ async def audit_series(
                 usage=usage,
             )
             if result is None:
+                record_event(
+                    RunEvent(
+                        series_id=sid,
+                        phase="audit",
+                        outcome=OUTCOME_SKIPPED,
+                        detail="already up to date (see audit logs for the reason)",
+                    )
+                )
                 continue
             on_progress(
                 f"  Usage: {usage.requests} requests, "
@@ -1184,6 +1197,19 @@ async def audit_series(
                 on_progress=on_progress,
                 usage=usage_summary(usage),
             )
+            record_event(
+                RunEvent(
+                    series_id=sid,
+                    phase="audit",
+                    outcome=OUTCOME_OK,
+                    detail=(
+                        f"{action}: approve={result.approve}, "
+                        f"{len(result.overrides)} overrides, "
+                        f"{len(result.concerns)} concerns"
+                    ),
+                    usage=usage_summary(usage),
+                )
+            )
             if action == "approved":
                 summary.approved += 1
             elif action == "escalated":
@@ -1193,6 +1219,11 @@ async def audit_series(
         except Exception as e:
             err = f"{type(e).__name__}: {e}" if str(e) else type(e).__name__
             on_progress(f"Failed: {err}")
+            record_event(
+                RunEvent(
+                    series_id=sid, phase="audit", outcome=OUTCOME_FAILED, detail=err
+                )
+            )
             summary.failed.append(sid)
 
     on_progress(

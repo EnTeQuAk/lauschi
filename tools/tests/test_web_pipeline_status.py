@@ -10,8 +10,6 @@ crashed the whole page:
     src/lauschi_catalog/web/pipeline.py:92
 """
 
-from __future__ import annotations
-
 import json
 
 from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
@@ -52,3 +50,49 @@ def test_missing_review_key_reads_the_same_as_null(tmp_path, monkeypatch):
     )
     null = pipeline_mod.pipeline_status("s", series=_entry())
     assert absent.step_statuses == null.step_statuses
+
+
+def test_validate_step_reads_the_run_event_log(tmp_path, monkeypatch):
+    """The validate step is done when the last validate event for this
+    series was ok, not when an in-file timestamp is present."""
+    _stage(
+        tmp_path,
+        monkeypatch,
+        {
+            "curated_at": "2026-07-01T00:00:00+00:00",
+            "albums": [],
+            "review": {
+                "audited_at": "2026-07-02T00:00:00+00:00",
+                "status": "approved",
+            },
+        },
+    )
+    entry = CatalogEntry(
+        id="s",
+        title="S",
+        providers={
+            "spotify": ProviderConfig(
+                artist_ids=["a"], album_ids=["x"], has_albums=True
+            )
+        },
+    )
+    outcomes: dict[tuple[str, str], str | None] = {}
+
+    monkeypatch.setattr(
+        pipeline_mod,
+        "latest_outcome_for",
+        lambda sid, phase: outcomes.get((sid, phase)),
+    )
+
+    state = pipeline_mod.pipeline_status("s", series=entry)
+    assert state.step_statuses[4] == "current"  # applied, never validated
+
+    outcomes[("s", "validate")] = "ok"
+    state = pipeline_mod.pipeline_status("s", series=entry)
+    assert state.step_statuses[4] == "done"
+
+    # Another series' validate event does not validate this one.
+    outcomes.clear()
+    outcomes[("other", "validate")] = "ok"
+    state = pipeline_mod.pipeline_status("s", series=entry)
+    assert state.step_statuses[4] == "current"

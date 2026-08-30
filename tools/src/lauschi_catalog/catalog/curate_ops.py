@@ -6,8 +6,6 @@ Interactive prompts and Rich display stay in the CLI layer
 and web UI can consume it.
 """
 
-from __future__ import annotations
-
 import asyncio
 import json
 import os
@@ -30,6 +28,7 @@ from lauschi_catalog._opencode import (
 from lauschi_catalog.agent_deps import AgentDeps, Progress, _noop
 from lauschi_catalog.agent_hooks import build_progress_hooks
 from lauschi_catalog.agent_tools import build_agent_tools
+from lauschi_catalog.catalog.add_ops import title_to_id
 from lauschi_catalog.catalog.analysis import analyze_series
 from lauschi_catalog.catalog.canonical import album_sort_key, canonicalize
 from lauschi_catalog.catalog.facts import (
@@ -71,6 +70,13 @@ from lauschi_catalog.providers import CatalogProvider
 from lauschi_catalog.rate_limit import run_with_rate_limit_retry
 from lauschi_catalog.retry import describe_failure
 from lauschi_catalog.run import run_agent, run_with_attempts, usage_summary
+from lauschi_catalog.run_events import (
+    OUTCOME_FAILED,
+    OUTCOME_OK,
+    OUTCOME_SKIPPED,
+    RunEvent,
+    record_event,
+)
 
 _DEFAULT_MODEL = "kimi-k2.6"
 
@@ -110,7 +116,7 @@ def _validate_episode_pattern(v: str | list[str] | None) -> str | list[str] | No
 
 
 def _build_batch_summary(
-    decisions: list[AlbumDecision],
+    decisions: list["AlbumDecision"],
     pattern: str | list[str] | None,
     batch_num: int,
 ) -> str:
@@ -219,7 +225,7 @@ def _inject_split_children(
 def _preseed_decisions(
     all_albums: list[dict],
     existing_curation: dict | None,
-) -> tuple[list[AlbumDecision], list[dict]]:
+) -> tuple[list["AlbumDecision"], list[dict]]:
     """Carry forward decisions from a prior (possibly incomplete) curation.
 
     Returns (carried_decisions, remaining_albums) where remaining_albums
@@ -233,7 +239,7 @@ def _preseed_decisions(
         return [], all_albums
 
     discovered_ids = {(a["provider"], a["id"]) for a in all_albums}
-    carried: list[AlbumDecision] = []
+    carried: list["AlbumDecision"] = []
     errors: list[str] = []
     for ea in existing_curation["albums"]:
         key = (ea.get("provider", ""), ea.get("album_id", ""))
@@ -271,10 +277,10 @@ def _preseed_decisions(
 
 
 def drop_orphan_decisions(
-    decisions: list[AlbumDecision],
+    decisions: list["AlbumDecision"],
     batch_ids: set[tuple[str, str]],
     on_progress: Progress = _noop,
-) -> tuple[list[AlbumDecision], list[str]]:
+) -> tuple[list["AlbumDecision"], list[str]]:
     """Keep only decisions for albums that were in the batch.
 
     A model can answer with an id it was never given: a plausible
@@ -311,7 +317,7 @@ def _stratified_sample(items: list, n: int) -> list:
 
 
 def _reextract_episode_numbers(
-    decisions: list[AlbumDecision],
+    decisions: list["AlbumDecision"],
     pattern: str | list[str] | None,
 ) -> int:
     """Re-run episode extraction on all decisions with a (possibly revised)
@@ -370,7 +376,7 @@ class AlbumDecision(BaseModel):
     )
 
     @model_validator(mode="after")
-    def _notes_required_when_unsure(self) -> AlbumDecision:
+    def _notes_required_when_unsure(self) -> "AlbumDecision":
         if self.confidence != "high" and not self.notes:
             raise ValueError(
                 "confidence != 'high' requires `notes` describing why",
@@ -378,7 +384,7 @@ class AlbumDecision(BaseModel):
         return self
 
     @model_validator(mode="after")
-    def _exclude_reason_required_when_excluded(self) -> AlbumDecision:
+    def _exclude_reason_required_when_excluded(self) -> "AlbumDecision":
         if not self.include and not self.exclude_reason:
             self.exclude_reason = "unspecified"
         return self
@@ -793,7 +799,7 @@ def _build_batch_agent(
 
 
 def _search_included_albums(
-    decisions: list[AlbumDecision],
+    decisions: list["AlbumDecision"],
     query: str,
 ) -> list[dict]:
     """Search included albums by title keyword (case-insensitive).
@@ -2223,6 +2229,18 @@ async def curate_one(
             on_progress(f"  [regression] {flag}")
         path = save_curation(series, on_progress=on_progress)
         on_progress(f"Saved to {path}")
+        record_event(
+            RunEvent(
+                series_id=series.id,
+                phase="curate",
+                outcome=OUTCOME_OK,
+                detail=f"{len(series.included())} included / "
+                f"{len(series.albums) - len(series.included())} excluded"
+                + (" [incomplete run]" if series.incomplete else ""),
+                usage=usage_summary(series.usage),
+                evidence=str(path),
+            )
+        )
         return CurateOneResult(ok=True, series=series, path=path)
     except Exception as e:
         import traceback
@@ -2230,6 +2248,14 @@ async def curate_one(
         msg = f"{type(e).__name__}: {e}" if str(e) else type(e).__name__
         on_progress(f"Failed to curate {query}: {msg}")
         on_progress(traceback.format_exc())
+        record_event(
+            RunEvent(
+                series_id=series_id or title_to_id(query),
+                phase="curate",
+                outcome=OUTCOME_FAILED,
+                detail=msg,
+            )
+        )
         return CurateOneResult(ok=False, error=msg)
 
 
@@ -2255,13 +2281,30 @@ async def curate_all(
     for i, entry in enumerate(entries):
         if entry.split_from:
             result.skipped += 1
-            on_progress(f"  Skipped: {split_off_refusal(entry.id, entry.split_from)}")
+            refusal = split_off_refusal(entry.id, entry.split_from)
+            on_progress(f"  Skipped: {refusal}")
+            record_event(
+                RunEvent(
+                    series_id=entry.id,
+                    phase="curate",
+                    outcome=OUTCOME_SKIPPED,
+                    detail=refusal,
+                )
+            )
             continue
         curation_path = CURATION_DIR / f"{entry.id}.json"
         existing: dict | None = None
         if curation_path.exists():
             if not force:
                 result.skipped += 1
+                record_event(
+                    RunEvent(
+                        series_id=entry.id,
+                        phase="curate",
+                        outcome=OUTCOME_SKIPPED,
+                        detail="curation exists (no --force)",
+                    )
+                )
                 continue
             existing = json.loads(curation_path.read_text())
 

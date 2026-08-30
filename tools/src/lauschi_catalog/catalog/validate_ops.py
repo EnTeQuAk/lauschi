@@ -6,8 +6,6 @@ L5  ARTIST      full discography via artist ID (per provider)
 Pure business logic with no console output.
 """
 
-from __future__ import annotations
-
 import json
 import re
 from collections.abc import Callable
@@ -22,6 +20,7 @@ from lauschi_catalog.catalog.matcher import extract_episode
 from lauschi_catalog.catalog.models import CatalogEntry
 from lauschi_catalog.catalog.paths import CURATION_DIR
 from lauschi_catalog.providers import Album, CatalogProvider
+from lauschi_catalog.run_events import OUTCOME_OK, RunEvent, record_event
 
 Progress = Callable[[str], None]
 
@@ -266,6 +265,19 @@ def validate_catalog(
                     safe_write_json(curation_path, data)
                 except Exception:
                     pass
+                record_event(
+                    RunEvent(
+                        series_id=entry.id,
+                        phase="validate",
+                        outcome=OUTCOME_OK,
+                        detail=", ".join(
+                            f"{p.name}: {sv.l5_results[p.name].matched}/"
+                            f"{sv.l5_results[p.name].total}"
+                            for p in providers
+                            if p.name in sv.l5_results
+                        ),
+                    )
+                )
 
     for p in providers:
         if result.tested[p.name] > 0:

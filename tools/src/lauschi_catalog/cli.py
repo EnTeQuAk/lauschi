@@ -13,7 +13,6 @@ from lauschi_catalog.commands.drift import drift
 from lauschi_catalog.commands.edit import edit
 from lauschi_catalog.commands.eval import eval_cmd
 from lauschi_catalog.commands.lint import lint
-from lauschi_catalog.commands.log_summary import log_summary
 from lauschi_catalog.commands.reconcile import reconcile
 from lauschi_catalog.commands.report import report
 from lauschi_catalog.commands.review_human import review_human
@@ -39,7 +38,6 @@ cli.add_command(discover)
 cli.add_command(edit)
 cli.add_command(eval_cmd)
 cli.add_command(lint)
-cli.add_command(log_summary)
 cli.add_command(reconcile)
 cli.add_command(report)
 cli.add_command(review_human)

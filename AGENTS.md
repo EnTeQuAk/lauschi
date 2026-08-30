@@ -68,7 +68,6 @@ mise run catalog-drift        # Check shipped albums against live provider recor
 mise run catalog-report       # Show curation statistics (included/excluded/gaps)
 mise run catalog-review       # List series needing human attention (escalated, flagged)
 mise run catalog-edit         # Manual include/exclude on curations
-mise run catalog-log-summary  # Per-series re-run report from a pipeline log
 mise run catalog-test         # Run the tools/ pytest suite
 mise run catalog-web          # Catalog web UI (state browse, background jobs, review queue)
 ```
