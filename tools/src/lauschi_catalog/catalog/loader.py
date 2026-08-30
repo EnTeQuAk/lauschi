@@ -8,18 +8,12 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from ruamel.yaml import YAML
-
-from lauschi_catalog.catalog.io import save_raw as _save_raw
+from lauschi_catalog.catalog import io
 from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
 from lauschi_catalog.catalog.paths import (
     REPO_ROOT,  # noqa: F401 — re-exported for existing callers
     SERIES_YAML,  # noqa: F401 — re-exported for existing callers
 )
-
-_yaml = YAML()
-_yaml.preserve_quotes = True  # type: ignore[assignment]
-_yaml.width = 200  # avoid unwanted line wrapping
 
 
 def _series_path(path: Path | None) -> Path:
@@ -30,7 +24,7 @@ def _series_path(path: Path | None) -> Path:
 
 def load_catalog(path: Path | None = None) -> list[CatalogEntry]:
     """Load series.yaml into CatalogEntry models."""
-    data = _yaml.load(_series_path(path))
+    data = io.yaml_instance().load(_series_path(path))
     entries = []
 
     for raw in data["series"]:
@@ -78,7 +72,7 @@ def load_catalog(path: Path | None = None) -> list[CatalogEntry]:
 
 def load_raw(path: Path | None = None):
     """Load series.yaml as raw ruamel.yaml data (preserves comments)."""
-    return _yaml.load(_series_path(path))
+    return io.load_raw(_series_path(path))
 
 
 def save_raw(data: object, path: Path | None = None) -> None:
@@ -87,7 +81,7 @@ def save_raw(data: object, path: Path | None = None) -> None:
     Uses atomic write (temp file + os.replace) with file locking
     via catalog.io.
     """
-    _save_raw(data, path)
+    io.save_raw(data, _series_path(path))
 
 
 def update_provider_ids(

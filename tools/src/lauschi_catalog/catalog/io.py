@@ -17,9 +17,16 @@ from ruamel.yaml import YAML
 
 from lauschi_catalog.catalog import paths
 
-_yaml = YAML()
-_yaml.preserve_quotes = True  # type: ignore[assignment]
-_yaml.width = 200
+
+def yaml_instance() -> YAML:
+    """Return a consistently configured ruamel.yaml instance."""
+    y = YAML()
+    y.preserve_quotes = True  # type: ignore[assignment]
+    y.width = 200
+    return y
+
+
+_yaml = yaml_instance()
 
 
 def safe_write_text(path: Path, text: str) -> None:

@@ -24,15 +24,10 @@ from __future__ import annotations
 from datetime import UTC, datetime
 from pathlib import Path
 
-from ruamel.yaml import YAML
-
+from lauschi_catalog.catalog import io
 from lauschi_catalog.catalog.paths import deleted_yaml_path
 
 DELETED_YAML = deleted_yaml_path()
-
-_yaml = YAML()
-_yaml.preserve_quotes = True
-_yaml.width = 200
 
 
 def _resolve(path: Path | None) -> Path:
@@ -46,7 +41,7 @@ def _load(path: Path | None = None) -> dict:
     target = _resolve(path)
     if not target.exists():
         return {"deleted": []}
-    data = _yaml.load(target)
+    data = io.yaml_instance().load(target)
     if not data or "deleted" not in data:
         return {"deleted": []}
     return data
@@ -90,8 +85,7 @@ def record_deletion(
         },
     )
     data["deleted"] = entries
-    with _resolve(path).open("w") as f:
-        _yaml.dump(data, f)
+    io.safe_write_yaml(_resolve(path), data)
 
 
 def remove_from_deleted(series_id: str, *, path: Path | None = None) -> bool:
@@ -106,6 +100,5 @@ def remove_from_deleted(series_id: str, *, path: Path | None = None) -> bool:
     if len(new_entries) == len(entries):
         return False
     data["deleted"] = new_entries
-    with _resolve(path).open("w") as f:
-        _yaml.dump(data, f)
+    io.safe_write_yaml(_resolve(path), data)
     return True
