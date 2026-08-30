@@ -107,19 +107,6 @@ _OVERRIDES: dict[str, dict[str, ModelSettings]] = {
         "finalize": ModelSettings(openai_reasoning_effort="low"),
         "audit": ModelSettings(openai_reasoning_effort="low"),
     },
-    # Kimi K3 honors the reasoning-effort dial on chat completions
-    # (verified 2026-08-30: 7 reasoning tokens at "low" against 119
-    # without it, same prompt, same answer). As a critic it gets the
-    # whole series' structure in the prompt, so low keeps it fast
-    # without starving the verdict. Sampling settings stay as for the
-    # rest of the pipeline.
-    "kimi-k3": {
-        "audit": ModelSettings(
-            temperature=0.0,
-            seed=42,
-            openai_reasoning_effort="low",
-        ),
-    },
 }
 
 # Model-name prefixes that opencode-zen serves on the OpenAI Responses

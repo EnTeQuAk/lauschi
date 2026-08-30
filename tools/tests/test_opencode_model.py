@@ -35,9 +35,9 @@ def test_helper_uses_opencode_base_url():
 
 
 def test_helper_passes_through_arbitrary_model_name():
-    """The relay fronts both kimi-k2.5 (curate) and minimax-m2.5/m2.7
+    """The relay fronts both kimi-k2.6 (curate) and minimax-m2.5/m2.7
     (audit). The helper must work for any string the callers pick."""
-    for name in ("kimi-k2.5", "minimax-m2.5", "minimax-m2.7"):
+    for name in ("kimi-k2.6", "minimax-m2.5", "minimax-m2.7"):
         model = build_model(name, api_key="test-key")
         assert model.model_name == name
 
@@ -76,7 +76,7 @@ def test_non_minimax_audit_model_keeps_plain_default():
     scoped by model prefix and every other model gets the plain default."""
     from lauschi_catalog._opencode import get_model_settings
 
-    s = get_model_settings("audit", "kimi-k2.5")
+    s = get_model_settings("audit", "kimi-k2.6")
     assert "openai_reasoning_effort" not in s
     assert "max_tokens" not in s
 
@@ -87,8 +87,8 @@ def test_curate_and_finalize_keep_provider_default_output_cap():
     alone on purpose so this change stays scoped to the failing phase."""
     from lauschi_catalog._opencode import get_model_settings
 
-    assert "max_tokens" not in get_model_settings("curate", "kimi-k2.5")
-    assert "max_tokens" not in get_model_settings("finalize", "kimi-k2.5")
+    assert "max_tokens" not in get_model_settings("curate", "kimi-k2.6")
+    assert "max_tokens" not in get_model_settings("finalize", "kimi-k2.6")
 
 
 # ── transport follows the model ───────────────────────────────────────
@@ -115,7 +115,7 @@ def test_everything_else_stays_on_chat_completions():
 
     from lauschi_catalog._opencode import uses_responses_api
 
-    for name in ("kimi-k2.5", "kimi-k2.6", "minimax-m2.7", "minimax-m3", "glm-5.2"):
+    for name in ("kimi-k2.6", "minimax-m2.7", "minimax-m3", "glm-5.2"):
         assert not uses_responses_api(name), name
         assert isinstance(build_model(name, api_key="test-key"), OpenAIChatModel), name
 
@@ -123,7 +123,7 @@ def test_everything_else_stays_on_chat_completions():
 def test_chat_completions_keeps_the_inline_defs_transformer():
     """The chat-completions relay cannot resolve $ref; InlineDefs is why
     build_model exists. The 276 one-shot audits run on this path."""
-    model = build_model("kimi-k2.5", api_key="test-key")
+    model = build_model("kimi-k2.6", api_key="test-key")
     assert model.profile.json_schema_transformer is InlineDefsJsonSchemaTransformer
 
 
