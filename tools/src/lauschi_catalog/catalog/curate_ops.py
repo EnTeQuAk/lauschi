@@ -11,6 +11,7 @@ import json
 import os
 import re
 import time
+from collections.abc import Sequence
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
@@ -115,6 +116,120 @@ def _validate_episode_pattern(v: str | list[str] | None) -> str | list[str] | No
             )
             raise ValueError(msg)
     return v
+
+
+def curation_from_decisions(
+    decisions: Sequence[AlbumDecision],
+    pattern: str | list[str] | None,
+    series_facts: dict | None = None,
+) -> dict:
+    """The partial-curation dict lint and analyze read.
+
+    Three inline copies of this shape existed (batch structural hints,
+    the finalize lint tool, the finalize analysis); one builder feeds
+    all so the key set cannot drift between them. analyze ignores the
+    exclude_reason key, lint requires it, so it is always carried.
+    """
+
+    def fields(d: AlbumDecision) -> dict:
+        return {
+            "album_id": d.album_id,
+            "provider": d.provider,
+            "include": d.include,
+            "title": d.title,
+            "episode_num": d.episode_num,
+            "release_date": d.release_date,
+            "exclude_reason": d.exclude_reason,
+        }
+
+    partial: dict = {
+        "albums": [fields(d) for d in decisions],
+        "episode_pattern": pattern,
+    }
+    if series_facts is not None:
+        partial["series_facts"] = series_facts
+    return partial
+
+
+def build_structural_hints(analysis: dict) -> list[str]:
+    """Human-readable analysis signals fed back into the next batch."""
+    hints: list[str] = []
+    if analysis.get("gaps"):
+        hints.append(f"Missing episodes so far: {analysis['gaps']}")
+    for dup in analysis.get("duplicates_within_provider") or []:
+        hints.append(
+            f"Duplicate episodes on {dup['provider']}: ep {dup['episode_num']}"
+        )
+    xpc = analysis.get("cross_provider_coverage") or {}
+    missing_per = xpc.get("missing_per_provider") or {}
+    for prov, missing_eps in missing_per.items():
+        if missing_eps:
+            hints.append(f"{prov} missing episodes: {missing_eps}")
+    clusters = analysis.get("title_clusters") or []
+    for c in clusters:
+        examples = ", ".join(c["examples"][:3])
+        hints.append(f"Title cluster {c['shape']!r} ({c['count']} albums): {examples}")
+    return hints
+
+
+def format_batch_albums(
+    batch: list[dict],
+    seen_details: dict[str, dict],
+) -> list[dict]:
+    """Normalize a batch to unified album dicts for the prompt XML.
+
+    Full details where the prefetch has them; explicit fallback keys
+    (the same shape prompt.album_to_dict emits) where it does not.
+    """
+    albums: list[dict] = []
+    for a in batch:
+        key = f"{a['provider']}:{a['id']}"
+        detail = seen_details.get(key)
+        if detail:
+            albums.append(album_to_dict(detail))
+            continue
+        albums.append(
+            {
+                "provider": a["provider"],
+                "id": a["id"],
+                "title": a["name"],
+                "episode_num": None,
+                "release_date": a.get("release_date", ""),
+                "album_type": a.get("album_type", ""),
+                "total_tracks": a.get("total_tracks", 0),
+                "duration_min": None,
+                "label": "",
+                "artist": "",
+                "tracks": [],
+            }
+        )
+    return albums
+
+
+def build_batch_prompt(
+    *,
+    series_title: str,
+    pattern: str | list[str] | None,
+    progress_text: str,
+    rolling: str,
+    structural_hints: list[str],
+    batch_num: int,
+    n_batches: int,
+    n_albums: int,
+    albums_xml: str,
+) -> str:
+    """Assemble the per-batch user prompt. Pure; snapshot-tested."""
+    prompt = f"Series: {series_title!r}\nEpisode pattern: {pattern}\n{progress_text}\n"
+    if rolling:
+        prompt += f"{rolling}\n"
+    if structural_hints:
+        prompt += (
+            "Structural signals from prior batches:\n"
+            + "\n".join(f"  {h}" for h in structural_hints)
+            + "\n\n"
+        )
+    prompt += f"\nBatch {batch_num}/{n_batches} ({n_albums} albums):\n\n{albums_xml}"
+    return prompt
 
 
 def _build_batch_summary(
@@ -957,26 +1072,15 @@ def _build_finalize_agent(
         ctx: RunContext[CurateDeps],
     ) -> list[str]:
         """Run deterministic structural checks on the current curation."""
-        partial_curation = {
-            "albums": [
-                {
-                    "album_id": d.album_id,
-                    "provider": d.provider,
-                    "include": d.include,
-                    "title": d.title,
-                    "episode_num": d.episode_num,
-                    "release_date": d.release_date,
-                    "exclude_reason": d.exclude_reason,
-                }
-                for d in ctx.deps.all_decisions
-            ],
-            "episode_pattern": ctx.deps.pattern,
-            "series_facts": (
+        partial_curation = curation_from_decisions(
+            ctx.deps.all_decisions,
+            ctx.deps.pattern,
+            series_facts=(
                 ctx.deps.proposed_facts.model_dump()
                 if ctx.deps.proposed_facts
                 else None
             ),
-        }
+        )
         issues = lint_curation(partial_curation)
         if issues:
             ctx.deps.on_progress(f"  Finalize lint: {len(issues)} issue(s)")
@@ -1440,84 +1544,25 @@ async def _run_large(
             batch_num,
         )
 
-        batch_albums: list[dict] = []
-        for a in batch:
-            key = f"{a['provider']}:{a['id']}"
-            detail = shared_deps.seen_details.get(key)
-            if detail:
-                batch_albums.append(detail)
-            else:
-                batch_albums.append(
-                    {
-                        "provider": a["provider"],
-                        "id": a["id"],
-                        "title": a["name"],
-                        "episode_num": None,
-                        "release_date": a.get("release_date", ""),
-                        "album_type": a.get("album_type", ""),
-                        "total_tracks": a.get("total_tracks", 0),
-                        "duration_min": None,
-                        "label": "",
-                        "artist": "",
-                        "tracks": [],
-                    }
-                )
-        album_xml = format_albums_xml(batch_albums, include_tracks=True)
+        batch_albums = format_batch_albums(batch, shared_deps.seen_details)
 
-        analysis_hint = ""
+        structural_hints: list[str] = []
         if all_decisions:
-            partial = {
-                "albums": [
-                    {
-                        "album_id": d.album_id,
-                        "provider": d.provider,
-                        "include": d.include,
-                        "title": d.title,
-                        "episode_num": d.episode_num,
-                        "release_date": d.release_date,
-                    }
-                    for d in all_decisions
-                ],
-                "episode_pattern": shared_deps.pattern,
-            }
+            partial = curation_from_decisions(all_decisions, shared_deps.pattern)
             analysis = analyze_series(partial)
-            hints: list[str] = []
-            if analysis.get("gaps"):
-                hints.append(f"Missing episodes so far: {analysis['gaps']}")
-            for dup in analysis.get("duplicates_within_provider") or []:
-                hints.append(
-                    f"Duplicate episodes on {dup['provider']}: ep {dup['episode_num']}"
-                )
-            xpc = analysis.get("cross_provider_coverage") or {}
-            missing_per = xpc.get("missing_per_provider") or {}
-            for prov, missing_eps in missing_per.items():
-                if missing_eps:
-                    hints.append(f"{prov} missing episodes: {missing_eps}")
-            clusters = analysis.get("title_clusters") or []
-            if clusters:
-                for c in clusters:
-                    examples = ", ".join(c["examples"][:3])
-                    hints.append(
-                        f"Title cluster {c['shape']!r} ({c['count']} albums): {examples}"
-                    )
-            if hints:
-                analysis_hint = (
-                    "Structural signals from prior batches:\n"
-                    + "\n".join(f"  {h}" for h in hints)
-                    + "\n"
-                )
+            structural_hints = build_structural_hints(analysis)
 
-        prompt = (
-            f"Series: {meta.title!r}\n"
-            f"Episode pattern: {shared_deps.pattern}\n"
-            f"{progress_text}\n"
-        )
-        if rolling:
-            prompt += f"{rolling}\n"
-        if analysis_hint:
-            prompt += f"{analysis_hint}\n"
-        prompt += (
-            f"\nBatch {batch_num}/{len(batches)} ({len(batch)} albums):\n\n{album_xml}"
+        albums_xml = format_albums_xml(batch_albums, include_tracks=True)
+        prompt = build_batch_prompt(
+            series_title=meta.title,
+            pattern=shared_deps.pattern,
+            progress_text=progress_text,
+            rolling=rolling,
+            structural_hints=structural_hints,
+            batch_num=batch_num,
+            n_batches=len(batches),
+            n_albums=len(batch),
+            albums_xml=albums_xml,
         )
 
         shared_deps.current_batch_ids = {(a["provider"], a["id"]) for a in batch}
@@ -1659,20 +1704,9 @@ async def _run_large(
 
         analysis_lines: list[str] = []
         if all_decisions:
-            partial_curation = {
-                "albums": [
-                    {
-                        "album_id": d.album_id,
-                        "provider": d.provider,
-                        "include": d.include,
-                        "title": d.title,
-                        "episode_num": d.episode_num,
-                        "release_date": d.release_date,
-                    }
-                    for d in all_decisions
-                ],
-                "episode_pattern": shared_deps.pattern,
-            }
+            partial_curation = curation_from_decisions(
+                all_decisions, shared_deps.pattern
+            )
             analysis = analyze_series(partial_curation)
             if analysis.get("gaps"):
                 analysis_lines.append(
