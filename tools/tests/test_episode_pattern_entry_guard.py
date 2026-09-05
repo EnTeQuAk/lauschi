@@ -18,17 +18,16 @@ import pytest
 from lauschi_catalog.catalog.curate_ops import _validate_episode_pattern
 
 
-def test_accepts_a_normal_pattern():
-    assert _validate_episode_pattern(r"^Folge (\d+):") == r"^Folge (\d+):"
-
-
-def test_accepts_none():
-    assert _validate_episode_pattern(None) is None
-
-
-def test_accepts_a_pattern_list():
-    patterns = [r"^Folge (\d+):", r"^Teil (\d+):"]
-    assert _validate_episode_pattern(patterns) == patterns
+@pytest.mark.parametrize(
+    "pattern",
+    [
+        pytest.param(r"^Folge (\d+):", id="a normal pattern"),
+        pytest.param(None, id="none"),
+        pytest.param([r"^Folge (\d+):", r"^Teil (\d+):"], id="a pattern list"),
+    ],
+)
+def test_accepts_what_it_is_given_back_unchanged(pattern):
+    assert _validate_episode_pattern(pattern) == pattern
 
 
 def test_rejects_a_pattern_without_a_capture_group():
