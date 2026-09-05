@@ -31,7 +31,10 @@ compilations (e.g. Simone Sommerland's "Die 30 besten …" series — those
 are her primary studio albums, include them).
 
 Singles stay excluded either way (`music_single`): one-track albums make
-poor listening units, and their songs are on the collection albums.
+poor listening units, and their songs are on the collection albums. A
+title the store itself marks " - Single" or "(Instrumental)" has its
+reason ready-made, `music_single` or `format_variant`; never leave such
+an album `unspecified`.
 
 ## Failure taxonomy
 

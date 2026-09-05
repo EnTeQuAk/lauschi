@@ -26,6 +26,42 @@ _AUTO_FLIP_REASONS: frozenset[str] = reasons.AUTO_FLIP_REASON_KEYS
 _FLAG_REASONS: frozenset[str] = reasons.FLAG_REASON_KEYS
 
 
+_FORMAT_VARIANT_MARKERS = (
+    "(instrumental",
+    "instrumentals",
+    "karaoke",
+    "(sped up",
+    "nightcore",
+    "(playback",
+)
+
+
+def label_from_title(title: str) -> str | None:
+    """The exclude reason the provider's own title suffix already names.
+
+    Stores append " - Single" to single releases and label instrumental
+    or karaoke versions in the title. That is the provider's
+    classification, not a content judgement, so it can fill a reason the
+    model left blank. An EP is not a single and is left alone.
+    """
+    t = " ".join(title.casefold().split())
+    if t.endswith(" - single"):
+        return "music_single"
+    if any(marker in t for marker in _FORMAT_VARIANT_MARKERS):
+        return "format_variant"
+    return None
+
+
+def normalized_reason(album: dict) -> str | None:
+    """The album's exclude reason, normalised, with a blank or
+    `unspecified` reason filled from the title where the provider's own
+    suffix names it. Never overwrites a named reason."""
+    reason = normalize_exclude_reason(album.get("exclude_reason"))
+    if reason in (None, "", "unspecified"):
+        return label_from_title(album.get("title") or "") or reason
+    return reason
+
+
 def normalize_exclude_reason(reason: str | None) -> str | None:
     """Map verbose agent-generated reasons to their short label.
 
@@ -124,7 +160,7 @@ def reconcile_cross_provider(albums: list[dict]) -> ReconcileResult:
         for album in excluded_side:
             if album.get("include"):
                 continue
-            reason = normalize_exclude_reason(album.get("exclude_reason"))
+            reason = normalized_reason(album)
             original_title = album.get("title", title)
             # An exclusion that names no reason carries no information;
             # an exact same-title include on the other provider does

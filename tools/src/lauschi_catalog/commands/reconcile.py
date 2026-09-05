@@ -8,7 +8,7 @@ from rich.console import Console
 from lauschi_catalog.catalog.io import safe_write_json
 from lauschi_catalog.catalog.paths import curation_dir, curation_path
 from lauschi_catalog.catalog.reconcile import (
-    normalize_exclude_reason,
+    normalized_reason,
     reconcile_cross_provider,
 )
 
@@ -55,7 +55,7 @@ def reconcile(series_id: str | None, run_all: bool, normalize: bool, dry_run: bo
             for a in albums:
                 if not a.get("include"):
                     old = a.get("exclude_reason")
-                    new = normalize_exclude_reason(old)
+                    new = normalized_reason(a)
                     if old != new:
                         a["exclude_reason"] = new
                         total_normalized += 1
