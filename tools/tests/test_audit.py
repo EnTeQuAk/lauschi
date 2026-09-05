@@ -61,63 +61,73 @@ def _curation(**overrides) -> dict:
 
 
 class TestBuildPrompt:
-    def test_includes_series_title_and_id(self):
+    @pytest.mark.parametrize(
+        ("phrase", "present"),
+        [
+            pytest.param("Test Series", True, id="series title"),
+            pytest.param("test_series", True, id="series id"),
+            pytest.param("Folge", True, id="episode pattern"),
+            pytest.param("Included albums (1)", True, id="included section with count"),
+            pytest.param("Excluded albums (1)", True, id="excluded section with count"),
+            pytest.param("Ep 1:", True, id="episode number on an included album"),
+            pytest.param("compilation", True, id="exclude reason"),
+            pytest.param("[high]", False, id="no confidence tag for high"),
+        ],
+    )
+    def test_the_default_curation_renders_its_facts(self, phrase, present):
         prompt = build_prompt(_curation(), [])
-        assert "Test Series" in prompt
-        assert "test_series" in prompt
+        assert (phrase in prompt) is present
 
-    def test_includes_episode_pattern(self):
-        prompt = build_prompt(_curation(), [])
-        assert "Folge" in prompt
-
-    def test_separates_included_and_excluded(self):
-        prompt = build_prompt(_curation(), [])
-        assert "Included albums (1)" in prompt
-        assert "Excluded albums (1)" in prompt
-
-    def test_shows_episode_number_for_included(self):
-        prompt = build_prompt(_curation(), [])
-        assert "Ep 1:" in prompt
-
-    def test_shows_exclude_reason(self):
-        prompt = build_prompt(_curation(), [])
-        assert "compilation" in prompt
-
-    def test_shows_confidence_tag_for_non_high(self):
+    @pytest.mark.parametrize(
+        ("album", "confidence", "notes", "phrase", "present"),
+        [
+            pytest.param(
+                0, "medium", None, "[medium]", True, id="confidence tag below high"
+            ),
+            pytest.param(
+                0,
+                "medium",
+                "title doesn't match pattern exactly",
+                "notes: title doesn't match pattern exactly",
+                True,
+                id="notes on a medium include",
+            ),
+            pytest.param(
+                0,
+                "low",
+                "uncertain match",
+                "notes: uncertain match",
+                True,
+                id="notes on a low include",
+            ),
+            pytest.param(
+                0,
+                "high",
+                "should not appear",
+                "should not appear",
+                False,
+                id="no notes on a high include",
+            ),
+            pytest.param(
+                1,
+                None,
+                "borderline decision",
+                "notes: borderline decision",
+                True,
+                id="notes on an excluded album",
+            ),
+        ],
+    )
+    def test_confidence_and_notes_render_only_where_they_carry_information(
+        self, album, confidence, notes, phrase, present
+    ):
         c = _curation()
-        c["albums"][0]["confidence"] = "medium"
+        if confidence is not None:
+            c["albums"][album]["confidence"] = confidence
+        if notes is not None:
+            c["albums"][album]["notes"] = notes
         prompt = build_prompt(c, [])
-        assert "[medium]" in prompt
-
-    def test_hides_confidence_tag_for_high(self):
-        prompt = build_prompt(_curation(), [])
-        assert "[high]" not in prompt
-
-    def test_shows_notes_for_medium_confidence_included(self):
-        c = _curation()
-        c["albums"][0]["confidence"] = "medium"
-        c["albums"][0]["notes"] = "title doesn't match pattern exactly"
-        prompt = build_prompt(c, [])
-        assert "notes: title doesn't match pattern exactly" in prompt
-
-    def test_shows_notes_for_low_confidence_included(self):
-        c = _curation()
-        c["albums"][0]["confidence"] = "low"
-        c["albums"][0]["notes"] = "uncertain match"
-        prompt = build_prompt(c, [])
-        assert "notes: uncertain match" in prompt
-
-    def test_hides_notes_for_high_confidence_included(self):
-        c = _curation()
-        c["albums"][0]["notes"] = "should not appear"
-        prompt = build_prompt(c, [])
-        assert "should not appear" not in prompt
-
-    def test_shows_notes_for_excluded_album(self):
-        c = _curation()
-        c["albums"][1]["notes"] = "borderline decision"
-        prompt = build_prompt(c, [])
-        assert "notes: borderline decision" in prompt
+        assert (phrase in prompt) is present
 
     def test_shows_lint_issues(self):
         prompt = build_prompt(_curation(), ["Duplicate ep 5 on spotify"])
