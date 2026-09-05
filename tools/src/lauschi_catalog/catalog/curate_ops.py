@@ -370,9 +370,44 @@ def _child_album_records(child) -> list[tuple[str, str, str]]:
     ]
 
 
+def core_title(title: str, series_names: list[str]) -> str:
+    """The album title with the series' own name stripped.
+
+    A provider ships the same episode as "Wieso? Weshalb? Warum? Alles
+    über die Feuerwehr" and as "Alles über die Feuerwehr (Wieso? Weshalb?
+    Warum? Folge 2)". The series name and its aliases are catalog facts;
+    removing them as a prefix or inside a parenthetical leaves the part
+    that identifies the episode.
+    """
+    t = normalize_title(title)
+    for name in sorted(
+        (n.casefold() for n in series_names if n), key=len, reverse=True
+    ):
+        # parentheticals that carry the series name, e.g. "(… Folge 2)"
+        while True:
+            start = t.find("(")
+            found = False
+            while start != -1:
+                end = t.find(")", start)
+                if end == -1:
+                    break
+                if name in t[start : end + 1]:
+                    t = (t[:start] + t[end + 1 :]).strip()
+                    found = True
+                    break
+                start = t.find("(", end)
+            if not found:
+                break
+        if t.startswith(name):
+            t = t[len(name) :].lstrip(" :-–")
+    return " ".join(t.split())
+
+
 def _settle_same_provider_duplicates(
     decisions: list["AlbumDecision"],
     era_boundaries: list[EraBoundary],
+    *,
+    series_names: list[str] | None = None,
 ) -> list["AlbumDecision"]:
     """Resolve same-provider duplicates by the era fact, not a year window.
 
@@ -383,11 +418,17 @@ def _settle_same_provider_duplicates(
     the other is marked duplicate; with one, both stay. The fact is the
     authority, so the outcome is the same on every run.
     """
-    groups: dict[tuple[str, int, str], list[int]] = {}
+    names = series_names or []
+    groups: dict[tuple[str, str], list[int]] = {}
     for i, d in enumerate(decisions):
-        if not d.include or d.episode_num is None:
+        if not d.include:
             continue
-        key = (d.provider, d.episode_num, normalize_title(d.title))
+        if d.episode_num is None and not names:
+            continue
+        key = (
+            d.provider,
+            core_title(d.title, names) if names else normalize_title(d.title),
+        )
         groups.setdefault(key, []).append(i)
 
     def era_of(d: "AlbumDecision") -> int | None:
@@ -403,10 +444,20 @@ def _settle_same_provider_duplicates(
     for members in groups.values():
         if len(members) < 2:
             continue
+        # Two different numbered episodes sharing a title are not twins.
+        numbers = {decisions[i].episode_num for i in members} - {None}
+        if len(numbers) > 1:
+            continue
         eras = {era_of(decisions[i]) for i in members}
         if len(eras) > 1 and None not in eras:
             continue  # an era fact separates them: different recordings
-        newest = max(members, key=lambda i: decisions[i].release_date or "")
+        newest = max(
+            members,
+            key=lambda i: (
+                decisions[i].episode_num is not None,
+                decisions[i].release_date or "",
+            ),
+        )
         for i in members:
             if i == newest:
                 continue
@@ -556,6 +607,32 @@ def _restore_identity(
         d.episode_num = extract_episode(pattern, d.title) if pattern else None
         corrected += 1
     return corrected
+
+
+def render_sub_series_exclusions(
+    records: dict[str, list[tuple[str, str]]], *, cap: int = 60
+) -> str:
+    """The sub-series exclusions as a list the finalize agent can act on.
+
+    Each title with its provider:album_id pairs, so a split proposal
+    carries ids without a single search. Told only a count, the agent
+    searched keyword by keyword until it hit the request budget.
+    """
+    lines = [
+        f"- Sub-series: {len(records)} unique titles excluded as "
+        f"sub_series_bleed, listed with their album ids (no search needed); "
+        f"group them into sub_series facts using these ids:"
+    ]
+    for i, (title, ids) in enumerate(records.items()):
+        if i == cap:
+            lines.append(
+                f"    ... and {len(records) - cap} more "
+                f"(search_excluded_albums finds those)"
+            )
+            break
+        joined = ", ".join(f"{p}:{a}" for p, a in ids)
+        lines.append(f'    - "{title}" [{joined}]')
+    return "\n".join(lines)
 
 
 def _reextract_episode_numbers(
@@ -1879,14 +1956,13 @@ async def _run_large(
                 analysis_lines.append(f"Pattern coverage: {pc['percentage']}%")
 
         sub_bleed_titles: list[str] = []
-        seen_titles: set[str] = set()
+        sub_bleed_records: dict[str, list[tuple[str, str]]] = {}
         for d in all_decisions:
             if d.include or d.exclude_reason != "sub_series_bleed":
                 continue
-            if d.title in seen_titles:
-                continue
-            seen_titles.add(d.title)
-            sub_bleed_titles.append(d.title)
+            if d.title not in sub_bleed_records:
+                sub_bleed_titles.append(d.title)
+            sub_bleed_records.setdefault(d.title, []).append((d.provider, d.album_id))
         has_sub_bleed = bool(sub_bleed_titles)
         if has_sub_bleed:
             analysis_lines.append(
@@ -1977,12 +2053,7 @@ async def _run_large(
                     f"documented, skip Step 2"
                 )
             if has_sub_bleed:
-                work_items.append(
-                    f"- Sub-series: {len(sub_bleed_titles)} unique titles "
-                    f"excluded as sub_series_bleed/sub_series. "
-                    f"Use search_excluded_albums to explore and propose "
-                    f"sub_series facts."
-                )
+                work_items.append(render_sub_series_exclusions(sub_bleed_records))
 
             prompt_parts: list[str] = [
                 f"Series: {meta.title!r}",
@@ -2089,7 +2160,9 @@ async def _run_large(
     # With the eras known, same-provider duplicates are settled by fact.
     eras = merged_facts.era_boundaries if merged_facts else []
     before = sum(1 for d in all_decisions if d.include)
-    all_decisions = _settle_same_provider_duplicates(all_decisions, eras)
+    all_decisions = _settle_same_provider_duplicates(
+        all_decisions, eras, series_names=[meta.title, *meta.aliases]
+    )
     total_inc = sum(1 for d in all_decisions if d.include)
     total_exc = len(all_decisions) - total_inc
     if total_inc < before:
