@@ -5,6 +5,8 @@ invalidated this downstream output?" — small functions, big
 consequences (skip logic in audit and apply depends on them).
 """
 
+import pytest
+
 from lauschi_catalog.catalog.lifecycle import (
     apply_is_unsafe,
     audit_is_stale,
@@ -29,87 +31,59 @@ T3 = "2026-03-01T00:00:00+00:00"
 # ── audit_is_stale ────────────────────────────────────────────────────────
 
 
-def test_audit_stale_when_curate_ran_after_audit():
-    c = _curation(curated_at=T2, audited_at=T1)
-    assert audit_is_stale(c) is True
-
-
-def test_audit_not_stale_when_audit_ran_after_curate():
-    c = _curation(curated_at=T1, audited_at=T2)
-    assert audit_is_stale(c) is False
-
-
-def test_audit_not_stale_when_timestamps_equal():
-    c = _curation(curated_at=T1, audited_at=T1)
-    assert audit_is_stale(c) is False
-
-
-def test_audit_not_stale_with_missing_curated_at():
-    c = _curation(audited_at=T1)
-    assert audit_is_stale(c) is False
-
-
-def test_audit_not_stale_with_missing_audited_at():
-    c = _curation(curated_at=T1)
-    assert audit_is_stale(c) is False
-
-
-def test_audit_not_stale_with_no_review_block():
-    c = {"curated_at": T1}
-    assert audit_is_stale(c) is False
-
-
-def test_audit_not_stale_with_unparseable_timestamps():
-    c = _curation(curated_at="not a timestamp", audited_at=T1)
-    assert audit_is_stale(c) is False
-
-
-def test_audit_handles_naive_curated_at_without_crashing():
-    naive_curated = "2026-02-01T00:00:00"
-    aware_audited = T3
-    c = _curation(curated_at=naive_curated, audited_at=aware_audited)
-    assert audit_is_stale(c) is False
-
-
-def test_audit_stale_with_naive_curated_after_aware_audit():
-    c = _curation(curated_at="2026-04-01T00:00:00", audited_at=T1)
-    assert audit_is_stale(c) is True
+@pytest.mark.parametrize(
+    ("curated_at", "audited_at", "stale"),
+    [
+        pytest.param(T2, T1, True, id="curate ran after the audit"),
+        pytest.param(T1, T2, False, id="audit ran after curate"),
+        pytest.param(T1, T1, False, id="same instant"),
+        pytest.param(None, T1, False, id="no curated_at"),
+        pytest.param(T1, None, False, id="no audited_at (no review block)"),
+        pytest.param("not a timestamp", T1, False, id="unparseable curated_at"),
+        pytest.param(
+            "2026-02-01T00:00:00",
+            T3,
+            False,
+            id="naive curated_at before an aware audit",
+        ),
+        pytest.param(
+            "2026-04-01T00:00:00", T1, True, id="naive curated_at after an aware audit"
+        ),
+    ],
+)
+def test_audit_is_stale_only_when_curate_ran_after_the_audit(
+    curated_at, audited_at, stale
+):
+    assert (
+        audit_is_stale(_curation(curated_at=curated_at, audited_at=audited_at)) is stale
+    )
 
 
 # ── apply_is_unsafe ───────────────────────────────────────────────────────
 
 
-def test_apply_safe_for_consistent_pipeline_output():
-    c = _curation(curated_at=T1, audited_at=T2)
-    assert apply_is_unsafe(c) is None
-
-
-def test_apply_safe_when_never_audited():
-    """No audit timestamp means we can't determine staleness, so
-    apply_is_unsafe is conservative and allows it."""
-    c = _curation(curated_at=T1)
-    assert apply_is_unsafe(c) is None
-
-
-def test_apply_unsafe_when_audit_stale():
-    c = _curation(curated_at=T2, audited_at=T1)
+@pytest.mark.parametrize(
+    ("curated_at", "audited_at", "incomplete", "unsafe_because"),
+    [
+        pytest.param(T1, T2, None, None, id="consistent pipeline output"),
+        pytest.param(
+            T1, None, None, None, id="never audited: staleness unknown, allowed"
+        ),
+        pytest.param(T2, T1, None, "audit", id="audit is stale"),
+        pytest.param(T1, T2, True, "incomplete", id="curation marked incomplete"),
+        pytest.param(T1, T2, False, None, id="explicitly complete"),
+    ],
+)
+def test_apply_is_unsafe_names_the_reason(
+    curated_at, audited_at, incomplete, unsafe_because
+):
+    c = _curation(curated_at=curated_at, audited_at=audited_at)
+    if incomplete is not None:
+        c["incomplete"] = incomplete
+        if incomplete:
+            c["incomplete_reason"] = "spotify discovery collapsed: 445 -> 47"
     msg = apply_is_unsafe(c)
-    assert msg is not None
-    assert "audit" in msg.lower()
-
-
-def test_apply_unsafe_when_curation_incomplete():
-    """Curations marked incomplete (e.g. from discovery regression)
-    must not reach series.yaml regardless of audit state."""
-    c = _curation(curated_at=T1, audited_at=T2)
-    c["incomplete"] = True
-    c["incomplete_reason"] = "spotify discovery collapsed: 445 -> 47"
-    msg = apply_is_unsafe(c)
-    assert msg is not None
-    assert "incomplete" in msg.lower()
-
-
-def test_apply_safe_when_not_incomplete():
-    c = _curation(curated_at=T1, audited_at=T2)
-    c["incomplete"] = False
-    assert apply_is_unsafe(c) is None
+    if unsafe_because is None:
+        assert msg is None
+    else:
+        assert msg is not None and unsafe_because in msg.lower()

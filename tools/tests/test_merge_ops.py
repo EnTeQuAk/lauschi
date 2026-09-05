@@ -224,32 +224,39 @@ class TestSplitOps:
 
 
 class TestNormalizeAlbumIds:
-    def test_bare_ids_pass_through(self):
-        result = normalize_album_ids(["a1", "a2", "a3"])
-        assert result == {"a1", "a2", "a3"}
-
-    def test_strips_spotify_prefix(self):
-        result = normalize_album_ids(["spotify:5DcgKp", "a2"])
-        assert result == {"5DcgKp", "a2"}
-
-    def test_strips_apple_music_prefix(self):
-        result = normalize_album_ids(["apple_music:1069083363"])
-        assert result == {"1069083363"}
-
-    def test_unknown_prefix_kept(self):
-        result = normalize_album_ids(["deezer:abc123"])
-        assert result == {"deezer:abc123"}
-
-    def test_filters_against_album_id_set(self):
-        result = normalize_album_ids(
-            ["a1", "spotify:a2", "a_missing"],
-            album_id_set={"a1", "a2"},
-        )
-        assert result == {"a1", "a2"}
-
-    def test_empty_input(self):
-        assert normalize_album_ids([]) == set()
-
-    def test_deduplicates(self):
-        result = normalize_album_ids(["a1", "spotify:a1"])
-        assert result == {"a1"}
+    @pytest.mark.parametrize(
+        ("ids", "album_id_set", "expected"),
+        [
+            pytest.param(
+                ["a1", "a2", "a3"], None, {"a1", "a2", "a3"}, id="bare ids pass through"
+            ),
+            pytest.param(
+                ["spotify:5DcgKp", "a2"],
+                None,
+                {"5DcgKp", "a2"},
+                id="spotify prefix stripped",
+            ),
+            pytest.param(
+                ["apple_music:1069083363"],
+                None,
+                {"1069083363"},
+                id="apple_music prefix stripped",
+            ),
+            pytest.param(
+                ["deezer:abc123"], None, {"deezer:abc123"}, id="unknown prefix kept"
+            ),
+            pytest.param(
+                ["a1", "spotify:a2", "a_missing"],
+                {"a1", "a2"},
+                {"a1", "a2"},
+                id="filtered against the known set",
+            ),
+            pytest.param([], None, set(), id="empty input"),
+            pytest.param(["a1", "spotify:a1"], None, {"a1"}, id="deduplicated"),
+        ],
+    )
+    def test_prefixes_fold_and_unknown_ids_filter(self, ids, album_id_set, expected):
+        if album_id_set is None:
+            assert normalize_album_ids(ids) == expected
+        else:
+            assert normalize_album_ids(ids, album_id_set=album_id_set) == expected
