@@ -681,3 +681,93 @@ class TestFragmentIncluded:
         ]
         issues = lint_curation({"id": "s", "albums": albums})
         assert not any("[fragment_included]" in i for i in issues)
+
+
+class TestDataIntegrityRules:
+    def test_duplicate_provider_album_id_is_flagged(self):
+        albums = [
+            _make_album("dup", "Folge 1: A", provider="spotify", episode_num=1),
+            _make_album("dup", "Folge 1: A", provider="spotify", episode_num=1),
+        ]
+        issues = lint_curation({"id": "s", "albums": albums})
+        assert any("[duplicate_album_id]" in i and "spotify:dup" in i for i in issues)
+
+    def test_same_id_on_two_providers_is_not_a_duplicate(self):
+        albums = [
+            _make_album("x", "Folge 1: A", provider="spotify", episode_num=1),
+            _make_album("x", "Folge 1: A", provider="apple_music", episode_num=1),
+        ]
+        issues = lint_curation({"id": "s", "albums": albums})
+        assert not any("[duplicate_album_id]" in i for i in issues)
+
+    def test_unknown_exclude_reason_is_flagged(self):
+        albums = [
+            _make_album("a", "Best Of", include=False, exclude_reason="made_up_reason"),
+        ]
+        issues = lint_curation({"id": "s", "albums": albums})
+        assert any(
+            "[unknown_exclude_reason]" in i and "made_up_reason" in i for i in issues
+        )
+
+    def test_a_known_reason_is_clean(self):
+        albums = [
+            _make_album("a", "Best Of", include=False, exclude_reason="compilation"),
+        ]
+        issues = lint_curation({"id": "s", "albums": albums})
+        assert not any("[unknown_exclude_reason]" in i for i in issues)
+
+    def test_known_gap_contradicted_by_an_included_episode(self):
+        albums = [_make_album("a", "Folge 5: Here", episode_num=5)]
+        curation = {
+            "id": "s",
+            "albums": albums,
+            "series_facts": {
+                "known_gaps": [
+                    {"number": 5, "reason": "never released", "curated_by": "curate"}
+                ]
+            },
+        }
+        issues = lint_curation(curation)
+        assert any("[gap_contradicted]" in i and "5" in i for i in issues)
+
+    def test_a_real_gap_is_clean(self):
+        albums = [_make_album("a", "Folge 4: Here", episode_num=4)]
+        curation = {
+            "id": "s",
+            "albums": albums,
+            "series_facts": {
+                "known_gaps": [
+                    {"number": 5, "reason": "never released", "curated_by": "curate"}
+                ]
+            },
+        }
+        issues = lint_curation(curation)
+        assert not any("[gap_contradicted]" in i for i in issues)
+
+    def test_gap_not_flagged_when_numbers_repeat_across_eras(self):
+        # Die Schlümpfe: a gap at classic-era episode 1 coexists with an
+        # included modern-era episode 1, so the flat number is ambiguous.
+        albums = [_make_album("a", "Folge 1: Modern", episode_num=1)]
+        curation = {
+            "id": "s",
+            "albums": albums,
+            "series_facts": {
+                "known_gaps": [
+                    {"number": 1, "reason": "classic missing", "curated_by": "curate"}
+                ],
+                "era_boundaries": [
+                    {
+                        "label": "classic",
+                        "release_date_range": "1980-1990",
+                        "curated_by": "curate",
+                    },
+                    {
+                        "label": "modern",
+                        "release_date_range": "2020-",
+                        "curated_by": "curate",
+                    },
+                ],
+            },
+        }
+        issues = lint_curation(curation)
+        assert not any("[gap_contradicted]" in i for i in issues)

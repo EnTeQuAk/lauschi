@@ -380,12 +380,12 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
             and _reason_key(m.get("exclude_reason")) in _CONTENT_REASONS
         ]
         if inc_n and content_exc:
-            reasons = sorted(
+            reason_labels = sorted(
                 {_reason_key(m.get("exclude_reason")) for m in content_exc}
             )
             issues.append(
                 f"[split_cluster] {shape!r}: {inc_n} included, "
-                f"{len(content_exc)} excluded as {', '.join(reasons)}"
+                f"{len(content_exc)} excluded as {', '.join(reason_labels)}"
             )
 
     # ── Rule 13: Included fragment of an excluded sibling ────────────
@@ -413,6 +413,49 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
                     f"{b.get('title')!r} ({b.get('exclude_reason') or 'no reason'})"
                 )
                 break
+
+    # ── Rule 14: Duplicate (provider, album_id) ─────────────────────
+    # The album-id index the app builds at load is O(1) provider+id ->
+    # series; a repeated key is a data bug that ships a broken lookup.
+    seen_keys: set[tuple[str, str]] = set()
+    for a in albums:
+        key = (a.get("provider", "?"), a.get("album_id", ""))
+        if key in seen_keys:
+            issues.append(
+                f"[duplicate_album_id] {key[0]}:{key[1]} appears more than once"
+            )
+        seen_keys.add(key)
+
+    # ── Rule 15: Unknown exclude_reason ─────────────────────────────
+    # The reason vocabulary is the shared source of truth (reasons.py);
+    # a free-text reason means the curation predates normalisation or a
+    # model invented one, and reconcile/lint cannot classify it.
+    for a in albums:
+        if a.get("include"):
+            continue
+        reason = a.get("exclude_reason")
+        if reason and reason not in reasons.ALL_REASON_KEYS:
+            issues.append(
+                f"[unknown_exclude_reason] {a.get('provider')}:{a.get('album_id')} "
+                f"excluded as {reason!r}, not in the reason vocabulary"
+            )
+
+    # ── Rule 16: Known gap contradicted by an included episode ──────
+    # A known_gap for an episode that is actually included documents a
+    # gap that no longer exists (the episode was released since, e.g.
+    # Teufelskicker Folge 111 in 2026). Only meaningful when episode
+    # numbers are not reused across eras: a series with several eras can
+    # legitimately have a gap at classic-era N and an included modern-era
+    # N (Die Schlümpfe), so the flat number cannot tell them apart.
+    single_era = not facts or len(facts.era_boundaries) <= 1
+    if facts and facts.known_gaps and single_era:
+        included_eps = {e for eps in eps_by_provider.values() for e in eps}
+        for g in facts.known_gaps:
+            if g.number in included_eps:
+                issues.append(
+                    f"[gap_contradicted] known_gap episode {g.number} is "
+                    f"actually included on a provider (gap no longer exists)"
+                )
 
     return issues
 
