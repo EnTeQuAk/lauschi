@@ -16,6 +16,7 @@ pinned against cases that actually shipped rather than invented ones:
 
 import json as _json
 import os
+from datetime import date
 
 from lauschi_catalog.catalog.drift_ops import (
     DriftSeverity,
@@ -305,3 +306,54 @@ def test_missing_curation_is_not_an_error(tmp_path):
         assert drift_ops.stored_album_records("nope", "spotify") == []
     finally:
         del os.environ["LAUSCHI_REPO_ROOT"]
+
+
+def test_unresolved_id_with_a_future_release_date_is_pending_not_gone():
+    """A pre-release ships in the catalog and is hidden by the app until
+    its date; the provider may not resolve the id before then. That is
+    expected, not a loss."""
+    finding = classify_album_drift(
+        album_id="x",
+        provider="apple_music",
+        stored_title="Folge 166: Das verhexte Labyrinth",
+        stored_episode=166,
+        stored_release="2026-10-09",
+        live_title=None,
+        live_release=None,
+        pattern=r"^Folge (\d+):",
+        today=date(2026, 9, 5),
+    )
+    assert finding is not None
+    assert finding.severity == DriftSeverity.pending
+    assert "2026-10-09" in finding.detail
+
+
+def test_unresolved_id_with_a_past_release_date_is_gone():
+    finding = classify_album_drift(
+        album_id="x",
+        provider="spotify",
+        stored_title="Folge 1: Alt",
+        stored_episode=1,
+        stored_release="2020-01-01",
+        live_title=None,
+        live_release=None,
+        pattern=r"^Folge (\d+):",
+        today=date(2026, 9, 5),
+    )
+    assert finding is not None and finding.severity == DriftSeverity.gone
+
+
+def test_unresolved_id_without_a_usable_date_is_gone():
+    for stored in (None, "", "2030"):
+        finding = classify_album_drift(
+            album_id="x",
+            provider="spotify",
+            stored_title="Folge 1: Alt",
+            stored_episode=1,
+            stored_release=stored,
+            live_title=None,
+            live_release=None,
+            pattern=None,
+            today=date(2026, 9, 5),
+        )
+        assert finding is not None and finding.severity == DriftSeverity.gone, stored

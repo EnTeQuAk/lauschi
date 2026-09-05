@@ -31,6 +31,7 @@ import json
 import re
 from collections.abc import Callable, Iterable, Sequence
 from dataclasses import dataclass, field
+from datetime import date
 from difflib import SequenceMatcher
 from enum import Enum
 
@@ -54,6 +55,8 @@ class DriftSeverity(Enum):
     critical = "critical"
     warning = "warning"
     info = "info"
+    #: The ID does not resolve yet because the album is not out yet.
+    pending = "pending"
 
 
 #: Normalised-title similarity below this counts as different content.
@@ -125,6 +128,18 @@ class DriftFinding:
         return self.severity is DriftSeverity.info
 
 
+def _is_future_release(release_date: str | None, today: date | None) -> bool:
+    """True for a full ISO date after today. A bare year is ambiguous
+    and never counts as future."""
+    if not release_date or len(release_date) < 10:
+        return False
+    try:
+        release = date.fromisoformat(release_date[:10])
+    except ValueError:
+        return False
+    return release > (today or date.today())
+
+
 def classify_album_drift(
     *,
     album_id: str,
@@ -137,11 +152,13 @@ def classify_album_drift(
     pattern: str | list[str] | None,
     series_id: str = "",
     similarity_floor: float = SIMILARITY_FLOOR,
+    today: date | None = None,
 ) -> DriftFinding | None:
     """Compare one stored album record against its live counterpart.
 
-    Returns None when they agree. A `live_title` of None means the ID no
-    longer resolves.
+    Returns None when they agree. A `live_title` of None means the ID does
+    not resolve: gone, unless the stored release date is still in the
+    future, in which case the album is pending and expected to appear.
     """
 
     def finding(severity: DriftSeverity, detail: str, live_ep: int | None = None):
@@ -158,6 +175,12 @@ def classify_album_drift(
         )
 
     if live_title is None:
+        if _is_future_release(stored_release, today):
+            return finding(
+                DriftSeverity.pending,
+                f"not released until {stored_release}; the album ID does not "
+                f"resolve on the provider yet",
+            )
         return finding(
             DriftSeverity.gone,
             "album ID no longer resolves on the provider",

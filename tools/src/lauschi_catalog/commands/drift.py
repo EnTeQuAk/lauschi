@@ -29,6 +29,7 @@ _STYLES = {
     DriftSeverity.critical: "red",
     DriftSeverity.warning: "yellow",
     DriftSeverity.info: "dim",
+    DriftSeverity.pending: "cyan",
 }
 
 
