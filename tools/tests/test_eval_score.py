@@ -15,6 +15,7 @@ from lauschi_catalog.eval.truth import (
     discography_from_curation,
     truth_from_curation,
 )
+from tests.factories import album_record
 
 
 def _album(
@@ -24,13 +25,13 @@ def _album(
     episode_num: int | None = None,
     provider: str = "spotify",
 ) -> dict:
-    return {
-        "album_id": album_id,
-        "provider": provider,
-        "include": include,
-        "episode_num": episode_num,
-        "title": f"Folge {episode_num}" if episode_num else "Something",
-    }
+    return album_record(
+        album_id,
+        provider=provider,
+        include=include,
+        episode_num=episode_num,
+        title=f"Folge {episode_num}" if episode_num else "Something",
+    )
 
 
 def _key(album_id: str, provider: str = "spotify") -> AlbumKey:

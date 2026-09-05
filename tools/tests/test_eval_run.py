@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from lauschi_catalog.eval.run import load_verdicts, score_root
+from tests.factories import album_record, curation
 
 VERDICT = {
     "id": "kira_kolumna",
@@ -51,20 +52,13 @@ def _write(path: Path, curation: dict) -> None:
 
 
 def _curation(albums: list[tuple[str, bool, int | None]]) -> dict:
-    return {
-        "id": "kira_kolumna",
-        "provider_artist_ids": {"spotify": ["art"]},
-        "albums": [
-            {
-                "provider": "spotify",
-                "album_id": aid,
-                "include": inc,
-                "episode_num": ep,
-                "title": aid,
-            }
-            for aid, inc, ep in albums
+    return curation(
+        series_id="kira_kolumna",
+        provider_artist_ids={"spotify": ["art"]},
+        albums=[
+            album_record(aid, include=inc, episode_num=ep) for aid, inc, ep in albums
         ],
-    }
+    )
 
 
 class TestSplitSeriesTruth:

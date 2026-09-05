@@ -1,14 +1,10 @@
 from lauschi_catalog.eval.critic import critic_score
 from lauschi_catalog.eval.truth import AlbumKey, SeriesTruth
+from tests.factories import album_record
 
 
 def _album(album_id: str, include: bool) -> dict:
-    return {
-        "album_id": album_id,
-        "provider": "spotify",
-        "include": include,
-        "title": album_id,
-    }
+    return album_record(album_id, include=include)
 
 
 def _key(album_id: str) -> AlbumKey:

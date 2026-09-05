@@ -7,17 +7,13 @@ because they change what a reviewer reads, not what ships.
 """
 
 from lauschi_catalog.eval.panel import diff_curations
+from tests.factories import album_record
 
 
 def _album(aid, include, ep=None, reason=None, provider="spotify"):
-    return {
-        "album_id": aid,
-        "provider": provider,
-        "include": include,
-        "episode_num": ep,
-        "exclude_reason": reason,
-        "title": aid,
-    }
+    return album_record(
+        aid, provider=provider, include=include, episode_num=ep, exclude_reason=reason
+    )
 
 
 def test_identical_runs_have_no_differences():
