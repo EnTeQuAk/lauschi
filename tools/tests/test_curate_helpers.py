@@ -214,8 +214,15 @@ def test_content_type_resolution(
 # ── _stratified_sample ────────────────────────────────────────────────────
 
 
-def test_stratified_returns_all_when_below_n():
-    items = list(range(10))
+@pytest.mark.parametrize(
+    "n_items",
+    [
+        pytest.param(10, id="fewer items than the sample size"),
+        pytest.param(40, id="exactly the sample size"),
+    ],
+)
+def test_stratified_returns_everything_when_nothing_needs_sampling(n_items):
+    items = list(range(n_items))
     assert _stratified_sample(items, 40) == items
 
 
@@ -238,11 +245,6 @@ def test_stratified_spreads_evenly():
     diffs = [b - a for a, b in zip(sample, sample[1:])]
     # Step is 200/40 = 5, so all diffs should be ~5
     assert max(diffs) - min(diffs) <= 1
-
-
-def test_stratified_handles_exactly_n():
-    items = list(range(40))
-    assert _stratified_sample(items, 40) == items
 
 
 def test_stratified_preserves_original_order():
@@ -457,20 +459,20 @@ def test_pattern_coverage_alternation_falls_through_non_numeric():
     assert result["non_numeric_capture_samples"] == []
 
 
-def test_pattern_coverage_rejects_empty_pattern():
-    assert "error" in compute_pattern_coverage(["x"], [])
-
-
-def test_pattern_coverage_rejects_invalid_regex():
-    result = compute_pattern_coverage(["x"], "(unclosed")
+@pytest.mark.parametrize(
+    ("pattern", "error_mentions"),
+    [
+        pytest.param([], "", id="an empty pattern list"),
+        pytest.param("(unclosed", "invalid regex", id="a regex that does not compile"),
+        pytest.param(
+            r"^Folge \d+:", "capture group", id="a regex without a capture group"
+        ),
+    ],
+)
+def test_pattern_coverage_rejects_an_unusable_pattern(pattern, error_mentions):
+    result = compute_pattern_coverage(["x"], pattern)
     assert "error" in result
-    assert "invalid regex" in result["error"]
-
-
-def test_pattern_coverage_rejects_zero_capture_groups():
-    result = compute_pattern_coverage(["x"], r"^Folge \d+:")
-    assert "error" in result
-    assert "capture group" in result["error"]
+    assert error_mentions in result["error"]
 
 
 def test_pattern_coverage_samples_spread_across_list():
