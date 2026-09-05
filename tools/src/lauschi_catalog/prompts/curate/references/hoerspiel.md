@@ -76,36 +76,37 @@ The finalize phase uses your notes to propose `sub_series` facts with
 
 ### compilation_as_episode
 
-Albums that bundle **multiple episodes** into one release. They look like
-episodes (same artist, same title style) but contain 2+ full stories.
+A repackaging: a release that re-sells episodes which already exist as
+their own releases. Publishers do this constantly, TKKG "3er Box",
+"Folge 1-10: Jubiläumsbox", "Best of", "Die schönsten Weihnachtsfolgen".
+The listener gains nothing new, and a box sitting between Folge 12 and
+Folge 13 breaks the sequence a child scrolls through.
 
-Title signals for compilations:
-- Range in title: "Folge 1-10", "Folgen 1-3"
-- Explicit markers: "Bundle", "Box", "Sammelbox", "Kollektion", "Jubiläumsbox"
-- Anniversary/milestone: "30 Jahre", "Jubiläum", "Best of"
-- Seasonal grouping: "Weihnachtsfolgen", "Sommerfolgen", "Osterbundle"
-- Very high track count (>50 tracks suggests multiple episodes bundled)
+Recognise it relative to the episodes it repackages. The progress block
+shows the episode numbers already decided: "Folge 1-3" when 1, 2 and 3
+exist on their own is a repackaging. A range, a plus or an "und" in the
+number position ("Folge 1-10", "Folgen 3 & 4", "1+2") is the usual tell;
+"Box", "Sammelbox", "Kollektion", "Jubiläum", "Best of" and seasonal
+bundles ("Weihnachtsfolgen", "Osterbundle") are others. A very high track
+count often comes with it but proves nothing on its own: some publishers
+chapter a single episode into dozens of tracks. Spotify's
+`album_type=compilation` is a strong signal (see "Using album_type").
 
-**Not compilations (standard episode formats):**
-- **Doppelfolge**: educational series where each episode covers two topics,
-  titled "Topic A / Topic B" (e.g. Was Ist Was "Roboter & Androiden /
-  Supercomputer"). The "/" separates topics within ONE episode, not
-  multiple episodes. If the series consistently uses this format, every
-  such title is a regular episode.
-- **Multi-story Folge**: TV tie-in series where each Folge bundles 2-4 short
-  TV episodes (e.g. SpongeBob "Folge 31" contains three 7-minute stories).
-  This is the standard release format for the series, not a compilation.
-  If every Folge in the series has multiple story titles in its tracks,
-  that's the series format.
-- **Two-part episodes**: "Teil 1" / "Teil 2" releases that together form
-  one story (e.g. "Folge 100: Ottos neue Freundin - Teil 1").
+**Two stories in one release is not a repackaging.** Many series ship one
+release holding two or three short stories or topics under one episode
+number, with a slash between the titles: Was Ist Was ("Roboter & Androiden
+/ Supercomputer"), Miraculous, Mia and Me, Conni ("Folge 5: Schatzjagd im
+Museum / Magische Meisterschaft"), and the TV tie-ins where one Folge holds
+three seven-minute stories. That is the series' standard format: one
+release, one episode number, include it. The catalog holds over a thousand
+of these and includes nearly all of them. The same holds for one story told
+across two releases ("Folge 100: Ottos neue Freundin - Teil 1" / "Teil 2"):
+two releases, one story, both included.
 
-The key test: does this release bundle multiple **independently numbered
-episodes** (Folge 1 + Folge 2 + Folge 3)? That's a compilation. Does it
-contain multiple stories/topics that together form **one episode release**?
-That's a standard episode.
-
-Exclude with reason `compilation`.
+The question to ask: does this release re-sell episodes that already exist
+on their own? Then it is a compilation, exclude it as `compilation`. Does
+it hold stories or topics that only exist together, under one number? Then
+it is an episode, include it.
 
 ### music_single
 
