@@ -526,6 +526,38 @@ def _stratified_sample(items: list, n: int) -> list:
     return spread_sample(items, n)
 
 
+def _restore_identity(
+    decisions: list["AlbumDecision"],
+    discovered: list[dict],
+    pattern: str | list[str] | None,
+) -> int:
+    """Put the provider's title and release date on every decision.
+
+    The model returns the right album id but echoes the title back, and
+    on a run of similar titles it slips by one (LEGO Ninjago, 2026-09:
+    18 and 14 wrong titles in two clean runs). The episode number then
+    follows the wrong title, which would ship a tile that plays a
+    different episode than it names. Identity comes from the discovery
+    record by id; a number derived from a wrong title is re-derived from
+    the true one (None when the true title carries no number). Returns
+    the number of titles corrected.
+    """
+    by_key = {(a["provider"], a["id"]): a for a in discovered}
+    corrected = 0
+    for d in decisions:
+        found = by_key.get((d.provider, d.album_id))
+        if found is None:
+            continue
+        if found.get("release_date") and d.release_date != found["release_date"]:
+            d.release_date = found["release_date"]
+        if d.title == found["name"]:
+            continue
+        d.title = found["name"]
+        d.episode_num = extract_episode(pattern, d.title) if pattern else None
+        corrected += 1
+    return corrected
+
+
 def _reextract_episode_numbers(
     decisions: list["AlbumDecision"],
     pattern: str | list[str] | None,
@@ -1743,6 +1775,15 @@ async def _run_large(
         )
 
     batch_index = {(a["provider"], a["id"]): a for a in all_albums}
+
+    # Identity fields come from the provider record, never from what the
+    # model echoed back; the episode number must follow the true title.
+    restored = _restore_identity(all_decisions, all_discovered, final_pattern)
+    if restored:
+        on_progress(
+            f"  Restored {restored} title(s) the model echoed wrongly; episode "
+            f"numbers follow the provider's titles.\n"
+        )
 
     # Undecided albums (dropped by the model or lost to a failed batch)
     # are left absent. They make the run incomplete, which blocks apply.
