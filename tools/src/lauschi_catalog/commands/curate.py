@@ -6,7 +6,6 @@ module handles CLI display with Rich formatting.
 """
 
 import asyncio
-import json
 
 import click
 from rich import box
@@ -19,14 +18,10 @@ from lauschi_catalog.catalog.curate_ops import (
     _DEFAULT_MODEL,
     CuratedSeries,
     curate_all,
+    curate_entry,
     curate_one,
-    load_existing_facts,
-    lookup_catalog_entry,
-    resolve_content_type,
+    prepare_curation,
 )
-from lauschi_catalog.catalog.io import load_curation
-from lauschi_catalog.catalog.paths import curation_path
-from lauschi_catalog.catalog.series_ops import split_off_refusal
 from lauschi_catalog.prompts import load_curate_skill
 from lauschi_catalog.providers.apple_music import AppleMusicProvider
 from lauschi_catalog.providers.spotify import SpotifyProvider
@@ -256,56 +251,41 @@ def curate(
         cli_content_type = "music"
 
     if query and not run_all:
-        entry = lookup_catalog_entry(query)
-        if entry is not None and entry.split_from:
-            console.print(split_off_refusal(entry.id, entry.split_from), markup=False)
-            raise SystemExit(1)
-        if entry is not None:
-            existing: dict | None = None
-            cur_path = curation_path(entry.id)
-            if cur_path.exists():
-                try:
-                    existing = load_curation(entry.id)
-                except OSError, json.JSONDecodeError:
-                    existing = None
-            entry_content_type = resolve_content_type(
-                entry_content_type=entry.content_type,
-                entry_has_pattern=bool(entry.episode_pattern),
-                existing_content_type=(existing or {}).get("content_type"),
-            )
-            resolved_type = cli_content_type or entry_content_type
+        try:
+            prepared = prepare_curation(query, cli_content_type=cli_content_type)
+        except KeyError:
+            prepared = None
+        except ValueError as exc:
+            console.print(str(exc), markup=False)
+            raise SystemExit(1) from exc
+        if prepared is not None:
             console.print(
                 Panel(
-                    f"Curating [bold]{entry.title}[/bold] with {model}\n"
-                    f"Catalog id: {entry.id}\n"
-                    f"Content type: {resolved_type}\n"
+                    f"Curating [bold]{prepared.entry.title}[/bold] with {model}\n"
+                    f"Catalog id: {prepared.series_id}\n"
+                    f"Content type: {prepared.requested_type}\n"
                     f"Providers: {provider_names}",
                     title="lauschi-catalog curate",
                 ),
             )
-            if cli_content_type and cli_content_type != entry_content_type:
+            if cli_content_type and cli_content_type != prepared.entry_content_type:
                 console.print(
                     f"[yellow]Note: --content-type {cli_content_type} overrides "
-                    f"series.yaml value {entry_content_type}. "
+                    f"series.yaml value {prepared.entry_content_type}. "
                     f"Edit series.yaml to make permanent.[/yellow]",
                 )
 
             if dry_run:
-                console.print(f"  [cyan]Mode: {resolved_type} (dry run)[/]")
-                _dry_run_prompts(query, content_type=resolved_type)
+                console.print(f"  [cyan]Mode: {prepared.requested_type} (dry run)[/]")
+                _dry_run_prompts(query, content_type=prepared.requested_type)
                 return
 
             result = asyncio.run(
-                curate_one(
-                    entry.title,
+                curate_entry(
+                    prepared,
                     providers,
                     model=model,
                     timeout=timeout,
-                    series_id=entry.id,
-                    known_artist_ids=entry.all_artist_ids() or None,
-                    existing_curation=existing,
-                    content_type=resolved_type,
-                    existing_facts=load_existing_facts(entry),
                     on_progress=lambda msg: console.print(msg, markup=False),
                 )
             )

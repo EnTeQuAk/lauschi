@@ -149,3 +149,19 @@ def update_provider_ids(
             io.safe_write_yaml(series_yaml_path(), data)
 
     return count
+
+
+def lookup_catalog_entry(query: str) -> CatalogEntry | None:
+    """Resolve ``query`` (id or exact title) to its catalog entry.
+
+    Raises if the catalog cannot be loaded so a broken ``series.yaml``
+    does not silently look like a new series.
+    """
+    entries = load_catalog()
+    for entry in entries:
+        if entry.id == query:
+            return entry
+    for entry in entries:
+        if entry.title == query:
+            return entry
+    return None

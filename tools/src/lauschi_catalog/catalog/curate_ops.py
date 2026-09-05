@@ -50,7 +50,7 @@ from lauschi_catalog.catalog.lint_ops import (
     lint_curation,
     lint_regression,
 )
-from lauschi_catalog.catalog.loader import load_catalog
+from lauschi_catalog.catalog.loader import load_catalog, lookup_catalog_entry
 from lauschi_catalog.catalog.matcher import (
     compute_pattern_coverage as _compute_pattern_coverage,
 )
@@ -1976,57 +1976,6 @@ async def _run_large(
     )
 
 
-# ── Dispatcher ────────────────────────────────────────────────────────────
-
-
-async def run_curation(
-    query: str,
-    providers: list[CatalogProvider],
-    *,
-    model_name: str = _DEFAULT_MODEL,
-    timeout: int = 3600,
-    existing_curation: dict | None = None,
-    content_type: str = "hoerspiel",
-    known_artist_ids: dict[str, list[str]] | None = None,
-    existing_facts: SeriesFacts | None = None,
-    on_progress: Progress = _noop,
-) -> CuratedSeries:
-    """Pick single-agent or batched flow based on discography size."""
-    api_key = os.environ.get("OPENCODE_API_KEY", "")
-    if not api_key:
-        raise ValueError("OPENCODE_API_KEY not set")
-
-    total_albums = 0
-    known = known_artist_ids or {}
-    for p in providers:
-        ids = known.get(p.name) or []
-        if not ids:
-            artists = p.search_artists(query)
-            if artists:
-                ids = [artists[0].id]
-        for aid in ids:
-            albums = p.artist_albums(aid)
-            total_albums += len(albums)
-
-    on_progress(f"  {total_albums} albums, curating\n")
-    result = await _run_large(
-        query,
-        providers,
-        model_name=model_name,
-        api_key=api_key,
-        timeout=timeout,
-        existing_curation=existing_curation,
-        content_type=content_type,
-        known_artist_ids=known_artist_ids,
-        existing_facts=existing_facts,
-        on_progress=on_progress,
-    )
-
-    result.content_type = content_type
-
-    return result
-
-
 # ── Save / display ────────────────────────────────────────────────────────
 
 
@@ -2147,22 +2096,6 @@ def resolve_content_type(
     return "hoerspiel"
 
 
-def lookup_catalog_entry(query: str):
-    """Resolve ``query`` to a CatalogEntry when it matches a known series.
-
-    Raises if the catalog cannot be loaded so a broken ``series.yaml``
-    does not silently look like a new series.
-    """
-    entries = load_catalog()
-    for entry in entries:
-        if entry.id == query:
-            return entry
-    for entry in entries:
-        if entry.title == query:
-            return entry
-    return None
-
-
 def load_existing_facts(entry) -> SeriesFacts:
     """Load frozen facts from a CatalogEntry, if any."""
     if entry.series_facts:
@@ -2209,6 +2142,99 @@ class CurateAllResult:
     failed_ids: list[str] = field(default_factory=list)
 
 
+@dataclass
+class CurateEntryPrepared:
+    """Everything curate_one needs, resolved from the catalog entry.
+
+    One place decides how the prior curation, the yaml content type,
+    split protection, and the canonical id interact.
+    """
+
+    entry: CatalogEntry
+    requested_type: str
+    entry_content_type: str = "hoerspiel"
+    existing: dict | None = None
+
+    @property
+    def series_id(self) -> str:
+        return self.entry.id
+
+
+def prepare_curation(
+    entry_or_query: CatalogEntry | str,
+    *,
+    cli_content_type: str | None = None,
+) -> CurateEntryPrepared:
+    """Resolve everything an entry-level curation run needs.
+
+    Loads the entry from the catalog when given only a query string,
+    refuses split-off children, loads the prior curation record, and
+    resolves the content type (CLI override > series.yaml > inference).
+    """
+    if isinstance(entry_or_query, CatalogEntry):
+        entry: CatalogEntry = entry_or_query
+    else:
+        found = lookup_catalog_entry(entry_or_query)
+        if found is None:
+            raise KeyError(f"series {entry_or_query!r} not in the catalog")
+        entry = found
+
+    if entry.split_from:
+        raise ValueError(split_off_refusal(entry.id, entry.split_from))
+
+    existing: dict | None = None
+    if curation_path(entry.id).exists():
+        try:
+            existing = load_curation(entry.id)
+        except (OSError, ValueError) as exc:
+            raise ValueError(
+                f"prior curation for {entry.id} is unreadable "
+                f"({type(exc).__name__}: {exc}); inspect it before "
+                f"re-curating, it may hold approved audit state"
+            ) from exc
+
+    entry_content_type = resolve_content_type(
+        entry_content_type=entry.content_type,
+        entry_has_pattern=bool(entry.episode_pattern),
+        existing_content_type=(existing or {}).get("content_type"),
+    )
+    requested = cli_content_type or entry_content_type
+    return CurateEntryPrepared(
+        entry=entry,
+        existing=existing,
+        requested_type=requested,
+        entry_content_type=entry_content_type,
+    )
+
+
+async def curate_entry(
+    prepared: CurateEntryPrepared,
+    providers: list[CatalogProvider],
+    *,
+    model: str = _DEFAULT_MODEL,
+    timeout: int = 3600,
+    on_progress: Progress = _noop,
+) -> CurateOneResult:
+    """Curate one catalog entry end to end, from a prepared context.
+
+    The single path the CLI, the web job runner, and curate --all use:
+    one place decides content type, the canonical id, known artist
+    ids, and the frozen-facts merge.
+    """
+    return await curate_one(
+        prepared.entry.title,
+        providers,
+        model=model,
+        timeout=timeout,
+        series_id=prepared.series_id,
+        known_artist_ids=prepared.entry.all_artist_ids() or None,
+        existing_curation=prepared.existing,
+        content_type=prepared.requested_type,
+        existing_facts=load_existing_facts(prepared.entry),
+        on_progress=on_progress,
+    )
+
+
 async def curate_one(
     query: str,
     providers: list[CatalogProvider],
@@ -2242,10 +2268,14 @@ async def curate_one(
             existing_facts,
             facts_from_curation(existing_curation),
         )
-        series = await run_curation(
+        api_key = os.environ.get("OPENCODE_API_KEY", "")
+        if not api_key:
+            raise ValueError("OPENCODE_API_KEY not set")
+        series = await _run_large(
             query,
             providers,
             model_name=model,
+            api_key=api_key,
             timeout=timeout,
             existing_curation=existing_curation,
             content_type=content_type,
@@ -2253,6 +2283,7 @@ async def curate_one(
             existing_facts=existing_facts,
             on_progress=on_progress,
         )
+        series.content_type = content_type
         lock_series_id(series, series_id, on_progress=on_progress)
         series.regression_flags = lint_regression(
             existing_curation,
@@ -2323,7 +2354,7 @@ async def curate_all(
 
     # Filter the cheap skips first: split-offs and already-curated
     # entries never touch the model, so they stay in this sync pass.
-    todo: list[tuple[int, CatalogEntry, dict | None]] = []
+    todo: list[tuple[int, CurateEntryPrepared]] = []
     for i, entry in enumerate(entries):
         if entry.split_from:
             result.skipped += 1
@@ -2338,56 +2369,52 @@ async def curate_all(
                 )
             )
             continue
-        cur_path = curation_path(entry.id)
-        existing: dict | None = None
-        if cur_path.exists():
-            if not force:
-                result.skipped += 1
-                record_event(
-                    RunEvent(
-                        series_id=entry.id,
-                        phase="curate",
-                        outcome=OUTCOME_SKIPPED,
-                        detail="curation exists (no --force)",
-                    )
+        if curation_path(entry.id).exists() and not force:
+            result.skipped += 1
+            record_event(
+                RunEvent(
+                    series_id=entry.id,
+                    phase="curate",
+                    outcome=OUTCOME_SKIPPED,
+                    detail="curation exists (no --force)",
                 )
-                continue
-            existing = load_curation(entry.id)
-        todo.append((i, entry, existing))
+            )
+            continue
+        try:
+            todo.append((i, prepare_curation(entry)))
+        except (OSError, ValueError) as exc:
+            result.failed += 1
+            result.failed_ids.append(entry.id)
+            on_progress(f"  Failed to prepare {entry.id}: {exc}")
+            record_event(
+                RunEvent(
+                    series_id=entry.id,
+                    phase="curate",
+                    outcome=OUTCOME_FAILED,
+                    detail=str(exc),
+                )
+            )
+            continue
 
-    async def curate_entry(i: int, entry: CatalogEntry, existing: dict | None) -> None:
+    async def run_one(item: tuple[int, CurateEntryPrepared]) -> None:
+        i, prepared = item
         on_progress(
-            f"\n[{entry.id}] ({i + 1}/{total}) {entry.title} "
+            f"\n[{prepared.series_id}] ({i + 1}/{total}) {prepared.entry.title} "
             f"({result.succeeded} done, {result.failed} failed, "
             f"{result.skipped} skipped)",
         )
-
-        entry_content_type = resolve_content_type(
-            entry_content_type=entry.content_type,
-            entry_has_pattern=bool(entry.episode_pattern),
-            existing_content_type=(existing or {}).get("content_type"),
-        )
-        one_result = await curate_one(
-            entry.title,
+        one_result = await curate_entry(
+            prepared,
             providers,
             model=model,
             timeout=timeout,
-            series_id=entry.id,
-            known_artist_ids=entry.all_artist_ids() or None,
-            existing_curation=existing,
-            content_type=entry_content_type,
-            existing_facts=load_existing_facts(entry),
             on_progress=on_progress,
         )
         if one_result.ok:
             result.succeeded += 1
         else:
             result.failed += 1
-            result.failed_ids.append(entry.id)
-
-    async def run_one(item: tuple[int, CatalogEntry, dict | None]) -> None:
-        i, entry, existing = item
-        await curate_entry(i, entry, existing)
+            result.failed_ids.append(prepared.series_id)
 
     await run_bounded(run_one, todo, concurrency=concurrency)
 

@@ -8,8 +8,6 @@ calls them.
 
 from __future__ import annotations
 
-import pytest
-
 from lauschi_catalog.catalog.curate_ops import (
     AlbumDecision,
     build_batch_prompt,
@@ -100,9 +98,7 @@ class TestBuildStructuralHints:
 
     def test_missing_provider_episodes_hint(self):
         analysis = {
-            "cross_provider_coverage": {
-                "missing_per_provider": {"spotify": [4, 5]}
-            }
+            "cross_provider_coverage": {"missing_per_provider": {"spotify": [4, 5]}}
         }
         hints = build_structural_hints(analysis)
         assert any("spotify" in h and "[4, 5]" in h for h in hints)

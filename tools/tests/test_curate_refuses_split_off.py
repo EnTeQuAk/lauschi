@@ -31,7 +31,11 @@ def test_the_message_names_both_series_and_the_way_out() -> None:
 
 
 def test_curate_refuses_a_split_off_series(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setattr(curate_mod, "lookup_catalog_entry", lambda q: _child())
+    def _refuse(query, cli_content_type=None):
+        child = _child()
+        raise ValueError(split_off_refusal(child.id, child.split_from))
+
+    monkeypatch.setattr(curate_mod, "prepare_curation", _refuse)
     result = CliRunner().invoke(curate_mod.curate, ["Hanni und Nanni - Neue Abenteuer"])
     assert result.exit_code == 1
     assert "split from hanni_und_nanni" in result.output

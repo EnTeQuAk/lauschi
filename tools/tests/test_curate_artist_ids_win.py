@@ -68,10 +68,12 @@ async def test_provider_artist_ids_always_equal_discovery(fake_model, monkeypatc
 
     monkeypatch.setattr(curate_ops, "_build_metadata_agent", fake_build_metadata_agent)
 
-    result = await curate_ops.run_curation(
+    result = await curate_ops._run_large(
         "Kira",
         [_FakeProvider()],  # type: ignore[arg-type]
         model_name="test",
+        api_key="test",
+        timeout=60,
         content_type="music",
         known_artist_ids={"spotify": ["discovered_artist_1"]},
     )

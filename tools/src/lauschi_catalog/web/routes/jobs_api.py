@@ -15,14 +15,11 @@ from fastapi.responses import RedirectResponse, StreamingResponse
 from lauschi_catalog.catalog.apply_ops import apply_curations
 from lauschi_catalog.catalog.audit_ops import audit_series
 from lauschi_catalog.catalog.curate_ops import (
-    curate_one,
-    load_existing_facts,
-    lookup_catalog_entry,
-    resolve_content_type,
+    curate_entry,
+    prepare_curation,
 )
 from lauschi_catalog.catalog.discover_ops import discover_one
-from lauschi_catalog.catalog.io import load_curation
-from lauschi_catalog.catalog.paths import curation_path, repo_root
+from lauschi_catalog.catalog.paths import repo_root
 from lauschi_catalog.catalog.providers_init import init_providers
 from lauschi_catalog.catalog.validate_ops import validate_catalog
 from lauschi_catalog.web.catalog_store import get_series_by_id, reload_catalog
@@ -523,42 +520,23 @@ def _try_in_process_curate(job_id: str, series_id: str) -> bool:
         log.warning("job %s: no providers available for in-process curate", job_id)
         return False
 
-    entry = lookup_catalog_entry(series_id)
-    if entry is None:
+    try:
+        prepared = prepare_curation(series_id)
+    except KeyError:
         log.warning(
             "job %s: series %s not in catalog, falling back to subprocess",
             job_id,
             series_id,
         )
         return False
-
-    existing: dict | None = None
-    cur_path = curation_path(entry.id)
-    if cur_path.exists():
-        try:
-            existing = load_curation(entry.id)
-        except OSError, json.JSONDecodeError:
-            existing = None
-
-    entry_content_type = resolve_content_type(
-        entry_content_type=entry.content_type,
-        entry_has_pattern=bool(entry.episode_pattern),
-        existing_content_type=(existing or {}).get("content_type"),
-    )
+    except ValueError as exc:
+        log.warning("job %s: refusing curate for %s: %s", job_id, series_id, exc)
+        return False
 
     log.info("job %s: running curate in-process for %s", job_id, series_id)
 
     async def _curate_checked(*, on_progress):
-        result = await curate_one(
-            entry.title,
-            providers,
-            series_id=entry.id,
-            known_artist_ids=entry.all_artist_ids() or None,
-            existing_curation=existing,
-            content_type=entry_content_type,
-            existing_facts=load_existing_facts(entry),
-            on_progress=on_progress,
-        )
+        result = await curate_entry(prepared, providers, on_progress=on_progress)
         if not result.ok:
             raise RuntimeError(result.error or "curation failed")
 
