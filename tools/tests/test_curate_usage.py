@@ -60,3 +60,12 @@ def test_save_curation_persists_who_curated_and_what_it_cost(
         "input_tokens": 40000,
         "output_tokens": 6000,
     }
+
+
+def test_usage_summary_of_a_summary_is_itself() -> None:
+    # CuratedSeries.usage is already the summary dict; curate_one's
+    # success event once re-summarised it and crashed a real run with
+    # "'dict' object has no attribute 'requests'". The summary of a
+    # summary must be the summary.
+    d = {"requests": 5, "input_tokens": 40000, "output_tokens": 6000}
+    assert usage_summary(d) == d

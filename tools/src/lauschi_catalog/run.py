@@ -14,8 +14,18 @@ if TYPE_CHECKING:
     pass
 
 
-def usage_summary(usage: RunUsage) -> dict[str, int]:
-    """The three numbers a cost estimate needs, as plain JSON."""
+def usage_summary(usage: "RunUsage | dict[str, int]") -> dict[str, int]:
+    """The three numbers a cost estimate needs, as plain JSON.
+
+    Idempotent: passing an already-summarised dict returns it, so a
+    call site that hands over a persisted usage dict cannot crash.
+    """
+    if isinstance(usage, dict):
+        return {
+            "requests": usage.get("requests", 0),
+            "input_tokens": usage.get("input_tokens", 0),
+            "output_tokens": usage.get("output_tokens", 0),
+        }
     return {
         "requests": usage.requests,
         "input_tokens": usage.input_tokens,

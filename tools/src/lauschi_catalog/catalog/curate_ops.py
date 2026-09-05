@@ -2304,7 +2304,7 @@ async def curate_one(
                 detail=f"{len(series.included())} included / "
                 f"{len(series.albums) - len(series.included())} excluded"
                 + (" [incomplete run]" if series.incomplete else ""),
-                usage=usage_summary(series.usage),
+                usage=series.usage,
                 evidence=str(path),
             )
         )
