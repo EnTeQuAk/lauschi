@@ -450,3 +450,25 @@ def test_should_apply_allows_incomplete_with_allow_unreviewed():
         "incomplete_reason": "spotify discovery collapsed",
     }
     assert should_apply(data, allow_unreviewed=True) is None
+
+
+def test_apply_writes_the_release_date_so_the_app_can_hide_pre_releases():
+    """A not-yet-released album is included by curation and hidden by the
+    app on its date, so the date has to travel with the album entry."""
+    yaml_data = _yaml_with([])
+    album = _included("a", episode_num=1, title="Folge 1: T")
+    album["release_date"] = "2026-10-02"
+    apply_one("s1", _curation(albums=[album]), yaml_data)
+    saved = yaml_data["series"][0]["providers"]["spotify"]["albums"]
+    assert saved[0]["release_date"] == "2026-10-02"
+
+
+def test_apply_writes_when_only_the_release_date_is_new():
+    """The first apply after the field exists must populate it everywhere,
+    so an entry identical except for the date counts as changed."""
+    yaml_data = _yaml_with([{"id": "a", "episode": 1, "title": "Folge 1: T"}])
+    album = _included("a", episode_num=1, title="Folge 1: T")
+    album["release_date"] = "2001-05-05"
+    assert apply_one("s1", _curation(albums=[album]), yaml_data) is True
+    saved = yaml_data["series"][0]["providers"]["spotify"]["albums"]
+    assert saved[0]["release_date"] == "2001-05-05"

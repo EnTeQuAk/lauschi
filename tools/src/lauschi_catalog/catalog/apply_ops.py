@@ -164,6 +164,10 @@ def apply_one(
             if a.get("episode_num") is not None:
                 entry["episode"] = a["episode_num"]
             entry["title"] = a["title"]
+            # The app hides an album dated after today, so a pre-release
+            # ships included and appears on its own once the date passes.
+            if a.get("release_date"):
+                entry["release_date"] = a["release_date"]
             album_entries.append(entry)
         planned[prov_name] = album_entries
 
@@ -185,8 +189,13 @@ def apply_one(
                 )
                 return False
 
-    def _sig(entry: dict) -> tuple[str | None, int | None, str | None]:
-        return (entry.get("id"), entry.get("episode"), entry.get("title"))
+    def _sig(entry: dict) -> tuple[str | None, int | None, str | None, str | None]:
+        return (
+            entry.get("id"),
+            entry.get("episode"),
+            entry.get("title"),
+            entry.get("release_date"),
+        )
 
     updated = False
     for prov_name, album_entries in planned.items():
