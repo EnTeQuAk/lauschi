@@ -559,6 +559,77 @@ def _applied_records(
     ]
 
 
+def _family_of(
+    entry: "CatalogEntry", catalog: list["CatalogEntry"]
+) -> list["CatalogEntry"]:
+    """The entries that share this entry's artist page by design: the
+    parent and all its split-off children, including the entry itself."""
+    root_id = entry.split_from or entry.id
+    return [e for e in catalog if e.id == root_id or e.split_from == root_id]
+
+
+def _route_by_family_patterns(
+    remaining: list[dict],
+    entry: "CatalogEntry",
+    catalog: list["CatalogEntry"],
+) -> tuple[list["AlbumDecision"], list[dict]]:
+    """Settle new releases on a shared page by the family's own patterns.
+
+    Every member of a split family carries its episode_pattern as a
+    catalog fact. An undecided album that matches exactly one member's
+    pattern belongs to that member: the current entry's own pattern
+    means include with the captured number, another member's means
+    sub_series_bleed. Matching none or several leaves it to the model.
+    Two clean runs of the LEGO Ninjago Hörbuch child both excluded the
+    line's own new "(Band 13-20)" books before this existed.
+    """
+    family = _family_of(entry, catalog)
+    if len(family) < 2:
+        return [], remaining
+    decided: list[AlbumDecision] = []
+    still: list[dict] = []
+    for album in remaining:
+        provider, title = album["provider"], album.get("name", "")
+        hits = []
+        for member in family:
+            pattern = member.effective_pattern(provider)
+            number = extract_episode(pattern, title) if pattern else None
+            if number is not None:
+                hits.append((member, number))
+        if len(hits) != 1:
+            still.append(album)
+            continue
+        member, number = hits[0]
+        if member.id == entry.id:
+            decided.append(
+                AlbumDecision(
+                    album_id=album["id"],
+                    provider=provider,
+                    include=True,
+                    episode_num=number,
+                    title=title,
+                    release_date=album.get("release_date"),
+                    confidence="high",
+                    notes="Matches this entry's own episode pattern.",
+                )
+            )
+        else:
+            decided.append(
+                AlbumDecision(
+                    album_id=album["id"],
+                    provider=provider,
+                    include=False,
+                    episode_num=None,
+                    title=title,
+                    release_date=album.get("release_date"),
+                    exclude_reason="sub_series_bleed",
+                    confidence="high",
+                    notes=f"Matches the episode pattern of '{member.id}'.",
+                )
+            )
+    return decided, still
+
+
 def _preseed_decisions(
     all_albums: list[dict],
     existing_curation: dict | None,
@@ -1777,6 +1848,16 @@ async def _run_large(
     # -- Step 3: Batched curation
     all_discovered = all_albums  # full list for cover cache
     all_decisions, all_albums = _preseed_decisions(all_albums, existing_curation)
+    catalog_entry = lookup_catalog_entry(series_id) if series_id else None
+    if catalog_entry is not None:
+        routed, all_albums = _route_by_family_patterns(
+            all_albums, catalog_entry, load_catalog()
+        )
+        if routed:
+            all_decisions.extend(routed)
+            on_progress(
+                f"  Routed {len(routed)} album(s) by the family's episode patterns.\n"
+            )
     total_inc = sum(1 for d in all_decisions if d.include)
     total_exc = sum(1 for d in all_decisions if not d.include)
     episode_nums: list[int] = [
