@@ -44,8 +44,10 @@ _ONE_SHOT_MAX = _AUDIT_PROFILE.one_shot_max_tokens
 # audit prompt exceeds the one-shot boundary. If this set changes, the
 # catalog grew past the boundary somewhere and the chunked path applies
 # to a new series; that is worth noticing, not silently absorbing.
+# bibi_blocksberg left this set on 2026-09-05: its Kinofilm, Kartoffelbrei
+# and "Bibi erzählt" lines became their own entries (72 albums moved) and
+# the parent (424 albums) now routes one-shot.
 _CHUNKED_SERIES = {
-    "bibi_blocksberg",
     "wieso_weshalb_warum",
     "paw_patrol",
     "stephen_janetzko",
@@ -308,18 +310,6 @@ def test_cross_provider_pairs_are_packed_not_chunked_alone():
     assert 1 <= len(chunks) <= 8
     assert all("small title groups" in ch.label for ch in chunks)
     assert all(len(ch.albums) <= _AUDIT_PROFILE.chunk_max_included for ch in chunks)
-
-
-def test_real_bibi_kartoffelbrei_is_its_own_chunk():
-    curations = _real_curations()
-    c = curations["bibi_blocksberg"]
-    chunks = plan_chunks(c, lint_curation(c))
-    labels = [ch.label for ch in chunks]
-    assert "kampf um kartoffelbrei (special)" in labels
-    kk = next(ch for ch in chunks if ch.label == "kampf um kartoffelbrei (special)")
-    assert any(a["include"] for a in kk.albums) and any(
-        not a["include"] for a in kk.albums
-    )
 
 
 def test_chunk_labels_carry_no_album_count():
