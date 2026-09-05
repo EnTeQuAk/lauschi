@@ -44329,3 +44329,39 @@ series:
     apple_music:
       artist_ids:
       - '532585010'
+- id: bibi_blocksberg_kinofilm
+  title: 'Bibi Blocksberg: Kinofilm'
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: bibi_blocksberg
+  providers:
+    spotify:
+      artist_ids:
+      - 3t2iKODSDyzoDJw7AsD99u
+      albums:
+      - id: 1LueDXY6cF4HllLN8HfeqW
+        title: Das Original Hörspiel zum Kinofilm
+        release_date: '2002-01-01'
+      - id: 5MuK38H2p9v1O7mnVUMRTP
+        title: 'Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen'
+        release_date: '2004-01-01'
+      - id: 1BsPIjY5OGVilHg51ZURXI
+        title: 'Bibi Blocksberg: Das große Hexentreffen (Das Original-Hörspiel zum Kinofilm)'
+        release_date: '2025-12-12'
+    apple_music:
+      artist_ids:
+      - '41480004'
+      albums:
+      - id: '1228734010'
+        title: Das Original Hörspiel zum Kinofilm
+        release_date: '2002-01-01'
+      - id: '1228748853'
+        title: 'Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen'
+        release_date: '2004-01-01'
+      - id: '1851429423'
+        title: 'Bibi Blocksberg: Das große Hexentreffen (Das Original-Hörspiel zum Kinofilm)'
+        release_date: '2025-12-12'
+      - id: '6798866356'
+        title: 'Bibi Blocksberg: Die total verhexte Zeitreise (Das Original-Hörspiel zum Kinofilm)'
+        release_date: '2026-09-25'
