@@ -13,7 +13,7 @@ import re
 import time
 from collections.abc import Sequence
 from dataclasses import dataclass, field
-from datetime import UTC, date, datetime
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import ClassVar, Literal
 
@@ -430,46 +430,6 @@ def _release_year(release_date: str | None) -> int | None:
     if release_date and len(release_date) >= 4 and release_date[:4].isdigit():
         return int(release_date[:4])
     return None
-
-
-def _pre_decide_future_releases(
-    remaining: list[dict],
-    *,
-    today: "date | None" = None,
-) -> tuple[list["AlbumDecision"], list[dict]]:
-    """Settle not-yet-released albums before the batch phase.
-
-    A discovered album whose release date is in the future is not
-    available yet, so it must not ship, and the decision must be the
-    same every run rather than left to the model (an Apple album dated
-    2026-10-02 made two clean Kira runs disagree). A later re-curate
-    includes it once the date has passed. Year-only or missing dates
-    are ambiguous and left to the batch. Excludes on every provider
-    that has the album, so reconcile has no included counterpart to
-    flip it back to.
-    """
-    cutoff = (today or date.today()).isoformat()
-    decided: list[AlbumDecision] = []
-    still: list[dict] = []
-    for a in remaining:
-        rd = a.get("release_date")
-        if rd and len(str(rd)) >= 10 and str(rd) > cutoff:
-            decided.append(
-                AlbumDecision(
-                    album_id=a["id"],
-                    provider=a["provider"],
-                    include=False,
-                    episode_num=None,
-                    title=a.get("name", ""),
-                    exclude_reason="partial_release",
-                    confidence="high",
-                    release_date=str(rd),
-                    notes=f"Release date {rd} is in the future; not available yet.",
-                )
-            )
-        else:
-            still.append(a)
-    return decided, still
 
 
 def _preseed_decisions(
@@ -1629,12 +1589,6 @@ async def _run_large(
     # -- Step 3: Batched curation
     all_discovered = all_albums  # full list for cover cache
     all_decisions, all_albums = _preseed_decisions(all_albums, existing_curation)
-    future_decisions, all_albums = _pre_decide_future_releases(all_albums)
-    if future_decisions:
-        all_decisions.extend(future_decisions)
-        on_progress(
-            f"  Pre-excluded {len(future_decisions)} not-yet-released album(s)."
-        )
     total_inc = sum(1 for d in all_decisions if d.include)
     total_exc = sum(1 for d in all_decisions if not d.include)
     episode_nums: list[int] = [
