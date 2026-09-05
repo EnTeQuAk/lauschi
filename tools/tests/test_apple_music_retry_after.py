@@ -23,27 +23,22 @@ from lauschi_catalog.providers._retry import (
 # ── delta-seconds form ────────────────────────────────────────────────────
 
 
-def test_parses_integer_seconds():
-    assert _parse_retry_after("5") == 5.0
-
-
-def test_parses_float_seconds():
-    """Apple sends floats; previous int() crashed here."""
-    assert _parse_retry_after("1.5") == 1.5
-
-
-def test_parses_zero():
-    assert _parse_retry_after("0") == 0.0
-
-
-def test_clamps_negative_to_zero():
-    """A bogus negative value shouldn't sleep "backwards" or crash."""
-    assert _parse_retry_after("-3") == 0.0
-
-
-def test_clamps_excessive_to_max():
-    """A 5-minute Retry-After would otherwise stall the run; cap it."""
-    assert _parse_retry_after("3600") == _RETRY_AFTER_MAX
+@pytest.mark.parametrize(
+    ("raw", "expected"),
+    [
+        pytest.param("5", 5.0, id="integer seconds"),
+        pytest.param(
+            "1.5", 1.5, id="float seconds (Apple sends floats; int() once crashed)"
+        ),
+        pytest.param("0", 0.0, id="zero"),
+        pytest.param("-3", 0.0, id="a bogus negative clamps to zero"),
+        pytest.param(
+            "3600", _RETRY_AFTER_MAX, id="a five-minute wait clamps to the cap"
+        ),
+    ],
+)
+def test_seconds_form_parses_and_clamps(raw, expected):
+    assert _parse_retry_after(raw) == expected
 
 
 # ── HTTP-date form ────────────────────────────────────────────────────────
