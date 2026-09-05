@@ -378,6 +378,33 @@ Before `mise run tag-release`:
 | `CODEMAGIC_API_TOKEN` | GitHub | Trigger iOS store builds |
 | `CODEMAGIC_APP_ID` | GitHub | Codemagic app identifier |
 
+## Commits (strict, no exceptions)
+
+- **A red suite never gets committed.** Run the full suite for the area
+  you touched before every commit: `mise run check` for the app,
+  `mise run tools-check` for `tools/`. Zero failures means zero.
+  "N passed, 1 environmental failure" is a red suite: fix the test or
+  mark it `xfail(reason=...)` in the same commit. Never describe a red
+  suite as green, in a commit message or anywhere else.
+- **Commit messages are short.** Subject: imperative, under 72 chars.
+  Body: only when the diff cannot speak for itself, and then a few
+  lines on the why, nothing else. Never include test output, pass
+  counts, tool logs, file lists, or internal ticket/plan codenames.
+- **One concern per commit.** Reformatting is its own commit. Catalog
+  data changes (`assets/catalog/`) are their own commit.
+- **Never lose test output to a filter.** Don't pipe test runs through
+  `grep`/`tail`/`head`; write the full output to a temp file and
+  inspect that. Run targeted tests while developing, the full suite
+  before committing.
+
+## Python rules (tools/)
+
+- Imports at the top of the module, after the docstring. A local
+  import is allowed only to break a circular import or defer a heavy
+  dependency, with a comment saying which.
+- Type hints on every function. Test helpers and fixtures use real
+  types (`Path`, not `object`).
+
 ## Testing
 
 **Every change must include tests.** Bug fixes need regression tests, new features need behavioral tests, refactors need tests verifying preserved behavior. No exceptions.
