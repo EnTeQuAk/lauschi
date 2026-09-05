@@ -94,6 +94,12 @@ def reconcile_cross_provider(albums: list[dict]) -> ReconcileResult:
     for a in albums:
         by_title.setdefault(_norm_title(a.get("title", "")), []).append(a)
 
+    included_eps = {
+        (a.get("provider"), a.get("episode_num"))
+        for a in albums
+        if a.get("include") and a.get("episode_num") is not None
+    }
+
     for title, entries in by_title.items():
         sp = [e for e in entries if e.get("provider") == "spotify"]
         am = [e for e in entries if e.get("provider") == "apple_music"]
@@ -116,7 +122,32 @@ def reconcile_cross_provider(albums: list[dict]) -> ReconcileResult:
                 continue
             reason = normalize_exclude_reason(album.get("exclude_reason"))
             original_title = album.get("title", title)
-            if reason in _AUTO_FLIP_REASONS:
+            # An exclusion that names no reason carries no information;
+            # an exact same-title include on the other provider does
+            # (Die Playmos, Folge 100 on Apple Music, 2026-07).
+            wants_flip = reason in _AUTO_FLIP_REASONS or reason in (
+                None,
+                "",
+                "unspecified",
+            )
+            ep = album.get("episode_num")
+            if (
+                wants_flip
+                and ep is not None
+                and (album.get("provider"), ep) in included_eps
+            ):
+                result.flagged += 1
+                result.details.append(
+                    {
+                        "title": original_title,
+                        "album_id": album["album_id"],
+                        "provider": album.get("provider"),
+                        "reason": f"flip would duplicate included episode {ep}",
+                        "action": "flagged",
+                    }
+                )
+                continue
+            if wants_flip:
                 album["include"] = True
                 album.pop("exclude_reason", None)
                 result.flipped += 1
@@ -125,7 +156,7 @@ def reconcile_cross_provider(albums: list[dict]) -> ReconcileResult:
                         "title": original_title,
                         "album_id": album["album_id"],
                         "provider": album.get("provider"),
-                        "old_reason": reason,
+                        "old_reason": reason or "unspecified",
                         "action": "flipped",
                     }
                 )

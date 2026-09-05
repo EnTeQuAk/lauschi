@@ -273,3 +273,60 @@ class TestReconcileCrossProvider:
         assert result.flipped == 1
         assert albums[1]["include"] is True
         assert albums[1].get("exclude_reason") is None
+
+
+class TestUnspecifiedAutoFlip:
+    """Die Playmos on Apple Music: the full "Folge 100: Der magische
+    Ring" sat excluded as `unspecified` while Spotify included the same
+    title, and a child got the 1-of-9 fragment instead. An exclusion
+    that carries no reason loses to an exact cross-provider include."""
+
+    def _pair(self, reason):
+        albums = [
+            {
+                "album_id": "sp_full",
+                "provider": "spotify",
+                "include": True,
+                "episode_num": 100,
+                "title": "Folge 100: Der magische Ring",
+            },
+            {
+                "album_id": "am_full",
+                "provider": "apple_music",
+                "include": False,
+                "episode_num": 100,
+                "title": "Folge 100: Der magische Ring",
+            },
+        ]
+        if reason is not None:
+            albums[1]["exclude_reason"] = reason
+        return albums
+
+    def test_unspecified_flips_on_exact_cross_provider_match(self):
+        albums = self._pair("unspecified")
+        result = reconcile_cross_provider(albums)
+        assert result.flipped == 1
+        assert albums[1]["include"] is True
+
+    def test_a_missing_reason_counts_as_unspecified(self):
+        albums = self._pair(None)
+        result = reconcile_cross_provider(albums)
+        assert result.flipped == 1
+        assert albums[1]["include"] is True
+
+    def test_flip_is_refused_when_it_would_duplicate_an_included_episode(self):
+        albums = self._pair("unspecified")
+        albums.append(
+            {
+                "album_id": "am_frag",
+                "provider": "apple_music",
+                "include": True,
+                "episode_num": 100,
+                "title": "Folge 100: Der magische Ring - Episode 1",
+            }
+        )
+        result = reconcile_cross_provider(albums)
+        assert result.flipped == 0
+        assert albums[1]["include"] is False
+        assert result.flagged == 1
+        assert any("duplicate" in d.get("reason", "") for d in result.details)

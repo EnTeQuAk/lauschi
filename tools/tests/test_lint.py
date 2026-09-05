@@ -634,3 +634,50 @@ class TestTitleCounterpartRule:
     def test_redundancy_reason_stays_silent(self):
         issues = lint_curation({"albums": self._pair("duplicate")})
         assert not any(i.startswith("[title_counterpart]") for i in issues)
+
+
+class TestFragmentIncluded:
+    """An included title that extends an excluded sibling's title on
+    the same provider is fragment-shaped (Die Playmos, Apple Music:
+    "... - Episode 1" shipped while the full album sat excluded). The
+    correct state includes the shorter title, so direction matters."""
+
+    def test_included_fragment_of_an_excluded_sibling_is_flagged(self):
+        albums = [
+            _make_album(
+                "am_full",
+                "Folge 100: Der magische Ring",
+                provider="apple_music",
+                include=False,
+                exclude_reason="unspecified",
+            ),
+            _make_album(
+                "am_frag",
+                "Folge 100: Der magische Ring - Episode 1",
+                provider="apple_music",
+                include=True,
+                episode_num=100,
+            ),
+        ]
+        issues = lint_curation({"id": "s", "albums": albums})
+        assert any("[fragment_included]" in i for i in issues)
+
+    def test_full_album_included_with_fragments_excluded_is_clean(self):
+        albums = [
+            _make_album(
+                "sp_full",
+                "Folge 100: Der magische Ring",
+                provider="spotify",
+                include=True,
+                episode_num=100,
+            ),
+            _make_album(
+                "sp_part",
+                "Folge 100: Der magische Ring - Episode 1",
+                provider="spotify",
+                include=False,
+                exclude_reason="partial_release",
+            ),
+        ]
+        issues = lint_curation({"id": "s", "albums": albums})
+        assert not any("[fragment_included]" in i for i in issues)

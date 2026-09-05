@@ -388,6 +388,32 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
                 f"{len(content_exc)} excluded as {', '.join(reasons)}"
             )
 
+    # ── Rule 13: Included fragment of an excluded sibling ────────────
+    # Die Playmos on Apple Music shipped "Folge 100: ... - Episode 1"
+    # while the full album sat excluded. An included title that extends
+    # an excluded sibling's title on the same provider is
+    # fragment-shaped; the correct state includes the shorter title,
+    # so the direction of the prefix decides.
+    excluded_by_provider: dict[str, list[dict]] = {}
+    for a in albums:
+        if not a.get("include"):
+            excluded_by_provider.setdefault(a.get("provider", "?"), []).append(a)
+    for a in albums:
+        if not a.get("include"):
+            continue
+        na = _norm_title(a.get("title") or "")
+        if not na:
+            continue
+        for b in excluded_by_provider.get(a.get("provider", "?"), []):
+            nb = _norm_title(b.get("title") or "")
+            if nb and na != nb and na.startswith(nb):
+                issues.append(
+                    f"[fragment_included] {a.get('provider')}:{a.get('album_id')} "
+                    f"{a.get('title')!r} looks like a fragment of excluded "
+                    f"{b.get('title')!r} ({b.get('exclude_reason') or 'no reason'})"
+                )
+                break
+
     return issues
 
 
