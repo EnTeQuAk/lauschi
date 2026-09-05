@@ -21,8 +21,12 @@ OPENCODE_BASE_URL = "https://opencode.ai/zen/v1"
 # a clustering-exploration hunch; nothing measured a benefit, and a
 # stochastic finalize made split/era facts non-reproducible run to run.
 # Same seed across phases because prompts always differ.
-_DEFAULT_CURATE = ModelSettings(temperature=0.0, seed=42)
-_DEFAULT_FINALIZE = ModelSettings(temperature=0.0, seed=42)
+# max_tokens is a backstop for reasoning models: without it the provider
+# default output cap applied, and a batch of 30 Wieso? Weshalb? Warum?
+# albums died twice with "token limit exceeded before any response was
+# generated" (2026-09-05). 32768 matches the audit's probed backstop.
+_DEFAULT_CURATE = ModelSettings(temperature=0.0, seed=42, max_tokens=32768)
+_DEFAULT_FINALIZE = ModelSettings(temperature=0.0, seed=42, max_tokens=32768)
 _DEFAULT_AUDIT = ModelSettings(temperature=0.0, seed=42)
 
 

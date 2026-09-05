@@ -1385,7 +1385,10 @@ async def _run_agent(agent, prompt, deps):
 # passed on the rerun; Kimi K2.5 hit its token limit on Hanni und Nanni
 # batch 2. A second attempt starts from a fresh context (the in-run
 # output retries keep the failed context, and failed again each time).
-_BATCH_ATTEMPTS = 2
+# Three fresh-context attempts, like the audit's chunk retry: a batch that
+# reasons its output budget away usually passes on a clean retry, and one
+# lost batch ends the run.
+_BATCH_ATTEMPTS = 3
 
 
 def dump_batch_failure(

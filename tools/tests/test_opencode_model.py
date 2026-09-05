@@ -79,14 +79,16 @@ def test_non_minimax_audit_model_keeps_plain_default():
     assert "max_tokens" not in s
 
 
-def test_curate_and_finalize_keep_provider_default_output_cap():
-    """Curate and finalize survived the reasoning-heavy July pipeline
-    run without a cap; only audit overflowed. Their settings are left
-    alone on purpose so this change stays scoped to the failing phase."""
+def test_curate_and_finalize_carry_the_same_backstop_as_audit():
+    """Curate survived the July run without a cap, so the setting was
+    left alone. On 2026-09-05 a batch of 30 Wieso? Weshalb? Warum?
+    albums died twice with "token limit (provider default) exceeded
+    before any response was generated", so curate and finalize now carry
+    the backstop the audit already had."""
     from lauschi_catalog._opencode import get_model_settings
 
-    assert "max_tokens" not in get_model_settings("curate", "kimi-k2.6")
-    assert "max_tokens" not in get_model_settings("finalize", "kimi-k2.6")
+    assert get_model_settings("curate", "kimi-k2.6").get("max_tokens") == 32768
+    assert get_model_settings("finalize", "kimi-k2.6").get("max_tokens") == 32768
 
 
 # ── transport follows the model ───────────────────────────────────────
