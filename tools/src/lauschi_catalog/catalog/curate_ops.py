@@ -30,7 +30,7 @@ from lauschi_catalog.agent_deps import AgentDeps, Progress, _noop
 from lauschi_catalog.agent_hooks import build_progress_hooks
 from lauschi_catalog.agent_tools import build_agent_tools
 from lauschi_catalog.catalog.add_ops import title_to_id
-from lauschi_catalog.catalog.analysis import analyze_series
+from lauschi_catalog.catalog.analysis import analyze_series, normalize_title
 from lauschi_catalog.catalog.canonical import album_sort_key, canonicalize
 from lauschi_catalog.catalog.facts import (
     EraBoundary,
@@ -368,6 +368,68 @@ def _child_album_records(child) -> list[tuple[str, str, str]]:
         for a in child_data.get("albums", [])
         if a.get("album_id")
     ]
+
+
+def _settle_same_provider_duplicates(
+    decisions: list["AlbumDecision"],
+    era_boundaries: list[EraBoundary],
+) -> list["AlbumDecision"]:
+    """Resolve same-provider duplicates by the era fact, not a year window.
+
+    Two included albums on one provider with the same episode number and
+    the same title are the same release twice (a re-pressing, a remaster)
+    unless an era_boundary fact places them in different eras (a
+    re-recording decades apart). Without such a fact the newest wins and
+    the other is marked duplicate; with one, both stay. The fact is the
+    authority, so the outcome is the same on every run.
+    """
+    groups: dict[tuple[str, int, str], list[int]] = {}
+    for i, d in enumerate(decisions):
+        if not d.include or d.episode_num is None:
+            continue
+        key = (d.provider, d.episode_num, normalize_title(d.title))
+        groups.setdefault(key, []).append(i)
+
+    def era_of(d: "AlbumDecision") -> int | None:
+        year = _release_year(d.release_date)
+        if year is None:
+            return None
+        for n, era in enumerate(era_boundaries):
+            if era.contains_year(year):
+                return n
+        return None
+
+    settled = list(decisions)
+    for members in groups.values():
+        if len(members) < 2:
+            continue
+        eras = {era_of(decisions[i]) for i in members}
+        if len(eras) > 1 and None not in eras:
+            continue  # an era fact separates them: different recordings
+        newest = max(members, key=lambda i: decisions[i].release_date or "")
+        for i in members:
+            if i == newest:
+                continue
+            settled[i] = decisions[i].model_copy(
+                update={
+                    "include": False,
+                    "exclude_reason": "duplicate",
+                    "confidence": "high",
+                    "notes": (
+                        f"Same episode and title on this provider as "
+                        f"{decisions[newest].album_id} "
+                        f"({decisions[newest].release_date}); no era_boundary "
+                        f"separates them, the newest release is kept."
+                    ),
+                }
+            )
+    return settled
+
+
+def _release_year(release_date: str | None) -> int | None:
+    if release_date and len(release_date) >= 4 and release_date[:4].isdigit():
+        return int(release_date[:4])
+    return None
 
 
 def _pre_decide_future_releases(
@@ -2028,6 +2090,17 @@ async def _run_large(
 
     # Merge existing + proposed facts, deduped by natural key.
     merged_facts = merge_facts(existing_facts, proposed_facts)
+
+    # With the eras known, same-provider duplicates are settled by fact.
+    eras = merged_facts.era_boundaries if merged_facts else []
+    before = sum(1 for d in all_decisions if d.include)
+    all_decisions = _settle_same_provider_duplicates(all_decisions, eras)
+    total_inc = sum(1 for d in all_decisions if d.include)
+    total_exc = len(all_decisions) - total_inc
+    if total_inc < before:
+        on_progress(
+            f"  Settled {before - total_inc} same-provider duplicate(s) by era fact.\n"
+        )
 
     on_progress(f"  Finalize: {_fmt_elapsed(time.monotonic() - t_finalize)}\n")
 

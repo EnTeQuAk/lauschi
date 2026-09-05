@@ -41,6 +41,11 @@ class EraBoundary(_FactProvenance):
             raise ValueError(msg)
         return v
 
+    def contains_year(self, year: int) -> bool:
+        """Whether a release year falls inside this era ('2015-' is open-ended)."""
+        start, _, end = self.release_date_range.partition("-")
+        return int(start) <= year and (not end or year <= int(end))
+
 
 class KnownGap(_FactProvenance):
     """A documented missing episode number or range, not a curation error."""
