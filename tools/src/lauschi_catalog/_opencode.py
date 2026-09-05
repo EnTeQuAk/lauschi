@@ -17,11 +17,12 @@ from pydantic_ai.settings import ModelSettings
 OPENCODE_BASE_URL = "https://opencode.ai/zen/v1"
 
 # Per-phase defaults for deterministic analytical classification.
-# temperature=0.0 for strict reproducibility; 0.1 for tasks needing slight
-# exploration (clustering, interpretation). Same seed across phases
-# because prompts are always different.
+# temperature=0.0 everywhere for reproducibility. Finalize was 0.1 on
+# a clustering-exploration hunch; nothing measured a benefit, and a
+# stochastic finalize made split/era facts non-reproducible run to run.
+# Same seed across phases because prompts always differ.
 _DEFAULT_CURATE = ModelSettings(temperature=0.0, seed=42)
-_DEFAULT_FINALIZE = ModelSettings(temperature=0.1, seed=42)
+_DEFAULT_FINALIZE = ModelSettings(temperature=0.0, seed=42)
 _DEFAULT_AUDIT = ModelSettings(temperature=0.0, seed=42)
 
 
