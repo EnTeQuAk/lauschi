@@ -44307,6 +44307,20 @@ series:
     spotify:
       artist_ids:
       - 0HerMOOFZXxIF3Yg9BVl0W
+      albums:
+      - id: 1gLDg8oM8htWRtvHCV6I6p
+        title: Der große Adventskalender (Meine Freundin Conni - ab 6) [24 Tage mit Conni]
+        release_date: '2019-10-05'
+      - id: 1ka0WcZa7nzi002PmkmXuU
+        title: Connis großer Adventskalender (Meine Freundin Conni - ab 6) [24 Tage bis Weihnachten. Ein tolles Adventskalenderhörbuch zum Verkürzen der Wartezeit bis Heiligabend]
+        release_date: '2020-10-01'
+      - id: 4gmnIveXdaKc10YQDlIPtE
+        title: Meine Freundin Conni - Connis neuer Adventskalender (Meine Freundin Conni - ab 6) [24 Tage bis Weihnachten. Ein fröhlich-buntes Adventskalenderhörbuch zum Verkürzen der Wartezeit bis 
+          Heiligabend]
+        release_date: '2022-09-29'
+      - id: 6PQ5wA9fjtJlZWJtHvmaPG
+        title: Connis bunter Adventskalender (Meine Freundin Conni - ab 6) [24 Tage bis Weihnachten | Ein tolles Adventskalender-Hörbuch zum Verkürzen der Wartezeit bis Heiligabend]
+        release_date: '2024-09-26'
     apple_music:
       artist_ids:
       - '532585010'
