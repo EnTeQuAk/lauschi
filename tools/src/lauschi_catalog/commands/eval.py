@@ -14,6 +14,7 @@ from lauschi_catalog.eval.report import (
     write_json,
 )
 from lauschi_catalog.eval.run import load_verdicts, score_critic_root, score_root
+from lauschi_catalog.eval.sample import SAMPLE_IDS
 
 console = Console()
 
@@ -31,9 +32,16 @@ console = Console()
 )
 @click.option(
     "--verdicts",
-    required=True,
     type=click.Path(exists=True, dir_okay=False, path_type=Path),
-    help="Canon audit verdicts (.json map or .jsonl journal)",
+    help="Canon audit verdicts (.json map or .jsonl journal); without them "
+    "gap recovery is not scored",
+)
+@click.option(
+    "-s",
+    "--series",
+    "series_ids",
+    multiple=True,
+    help="Series id to score (repeatable); default: the fixed sample",
 )
 @click.option(
     "--out",
@@ -55,7 +63,8 @@ console = Console()
 def eval_cmd(
     scratch_root: Path,
     model: str,
-    verdicts: Path,
+    verdicts: Path | None,
+    series_ids: tuple[str, ...],
     out_path: Path | None,
     details: bool,
     audited_root: Path | None,
@@ -83,12 +92,15 @@ def eval_cmd(
         )
         raise SystemExit(1)
 
+    known_verdicts = load_verdicts(verdicts) if verdicts else {}
+    chosen = series_ids or SAMPLE_IDS
     scores, missing = score_root(
         scratch_root,
         model=model,
         truth_curation_dir=truth_dir,
         providers=result.providers,
-        verdicts=load_verdicts(verdicts),
+        verdicts=known_verdicts,
+        series_ids=chosen,
     )
     console.print(
         f"[bold]{model}[/bold] vs committed truth, {len(scores)} series scored"
@@ -110,7 +122,8 @@ def eval_cmd(
             critic=critic,
             truth_curation_dir=truth_dir,
             providers=result.providers,
-            verdicts=load_verdicts(verdicts),
+            verdicts=known_verdicts,
+            series_ids=chosen,
         )
         console.print(
             f"\n[bold]{critic}[/bold] as critic of {model}, {len(critic_scores)} series"
