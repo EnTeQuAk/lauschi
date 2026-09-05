@@ -39379,8 +39379,13 @@ series:
       albums:
       - id: 2ISiO0pXLgO7uTdUnEFjMn
         title: Der kleine Rabe Socke - Hörspiel zum Film
+        release_date: '2019-04-01'
       - id: 6TDRew6FCdoLc4rmWtkSGs
         title: Der kleine Rabe Socke 2 - Das große Rennen - Hörspiel zum Film
+        release_date: '2019-04-01'
+      - id: 14E7VcuVdeHNJrN4qs3ofY
+        title: Der kleine Rabe Socke - Suche nach dem verlorenen Schatz
+        release_date: '2019-12-06'
     apple_music:
       artist_ids:
       - '726252391'
