@@ -157,16 +157,18 @@ class TestReconcileCrossProvider:
         assert result.flipped == 0
         assert result.flagged == 1
 
-    def test_music_single_gets_flipped(self):
-        """music_single on one provider but included on the other is likely
-        a misclassification (same content, different metadata)."""
+    def test_music_single_is_flagged_not_flipped(self):
+        """A single included on one provider and excluded on the other is put on
+        the review list, not flipped: the include is the questionable side
+        (Chris, 2026-09-05)."""
         albums = [
             _album("sp1", "Song", "spotify", True),
             _album("am1", "Song", "apple_music", False, "music_single"),
         ]
         result = reconcile_cross_provider(albums)
-        assert result.flipped == 1
-        assert albums[1]["include"] is True
+        assert result.flipped == 0
+        assert result.flagged == 1
+        assert albums[1]["include"] is False
 
     def test_multiple_titles_processed_independently(self):
         albums = [
@@ -225,7 +227,8 @@ class TestReconcileCrossProvider:
             _album("am1", "Song Title - Single", "apple_music", False, "music_single"),
         ]
         result = reconcile_cross_provider(albums)
-        assert result.flipped == 1
+        assert result.flipped == 0
+        assert result.flagged == 1
 
     def test_normalized_title_matching_is_case_insensitive(self):
         albums = [
@@ -330,3 +333,25 @@ class TestUnspecifiedAutoFlip:
         assert albums[1]["include"] is False
         assert result.flagged == 1
         assert any("duplicate" in d.get("reason", "") for d in result.details)
+
+
+class TestSinglesAndVariantsDoNotFlipToInclude:
+    """A same-title include on the other provider does not validate a
+    single or an instrumental version: the include is the questionable
+    side. Reconcile flags the pair for review instead of flipping."""
+
+    def _pair(self, reason):
+        return [
+            _album("s1", "Alles ist doof - Single", "spotify", True),
+            _album("a1", "Alles ist doof - Single", "apple_music", False, reason),
+        ]
+
+    def test_a_single_stays_excluded_and_is_flagged(self):
+        result = reconcile_cross_provider(self._pair("music_single"))
+        assert result.flipped == 0
+        assert result.flagged == 1
+
+    def test_a_format_variant_stays_excluded_and_is_flagged(self):
+        result = reconcile_cross_provider(self._pair("format_variant"))
+        assert result.flipped == 0
+        assert result.flagged == 1

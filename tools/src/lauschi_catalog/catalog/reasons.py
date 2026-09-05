@@ -54,16 +54,19 @@ CURATE_REASONS: tuple[Reason, ...] = (
         auto_flip=True,
         description="Audiobook reading in a Hörspiel series, music in a non-music series",
     ),
+    # A same-title include on the other provider does not validate a
+    # single or a variant: the include is the questionable side, so
+    # reconcile flags the pair instead of flipping (2026-09-05).
     Reason(
         "music_single",
         "content",
-        auto_flip=True,
+        auto_flip=False,
         description="Single track under 5 min, not an episode",
     ),
     Reason(
         "format_variant",
         "redundancy",
-        auto_flip=True,
+        auto_flip=False,
         description="Karaoke, instrumental, sped-up, nightcore versions",
     ),
     Reason(
@@ -172,7 +175,13 @@ AUTO_FLIP_REASON_KEYS: frozenset[str] = frozenset(
 #: likewise structural, but reconcile has never flagged it; it is listed
 #: here for completeness and kept out of the reconcile set.
 FLAG_REASON_KEYS: frozenset[str] = frozenset(
-    {"sub_series_bleed", "different_series", "audit_override"}
+    {
+        "sub_series_bleed",
+        "different_series",
+        "audit_override",
+        "music_single",
+        "format_variant",
+    }
 )
 
 #: Reasons that make a same-title decision pair contradictory: the same
