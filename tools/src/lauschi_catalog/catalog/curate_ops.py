@@ -577,11 +577,13 @@ def _route_by_family_patterns(
 
     Every member of a split family carries its episode_pattern as a
     catalog fact. An undecided album that matches exactly one member's
-    pattern belongs to that member: the current entry's own pattern
-    means include with the captured number, another member's means
-    sub_series_bleed. Matching none or several leaves it to the model.
-    Two clean runs of the LEGO Ninjago Hörbuch child both excluded the
-    line's own new "(Band 13-20)" books before this existed.
+    pattern belongs to that member: another member's pattern means
+    sub_series_bleed; a child's own pattern means include with the
+    captured number (its line is narrow by definition); the parent's own
+    matches still go to the model, which judges compilations, variants
+    and duplicates among them. Matching none or several leaves it to
+    the model. Two clean runs of the LEGO Ninjago Hörbuch child both
+    excluded the line's own new "(Band 13-20)" books before this existed.
     """
     family = _family_of(entry, catalog)
     if len(family) < 2:
@@ -600,6 +602,12 @@ def _route_by_family_patterns(
             still.append(album)
             continue
         member, number = hits[0]
+        if member.id == entry.id and not entry.split_from:
+            # A pattern proves ownership, not validity: the parent's own
+            # matches still go to the model, which judges compilations,
+            # variants and duplicates among them.
+            still.append(album)
+            continue
         if member.id == entry.id:
             decided.append(
                 AlbumDecision(

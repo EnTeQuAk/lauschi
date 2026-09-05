@@ -58,14 +58,18 @@ def test_the_child_run_keeps_its_line_and_hands_the_parents_episode_back():
     assert [a["id"] for a in still] == ["film"]
 
 
-def test_the_parent_run_hands_the_childs_new_book_to_the_child():
+def test_the_parent_run_hands_the_childs_new_book_to_the_child_and_judges_its_own():
+    """A pattern proves ownership, not validity: on the parent, titles
+    matching its own pattern still go to the model, which judges
+    compilations, variants and duplicates among them. Only a child's
+    narrow line is included by its pattern alone."""
     decided, still = _route_by_family_patterns(_remaining(), PARENT, FAMILY)
     by = {d.album_id: d for d in decided}
-    assert by["f268"].include is True and by["f268"].episode_num == 268
+    assert set(by) == {"b16"}
     assert by["b16"].include is False and "lego_ninjago_hoerbuch" in (
         by["b16"].notes or ""
     )
-    assert [a["id"] for a in still] == ["film"]
+    assert [a["id"] for a in still] == ["f268", "film"]
 
 
 def test_an_album_matching_two_members_is_left_to_the_model():
