@@ -114,3 +114,34 @@ class TestAlbumTypeStatement:
         p = load_curate_skill(phase="batch", content_type="hoerspiel")
         assert "It is a strong signal." in p
         assert "artist's own song collection" in p
+
+
+class TestPolicyTeaching:
+    """The policy decided 2026-09-05 is taught, not listed; these pins keep
+    the statements that carry a decision alive until someone re-decides."""
+
+    def test_two_stories_in_one_release_are_an_episode_and_doppelfolge_is_gone(self):
+        p = load_curate_skill(phase="batch", content_type="hoerspiel")
+        assert "Two stories in one release is not a repackaging" in p
+        assert "Doppelfolge" not in p
+
+    def test_eras_decide_duplicates_and_year_windows_are_gone(self):
+        p = load_curate_skill(phase="batch", content_type="hoerspiel")
+        assert "`era_boundary` fact places" in p
+        assert "within ~2 years" not in p
+
+    def test_a_future_release_date_is_never_a_reason_to_exclude(self):
+        p = load_curate_skill(phase="batch", content_type="hoerspiel")
+        assert "Release dates in the future" in p
+        assert "not a reason to exclude" in p
+
+    def test_sibling_entries_are_stated_not_guessed(self):
+        p = load_curate_skill(phase="batch", content_type="hoerspiel")
+        assert "the prompt lists the sibling entries" in p
+
+    def test_split_guidelines_teach_erstleser_films_and_one_advent_child(self):
+        p = load_curate_skill(phase="finalize", content_type="hoerspiel")
+        assert "Erstleser" in p
+        assert 'Three different products carry the word "Kinofilm"' in p
+        assert "Both shapes go into the same single child" in p
+        assert "Doppelfolgen und Sammelbände" not in p
