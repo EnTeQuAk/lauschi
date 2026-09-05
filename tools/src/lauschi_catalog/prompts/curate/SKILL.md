@@ -66,7 +66,7 @@ Phase-specific instructions and output schemas are loaded separately.
 | Title shape | Track count | Duration | Action |
 |---|---|---|---|
 | Matches `episode_pattern` | Episode shape (1-5 Apple, 20-40 Spotify) | 20-60 min | Include |
-| Range pattern ("Folge 1-10", "Jubiläumsbox") | >50 | Variable | Exclude (`compilation`) |
+| Re-sells episodes that exist on their own ("Folge 1-10", "3er Box", "Jubiläumsbox") | Often high | Variable | Exclude (`compilation`) |
 | Single track, <5 min | 1 | <5 min | Exclude (`music_single` or `wrong_content_type`) |
 | "ungekürzt", "Lesung", "gelesen von" | Many tracks | 3-12 h | Exclude (`wrong_content_type`) in non-audiobook series |
 | "Best of", "Greatest Hits", "Kinderparty" | Variable | Variable | Exclude (`compilation` or `multi_artist_compilation`) |
@@ -77,8 +77,13 @@ Phase-specific instructions and output schemas are loaded separately.
 - **Pattern match + sub-series brand:** When a title matches
   `episode_pattern` but also contains a sub-series name after the number
   (e.g., "Folge 2: Mini-Fall/Die Räuberjagd"), the sub-series identity
-  takes precedence. Exclude as `sub_series_bleed`. See the type-specific
-  reference doc for known sub-series patterns.
+  takes precedence. Exclude as `sub_series_bleed`. The batch prompt lists
+  the sibling series that exist as their own catalog entries on this
+  artist page ("Die drei ??? Kids", its Adventskalender, its Mini-Fälle):
+  an album that belongs to one of them is theirs, not this series', no
+  matter how well the title matches the pattern. A sub-line that has no
+  entry yet is still `sub_series_bleed`; the finalize phase turns your
+  notes into a split proposal.
 - **Audiobook without title markers:** Not all audiobooks say "Lesung" or
   "ungekürzt". Albums with 20+ sequential "Teil"/"Kapitel" tracks at 2-5
   min each, no descriptive scene names, and 90+ minutes total are audiobook
@@ -95,14 +100,18 @@ between providers are expected and never a reason to exclude.
 
 When you see the same episode number in the discography:
 
-| Condition | Action |
-|---|---|
-| Different providers, same episode number | **Include both.** Not a duplicate. Each provider has its own catalog entry. |
-| Same provider, similar title, release dates within ~2 years | **Duplicate.** Keep the most recent or unabridged. |
-| Same provider, different title OR release gap ≥ 5 years | **Different era.** Include both, record `era_boundary` fact. |
-
-"Similar title" means ≥80% token overlap after stripping episode numbers,
-prefixes, suffixes, punctuation, and case-folding.
+- **Different providers, same episode number:** include both. Each
+  provider has its own catalog entry; this is never a duplicate.
+- **Same provider, same episode number, same title:** the same release
+  twice (a re-pressing, a remaster) unless an `era_boundary` fact places
+  the two releases in different production eras (a 1985 recording and a
+  2019 re-recording with a new cast). Include both and note "era
+  collision" when you see two eras; the finalize phase records the fact.
+  Where no era separates them, code keeps the newest and marks the other
+  `duplicate` after the run, so you do not need to guess a year window.
+- **Same provider, same episode number, different title:** two different
+  stories under one number, usually a numbering restart between eras.
+  Include both and note it; that is era evidence, not a duplicate.
 
 ## Episode pattern
 
@@ -125,6 +134,14 @@ listen to it) is higher than the cost of including a borderline album.
 Before excluding any album, you MUST name the failure-taxonomy pattern it
 matches. If you cannot name the class, include with `episode_num=None`
 (the album sorts by `release_date` downstream).
+
+## Release dates in the future
+
+Providers list albums weeks before release, and pre-release metadata is
+often incomplete (missing track durations, a single placeholder track).
+That is not a partial release and not a reason to exclude. Decide what
+the album is, exactly as for any other episode; the catalog ships the
+release date and the app hides the album until then.
 
 ## False positive watchlist
 
