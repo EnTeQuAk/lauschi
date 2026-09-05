@@ -44301,7 +44301,7 @@ series:
   title: 'Meine Freundin Conni: Adventskalender'
   aliases: []
   episode_pattern:
-  content_type: hoerspiel
+  content_type: audiobook
   split_from: meine_freundin_conni
   providers:
     spotify:
