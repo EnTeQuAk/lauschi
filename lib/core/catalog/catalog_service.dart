@@ -35,6 +35,7 @@ class CatalogAlbum {
     required this.provider,
     required this.title,
     this.episode,
+    this.releaseDate,
   });
 
   /// Provider-specific album ID.
@@ -45,6 +46,24 @@ class CatalogAlbum {
 
   final String title;
   final int? episode;
+
+  /// Release date as shipped by the pipeline (ISO `YYYY-MM-DD`). Null for
+  /// entries curated before the field existed.
+  final String? releaseDate;
+
+  /// Whether the album is out on [now]. A pre-release is curated and
+  /// indexed like any other album but hidden from listings until its
+  /// date, so it appears on its own without a catalog update. A missing
+  /// or unparseable date (Apple Music sometimes ships a bare year) is
+  /// ambiguous and never hides an album.
+  bool isAvailableOn(DateTime now) {
+    final date = releaseDate;
+    if (date == null) return true;
+    final parsed = DateTime.tryParse(date);
+    if (parsed == null) return true;
+    final today = DateTime(now.year, now.month, now.day);
+    return !parsed.isAfter(today);
+  }
 
   /// Full provider URI for DB storage (e.g. 'spotify:album:abc123').
   String get uri => provider.albumUri(id);
@@ -99,13 +118,18 @@ class CatalogSeries {
   /// Whether this series has curated albums for any provider.
   bool get hasCuratedAlbums => albums.isNotEmpty || appleMusicAlbums.isNotEmpty;
 
-  /// Get curated albums for a specific provider.
-  List<CatalogAlbum> albumsForProvider(ProviderType provider) =>
-      switch (provider) {
-        ProviderType.spotify => albums,
-        ProviderType.appleMusic => appleMusicAlbums,
-        _ => const [],
-      };
+  /// Curated albums for a provider that are out on [now] (defaults to
+  /// today). Pre-releases stay in [albums] for the id index but are not
+  /// listed until their release date.
+  List<CatalogAlbum> albumsForProvider(ProviderType provider, {DateTime? now}) {
+    final all = switch (provider) {
+      ProviderType.spotify => albums,
+      ProviderType.appleMusic => appleMusicAlbums,
+      _ => const <CatalogAlbum>[],
+    };
+    final at = now ?? DateTime.now();
+    return all.where((a) => a.isAvailableOn(at)).toList();
+  }
 
   /// Whether this series has curated albums for a specific provider.
   bool hasCuratedAlbumsFor(ProviderType provider) =>
@@ -291,6 +315,7 @@ class CatalogService {
               provider: provider,
               title: aMap['title'] as String,
               episode: aMap['episode'] as int?,
+              releaseDate: aMap['release_date']?.toString(),
             );
           }).toList();
 

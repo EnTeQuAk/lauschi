@@ -291,4 +291,78 @@ series:
       );
     });
   });
+  preReleaseTests();
+}
+
+// A not-yet-released album ships in the catalog (curation includes it)
+// and the app hides it until its release date, so it appears on its own
+// without a catalog update. The raw album lists stay unfiltered: the id
+// index and matcher still know the album, only listing hides it.
+class _PreReleaseFixture {
+  static const past = CatalogAlbum(
+    id: 'past',
+    provider: ProviderType.spotify,
+    title: 'Folge 1: Da',
+    episode: 1,
+    releaseDate: '2020-01-01',
+  );
+  static const future = CatalogAlbum(
+    id: 'future',
+    provider: ProviderType.spotify,
+    title: 'Folge 2: Bald',
+    episode: 2,
+    releaseDate: '2030-01-01',
+  );
+  static const undated = CatalogAlbum(
+    id: 'undated',
+    provider: ProviderType.spotify,
+    title: 'Folge 3: Ohne Datum',
+    episode: 3,
+  );
+  static const yearOnly = CatalogAlbum(
+    id: 'year',
+    provider: ProviderType.spotify,
+    title: 'Folge 4: Nur Jahr',
+    episode: 4,
+    releaseDate: '2030',
+  );
+  static const series = CatalogSeries(
+    id: 's',
+    title: 'S',
+    aliases: [],
+    spotifyArtistIds: [],
+    albums: [past, future, undated, yearOnly],
+  );
+}
+
+void preReleaseTests() {
+  group('CatalogSeries.albumsForProvider hides pre-releases', () {
+    final today = DateTime(2026, 9, 5);
+
+    test('an album dated after today is not listed', () {
+      final ids = _PreReleaseFixture.series
+          .albumsForProvider(ProviderType.spotify, now: today)
+          .map((a) => a.id);
+      expect(ids, ['past', 'undated', 'year']);
+    });
+
+    test('it is listed once its date has passed', () {
+      final ids = _PreReleaseFixture.series
+          .albumsForProvider(ProviderType.spotify, now: DateTime(2030))
+          .map((a) => a.id);
+      expect(ids, contains('future'));
+    });
+
+    test('an unparseable or missing date never hides an album', () {
+      expect(_PreReleaseFixture.undated.isAvailableOn(today), isTrue);
+      expect(_PreReleaseFixture.yearOnly.isAvailableOn(today), isTrue);
+    });
+
+    test('the raw album list still holds the pre-release for the index', () {
+      expect(
+        _PreReleaseFixture.series.albums.map((a) => a.id),
+        contains('future'),
+      );
+    });
+  });
 }
