@@ -43081,7 +43081,7 @@ series:
 - id: lego_ninjago_hoerbuch
   title: 'LEGO Ninjago: Hörbücher'
   aliases: []
-  episode_pattern:
+  episode_pattern: \(Band (\d+)\)
   content_type: audiobook
   split_from: lego_ninjago
   providers:
