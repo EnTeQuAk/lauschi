@@ -44451,3 +44451,153 @@ series:
         episode: 11
         title: 'Kampf um Kartoffelbrei (Special) - Teil 11: Das Hex-Duell'
         release_date: '2025-11-14'
+- id: bibi_blocksberg_bibi_erzaehlt
+  title: 'Bibi Blocksberg: Bibi erzählt'
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: bibi_blocksberg
+  providers:
+    spotify:
+      artist_ids:
+      - 3t2iKODSDyzoDJw7AsD99u
+      albums:
+      - id: 68yjM7W4zz2To5L1yYUpsv
+        title: 'Kurzhörspiel - Bibi erzählt: Familiengeschichten'
+        release_date: '2016'
+      - id: 6WpOdxZIwoSazFwCTX79fX
+        title: 'Kurzhörspiel - Bibi erzählt: Junghexengeschichten'
+        release_date: '2016'
+      - id: 4UtbzU2piW8JL61Md3AqRN
+        title: 'Kurzhörspiel - Bibi erzählt: Schulgeschichten'
+        release_date: '2016'
+      - id: 5LKLw2DejyrWbDKPAlCk8P
+        title: 'Kurzhörspiel - Bibi erzählt: Familiengeschichten'
+        release_date: '2016-09-09'
+      - id: 0ULD2ilRFbYzJwGpTj9PvU
+        title: 'Kurzhörspiel - Bibi erzählt: Rathausgeschichten'
+        release_date: '2017-03-10'
+      - id: 3rOPn20HBIk5rnlwoPgcBV
+        title: 'Kurzhörspiel - Bibi erzählt: Weihnachtsgeschichten'
+        release_date: '2017-11-10'
+      - id: 4OFQcpklILyntR0CA0YwUK
+        title: 'Kurzhörspiel - Bibi erzählt: Tiergeschichten'
+        release_date: '2018-03-23'
+      - id: 02Kn2SoIna6hNJGWeXOMUy
+        title: 'Kurzhörspiel - Bibi erzählt: Bürogeschichten'
+        release_date: '2018-09-07'
+      - id: 63gO4K2x4xOmJvn8bWnk3S
+        title: 'Kurzhörspiel - Bibi erzählt: Feriengeschichten'
+        release_date: '2019-06-14'
+      - id: 3JSgtEbyjSSd2SlF4DqHCg
+        title: 'Kurzhörspiel - Bibi erzählt: Der Haar-Notfall'
+        release_date: '2019-08-23'
+      - id: 4ty58ME24lhUWwtHnlvUSh
+        title: 'Kurzhörspiel - Bibi erzählt: Hexenlaborgeschichten'
+        release_date: '2019-09-06'
+      - id: 4a3LKUotBcb6adgjefMWNV
+        title: 'Kurzhörspiele - Bibi erzählt: Freundinnengeschichten'
+        release_date: '2020-02-07'
+      - id: 7uz12MVJH6pVlPW4q3qMAR
+        title: 'Kurzhörspiele - Bibi erzählt: Sensationsgeschichten'
+        release_date: '2020-10-09'
+      - id: 0wXyygsfQ3zdeQ5TJ5TbdE
+        title: 'Kurzhörspiele - Bibi erzählt: Hexenbesengeschichten'
+        release_date: '2021-04-09'
+      - id: 3sueFjrg3Vc2uVeojaWaHs
+        title: 'Kurzhörspiele - Bibi erzählt: Schneegeschichten'
+        release_date: '2021-09-24'
+      - id: 0cho4lxj0pMU05YLvn3d6b
+        title: 'Kurzhörspiele - Bibi erzählt: Hexunfallgeschichten'
+        release_date: '2022-04-22'
+      - id: 1jm3pmeimB4v2dQnseJ1g3
+        title: 'Kurzhörspiele - Bibi erzählt: Reisegeschichten'
+        release_date: '2022-07-15'
+      - id: 12DCazEt3HrcqhSre7i2Qr
+        title: 'Kurzhörspiele - Bibi erzählt: Hexenkugelgeschichten'
+        release_date: '2023-03-24'
+      - id: 5IzzaGth9lzu3Wd8IsjgPO
+        title: 'Kurzhörspiele - Bibi erzählt: Althexengeschichten'
+        release_date: '2024-05-03'
+      - id: 5NYbsIJK9UwkBlxhTE5DpW
+        title: 'Kurzhörspiele - Bibi erzählt: Irlandgeschichten'
+        release_date: '2024-10-11'
+      - id: 4kU5RcCic1cYsy8ruIMGV1
+        title: 'Kurzhörspiele - Bibi erzählt: Ostergeschichten'
+        release_date: '2025-04-11'
+      - id: 1YxIFAuzmIlNwQjbq4ayFj
+        title: 'Bibi erzählt: Verkehrserziehungsgeschichten'
+        release_date: '2025-08-22'
+      - id: 7HaemL752TozKMqkQ0OGqi
+        title: 'Kurzhörspiele - Bibi erzählt: Neustadtgeschichten'
+        release_date: '2026-03-06'
+    apple_music:
+      artist_ids:
+      - '41480004'
+      albums:
+      - id: '1476558897'
+        title: 'Kurzhörspiel - Bibi erzählt: Familiengeschichten'
+        release_date: '2016'
+      - id: '1476559558'
+        title: 'Kurzhörspiel - Bibi erzählt: Junghexengeschichten'
+        release_date: '2016'
+      - id: '1477114243'
+        title: 'Kurzhörspiel - Bibi erzählt: Rathausgeschichten'
+        release_date: '2017-03-10'
+      - id: '1477113585'
+        title: 'Bibi erzählt: Weihnachtsgeschichten (Kurzhörspiel)'
+        release_date: '2017-11-10'
+      - id: '1477114620'
+        title: 'Kurzhörspiel - Bibi erzählt: Tiergeschichten'
+        release_date: '2018-03-23'
+      - id: '1477114049'
+        title: 'Kurzhörspiel - Bibi erzählt: Bürogeschichten'
+        release_date: '2018-09-07'
+      - id: '1465951895'
+        title: 'Kurzhörspiel - Bibi erzählt: Feriengeschichten'
+        release_date: '2019-06-14'
+      - id: '1476061825'
+        title: 'Bibi erzählt: Hexenlaborgeschichten'
+        release_date: '2019-09-06'
+      - id: '1495409525'
+        title: 'Kurzhörspiele - Bibi erzählt: Freundinnengeschichten'
+        release_date: '2020-02-07'
+      - id: '1532939500'
+        title: 'Kurzhörspiele - Bibi erzählt: Sensationsgeschichten'
+        release_date: '2020-10-09'
+      - id: '1560190831'
+        title: 'Kurzhörspiele - Bibi erzählt: Hexenbesengeschichten'
+        release_date: '2021-04-09'
+      - id: '1584989504'
+        title: 'Kurzhörspiele - Bibi erzählt: Schneegeschichten'
+        release_date: '2021-09-24'
+      - id: '1613760880'
+        title: 'Kurzhörspiele - Bibi erzählt: Hexunfallgeschichten'
+        release_date: '2022-04-22'
+      - id: '1632615598'
+        title: 'Kurzhörspiele - Bibi erzählt: Reisegeschichten'
+        release_date: '2022-07-15'
+      - id: '1672655932'
+        title: 'Kurzhörspiele - Bibi erzählt: Hexenkugelgeschichten'
+        release_date: '2023-03-24'
+      - id: '1706870843'
+        title: 'Kurzhörspiele - Bibi erzählt: Halloweengeschichten'
+        release_date: '2023-09-29'
+      - id: '1739367063'
+        title: 'Kurzhörspiele - Bibi erzählt: Althexengeschichten'
+        release_date: '2024-05-03'
+      - id: '1770238628'
+        title: 'Kurzhörspiele - Bibi erzählt: Irlandgeschichten'
+        release_date: '2024-10-11'
+      - id: '1798506107'
+        title: 'Kurzhörspiele - Bibi erzählt: Ostergeschichten'
+        release_date: '2025-04-11'
+      - id: '1827427597'
+        title: 'Bibi erzählt: Verkehrserziehungsgeschichten'
+        release_date: '2025-08-22'
+      - id: '1873129555'
+        title: 'Kurzhörspiele - Bibi erzählt: Neustadtgeschichten'
+        release_date: '2026-03-06'
+      - id: '6795416010'
+        title: 'Kurzhörspiele - Bibi erzählt:  Internatsgeschichten'
+        release_date: '2026-09-04'
