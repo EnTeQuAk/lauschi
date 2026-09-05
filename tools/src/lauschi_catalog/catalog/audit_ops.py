@@ -1040,16 +1040,43 @@ def apply_audit(
     # human reviewer; only an approving run materializes them.
     hard_flags = critical_issues(data.get("regression_flags") or [])
     gate_concerns = [f"[hard-gate] {f}" for f in hard_flags]
-    escalated = bool(hard_flags) or not result.approve or len(result.concerns) > 5
 
-    albums_by_id = {a["album_id"]: a for a in data.get("albums", [])}
+    # A critic's overrides are checked before they are trusted. Volume
+    # or an include on a split-off (its albums belong to the parent)
+    # escalate instead of auto-applying: a scope-blind critic once
+    # proposed 41 wrong includes on one split series.
+    albums = data.get("albums", [])
+    override_cap = max(5, len(albums) // 20)
+    cap_concerns: list[str] = []
+    if len(result.overrides) > override_cap:
+        cap_concerns.append(
+            f"[override-volume] {len(result.overrides)} overrides exceed the "
+            f"cap of {override_cap} (>5% of {len(albums)} albums); not applied"
+        )
+    if data.get("split_from"):
+        n_incl = sum(1 for o in result.overrides if o.action == "include")
+        if n_incl:
+            cap_concerns.append(
+                f"[split-include] {n_incl} include override(s) on a split-off "
+                f"series; the parent's albums must not be added here"
+            )
+
+    escalated = (
+        bool(hard_flags)
+        or not result.approve
+        or len(result.concerns) > 5
+        or bool(cap_concerns)
+    )
+
+    albums_by_key = {(a.get("provider"), a["album_id"]): a for a in albums}
+    unknown_concerns: list[str] = []
     existing_overrides = {o["album_id"]: o for o in review.get("overrides", [])}
     for o in result.overrides:
-        album = albums_by_id.get(o.album_id)
+        album = albums_by_key.get((o.provider, o.album_id))
         if album is None:
-            on_progress(
-                f"  [warning] Override skipped: album_id {o.album_id!r} "
-                f"not found in curation"
+            unknown_concerns.append(
+                f"[unknown_album_id] {o.provider}:{o.album_id} is not an album "
+                f"in this curation; override ignored"
             )
             continue
         # Materialize into the album record: include flags are the one
@@ -1076,7 +1103,8 @@ def apply_audit(
 
     series_facts = data.setdefault("series_facts", {})
     prov = fact_provenance(by=model_name, at=now, audited=True)
-    for update in result.fact_updates:
+    # An escalated run must not touch state; facts are state too.
+    for update in [] if escalated else result.fact_updates:
         if update.mode == "replace":
             series_facts["era_boundaries"] = [
                 {**e.model_dump(), **prov} for e in update.era_boundaries
@@ -1110,7 +1138,9 @@ def apply_audit(
     review["audited_at"] = now
     if usage is not None:
         review["usage"] = usage
-    review["concerns"] = result.concerns + gate_concerns
+    review["concerns"] = (
+        result.concerns + gate_concerns + cap_concerns + unknown_concerns
+    )
 
     if not dry_run:
         canonicalize(data)

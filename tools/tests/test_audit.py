@@ -448,8 +448,9 @@ class TestApplyAuditOverrides:
 
     def test_override_with_fake_album_id_is_skipped(self, tmp_path):
         """The agent sometimes invents descriptive album_ids instead of
-        using the real ones from the prompt. These should be silently
-        dropped so they don't pollute the curation file."""
+        using the real ones from the prompt. The bad override is dropped
+        from the album flags and recorded as a concern so the human sees
+        that the critic aimed at a nonexistent album."""
         curation_dir = tmp_path / "assets" / "catalog" / "curation"
         curation_dir.mkdir(parents=True)
         path = curation_dir / "test_series.json"
@@ -491,7 +492,8 @@ class TestApplyAuditOverrides:
         override_ids = {o["album_id"] for o in overrides}
         assert "a2" in override_ids
         assert "Ep 121: Folge 121: Der neue Schulgarten" not in override_ids
-        assert any("not found" in w for w in warnings)
+        concerns = data["review"]["concerns"]
+        assert any("[unknown_album_id]" in c for c in concerns)
 
 
 # ── _merge_facts ─────────────────────────────────────────────────────────
@@ -1051,3 +1053,152 @@ def test_build_prompt_output_is_stable():
         prompt.index("### Lint findings"),
     ]
     assert order == sorted(order)
+
+
+class TestApplyAuditOutputCaps:
+    """A critic that materialized many overrides unseen once proposed 41
+    wrong includes on a split-off series. Volume and the include
+    direction on a split series escalate instead of auto-applying, and
+    an escalated run touches neither album flags nor facts."""
+
+    def _apply(self, tmp_path, curation, result):
+        curation_dir = tmp_path / "assets" / "catalog" / "curation"
+        curation_dir.mkdir(parents=True)
+        path = curation_dir / f"{curation['id']}.json"
+        path.write_text(json.dumps(curation))
+        mp = pytest.MonkeyPatch()
+        mp.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
+        try:
+            action = apply_audit(curation["id"], result, model_name="critic")
+        finally:
+            mp.undo()
+        return action, json.loads(path.read_text())
+
+    def _big_curation(self, n: int) -> dict:
+        albums = [
+            {
+                "album_id": f"a{i}",
+                "provider": "spotify",
+                "include": True,
+                "episode_num": i,
+                "title": f"Folge {i}: Test",
+                "confidence": "high",
+            }
+            for i in range(1, n + 1)
+        ]
+        return {"id": "big", "title": "Big", "albums": albums}
+
+    def test_override_volume_over_five_percent_escalates(self, tmp_path):
+        curation = self._big_curation(100)  # cap = max(5, 5) = 5
+        overrides = [
+            AuditOverride(
+                album_id=f"a{i}",
+                provider="spotify",
+                action="exclude",
+                reason="compilation",
+            )
+            for i in range(1, 8)  # 7 > 5
+        ]
+        action, data = self._apply(
+            tmp_path, curation, AuditResult(approve=True, overrides=overrides)
+        )
+        assert action == "escalated"
+        assert data["review"]["status"] == "escalated"
+        # not materialized
+        assert all(a["include"] for a in data["albums"][:7])
+        assert any("override-volume" in c for c in data["review"]["concerns"])
+
+    def test_a_handful_of_overrides_still_applies(self, tmp_path):
+        curation = self._big_curation(100)
+        overrides = [
+            AuditOverride(
+                album_id=f"a{i}",
+                provider="spotify",
+                action="exclude",
+                reason="compilation",
+            )
+            for i in range(1, 4)  # 3 <= 5
+        ]
+        action, data = self._apply(
+            tmp_path, curation, AuditResult(approve=True, overrides=overrides)
+        )
+        assert action == "overridden"
+        assert data["albums"][0]["include"] is False
+
+    def test_include_override_on_a_split_series_escalates(self, tmp_path):
+        curation = self._big_curation(10)
+        curation["split_from"] = "parent"
+        result = AuditResult(
+            approve=True,
+            overrides=[
+                AuditOverride(
+                    album_id="a1", provider="spotify", action="include", reason="x"
+                )
+            ],
+        )
+        action, data = self._apply(tmp_path, curation, result)
+        assert action == "escalated"
+        assert any("split-include" in c for c in data["review"]["concerns"])
+
+    def test_exclude_override_on_a_split_series_still_applies(self, tmp_path):
+        curation = self._big_curation(10)
+        curation["split_from"] = "parent"
+        result = AuditResult(
+            approve=True,
+            overrides=[
+                AuditOverride(
+                    album_id="a1",
+                    provider="spotify",
+                    action="exclude",
+                    reason="sub_series_bleed",
+                )
+            ],
+        )
+        action, data = self._apply(tmp_path, curation, result)
+        assert action == "overridden"
+        assert data["albums"][0]["include"] is False
+
+    def test_unknown_album_id_becomes_a_concern(self, tmp_path):
+        curation = self._big_curation(3)
+        result = AuditResult(
+            approve=True,
+            overrides=[
+                AuditOverride(
+                    album_id="ghost", provider="spotify", action="exclude", reason="x"
+                )
+            ],
+        )
+        _, data = self._apply(tmp_path, curation, result)
+        assert any(
+            "[unknown_album_id]" in c and "ghost" in c
+            for c in data["review"]["concerns"]
+        )
+
+    def test_wrong_provider_on_a_real_id_is_unknown(self, tmp_path):
+        curation = self._big_curation(3)
+        result = AuditResult(
+            approve=True,
+            overrides=[
+                AuditOverride(
+                    album_id="a1", provider="apple_music", action="exclude", reason="x"
+                )
+            ],
+        )
+        _, data = self._apply(tmp_path, curation, result)
+        assert data["albums"][0]["include"] is True  # spotify a1 untouched
+        assert any("[unknown_album_id]" in c for c in data["review"]["concerns"])
+
+    def test_escalated_run_writes_no_facts(self, tmp_path):
+        curation = self._big_curation(3)
+        result = AuditResult(
+            approve=False,  # forces escalation
+            fact_updates=[
+                AuditFactUpdate(
+                    mode="replace",
+                    known_gaps=[KnownGapProposal(number=5, reason="skipped")],
+                )
+            ],
+        )
+        _, data = self._apply(tmp_path, curation, result)
+        assert data["review"]["status"] == "escalated"
+        assert not data.get("series_facts", {}).get("known_gaps")
