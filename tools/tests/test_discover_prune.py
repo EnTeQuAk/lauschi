@@ -13,19 +13,12 @@ import requests
 from click.testing import CliRunner
 
 from lauschi_catalog.catalog import discover_ops
-from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
 from lauschi_catalog.commands import discover as discover_mod
+from tests.factories import entry
 
 
 def _entry(sid: str, *, spotify_ids: list[str], apple_ids: list[str]):
-    return CatalogEntry(
-        id=sid,
-        title=sid.replace("_", " ").title(),
-        providers={
-            "spotify": ProviderConfig(artist_ids=spotify_ids),
-            "apple_music": ProviderConfig(artist_ids=apple_ids),
-        },
-    )
+    return entry(sid, spotify=spotify_ids, apple=apple_ids)
 
 
 @pytest.fixture

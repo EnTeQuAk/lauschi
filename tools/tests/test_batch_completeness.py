@@ -10,6 +10,7 @@ from lauschi_catalog.catalog.curate_ops import (
     CurateDeps,
     _build_batch_agent,
 )
+from tests.factories import decision
 
 
 def _make_deps(batch_ids: set[tuple[str, str]]) -> CurateDeps:
@@ -31,12 +32,10 @@ def _decision(
     episode_num: int | None = None,
     exclude_reason: str | None = None,
 ) -> AlbumDecision:
-    return AlbumDecision(
-        album_id=album_id,
+    return decision(
+        album_id,
         provider=provider,
-        title=f"T{album_id}",
         include=include,
-        confidence="high",
         episode_num=episode_num,
         exclude_reason=exclude_reason,
     )

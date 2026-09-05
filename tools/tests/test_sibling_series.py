@@ -10,16 +10,11 @@ rests on a fact the catalog holds, not on inference (D5, 2026-09-05).
 
 from lauschi_catalog.catalog.curate_ops import build_batch_prompt
 from lauschi_catalog.catalog.loader import sibling_series
-from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
+from tests.factories import entry
 
 
 def _entry(sid: str, title: str, *, spotify=(), apple=(), split_from=None):
-    providers = {}
-    if spotify:
-        providers["spotify"] = ProviderConfig(artist_ids=list(spotify))
-    if apple:
-        providers["apple_music"] = ProviderConfig(artist_ids=list(apple))
-    return CatalogEntry(id=sid, title=title, split_from=split_from, providers=providers)
+    return entry(sid, title, spotify=spotify, apple=apple, split_from=split_from)
 
 
 CATALOG = [

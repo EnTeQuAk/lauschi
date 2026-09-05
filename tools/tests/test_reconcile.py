@@ -6,6 +6,7 @@ from lauschi_catalog.catalog.reconcile import (
     normalize_exclude_reason,
     reconcile_cross_provider,
 )
+from tests.factories import album_record
 
 # ── normalize_exclude_reason ────────────────────────────────────────────
 
@@ -93,13 +94,13 @@ def _album(
     include: bool,
     exclude_reason: str | None = None,
 ) -> dict:
-    return {
-        "album_id": album_id,
-        "title": title,
-        "provider": provider,
-        "include": include,
-        "exclude_reason": exclude_reason,
-    }
+    return album_record(
+        album_id,
+        provider=provider,
+        include=include,
+        title=title,
+        exclude_reason=exclude_reason,
+    )
 
 
 class TestReconcileCrossProvider:

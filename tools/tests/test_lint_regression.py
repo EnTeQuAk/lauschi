@@ -16,6 +16,7 @@ from lauschi_catalog.catalog.lint_ops import (
     lint_curation,
     lint_regression,
 )
+from tests.factories import album_record
 
 
 def _curation(albums, facts=None):
@@ -31,16 +32,15 @@ def _album(
     reason=None,
     album_id="a1",
 ):
-    return {
-        "album_id": album_id,
-        "provider": provider,
-        "include": include,
-        "episode_num": ep,
-        "title": title,
-        "release_date": release_date,
-        "exclude_reason": reason,
-        "confidence": "high",
-    }
+    return album_record(
+        album_id,
+        provider=provider,
+        include=include,
+        episode_num=ep,
+        exclude_reason=reason,
+        title=title,
+        release_date=release_date,
+    )
 
 
 # -- lint_regression ------------------------------------------------------

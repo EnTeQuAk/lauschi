@@ -17,16 +17,11 @@ from lauschi_catalog.catalog.curate_ops import (
     drop_orphan_decisions,
     save_curation,
 )
+from tests.factories import decision
 
 
 def _decision(album_id: str, provider: str = "spotify") -> AlbumDecision:
-    return AlbumDecision(
-        album_id=album_id,
-        provider=provider,
-        include=True,
-        episode_num=1,
-        title=album_id,
-    )
+    return decision(album_id, provider=provider)
 
 
 def test_decisions_for_ids_outside_the_batch_are_dropped_and_named() -> None:

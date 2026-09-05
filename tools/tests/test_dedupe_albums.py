@@ -5,10 +5,11 @@ batches see the same album several times.
 """
 
 from lauschi_catalog.catalog.curate_ops import _dedupe_albums
+from tests.factories import discovered_album
 
 
 def _album(provider: str, album_id: str, name: str = "x") -> dict:
-    return {"provider": provider, "id": album_id, "name": name}
+    return discovered_album(provider, album_id, name)
 
 
 def test_drops_same_album_from_second_artist_page():

@@ -9,9 +9,10 @@ from unittest.mock import MagicMock
 import pytest
 from fastapi.testclient import TestClient
 
-from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
+from lauschi_catalog.catalog.models import CatalogEntry
 from lauschi_catalog.providers import Artist
 from lauschi_catalog.web.main import app
+from tests.factories import entry
 
 
 @pytest.fixture
@@ -20,13 +21,9 @@ def client():
 
 
 def _entry(series_id: str, *, spotify_ids: list[str] | None = None) -> CatalogEntry:
-    providers = {}
-    if spotify_ids:
-        providers["spotify"] = ProviderConfig(artist_ids=spotify_ids)
-    return CatalogEntry(
-        id=series_id,
-        title=series_id.replace("_", " ").title(),
-        providers=providers,
+    # The discover preview searches by title, so it must read like one.
+    return entry(
+        series_id, series_id.replace("_", " ").title(), spotify=spotify_ids or []
     )
 
 

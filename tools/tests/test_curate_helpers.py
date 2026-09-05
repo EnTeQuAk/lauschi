@@ -21,6 +21,7 @@ from lauschi_catalog.catalog.curate_ops import (
 )
 from lauschi_catalog.catalog.facts import SubSeriesProposal
 from lauschi_catalog.catalog.matcher import compute_pattern_coverage
+from tests.factories import decision, discovered_album
 
 
 def _series(sid: str = "any") -> CuratedSeries:
@@ -578,8 +579,8 @@ def _decision(
     episode_num: int | None = None,
     release_date: str | None = None,
 ) -> AlbumDecision:
-    return AlbumDecision(
-        album_id=aid,
+    return decision(
+        aid,
         provider=provider,
         include=include,
         episode_num=episode_num,
@@ -1497,7 +1498,7 @@ def test_propose_series_facts_accepts_sub_series_with_album_ids():
 
 def _album(provider: str, album_id: str, name: str = "Album") -> dict:
     """Build a minimal discovery album dict."""
-    return {"provider": provider, "id": album_id, "name": name}
+    return discovered_album(provider, album_id, name)
 
 
 def _curation_album(

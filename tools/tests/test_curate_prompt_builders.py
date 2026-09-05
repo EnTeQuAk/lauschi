@@ -15,6 +15,7 @@ from lauschi_catalog.catalog.curate_ops import (
     curation_from_decisions,
     format_batch_albums,
 )
+from tests.factories import decision
 
 
 def _decision(
@@ -27,18 +28,15 @@ def _decision(
     release_date: str | None = None,
     exclude_reason: str | None = None,
 ) -> AlbumDecision:
-    d = AlbumDecision(
-        album_id=album_id,
+    return decision(
+        album_id,
         provider=provider,
         include=include,
-        title=title or album_id,
         episode_num=episode_num,
+        title=title or album_id,
         release_date=release_date,
-        confidence="high",
+        exclude_reason=exclude_reason or None,
     )
-    if exclude_reason:
-        d.exclude_reason = exclude_reason
-    return d
 
 
 class TestCurationFromDecisions:
