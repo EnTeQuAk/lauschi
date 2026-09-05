@@ -536,12 +536,13 @@ class TestSplitClusterRule:
 
     def test_content_reason_split_fires_with_counts(self):
         albums = [_kartoffelbrei(n, include=True) for n in (1, 2, 3, 4)] + [
-            _kartoffelbrei(n, include=False, reason="sub_series") for n in (5, 6, 7)
+            _kartoffelbrei(n, include=False, reason="sub_series_bleed")
+            for n in (5, 6, 7)
         ]
         issues = lint_curation({"albums": albums})
         hits = [i for i in issues if i.startswith("[split_cluster]")]
         assert len(hits) == 1
-        assert "4 included, 3 excluded as sub_series" in hits[0]
+        assert "4 included, 3 excluded as sub_series_bleed" in hits[0]
 
     def test_duplicate_split_is_deliberate_and_silent(self):
         """A main line with a duplicate excluded beside its twin is a

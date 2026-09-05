@@ -272,7 +272,7 @@ def test_sub_line_cluster_stays_whole_in_its_own_chunk():
             "episode_num": None,
             "title": f"Kampf um Kartoffelbrei (Special) - Teil {i}: Geschichte {i}",
             "confidence": "high",
-            "exclude_reason": None if i <= 4 else "sub_series",
+            "exclude_reason": None if i <= 4 else "sub_series_bleed",
         }
         for i in range(1, 12)
     ]

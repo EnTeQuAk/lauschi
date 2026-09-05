@@ -39,6 +39,10 @@ def normalize_exclude_reason(reason: str | None) -> str | None:
         return ""
     if reason in ALL_KNOWN_REASONS:
         return reason
+    # Retired 2026-09-05: it meant the same as sub_series_bleed and the
+    # code never told them apart. Older curations may still carry it.
+    if reason == "sub_series":
+        return "sub_series_bleed"
 
     lower = reason.lower()
 

@@ -532,7 +532,6 @@ ExcludeReason = Literal[
     "music_single",
     "format_variant",
     "sub_series_bleed",
-    "sub_series",
     "duplicate",
     "not_kids_content",
     "different_series",
@@ -1825,10 +1824,7 @@ async def _run_large(
         sub_bleed_titles: list[str] = []
         seen_titles: set[str] = set()
         for d in all_decisions:
-            if d.include or d.exclude_reason not in (
-                "sub_series_bleed",
-                "sub_series",
-            ):
+            if d.include or d.exclude_reason != "sub_series_bleed":
                 continue
             if d.title in seen_titles:
                 continue

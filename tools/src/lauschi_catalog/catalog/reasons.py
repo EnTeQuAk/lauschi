@@ -73,12 +73,6 @@ CURATE_REASONS: tuple[Reason, ...] = (
         description="Belongs to a sub-series with its own catalog entry",
     ),
     Reason(
-        "sub_series",
-        "structural",
-        auto_flip=False,
-        description="Sub-series content that does not belong in the parent",
-    ),
-    Reason(
         "duplicate",
         "redundancy",
         auto_flip=False,
@@ -178,7 +172,7 @@ AUTO_FLIP_REASON_KEYS: frozenset[str] = frozenset(
 #: likewise structural, but reconcile has never flagged it; it is listed
 #: here for completeness and kept out of the reconcile set.
 FLAG_REASON_KEYS: frozenset[str] = frozenset(
-    {"sub_series_bleed", "sub_series", "different_series", "audit_override"}
+    {"sub_series_bleed", "different_series", "audit_override"}
 )
 
 #: Reasons that make a same-title decision pair contradictory: the same
@@ -201,7 +195,6 @@ CONTRADICTION_REASON_KEYS: frozenset[str] = frozenset(
         "not_kids_content",
         # Legacy value written by older lint passes.
         "audiobook",
-        "sub_series",
         "sub_series_bleed",
         "different_series",
     }

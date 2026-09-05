@@ -29,6 +29,7 @@ def test_known_values_pass_through_unchanged(reason):
         ("Wrong content type: it is an audiobook", "wrong_content_type"),
         ("Duplicate episode 25", "duplicate"),
         ("music single", "music_single"),
+        ("sub_series", "sub_series_bleed"),
         ("totally unparseable free text", "unspecified"),
     ],
 )

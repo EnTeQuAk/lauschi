@@ -23,7 +23,6 @@ field is an enum; use exactly one of these values:
 | `music_single` | Single track under 5 min, not an episode |
 | `format_variant` | Karaoke, instrumental, sped-up, nightcore versions |
 | `sub_series_bleed` | Belongs to a sub-series that has its own catalog entry |
-| `sub_series` | Sub-series content that doesn't belong in the parent |
 | `duplicate` | Same content, same provider (keep the most recent) |
 | `not_kids_content` | Adult content in a children's series |
 | `different_series` | Belongs to a completely different series |
