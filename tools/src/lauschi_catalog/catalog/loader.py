@@ -170,3 +170,30 @@ def lookup_catalog_entry(query: str) -> CatalogEntry | None:
         if entry.title == query:
             return entry
     return None
+
+
+def sibling_series(
+    series_id: str | None,
+    artist_ids: dict[str, list[str]],
+    catalog: list[CatalogEntry],
+) -> list[str]:
+    """Titles of the other catalog entries on this series' artist pages.
+
+    A sibling is any entry other than the series itself that shares a
+    (provider, artist_id) with it, plus its split-off children. The batch
+    prompt lists them so an album that belongs to a sibling is recognised
+    as sub_series_bleed from a fact the catalog holds, not from inference.
+    """
+    wanted = {(prov, aid) for prov, ids in artist_ids.items() for aid in ids}
+    titles: set[str] = set()
+    for entry in catalog:
+        if entry.id == series_id:
+            continue
+        shares = any(
+            (prov, aid) in wanted
+            for prov, ids in entry.all_artist_ids().items()
+            for aid in ids
+        )
+        if shares or (series_id and entry.split_from == series_id):
+            titles.add(entry.title)
+    return sorted(titles)

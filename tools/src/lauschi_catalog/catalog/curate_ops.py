@@ -50,7 +50,11 @@ from lauschi_catalog.catalog.lint_ops import (
     lint_curation,
     lint_regression,
 )
-from lauschi_catalog.catalog.loader import load_catalog, lookup_catalog_entry
+from lauschi_catalog.catalog.loader import (
+    load_catalog,
+    lookup_catalog_entry,
+    sibling_series,
+)
 from lauschi_catalog.catalog.matcher import (
     compute_pattern_coverage as _compute_pattern_coverage,
 )
@@ -213,6 +217,7 @@ def build_batch_prompt(
     progress_text: str,
     rolling: str,
     structural_hints: list[str],
+    sibling_titles: list[str],
     batch_num: int,
     n_batches: int,
     n_albums: int,
@@ -227,6 +232,12 @@ def build_batch_prompt(
             "Structural signals from prior batches:\n"
             + "\n".join(f"  {h}" for h in structural_hints)
             + "\n\n"
+        )
+    if sibling_titles:
+        prompt += (
+            "Sibling series that exist as their own catalog entries. An album "
+            "that belongs to one of them is sub_series_bleed, not part of this "
+            "series:\n" + "\n".join(f"  - {t}" for t in sibling_titles) + "\n\n"
         )
     prompt += f"\nBatch {batch_num}/{n_batches} ({n_albums} albums):\n\n{albums_xml}"
     return prompt
@@ -1457,6 +1468,7 @@ async def _run_large(
     content_type: str = "hoerspiel",
     known_artist_ids: dict[str, list[str]] | None = None,
     existing_facts: SeriesFacts | None = None,
+    series_id: str | None = None,
     on_progress: Progress = _noop,
 ) -> CuratedSeries:
     model = build_model(model_name, api_key)
@@ -1471,6 +1483,14 @@ async def _run_large(
     artist_ids = discovery.artist_ids
     provider_errors = discovery.provider_errors
     incomplete = discovery.incomplete
+
+    # The catalog knows which other entries live on these artist pages;
+    # the batch prompt states them so sibling albums are not guessed at.
+    sibling_titles = sibling_series(series_id, artist_ids, load_catalog())
+    if sibling_titles:
+        on_progress(
+            f"  Sibling entries on these artist pages: {', '.join(sibling_titles)}\n"
+        )
 
     # -- Step 2a: Pre-fetch full album details
     on_progress("  Pre-fetching album details...")
@@ -1625,6 +1645,7 @@ async def _run_large(
             progress_text=progress_text,
             rolling=rolling,
             structural_hints=structural_hints,
+            sibling_titles=sibling_titles,
             batch_num=batch_num,
             n_batches=len(batches),
             n_albums=len(batch),
@@ -2348,6 +2369,7 @@ async def curate_one(
             known_artist_ids=known_artist_ids,
             existing_facts=existing_facts,
             on_progress=on_progress,
+            series_id=series_id,
         )
         series.content_type = content_type
         lock_series_id(series, series_id, on_progress=on_progress)
