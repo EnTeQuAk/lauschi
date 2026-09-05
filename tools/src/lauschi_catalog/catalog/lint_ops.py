@@ -457,6 +457,23 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
                     f"actually included on a provider (gap no longer exists)"
                 )
 
+    # ── Rule 17: Excludes without a named reason ────────────────────
+    # "unspecified" is the model saying it could not name a policy. On a
+    # Hörspiel series that is a hole in the policy, not a decision, so
+    # the count is surfaced with a target of zero. Music scope (features,
+    # other artists' singles) has its own rule and is left out here.
+    if curation.get("content_type", "hoerspiel") != "music":
+        n_unspecified = sum(
+            1
+            for a in albums
+            if not a.get("include") and a.get("exclude_reason") == "unspecified"
+        )
+        if n_unspecified:
+            issues.append(
+                f"[unspecified_count] {n_unspecified} excluded album(s) carry no "
+                f"named reason; each needs a reason from the vocabulary or an include"
+            )
+
     return issues
 
 

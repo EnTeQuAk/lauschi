@@ -772,3 +772,39 @@ class TestDataIntegrityRules:
         }
         issues = lint_curation(curation)
         assert not any("[gap_contradicted]" in i for i in issues)
+
+
+class TestUnspecifiedCount:
+    """574 albums are excluded with no named reason. On a Hörspiel series
+    that is a hole in the policy, not a decision, so lint counts them."""
+
+    def test_unspecified_excludes_on_a_hoerspiel_series_are_counted(self):
+        albums = [
+            _make_album("a", "Irgendwas", include=False, exclude_reason="unspecified"),
+            _make_album("b", "Noch was", include=False, exclude_reason="unspecified"),
+            _make_album("c", "Best Of", include=False, exclude_reason="compilation"),
+        ]
+        issues = lint_curation(
+            {"id": "s", "content_type": "hoerspiel", "albums": albums}
+        )
+        hits = [i for i in issues if i.startswith("[unspecified_count]")]
+        assert len(hits) == 1
+        assert "2" in hits[0]
+
+    def test_zero_unspecified_is_silent(self):
+        albums = [
+            _make_album("c", "Best Of", include=False, exclude_reason="compilation")
+        ]
+        issues = lint_curation(
+            {"id": "s", "content_type": "hoerspiel", "albums": albums}
+        )
+        assert not any(i.startswith("[unspecified_count]") for i in issues)
+
+    def test_music_series_are_left_to_their_own_scope_rule(self):
+        albums = [
+            _make_album(
+                "a", "Feat. Single", include=False, exclude_reason="unspecified"
+            )
+        ]
+        issues = lint_curation({"id": "s", "content_type": "music", "albums": albums})
+        assert not any(i.startswith("[unspecified_count]") for i in issues)
