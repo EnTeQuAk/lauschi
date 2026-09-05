@@ -202,13 +202,16 @@ production runs.
 
 ## Using album_type
 
-Spotify provides `album_type` (album, single, compilation). This is a
-provider-assigned label, not always accurate, but a useful signal:
+Spotify provides `album_type` (album, single, compilation). Measured
+against the reviewed catalog (2,556 albums, 2026-09): of the 46 albums
+Spotify flags `compilation`, 44 are excluded by us. It is a strong signal.
 
 - `album_type=single` + 1-2 tracks + short duration → strong `music_single` signal
-- `album_type=compilation` → check the title. Publisher-repackaged
-  compilations are excludable. But some artist-own collections carry this
-  label incorrectly.
+- `album_type=compilation` → almost always a publisher repackaging or a
+  "Best of": exclude as `compilation`. The one exception class is a music
+  artist's own song collection (Rolf Zuckowski's "Das große Abenteuer
+  Musik" is the only such case in the catalog), which is a regular album
+  of that artist.
 - `album_type=album` → the default for regular episodes. Necessary but
   not sufficient for inclusion.
 

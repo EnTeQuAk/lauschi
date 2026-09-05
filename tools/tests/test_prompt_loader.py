@@ -103,3 +103,14 @@ class TestAuditPhaseStandard:
         p = load_curate_skill(phase="audit")
         assert "audited in chunks" in p
         assert "merge mode only" in p
+
+
+class TestAlbumTypeStatement:
+    """The compilation flag was called 'not always accurate' on a hunch.
+    Measured 2026-09-05 it agrees with our decisions on 44 of 46 albums;
+    the prompt must keep saying so until someone re-measures."""
+
+    def test_hoerspiel_reference_calls_the_compilation_flag_a_strong_signal(self):
+        p = load_curate_skill(phase="batch", content_type="hoerspiel")
+        assert "It is a strong signal." in p
+        assert "artist's own song collection" in p
