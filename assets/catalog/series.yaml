@@ -44297,3 +44297,16 @@ series:
       - id: '1448233599'
         episode: 4
         title: Das Sams 4. Ein Sams für Martin Taschenbier
+- id: meine_freundin_conni_adventskalender
+  title: 'Meine Freundin Conni: Adventskalender'
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: meine_freundin_conni
+  providers:
+    spotify:
+      artist_ids:
+      - 0HerMOOFZXxIF3Yg9BVl0W
+    apple_music:
+      artist_ids:
+      - '532585010'
