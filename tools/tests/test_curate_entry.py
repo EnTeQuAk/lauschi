@@ -66,9 +66,11 @@ class TestPrepareCuration:
         with pytest.raises(KeyError, match="not in the catalog"):
             prepare_curation("nope")
 
-    def test_split_from_is_refused(self, scratch: Path) -> None:
-        with pytest.raises(ValueError, match="split from"):
-            prepare_curation(_entry(id="child", title="Child", split_from="parent"))
+    def test_split_from_is_prepared_like_any_series(self, scratch: Path) -> None:
+        prepared = prepare_curation(
+            _entry(id="child", title="Child", split_from="parent")
+        )
+        assert prepared.entry.split_from == "parent"
 
     def test_corrupt_prior_curation_fails_fast(self, scratch: Path) -> None:
         # An unreadable record may hold approved audit state; silently

@@ -60,7 +60,12 @@ def _parse_catalog(path: Path) -> list[CatalogEntry]:
                 artist_ids=[str(a) for a in aids] if aids else [],
                 album_ids=[str(a["id"]) for a in albums_raw if a.get("id")],
                 albums=[
-                    {"id": str(a["id"]), "title": a.get("title", "")}
+                    {
+                        "id": str(a["id"]),
+                        "title": a.get("title", ""),
+                        "episode": a.get("episode"),
+                        "release_date": a.get("release_date"),
+                    }
                     for a in albums_raw
                     if a.get("id")
                 ],

@@ -70,7 +70,6 @@ from lauschi_catalog.catalog.paths import (
     log_dir,
 )
 from lauschi_catalog.catalog.prompt import album_to_dict, format_albums_xml
-from lauschi_catalog.catalog.series_ops import split_off_refusal
 from lauschi_catalog.fanout import run_bounded
 from lauschi_catalog.prompts import load_curate_skill
 from lauschi_catalog.providers import CatalogProvider
@@ -481,6 +480,83 @@ def _release_year(release_date: str | None) -> int | None:
     if release_date and len(release_date) >= 4 and release_date[:4].isdigit():
         return int(release_date[:4])
     return None
+
+
+def _inject_for_split_child(
+    existing_curation: dict | None,
+    entry: "CatalogEntry",
+) -> dict | None:
+    """Scope a split-off child's run by the catalog's own facts.
+
+    A child shares its artist pages with the parent, so discovery
+    returns the whole family. Its own applied albums arrive included
+    with their numbers; the parent's and every other sibling's applied
+    albums arrive excluded as sub_series_bleed. _preseed_decisions then
+    carries all of it forward and the batch only decides what is new on
+    the page (a line's latest releases). Returns None for a series that
+    is not a split-off.
+    """
+    if not entry.split_from:
+        return existing_curation
+    catalog = load_catalog()
+    if existing_curation is None:
+        existing_curation = {"albums": []}
+    existing_keys = {
+        (a.get("provider"), a.get("album_id"))
+        for a in existing_curation.get("albums", [])
+    }
+
+    def add(record: dict) -> None:
+        key = (record["provider"], record["album_id"])
+        if key in existing_keys:
+            return
+        existing_curation.setdefault("albums", []).append(record)
+        existing_keys.add(key)
+
+    for provider, album_id, title, episode, release_date in _applied_records(entry):
+        add(
+            {
+                "album_id": album_id,
+                "provider": provider,
+                "title": title,
+                "include": True,
+                "episode_num": episode,
+                "confidence": "high",
+                "notes": f"Applied album of '{entry.id}'",
+                "release_date": release_date,
+            }
+        )
+    owners = [e for e in catalog if e.id == entry.split_from] + [
+        e for e in catalog if e.split_from == entry.split_from and e.id != entry.id
+    ]
+    for owner in owners:
+        for provider, album_id, title, _episode, release_date in _applied_records(
+            owner
+        ):
+            add(
+                {
+                    "album_id": album_id,
+                    "provider": provider,
+                    "title": title,
+                    "include": False,
+                    "exclude_reason": "sub_series_bleed",
+                    "confidence": "high",
+                    "notes": f"Belongs to '{owner.id}'",
+                    "release_date": release_date,
+                }
+            )
+    return existing_curation
+
+
+def _applied_records(
+    entry: "CatalogEntry",
+) -> list[tuple[str, str, str, int | None, str | None]]:
+    """(provider, album_id, title, episode, release_date) for an entry's applied albums."""
+    return [
+        (provider, a["id"], a.get("title", ""), a.get("episode"), a.get("release_date"))
+        for provider, cfg in entry.providers.items()
+        for a in cfg.albums
+    ]
 
 
 def _preseed_decisions(
@@ -2406,9 +2482,6 @@ def prepare_curation(
             raise KeyError(f"series {entry_or_query!r} not in the catalog")
         entry = found
 
-    if entry.split_from:
-        raise ValueError(split_off_refusal(entry.id, entry.split_from))
-
     existing: dict | None = None
     if curation_path(entry.id).exists():
         try:
@@ -2488,6 +2561,13 @@ async def curate_one(
             existing_curation,
             series_id,
         )
+        entry = lookup_catalog_entry(series_id) if series_id else None
+        if entry is not None and entry.split_from:
+            existing_curation = _inject_for_split_child(existing_curation, entry)
+            on_progress(
+                f"  Split-off of {entry.split_from}: its own albums carried as "
+                f"included, the family's as sub_series_bleed.\n"
+            )
         # Carry facts from the prior curation JSON forward, not just the
         # frozen series.yaml facts: re-curation is an incremental update,
         # not a rediscovery from scratch. series.yaml wins on conflict.
@@ -2584,19 +2664,6 @@ async def curate_all(
     # entries never touch the model, so they stay in this sync pass.
     todo: list[tuple[int, CurateEntryPrepared]] = []
     for i, entry in enumerate(entries):
-        if entry.split_from:
-            result.skipped += 1
-            refusal = split_off_refusal(entry.id, entry.split_from)
-            on_progress(f"  Skipped: {refusal}")
-            record_event(
-                RunEvent(
-                    series_id=entry.id,
-                    phase="curate",
-                    outcome=OUTCOME_SKIPPED,
-                    detail=refusal,
-                )
-            )
-            continue
         if curation_path(entry.id).exists() and not force:
             result.skipped += 1
             record_event(

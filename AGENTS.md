@@ -102,7 +102,9 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
    skips it. A prior curation with invalid album records (e.g. an
    off-vocabulary exclude_reason) aborts the run; normalize first with
    `lauschi-catalog reconcile --all --normalize`.
-   Split-off children (`split_from`) are refused; curate the parent.
+   Split-off children (`split_from`) curate their own line: their applied
+   albums arrive included, the parent's and siblings' applied albums arrive
+   excluded, and the batch only decides what is new on the shared page.
    Output: `assets/catalog/curation/{series_id}.json` (committed to git).
 
 2. **Reconcile** (`reconcile`): Deterministic cross-provider consistency.
