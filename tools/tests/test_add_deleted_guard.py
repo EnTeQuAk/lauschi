@@ -29,6 +29,12 @@ def env(monkeypatch, tmp_path):
         yaml.dump({"series": []}, f)
 
     monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
+    # add() constructs real providers when keys are present (mise loads
+    # the developer .env), and it imports the classes by name, so the
+    # stubs below must land on add's own binding and the keys must be
+    # absent, or a unit test ends up searching the live Spotify API.
+    for key in ("SPOTIFY_CLIENT_ID", "SPOTIFY_CLIENT_SECRET"):
+        monkeypatch.delenv(key, raising=False)
 
     # Pre-seed the log with a deletion.
     deleted_mod.record_deletion(
@@ -56,8 +62,6 @@ def test_add_refuses_to_readd_deleted_id(env, monkeypatch):
     runner = CliRunner()
     # Disable all providers so we don't try to hit the network or pause
     # for confirmation prompts.
-    import lauschi_catalog.providers.apple_music as am_mod
-    import lauschi_catalog.providers.spotify as sp_mod
 
     def _no_spotify(*_a, **_kw):
         raise SystemExit
@@ -65,8 +69,8 @@ def test_add_refuses_to_readd_deleted_id(env, monkeypatch):
     def _no_apple(*_a, **_kw):
         raise FileNotFoundError
 
-    monkeypatch.setattr(sp_mod, "SpotifyProvider", _no_spotify)
-    monkeypatch.setattr(am_mod, "AppleMusicProvider", _no_apple)
+    monkeypatch.setattr(add_mod, "SpotifyProvider", _no_spotify)
+    monkeypatch.setattr(add_mod, "AppleMusicProvider", _no_apple)
 
     result = runner.invoke(
         add_mod.add,
@@ -87,8 +91,6 @@ def test_add_with_force_readd_clears_log_entry(env, monkeypatch, tmp_path):
     # --no-analyse and a non-dry-run, so the add path will try to
     # write series.yaml. Providers raise during construction → add()
     # falls through with "no providers" and confirms via click prompt.
-    import lauschi_catalog.providers.apple_music as am_mod
-    import lauschi_catalog.providers.spotify as sp_mod
 
     def _no_spotify(*_a, **_kw):
         raise SystemExit
@@ -96,8 +98,8 @@ def test_add_with_force_readd_clears_log_entry(env, monkeypatch, tmp_path):
     def _no_apple(*_a, **_kw):
         raise FileNotFoundError
 
-    monkeypatch.setattr(sp_mod, "SpotifyProvider", _no_spotify)
-    monkeypatch.setattr(am_mod, "AppleMusicProvider", _no_apple)
+    monkeypatch.setattr(add_mod, "SpotifyProvider", _no_spotify)
+    monkeypatch.setattr(add_mod, "AppleMusicProvider", _no_apple)
 
     # Auto-confirm the "no providers, add anyway?" prompt.
     result = runner.invoke(
