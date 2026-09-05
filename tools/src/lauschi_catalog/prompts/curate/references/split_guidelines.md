@@ -28,8 +28,20 @@ does not want the main series (10+) mixed in. Always propose a split.
 Examples: "Die drei ??? Kids", "TKKG Junior", "Fünf Freunde Junior",
 "5 Geschwister Junior".
 
+The same applies to first-reader lines. "Erstleser" and
+"Erstlesegeschichten" mark short, simple stories for six-to-eight-year-olds
+learning to read, published alongside the main series and sold as their
+own product: "Wieso? Weshalb? Warum? ERSTLESER", "Hexe Lilli
+Erstlesergeschichten", "Petronella Apfelmus Erstleser". As audio they are
+short dramatised stories, so they stay `hoerspiel`, but a parent of a
+six-year-old searches for the Erstleser line by name and does not want
+two hundred main episodes mixed in. Split them, always.
+
 Evidence: title prefix/suffix that systematically differs from the main
-episode pattern, marketed to a different age group.
+episode pattern, marketed to a different age group. The batch prompt lists
+the sibling entries the catalog already has; an album that belongs to one
+of them is `sub_series_bleed`, and a line that has no entry yet is what a
+split proposal is for.
 
 ### 2. Film adaptations with distinct branding
 
@@ -44,7 +56,18 @@ Propose a split when the films:
 - Would break chronological/numbered browsing in the parent
 
 Keep with parent when the "films" are just elongated TV episodes
-without distinct branding (same cover art style, same duration range).
+without distinct branding (same cover art style, same duration range),
+and when there is only one film Hörspiel: a single film stays in the
+parent with `episode_num=null` rather than becoming a one-album entry.
+
+Three different products carry the word "Kinofilm", and Bibi und Tina has
+all three on one artist page. "Das Hörspiel zum Kinofilm" is the dramatised
+story: split it into `<series>_kinofilm` once there are two or more. "Der
+Original-Soundtrack zum Kinofilm" is film music, not a story: exclude it as
+`wrong_content_type`. "Das Liederalbum zum Kinofilm" is a song album under
+the character brand: `kinderlieder_compilation`, or a music split when the
+brand has a real music discography. Only the first of the three is ever a
+kinofilm child.
 
 Examples to split: "Bibi und Tina Kinofilm" (4 theatrical releases),
 "Die drei ??? Kinofilm", "Ostwind" film Hörspiele.
@@ -94,16 +117,22 @@ multiple Hörbuch titles. A single Hörbuch should be excluded with
 ### Adventskalender
 
 Annual Advent calendar releases ("Die drei ??? Adventskalender 2021",
-"2022", "2023") are one format, not separate series. Either keep them
-in the parent or propose ONE sub_series "adventskalender" that groups
-all years. Never create per-year entries.
+"2022", "2023") are one format, not separate series. Propose ONE
+sub_series "adventskalender" that groups all years; never per-year
+entries. Two shapes exist: one album per year, and a daily calendar of
+24 short releases ("Adventskalender Tag 16 - Gefährlich rieselt der
+Schnee", 5 Geschwister). In the daily shape the day is the episode
+number. Both shapes go into the same single child. Many of these
+calendars are readings ("Adventskalender-Hörbuch"), so check the
+content type of the child (Conni's is `audiobook`).
 
-### Doppelfolgen and Sammelbände
+### Repackagings
 
-Compilation re-packagings ("Folge 1+2", "3er Box") are not distinct
-works. They should be excluded with `compilation`, not split off.
-Do not count them when assessing whether enough content exists for
-a split.
+Compilation re-packagings ("Folge 1+2", "3er Box", "Jubiläumsbox") are
+not distinct works and never a split candidate: exclude them as
+`compilation` (the Hörspiel reference explains how to tell a repackaging
+from a two-story release). Do not count them when assessing whether
+enough content exists for a split.
 
 ### Sonderfolgen and specials
 
