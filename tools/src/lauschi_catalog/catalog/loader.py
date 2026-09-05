@@ -59,6 +59,11 @@ def _parse_catalog(path: Path) -> list[CatalogEntry]:
             providers[pname] = ProviderConfig(
                 artist_ids=[str(a) for a in aids] if aids else [],
                 album_ids=[str(a["id"]) for a in albums_raw if a.get("id")],
+                albums=[
+                    {"id": str(a["id"]), "title": a.get("title", "")}
+                    for a in albums_raw
+                    if a.get("id")
+                ],
                 episode_pattern=pdata.get("episode_pattern"),
                 has_albums=bool(albums_raw),
             )

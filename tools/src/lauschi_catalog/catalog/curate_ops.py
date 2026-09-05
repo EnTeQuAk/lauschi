@@ -314,29 +314,49 @@ def _inject_split_children(
     }
 
     for child in children:
-        child_path = curation_path(child.id)
-        if not child_path.exists():
-            continue
-        child_data = json.loads(child_path.read_text())
-        for album in child_data.get("albums", []):
-            key = (album.get("provider"), album.get("album_id"))
+        for provider, album_id, title in _child_album_records(child):
+            key = (provider, album_id)
             if key in existing_keys:
                 continue
             existing_curation.setdefault("albums", []).append(
                 {
-                    "album_id": album.get("album_id", ""),
-                    "provider": album.get("provider", ""),
-                    "title": album.get("title", ""),
+                    "album_id": album_id,
+                    "provider": provider,
+                    "title": title,
                     "include": False,
                     "exclude_reason": "sub_series_bleed",
                     "confidence": "high",
                     "notes": f"Belongs to split series '{child.id}'",
-                    "release_date": album.get("release_date"),
+                    "release_date": None,
                 }
             )
             existing_keys.add(key)
 
     return existing_curation
+
+
+def _child_album_records(child) -> list[tuple[str, str, str]]:
+    """(provider, album_id, title) for a split child's albums.
+
+    series.yaml is the authoritative, always-present source; the
+    child's curation file is a fallback for a child that was curated
+    but not yet applied.
+    """
+    records: list[tuple[str, str, str]] = []
+    for provider, cfg in child.providers.items():
+        for album in cfg.albums:
+            records.append((provider, album["id"], album.get("title", "")))
+    if records:
+        return records
+    child_path = curation_path(child.id)
+    if not child_path.exists():
+        return []
+    child_data = json.loads(child_path.read_text())
+    return [
+        (a.get("provider", ""), a.get("album_id", ""), a.get("title", ""))
+        for a in child_data.get("albums", [])
+        if a.get("album_id")
+    ]
 
 
 def _preseed_decisions(
