@@ -44365,3 +44365,89 @@ series:
       - id: '6798866356'
         title: 'Bibi Blocksberg: Die total verhexte Zeitreise (Das Original-Hörspiel zum Kinofilm)'
         release_date: '2026-09-25'
+- id: bibi_blocksberg_kampf_um_kartoffelbrei
+  title: 'Bibi Blocksberg: Kampf um Kartoffelbrei'
+  aliases: []
+  episode_pattern: '^Kampf um Kartoffelbrei \(Special\) - Teil (\d+):'
+  split_from: bibi_blocksberg
+  providers:
+    spotify:
+      artist_ids:
+      - 3t2iKODSDyzoDJw7AsD99u
+      albums:
+      - id: 52MciMhichwTXMlwvkYikQ
+        episode: 1
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 1: Malicias Rache'
+        release_date: '2025-01-24'
+      - id: 0FpTHkAiviemFeIrZKOmNC
+        episode: 2
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 2: Auf heißer Spur'
+        release_date: '2025-02-21'
+      - id: 4ugqQGYYrWYSwYDgR69Xid
+        episode: 3
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 3: Hexerei aus der Ferne'
+        release_date: '2025-03-21'
+      - id: 6ufbMbSRG5Ru2TDwt4ogsW
+        episode: 4
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 4: Eine Falle für Malicia'
+        release_date: '2025-04-18'
+      - id: 5bBhXVErYFrcqFsygEaH4Z
+        episode: 5
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 5: Der Wirbelsturm'
+        release_date: '2025-05-16'
+      - id: 1w5Jm0gKU6e6l5WB1v9hPn
+        episode: 6
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 6: Die geheime Mission'
+        release_date: '2025-06-13'
+      - id: 1luiyb5yyfntu7pGgNghv1
+        episode: 7
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 7: Mutige Junghexen'
+        release_date: '2025-07-11'
+    apple_music:
+      artist_ids:
+      - '41480004'
+      albums:
+      - id: '1786569919'
+        episode: 1
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 1: Malicias Rache'
+        release_date: '2025-01-24'
+      - id: '1786569681'
+        episode: 2
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 2: Auf heißer Spur'
+        release_date: '2025-02-21'
+      - id: '1796205054'
+        episode: 3
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 3: Hexerei aus der Ferne'
+        release_date: '2025-03-21'
+      - id: '1801723420'
+        episode: 4
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 4: Eine Falle für Malicia'
+        release_date: '2025-04-18'
+      - id: '1808479473'
+        episode: 5
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 5: Der Wirbelsturm'
+        release_date: '2025-05-16'
+      - id: '1808477655'
+        episode: 6
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 6: Die geheime Mission'
+        release_date: '2025-06-13'
+      - id: '1810581953'
+        episode: 7
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 7: Mutige Junghexen'
+        release_date: '2025-07-11'
+      - id: '1815272999'
+        episode: 8
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 8: Mania greift ein'
+        release_date: '2025-08-08'
+      - id: '1824733906'
+        episode: 9
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 9: Karla in Gefahr'
+        release_date: '2025-09-12'
+      - id: '1831888726'
+        episode: 10
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 10: Die verhexte Fledermaus'
+        release_date: '2025-10-17'
+      - id: '1844414174'
+        episode: 11
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 11: Das Hex-Duell'
+        release_date: '2025-11-14'
