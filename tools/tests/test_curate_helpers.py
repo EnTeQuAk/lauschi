@@ -139,118 +139,75 @@ def test_exception_format_falls_back_to_type_when_str_empty(exc, expected_substr
 # ── resolve_content_type ─────────────────────────────────────────────────
 
 
-def test_yaml_explicit_music_wins_over_pattern():
-    """Even if a leftover episode_pattern exists, an explicit
-    content_type='music' in series.yaml is canonical."""
+@pytest.mark.parametrize(
+    ("entry_content_type", "entry_has_pattern", "existing_content_type", "expected"),
+    [
+        pytest.param(
+            "music", True, None, "music", id="yaml music wins over a leftover pattern"
+        ),
+        pytest.param(
+            "hoerspiel",
+            False,
+            "music",
+            "hoerspiel",
+            id="yaml hoerspiel wins over a stale music curation",
+        ),
+        pytest.param(
+            None,
+            True,
+            None,
+            "hoerspiel",
+            id="a pattern implies hoerspiel when yaml is silent",
+        ),
+        pytest.param(
+            None,
+            True,
+            "music",
+            "hoerspiel",
+            id="a pattern wins over a stale music curation",
+        ),
+        pytest.param(
+            None,
+            False,
+            "music",
+            "music",
+            id="legacy: the existing curation when yaml has neither",
+        ),
+        pytest.param(
+            None, False, None, "hoerspiel", id="nothing signals: default hoerspiel"
+        ),
+        pytest.param(
+            "audiobook", False, None, "audiobook", id="audiobook is a recognised type"
+        ),
+        pytest.param(
+            "audiobook",
+            True,
+            None,
+            "audiobook",
+            id="audiobook stays even with a pattern",
+        ),
+        pytest.param(
+            None,
+            False,
+            "audiobook",
+            "audiobook",
+            id="legacy audiobook curation is picked up",
+        ),
+    ],
+)
+def test_content_type_resolution(
+    entry_content_type, entry_has_pattern, existing_content_type, expected
+):
+    """series.yaml is canonical, a pattern implies hoerspiel, and the
+    existing curation is only a fallback, so a misclassification cannot
+    compound across --force re-curates."""
     assert (
         resolve_content_type(
-            entry_content_type="music",
-            entry_has_pattern=True,
-            existing_content_type=None,
+            entry_content_type=entry_content_type,
+            entry_has_pattern=entry_has_pattern,
+            existing_content_type=existing_content_type,
         )
-        == "music"
-    )
-
-
-def test_yaml_explicit_hoerspiel_wins_over_existing_music():
-    """The compounding-misclassification fix: a series previously
-    curated as music in its JSON file gets correctly recognized as
-    hoerspiel when series.yaml says so. Without this, every
-    --force re-curate would keep using the music prompt."""
-    assert (
-        resolve_content_type(
-            entry_content_type="hoerspiel",
-            entry_has_pattern=False,
-            existing_content_type="music",
-        )
-        == "hoerspiel"
-    )
-
-
-def test_pattern_implies_hoerspiel_when_yaml_silent():
-    """No explicit content_type, but episode_pattern is set → it's a
-    Hörspiel by definition (patterns are only meaningful for
-    episode-numbered content)."""
-    assert (
-        resolve_content_type(
-            entry_content_type=None,
-            entry_has_pattern=True,
-            existing_content_type=None,
-        )
-        == "hoerspiel"
-    )
-
-
-def test_pattern_implies_hoerspiel_overrides_existing_music():
-    """If yaml has episode_pattern but no explicit content_type, the
-    pattern wins over a stale content_type='music' in the existing
-    curation. Same root concern: don't compound misclassifications."""
-    assert (
-        resolve_content_type(
-            entry_content_type=None,
-            entry_has_pattern=True,
-            existing_content_type="music",
-        )
-        == "hoerspiel"
-    )
-
-
-def test_existing_music_used_when_yaml_has_neither():
-    """Legacy escape hatch: if yaml is silent on content_type AND has
-    no episode_pattern, fall back to the existing curation. Lets
-    pre-migration entries continue to work."""
-    assert (
-        resolve_content_type(
-            entry_content_type=None,
-            entry_has_pattern=False,
-            existing_content_type="music",
-        )
-        == "music"
-    )
-
-
-def test_default_to_hoerspiel_when_nothing_signals():
-    """Brand-new entry with no pattern, no existing curation, no
-    explicit content_type. Default to hoerspiel (most of the catalog)."""
-    assert (
-        resolve_content_type(
-            entry_content_type=None,
-            entry_has_pattern=False,
-            existing_content_type=None,
-        )
-        == "hoerspiel"
-    )
-
-
-def test_audiobook_content_type_supported():
-    """audiobook is a recognized content_type."""
-    assert (
-        resolve_content_type(
-            entry_content_type="audiobook",
-            entry_has_pattern=False,
-            existing_content_type=None,
-        )
-        == "audiobook"
-    )
-    assert (
-        resolve_content_type(
-            entry_content_type="audiobook",
-            entry_has_pattern=True,
-            existing_content_type=None,
-        )
-        == "audiobook"
-    )
-
-
-def test_legacy_content_type_from_existing_curation():
-    """An existing curation with content_type='audiobook' is picked up."""
-    assert (
-        resolve_content_type(
-            entry_content_type=None,
-            entry_has_pattern=False,
-            existing_content_type="audiobook",
-        )
-        == "audiobook"
+        == expected
     )
 
 
@@ -679,55 +636,36 @@ def test_album_decision_release_date_defaults_none():
     assert d.release_date is None
 
 
-def test_confidence_high_without_notes_ok():
-    d = AlbumDecision(
+@pytest.mark.parametrize(
+    ("confidence", "notes", "ok"),
+    [
+        pytest.param("high", None, True, id="high needs no notes"),
+        pytest.param("medium", None, False, id="medium without notes is rejected"),
+        pytest.param("low", None, False, id="low without notes is rejected"),
+        pytest.param(
+            "medium",
+            "cross-provider asymmetry on this episode",
+            True,
+            id="medium with notes is fine",
+        ),
+    ],
+)
+def test_confidence_below_high_requires_notes(confidence, notes, ok):
+    kwargs = dict(
         album_id="x",
         provider="spotify",
         include=True,
         episode_num=1,
         title="t",
-        confidence="high",
+        confidence=confidence,
+        notes=notes,
     )
-    assert d.confidence == "high"
-    assert d.notes is None
-
-
-def test_confidence_medium_requires_notes():
-    with pytest.raises(ValueError, match="notes"):
-        AlbumDecision(
-            album_id="x",
-            provider="spotify",
-            include=True,
-            episode_num=1,
-            title="t",
-            confidence="medium",
-        )
-
-
-def test_confidence_low_requires_notes():
-    with pytest.raises(ValueError, match="notes"):
-        AlbumDecision(
-            album_id="x",
-            provider="spotify",
-            include=True,
-            episode_num=1,
-            title="t",
-            confidence="low",
-        )
-
-
-def test_confidence_medium_with_notes_ok():
-    d = AlbumDecision(
-        album_id="x",
-        provider="spotify",
-        include=True,
-        episode_num=1,
-        title="t",
-        confidence="medium",
-        notes="cross-provider asymmetry on this episode",
-    )
-    assert d.confidence == "medium"
-    assert d.notes is not None
+    if ok:
+        d = AlbumDecision(**kwargs)
+        assert d.confidence == confidence and d.notes == notes
+    else:
+        with pytest.raises(ValueError, match="notes"):
+            AlbumDecision(**kwargs)
 
 
 def test_legacy_json_without_confidence_loads_as_high():
