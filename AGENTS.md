@@ -38,7 +38,10 @@ agents through the opencode-zen relay (OpenAI-compatible). Keys, all in `.env`
 (loaded by mise): `SPOTIFY_CLIENT_ID`/`SPOTIFY_CLIENT_SECRET` for the provider
 APIs (Apple Music uses the shared MusicKit key `android/app/AuthKey_*.p8`),
 `OPENCODE_API_KEY` for model calls, `BRAVE_API_KEY` for the agents' web search
-tool.
+tool, `REFERENCE_INDEX_URL` (optional) for the public line index behind the
+agents' `lookup_reference_lines` tool and `lauschi-catalog reference <title>`
+(a brand's lines and their numbered episodes; lags on new releases, so
+absence there proves nothing).
 
 Default models: `kimi-k2.6` curates, `minimax-m2.7` audits. The 4-eye
 principle requires two different model families. Curate and audit pin

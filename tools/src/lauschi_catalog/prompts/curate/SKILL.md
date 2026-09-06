@@ -186,3 +186,13 @@ Rules:
   MEDIUM or LOW, that's a signal something structural is off (wrong pattern,
   mixed sub-series, unfamiliar catalog shape). Investigate rather than hedge.
 - When in doubt, move one level down (HIGH→MEDIUM, MEDIUM→LOW) and include.
+
+## Public line index (tool: lookup_reference_lines)
+
+An outside, publisher-fed index organises many brands into lines (the main Hörspiele, a Junior line, the Kinofilm Hörspiele, an Advent calendar, ...) and numbers the episodes inside each line. `lookup_reference_lines(series_name)` returns that for one brand. Treat it as one more fact source next to the provider record:
+
+- An album that sits in one of the index's lines belongs to that line. That settles sub-series membership faster than a keyword search.
+- An episode whose provider title carries no number may carry one inside its line there. Say so in the notes; the episode number itself still comes from the title or the track names, not from counting.
+- The line names are the vocabulary for a split proposal.
+
+The index is not complete. It lags behind new releases by weeks and lists only what its owner licenses, so a title that is absent there proves nothing and is judged on its own.

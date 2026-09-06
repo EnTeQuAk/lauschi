@@ -1,7 +1,7 @@
 """Shared tools for pipeline agents.
 
-Builds a FunctionToolset with web_search, fetch_page, and
-get_album_details. All pipeline agents (curate metadata, batch,
+Builds a FunctionToolset with web_search, fetch_page, get_album_details
+and lookup_reference_lines. All pipeline agents (curate metadata, batch,
 finalize, audit) use these via toolsets=[build_agent_tools()].
 
 The toolset is typed as FunctionToolset[AgentDeps]. Since pydantic-ai's
@@ -13,6 +13,7 @@ from pydantic_ai import FunctionToolset, RunContext
 
 from lauschi_catalog.agent_deps import AgentDeps
 from lauschi_catalog.providers._validate import explain_invalid, is_valid_id
+from lauschi_catalog.reference import ReferenceIndex
 from lauschi_catalog.search import brave_search
 from lauschi_catalog.search import fetch_page as _fetch_page
 
@@ -89,5 +90,46 @@ def build_agent_tools() -> FunctionToolset[AgentDeps]:
                 ctx.deps.seen_details[key] = detail
                 results.append(detail)
         return results
+
+    @ts.tool
+    def lookup_reference_lines(ctx: RunContext[AgentDeps], series_name: str) -> dict:
+        """Look a brand up in the public line index: its lines, each with
+        its episode titles and the number the line gives them.
+
+        Use it to place an album in a line, to see the number an
+        episode carries inside its line when the provider title has
+        none, and for the names of a brand's lines. The index lags
+        behind new releases and lists only licensed titles: an absent
+        title proves nothing.
+        """
+        if ctx.deps._reference_count >= ctx.deps._MAX_REFERENCE_CALLS:
+            return {"error": _limit("Reference lookup", ctx.deps._MAX_REFERENCE_CALLS)}
+        ctx.deps._reference_count += 1
+        if ctx.deps.reference is None:
+            ctx.deps.reference = ReferenceIndex()
+        index = ctx.deps.reference
+        if not index.configured:
+            return {
+                "error": "The public line index is not configured (REFERENCE_INDEX_URL)."
+            }
+        found = index.lines_for(series_name)
+        if found is None:
+            return {"error": f"No series named {series_name!r} in the index."}
+        ctx.deps.on_progress(
+            f"  lookup_reference_lines({series_name!r}) -> {found.name!r}, "
+            f"{len(found.lines)} line(s)"
+        )
+        return {
+            "series": found.name,
+            "lines": [
+                {
+                    "name": line.name,
+                    "episodes": [
+                        {"number": e.number, "title": e.title} for e in line.episodes
+                    ],
+                }
+                for line in found.lines
+            ],
+        }
 
     return ts
