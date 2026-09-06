@@ -18738,197 +18738,266 @@ series:
       - id: 3RRIHo5nF4dxI7IafAHqV2
         episode: 1
         title: Wir entdecken unseren Körper (Wieso? Weshalb? Warum? Folge 1)
+        release_date: '2012-07-11'
       - id: 7DUkHx0TZUGZRFC9PAvRuv
         episode: 2
         title: Alles über die Feuerwehr (Wieso? Weshalb? Warum? Folge 2)
+        release_date: '2011-07-28'
       - id: 6cb4F0Vuv6Z1aCGBncpsW4
         episode: 3
         title: Alles über den Bauernhof (Wieso? Weshalb? Warum? Folge 3)
+        release_date: '2015-02-20'
       - id: 7ttKxqdNWQmwIdGFJ9CHN3
         episode: 4
         title: Wir erforschen die Vulkane (Wieso? Weshalb? Warum? Folge 4)
+        release_date: '2024-01-10'
       - id: 4v8YbQpm5L2NejBhfUorXH
         episode: 5
         title: Pass auf im Straßenverkehr (Wieso? Weshalb? Warum? Folge 5)
+        release_date: '2015-02-20'
       - id: 2JCk2B9a0UcyVGRSOHSDCB
         episode: 7
         title: Fahrzeuge auf der Baustelle (Wieso? Weshalb? Warum? Folge 7)
+        release_date: '2020-03-13'
       - id: 2kRAXHWzC0yJPfFpYh4ex1
         episode: 8
         title: Alles über die Eisenbahn (Wieso? Weshalb? Warum? Folge 8)
+        release_date: '2013-07-16'
       - id: 5mBZyy3QIpr977TjJwNr1h
         episode: 10
         title: Unser Wetter (Wieso? Weshalb? Warum? Folge 10)
+        release_date: '2005'
       - id: 0mKxPiw2IHCiS2f3L27ysZ
         episode: 11
         title: Wir entdecken die Ritterburg (Wieso? Weshalb? Warum? Folge 11)
+        release_date: '2004-06-18'
       - id: 5dmA0wYZFF1wHcebERXZun
         episode: 12
         title: Alles über Dinosaurier (Wieso? Weshalb? Warum? Folge 12)
+        release_date: '2004-08-27'
       - id: 2S3y3lFMka1vu0K4jgnoWN
         episode: 14
         title: Ich komme in die Schule (Wieso? Weshalb? Warum? Folge 14)
+        release_date: '2014-02-27'
       - id: 3brOZUdwHBXZVoDX801Yhd
         episode: 15
         title: Alles über Prinzessinnen (Wieso? Weshalb? Warum? Folge 15)
+        release_date: '2014-07-24'
       - id: 1j9egKGDrvalmdaujslFnx
         episode: 16
         title: Tiere im Einsatz (Wieso? Weshalb? Warum? Folge 16)
+        release_date: '2021-08-20'
       - id: 0HOEOE0sN9Bz6lIn6LVjGx
         episode: 17
         title: Komm mit ans Meer (Wieso? Weshalb? Warum? Folge 17)
+        release_date: '2014'
       - id: 19xQY4vRLPGehDohlpO714
         episode: 18
         title: Bei den Indianern (Wieso? Weshalb? Warum? Folge 18)
+        release_date: '2005'
       - id: 2r9wTm3oF2dyfXygcsrm4T
         episode: 20
         title: Alles über Flugzeuge (Wieso? Weshalb? Warum? Folge 20)
+        release_date: '2019-07-19'
       - id: 1HKoVKmIuzkb3l7ZTHlCG9
         episode: 21
         title: Alles über Pferde und Ponys (Wieso? Weshalb? Warum? Folge 21)
+        release_date: '2006-01-29'
       - id: 5hwpgcKwd7MxgGFpV7d0ot
         episode: 22
         title: Alles über die Polizei (Wieso? Weshalb? Warum? Folge 22)
+        release_date: '2007-06-27'
       - id: 1u3zLIAKwqerk9Xxd9DmER
         episode: 23
         title: Religionen der Welt (Wieso? Weshalb? Warum? Folge 23)
+        release_date: '2014'
       - id: 1DOnUpyezBErILDzECKNk3
         episode: 24
         title: Technik bei uns zu Hause (Wieso? Weshalb? Warum? Folge 24)
+        release_date: '2004-08-27'
       - id: 63SDBdCHioxIV9A8bsrwYh
         episode: 25
         title: Die Uhr und die Zeit (Wieso? Weshalb? Warum? Folge 25)
+        release_date: '2011-07-23'
       - id: 6KWJ1xCx7hS64eL0AJSroW
         episode: 26
         title: Komm mit zum Schwimmen (Wieso? Weshalb? Warum? Folge 26)
+        release_date: '2024-02-14'
       - id: 12qtjOEtfKx9PAA2s3qUnt
         episode: 27
         title: Wir entdecken die Meerestiere (Wieso? Weshalb? Warum? Folge 27)
+        release_date: '2011-07-23'
       - id: 2alU7JoVPSPIaWHj6Wdl4A
         episode: 28
         title: Wir entdecken Autos (Wieso? Weshalb? Warum? Folge 28)
+        release_date: '2022-02-16'
       - id: 4teCqJn4CqFg1mCzaeqKUg
         episode: 30
         title: Bei den Römern (Wieso? Weshalb? Warum? Folge 30)
-      - id: 5QhV3TMwyItl0ss8kEPyKC
-        episode: 31
-        title: Wir entdecken Deutschland (Wieso? Weshalb? Warum?)
+        release_date: '2012-07-11'
       - id: 3z8Q6Dj9JEgPl2g6wlHh5y
         episode: 32
         title: Wir entdecken den Weltraum (Wieso? Weshalb? Warum? Folge 32)
-      - id: 0SJwUfZiU55SOgvFzjDg3B
-        episode: 33
-        title: Wir entdecken die Bibel (Wieso? Weshalb? Warum?)
+        release_date: '2006-06-29'
       - id: 5NhTrJXXNYsv0sBgfof7iu
         episode: 34
         title: Wir feiern Weihnachten (Wieso? Weshalb? Warum? Folge 34)
+        release_date: '2012-09-10'
       - id: 18Kk8WF5Stp09Vn3ZBbTr5
         episode: 35
         title: Rund um den Fußball (Wieso? Weshalb? Warum? Folge 35)
+        release_date: '2014-02-27'
       - id: 0YtUExzisgoShQ1RXzNBHb
         episode: 36
         title: Unsere Erde (Wieso? Weshalb? Warum? Folge 36)
-      - id: 7877oEqMxeD7FmiaYXQqJ7
-        title: Wir entdecken die Steinzeit (Wieso? Weshalb? Warum?)
+        release_date: '2020-09-18'
       - id: 6qS1NQq3edvJDOq4Iu6rW6
         episode: 37
         title: Alles über Tierwanderungen (Wieso? Weshalb? Warum? Folge 37)
+        release_date: '2022-02-16'
       - id: 2Z6nsq9Gs1kFdffattlivY
         episode: 38
         title: Alles über Laster, Bagger und Traktoren (Wieso? Weshalb? Warum? Folge 38
+        release_date: '2008-01-28'
       - id: 1ibI2j9SHAp1ddIJcC7s4P
         episode: 39
         title: Wir entdecken Insekten (Wieso? Weshalb? Warum? Folge 39)
-      - id: 74En58RbKkz93JtW4GSEkn
-        episode: 40
-        title: Alles über Piraten (Wieso? Weshalb? Warum? Folge 40)
+        release_date: '2020-02-21'
       - id: 4ql1R24M0uULTTNJFwDPxV
+        episode: 40
         title: Abenteurer und Entdecker (Wieso? Weshalb? Warum? Folge 40)
+        release_date: '2019-02-28'
       - id: 1BChl9yd6B710OuCfIMLWU
         episode: 41
         title: Wir entdecken Wale und Delfine (Wieso? Weshalb? Warum? Folge 41)
-      - id: 1C0R0MmGoWOUXNIvBIJhJJ
-        title: Unser Garten (Wieso? Weshalb? Warum? Folge 43)
+        release_date: '2007-06-27'
       - id: 4fax79LJBEYG0QuRrNrfio
         episode: 43
         title: Wir schützen die Tiere (Wieso? Weshalb? Warum? Folge 43)
-      - id: 1dJnKGmhG2k3Pc0djKULBv
-        title: Alles über den Zirkus (Wieso? Weshalb? Warum? Folge 44)
+        release_date: '2024-08-14'
       - id: 3cJ4YZvufqq9sEU9QLGChk
         episode: 44
         title: Wie leben wir miteinander? (Wieso? Weshalb? Warum? Folge 44)
+        release_date: '2024-07-10'
       - id: 66FhFbAeTxjo29kQGhcBhk
         episode: 45
         title: Im Zoo (Wieso? Weshalb? Warum? Folge 45)
+        release_date: '2009-02-26'
       - id: 5dunpUAsmJShg3aXUBZysJ
         episode: 46
         title: Wir entdecken den Wald (Wieso? Weshalb? Warum? Folge 46)
+        release_date: '2009-09-29'
       - id: 4CM3sxGWqeqefXhpEDTdKt
         episode: 47
         title: Alles über Roboter (Wieso? Weshalb? Warum? Folge 47)
-      - id: 3y4LoVtRfrPX7UEaM6z16P
-        title: Bei den Wikingern (Wieso? Weshalb? Warum? Folge 48)
+        release_date: '2021-01-22'
       - id: 41gQkWwBJ4tRP405gt8k5X
         episode: 48
         title: Wir erforschen die Nacht (Wieso? Weshalb? Warum? Folge 48)
+        release_date: '2021-07-23'
       - id: 4vtfuOVuvvkOLIo0nTe41i
         episode: 50
         title: Wir entdecken die Berge (Wieso? Weshalb? Warum? Folge50)
+        release_date: '2010-01-28'
       - id: 1gtFy1kopNItdbT6MKkEOJ
         episode: 51
         title: Mutig, stark und selbstbewusst (Wieso? Weshalb? Warum? Folge 51)
-      - id: 1xeSaIDaeK20AQwtccyzWO
-        title: Wir erforschen die Polargebiete (Wieso? Weshalb? Warum? Folge 52)
+        release_date: '2023-01-12'
       - id: 4sZdJbSIRJedMvNj4BNTkF
         episode: 52
         title: Alles über Bäume (Wieso? Weshalb? Warum? Folge 52)
+        release_date: '2020-08-21'
       - id: 12n3niS0w5DHsoGJuXELM4
         episode: 53
         title: Was passiert im Krankenhaus? (Wieso? Weshalb? Warum? Folge 53)
+        release_date: '2011-02-24'
       - id: 0Fu7XuXcfPuRqePFBRjrRs
         episode: 55
         title: Wir erforschen die Dinosaurier (Wieso? Weshalb? Warum? Folge 55)
-      - id: 5LjCg5xL2kMZPweUNcxYom
-        title: Wir entdecken Österreich (Wieso? Weshalb? Warum? Folge 58)
+        release_date: '2016-07-22'
       - id: 5lnYsIZ9ctS0x0NPK4XxAD
         episode: 58
         title: Unsere Gefühle (Wieso? Weshalb? Warum? Folge 58)
+        release_date: '2025-07-01'
       - id: 20J46dTfIq2jkJDoIF7y8o
         episode: 59
         title: Wir erforschen Sterne und Planeten (Wieso? Weshalb? Warum? Folge 59)
+        release_date: '2023-01-12'
       - id: 057lsE8G8zJwCBqL24Eld9
         episode: 60
         title: Alles über Wasser (Wieso? Weshalb? Warum? Folge 60)
+        release_date: '2026-01-15'
       - id: 1oDOfftK26tPN7ZXKBXrNr
         episode: 61
         title: Wir entdecken die Wunder der Natur (Wieso? Weshalb? Warum? Folge 61
+        release_date: '2016-07-22'
       - id: 5sdW8OgxNTmJCDTDd28tgW
         episode: 64
         title: Alles über Reptilien (Wieso? Weshalb? Warum? Folge 64)
+        release_date: '2017-07-07'
       - id: 46Hwxdi162zxY50yfMQ9tn
         episode: 65
         title: Alles über Einsatzkräfte (Wieso? Weshalb? Warum? Folge 65)
+        release_date: '2017-07-07'
+      - id: 3QO9ZdWei2Rm7MaoDE4moX
+        episode: 66
+        title: Was Tiere alles bauen (Wieso? Weshalb? Warum? Folge 66)
+        release_date: '2026-07-01'
       - id: 6kZ0fKHKAgBeOEEvIMHmm5
         episode: 67
         title: Wir schützen unsere Umwelt (Wieso? Weshalb? Warum? Folge 67)
+        release_date: '2018-01-12'
       - id: 2f5Zs0o2bsKSBkJoUdHtZd
         episode: 68
         title: Wir entdecken Märchen (Wieso? Weshalb? Warum? Folge 68)
+        release_date: '2018-07-20'
       - id: 5g9EdAxe0cXhlZstJxgNVI
         episode: 69
         title: Alles über Rennfahrzeuge (Wieso? Weshalb? Warum? Folge 69)
+        release_date: '2021-02-19'
       - id: 1PD29rUrcR80JiSDLCSdfi
         episode: 71
         title: Wir entdecken heimische Tiere (Wieso? Weshalb? Warum? Folge 71)
+        release_date: '2019-02-28'
       - id: 6JkbQA31BFnmpLvEuLJIh1
         episode: 72
         title: Wir entdecken Feste und Bräuche (Wieso? Weshalb? Warum? Folge 72)
+        release_date: '2019-07-19'
       - id: 4DFhn7Qyd0Tw8TK0jHPCCE
         episode: 73
         title: Komm mit zum Reiten (Wieso? Weshalb? Warum? Folge 73)
+        release_date: '2023-07-13'
       - id: 1alHNywINSD1EgYegBFVEX
         episode: 74
         title: Rund um den Müll (Wieso? Weshalb? Warum? Folge 74)
+        release_date: '2023-07-13'
+      - id: 7877oEqMxeD7FmiaYXQqJ7
+        title: Wir entdecken die Steinzeit (Wieso? Weshalb? Warum?)
+        release_date: '2006-06-29'
+      - id: 74En58RbKkz93JtW4GSEkn
+        title: Alles über Piraten (Wieso? Weshalb? Warum? Folge 40)
+        release_date: '2007-01-29'
+      - id: 1dJnKGmhG2k3Pc0djKULBv
+        title: Alles über den Zirkus (Wieso? Weshalb? Warum? Folge 44)
+        release_date: '2008-09-29'
+      - id: 3y4LoVtRfrPX7UEaM6z16P
+        title: Bei den Wikingern (Wieso? Weshalb? Warum? Folge 48)
+        release_date: '2009-06-29'
+      - id: 1xeSaIDaeK20AQwtccyzWO
+        title: Wir erforschen die Polargebiete (Wieso? Weshalb? Warum? Folge 52)
+        release_date: '2010-07-29'
+      - id: 5QhV3TMwyItl0ss8kEPyKC
+        title: Wir entdecken Deutschland (Wieso? Weshalb? Warum?)
+        release_date: '2013-07-16'
+      - id: 5LjCg5xL2kMZPweUNcxYom
+        title: Wir entdecken Österreich (Wieso? Weshalb? Warum? Folge 58)
+        release_date: '2016-02-19'
+      - id: 0SJwUfZiU55SOgvFzjDg3B
+        title: Wir entdecken die Bibel (Wieso? Weshalb? Warum?)
+        release_date: '2017-03-10'
+      - id: 1C0R0MmGoWOUXNIvBIJhJJ
+        title: Unser Garten (Wieso? Weshalb? Warum? Folge 43)
+        release_date: '2018-07-20'
     apple_music:
       artist_ids:
       - '1560025489'
@@ -18936,334 +19005,398 @@ series:
       - id: '1863411962'
         episode: 1
         title: Wir entdecken unseren Körper (Wieso? Weshalb? Warum? Folge 1)
+        release_date: '2012-07-11'
       - id: '1863401236'
         episode: 2
         title: Alles über die Feuerwehr (Wieso? Weshalb? Warum? Folge 2)
+        release_date: '2011-07-28'
       - id: '1863391254'
         episode: 3
         title: Alles über den Bauernhof (Wieso? Weshalb? Warum? Folge 3)
+        release_date: '2015-02-20'
       - id: '1863377224'
         episode: 4
         title: Wir erforschen die Vulkane (Wieso? Weshalb? Warum? Folge 4)
+        release_date: '2024-01-10'
       - id: '1863396289'
         episode: 5
         title: Pass auf im Straßenverkehr (Wieso? Weshalb? Warum? Folge 5)
+        release_date: '2015-02-20'
       - id: '1863385989'
         episode: 7
         title: Fahrzeuge auf der Baustelle (Wieso? Weshalb? Warum? Folge 7)
+        release_date: '2020-03-13'
       - id: '1863391125'
         episode: 8
         title: Alles über die Eisenbahn (Wieso? Weshalb? Warum? Folge 8)
+        release_date: '2013-07-16'
       - id: '1863397575'
         episode: 10
         title: Unser Wetter (Wieso? Weshalb? Warum? Folge 10)
+        release_date: '2005'
       - id: '1863400754'
         episode: 11
         title: Wir entdecken die Ritterburg (Wieso? Weshalb? Warum? Folge 11)
+        release_date: '2004-06-18'
       - id: '1863412784'
         episode: 12
         title: Alles über Dinosaurier (Wieso? Weshalb? Warum? Folge 12)
+        release_date: '2004-08-27'
       - id: '1863390944'
         episode: 14
         title: Ich komme in die Schule (Wieso? Weshalb? Warum? Folge 14)
+        release_date: '2014-02-27'
       - id: '1561043910'
         episode: 15
         title: Alles über Prinzessinnen
+        release_date: '2014-07-24'
       - id: '1863381874'
         episode: 16
         title: Tiere im Einsatz (Wieso? Weshalb? Warum? Folge 16)
+        release_date: '2021-08-20'
       - id: '1887716753'
         episode: 17
         title: Komm mit ans Meer (Wieso? Weshalb? Warum? Folge 17)
+        release_date: '2019-08-30'
       - id: '1863388121'
         episode: 18
         title: Bei den Indianern (Wieso? Weshalb? Warum? Folge 18)
+        release_date: '2005'
       - id: '1863407452'
         episode: 20
         title: Alles über Flugzeuge (Wieso? Weshalb? Warum? Folge 20)
+        release_date: '2019-07-19'
       - id: '1863403938'
         episode: 21
         title: Alles über Pferde und Ponys (Wieso? Weshalb? Warum? Folge 21)
+        release_date: '2006-01-29'
       - id: '1863412809'
         episode: 22
         title: Alles über die Polizei (Wieso? Weshalb? Warum? Folge 22)
+        release_date: '2007-06-27'
       - id: '1887716953'
         episode: 23
         title: Religionen der Welt (Wieso? Weshalb? Warum? Folge 23)
+        release_date: '2014'
       - id: '1863411248'
         episode: 24
         title: Technik bei uns zu Hause (Wieso? Weshalb? Warum? Folge 24)
+        release_date: '2004-08-27'
       - id: '1863389962'
         episode: 25
         title: Die Uhr und die Zeit (Wieso? Weshalb? Warum? Folge 25)
+        release_date: '2011-07-23'
       - id: '1863375817'
         episode: 26
         title: Komm mit zum Schwimmen (Wieso? Weshalb? Warum? Folge 26)
+        release_date: '2024-02-14'
       - id: '1863390388'
         episode: 27
         title: Wir entdecken die Meerestiere (Wieso? Weshalb? Warum? Folge 27)
+        release_date: '2011-07-23'
       - id: '1863412376'
         episode: 28
         title: Wir entdecken Autos (Wieso? Weshalb? Warum? Folge 28)
+        release_date: '2022-02-16'
       - id: '1863402249'
         episode: 30
         title: Bei den Römern (Wieso? Weshalb? Warum? Folge 30)
-      - id: '1863397626'
-        episode: 31
-        title: Wir entdecken Deutschland (Wieso? Weshalb? Warum?)
+        release_date: '2012-07-11'
       - id: '1863404702'
         episode: 32
         title: Wir entdecken den Weltraum (Wieso? Weshalb? Warum? Folge 32)
-      - id: '1863395917'
-        episode: 33
-        title: Wir entdecken die Bibel (Wieso? Weshalb? Warum?)
+        release_date: '2006-06-29'
       - id: '1863401061'
         episode: 34
         title: Wir feiern Weihnachten (Wieso? Weshalb? Warum? Folge 34)
+        release_date: '2012-09-10'
       - id: '1863392484'
         episode: 35
         title: Rund um den Fußball (Wieso? Weshalb? Warum? Folge 35)
+        release_date: '2014-02-27'
       - id: '1863392745'
         episode: 36
         title: Unsere Erde (Wieso? Weshalb? Warum? Folge 36)
-      - id: '1883037667'
-        title: Wir entdecken die Steinzeit (Wieso? Weshalb? Warum?)
+        release_date: '2020-09-18'
       - id: '1863379616'
         episode: 37
         title: Alles über Tierwanderungen (Wieso? Weshalb? Warum? Folge 37)
+        release_date: '2022-02-16'
       - id: '1863400020'
         episode: 38
         title: Alles über Laster, Bagger und Traktoren (Wieso? Weshalb? Warum? Folge 38
+        release_date: '2008-01-28'
       - id: '1863387345'
         episode: 39
         title: Wir entdecken Insekten (Wieso? Weshalb? Warum? Folge 39)
-      - id: '1863403701'
-        episode: 40
-        title: Alles über Piraten (Wieso? Weshalb? Warum? Folge 40)
+        release_date: '2020-02-21'
       - id: '1863406072'
+        episode: 40
         title: Abenteurer und Entdecker (Wieso? Weshalb? Warum? Folge 40)
+        release_date: '2019-02-28'
       - id: '1863411599'
         episode: 41
         title: Wir entdecken Wale und Delfine (Wieso? Weshalb? Warum? Folge 41)
-      - id: '1863401057'
-        title: Unser Garten (Wieso? Weshalb? Warum? Folge 43)
+        release_date: '2007-06-27'
       - id: '1863378015'
         episode: 43
         title: Wir schützen die Tiere (Wieso? Weshalb? Warum? Folge 43)
-      - id: '1863400902'
-        title: Alles über den Zirkus (Wieso? Weshalb? Warum? Folge 44)
+        release_date: '2024-08-14'
       - id: '1863378186'
         episode: 44
         title: Wie leben wir miteinander? (Wieso? Weshalb? Warum? Folge 44)
+        release_date: '2024-07-10'
       - id: '1863400920'
         episode: 45
         title: Im Zoo (Wieso? Weshalb? Warum? Folge 45)
+        release_date: '2009-02-26'
       - id: '1887716978'
         episode: 46
         title: Wir entdecken den Wald (Wieso? Weshalb? Warum? Folge 46)
+        release_date: '2009-09-29'
       - id: '1863382901'
         episode: 47
         title: Alles über Roboter (Wieso? Weshalb? Warum? Folge 47)
-      - id: '1863388136'
-        title: Bei den Wikingern (Wieso? Weshalb? Warum? Folge 48)
+        release_date: '2021-01-22'
       - id: '1863411327'
         episode: 48
         title: Wir erforschen die Nacht (Wieso? Weshalb? Warum? Folge 48)
+        release_date: '2021-07-23'
       - id: '1863390173'
         episode: 50
         title: Wir entdecken die Berge (Wieso? Weshalb? Warum? Folge50)
+        release_date: '2010-01-28'
       - id: '1863378658'
         episode: 51
         title: Mutig, stark und selbstbewusst (Wieso? Weshalb? Warum? Folge 51)
-      - id: '1863390752'
-        title: Wir erforschen die Polargebiete (Wieso? Weshalb? Warum? Folge 52)
+        release_date: '2023-01-12'
       - id: '1863394403'
         episode: 52
         title: Alles über Bäume (Wieso? Weshalb? Warum? Folge 52)
+        release_date: '2020-08-21'
       - id: '1863399792'
         episode: 53
         title: Was passiert im Krankenhaus? (Wieso? Weshalb? Warum? Folge 53)
+        release_date: '2011-02-24'
       - id: '1863399189'
         episode: 55
         title: Wir erforschen die Dinosaurier (Wieso? Weshalb? Warum? Folge 55)
-      - id: '1863399080'
-        title: Wir entdecken Österreich (Wieso? Weshalb? Warum? Folge 58)
+        release_date: '2016-07-22'
       - id: '1870573453'
         episode: 58
         title: Unsere Gefühle (Wieso? Weshalb? Warum? Folge 58)
+        release_date: '2025-07-01'
       - id: '1883199562'
         episode: 59
         title: Wir erforschen Sterne und Planeten (Wieso? Weshalb? Warum? Folge 59)
+        release_date: '2023-01-12'
       - id: '1867529433'
         episode: 60
         title: Alles über Wasser (Wieso? Weshalb? Warum? Folge 60)
+        release_date: '2026-01-15'
       - id: '1863398979'
         episode: 61
         title: Wir entdecken die Wunder der Natur (Wieso? Weshalb? Warum? Folge 61
+        release_date: '2016-07-22'
       - id: '1863408197'
         episode: 64
         title: Alles über Reptilien (Wieso? Weshalb? Warum? Folge 64)
+        release_date: '2017-07-07'
       - id: '1863408090'
         episode: 65
         title: Alles über Einsatzkräfte (Wieso? Weshalb? Warum? Folge 65)
-      - id: '1561045307'
+        release_date: '2017-07-07'
+      - id: '6775883342'
         episode: 66
-        title: Wieso? Weshalb? Warum? Wir entdecken Kleidung und Mode
+        title: Was Tiere alles bauen (Wieso? Weshalb? Warum? Folge 66)
+        release_date: '2026-07-01'
       - id: '1863406219'
         episode: 67
         title: Wir schützen unsere Umwelt (Wieso? Weshalb? Warum? Folge 67)
+        release_date: '2018-01-12'
       - id: '1863402068'
         episode: 68
         title: Wir entdecken Märchen (Wieso? Weshalb? Warum? Folge 68)
+        release_date: '2018-07-20'
       - id: '1863384780'
         episode: 69
         title: Alles über Rennfahrzeuge (Wieso? Weshalb? Warum? Folge 69)
+        release_date: '2021-02-19'
       - id: '1863410268'
         episode: 71
         title: Wir entdecken heimische Tiere (Wieso? Weshalb? Warum? Folge 71)
+        release_date: '2019-02-28'
       - id: '1863405664'
         episode: 72
         title: Wir entdecken Feste und Bräuche (Wieso? Weshalb? Warum? Folge 72)
+        release_date: '2019-07-19'
       - id: '1863377557'
         episode: 73
         title: Komm mit zum Reiten (Wieso? Weshalb? Warum? Folge 73)
+        release_date: '2023-07-13'
       - id: '1863377882'
         episode: 74
         title: Rund um den Müll (Wieso? Weshalb? Warum? Folge 74)
+        release_date: '2023-07-13'
+      - id: '1883037667'
+        title: Wir entdecken die Steinzeit (Wieso? Weshalb? Warum?)
+        release_date: '2006-06-29'
+      - id: '1863403701'
+        title: Alles über Piraten (Wieso? Weshalb? Warum? Folge 40)
+        release_date: '2007-01-29'
+      - id: '1863400902'
+        title: Alles über den Zirkus (Wieso? Weshalb? Warum? Folge 44)
+        release_date: '2008-09-29'
+      - id: '1863388136'
+        title: Bei den Wikingern (Wieso? Weshalb? Warum? Folge 48)
+        release_date: '2009-06-29'
+      - id: '1863390752'
+        title: Wir erforschen die Polargebiete (Wieso? Weshalb? Warum? Folge 52)
+        release_date: '2010-07-29'
+      - id: '1863397626'
+        title: Wir entdecken Deutschland (Wieso? Weshalb? Warum?)
+        release_date: '2013-07-16'
+      - id: '1863399080'
+        title: Wir entdecken Österreich (Wieso? Weshalb? Warum? Folge 58)
+        release_date: '2016-02-19'
+      - id: '1863395917'
+        title: Wir entdecken die Bibel (Wieso? Weshalb? Warum?)
+        release_date: '2017-03-10'
+      - id: '1561045307'
+        title: Wieso? Weshalb? Warum? Wir entdecken Kleidung und Mode
+        release_date: '2018-01-12'
+      - id: '1863401057'
+        title: Unser Garten (Wieso? Weshalb? Warum? Folge 43)
+        release_date: '2018-07-20'
   episode_pattern: \(Wieso\? Weshalb\? Warum\? Folge\s*(\d+)
   series_facts:
     era_boundaries:
-    - label: klassik
+    - curated_by: minimax-m2.7
+      curated_at: '2026-07-02T08:18:13.890057+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T08:18:13.890057+00:00'
+      label: klassik
       release_date_range: 2004-2009
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T08:18:13.890057+00:00'
-    - label: moderne
+      label: moderne
       release_date_range: 2010-2019
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T08:18:13.890057+00:00'
-    - label: aktuell
+      label: aktuell
       release_date_range: 2020-2026
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-02T08:18:13.890057+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T08:18:13.890057+00:00'
     known_gaps:
-    - number: 6
-      range_end:
-      reason: Missing from catalog - not found on Spotify or Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T08:18:13.890057+00:00'
-    - number: 9
+      number: 6
       range_end:
       reason: Missing from catalog - not found on Spotify or Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T08:18:13.890057+00:00'
-    - number: 13
+      number: 9
       range_end:
       reason: Missing from catalog - not found on Spotify or Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T08:18:13.890057+00:00'
-    - number: 19
+      number: 13
       range_end:
       reason: Missing from catalog - not found on Spotify or Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T08:18:13.890057+00:00'
-    - number: 29
+      number: 19
       range_end:
       reason: Missing from catalog - not found on Spotify or Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T08:18:13.890057+00:00'
-    - number: 31
+      number: 29
+      range_end:
+      reason: Missing from catalog - not found on Spotify or Apple Music
+    - curated_by: minimax-m2.7
+      curated_at: '2026-07-02T08:18:13.890057+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T08:18:13.890057+00:00'
+      number: 31
       range_end:
       reason: Episode likely exists but without 'Folge N' suffix; may be 'Wir entdecken Deutschland'
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T08:18:13.890057+00:00'
-    - number: 33
+      number: 33
       range_end:
       reason: Episode likely exists but without 'Folge N' suffix; may be 'Wir entdecken die Bibel'
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T08:18:13.890057+00:00'
-    - number: 42
+      number: 42
       range_end:
       reason: Missing from catalog - not found on Spotify or Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T08:18:13.890057+00:00'
-    - number: 49
+      number: 49
       range_end:
       reason: Missing from catalog - not found on Spotify or Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T08:18:13.890057+00:00'
-    - number: 54
+      number: 54
       range_end:
       reason: Missing from catalog - not found on Spotify or Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T08:18:13.890057+00:00'
-    - number: 56
+      number: 56
       range_end:
       reason: Missing from catalog - not found on Spotify or Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T08:18:13.890057+00:00'
-    - number: 57
+      number: 57
       range_end:
       reason: Missing from catalog - not found on Spotify or Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T08:18:13.890057+00:00'
-    - number: 62
+      number: 62
       range_end:
       reason: Missing from catalog - not found on Spotify or Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T08:18:13.890057+00:00'
-    - number: 63
+      number: 63
       range_end:
       reason: Missing from catalog - not found on Spotify or Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T08:18:13.890057+00:00'
-    - number: 66
-      range_end:
-      reason: Missing from Spotify catalog - present on Apple Music as 'Wir entdecken Kleidung und Mode'
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-02T08:18:13.890057+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T08:18:13.890057+00:00'
-    - number: 70
+      number: 70
       range_end:
       reason: Missing from catalog - not found on Spotify or Apple Music
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-02T08:18:13.890057+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T08:18:13.890057+00:00'
+  aliases:
+  - Wieso? Weshalb? Warum? Hörspiele
 - id: otfried_preussler
   title: Otfried Preußler
   providers:
@@ -30857,199 +30990,268 @@ series:
       - id: '1863399109'
         episode: 1
         title: Der Bauernhof (Wieso? Weshalb? Warum? JUNIOR, Folge 1)
+        release_date: '2008-03-27'
       - id: '1863402427'
         episode: 2
         title: Die Feuerwehr (Wieso? Weshalb? Warum? JUNIOR, Folge 2)
+        release_date: '2008-03-27'
       - id: '1863401307'
         episode: 3
         title: Der Flughafen (Wieso? Weshalb? Warum? JUNIOR, Folge 3)
+        release_date: '2008-09-29'
       - id: '1863393250'
         episode: 4
         title: Die Ritterburg (Wieso? Weshalb? Warum? JUNIOR, Folge 4)
+        release_date: '2009-07-29'
       - id: '1863410790'
         episode: 5
         title: Das bin Ich & Das bist Du (Wieso? Weshalb? Warum? JUNIOR, Folge 5)
+        release_date: '2008-03-27'
       - id: '1863395181'
         episode: 6
         title: Der Wald (Wieso? Weshalb? Warum? JUNIOR, Folge 6)
+        release_date: '2007'
       - id: '1863401644'
         episode: 7
         title: Die Baustelle (Wieso? Weshalb? Warum? JUNIOR, Folge 7)
+        release_date: '2009-01-29'
       - id: '1863402544'
         episode: 9
         title: Die Eisenbahn (Wieso? Weshalb? Warum? JUNIOR, Folge 9)
+        release_date: '2010-06-24'
       - id: '1863403233'
         episode: 10
         title: Die Jahreszeiten (Wieso? Weshalb? Warum? JUNIOR, Folge 10)
+        release_date: '2008-08-29'
       - id: '1863401510'
         episode: 11
         title: Autos und Laster (Wieso? Weshalb? Warum? JUNIOR, Folge 11)
+        release_date: '2010-02-25'
       - id: '1863396104'
         episode: 14
         title: Was ich alles kann (Wieso? Weshalb? Warum? JUNIOR, Folge 14)
+        release_date: '2014-06-23'
       - id: '1863406717'
         episode: 15
         title: Unsere Tierkinder (Wieso? Weshalb? Warum? JUNIOR, Folge 15)
+        release_date: '2018-02-09'
       - id: '1863397739'
         episode: 16
         title: Die Müllabfuhr (Wieso? Weshalb? Warum? JUNIOR, Folge 16)
+        release_date: '2012-01-11'
       - id: '1863411054'
         episode: 17
         title: Am Meer (Wieso? Weshalb? Warum? JUNIOR, Folge 17)
+        release_date: '2011-01-27'
       - id: '1863399222'
         episode: 18
         title: Die Polizei (Wieso? Weshalb? Warum? JUNIOR, Folge 18)
+        release_date: '2011-06-30'
       - id: '1863411863'
         episode: 19
         title: Was macht die Prinzessin? (Wieso? Weshalb? Warum? JUNIOR, Folge 19)
+        release_date: '2019-01-31'
       - id: '1863408389'
         episode: 22
         title: Was wächst da? (Wieso? Weshalb? Warum? JUNIOR, Folge 22)
+        release_date: '2019-01-31'
       - id: '1863395839'
         episode: 23
         title: Die Rettungsfahrzeuge (Wieso? Weshalb? Warum? JUNIOR, Folge 23)
+        release_date: '2014-06-23'
       - id: '1863411870'
         episode: 24
         title: Mein Kindergarten (Wieso? Weshalb? Warum? JUNIOR, Folge 24)
+        release_date: '2014-01-16'
       - id: '1863396545'
         episode: 25
         title: Die Dinosaurier (Wieso? Weshalb? Warum? JUNIOR, Folge 25)
+        release_date: '2014-05-26'
       - id: '1863379072'
         episode: 26
         title: Der Hubschrauber (Wieso? Weshalb? Warum? JUNIOR, Folge 26)
+        release_date: '2022-07-20'
       - id: '1863407629'
         episode: 27
         title: Wir feiern Geburtstag (Wieso? Weshalb? Warum? JUNIOR, Folge 27)
+        release_date: '2018-06-22'
       - id: '1863381132'
         episode: 28
         title: Wenn es dunkel wird (Wieso? Weshalb? Warum? JUNIOR, Folge 28)
-      - id: '1863402066'
-        episode: 29
-        title: Der Pinguin (Wieso? Weshalb? Warum? JUNIOR, Folge 29)
+        release_date: '2013-06-21'
       - id: '1863376779'
+        episode: 29
         title: Wir sind Geschwister (Wieso? Weshalb? Warum? JUNIOR, Folge 29)
+        release_date: '2023-07-13'
       - id: '1863395723'
         episode: 30
         title: Wir gehen in den Zoo (Wieso? Weshalb? Warum? JUNIOR, Folge 30)
+        release_date: '2015-01-23'
       - id: '1863411085'
         episode: 33
         title: Tiere bei uns (Wieso? Weshalb? Warum? JUNIOR, Folge 33)
+        release_date: '2021-07-23'
       - id: '1863391494'
         episode: 34
         title: Der Traktor (Wieso? Weshalb? Warum? JUNIOR, Folge 34)
+        release_date: '2015-01-23'
       - id: '1863399747'
         episode: 35
         title: Im Streichelzoo (Wieso? Weshalb? Warum? JUNIOR, Folge 35)
-      - id: '1863411660'
+        release_date: '2010-02-25'
+      - id: '6774245811'
         episode: 36
-        title: Was kriecht und krabbelt da? (Wieso? Weshalb? Warum? JUNIOR, Folge 36)
+        title: Sehen, riechen, hören (Wieso? Weshalb? Warum? junior, Folge 36)
+        release_date: '2026-07-01'
       - id: '1863411355'
         episode: 38
         title: Der Bagger (Wieso? Weshalb? Warum? JUNIOR, Folge 38)
+        release_date: '2011-01-27'
       - id: '1863387382'
         episode: 39
         title: Mama, Papa, Oma, Opa (Wieso? Weshalb? Warum? JUNIOR, Folge 39)
+        release_date: '2020-02-21'
       - id: '1863378549'
         episode: 41
         title: Mein Hund (Wieso? Weshalb? Warum? JUNIOR, Folge 41)
+        release_date: '2011-06-18'
       - id: '1863401889'
         episode: 42
         title: In den Bergen (Wieso? Weshalb? Warum? JUNIOR, Folge 42)
+        release_date: '2011-06-30'
       - id: '1863380368'
         episode: 43
         title: Wie helfe ich der Umwelt? (Wieso? Weshalb? Warum? JUNIOR, Folge 43)
+        release_date: '2022-01-12'
       - id: '1863406927'
         episode: 44
         title: Was machen wir an Weihnachten? (Wieso? Weshalb? Warum? JUNIOR, Folge 44)
+        release_date: '2019-06-21'
       - id: '1863403726'
         episode: 47
         title: Sonne, Wind und Regen (Wieso? Weshalb? Warum? JUNIOR, Folge 47)
+        release_date: '2012-06-11'
       - id: '1863383783'
         episode: 48
         title: Ampel, Straße und Verkehr (Wieso? Weshalb? Warum? JUNIOR, Folge 48)
+        release_date: '2013-02-27'
       - id: '1863375572'
         episode: 50
         title: Wir gehen einkaufen (Wieso? Weshalb? Warum? JUNIOR, Folge 50)
+        release_date: '2024-01-10'
       - id: '1863410200'
         episode: 51
         title: Der Lastwagen (Wieso? Weshalb? Warum? JUNIOR, Folge 51)
+        release_date: '2021-08-20'
       - id: '1863390913'
         episode: 52
         title: Zähne putzen, Pipi machen (Wieso? Weshalb? Warum? JUNIOR, Folge 52)
+        release_date: '2014-01-16'
       - id: '1863398190'
         episode: 53
         title: Was essen wir? (Wieso? Weshalb? Warum? JUNIOR, Folge 53)
+        release_date: '2016-01-22'
       - id: '1863380050'
         episode: 54
         title: Was machen wir an Ostern? (Wieso? Weshalb? Warum? JUNIOR, Folge 54)
+        release_date: '2022-01-12'
       - id: '1863389977'
         episode: 55
         title: Wer arbeitet auf der Baustelle? (Wieso? Weshalb? Warum? JUNIOR, Folge 55)
+        release_date: '2011-06-18'
       - id: '1863398332'
         episode: 56
         title: Heute, morgen, jetzt und gleich (Wieso? Weshalb? Warum? JUNIOR, Folge 56)
+        release_date: '2016-01-22'
       - id: '1863377246'
         episode: 57
         title: Tiere im Meer (Wieso? Weshalb? Warum? JUNIOR, Folge 57)
-      - id: '1863400606'
-        episode: 58
-        title: Was machen wir im Winter? (Wieso? Weshalb? Warum? JUNIOR, Folge 58)
+        release_date: '2024-02-14'
       - id: '1863405667'
+        episode: 58
         title: Was machen wir im Sommer? (Wieso? Weshalb? Warum? JUNIOR, Folge 58)
+        release_date: '2018-02-09'
       - id: '1868966527'
         episode: 59
         title: Was machen wir im Frühling? (Wieso? Weshalb? Warum? JUNIOR, Folge 59)
+        release_date: '2017-01-13'
       - id: '1863409462'
         episode: 61
         title: Was machen wir im Herbst? (Wieso? Weshalb? Warum? JUNIOR, Folge 61)
+        release_date: '2017-06-09'
       - id: '1863394270'
         episode: 63
         title: Unterwegs mit Bus und Bahn (Wieso? Weshalb? Warum? JUNIOR, Folge 63)
+        release_date: '2017-06-09'
       - id: '1863384520'
         episode: 64
         title: Komm mit zum Zahnarzt (Wieso? Weshalb? Warum? JUNIOR, Folge 64)
+        release_date: '2020-06-19'
       - id: '1863404747'
         episode: 65
         title: Was macht der Polizist (Wieso? Weshalb? Warum? JUNIOR, Folge 65)
+        release_date: '2018-06-22'
       - id: '1863381572'
         episode: 66
         title: Helfen, teilen, sich vertragen (Wieso? Weshalb? Warum? JUNIOR, Folge 66)
+        release_date: '2021-03-18'
       - id: '1863382423'
         episode: 68
         title: Was macht der Fußballer? (Wieso? Weshalb? Warum? JUNIOR, Folge 68)
+        release_date: '2020-03-13'
       - id: '1863388082'
         episode: 69
         title: Tanken, waschen, reparieren (Wieso? Weshalb? Warum? JUNIOR, Folge 69)
+        release_date: '2020-06-19'
       - id: '1863403794'
         episode: 71
         title: Turnen, tanzen, Musik machen (Wieso? Weshalb? Warum? JUNIOR, Folge 71)
+        release_date: '2021-03-18'
       - id: '1863378338'
         episode: 72
         title: Sonne, Mond und Sterne (Wieso? Weshalb? Warum? JUNIOR, Folge 72)
+        release_date: '2022-07-20'
       - id: '1863377957'
         episode: 73
         title: Tiere der Welt (Wieso? Weshalb? Warum? JUNIOR, Folge 73)
+        release_date: '2023-02-16'
       - id: '1863378528'
         episode: 74
         title: Die Müllfahrzeuge (Wieso? Weshalb? Warum? JUNIOR, Folge 74)
+        release_date: '2023-02-16'
       - id: '1863375948'
         episode: 75
         title: Im Krankenhaus (Wieso? Weshalb? Warum? JUNIOR, Folge 75)
+        release_date: '2024-07-10'
       - id: '1863374898'
         episode: 76
         title: Bohrer, Lampe, Spülmaschine (Wieso? Weshalb? Warum? JUNIOR, Folge 76)
+        release_date: '2025-01-15'
       - id: '1863377205'
         episode: 77
         title: Tiere im Wald (Wieso? Weshalb? Warum? JUNIOR, Folge 77)
+        release_date: '2025-01-15'
       - id: '1868964776'
         episode: 79
         title: Kämmen, schneiden, Haare waschen (Wieso? Weshalb? Warum? JUNIOR, Folge 79)
+        release_date: '2025-07-01'
       - id: '1870797979'
         episode: 80
         title: Mein erstes Fahrrad (Wieso? Weshalb? Warum? JUNIOR, Folge 80)
+        release_date: '2026-02-06'
       - id: '1872678786'
         episode: 81
         title: Der Kran. (Wieso? Weshalb? Warum? junior, Folge 81)
+        release_date: '2026-02-13'
+      - id: '1863411660'
+        title: Was kriecht und krabbelt da? (Wieso? Weshalb? Warum? JUNIOR, Folge 36)
+        release_date: '2014-01-16'
+      - id: '1863402066'
+        title: Der Pinguin (Wieso? Weshalb? Warum? JUNIOR, Folge 29)
+        release_date: '2016-06-17'
+      - id: '1863400606'
+        title: Was machen wir im Winter? (Wieso? Weshalb? Warum? JUNIOR, Folge 58)
+        release_date: '2016-09-23'
     spotify:
       artist_ids:
       - 0LoeUAhyTnta8Vk7HBzBsP
@@ -31057,196 +31259,264 @@ series:
       - id: 1ESUpWc4Tc10nAiMgLkcaR
         episode: 1
         title: Der Bauernhof (Wieso? Weshalb? Warum? JUNIOR, Folge 1)
+        release_date: '2008-03-27'
       - id: 1zlWB5lTNlGkXk9aovuNhx
         episode: 2
         title: Die Feuerwehr (Wieso? Weshalb? Warum? JUNIOR, Folge 2)
+        release_date: '2008-03-27'
       - id: 7aFBdUmTglMh5OAId7goSM
         episode: 3
         title: Der Flughafen (Wieso? Weshalb? Warum? JUNIOR, Folge 3)
+        release_date: '2008-09-29'
       - id: 6ab5JjhiWFa06RvxlK3UIc
         episode: 4
         title: Die Ritterburg (Wieso? Weshalb? Warum? JUNIOR, Folge 4)
+        release_date: '2009-07-29'
       - id: 6wwy5qNXtNv1U8zGtvVi66
         episode: 5
         title: Das bin Ich & Das bist Du (Wieso? Weshalb? Warum? JUNIOR, Folge 5)
+        release_date: '2008-03-27'
       - id: 35AzVNMYJ0pcXugh1N7EeD
         episode: 6
         title: Der Wald (Wieso? Weshalb? Warum? JUNIOR, Folge 6)
+        release_date: '2007'
       - id: 7CEVzJZMZXwa4tiX9OT9ld
         episode: 7
         title: Die Baustelle (Wieso? Weshalb? Warum? JUNIOR, Folge 7)
+        release_date: '2009-01-29'
       - id: 3Ll8hgpkmPvRdjgQ8cpH8j
         episode: 9
         title: Die Eisenbahn (Wieso? Weshalb? Warum? JUNIOR, Folge 9)
+        release_date: '2010-06-24'
       - id: 3n89fkumFJzz271wSwq1NI
         episode: 10
         title: Die Jahreszeiten (Wieso? Weshalb? Warum? JUNIOR, Folge 10)
+        release_date: '2008-08-29'
       - id: 4FikmmRrBni6uTVOOpFADE
         episode: 11
         title: Autos und Laster (Wieso? Weshalb? Warum? JUNIOR, Folge 11)
+        release_date: '2010-02-25'
       - id: 3ztvcaTl4iJYWkyISZ7M6v
         episode: 14
         title: Was ich alles kann (Wieso? Weshalb? Warum? JUNIOR, Folge 14)
+        release_date: '2014-06-23'
       - id: 4zUcSds6jotTsotWyE6u3E
         episode: 15
         title: Unsere Tierkinder (Wieso? Weshalb? Warum? JUNIOR, Folge 15)
+        release_date: '2018-02-09'
       - id: 5mY9S1Qwlah7AXdBERsn1q
         episode: 16
         title: Die Müllabfuhr (Wieso? Weshalb? Warum? JUNIOR, Folge 16)
+        release_date: '2012-01-11'
       - id: 3yNMJXjQQ0rWAymj53Aq5B
         episode: 17
         title: Am Meer (Wieso? Weshalb? Warum? JUNIOR, Folge 17)
+        release_date: '2011-01-27'
       - id: 7j0qrGG3KKwywEWEaFG8Gx
         episode: 18
         title: Die Polizei (Wieso? Weshalb? Warum? JUNIOR, Folge 18)
+        release_date: '2011-06-30'
       - id: 1gVkgmYgRRD0pj0U6FBG6L
         episode: 19
         title: Was macht die Prinzessin? (Wieso? Weshalb? Warum? JUNIOR, Folge 19)
+        release_date: '2019-01-31'
       - id: 2H6EoA8iIXGjIy4bAfcpNY
         episode: 22
         title: Was wächst da? (Wieso? Weshalb? Warum? JUNIOR, Folge 22)
+        release_date: '2019-01-31'
       - id: 50AtidafqpRFoS0DPt4HJ8
         episode: 23
         title: Die Rettungsfahrzeuge (Wieso? Weshalb? Warum? JUNIOR, Folge 23)
+        release_date: '2014-06-23'
       - id: 7tSZ55ZvLmrZu0udtUGyHe
         episode: 24
         title: Mein Kindergarten (Wieso? Weshalb? Warum? JUNIOR, Folge 24)
+        release_date: '2014-01-16'
       - id: 0qmAUmosvU4odac7Ib0Zz5
         episode: 25
         title: Die Dinosaurier (Wieso? Weshalb? Warum? JUNIOR, Folge 25)
+        release_date: '2012'
       - id: 4F9A0kKe2tBiB3cbFuhOpD
         episode: 26
         title: Der Hubschrauber (Wieso? Weshalb? Warum? JUNIOR, Folge 26)
+        release_date: '2022-07-20'
       - id: 1Xzti3LZXioCsFxqMMBb55
         episode: 27
         title: Wir feiern Geburtstag (Wieso? Weshalb? Warum? JUNIOR, Folge 27)
+        release_date: '2018-06-22'
       - id: 2TXfx9EsCertIefJAzOPJF
         episode: 28
         title: Wenn es dunkel wird (Wieso? Weshalb? Warum? JUNIOR, Folge 28)
-      - id: 1F656MaS0mhT18F4BT2RFL
-        episode: 29
-        title: Der Pinguin (Wieso? Weshalb? Warum? JUNIOR, Folge 29)
+        release_date: '2013-06-21'
       - id: 0zyklUecdmBkUqKQyjobbC
+        episode: 29
         title: Wir sind Geschwister (Wieso? Weshalb? Warum? JUNIOR, Folge 29)
+        release_date: '2023-07-13'
       - id: 6UfcMvEeQnqnGpqHKTgnNA
         episode: 30
         title: Wir gehen in den Zoo (Wieso? Weshalb? Warum? JUNIOR, Folge 30)
+        release_date: '2015-01-23'
       - id: 0QRQm1v2kjuYl5ChlAr0BL
         episode: 33
         title: Tiere bei uns (Wieso? Weshalb? Warum? JUNIOR, Folge 33)
+        release_date: '2021-07-23'
       - id: 1dAzaXeUBYj25OqNgIGmG2
         episode: 34
         title: Der Traktor (Wieso? Weshalb? Warum? JUNIOR, Folge 34)
+        release_date: '2015-01-23'
       - id: 5cHtCSRyTYJZiKQ0qGmUEy
         episode: 35
         title: Im Streichelzoo (Wieso? Weshalb? Warum? JUNIOR, Folge 35)
-      - id: 0B2eoD3hlVjMhgPn0Gj4ll
+        release_date: '2010-02-25'
+      - id: 2OUyQ3ZXYxFhKcGcATawr6
         episode: 36
-        title: Was kriecht und krabbelt da? (Wieso? Weshalb? Warum? JUNIOR, Folge 36)
+        title: Sehen, riechen, hören (Wieso? Weshalb? Warum? junior, Folge 36)
+        release_date: '2026-07-01'
       - id: 4I2ewHD1HR4Y3iKL87w1pC
         episode: 38
         title: Der Bagger (Wieso? Weshalb? Warum? JUNIOR, Folge 38)
+        release_date: '2011-01-27'
       - id: 0ir17MpHVslgFI40bT1NFh
         episode: 39
         title: Mama, Papa, Oma, Opa (Wieso? Weshalb? Warum? JUNIOR, Folge 39)
+        release_date: '2020-02-21'
       - id: 5zf5CvMoEPxPP8oNRrQ8wv
         episode: 41
         title: Mein Hund (Wieso? Weshalb? Warum? JUNIOR, Folge 41)
+        release_date: '2011-06-18'
       - id: 0ILxiFEuWxYy1IVQRiufMV
         episode: 42
         title: In den Bergen (Wieso? Weshalb? Warum? JUNIOR, Folge 42)
+        release_date: '2011-06-30'
       - id: 5q3LMwzRLM4ZuOLwle09eM
         episode: 43
         title: Wie helfe ich der Umwelt? (Wieso? Weshalb? Warum? JUNIOR, Folge 43)
+        release_date: '2022-01-12'
       - id: 66gueEgbrr2mRl5hudeMUo
         episode: 44
         title: Was machen wir an Weihnachten? (Wieso? Weshalb? Warum? JUNIOR, Folge 44)
+        release_date: '2019-06-21'
       - id: 0O5fBbwzurNKIcb8cufXwm
         episode: 47
         title: Sonne, Wind und Regen (Wieso? Weshalb? Warum? JUNIOR, Folge 47)
+        release_date: '2012-06-11'
       - id: 37FlFXt4WP5xwe7ViMbdY6
         episode: 48
         title: Ampel, Straße und Verkehr (Wieso? Weshalb? Warum? JUNIOR, Folge 48)
+        release_date: '2013-02-27'
       - id: 204WlPSjnEBiHfrf2NcMWR
         episode: 50
         title: Wir gehen einkaufen (Wieso? Weshalb? Warum? JUNIOR, Folge 50)
+        release_date: '2024-01-10'
       - id: 4aJ5gxIUJycvKhPBiiNpem
         episode: 51
         title: Der Lastwagen (Wieso? Weshalb? Warum? JUNIOR, Folge 51)
+        release_date: '2021-08-20'
       - id: 5fodAVOk3T7rrjvPXusfvD
         episode: 52
         title: Zähne putzen, Pipi machen (Wieso? Weshalb? Warum? JUNIOR, Folge 52)
+        release_date: '2014-01-16'
       - id: 5jHZRceH8uoQEIGtHJ4wfr
         episode: 53
         title: Was essen wir? (Wieso? Weshalb? Warum? JUNIOR, Folge 53)
+        release_date: '2016-01-22'
       - id: 01wPgiL6OuLdTej8MuMAaf
         episode: 54
         title: Was machen wir an Ostern? (Wieso? Weshalb? Warum? JUNIOR, Folge 54)
+        release_date: '2022-01-12'
       - id: 3XoNliBbtfzY8DTZhVYuZV
         episode: 55
         title: Wer arbeitet auf der Baustelle? (Wieso? Weshalb? Warum? JUNIOR, Folge 55)
+        release_date: '2011-06-18'
       - id: 1XjNR9Kav1cQ5X0SrCAwv7
         episode: 56
         title: Heute, morgen, jetzt und gleich (Wieso? Weshalb? Warum? JUNIOR, Folge 56)
+        release_date: '2016-01-22'
       - id: 2jI9RAovci4pN9XTmb2Spa
         episode: 57
         title: Tiere im Meer (Wieso? Weshalb? Warum? JUNIOR, Folge 57)
-      - id: 6HohXs3FQ5ajfsmJPokMD3
-        episode: 58
-        title: Was machen wir im Winter? (Wieso? Weshalb? Warum? JUNIOR, Folge 58)
+        release_date: '2024-02-14'
       - id: 2pLXJc6saebrCxLsgQbj4p
+        episode: 58
         title: Was machen wir im Sommer? (Wieso? Weshalb? Warum? JUNIOR, Folge 58)
+        release_date: '2018-02-09'
       - id: 3iupva6Blzpc0coPBOLYC3
         episode: 59
         title: Was machen wir im Frühling? (Wieso? Weshalb? Warum? JUNIOR, Folge 59)
+        release_date: '0017-01-13'
       - id: 7lY7Q5D8KbHw8Uq4chL38W
         episode: 61
         title: Was machen wir im Herbst? (Wieso? Weshalb? Warum? JUNIOR, Folge 61)
+        release_date: '2017-06-09'
       - id: 2QJTkqFO9ONZIibz5AwGz9
         episode: 63
         title: Unterwegs mit Bus und Bahn (Wieso? Weshalb? Warum? JUNIOR, Folge 63)
+        release_date: '2017-06-09'
       - id: 0EAnLt86iauYM7w90ufFgH
         episode: 64
         title: Komm mit zum Zahnarzt (Wieso? Weshalb? Warum? JUNIOR, Folge 64)
+        release_date: '2020-06-19'
       - id: 5100EVI0XorxLunKTiyvkW
         episode: 65
         title: Was macht der Polizist (Wieso? Weshalb? Warum? JUNIOR, Folge 65)
+        release_date: '2018-06-22'
       - id: 7BFAWgAumC9mAAR931HUtO
         episode: 66
         title: Helfen, teilen, sich vertragen (Wieso? Weshalb? Warum? JUNIOR, Folge 66)
+        release_date: '2021-03-18'
       - id: 7wwaBc0hoV2PKHX4SRQMSz
         episode: 68
         title: Was macht der Fußballer? (Wieso? Weshalb? Warum? JUNIOR, Folge 68)
+        release_date: '2020-03-13'
       - id: 0S7iTpMAD9zjbPVmwUAQTi
         episode: 71
         title: Turnen, tanzen, Musik machen (Wieso? Weshalb? Warum? JUNIOR, Folge 71)
+        release_date: '2021-03-18'
       - id: 5hRuRqx5WLvq6CYoe18CxJ
         episode: 72
         title: Sonne, Mond und Sterne (Wieso? Weshalb? Warum? JUNIOR, Folge 72)
+        release_date: '2022-07-20'
       - id: 72SMHfW7AKarbag2uwItXL
         episode: 73
         title: Tiere der Welt (Wieso? Weshalb? Warum? JUNIOR, Folge 73)
+        release_date: '2023-02-16'
       - id: 6iOA39AnSL1Cc9mmHStjMj
         episode: 74
         title: Die Müllfahrzeuge (Wieso? Weshalb? Warum? JUNIOR, Folge 74)
+        release_date: '2023-02-16'
       - id: 1io7r4BSeXf7d50e1cR5AK
         episode: 75
         title: Im Krankenhaus (Wieso? Weshalb? Warum? JUNIOR, Folge 75)
+        release_date: '2024-07-10'
       - id: 6T7WqBAZw1aPpoqyMko3bT
         episode: 76
         title: Bohrer, Lampe, Spülmaschine (Wieso? Weshalb? Warum? JUNIOR, Folge 76)
+        release_date: '2025-01-15'
       - id: 2JktIbXeoqcn9lRMrPOpMG
         episode: 77
         title: Tiere im Wald (Wieso? Weshalb? Warum? JUNIOR, Folge 77)
+        release_date: '2025-01-15'
       - id: 3r1pFPWOhvbZLHiXkvqziG
         episode: 79
         title: Kämmen, schneiden, Haare waschen (Wieso? Weshalb? Warum? JUNIOR, Folge 79)
+        release_date: '2025-07-01'
       - id: 1emKCQxJyCP57rsSSnxPBJ
         episode: 80
         title: Mein erstes Fahrrad (Wieso? Weshalb? Warum? JUNIOR, Folge 80)
+        release_date: '2026-02-06'
       - id: 7sTtq8pp7ShgVgjzlId6Xe
         episode: 81
         title: Der Kran. (Wieso? Weshalb? Warum? junior, Folge 81)
+        release_date: '2026-02-13'
+      - id: 0B2eoD3hlVjMhgPn0Gj4ll
+        title: Was kriecht und krabbelt da? (Wieso? Weshalb? Warum? JUNIOR, Folge 36)
+        release_date: '2014-01-16'
+      - id: 1F656MaS0mhT18F4BT2RFL
+        title: Der Pinguin (Wieso? Weshalb? Warum? JUNIOR, Folge 29)
+        release_date: '2016-06-17'
+      - id: 6HohXs3FQ5ajfsmJPokMD3
+        title: Was machen wir im Winter? (Wieso? Weshalb? Warum? JUNIOR, Folge 58)
+        release_date: '2016-09-23'
   episode_pattern: ^.*\(Wieso\? Weshalb\? Warum\? [jJ][uU][nN][iI][oO][rR], Folge (\d+)\)$
   aliases:
   - Wieso? Weshalb? Warum? junior
@@ -45922,27 +46192,166 @@ series:
         release_date: '2026-04-10'
 - id: wieso_weshalb_warum_profiwissen
   title: Wieso? Weshalb? Warum? ProfiWissen
-  aliases: []
+  aliases:
+  - WWW ProfiWissen
+  - Wieso? Weshalb? Warum? PROFIWISSEN
   episode_pattern: PROFIWISSEN, Folge\s*(\d+)
-  content_type: hoerspiel
   split_from: wieso_weshalb_warum
   providers:
     spotify:
       artist_ids:
       - 79fds5dgda0VCYelERV8Gi
+      albums:
+      - id: 0VFw6TFHb28JOcv3mBsHxF
+        episode: 1
+        title: Die Erde (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 1)
+        release_date: '2011-03-23'
+      - id: 2NnIrKPVmNZBJVdJsCfOKp
+        episode: 2
+        title: Altes Ägypten(Wieso? Weshalb? Warum? PROFIWISSEN, Folge 2)
+        release_date: '2016-03-18'
+      - id: 5D4NrvYikj5UxytXBFAcyZ
+        episode: 3
+        title: Tiere (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 3)
+        release_date: '2021-03-18'
+      - id: 505qINntDxBqxm1W9OXNtH
+        episode: 4
+        title: Pferde (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 4)
+        release_date: '2011-03-23'
+      - id: 1tsKtqRc72V9z0wiShby5s
+        episode: 5
+        title: Körper (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 5)
+        release_date: '2018-03-09'
+      - id: 6aJcSvhJ3h3Flt3F6orEnM
+        episode: 6
+        title: Weltraum (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 6)
+        release_date: '2019-07-19'
+      - id: 3uoy5eDRPeXdmbajEMszRL
+        episode: 9
+        title: Altes Rom (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 9)
+        release_date: '2021-08-20'
+      - id: 7MoKxSFPyDUhSG7mClth7w
+        episode: 12
+        title: Dinosaurier (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 12)
+        release_date: '2020-08-21'
+      - id: 4hKnFRVyyhEyDAm06jbtYi
+        episode: 13
+        title: Mittelalter (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 13)
+        release_date: '2015-08-21'
+      - id: 0PWNXFERql77QAetGLJYMf
+        episode: 15
+        title: Fußball (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 15)
+        release_date: '2016-03-18'
+      - id: 0rfxiNtXhAgSIdqeOpDa19
+        episode: 17
+        title: Erfindungen (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 17)
+        release_date: '2016-08-26'
+      - id: 3hmusuKgLRhAjx02qRzX6L
+        episode: 19
+        title: Ozeane (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 19)
+        release_date: '2017-03-10'
+      - id: 4JjqSkIVYRTdkRMBfZa56s
+        episode: 21
+        title: Deutschland (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 21)
+        release_date: '2017-08-04'
+      - id: 3EFJOwBrk4kaxHpzRYQRho
+        episode: 24
+        title: Haie, Wale und Delfine (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 24)
+        release_date: '2018-08-31'
+      - id: 2ikT2NVMfU4kTVi0y0sBAp
+        episode: 25
+        title: Vulkane (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 25)
+        release_date: '2019-05-24'
+      - id: 3TAWveTLyLNgSGlEYVtQcI
+        episode: 26
+        title: Umweltschutz (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 26)
+        release_date: '2020-03-13'
+      - id: 2wwezWM0GBYFAK1ZBh6i6p
+        title: Autos (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 3)
+        release_date: '2015-08-21'
     apple_music:
       artist_ids:
       - '1560025489'
+      albums:
+      - id: '1863382499'
+        episode: 1
+        title: Die Erde (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 1)
+        release_date: '2011-03-23'
+      - id: '1863399530'
+        episode: 2
+        title: Altes Ägypten(Wieso? Weshalb? Warum? PROFIWISSEN, Folge 2)
+        release_date: '2016-03-18'
+      - id: '1863380311'
+        episode: 4
+        title: Pferde (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 4)
+        release_date: '2011-03-23'
+      - id: '1863408874'
+        episode: 5
+        title: Körper (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 5)
+        release_date: '2018-03-09'
+      - id: '1863407908'
+        episode: 6
+        title: Weltraum (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 6)
+        release_date: '2019-07-19'
+      - id: '1863384525'
+        episode: 9
+        title: Altes Rom (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 9)
+        release_date: '2021-08-20'
+      - id: '1863401744'
+        episode: 10
+        title: Retter im Einsatz (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 10)
+        release_date: '2016-08-26'
+      - id: '1863398005'
+        episode: 13
+        title: Mittelalter (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 13)
+        release_date: '2015-08-21'
+      - id: '1863400173'
+        episode: 17
+        title: Erfindungen (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 17)
+        release_date: '2016-08-26'
+      - id: '1863398068'
+        episode: 19
+        title: Ozeane (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 19)
+        release_date: '2017-03-10'
+      - id: '1863413146'
+        episode: 21
+        title: Deutschland (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 21)
+        release_date: '2017-08-04'
+      - id: '1863404859'
+        episode: 24
+        title: Haie, Wale und Delfine (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 24)
+        release_date: '2018-08-31'
+      - id: '1863406649'
+        episode: 25
+        title: Vulkane (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 25)
+        release_date: '2019-05-24'
+      - id: '1863387202'
+        episode: 26
+        title: Umweltschutz (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 26)
+        release_date: '2020-03-13'
 - id: wieso_weshalb_warum_vorlesegeschichten
   title: Wieso? Weshalb? Warum? Meine Vorlesegeschichten
-  aliases: []
-  episode_pattern:
-  content_type: hoerspiel
+  aliases:
+  - Wieso? Weshalb? Warum?
+  episode_pattern: Meine Vorlesegeschichten, Folge\s*(\d+)
   split_from: wieso_weshalb_warum
   providers:
     spotify:
       artist_ids:
       - 79fds5dgda0VCYelERV8Gi
+      albums:
+      - id: 4craGbCLchGdKewnQYCGo2
+        episode: 1
+        title: Was erleben wir Tag für Tag? (Wieso? Weshalb? Warum? Meine Vorlesegeschichten, Folge 1)
+        release_date: '2024-09-11'
+      - id: 0NiJ11SM4QQzAbrEGRVXIf
+        episode: 2
+        title: Was passiert in Wald und Wiese? (Wieso? Weshalb? Warum? Meine Vorlesegeschichten, Folge 2)
+        release_date: '2025-01-15'
+      - id: 20idnrDkDmTHirWuVDbEA8
+        episode: 3
+        title: Wer ist hier im Einsatz? (Wieso? Weshalb? Warum? Meine Vorlesegeschichten, Folge 3)
+        release_date: '2025-07-01'
     apple_music:
       artist_ids:
       - '1560025489'

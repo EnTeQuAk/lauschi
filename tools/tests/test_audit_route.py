@@ -47,8 +47,14 @@ _ONE_SHOT_MAX = _AUDIT_PROFILE.one_shot_max_tokens
 # bibi_blocksberg left this set on 2026-09-05: its Kinofilm, Kartoffelbrei
 # and "Bibi erzählt" lines became their own entries (72 albums moved) and
 # the parent (424 albums) now routes one-shot.
+# wieso_weshalb_warum_profiwissen and _vorlesegeschichten joined on
+# 2026-09-06: a split child's curation carries the whole shared page,
+# 336 and 364 parent albums excluded as bleed next to its own 31 and 3,
+# and the audit prompt lists exclusions too.
 _CHUNKED_SERIES = {
     "wieso_weshalb_warum",
+    "wieso_weshalb_warum_profiwissen",
+    "wieso_weshalb_warum_vorlesegeschichten",
     "paw_patrol",
     "stephen_janetzko",
 }
