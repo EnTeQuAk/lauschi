@@ -70,6 +70,7 @@ from lauschi_catalog.catalog.paths import (
     log_dir,
 )
 from lauschi_catalog.catalog.prompt import album_to_dict, format_albums_xml
+from lauschi_catalog.catalog.reasons import carried_reason
 from lauschi_catalog.fanout import run_bounded
 from lauschi_catalog.prompts import load_curate_skill
 from lauschi_catalog.providers import CatalogProvider
@@ -669,7 +670,7 @@ def _preseed_decisions(
                     include=ea["include"],
                     episode_num=ea.get("episode_num"),
                     title=ea.get("title", ""),
-                    exclude_reason=ea.get("exclude_reason"),
+                    exclude_reason=carried_reason(ea.get("exclude_reason")),
                     release_date=ea.get("release_date"),
                     confidence=ea.get("confidence", "high"),
                     notes=ea.get("notes"),

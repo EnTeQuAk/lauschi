@@ -25,6 +25,9 @@ class Reason:
     #: whether reconcile auto-flips a same-title exclusion conflict
     auto_flip: bool
     description: str
+    #: for a reason set outside the curate agent: the curate reason a
+    #: prior record is carried forward as on re-curation
+    carried_as: str | None = None
 
 
 #: Reasons the curate agent may return. Order matters: it is the order
@@ -114,30 +117,35 @@ EXTERNAL_REASONS: tuple[Reason, ...] = (
         "structural",
         auto_flip=False,
         description="Set by the audit pass overriding the curate decision",
+        carried_as="unspecified",
     ),
     Reason(
         "same_provider_duplicate",
         "redundancy",
         auto_flip=False,
         description="Duplicate within the same provider, found by deterministic lint",
+        carried_as="duplicate",
     ),
     Reason(
         "incomplete_release",
         "content",
         auto_flip=False,
         description="Release is missing episodes the series already has",
+        carried_as="partial_release",
     ),
     Reason(
         "wrong_artist",
         "structural",
         auto_flip=False,
         description="Different artist entirely (e.g. a cover band sharing the name)",
+        carried_as="different_series",
     ),
     Reason(
         "compilation_as_episode",
         "content",
         auto_flip=False,
         description="A compilation whose title mimics a numbered episode",
+        carried_as="compilation",
     ),
 )
 
@@ -212,3 +220,16 @@ CONTRADICTION_REASON_KEYS: frozenset[str] = frozenset(
 
 def is_content_reason(reason: str) -> bool:
     return reason in CONTRADICTION_REASON_KEYS
+
+
+def carried_reason(key: str | None) -> str | None:
+    """The reason a prior record is carried forward as on re-curation.
+
+    Curate reasons pass through. A reason set outside the curate agent
+    maps to the curate reason it names. Anything else passes through
+    unchanged so the decision model rejects it.
+    """
+    reason = _REASON_BY_KEY.get(key or "")
+    if reason is None or reason.carried_as is None:
+        return key
+    return reason.carried_as
