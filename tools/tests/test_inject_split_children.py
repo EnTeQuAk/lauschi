@@ -9,6 +9,8 @@ working directory. That absence is exactly what let two clean runs
 split the 28 Reportage items 21/7 differently (2026-09-05).
 """
 
+import json
+
 import pytest
 
 from lauschi_catalog.catalog import curate_ops
@@ -80,3 +82,43 @@ def test_injection_does_not_duplicate_an_already_present_album(
 def test_no_children_leaves_the_curation_untouched(monkeypatch: pytest.MonkeyPatch):
     monkeypatch.setattr(curate_ops, "load_catalog", lambda: [_parent()])
     assert curate_ops._inject_split_children(None, "kira_kolumna") is None
+
+
+def test_the_curation_fallback_counts_only_the_childs_included_albums(
+    monkeypatch, tmp_path
+):
+    """A curated but unapplied child's file holds the whole shared page,
+    most of it excluded. Only what the child includes is the child's:
+    the parent run would otherwise pre-exclude its entire page as bleed
+    (Wieso? Weshalb? Warum? Vorlesegeschichten, 2026-09-06: 367 records,
+    3 included)."""
+    from lauschi_catalog.catalog import curate_ops
+    from lauschi_catalog.catalog.curate_ops import _child_album_records
+    from lauschi_catalog.catalog.models import CatalogEntry
+
+    child = CatalogEntry(id="kid", title="Kid", split_from="parent")
+    (tmp_path / "kid.json").write_text(
+        json.dumps(
+            {
+                "albums": [
+                    {
+                        "provider": "spotify",
+                        "album_id": "own",
+                        "title": "Mine",
+                        "include": True,
+                    },
+                    {
+                        "provider": "spotify",
+                        "album_id": "p1",
+                        "title": "Parent's",
+                        "include": False,
+                        "exclude_reason": "sub_series_bleed",
+                    },
+                ]
+            }
+        )
+    )
+    monkeypatch.setattr(
+        curate_ops, "curation_path", lambda sid: tmp_path / f"{sid}.json"
+    )
+    assert _child_album_records(child) == [("spotify", "own", "Mine")]

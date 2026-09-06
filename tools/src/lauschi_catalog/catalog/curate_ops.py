@@ -366,7 +366,7 @@ def _child_album_records(child) -> list[tuple[str, str, str]]:
     return [
         (a.get("provider", ""), a.get("album_id", ""), a.get("title", ""))
         for a in child_data.get("albums", [])
-        if a.get("album_id")
+        if a.get("album_id") and a.get("include")
     ]
 
 
@@ -496,7 +496,10 @@ def _inject_for_split_child(
     A child shares its artist pages with the parent, so discovery
     returns the whole family. Its own applied albums arrive included
     with their numbers; the parent's and every other sibling's applied
-    albums arrive excluded as sub_series_bleed. _preseed_decisions then
+    albums arrive excluded as sub_series_bleed, and so does what those
+    pages rejected for a reason of their own (a duplicate of a parent
+    episode is not the child's to re-judge). Only what an owner handed
+    away as sub_series_bleed stays open. _preseed_decisions then
     carries all of it forward and the batch only decides what is new on
     the page (a line's latest releases). Returns None for a series that
     is not a split-off.
@@ -550,7 +553,40 @@ def _inject_for_split_child(
                     "release_date": release_date,
                 }
             )
+        for rejected in _owner_rejects(owner.id):
+            add(
+                {
+                    "album_id": rejected["album_id"],
+                    "provider": rejected["provider"],
+                    "title": rejected.get("title", ""),
+                    "include": False,
+                    "exclude_reason": "sub_series_bleed",
+                    "confidence": "high",
+                    "notes": (
+                        f"'{owner.id}' excluded it as "
+                        f"{rejected.get('exclude_reason') or 'unspecified'}"
+                    ),
+                    "release_date": rejected.get("release_date"),
+                }
+            )
     return existing_curation
+
+
+def _owner_rejects(owner_id: str) -> list[dict]:
+    """Albums an owner's curation excluded for a reason of its own:
+    everything but what it handed away as sub_series_bleed."""
+    path = curation_path(owner_id)
+    if not path.exists():
+        return []
+    try:
+        albums = json.loads(path.read_text()).get("albums", [])
+    except OSError, ValueError:
+        return []
+    return [
+        a
+        for a in albums
+        if not a.get("include") and a.get("exclude_reason") != "sub_series_bleed"
+    ]
 
 
 def _applied_records(

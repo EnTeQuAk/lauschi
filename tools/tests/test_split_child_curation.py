@@ -9,6 +9,8 @@ applied albums arrive excluded as sub_series_bleed, and the batch only
 decides what is new on the shared page (Lego Ninjago "(Band 13-20)").
 """
 
+import json
+
 import pytest
 
 from lauschi_catalog.catalog import curate_ops
@@ -81,6 +83,14 @@ CATALOG = [PARENT, CHILD, OTHER]
 
 
 class TestInjectForSplitChild:
+    @pytest.fixture(autouse=True)
+    def _no_owner_curations(self, monkeypatch: pytest.MonkeyPatch, tmp_path):
+        """The owners' curation files stay out of these tests: they read
+        the real catalog otherwise."""
+        monkeypatch.setattr(
+            curate_ops, "curation_path", lambda sid: tmp_path / f"{sid}.json"
+        )
+
     def test_own_albums_arrive_included_with_numbers_and_the_rest_as_bleed(
         self, monkeypatch: pytest.MonkeyPatch
     ):
@@ -134,3 +144,61 @@ def test_a_split_child_is_prepared_like_any_series(
     )
     prepared = prepare_curation(CHILD.id)
     assert prepared.entry is CHILD
+
+
+class TestParentJudgementStands:
+    """What the parent's page already rejected is not re-judged in a
+    child's run.
+
+    The Wieso? Weshalb? Warum? Vorlesegeschichten child (2026-09-06)
+    re-decided the parent's 230 excluded albums, took 29 minutes and
+    1.2M tokens for a three-album line, and included 14 old packaging
+    variants the parent had excluded as duplicates. An album the parent
+    excluded for a reason of its own arrives in the child excluded as
+    bleed; only what the parent handed away as sub_series_bleed is the
+    child's to decide.
+    """
+
+    def test_parent_rejects_arrive_as_bleed_and_handed_away_albums_stay_open(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path
+    ):
+        monkeypatch.setattr(curate_ops, "load_catalog", lambda: CATALOG)
+        parent_curation = tmp_path / "lego_ninjago.json"
+        parent_curation.write_text(
+            json.dumps(
+                {
+                    "albums": [
+                        {
+                            "provider": "spotify",
+                            "album_id": "dup",
+                            "title": "Folge 1: A (Hörspiel)",
+                            "include": False,
+                            "exclude_reason": "duplicate",
+                            "release_date": "2021-01-01",
+                        },
+                        {
+                            "provider": "spotify",
+                            "album_id": "handed",
+                            "title": "Zane (Band 17)",
+                            "include": False,
+                            "exclude_reason": "sub_series_bleed",
+                        },
+                    ]
+                }
+            )
+        )
+        monkeypatch.setattr(
+            curate_ops,
+            "curation_path",
+            lambda sid: (
+                parent_curation if sid == "lego_ninjago" else tmp_path / f"{sid}.json"
+            ),
+        )
+        result = _inject_for_split_child(None, CHILD)
+        by = {a["album_id"]: a for a in result["albums"]}
+        assert by["dup"]["include"] is False
+        assert by["dup"]["exclude_reason"] == "sub_series_bleed"
+        assert (
+            "duplicate" in by["dup"]["notes"] and "lego_ninjago" in by["dup"]["notes"]
+        )
+        assert "handed" not in by
