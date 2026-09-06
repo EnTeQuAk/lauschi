@@ -74,7 +74,10 @@
         <main class="container">
             {% for flash in flash_messages + (extra_flashes | default([])) %}
                 <div class="flash flash-{{ flash.type }}">
-                    {%- if flash.safe %}{{ flash.value | safe }}{% else %}{{ flash.value }}{% endif -%}
+                    {%- if flash.safe %}{{ flash.value | safe }}
+                    {% else %}
+                        {{ flash.value }}
+                    {% endif -%}
                 </div>
             {% endfor %}
             {% block content %}{% endblock %}
