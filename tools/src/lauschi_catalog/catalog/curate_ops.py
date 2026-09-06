@@ -390,6 +390,10 @@ def core_title(title: str, series_names: list[str]) -> str:
             while start != -1:
                 end = t.find(")", start)
                 if end == -1:
+                    # providers truncate long titles, closing paren and all
+                    if name in t[start:]:
+                        t = t[:start].strip()
+                        found = True
                     break
                 if name in t[start : end + 1]:
                     t = (t[:start] + t[end + 1 :]).strip()
@@ -825,6 +829,35 @@ def _derive_numbers_from_tracks(
             d.episode_num = found.pop()
             numbered += 1
     return numbered
+
+
+def _derive_numbers_from_twins(
+    decisions: list["AlbumDecision"], series_names: list[str]
+) -> int:
+    """Number an included album from its twin on the other provider.
+
+    A twin is the same core title on the other provider with the same
+    release date. Its title is provider metadata like our own, so the
+    number it carries is not a guess. The twins must agree on one
+    number. Returns how many albums were numbered.
+    """
+    filled = 0
+    for d in decisions:
+        if not d.include or d.episode_num is not None:
+            continue
+        key = (core_title(d.title, series_names), d.release_date)
+        twins = {
+            o.episode_num
+            for o in decisions
+            if o.include
+            and o.episode_num is not None
+            and o.provider != d.provider
+            and (core_title(o.title, series_names), o.release_date) == key
+        }
+        if len(twins) == 1:
+            d.episode_num = twins.pop()
+            filled += 1
+    return filled
 
 
 def _drop_unsupported_numbers(
@@ -2124,6 +2157,13 @@ async def _run_large(
             on_progress(
                 f"  Dropped {unsupported} carried episode number(s) neither the "
                 f"title nor the track names support.\n"
+            )
+        from_twins = _derive_numbers_from_twins(
+            all_decisions, [meta.title, *meta.aliases]
+        )
+        if from_twins:
+            on_progress(
+                f"  Twins on the other provider numbered {from_twins} album(s).\n"
             )
 
     # -- Finalize metadata: facts discovery + episode extraction
