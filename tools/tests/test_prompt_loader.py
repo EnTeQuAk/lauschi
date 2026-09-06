@@ -145,3 +145,10 @@ class TestPolicyTeaching:
         assert 'Three different products carry the word "Kinofilm"' in p
         assert "Both shapes go into the same single child" in p
         assert "Doppelfolgen und Sammelbände" not in p
+
+
+class TestFinalizeDoesNotNumberAlbums:
+    def test_finalize_is_told_numbers_come_from_code(self):
+        p = load_curate_skill(phase="finalize", content_type="hoerspiel")
+        assert "Episode numbers are not your job" in p
+        assert "check the inline track listing" not in p

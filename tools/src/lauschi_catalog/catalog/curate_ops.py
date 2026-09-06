@@ -790,6 +790,42 @@ def render_sub_series_exclusions(
     return "\n".join(lines)
 
 
+def _derive_numbers_from_tracks(
+    decisions: list["AlbumDecision"],
+    seen_details: dict[str, dict],
+    pattern: str | list[str] | None,
+) -> int:
+    """Number an unnumbered included album from its track names, in code.
+
+    The provider's track names are the only other place an episode
+    number is written down. The series' own pattern is applied to them;
+    when the tracks agree on exactly one number it is the number,
+    otherwise the album stays unnumbered and the app orders it by
+    release date. Nothing is inferred beyond that. Returns how many
+    albums got a number.
+    """
+    if not pattern:
+        return 0
+    numbered = 0
+    for d in decisions:
+        if not d.include or d.episode_num is not None:
+            continue
+        detail = seen_details.get(f"{d.provider}:{d.album_id}")
+        if not detail or not detail.get("tracks"):
+            continue
+        found = {
+            n
+            for n in (
+                extract_episode(pattern, t.get("name", "")) for t in detail["tracks"]
+            )
+            if n is not None
+        }
+        if len(found) == 1:
+            d.episode_num = found.pop()
+            numbered += 1
+    return numbered
+
+
 def _reextract_episode_numbers(
     decisions: list["AlbumDecision"],
     pattern: str | list[str] | None,
@@ -974,14 +1010,6 @@ class CurateDeps(AgentDeps):
     _MAX_PATTERN_CHECKS: ClassVar[int] = 5
 
 
-class EpisodeUpdate(BaseModel):
-    """One album whose episode number was discovered from track listings."""
-
-    album_id: str
-    provider: str
-    episode_num: int
-
-
 class PatternCoverageReport(BaseModel):
     """Result of testing an episode_pattern against the full discography."""
 
@@ -996,12 +1024,11 @@ class PatternCoverageReport(BaseModel):
 
 
 class FinalizeResult(BaseModel):
-    """Output of the metadata-finalization agent."""
+    """Output of the metadata-finalization agent.
 
-    episode_updates: list[EpisodeUpdate] = Field(
-        default_factory=list,
-        description="Albums where track listings revealed the episode number.",
-    )
+    Facts and pattern changes arrive through the tools; episode numbers
+    come from titles and track names in code, never from this result.
+    """
 
 
 def _pattern_coverage_report(
@@ -2043,14 +2070,19 @@ async def _run_large(
                 f"  Deterministic extraction set {re_extracted} episode "
                 f"numbers from pattern.\n",
             )
+        from_tracks = _derive_numbers_from_tracks(
+            all_decisions, shared_deps.seen_details, final_pattern
+        )
+        if from_tracks:
+            on_progress(
+                f"  Track names numbered {from_tracks} album(s) the title did not.\n"
+            )
 
     # -- Finalize metadata: facts discovery + episode extraction
     t_finalize = time.monotonic()
     final_pattern = shared_deps.pattern
     proposed_facts: SeriesFacts | None = None
     if content_type not in ("music", "audiobook"):
-        unnumbered = [d for d in all_decisions if d.include and d.episode_num is None]
-
         era_evidence_lines: list[str] = []
         n_existing_eras = len(existing_facts.era_boundaries)
         era_decisions = [
@@ -2138,23 +2170,8 @@ async def _run_large(
                 f"titles excluded as sub_series_bleed or sub_series."
             )
 
-        needs_finalize = bool(unnumbered) or bool(era_evidence_lines) or has_sub_bleed
+        needs_finalize = bool(era_evidence_lines) or has_sub_bleed
         if needs_finalize:
-            _MAX_INLINE_TRACKS = 3
-            lines: list[str] = []
-            for d in unnumbered:
-                key = f"{d.provider}:{d.album_id}"
-                detail = shared_deps.seen_details.get(key)
-                tracks = ""
-                if detail and detail.get("tracks"):
-                    track_names = [t["name"] for t in detail["tracks"]]
-                    shown = track_names[:_MAX_INLINE_TRACKS]
-                    if len(track_names) > _MAX_INLINE_TRACKS:
-                        shown.append(
-                            f"... +{len(track_names) - _MAX_INLINE_TRACKS} more"
-                        )
-                    tracks = " | tracks: " + " | ".join(shown)
-                lines.append(f"  {d.provider}:{d.album_id} | {d.title}{tracks}")
             facts_lines: list[str] = []
             if existing_facts:
                 if existing_facts.era_boundaries:
@@ -2180,10 +2197,6 @@ async def _run_large(
                 facts_lines.append("Existing facts: (none)")
 
             header_parts: list[str] = []
-            if unnumbered:
-                header_parts.append(
-                    f"{len(unnumbered)} included albums lack episode numbers"
-                )
             if era_evidence_lines:
                 header_parts.append("era evidence found")
             if has_sub_bleed:
@@ -2206,11 +2219,6 @@ async def _run_large(
             # Build a concise work-item summary so the agent
             # knows exactly what to focus on.
             work_items: list[str] = []
-            if unnumbered:
-                work_items.append(
-                    f"- {len(unnumbered)} unnumbered album(s): "
-                    f"check track listings for episode numbers"
-                )
             if era_evidence_lines:
                 work_items.append(
                     "- Era evidence: propose era_boundaries from flagged albums"
@@ -2242,11 +2250,6 @@ async def _run_large(
                     "### Structural analysis (deterministic)\n"
                     + "\n".join(analysis_lines)
                 )
-            if unnumbered:
-                prompt_parts.append(
-                    f"Included albums missing episode numbers ({len(unnumbered)} total):\n"
-                    f"\n".join(lines)
-                )
             finalize_prompt = "\n".join(prompt_parts)
             finalize_deps = CurateDeps(
                 providers=providers,
@@ -2259,7 +2262,7 @@ async def _run_large(
                 usage=shared_deps.usage,
             )
             try:
-                finalize_result: FinalizeResult = await _run_with_retry(
+                await _run_with_retry(
                     lambda: asyncio.wait_for(
                         _run_agent(
                             finalize_agent,
@@ -2271,18 +2274,6 @@ async def _run_large(
                     phase="finalize",
                     on_progress=on_progress,
                 )
-                updated = 0
-                for upd in finalize_result.episode_updates:
-                    for d in all_decisions:
-                        if d.album_id == upd.album_id and d.provider == upd.provider:
-                            d.episode_num = upd.episode_num
-                            updated += 1
-                            break
-                if updated:
-                    on_progress(
-                        f"  Finalize set {updated} episode numbers from "
-                        f"track listings.\n",
-                    )
                 # Pattern updates are side effects of the
                 # propose_pattern_update tool; the output field is gone.
                 if finalize_deps.pattern != shared_deps.pattern:

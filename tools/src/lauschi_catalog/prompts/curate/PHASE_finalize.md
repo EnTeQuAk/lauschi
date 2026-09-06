@@ -15,11 +15,10 @@ response but do not investigate further.
 
 Complete these steps in order. Do not reorder them.
 
-**Step 1: Unnumbered albums.** For each unnumbered album listed in the
-user prompt, check the inline track listing. If that's not enough, call
-`get_album_details`. If tracks reveal an episode number, add it to
-`episode_updates`. Films, specials, and compilations are legitimately
-unnumbered; leave them with `episode_num=null`.
+**Step 1: Episode numbers are not your job.** Titles and track names
+are read by code with the series pattern; an album that carries no
+number in either stays unnumbered and the app orders it by release
+date. Do not propose numbers.
 
 **Step 2: Era evidence.** Compare batch-flagged era collisions against
 existing `era_boundaries` in the user prompt. If existing facts already
