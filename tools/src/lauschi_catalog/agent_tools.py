@@ -10,12 +10,21 @@ and Agent[AuditDeps] where both inherit from AgentDeps.
 """
 
 from pydantic_ai import FunctionToolset, RunContext
-from pydantic_ai.exceptions import ModelRetry
 
 from lauschi_catalog.agent_deps import AgentDeps
 from lauschi_catalog.providers._validate import explain_invalid, is_valid_id
 from lauschi_catalog.search import brave_search
 from lauschi_catalog.search import fetch_page as _fetch_page
+
+
+def _limit(what: str, cap: int) -> str:
+    """The message a tool returns once its budget is spent.
+
+    Returned as a result, not raised as ModelRetry: a retry counts
+    against pydantic-ai's per-tool cap and the third call past the
+    budget would end the whole run instead of the model's fetching.
+    """
+    return f"{what} limit reached ({cap}). Decide with what you have."
 
 
 def build_agent_tools() -> FunctionToolset[AgentDeps]:
@@ -26,10 +35,7 @@ def build_agent_tools() -> FunctionToolset[AgentDeps]:
     def web_search(ctx: RunContext[AgentDeps], query: str) -> list[dict]:
         """Search the web for series information (e.g. episode lists, background)."""
         if ctx.deps._search_count >= ctx.deps._MAX_SEARCHES:
-            raise ModelRetry(
-                f"Search limit reached ({ctx.deps._MAX_SEARCHES}/{ctx.deps._MAX_SEARCHES}). "
-                f"Make your decision using the information you already have."
-            )
+            return [{"error": _limit("Search", ctx.deps._MAX_SEARCHES)}]
         ctx.deps._search_count += 1
         return brave_search(query, count=5)
 
@@ -37,10 +43,7 @@ def build_agent_tools() -> FunctionToolset[AgentDeps]:
     def fetch_page(ctx: RunContext[AgentDeps], url: str) -> str:
         """Fetch a web page for detailed information. Max 4000 chars returned."""
         if ctx.deps._fetch_count >= ctx.deps._MAX_FETCHES:
-            raise ModelRetry(
-                f"Fetch limit reached ({ctx.deps._MAX_FETCHES}/{ctx.deps._MAX_FETCHES}). "
-                f"Make your decision using the information you already have."
-            )
+            return _limit("Fetch", ctx.deps._MAX_FETCHES)
         ctx.deps._fetch_count += 1
         return _fetch_page(url, max_chars=4000)
 
@@ -52,10 +55,7 @@ def build_agent_tools() -> FunctionToolset[AgentDeps]:
     ) -> list[dict]:
         """Fetch full album details (track listing) from a provider."""
         if ctx.deps._detail_count >= ctx.deps._MAX_DETAIL_CALLS:
-            raise ModelRetry(
-                f"Detail fetch limit reached ({ctx.deps._MAX_DETAIL_CALLS}). "
-                f"Make your decision using the information you already have."
-            )
+            return [{"error": _limit("Detail fetch", ctx.deps._MAX_DETAIL_CALLS)}]
         ctx.deps._detail_count += 1
         results: list[dict] = []
         invalid = [aid for aid in album_ids if not is_valid_id(provider, aid)]

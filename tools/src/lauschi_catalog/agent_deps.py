@@ -34,4 +34,4 @@ class AgentDeps:
     _detail_count: int = field(default=0, init=False)
     _MAX_SEARCHES: int = 3
     _MAX_FETCHES: int = 2
-    _MAX_DETAIL_CALLS: int = 10
+    _MAX_DETAIL_CALLS: int = 40
