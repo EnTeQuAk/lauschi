@@ -286,6 +286,12 @@ def _coverage_lines(albums: list[dict]) -> list[str]:
     return lines
 
 
+#: A sub-series fact names a line, not its members: the overview rides
+#: along with every chunk of a chunked audit, so it lists a sample of the
+#: ids and the count. The auditor searches for the rest.
+_SUB_SERIES_ID_SAMPLE = 5
+
+
 def _facts_lines(curation: dict) -> list[str]:
     facts = curation.get("series_facts")
     if not facts:
@@ -310,7 +316,16 @@ def _facts_lines(curation: dict) -> list[str]:
         aud = s.get("audited_by")
         status = f" [audited by {aud}]" if aud else " [unaudited]"
         aids = s.get("album_ids", [])
-        ids_str = f" (album_ids: {aids})" if aids else " (no album_ids)"
+        more = (
+            f" +{len(aids) - _SUB_SERIES_ID_SAMPLE} more"
+            if len(aids) > _SUB_SERIES_ID_SAMPLE
+            else ""
+        )
+        ids_str = (
+            f" (album_ids: {aids[:_SUB_SERIES_ID_SAMPLE]}{more})"
+            if aids
+            else " (no album_ids)"
+        )
         lines.append(
             f"  Sub-series: {s.get('label', '?')} -- {s.get('reason', '')}{ids_str}{status}"
         )

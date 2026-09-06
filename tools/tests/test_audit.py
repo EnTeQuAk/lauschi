@@ -1212,3 +1212,30 @@ class TestApplyAuditOutputCaps:
         _, data = self._apply(tmp_path, curation, result)
         assert data["review"]["status"] == "escalated"
         assert not data.get("series_facts", {}).get("known_gaps")
+
+
+def test_sub_series_facts_list_a_bounded_sample_of_album_ids():
+    """The overview rides along with every chunk of a chunked audit, so
+    a sub-series fact must not grow with the line it names: the Wieso?
+    Weshalb? Warum? re-curation (2026-09-06) recorded four lines with
+    215 ids between them and the overview went from 1,494 to 3,405
+    tokens, past the chunk budget."""
+    from lauschi_catalog.catalog.audit_ops import build_prompt
+
+    ids = [f"apple_music:{n}" for n in range(1000, 1147)]
+    cur = {
+        "id": "s",
+        "title": "S",
+        "albums": [],
+        "series_facts": {
+            "sub_series": [
+                {"label": "junior", "album_ids": ids, "reason": "younger line"}
+            ]
+        },
+    }
+    prompt = build_prompt(cur, [])
+    assert (
+        "album_ids: ['apple_music:1000', 'apple_music:1001', 'apple_music:1002', 'apple_music:1003', 'apple_music:1004'] +142 more"
+        in prompt
+    )
+    assert "apple_music:1146" not in prompt
