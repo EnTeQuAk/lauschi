@@ -29860,92 +29860,137 @@ series:
       - id: 3XaE6tpyg9wQpK0MOpQcnK
         episode: 1
         title: Folge 1 - Die rote Socke
+        release_date: '2011-03-01'
       - id: 3rJJBDxGmMcQeTVQVDxq6O
         episode: 2
         title: Folge 2 - Die orangefarbene Maske
+        release_date: '2011-03-01'
       - id: 18RmT3WdLAXXHZCrfpjbju
         episode: 3
         title: Folge 3 - Der gelbe Juwelenkoffer
+        release_date: '2011-03-01'
       - id: 5DCjg6as20C5i1Qhx9lYvD
         episode: 4
         title: Folge 4 - Der grüne Papagei
+        release_date: '2011-03-01'
       - id: 4qd87CiYfHxNaNZOZCbNLb
         episode: 5
         title: Folge 5 - Der lila Leierkasten
+        release_date: '2011-03-01'
       - id: 3jwQZlgpSPrSxUrj4oZWRC
         episode: 6
         title: Folge 6 - Das blaue Zimmer
+        release_date: '2011-03-01'
       - id: 4RlibXo2zBGkC1l7xh3xR4
         episode: 7
         title: Folge 7 - Der schwarze Geist
+        release_date: '2011-03-01'
       - id: 2OeWg46R4B05IXw0JAXcJj
         episode: 8
         title: Folge 8 - Das rosa Nilpferd
+        release_date: '2011-03-01'
       - id: 2JKavuDqgVeNlMTPzzQKJ6
         episode: 9
         title: Folge 9 - Die schneeweiße Katze
+        release_date: '2011-03-01'
       - id: 1MBpYgGrXWpJqYDB6Z3XP3
         episode: 10
         title: Folge 10 - Der goldene Drache
+        release_date: '2011-03-01'
       - id: 39QJJgkNbOFNrcgUJkkJE8
         episode: 11
         title: Folge 11 - Der Jade-Elefant
+        release_date: '2011-03-01'
       - id: 5f8kqlu2MLc0nntQ6F3xxg
         episode: 12
         title: Folge 12 - Der Fall Koralle
+        release_date: '2011-03-01'
       - id: 3CV2CW7yWJ682lO7pdjmW8
         episode: 13
         title: Folge 13 - Kürbisgeist und Silberspray
+        release_date: '2011-03-01'
       - id: 6xZYdnmOLRlz4Vlq35jOXR
         episode: 14
         title: Folge 14 - Der Fall Kobra
+        release_date: '2011-03-01'
       - id: 3vQTtZU5EN1ib8Q3KRjgOn
         episode: 15
         title: Folge 15 - Rauchsignale
+        release_date: '2011-03-01'
       - id: 5p5SsVbOmcaJCFZaxOflJC
         episode: 16
         title: Folge 16 - Nashornjägern auf der Spur
+        release_date: '2011-03-01'
       - id: 1dP1knLDuLvDaLdPwtHBXm
         episode: 17
         title: Folge 17 - KK fischt im Internet
+        release_date: '2011-03-01'
       - id: 3XW5PmFIq9AhIbmXKV7Cjg
         title: Kommissar Kugelblitz in Berlin
+        release_date: '2017-01-01'
       - id: 5boocn7mGH6zphNOLX7A61
         title: Kommissar Kugelblitz in Wien
+        release_date: '2017-01-01'
       - id: 6jeLDNwSWLfTF3diCCTjyt
         title: Kugelblitz in London
+        release_date: '2017-01-01'
       - id: 2NMb6ZAm4TDd0WHB6bLG9l
         title: Kugelblitz in New York
+        release_date: '2017-01-01'
       - id: 4JYlGrNG3eRBEBqT1yMPgb
         title: Kugelblitz in Paris
+        release_date: '2017-01-01'
       - id: 07lAvUvijAgZqYuG5k9Ra0
         title: Kugelblitz als Weihnachtsmann
+        release_date: '2018-11-16'
       - id: 0aXrCMRvN7F2PTJZeHaQ8i
         title: Die Nikolaus-Bande (Der Adventskalender)
+        release_date: '2018-11-30'
+      - id: 3Ik8gPVRTcFU55PVMwu4sP
+        title: Der Fall Shanghai
+        release_date: '2019-07-05'
       - id: 5hqpaijDgptIIO2vMxG7wM
         title: Tote trinken keine Cola
+        release_date: '2019-07-05'
       - id: 5qBAXGuN3WJ5TWe0mZ0DCK
         title: Vermisst am Mississippi
+        release_date: '2019-07-05'
       - id: 39IfFPvrOQ3ImEKTGUXzKs
         title: Der Fall Wüstenkönig
+        release_date: '2022-07-01'
       - id: 4N77PwFUHPIE6qKoZwvq1C
         title: Das Geheimnis von Spooky Hill
+        release_date: '2022-09-16'
+      - id: 1w11l4b6TBgDj1cx8pstmY
+        title: Auf Gaunerjagd durch Deutschland
+        release_date: '2023-08-04'
       - id: 5e0OYpymgepB33NPactKvp
         title: Unter Hochspannung
+        release_date: '2023-10-20'
       - id: 6jOpbkUZQp2oZ2A7l6juZF
         title: Das Geheimnis der gefiederten Schlange
+        release_date: '2024-01-19'
       - id: 00l4724PhRgQfkoCgSYmNr
         title: Der Fall Giftnudel
+        release_date: '2024-04-05'
       - id: 4UtKU8tIOdxpr5LtybPQAm
         title: Der Fall Kiwi
+        release_date: '2024-07-05'
       - id: 3PwPv84ivTvcy0kHxLG3ae
         title: Die Akte 2013
+        release_date: '2024-09-20'
       - id: 42RwFcOdxyKgDMabNWOLlL
         title: Die Moskito-Bande
+        release_date: '2024-11-22'
       - id: 3nX9eDNwNKTmtdea4QIHUw
         title: Der Fall Rhinozeros
+        release_date: '2025-05-30'
       - id: 5lxI2ZoC7FpkDyASfnhaU1
         title: Piraten der Wüste
+        release_date: '2025-09-05'
+      - id: 55ITdCmKdzpL23deLCSwFB
+        title: Alarm in Windhuk
+        release_date: '2025-10-24'
     apple_music:
       artist_ids:
       - '161429596'
@@ -29953,115 +29998,162 @@ series:
       - id: '1038129896'
         episode: 1
         title: Folge 1 - Die rote Socke
+        release_date: '2011-03-01'
       - id: '1038187434'
         episode: 2
         title: Folge 2 - Die orangefarbene Maske
+        release_date: '2011-03-01'
       - id: '1038157504'
         episode: 3
         title: Folge 3 - Der gelbe Juwelenkoffer
+        release_date: '2011-03-01'
       - id: '1038131829'
         episode: 4
         title: Folge 4 - Der grüne Papagei
+        release_date: '2011-03-01'
       - id: '1038233513'
         episode: 5
         title: Folge 5 - Der lila Leierkasten
+        release_date: '2011-03-01'
       - id: '1038185240'
         episode: 6
         title: Folge 6 - Das blaue Zimmer
+        release_date: '2011-03-01'
       - id: '1038229248'
         episode: 7
         title: Folge 7 - Der schwarze Geist
+        release_date: '2011-03-01'
       - id: '1069187336'
         episode: 8
         title: Folge 8 - Das rosa Nilpferd
+        release_date: '2011-03-01'
       - id: '1038172464'
         episode: 9
         title: Folge 9 - Die schneeweiße Katze
+        release_date: '2011-03-01'
       - id: '1038128487'
         episode: 10
         title: Folge 10 - Der goldene Drache
+        release_date: '2011-03-01'
       - id: '1038151931'
         episode: 11
         title: Folge 11 - Der Jade-Elefant
+        release_date: '2011-03-01'
       - id: '1038128051'
         episode: 12
         title: Folge 12 - Der Fall Koralle
+        release_date: '2011-03-01'
       - id: '1038188669'
         episode: 13
         title: Folge 13 - Kürbisgeist und Silberspray
+        release_date: '2011-03-01'
       - id: '1038222158'
         episode: 14
         title: Folge 14 - Der Fall Kobra
+        release_date: '2011-03-01'
       - id: '1038198000'
         episode: 15
         title: Folge 15 - Rauchsignale
+        release_date: '2011-03-01'
       - id: '1038148406'
         episode: 16
         title: Folge 16 - Nashornjägern auf der Spur
+        release_date: '2011-03-01'
       - id: '1038102410'
         episode: 17
         title: Folge 17 - KK fischt im Internet
+        release_date: '2011-03-01'
       - id: '1469412048'
         episode: 27
         title: 'Folge 27: Tote trinken keine Cola'
+        release_date: '2011-03-01'
       - id: '1420125083'
         title: Kommissar Kugelblitz in Berlin
+        release_date: '2017-01-01'
       - id: '1420127990'
         title: Kommissar Kugelblitz in Wien
+        release_date: '2017-01-01'
       - id: '1420033585'
         title: Kugelblitz in London
+        release_date: '2017-01-01'
       - id: '1423153667'
         title: Kugelblitz in New York
+        release_date: '2017-01-01'
       - id: '1423167329'
         title: Kugelblitz in Paris
+        release_date: '2017-01-01'
       - id: '1420123099'
         title: Kugelblitz in Sydney
+        release_date: '2017-01-01'
       - id: '1229206428'
         title: Kugelblitz in Amsterdam
+        release_date: '2017-04-28'
       - id: '1229222392'
         title: Kugelblitz in Barcelona
+        release_date: '2017-04-28'
       - id: '1229783442'
         title: Kugelblitz in Spanien
+        release_date: '2017-04-28'
       - id: '1441548959'
         title: Kugelblitz als Weihnachtsmann
+        release_date: '2018-11-16'
       - id: '1441548534'
         title: Kugelblitz in Hamburg
+        release_date: '2018-11-16'
       - id: '1444770143'
         title: Die Nikolaus-Bande (Der Adventskalender)
+        release_date: '2018-11-30'
       - id: '1469398547'
         title: Der Fall Shanghai
+        release_date: '2019-07-05'
       - id: '1469406231'
         title: Vermisst am Mississippi
+        release_date: '2019-07-05'
       - id: '1629638063'
         title: Der Fall Wüstenkönig
+        release_date: '2022-07-01'
       - id: '1642733591'
         title: Das Geheimnis von Spooky Hill
+        release_date: '2022-09-16'
       - id: '1664517106'
         title: Kugelblitz in München
+        release_date: '2023-01-27'
       - id: '1684691056'
         title: Kugelblitz in Venedig
+        release_date: '2023-04-28'
       - id: '1700490614'
         title: Auf Gaunerjagd durch Deutschland
+        release_date: '2023-08-04'
       - id: '1712618196'
         title: Unter Hochspannung
+        release_date: '2023-10-20'
       - id: '1725822300'
         title: Das Geheimnis der gefiederten Schlange
+        release_date: '2024-01-19'
       - id: '1738286314'
         title: Der Fall Giftnudel
+        release_date: '2024-04-05'
       - id: '1754561645'
         title: Der Fall Kiwi
+        release_date: '2024-07-05'
       - id: '1764108202'
         title: Die Akte 2013
+        release_date: '2024-09-20'
       - id: '1778473304'
         title: Die Moskito-Bande
+        release_date: '2024-11-22'
       - id: '1809041512'
         title: Der Fall Rhinozeros
+        release_date: '2025-05-30'
       - id: '1830366763'
         title: Piraten der Wüste
+        release_date: '2025-09-05'
       - id: '1836984983'
         title: Alarm in Windhuk
+        release_date: '2025-10-24'
       - id: '1892392893'
         title: in Istanbul
+        release_date: '2026-05-15'
   episode_pattern:
   - '^Folge (\d+):'
   - ^Folge (\d+) -
@@ -30130,13 +30222,6 @@ series:
       number: 26
       range_end:
       reason: Episode 26 not available in current streaming catalogs
-    - number: 27
-      range_end:
-      reason: Digitally available on Apple Music only; not present in Spotify catalog
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-02T16:04:54.312842+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T16:04:54.312842+00:00'
   aliases:
   - Kugelblitz
 - id: liliane_susewind
@@ -41314,28 +41399,31 @@ series:
       - id: 4pbnqH5lWntFfE8EZLdubC
         episode: 26
         title: Schnee auf Mallorca
+        release_date: '2019-07-05'
       - id: 7zx28IjvxZDxkuTDx4Zpd0
         title: Kugelblitz in Sydney
+        release_date: '2017-01-01'
       - id: 0Q2wkx9R5UDUweTaK4aXnb
         title: Kugelblitz in Amsterdam
+        release_date: '2017-04-28'
       - id: 7zeUeWFJU9uanvpv0mfVUL
         title: Kugelblitz in Barcelona
+        release_date: '2017-04-28'
       - id: 59wjR1gCmVzl44pOxhMVhM
         title: Kugelblitz in Spanien
+        release_date: '2017-04-28'
       - id: 6hF9zznEzRkbHHgJO5KMPI
         title: Kugelblitz in Hamburg
-      - id: 3Ik8gPVRTcFU55PVMwu4sP
-        title: Der Fall Shanghai
+        release_date: '2018-11-16'
       - id: 75xFoEfwSYDtjWzuViymPN
         title: Kugelblitz in München
+        release_date: '2023-01-27'
       - id: 3pH7UbF2X7wEctx4rg87Ft
         title: Kugelblitz in Venedig
-      - id: 1w11l4b6TBgDj1cx8pstmY
-        title: Auf Gaunerjagd durch Deutschland
-      - id: 55ITdCmKdzpL23deLCSwFB
-        title: Alarm in Windhuk
+        release_date: '2023-04-28'
       - id: 4ztLbXeJM2OMraKegwvdRE
         title: in Istanbul
+        release_date: '2026-05-15'
     apple_music:
       artist_ids:
       - '161429596'
@@ -41343,6 +41431,7 @@ series:
       - id: '1469411461'
         episode: 26
         title: Schnee auf Mallorca
+        release_date: '2011-03-01'
   series_facts:
     known_gaps:
     - number: 16
