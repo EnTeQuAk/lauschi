@@ -599,7 +599,16 @@ def _drop_proposals_for_existing_lines(
     if proposed is None or entry is None or not proposed.sub_series:
         return proposed
     root_id = entry.split_from or entry.id
-    others = [m for m in _family_of(entry, catalog) if m.id != entry.id]
+    # family members, plus entries named as this root's lines that keep
+    # their own artist page (wieso_weshalb_warum_junior): both exist
+    others = [
+        m
+        for m in catalog
+        if m.id != entry.id
+        and (
+            m.id == root_id or m.split_from == root_id or m.id.startswith(root_id + "_")
+        )
+    ]
     existing = {m.id for m in others}
     kept = []
     for sub in proposed.sub_series:

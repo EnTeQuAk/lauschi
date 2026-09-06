@@ -101,3 +101,14 @@ def test_carried_proposals_are_filtered_like_new_ones():
         _facts("junior"), PARENT, CATALOG, log.append
     )
     assert kept.sub_series == [] and log
+
+
+def test_a_line_with_its_own_artist_page_still_counts_as_existing():
+    """wieso_weshalb_warum_junior has its own artist ids, so it is not a
+    split child, yet the parent's page carries Junior albums and the
+    finalize keeps proposing the line. The entry exists; that is enough."""
+    own_page = CatalogEntry(id="wieso_weshalb_warum_junior", title="Junior")
+    kept = _drop_proposals_for_existing_lines(
+        _facts("junior"), PARENT, [PARENT, own_page], lambda _m: None
+    )
+    assert kept.sub_series == []
