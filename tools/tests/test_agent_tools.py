@@ -79,7 +79,7 @@ class TestReferenceLookup(unittest.TestCase):
         result = tool(self._ctx(ReferenceIndex("", fetch=fake_fetch)), "TKKG")
         assert "not configured" in result["error"]
 
-    def test_a_brand_comes_back_as_lines_of_numbered_titles(self) -> None:
+    def test_a_brand_comes_back_as_lines_of_titles_without_numbers(self) -> None:
         tool = build_agent_tools().tools["lookup_reference_lines"].function
         index = ReferenceIndex(
             "https://example.test/api", fetch=fake_fetch, use_cache=False
@@ -87,10 +87,8 @@ class TestReferenceLookup(unittest.TestCase):
         result = tool(self._ctx(index), "Kommissar Kugelblitz")
         assert result["series"] == "Kommissar Kugelblitz"
         assert result["lines"][0]["name"] == "Hörspiele zu den Büchern"
-        assert result["lines"][0]["episodes"][0] == {
-            "number": "1",
-            "title": "Die rote Socke",
-        }
+        assert result["lines"][0]["titles"] == ["Die rote Socke", "Sammelband"]
+        assert "number" not in str(result), "numbers never come from the index"
 
     def test_lookups_past_the_budget_return_the_limit(self) -> None:
         tool = build_agent_tools().tools["lookup_reference_lines"].function

@@ -47,7 +47,7 @@ see that an episode exists on one provider but not the other, use
 it's truly missing, miscategorized, or excluded under a different title.
 Propose overrides or concerns for each unresolved discrepancy.
 
-`lookup_reference_lines` shows how an outside index divides the brand into lines and numbers each line. Use it to check sub-series membership, split proposals and known_gap facts. A title absent there proves nothing.
+`lookup_reference_lines` shows how an outside index divides the brand into lines. Use it to check sub-series membership and split proposals, nothing about numbering. A title absent there proves nothing.
 
 ## Every album, in priority order
 

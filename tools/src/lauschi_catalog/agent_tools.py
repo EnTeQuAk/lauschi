@@ -94,13 +94,13 @@ def build_agent_tools() -> FunctionToolset[AgentDeps]:
     @ts.tool
     def lookup_reference_lines(ctx: RunContext[AgentDeps], series_name: str) -> dict:
         """Look a brand up in the public line index: its lines, each with
-        its episode titles and the number the line gives them.
+        the episode titles that belong to it.
 
-        Use it to place an album in a line, to see the number an
-        episode carries inside its line when the provider title has
-        none, and for the names of a brand's lines. The index lags
-        behind new releases and lists only licensed titles: an absent
-        title proves nothing.
+        Use it to place an album in a line and for the names of a
+        brand's lines. It carries no episode numbers on purpose: numbers
+        come from the provider metadata, never from here. The index
+        lags behind new releases and lists only licensed titles: an
+        absent title proves nothing.
         """
         if ctx.deps._reference_count >= ctx.deps._MAX_REFERENCE_CALLS:
             return {"error": _limit("Reference lookup", ctx.deps._MAX_REFERENCE_CALLS)}
@@ -122,12 +122,7 @@ def build_agent_tools() -> FunctionToolset[AgentDeps]:
         return {
             "series": found.name,
             "lines": [
-                {
-                    "name": line.name,
-                    "episodes": [
-                        {"number": e.number, "title": e.title} for e in line.episodes
-                    ],
-                }
+                {"name": line.name, "titles": [e.title for e in line.episodes]}
                 for line in found.lines
             ],
         }
