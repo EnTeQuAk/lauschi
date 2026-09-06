@@ -573,6 +573,35 @@ def _family_of(
     return [e for e in catalog if e.id == root_id or e.split_from == root_id]
 
 
+def _drop_proposals_for_existing_lines(
+    proposed: "SeriesFacts | None",
+    entry: "CatalogEntry | None",
+    catalog: list["CatalogEntry"],
+    on_progress: Progress,
+) -> "SeriesFacts | None":
+    """Drop a sub-series proposal that names a line the family already
+    has as a split-off child. The child entry is the fact; its albums
+    were pre-excluded from this run as bleed, so the proposal would only
+    re-propose the split and fail on the existing id."""
+    if proposed is None or entry is None or not proposed.sub_series:
+        return proposed
+    root_id = entry.split_from or entry.id
+    existing = {m.id for m in _family_of(entry, catalog) if m.id != entry.id}
+    kept = []
+    for sub in proposed.sub_series:
+        child_id = f"{root_id}_{sub.label.strip().lower().replace(' ', '_')}"
+        if child_id in existing:
+            on_progress(
+                f"  Dropped sub-series proposal {sub.label!r}: {child_id} "
+                f"already is its own entry.\n"
+            )
+            continue
+        kept.append(sub)
+    if len(kept) == len(proposed.sub_series):
+        return proposed
+    return proposed.model_copy(update={"sub_series": kept})
+
+
 def _route_by_family_patterns(
     remaining: list[dict],
     entry: "CatalogEntry",
@@ -2401,6 +2430,9 @@ async def _run_large(
                     f"numbers across all batches.\n",
                 )
 
+    proposed_facts = _drop_proposals_for_existing_lines(
+        proposed_facts, catalog_entry, load_catalog(), on_progress
+    )
     # Merge existing + proposed facts, deduped by natural key.
     merged_facts = merge_facts(existing_facts, proposed_facts)
 
