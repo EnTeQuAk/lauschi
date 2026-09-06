@@ -1100,6 +1100,8 @@ class CurateDeps(AgentDeps):
     """Dependency container for all curate-phase agents."""
 
     pattern: str | list[str] | None = None
+    #: the pattern is the entry's own from series.yaml, a fact a revision may extend but not narrow
+    pattern_from_catalog: bool = False
     pattern_revisions: list[str | list[str]] = field(default_factory=list)
     titles: list[str] = field(default_factory=list)
     existing_facts: SeriesFacts = field(default_factory=SeriesFacts)
@@ -1159,11 +1161,22 @@ def _pattern_coverage_report(
     )
 
 
+def _pattern_for_run(
+    entry_pattern: str | list[str] | None, proposed: str | list[str] | None
+) -> str | list[str] | None:
+    """The pattern a run works with: the entry's own pattern from
+    series.yaml when it has one, else the metadata agent's proposal.
+    The catalog pattern is a fact; the agent proposes only where there
+    is none yet."""
+    return entry_pattern if entry_pattern else proposed
+
+
 def pattern_update_impact(
     old: str | list[str] | None,
     new: str | list[str],
     included_titles: list[str],
     excluded_titles: list[str],
+    frozen: bool = False,
 ) -> dict:
     """Compare a proposed episode_pattern against the current one.
 
@@ -1202,7 +1215,13 @@ def pattern_update_impact(
         )
 
     rejected = None
-    if total and new_inc < total * 0.3 and new_inc < old_inc:
+    if frozen and new_inc < old_inc:
+        rejected = (
+            f"The current pattern comes from series.yaml and numbers "
+            f"{old_inc}/{total} included titles; the proposal numbers only "
+            f"{new_inc}. A catalog pattern may be extended, not narrowed."
+        )
+    elif total and new_inc < total * 0.3 and new_inc < old_inc:
         rejected = (
             f"Coverage {new_inc}/{total} is below the 30% floor and worse "
             f"than the current pattern ({old_inc}/{total}). Keep the "
@@ -1538,6 +1557,7 @@ def _build_finalize_agent(
             new_pattern,
             included_titles=[d.title for d in ctx.deps.all_decisions if d.include],
             excluded_titles=[d.title for d in ctx.deps.all_decisions if not d.include],
+            frozen=ctx.deps.pattern_from_catalog,
         )
         if impact["rejected"]:
             ctx.deps.on_progress(
@@ -2026,9 +2046,17 @@ async def _run_large(
         content_type=content_type,
         discography_span_years=discography_span_years,
     )
+    entry_pattern = catalog_entry.episode_pattern if catalog_entry else None
+    if entry_pattern and entry_pattern != meta.episode_pattern:
+        on_progress(
+            f"  Pattern from series.yaml: {entry_pattern!r} "
+            f"(the agent proposed {meta.episode_pattern!r}).\n"
+        )
+    meta.episode_pattern = _pattern_for_run(entry_pattern, meta.episode_pattern)
     shared_deps = CurateDeps(
         providers=providers,
         pattern=meta.episode_pattern,
+        pattern_from_catalog=bool(entry_pattern),
         titles=all_titles,
         seen_details=prefetch_details,
         on_progress=on_progress,
