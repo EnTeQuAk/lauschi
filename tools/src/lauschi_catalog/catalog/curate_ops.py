@@ -2567,6 +2567,21 @@ def resolve_content_type(
     return "hoerspiel"
 
 
+def _carry_facts(
+    yaml_facts: "SeriesFacts | None", existing_curation: dict | None
+) -> "SeriesFacts":
+    """Facts a re-curation starts from: the frozen series.yaml facts
+    plus the prior curation's, series.yaml winning on conflict.
+
+    Re-curation is an incremental update, not a rediscovery from
+    scratch. A series without any facts starts from empty facts, never
+    from None.
+    """
+    return (
+        merge_facts(yaml_facts, facts_from_curation(existing_curation)) or SeriesFacts()
+    )
+
+
 def load_existing_facts(entry) -> SeriesFacts:
     """Load frozen facts from a CatalogEntry, if any."""
     if entry.series_facts:
@@ -2736,13 +2751,7 @@ async def curate_one(
                 f"  Split-off of {entry.split_from}: its own albums carried as "
                 f"included, the family's as sub_series_bleed.\n"
             )
-        # Carry facts from the prior curation JSON forward, not just the
-        # frozen series.yaml facts: re-curation is an incremental update,
-        # not a rediscovery from scratch. series.yaml wins on conflict.
-        existing_facts = merge_facts(
-            existing_facts,
-            facts_from_curation(existing_curation),
-        )
+        existing_facts = _carry_facts(existing_facts, existing_curation)
         api_key = os.environ.get("OPENCODE_API_KEY", "")
         if not api_key:
             raise ValueError("OPENCODE_API_KEY not set")
