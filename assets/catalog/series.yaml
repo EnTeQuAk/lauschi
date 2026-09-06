@@ -44601,3 +44601,30 @@ series:
       - id: '6795416010'
         title: 'Kurzhörspiele - Bibi erzählt:  Internatsgeschichten'
         release_date: '2026-09-04'
+- id: was_ist_was_archiv
+  title: 'WAS IST WAS: Archiv'
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: was_ist_was
+  providers:
+    spotify:
+      artist_ids:
+      - 7zNPHpOB4uBduLjmEZzzpy
+      albums:
+      - id: 06k1HtysymNRBv1IxfGN86
+        title: Faszination Autos / Eisenbahn (WAS IST WAS Archiv)
+        release_date: '2006-01-01'
+      - id: 74n7xOK0ewxphBTCkuJyQp
+        title: Fußball / Formel 1 (WAS IST WAS Archiv)
+        release_date: '2006-01-01'
+    apple_music:
+      artist_ids:
+      - '13496563'
+      albums:
+      - id: '6798769460'
+        title: Faszination Autos / Eisenbahn (WAS IST WAS Archiv)
+        release_date: '2006-01-01'
+      - id: '6786611876'
+        title: Fußball / Formel 1 (WAS IST WAS Archiv)
+        release_date: '2006-01-01'
