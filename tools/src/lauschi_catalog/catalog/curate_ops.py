@@ -982,6 +982,43 @@ def _derive_numbers_from_twins(
     return filled
 
 
+def _settle_number_reuse(
+    decisions: list["AlbumDecision"], series_names: list[str]
+) -> int:
+    """A number two different stories carry stays with the newest one.
+
+    Long series reuse numbers across eras (Wieso? Weshalb? Warum? Folge
+    40 is a 2007 story and a 2019 story). The app shows one tile per
+    number; the newest release keeps it, the older story keeps its title
+    and loses the number. Release dates decide, so a group without them
+    is left alone. Same-title twins are the duplicate settle's business.
+    Returns how many numbers were cleared.
+    """
+    groups: dict[tuple[str, int], list["AlbumDecision"]] = {}
+    for d in decisions:
+        if d.include and d.episode_num is not None:
+            groups.setdefault((d.provider, d.episode_num), []).append(d)
+    cleared = 0
+    for members in groups.values():
+        titles = {core_title(m.title, series_names) for m in members}
+        if len(titles) < 2 or any(not m.release_date for m in members):
+            continue
+        newest = max(members, key=lambda m: m.release_date or "")
+        for m in members:
+            if m is newest or core_title(m.title, series_names) == core_title(
+                newest.title, series_names
+            ):
+                continue
+            number = m.episode_num
+            m.episode_num = None
+            m.notes = (
+                f"Number {number} reused by the newer {newest.title!r} "
+                f"({newest.release_date}); this story keeps its title only."
+            )
+            cleared += 1
+    return cleared
+
+
 def _drop_unsupported_numbers(
     decisions: list["AlbumDecision"],
     seen_details: dict[str, dict],
@@ -2314,6 +2351,12 @@ async def _run_large(
         if from_twins:
             on_progress(
                 f"  Twins on the other provider numbered {from_twins} album(s).\n"
+            )
+        reused = _settle_number_reuse(all_decisions, [meta.title, *meta.aliases])
+        if reused:
+            on_progress(
+                f"  {reused} reused number(s) stay with the newest story; the "
+                f"older ones keep their titles only.\n"
             )
 
     # -- Finalize metadata: facts discovery + episode extraction
