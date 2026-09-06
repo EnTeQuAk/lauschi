@@ -90,6 +90,7 @@ def decision(
     release_date: str | None = None,
     exclude_reason: str | None = None,
     confidence: str = "high",
+    notes: str | None = None,
 ) -> AlbumDecision:
     """An AlbumDecision as the batch phase returns it."""
     return AlbumDecision(
@@ -101,4 +102,5 @@ def decision(
         release_date=release_date,
         exclude_reason=exclude_reason,
         confidence=confidence,
+        notes=notes,
     )

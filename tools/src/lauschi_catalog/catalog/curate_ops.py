@@ -860,6 +860,37 @@ def _restore_identity(
     return corrected
 
 
+_OWNER_NOTE = re.compile(
+    r"(?:Belongs to (?:split series )?|Matches the episode pattern of )'([^']+)'"
+    r"|^'([^']+)' excluded it as"
+)
+
+
+def bleed_owner(notes: str | None) -> str | None:
+    """The family member a bleed record already belongs to, read from the
+    note the injection and routing steps leave on it. None for bleed the
+    model decided on its own, which is what a split proposal is for."""
+    m = _OWNER_NOTE.search(notes or "")
+    return (m.group(1) or m.group(2)) if m else None
+
+
+def _ownerless_bleed(
+    decisions: list["AlbumDecision"],
+) -> tuple[list[str], dict[str, list[tuple[str, str]]]]:
+    """Titles and provider:id pairs of the bleed nobody owns yet."""
+    titles: list[str] = []
+    records: dict[str, list[tuple[str, str]]] = {}
+    for d in decisions:
+        if d.include or d.exclude_reason != "sub_series_bleed":
+            continue
+        if bleed_owner(d.notes) is not None:
+            continue
+        if d.title not in records:
+            titles.append(d.title)
+        records.setdefault(d.title, []).append((d.provider, d.album_id))
+    return titles, records
+
+
 def render_sub_series_exclusions(
     records: dict[str, list[tuple[str, str]]], *, cap: int = 60
 ) -> str:
@@ -2362,14 +2393,7 @@ async def _run_large(
             if isinstance(pc, dict):
                 analysis_lines.append(f"Pattern coverage: {pc['percentage']}%")
 
-        sub_bleed_titles: list[str] = []
-        sub_bleed_records: dict[str, list[tuple[str, str]]] = {}
-        for d in all_decisions:
-            if d.include or d.exclude_reason != "sub_series_bleed":
-                continue
-            if d.title not in sub_bleed_records:
-                sub_bleed_titles.append(d.title)
-            sub_bleed_records.setdefault(d.title, []).append((d.provider, d.album_id))
+        sub_bleed_titles, sub_bleed_records = _ownerless_bleed(all_decisions)
         has_sub_bleed = bool(sub_bleed_titles)
         if has_sub_bleed:
             analysis_lines.append(
