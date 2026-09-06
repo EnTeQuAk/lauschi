@@ -15089,159 +15089,107 @@ series:
       - id: 7e91p06D056IgQKzthXmzC
         episode: 1
         title: '01: Eine folgenschwere Bootstour / Die Poolparty'
-      - id: 0JamxW6fjcBcLyJXoqwfXV
-        episode: 27
-        title: 'Staffel 3, Episode 1: Neue Zeiten - Neue Freunde (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2009-12-04'
       - id: 08fnRYl3NicLkAmQ2uHLPv
         episode: 2
         title: '02: Im Netz / Übernachtung bei Emma'
-      - id: 7ACcYGbm3METQUMORJRaaI
-        episode: 28
-        title: 'Staffel 3, Episode 2: Will will es wissen (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2009-12-11'
       - id: 656HKmvCxBOmlVJD08qCGS
         episode: 3
         title: '03: Miss Meereskönigin / Elliots geliebte Retterin'
-      - id: 0pCWMB3twga6jpH90ro8S8
-        episode: 29
-        title: 'Staffel 3, Episode 3: Traumjob oder Albtraum? (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2009-12-18'
       - id: 4J5eIVuo5bWtnulUQMYGr8
         episode: 4
         title: '04: Emma und der Vollmond / Dr. Baywatch'
-      - id: 3BtqIaxpf2zvrm1WRoA6qY
-        episode: 30
-        title: 'Staffel 3, Episode 4: Valentinstag (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2010-03-26'
       - id: 3dQGzfmIFUjtW9g96yYyc9
         episode: 5
         title: '05: Rikki macht fette Beute / Der Filmpreis'
-      - id: 6JjLcvO0uVOJmnN0nxEH0G
-        episode: 31
-        title: 'Staffel 3, Episode 5: Zane fährt falsch (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2010-01-01'
       - id: 1qclOmlbxfniZn6Fcy5L6Z
         episode: 6
         title: '06: Duell im Wasser / Gesang der Sirenen'
-      - id: 3f0vTZC7XPYDKXHz5VmzXa
-        episode: 32
-        title: 'Staffel 3, Episode 6: Bella irrt (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2010-04-09'
       - id: 0Gou6mmhj8co7sSlxaGt0t
         episode: 7
         title: '07: Zanes Untergang / Kindergeburtstag und Seeungeheuer'
-      - id: 3ZHqdO4qxSYrNcFo8pJ3wM
-        episode: 33
-        title: 'Staffel 3, Episode 7: Sonne, Sand und mehr (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2010-11-26'
       - id: 1Lat0foMxAGBV73dltRgN9
         episode: 8
         title: '08: Miriam eiskalt / Cleos geheimer Freund'
-      - id: 4lv42w3n8p8is0K8jsqwax
-        episode: 34
-        title: 'Staffel 3, Episode 8: Die Grotte lebt (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2010-12-03'
       - id: 7ol15iqVoQi3BrKNZRdfqP
         episode: 9
         title: '09: Das Virus / Rikkis Vollmondnacht'
-      - id: 0uQEfxyZdYrB9igcgWpVh2
-        episode: 35
-        title: 'Staffel 3, Episode 9: Hector auf Abwegen (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2010-12-10'
       - id: 3GlYooJpW4Q7r3aGlsEP3F
         episode: 10
         title: '10: Nerviger Besuch / Der perfekte Köder'
-      - id: 3Ww7NiaUq6l1J0cDnShff2
-        episode: 36
-        title: 'Staffel 3, Episode 10: Unfreiwillige Enthüllung (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2010-12-17'
       - id: 3xEM3kdTcHLdJ2WJACeiAL
         episode: 11
         title: '11: Zane auf heißer Spur / Rikkis Geheimnis'
-      - id: 6A0KFx4cnkwVCWQqku61Av
-        episode: 37
-        title: 'Staffel 3, Episode 11: Rikko, der Clown (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2011-03-18'
       - id: 2cUxcrJjL2zArEjPxn7vsC
         episode: 12
         title: "12: Der Anhänger / Lewis' Spezial-Deo"
-      - id: 4gS2VV4kf9vFcmWTXmJISZ
-        episode: 38
-        title: 'Staffel 3, Episode 12: Blüten an Bord (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2011-03-25'
       - id: 6gB6WEj3MnXgdNlJphDSGD
         episode: 13
         title: '13: Dicht auf der Spur / In der Falle'
-      - id: 5w7qEZlifC4meWwsH7ZRPi
-        episode: 39
-        title: 'Staffel 3, Episode 13: Schlechtes Timing (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2011-04-01'
       - id: 0Oiruh70d5KHRwpxD8IxUP
         episode: 14
         title: '14: Stürmische Zeiten / Superkräfte'
-      - id: 5bwcOJIlP5tkqG1Vd75Yik
-        episode: 40
-        title: 'Staffel 3, Episode 14: Ein Unterwasserengel (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2011-11-25'
       - id: 3g8SmysBgZgYyhSpsElPgU
         episode: 15
         title: '15: Alte Liebe rostet nicht / Feuer und Eis'
-      - id: 2dhuL3GvOoVSljyUvHPPK8
-        episode: 41
-        title: 'Staffel 3, Episode 15: Gesang für Delfine (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2011-11-02'
       - id: 39qG8faFGa6sFwJuCMThBQ
         episode: 16
         title: "16: Wünsch' dir was / Verflixtes Fischmenü"
-      - id: 2bCR2mPmFFtulEoObiEIAk
-        episode: 42
-        title: 'Staffel 3, Episode 16: Rikkis Alleingang (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2011-12-09'
       - id: 3eWJdV9yp9bjTxnImTZbmZ
         episode: 17
         title: '17: Lewis unter Verdacht / Falsche Adresse'
-      - id: 2G7FeTbZliE5WK0Ycd0KR6
-        episode: 43
-        title: 'Staffel 3, Episode 17: Mondgestein (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2012-03-30'
       - id: 69u7RrLcjP7k293gvx7FP6
         episode: 18
         title: '18: Hochmut kommt vor dem Fall / Nachhilfestunden'
-      - id: 0cDDElX1Zku90HmhBymnNU
-        episode: 44
-        title: 'Staffel 3, Episode 18: Ryan lässt nicht locker (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2012-04-06'
       - id: 6yIv4wDU8gSb5iu4r4Kh1S
         episode: 19
         title: '19: Schatzsuche / Fischfieber'
-      - id: 6ByLDSEpXCQGT39AYUosWs
-        episode: 45
-        title: 'Staffel 3, Episode 19: Der Tauchwettbewerb (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2012-04-13'
       - id: 2SYNUR7e2Yo5eRraBJNfrP
         episode: 20
         title: '20: Der Campingausflug / Der neue Chef'
-      - id: 1AUgRkv4HmUrY8ugCnUdvs
-        episode: 46
-        title: 'Staffel 3, Episode 20: Mysteriöse Niesanfälle (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2013-08-16'
       - id: 7bxroY2zsgfauHpRsbpPw6
         episode: 21
         title: '21: Nate unwiderstehlich / Teure Verabredung'
-      - id: 4jPqaaFwnESjSxKnxcidkp
-        episode: 47
-        title: 'Staffel 3, Episode 21: Blauer Kristall und Stromausfall (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2013-11-22'
       - id: 2aFzkVSGYzCRqg6QIqUEiq
         episode: 22
         title: '22: Romantisches Dinner / Jungs!'
-      - id: 6mKPhSoen4YGqbCYVpiSEh
-        episode: 48
-        title: 'Staffel 3, Episode 22: Prüfungsstress (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2013-11-29'
       - id: 31GstnRBnCifZeP3PrxB66
         episode: 23
         title: '23: Alles wie damals / Schwarzweiß und brisant'
-      - id: 3RFq24uSvgAHOL02sqCFXE
-        episode: 49
-        title: 'Staffel 3, Episode 23: Die Strandparty (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2013-11-22'
       - id: 6AJc55zt6Fpo7QgXVtfGYe
         episode: 24
         title: '24: Charlottes Verwandlung / Die Super-Meerjungfrau'
-      - id: 7oaDf3LGZUZHYIAGMWrZL3
-        episode: 50
-        title: "Staffel 3, Episode 24: Käpt'n Don (Das Original-Hörspiel zur TV-Serie)"
+        release_date: '2014-02-28'
       - id: 7CqP5TIFM6nKlT6pV339RG
         episode: 25
         title: '25: Außer Kontrolle / Überraschungsparty für Lewis'
-      - id: 6QXvgycjMmJ3xImCNOiL97
-        episode: 51
-        title: 'Staffel 3, Episode 25: Jagd nach den Kristallen (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2014-03-07'
       - id: 1ohIG6KfOxsCwml0itcNAK
         episode: 26
         title: '26: Teuflische Charlotte / Die Entscheidung'
-      - id: 4St0AlKtOORkQc6zLCDD7H
-        episode: 52
-        title: 'Staffel 3, Episode 26: Komet im Anflug (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2014-03-14'
     apple_music:
       artist_ids:
       - '679903233'
@@ -15249,162 +15197,108 @@ series:
       - id: '1686230816'
         episode: 1
         title: '01: Eine folgenschwere Bootstour / Die Poolparty'
-      - id: '1807755550'
-        episode: 27
-        title: 'Staffel 3, Episode 1: Neue Zeiten - Neue Freunde (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2009-12-04'
       - id: '1686230393'
         episode: 2
         title: '02: Im Netz / Übernachtung bei Emma'
-      - id: '1808698127'
-        episode: 28
-        title: 'Staffel 3, Episode 2: Will will es wissen (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2009-12-11'
       - id: '1686221245'
         episode: 3
         title: '03: Miss Meereskönigin / Elliots geliebte Retterin'
-      - id: '1808698155'
-        episode: 29
-        title: 'Staffel 3, Episode 3: Traumjob oder Albtraum? (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2009-12-18'
       - id: '1686224469'
         episode: 4
         title: '04: Emma und der Vollmond / Dr. Baywatch'
-      - id: '1815985291'
-        episode: 30
-        title: 'Staffel 3, Episode 4: Valentinstag (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2010-03-26'
       - id: '1686241254'
         episode: 5
         title: '05: Rikki macht fette Beute / Der Filmpreis'
-      - id: '1815985256'
-        episode: 31
-        title: 'Staffel 3, Episode 5: Zane fährt falsch (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2010-01-01'
       - id: '1686230788'
         episode: 6
         title: '06: Duell im Wasser / Gesang der Sirenen'
-      - id: '1821195227'
-        episode: 32
-        title: 'Staffel 3, Episode 6: Bella irrt (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2010-04-09'
       - id: '1686233389'
         episode: 7
         title: '07: Zanes Untergang / Kindergeburtstag und Seeungeheuer'
-      - id: '1825396449'
-        episode: 33
-        title: 'Staffel 3, Episode 7: Sonne, Sand und mehr (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2010-11-26'
       - id: '1686261332'
         episode: 8
         title: '08: Miriam eiskalt / Cleos geheimer Freund'
-      - id: '1828139512'
-        episode: 34
-        title: 'Staffel 3, Episode 8: Die Grotte lebt (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2010-12-03'
       - id: '1686230763'
         episode: 9
         title: '09: Das Virus / Rikkis Vollmondnacht'
-      - id: '1830263139'
-        episode: 35
-        title: 'Staffel 3, Episode 9: Hector auf Abwegen (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2010-12-10'
       - id: '1686271735'
         episode: 10
         title: '10: Nerviger Besuch / Der perfekte Köder'
-      - id: '1830263220'
-        episode: 36
-        title: 'Staffel 3, Episode 10: Unfreiwillige Enthüllung (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2010-12-17'
       - id: '1686230354'
         episode: 11
         title: '11: Zane auf heißer Spur / Rikkis Geheimnis'
-      - id: '1836117761'
-        episode: 37
-        title: 'Staffel 3, Episode 11: Rikko, der Clown (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2011-03-18'
       - id: '1686221844'
         episode: 12
         title: "12: Der Anhänger / Lewis' Spezial-Deo"
-      - id: '1836117591'
-        episode: 38
-        title: 'Staffel 3, Episode 12: Blüten an Bord (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2011-03-25'
       - id: '1686228356'
         episode: 13
         title: '13: Dicht auf der Spur / In der Falle'
-      - id: '1842351593'
-        episode: 39
-        title: 'Staffel 3, Episode 13: Schlechtes Timing (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2011-04-01'
       - id: '1686223824'
         episode: 14
         title: '14: Stürmische Zeiten / Superkräfte'
-      - id: '1842364420'
-        episode: 40
-        title: 'Staffel 3, Episode 14: Ein Unterwasserengel (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2011-11-25'
       - id: '1686228888'
         episode: 15
         title: '15: Alte Liebe rostet nicht / Feuer und Eis'
-      - id: '1849684495'
-        episode: 41
-        title: 'Staffel 3, Episode 15: Gesang für Delfine (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2011-11-02'
       - id: '1686229389'
         episode: 16
         title: "16: Wünsch' dir was / Verflixtes Fischmenü"
-      - id: '1849684541'
-        episode: 42
-        title: 'Staffel 3, Episode 16: Rikkis Alleingang (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2011-12-09'
       - id: '1686217895'
         episode: 17
         title: '17: Lewis unter Verdacht / Falsche Adresse'
-      - id: '1854502993'
-        episode: 43
-        title: 'Staffel 3, Episode 17: Mondgestein (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2012-03-30'
       - id: '1686227930'
         episode: 18
         title: '18: Hochmut kommt vor dem Fall / Nachhilfestunden'
-      - id: '1854503708'
-        episode: 44
-        title: 'Staffel 3, Episode 18: Ryan lässt nicht locker (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2012-04-06'
       - id: '1686264395'
         episode: 19
         title: '19: Schatzsuche / Fischfieber'
-      - id: '1862129095'
-        episode: 45
-        title: 'Staffel 3, Episode 19: Der Tauchwettbewerb (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2012-04-13'
       - id: '1686263523'
         episode: 20
         title: '20: Der Campingausflug / Der neue Chef'
-      - id: '1862099399'
-        episode: 46
-        title: 'Staffel 3, Episode 20: Mysteriöse Niesanfälle (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2013-08-16'
       - id: '1686224803'
         episode: 21
         title: '21: Nate unwiderstehlich / Teure Verabredung'
-      - id: '1869684424'
-        episode: 47
-        title: 'Staffel 3, Episode 21: Blauer Kristall und Stromausfall (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2013-11-22'
       - id: '1686211436'
         episode: 22
         title: '22: Romantisches Dinner / Jungs!'
-      - id: '1869698299'
-        episode: 48
-        title: 'Staffel 3, Episode 22: Prüfungsstress (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2013-11-29'
       - id: '1686227902'
         episode: 23
         title: '23: Alles wie damals / Schwarzweiß und brisant'
-      - id: '1874869965'
-        episode: 49
-        title: 'Staffel 3, Episode 23: Die Strandparty (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2013-11-22'
       - id: '1686222995'
         episode: 24
         title: '24: Charlottes Verwandlung / Die Super-Meerjungfrau'
-      - id: '1874899325'
-        episode: 50
-        title: "Staffel 3, Episode 24: Käpt'n Don (Das Original-Hörspiel zur TV-Serie)"
+        release_date: '2014-02-28'
       - id: '1686226884'
         episode: 25
         title: '25: Außer Kontrolle / Überraschungsparty für Lewis'
-      - id: '1882987246'
-        episode: 51
-        title: 'Staffel 3, Episode 25: Jagd nach den Kristallen (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2014-03-07'
       - id: '1686224158'
         episode: 26
         title: '26: Teuflische Charlotte / Die Entscheidung'
-      - id: '1882985012'
-        episode: 52
-        title: 'Staffel 3, Episode 26: Komet im Anflug (Das Original-Hörspiel zur TV-Serie)'
-  episode_pattern:
-  - '^Staffel \d+, Episode (\d+):'
-  - '^(\d+):'
+        release_date: '2014-03-14'
+  episode_pattern: '^(\d+):'
   aliases:
   - 'H2O: Just Add Water'
   series_facts:
@@ -19236,7 +19130,7 @@ series:
       - id: '1863377882'
         episode: 74
         title: Rund um den Müll (Wieso? Weshalb? Warum? Folge 74)
-  episode_pattern: ^.*\(Wieso\? Weshalb\? Warum\?[^)]*Folge\s*(\d+)(?!\s*[-–]\d+).*$
+  episode_pattern: \(Wieso\? Weshalb\? Warum\? Folge\s*(\d+)
   series_facts:
     era_boundaries:
     - label: klassik
@@ -45803,3 +45697,252 @@ series:
       - id: '6786611876'
         title: Fußball / Formel 1 (WAS IST WAS Archiv)
         release_date: '2006-01-01'
+- id: h2o_ploetzlich_meerjungfrau_staffel_3
+  title: H2O - Plötzlich Meerjungfrau! Staffel 3
+  aliases:
+  - 'H2O: Just Add Water! Season 3'
+  episode_pattern: '^Staffel 3, Episode (\d+):'
+  split_from: h2o_ploetzlich_meerjungfrau
+  providers:
+    spotify:
+      artist_ids:
+      - 2pJc0GM8VMsVUZphZNR9rm
+      albums:
+      - id: 0JamxW6fjcBcLyJXoqwfXV
+        episode: 1
+        title: 'Staffel 3, Episode 1: Neue Zeiten - Neue Freunde (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-04-25'
+      - id: 7ACcYGbm3METQUMORJRaaI
+        episode: 2
+        title: 'Staffel 3, Episode 2: Will will es wissen (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-05-09'
+      - id: 0pCWMB3twga6jpH90ro8S8
+        episode: 3
+        title: 'Staffel 3, Episode 3: Traumjob oder Albtraum? (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-05-23'
+      - id: 3BtqIaxpf2zvrm1WRoA6qY
+        episode: 4
+        title: 'Staffel 3, Episode 4: Valentinstag (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-06-06'
+      - id: 6JjLcvO0uVOJmnN0nxEH0G
+        episode: 5
+        title: 'Staffel 3, Episode 5: Zane fährt falsch (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-06-20'
+      - id: 3f0vTZC7XPYDKXHz5VmzXa
+        episode: 6
+        title: 'Staffel 3, Episode 6: Bella irrt (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-07-04'
+      - id: 3ZHqdO4qxSYrNcFo8pJ3wM
+        episode: 7
+        title: 'Staffel 3, Episode 7: Sonne, Sand und mehr (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-07-18'
+      - id: 4lv42w3n8p8is0K8jsqwax
+        episode: 8
+        title: 'Staffel 3, Episode 8: Die Grotte lebt (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-08-01'
+      - id: 0uQEfxyZdYrB9igcgWpVh2
+        episode: 9
+        title: 'Staffel 3, Episode 9: Hector auf Abwegen (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-08-15'
+      - id: 3Ww7NiaUq6l1J0cDnShff2
+        episode: 10
+        title: 'Staffel 3, Episode 10: Unfreiwillige Enthüllung (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-08-29'
+      - id: 6A0KFx4cnkwVCWQqku61Av
+        episode: 11
+        title: 'Staffel 3, Episode 11: Rikko, der Clown (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-09-12'
+      - id: 4gS2VV4kf9vFcmWTXmJISZ
+        episode: 12
+        title: 'Staffel 3, Episode 12: Blüten an Bord (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-09-26'
+      - id: 5w7qEZlifC4meWwsH7ZRPi
+        episode: 13
+        title: 'Staffel 3, Episode 13: Schlechtes Timing (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-10-10'
+      - id: 5bwcOJIlP5tkqG1Vd75Yik
+        episode: 14
+        title: 'Staffel 3, Episode 14: Ein Unterwasserengel (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-10-24'
+      - id: 2dhuL3GvOoVSljyUvHPPK8
+        episode: 15
+        title: 'Staffel 3, Episode 15: Gesang für Delfine (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-11-07'
+      - id: 2bCR2mPmFFtulEoObiEIAk
+        episode: 16
+        title: 'Staffel 3, Episode 16: Rikkis Alleingang (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-11-21'
+      - id: 2G7FeTbZliE5WK0Ycd0KR6
+        episode: 17
+        title: 'Staffel 3, Episode 17: Mondgestein (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-12-05'
+      - id: 0cDDElX1Zku90HmhBymnNU
+        episode: 18
+        title: 'Staffel 3, Episode 18: Ryan lässt nicht locker (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-12-19'
+      - id: 6ByLDSEpXCQGT39AYUosWs
+        episode: 19
+        title: 'Staffel 3, Episode 19: Der Tauchwettbewerb (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2026-01-02'
+      - id: 1AUgRkv4HmUrY8ugCnUdvs
+        episode: 20
+        title: 'Staffel 3, Episode 20: Mysteriöse Niesanfälle (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2026-01-16'
+      - id: 4jPqaaFwnESjSxKnxcidkp
+        episode: 21
+        title: 'Staffel 3, Episode 21: Blauer Kristall und Stromausfall (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2026-01-30'
+      - id: 6mKPhSoen4YGqbCYVpiSEh
+        episode: 22
+        title: 'Staffel 3, Episode 22: Prüfungsstress (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2026-02-13'
+      - id: 3RFq24uSvgAHOL02sqCFXE
+        episode: 23
+        title: 'Staffel 3, Episode 23: Die Strandparty (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2026-02-27'
+      - id: 7oaDf3LGZUZHYIAGMWrZL3
+        episode: 24
+        title: "Staffel 3, Episode 24: Käpt'n Don (Das Original-Hörspiel zur TV-Serie)"
+        release_date: '2026-03-13'
+      - id: 6QXvgycjMmJ3xImCNOiL97
+        episode: 25
+        title: 'Staffel 3, Episode 25: Jagd nach den Kristallen (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2026-03-27'
+      - id: 4St0AlKtOORkQc6zLCDD7H
+        episode: 26
+        title: 'Staffel 3, Episode 26: Komet im Anflug (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2026-04-10'
+    apple_music:
+      artist_ids:
+      - '679903233'
+      albums:
+      - id: '1807755550'
+        episode: 1
+        title: 'Staffel 3, Episode 1: Neue Zeiten - Neue Freunde (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-04-25'
+      - id: '1808698127'
+        episode: 2
+        title: 'Staffel 3, Episode 2: Will will es wissen (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-05-09'
+      - id: '1808698155'
+        episode: 3
+        title: 'Staffel 3, Episode 3: Traumjob oder Albtraum? (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-05-23'
+      - id: '1815985291'
+        episode: 4
+        title: 'Staffel 3, Episode 4: Valentinstag (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-06-06'
+      - id: '1815985256'
+        episode: 5
+        title: 'Staffel 3, Episode 5: Zane fährt falsch (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-06-20'
+      - id: '1821195227'
+        episode: 6
+        title: 'Staffel 3, Episode 6: Bella irrt (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-07-04'
+      - id: '1825396449'
+        episode: 7
+        title: 'Staffel 3, Episode 7: Sonne, Sand und mehr (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-07-18'
+      - id: '1828139512'
+        episode: 8
+        title: 'Staffel 3, Episode 8: Die Grotte lebt (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-08-01'
+      - id: '1830263139'
+        episode: 9
+        title: 'Staffel 3, Episode 9: Hector auf Abwegen (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-08-15'
+      - id: '1830263220'
+        episode: 10
+        title: 'Staffel 3, Episode 10: Unfreiwillige Enthüllung (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-08-29'
+      - id: '1836117761'
+        episode: 11
+        title: 'Staffel 3, Episode 11: Rikko, der Clown (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-09-12'
+      - id: '1836117591'
+        episode: 12
+        title: 'Staffel 3, Episode 12: Blüten an Bord (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-09-26'
+      - id: '1842351593'
+        episode: 13
+        title: 'Staffel 3, Episode 13: Schlechtes Timing (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-10-10'
+      - id: '1842364420'
+        episode: 14
+        title: 'Staffel 3, Episode 14: Ein Unterwasserengel (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-10-24'
+      - id: '1849684495'
+        episode: 15
+        title: 'Staffel 3, Episode 15: Gesang für Delfine (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-11-07'
+      - id: '1849684541'
+        episode: 16
+        title: 'Staffel 3, Episode 16: Rikkis Alleingang (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-11-21'
+      - id: '1854502993'
+        episode: 17
+        title: 'Staffel 3, Episode 17: Mondgestein (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-12-05'
+      - id: '1854503708'
+        episode: 18
+        title: 'Staffel 3, Episode 18: Ryan lässt nicht locker (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2025-12-19'
+      - id: '1862129095'
+        episode: 19
+        title: 'Staffel 3, Episode 19: Der Tauchwettbewerb (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2026-01-02'
+      - id: '1862099399'
+        episode: 20
+        title: 'Staffel 3, Episode 20: Mysteriöse Niesanfälle (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2026-01-16'
+      - id: '1869684424'
+        episode: 21
+        title: 'Staffel 3, Episode 21: Blauer Kristall und Stromausfall (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2026-01-30'
+      - id: '1869698299'
+        episode: 22
+        title: 'Staffel 3, Episode 22: Prüfungsstress (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2026-02-13'
+      - id: '1874869965'
+        episode: 23
+        title: 'Staffel 3, Episode 23: Die Strandparty (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2026-02-27'
+      - id: '1874899325'
+        episode: 24
+        title: "Staffel 3, Episode 24: Käpt'n Don (Das Original-Hörspiel zur TV-Serie)"
+        release_date: '2026-03-13'
+      - id: '1882987246'
+        episode: 25
+        title: 'Staffel 3, Episode 25: Jagd nach den Kristallen (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2026-03-27'
+      - id: '1882985012'
+        episode: 26
+        title: 'Staffel 3, Episode 26: Komet im Anflug (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2026-04-10'
+- id: wieso_weshalb_warum_profiwissen
+  title: Wieso? Weshalb? Warum? ProfiWissen
+  aliases: []
+  episode_pattern: PROFIWISSEN, Folge\s*(\d+)
+  content_type: hoerspiel
+  split_from: wieso_weshalb_warum
+  providers:
+    spotify:
+      artist_ids:
+      - 79fds5dgda0VCYelERV8Gi
+    apple_music:
+      artist_ids:
+      - '1560025489'
+- id: wieso_weshalb_warum_vorlesegeschichten
+  title: Wieso? Weshalb? Warum? Meine Vorlesegeschichten
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: wieso_weshalb_warum
+  providers:
+    spotify:
+      artist_ids:
+      - 79fds5dgda0VCYelERV8Gi
+    apple_music:
+      artist_ids:
+      - '1560025489'
