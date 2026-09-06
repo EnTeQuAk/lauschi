@@ -62,6 +62,28 @@ def normalized_reason(album: dict) -> str | None:
     return reason
 
 
+def drop_stale_known_gaps(curation: dict) -> int:
+    """Remove known_gap facts whose episode is included on some provider.
+
+    A gap recorded before the episode was released is not a gap once the
+    episode is in (Teufelskicker Folge 111, 2026). Only when the series
+    has at most one era, so a classic-versus-new numbering clash cannot
+    make a real gap look filled. Returns how many were dropped.
+    """
+    facts = curation.get("series_facts") or {}
+    gaps = facts.get("known_gaps") or []
+    if not gaps or len(facts.get("era_boundaries") or []) > 1:
+        return 0
+    included = {
+        a.get("episode_num")
+        for a in curation.get("albums", [])
+        if a.get("include") and a.get("episode_num") is not None
+    }
+    kept = [g for g in gaps if g.get("number") not in included]
+    facts["known_gaps"] = kept
+    return len(gaps) - len(kept)
+
+
 def normalize_exclude_reason(reason: str | None) -> str | None:
     """Map verbose agent-generated reasons to their short label.
 

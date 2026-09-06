@@ -8,6 +8,7 @@ from rich.console import Console
 from lauschi_catalog.catalog.io import safe_write_json
 from lauschi_catalog.catalog.paths import curation_dir, curation_path
 from lauschi_catalog.catalog.reconcile import (
+    drop_stale_known_gaps,
     normalized_reason,
     reconcile_cross_provider,
 )
@@ -41,6 +42,7 @@ def reconcile(series_id: str | None, run_all: bool, normalize: bool, dry_run: bo
     total_flipped = 0
     total_flagged = 0
     total_normalized = 0
+    total_gaps_dropped = 0
 
     for path in paths:
         if not path.exists():
@@ -60,6 +62,13 @@ def reconcile(series_id: str | None, run_all: bool, normalize: bool, dry_run: bo
                         a["exclude_reason"] = new
                         total_normalized += 1
                         changed = True
+            dropped = drop_stale_known_gaps(data)
+            if dropped:
+                total_gaps_dropped += dropped
+                changed = True
+                console.print(
+                    f"  [dim]{sid}: {dropped} stale known_gap(s) dropped[/dim]"
+                )
 
         result = reconcile_cross_provider(albums)
 
@@ -88,5 +97,6 @@ def reconcile(series_id: str | None, run_all: bool, normalize: bool, dry_run: bo
     console.print(f"  Flagged (needs review): {total_flagged}")
     if normalize:
         console.print(f"  Reasons normalized: {total_normalized}")
+        console.print(f"  Stale known_gaps dropped: {total_gaps_dropped}")
     if dry_run:
         console.print("  [dim](dry run, nothing written)[/dim]")

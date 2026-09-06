@@ -826,6 +826,45 @@ def _derive_numbers_from_tracks(
     return numbered
 
 
+def _drop_unsupported_numbers(
+    decisions: list["AlbumDecision"],
+    seen_details: dict[str, dict],
+    pattern: str | list[str] | None,
+) -> int:
+    """Drop a carried episode number that neither the title nor the known
+    track names support.
+
+    A re-curation carries prior decisions forward, numbers included, so a
+    number the model once guessed would live forever. A number comes from
+    the title or the track names via the pattern, or from nothing. When
+    the tracks are unknown the number stays: dropping on missing data
+    would be a guess the other way. Returns how many were dropped.
+    """
+    if not pattern:
+        return 0
+    dropped = 0
+    for d in decisions:
+        if not d.include or d.episode_num is None:
+            continue
+        if extract_episode(pattern, d.title) is not None:
+            continue
+        detail = seen_details.get(f"{d.provider}:{d.album_id}")
+        if not detail or not detail.get("tracks"):
+            continue
+        from_tracks = {
+            n
+            for n in (
+                extract_episode(pattern, t.get("name", "")) for t in detail["tracks"]
+            )
+            if n is not None
+        }
+        if d.episode_num in from_tracks:
+            continue
+        d.episode_num = None
+        dropped += 1
+    return dropped
+
+
 def _reextract_episode_numbers(
     decisions: list["AlbumDecision"],
     pattern: str | list[str] | None,
@@ -2076,6 +2115,14 @@ async def _run_large(
         if from_tracks:
             on_progress(
                 f"  Track names numbered {from_tracks} album(s) the title did not.\n"
+            )
+        unsupported = _drop_unsupported_numbers(
+            all_decisions, shared_deps.seen_details, final_pattern
+        )
+        if unsupported:
+            on_progress(
+                f"  Dropped {unsupported} carried episode number(s) neither the "
+                f"title nor the track names support.\n"
             )
 
     # -- Finalize metadata: facts discovery + episode extraction
