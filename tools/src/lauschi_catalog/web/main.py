@@ -9,7 +9,7 @@ from pathlib import Path
 
 import click
 from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
@@ -74,6 +74,12 @@ app.include_router(api.router, prefix="/api")
 @app.get("/", response_class=RedirectResponse)
 async def root():
     return RedirectResponse(url="/catalog")
+
+
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon() -> FileResponse:
+    """Browsers request the favicon from the site root regardless of link tags."""
+    return FileResponse(STATIC_DIR / "favicon.ico", media_type="image/x-icon")
 
 
 async def _server_error_handler(request: Request, exc: Exception) -> HTMLResponse:
