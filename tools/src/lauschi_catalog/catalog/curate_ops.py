@@ -573,6 +573,19 @@ def _family_of(
     return [e for e in catalog if e.id == root_id or e.split_from == root_id]
 
 
+def _line_owning(album_ids: list[str], members: list["CatalogEntry"]) -> str | None:
+    """The family member that already holds every album of a proposal,
+    if there is one. Proposal ids are "provider:id" or bare ids."""
+    wanted = {ref.rpartition(":")[2] for ref in album_ids if ref}
+    if not wanted:
+        return None
+    for member in members:
+        held = {album_id for _prov, album_id, _title in _child_album_records(member)}
+        if wanted <= held:
+            return member.id
+    return None
+
+
 def _drop_proposals_for_existing_lines(
     proposed: "SeriesFacts | None",
     entry: "CatalogEntry | None",
@@ -586,13 +599,17 @@ def _drop_proposals_for_existing_lines(
     if proposed is None or entry is None or not proposed.sub_series:
         return proposed
     root_id = entry.split_from or entry.id
-    existing = {m.id for m in _family_of(entry, catalog) if m.id != entry.id}
+    others = [m for m in _family_of(entry, catalog) if m.id != entry.id]
+    existing = {m.id for m in others}
     kept = []
     for sub in proposed.sub_series:
         child_id = f"{root_id}_{sub.label.strip().lower().replace(' ', '_')}"
-        if child_id in existing:
+        owner = (
+            child_id if child_id in existing else _line_owning(sub.album_ids, others)
+        )
+        if owner:
             on_progress(
-                f"  Dropped sub-series proposal {sub.label!r}: {child_id} "
+                f"  Dropped sub-series proposal {sub.label!r}: {owner} "
                 f"already is its own entry.\n"
             )
             continue
@@ -2458,11 +2475,13 @@ async def _run_large(
                     f"numbers across all batches.\n",
                 )
 
-    proposed_facts = _drop_proposals_for_existing_lines(
-        proposed_facts, catalog_entry, load_catalog(), on_progress
-    )
     # Merge existing + proposed facts, deduped by natural key.
-    merged_facts = merge_facts(existing_facts, proposed_facts)
+    merged_facts = _drop_proposals_for_existing_lines(
+        merge_facts(existing_facts, proposed_facts),
+        catalog_entry,
+        load_catalog(),
+        on_progress,
+    )
 
     # With the eras known, same-provider duplicates are settled by fact.
     eras = merged_facts.era_boundaries if merged_facts else []

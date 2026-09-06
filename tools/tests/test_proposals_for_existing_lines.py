@@ -69,3 +69,35 @@ def test_no_proposals_and_no_entry_pass_through():
         _drop_proposals_for_existing_lines(facts, None, CATALOG, lambda _m: None)
         is facts
     )
+
+
+def test_a_proposal_whose_albums_all_sit_in_a_child_is_dropped(monkeypatch):
+    """The child may carry a different id than the label suggests
+    (meine_vorlesegeschichten vs wieso_weshalb_warum_vorlesegeschichten);
+    its albums are the fact then."""
+    from lauschi_catalog.catalog import curate_ops
+
+    child = CatalogEntry(
+        id="wieso_weshalb_warum_vorlesegeschichten",
+        title="V",
+        split_from="wieso_weshalb_warum",
+    )
+    monkeypatch.setattr(
+        curate_ops,
+        "_child_album_records",
+        lambda entry: [("spotify", "x", "t")] if entry.id == child.id else [],
+    )
+    kept = _drop_proposals_for_existing_lines(
+        _facts("meine_vorlesegeschichten"), PARENT, CATALOG + [child], lambda _m: None
+    )
+    assert kept.sub_series == []
+
+
+def test_carried_proposals_are_filtered_like_new_ones():
+    """The prior curation carries its proposals forward as facts; a
+    proposal that became a child in between is dropped from those too."""
+    log: list[str] = []
+    kept = _drop_proposals_for_existing_lines(
+        _facts("junior"), PARENT, CATALOG, log.append
+    )
+    assert kept.sub_series == [] and log
