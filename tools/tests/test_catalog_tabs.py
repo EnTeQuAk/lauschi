@@ -63,3 +63,15 @@ def test_tab_counts_include_audiobooks(client):
     html = resp.text
     # The audiobook count badge should show 2
     assert ">2<" in html.replace(" ", "")
+
+
+def test_tab_links_do_not_carry_status_filter(client):
+    with patch(
+        "lauschi_catalog.web.routes.catalog.get_all_series",
+        return_value=_mock_series(),
+    ):
+        resp = client.get("/catalog?tab=hoerspiel&status=Validate")
+
+    html = resp.text
+    assert "tab=audiobook&amp;status=" not in html
+    assert "tab=audiobook" in html

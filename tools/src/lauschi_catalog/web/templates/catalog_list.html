@@ -24,7 +24,7 @@
             {% if q %}<a href="/catalog?tab={{ tab }}{% if status %}&status={{ status }}{% endif %}" role="button" class="secondary outline">Clear</a>{% endif %}
         </form>
     </header>
-    {% set qs_tail %}{% if q %}&q={{ q }}{% endif %}{% if status %}&status={{ status }}{% endif %}{% endset %}
+    {% set qs_tail %}{% if q %}&q={{ q }}{% endif %}{% endset %}
     <nav class="catalog-tabs mb-1">
         <a href="/catalog?tab=hoerspiel{{ qs_tail }}"
            class="catalog-tab {% if tab == 'hoerspiel' %}catalog-tab--active{% endif %}">
