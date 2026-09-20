@@ -4,6 +4,8 @@ Verifies that discovered facts survive curate -> verify -> apply ->
 load -> incremental curate without being dropped or corrupted.
 """
 
+import pytest
+
 from lauschi_catalog.catalog.apply_ops import filter_confirmed_facts
 from lauschi_catalog.catalog.facts import SeriesFacts
 from lauschi_catalog.catalog.lint_ops import lint_curation
@@ -284,44 +286,32 @@ class TestEraBoundaryProposalValidation:
     """EraBoundaryProposal must reject bad release_date_range values
     at proposal time, not only when the persisted fact is loaded."""
 
-    def test_valid_closed_range(self):
+    @pytest.mark.parametrize(
+        "value",
+        [
+            pytest.param("1976-1979", id="closed_range"),
+            pytest.param("2023-", id="open_range"),
+        ],
+    )
+    def test_valid_range_accepted(self, value):
         from lauschi_catalog.catalog.facts import EraBoundaryProposal
 
-        p = EraBoundaryProposal(label="klassik", release_date_range="1976-1979")
-        assert p.release_date_range == "1976-1979"
+        p = EraBoundaryProposal(label="test", release_date_range=value)
+        assert p.release_date_range == value
 
-    def test_valid_open_range(self):
-        from lauschi_catalog.catalog.facts import EraBoundaryProposal
-
-        p = EraBoundaryProposal(label="modern", release_date_range="2023-")
-        assert p.release_date_range == "2023-"
-
-    def test_single_year_rejected(self):
-        import pytest
-
-        from lauschi_catalog.catalog.facts import EraBoundaryProposal
-
-        with pytest.raises(ValueError, match="release_date_range must be"):
-            EraBoundaryProposal(label="bad", release_date_range="2023")
-
-    def test_full_date_string_rejected(self):
-        import pytest
-
-        from lauschi_catalog.catalog.facts import EraBoundaryProposal
-
-        with pytest.raises(ValueError, match="release_date_range must be"):
-            EraBoundaryProposal(
-                label="bad",
-                release_date_range="2021-07-02 to 2024-01-19",
-            )
-
-    def test_empty_rejected(self):
-        import pytest
-
+    @pytest.mark.parametrize(
+        "value",
+        [
+            pytest.param("2023", id="single_year"),
+            pytest.param("2021-07-02 to 2024-01-19", id="full_date_string"),
+            pytest.param("", id="empty"),
+        ],
+    )
+    def test_invalid_range_rejected(self, value):
         from lauschi_catalog.catalog.facts import EraBoundaryProposal
 
         with pytest.raises(ValueError):
-            EraBoundaryProposal(label="bad", release_date_range="")
+            EraBoundaryProposal(label="bad", release_date_range=value)
 
 
 class TestKnownGapRange:

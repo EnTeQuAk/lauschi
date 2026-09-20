@@ -1,5 +1,7 @@
 """Tests for cross-provider reconciliation and exclude_reason normalization."""
 
+import pytest
+
 from lauschi_catalog.catalog.reconcile import reconcile_cross_provider
 from tests.factories import album_record
 
@@ -40,10 +42,14 @@ class TestReconcileCrossProvider:
         result = reconcile_cross_provider(albums)
         assert result.flipped == 0
 
-    def test_wrong_content_type_gets_flipped(self):
+    @pytest.mark.parametrize(
+        "reason",
+        ["wrong_content_type", "compilation", "partial_release"],
+    )
+    def test_auto_flippable_reason_gets_flipped(self, reason):
         albums = [
             _album("sp1", "Folge 1", "spotify", True),
-            _album("am1", "Folge 1", "apple_music", False, "wrong_content_type"),
+            _album("am1", "Folge 1", "apple_music", False, reason),
         ]
         result = reconcile_cross_provider(albums)
         assert result.flipped == 1
@@ -58,15 +64,6 @@ class TestReconcileCrossProvider:
         result = reconcile_cross_provider(albums)
         assert result.flipped == 1
         assert albums[0]["include"] is True
-
-    def test_compilation_gets_flipped_when_counterpart_included(self):
-        albums = [
-            _album("sp1", "Folge 1", "spotify", True),
-            _album("am1", "Folge 1", "apple_music", False, "compilation"),
-        ]
-        result = reconcile_cross_provider(albums)
-        assert result.flipped == 1
-        assert albums[1]["include"] is True
 
     def test_sub_series_bleed_gets_flagged(self):
         albums = [
@@ -179,24 +176,6 @@ class TestReconcileCrossProvider:
         assert result.flipped == 1
         assert albums[1]["include"] is True
 
-    def test_partial_release_auto_flipped(self):
-        """Die Playmos 'Brief von Captain Tolle' excluded as
-        partial_release on Apple Music but included on Spotify."""
-        albums = [
-            _album("sp1", "Brief von Captain Tolle", "spotify", True),
-            _album(
-                "am1",
-                "Brief von Captain Tolle",
-                "apple_music",
-                False,
-                "partial_release",
-            ),
-        ]
-        result = reconcile_cross_provider(albums)
-        assert result.flipped == 1
-        assert albums[1]["include"] is True
-        assert albums[1].get("exclude_reason") is None
-
 
 class TestUnspecifiedAutoFlip:
     """Die Playmos on Apple Music: the full "Folge 100: Der magische
@@ -266,12 +245,8 @@ class TestSinglesAndVariantsDoNotFlipToInclude:
             _album("a1", "Alles ist doof - Single", "apple_music", False, reason),
         ]
 
-    def test_a_single_stays_excluded_and_is_flagged(self):
-        result = reconcile_cross_provider(self._pair("music_single"))
-        assert result.flipped == 0
-        assert result.flagged == 1
-
-    def test_a_format_variant_stays_excluded_and_is_flagged(self):
-        result = reconcile_cross_provider(self._pair("format_variant"))
+    @pytest.mark.parametrize("reason", ["music_single", "format_variant"])
+    def test_stays_excluded_and_is_flagged(self, reason):
+        result = reconcile_cross_provider(self._pair(reason))
         assert result.flipped == 0
         assert result.flagged == 1
