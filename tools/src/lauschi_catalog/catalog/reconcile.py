@@ -7,6 +7,7 @@ human review depending on the exclude_reason category.
 
 import re
 from dataclasses import dataclass, field
+from datetime import UTC, datetime
 
 from lauschi_catalog.catalog import reasons
 from lauschi_catalog.catalog.analysis import normalize_title
@@ -212,6 +213,8 @@ def reconcile_cross_provider(albums: list[dict]) -> ReconcileResult:
             if wants_flip:
                 album["include"] = True
                 album.pop("exclude_reason", None)
+                album["decided_by"] = "reconcile"
+                album["decided_at"] = datetime.now(UTC).isoformat()
                 result.flipped += 1
                 result.details.append(
                     {

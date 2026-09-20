@@ -20,6 +20,8 @@ def album_record(
     episode_num: int | None = None,
     exclude_reason: str | None = None,
     title: str | None = None,
+    decided_by: str = "unknown",
+    decided_at: str | None = None,
     **extra: Any,
 ) -> dict[str, Any]:
     """An album as stored in a curation JSON."""
@@ -29,6 +31,8 @@ def album_record(
         "include": include,
         "episode_num": episode_num,
         "title": title if title is not None else album_id,
+        "decided_by": decided_by,
+        "decided_at": decided_at,
     }
     if exclude_reason is not None:
         record["exclude_reason"] = exclude_reason

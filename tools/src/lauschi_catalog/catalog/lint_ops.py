@@ -95,6 +95,36 @@ def lint_regression(previous: dict | None, current: dict) -> list[str]:
     return issues
 
 
+def lint_provenance_flips(previous: dict | None, current: dict) -> list[str]:
+    """Flag albums whose include status changed from a stronger source.
+
+    An operator-decided album flipped by the model is suspicious and
+    worth a human look. Advisory only, not a hard gate.
+    """
+    if not previous:
+        return []
+    prev_by_key = {
+        (a.get("provider"), a.get("album_id")): a for a in previous.get("albums", [])
+    }
+    issues: list[str] = []
+    for album in current.get("albums", []):
+        key = (album.get("provider"), album.get("album_id"))
+        prev = prev_by_key.get(key)
+        if prev is None:
+            continue
+        if prev.get("include") == album.get("include"):
+            continue
+        prev_source = prev.get("decided_by", "unknown")
+        cur_source = album.get("decided_by", "unknown")
+        if prev_source == "operator" and cur_source != "operator":
+            direction = "included" if album.get("include") else "excluded"
+            issues.append(
+                f"[provenance_flip] Operator-decided {key[1]} "
+                f"flipped to {direction} by {cur_source}"
+            )
+    return issues
+
+
 def _norm_title(title: str) -> str:
     """Cross-provider title fold, shared with reconcile.
 

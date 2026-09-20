@@ -1098,9 +1098,13 @@ def apply_audit(
         elif o.action == "exclude":
             album["include"] = False
             album["exclude_reason"] = o.reason
+            album["decided_by"] = model_name
+            album["decided_at"] = now
         else:
             album["include"] = True
             album["exclude_reason"] = ""
+            album["decided_by"] = model_name
+            album["decided_at"] = now
         existing_overrides[o.album_id] = {
             "album_id": o.album_id,
             "provider": o.provider,

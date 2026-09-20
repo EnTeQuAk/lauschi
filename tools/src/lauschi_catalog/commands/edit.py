@@ -1,6 +1,7 @@
 """CLI for editing curation files (add/remove/toggle albums)."""
 
 import json
+from datetime import UTC, datetime
 from pathlib import Path
 
 import click
@@ -52,6 +53,8 @@ def exclude(series_id: str, album_id: str, provider: str, reason: str):
         if a["album_id"] == album_id and a.get("provider", "spotify") == provider:
             a["include"] = False
             a["exclude_reason"] = reason
+            a["decided_by"] = "operator"
+            a["decided_at"] = datetime.now(UTC).isoformat()
             console.print(f"Excluded: {a['title']}")
             console.print(f"  reason: {reason}")
             _save(path, data)
@@ -70,6 +73,8 @@ def include(series_id: str, album_id: str, provider: str):
         if a["album_id"] == album_id and a.get("provider", "spotify") == provider:
             a["include"] = True
             a.pop("exclude_reason", None)
+            a["decided_by"] = "operator"
+            a["decided_at"] = datetime.now(UTC).isoformat()
             console.print(f"Included: {a['title']}")
             _save(path, data)
             return

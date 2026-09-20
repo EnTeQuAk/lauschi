@@ -48,6 +48,7 @@ from lauschi_catalog.catalog.io import load_curation, safe_write_json
 from lauschi_catalog.catalog.lint_ops import (
     compress_runs,
     lint_curation,
+    lint_provenance_flips,
     lint_regression,
 )
 from lauschi_catalog.catalog.loader import (
@@ -88,6 +89,10 @@ from lauschi_catalog.run_events import (
 _DEFAULT_MODEL = "kimi-k2.6"
 
 _BATCH_SIZE = 30
+
+
+def _album_provenance(source: str) -> dict[str, str]:
+    return {"decided_by": source, "decided_at": datetime.now(UTC).isoformat()}
 
 
 # ── Pure helpers ──────────────────────────────────────────────────────────
@@ -144,6 +149,8 @@ def curation_from_decisions(
             "episode_num": d.episode_num,
             "release_date": d.release_date,
             "exclude_reason": d.exclude_reason,
+            "decided_by": d.decided_by,
+            "decided_at": d.decided_at,
         }
 
     partial: dict = {
@@ -325,6 +332,7 @@ def _inject_split_children(
     }
 
     for child in children:
+        prov = _album_provenance("split")
         for provider, album_id, title in _child_album_records(child):
             key = (provider, album_id)
             if key in existing_keys:
@@ -339,6 +347,7 @@ def _inject_split_children(
                     "confidence": "high",
                     "notes": f"Belongs to split series '{child.id}'",
                     "release_date": None,
+                    **prov,
                 }
             )
             existing_keys.add(key)
@@ -476,6 +485,7 @@ def _settle_same_provider_duplicates(
                         f"({decisions[newest].release_date}); no era_boundary "
                         f"separates them, the newest release is kept."
                     ),
+                    **_album_provenance("duplicate"),
                 }
             )
     return settled
@@ -521,6 +531,7 @@ def _inject_for_split_child(
         existing_curation.setdefault("albums", []).append(record)
         existing_keys.add(key)
 
+    prov = _album_provenance("split")
     for provider, album_id, title, episode, release_date in _applied_records(entry):
         add(
             {
@@ -532,6 +543,7 @@ def _inject_for_split_child(
                 "confidence": "high",
                 "notes": f"Applied album of '{entry.id}'",
                 "release_date": release_date,
+                **prov,
             }
         )
     owners = [e for e in catalog if e.id == entry.split_from] + [
@@ -551,6 +563,7 @@ def _inject_for_split_child(
                     "confidence": "high",
                     "notes": f"Belongs to '{owner.id}'",
                     "release_date": release_date,
+                    **prov,
                 }
             )
         for rejected in _owner_rejects(owner.id):
@@ -567,6 +580,7 @@ def _inject_for_split_child(
                         f"{rejected.get('exclude_reason') or 'unspecified'}"
                     ),
                     "release_date": rejected.get("release_date"),
+                    **prov,
                 }
             )
     return existing_curation
@@ -715,6 +729,7 @@ def _route_by_family_patterns(
                     release_date=album.get("release_date"),
                     confidence="high",
                     notes="Matches this entry's own episode pattern.",
+                    **_album_provenance("route"),
                 )
             )
         else:
@@ -729,6 +744,7 @@ def _route_by_family_patterns(
                     exclude_reason="sub_series_bleed",
                     confidence="high",
                     notes=f"Matches the episode pattern of '{member.id}'.",
+                    **_album_provenance("route"),
                 )
             )
     return decided, still
@@ -769,6 +785,8 @@ def _preseed_decisions(
                     release_date=ea.get("release_date"),
                     confidence=ea.get("confidence", "high"),
                     notes=ea.get("notes"),
+                    decided_by=ea.get("decided_by", "unknown"),
+                    decided_at=ea.get("decided_at"),
                 )
             )
         except Exception as exc:
@@ -1115,6 +1133,8 @@ class AlbumDecision(BaseModel):
             "missing. Empty/None when confidence == 'high'."
         ),
     )
+    decided_by: str = "unknown"
+    decided_at: str | None = None
 
     @model_validator(mode="after")
     def _notes_required_when_unsure(self) -> "AlbumDecision":
@@ -2270,10 +2290,14 @@ async def _run_large(
         )
         orphan_ids.extend(dropped)
         batch_index = {(a["provider"], a["id"]): a for a in batch}
+        now = datetime.now(UTC).isoformat()
         for a in result.albums:
             src = batch_index.get((a.provider, a.album_id))
             if src and not a.release_date:
                 a.release_date = src.get("release_date") or None
+            if a.decided_by == "unknown":
+                a.decided_by = model_name
+                a.decided_at = now
 
         n_inc = sum(1 for a in result.albums if a.include)
         n_exc = sum(1 for a in result.albums if not a.include)
@@ -2961,12 +2985,13 @@ async def curate_one(
         )
         series.content_type = content_type
         lock_series_id(series, series_id, on_progress=on_progress)
-        series.regression_flags = lint_regression(
-            existing_curation,
-            {
-                "albums": [a.model_dump() for a in series.albums],
-                "series_facts": series.series_facts.model_dump(),
-            },
+        current_dict = {
+            "albums": [a.model_dump() for a in series.albums],
+            "series_facts": series.series_facts.model_dump(),
+        }
+        series.regression_flags = lint_regression(existing_curation, current_dict)
+        series.regression_flags.extend(
+            lint_provenance_flips(existing_curation, current_dict)
         )
         for flag in series.regression_flags:
             on_progress(f"  [regression] {flag}")
