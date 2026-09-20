@@ -1078,11 +1078,7 @@ def apply_audit(
                 f"series; the parent's albums must not be added here"
             )
 
-    escalated = (
-        bool(hard_flags)
-        or not result.approve
-        or bool(cap_concerns)
-    )
+    escalated = bool(hard_flags) or not result.approve or bool(cap_concerns)
 
     albums_by_key = {(a.get("provider"), a["album_id"]): a for a in albums}
     unknown_concerns: list[str] = []

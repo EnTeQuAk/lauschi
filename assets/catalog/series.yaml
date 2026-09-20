@@ -45856,12 +45856,9 @@ series:
       artist_ids:
       - 2IYME9b8x0ptqROxrDvAQ0
       albums:
-      - id: 4IzmCaIX0eEgRb7xsQFkfv
-        title: Das Buch des Drachen
-      - id: 7iQo6EXjMtLPorNrw2vlXW
-        title: Die Reise nach Mandolan
       - id: 2UFXuzfiqd0cThQRCalzdy
         title: Hexe Lilli rettet Weihnachten - Das Hörspiel zum Kinofilm
+        release_date: '2019-04-01'
     apple_music:
       artist_ids:
       - '218659264'
@@ -45870,6 +45867,20 @@ series:
         title: 'Folge 23: Die Reise nach Mandolan'
       - id: '1356622351'
         title: Das Buch des Drachen
+  series_facts:
+    sub_series:
+    - label: klassiker
+      album_ids:
+      - '1055056779'
+      - '1356622351'
+      - 4IzmCaIX0eEgRb7xsQFkfv
+      - 7iQo6EXjMtLPorNrw2vlXW
+      reason: 'These albums belong to the main Hexe Lilli Klassiker line, not the Kinofilm sub-series. Per reference index: Das Buch des Drachen is in the Klassiker line; Die Reise nach Mandolan is Folge
+        23 of the main series.'
+      curated_by: minimax-m2.7
+      curated_at: '2026-09-20T12:52:16.027759+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-09-20T12:52:16.027759+00:00'
 - id: das_sams_hoerbuch
   title: Das Sams (Hörbuch)
   aliases: []
