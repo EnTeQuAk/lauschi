@@ -164,11 +164,10 @@ echo "Done."
         )
 
     if command == "validate":
-        # validate supports --series to filter to one series
-        return (
-            ["uv", "run", "lauschi-catalog", "validate", "--series", series_id],
-            tools_dir,
-        )
+        cmd = ["uv", "run", "lauschi-catalog", "validate"]
+        if series_id != "all":
+            cmd += ["--series", series_id]
+        return (cmd, tools_dir)
 
     # Default: curate, audit, apply
     return (
@@ -570,7 +569,7 @@ def _try_in_process_validate(job_id: str, series_id: str) -> bool:
         job_id,
         validate_catalog,
         providers,
-        series_filter=series_id,
+        series_filter=None if series_id == "all" else series_id,
     )
     return True
 
