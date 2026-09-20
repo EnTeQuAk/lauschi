@@ -53,3 +53,12 @@ def test_every_reason_has_a_description() -> None:
 def test_get_reason_resolves_every_declared_key() -> None:
     for key in reasons.ALL_REASON_KEYS:
         assert reasons.get_reason(key).key == key
+
+
+def test_carried_reason_normalizes_empty_string() -> None:
+    assert reasons.carried_reason("") == "unspecified"
+
+
+def test_carried_reason_passes_through_valid_keys() -> None:
+    assert reasons.carried_reason("compilation") == "compilation"
+    assert reasons.carried_reason(None) is None

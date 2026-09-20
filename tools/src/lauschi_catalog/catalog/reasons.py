@@ -226,9 +226,12 @@ def carried_reason(key: str | None) -> str | None:
     """The reason a prior record is carried forward as on re-curation.
 
     Curate reasons pass through. A reason set outside the curate agent
-    maps to the curate reason it names. Anything else passes through
-    unchanged so the decision model rejects it.
+    maps to the curate reason it names. An empty string becomes
+    "unspecified" so prior curations written before the vocabulary was
+    tightened can still be re-entered.
     """
+    if key == "":
+        return "unspecified"
     reason = _REASON_BY_KEY.get(key or "")
     if reason is None or reason.carried_as is None:
         return key
