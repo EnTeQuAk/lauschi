@@ -1215,6 +1215,37 @@ nav[aria-label="breadcrumb"] li + li::before {
 	margin-bottom: 0.15rem;
 }
 
+/* ── Family tree ──────────────────────────────────── */
+.family-tree {
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-button);
+	padding: 0;
+}
+.family-tree__toggle {
+	padding: 0.35rem 0.75rem;
+	cursor: pointer;
+	font-size: 0.85rem;
+}
+.family-tree__list {
+	margin: 0;
+	padding: 0 0.75rem 0.5rem 1.25rem;
+	font-size: 0.85rem;
+	list-style: none;
+}
+.family-tree__list ul {
+	margin: 0.15rem 0 0;
+	padding-left: 1.25rem;
+	list-style: none;
+}
+.family-tree__list li {
+	margin-bottom: 0.15rem;
+	position: relative;
+}
+.family-tree__list ul li::before {
+	content: "└ ";
+	color: var(--color-text-muted);
+}
+
 /* ── Error page ────────────────────────────────────── */
 .error-page, .error-hero {
 	padding: 4rem 1rem;

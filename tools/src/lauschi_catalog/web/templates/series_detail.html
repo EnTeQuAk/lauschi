@@ -29,20 +29,36 @@
                 <small>Aliases: {{ series.aliases | join(", ") }}</small>
             </p>
         {% endif %}
-        {% if split_from %}
-            <p class="mb-05 text-muted">
-                <small>Split from <a href="/catalog/{{ split_from.id }}">{{ split_from.title }}</a></small>
-            </p>
-        {% endif %}
-        {% if split_children %}
-            <p class="mb-05 text-muted">
-                <small>Sub-series:
-                    {% for child in split_children %}
-                        {% if not loop.first %}, {% endif %}
-                        <a href="/catalog/{{ child.id }}">{{ child.title }}</a>
-                    {% endfor %}
-                </small>
-            </p>
+        {% if family %}
+            <details class="family-tree mb-05">
+                <summary class="family-tree__toggle text-muted">
+                    <small>Family tree ({{ family.children | length + 1 }} series)</small>
+                </summary>
+                <ul class="family-tree__list">
+                    <li>
+                        {% if family.parent.is_current %}
+                            <strong>{{ family.parent.title }}</strong>
+                        {% else %}
+                            <a href="/catalog/{{ family.parent.id }}">{{ family.parent.title }}</a>
+                        {% endif %}
+                        <span class="text-muted"><small>{{ family.parent.album_count }} albums</small></span>
+                        {% if family.children %}
+                            <ul>
+                                {% for child in family.children %}
+                                    <li>
+                                        {% if child.is_current %}
+                                            <strong>{{ child.title }}</strong>
+                                        {% else %}
+                                            <a href="/catalog/{{ child.id }}">{{ child.title }}</a>
+                                        {% endif %}
+                                        <span class="text-muted"><small>{{ child.album_count }} albums</small></span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+                </ul>
+            </details>
         {% endif %}
         <div class="mb-075">
             <div class="pipeline-bar pipeline-bar--large">

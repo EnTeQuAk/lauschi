@@ -321,14 +321,25 @@ def _render_series_detail(
 
     active_job = get_active_job(series_id)
 
-    # Split relationship: parent and children
+    # Split family tree
     from lauschi_catalog.catalog.partition import family_of
 
     fam = family_of(series, get_all_series())
-    split_from = (
-        {"id": fam.parent.id, "title": fam.parent.title} if series.split_from else None
-    )
-    split_children = [{"id": c.id, "title": c.title} for c in fam.children]
+    family: dict[str, Any] | None = None
+    if not fam.is_standalone:
+
+        def _member_info(entry) -> dict[str, Any]:
+            return {
+                "id": entry.id,
+                "title": entry.title,
+                "album_count": _curation_album_count(entry.id),
+                "is_current": entry.id == series_id,
+            }
+
+        family = {
+            "parent": _member_info(fam.parent),
+            "children": [_member_info(c) for c in fam.children],
+        }
 
     # Group included albums by episode for the preview tab
     grouped_episodes: list[dict[str, Any]] = []
@@ -415,8 +426,7 @@ def _render_series_detail(
             "grouped_episodes": grouped_episodes,
             "artist_image_url": _series_cover_url(series_id),
             "coverage": coverage,
-            "split_from": split_from,
-            "split_children": split_children,
+            "family": family,
             "extra_flashes": extra_flashes or [],
             "insights": _build_insights(curation),
         },
