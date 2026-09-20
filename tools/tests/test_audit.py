@@ -376,6 +376,25 @@ class TestApplyAuditStatus:
         _, data = self._apply(tmp_path, result)
         assert data["review"]["concerns"] == ["minor issue"]
 
+    def test_null_review_block_does_not_crash(self, tmp_path):
+        curation_dir = tmp_path / "assets" / "catalog" / "curation"
+        curation_dir.mkdir(parents=True)
+        path = curation_dir / "test_series.json"
+        path.write_text(json.dumps(_curation(review=None)))
+        monkeypatch = pytest.MonkeyPatch()
+        monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
+        try:
+            action = apply_audit(
+                "test_series",
+                AuditResult(approve=True),
+                model_name="test-model",
+            )
+        finally:
+            monkeypatch.undo()
+        assert action == "approved"
+        data = json.loads(path.read_text())
+        assert data["review"]["status"] == "approved"
+
 
 # ── apply_audit: override merging ────────────────────────────────────────
 

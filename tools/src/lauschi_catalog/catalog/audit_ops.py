@@ -1047,7 +1047,9 @@ def apply_audit(
     """
     path = curation_path(series_id)
     data = json.loads(path.read_text())
-    review = data.setdefault("review", {})
+    if data.get("review") is None:
+        data["review"] = {}
+    review = data["review"]
     now = datetime.now(tz=UTC).isoformat()
 
     # Verdict first: an escalated run must not touch album state.
