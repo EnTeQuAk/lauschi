@@ -49,8 +49,19 @@ def brave_search(
     except requests.RequestException as e:
         return [{"error": f"Search failed: {e}"}]
 
+    data = r.json()
+    web = data.get("web", {})
+    items = web.get("results", [])
+    if not items:
+        msg = data.get("message") or data.get("error") or ""
+        if msg:
+            return [{"error": f"Brave API: {msg}"}]
+        if "web" not in data:
+            return [
+                {"error": "Brave API returned no web results (account or quota issue?)"}
+            ]
     results: list[dict[str, str]] = []
-    for item in r.json().get("web", {}).get("results", []):
+    for item in items:
         results.append(
             {
                 "title": item.get("title", ""),
