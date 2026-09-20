@@ -40155,6 +40155,7 @@ series:
   title: 'Bibi und Tina: Bff Talk'
   aliases: []
   episode_pattern: '^BFF Talk - Talk (\d+):'
+  split_from: bibi_und_tina
   providers:
     spotify:
       artist_ids:
@@ -41284,31 +41285,16 @@ series:
   aliases: []
   episode_pattern:
   - '^Folge (\d+):'
-  content_type: hoerspiel
   split_from: hanni_und_nanni
   providers:
     spotify:
       artist_ids:
       - 3iiABQlNuezpR3DcrlyPoA
       albums:
-      - id: 4xrdTvOrQTFEGke8945KNt
-        episode: 1
-        title: 'Folge 1: Warum denn ausgerechnet Internat Lindenhof? (Neue Abenteuer)'
-      - id: 6zZk7LkH1m6YoWWm03YLiE
-        episode: 2
-        title: 'Folge 2: Freundinnen für immer! (Neue Abenteuer)'
-      - id: 2AtMEM0eThrrAFZgsVdI2t
-        episode: 3
-        title: 'Folge 3: Ein heimlicher Gast auf Lindenhof (Neue Abenteuer)'
-      - id: 6XTedYExfvjpVlgsqHg8Lh
-        episode: 4
-        title: 'Folge 4: Immer Ärger mit Elli (Neue Abenteuer)'
-      - id: 2caWpGESEVfs0hTNLHqyh3
-        episode: 5
-        title: 'Folge 5: So ein Zirkus! (Neue Abenteuer)'
       - id: 0GnYzpykZas1Y4EoT94MCj
         episode: 6
         title: 'Folge 6: Tilda und der Wolf (Neue Abenteuer)'
+        release_date: '2026-06-19'
     apple_music:
       artist_ids:
       - '218657672'
@@ -41316,18 +41302,21 @@ series:
       - id: '1836393124'
         episode: 1
         title: 'Folge 1: Warum denn ausgerechnet Internat Lindenhof? (Neue Abenteuer)'
-      - id: '1844309469'
-        episode: 3
-        title: 'Folge 3: Ein heimlicher Gast auf Lindenhof (Neue Abenteuer)'
-      - id: '1858194177'
-        episode: 4
-        title: 'Folge 4: Immer Ärger mit Elli (Neue Abenteuer)'
-      - id: '1869033566'
-        episode: 5
-        title: 'Folge 5: So ein Zirkus! (Neue Abenteuer)'
+        release_date: '2025-10-30'
       - id: '1875255677'
         episode: 6
         title: 'Folge 6: Tilda und der Wolf (Neue Abenteuer)'
+        release_date: '2026-06-19'
+  series_facts:
+    known_gaps:
+    - number: 2
+      range_end: 5
+      reason: Not yet released — the Neue Abenteuer sub-series is still being published. Reference index lists 7 episodes total; only Folge 1 (2025-10-30) and Folge 6 (2026-06-19) are available so 
+        far.
+      curated_by: minimax-m2.7
+      curated_at: '2026-09-20T10:31:07.220625+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-09-20T10:31:07.220625+00:00'
 - id: hexe_lilli_erstlesergeschichten
   title: 'Hexe Lilli: Erstlesergeschichten'
   aliases: []
@@ -44513,7 +44502,6 @@ series:
   aliases: []
   episode_pattern:
   - '^(\d+):'
-  content_type: hoerspiel
   split_from: pumuckl
   providers:
     spotify:
@@ -44523,83 +44511,110 @@ series:
       - id: 3uE5b9Ky4hPqMwqGMbt94q
         episode: 1
         title: '01: Koboldsgesetz (Neue Geschichten vom Pumuckl)'
+        release_date: '2023-12-15'
       - id: 6Gh01XkNx5zCy6YpF2TqNk
         episode: 2
         title: '02: Pumuckl wird verschenkt (Neue Geschichten vom Pumuckl)'
+        release_date: '2023-12-22'
       - id: 4ifhQ2uMVkPvCWowXQON05
         episode: 3
         title: '03: Der alte Eder (Neue Geschichten vom Pumuckl)'
+        release_date: '2023-12-22'
       - id: 1iT5NytGG3gXo4zflAF99l
         episode: 4
         title: '04: Der verflixte Kaugummi (Neue Geschichten vom Pumuckl)'
+        release_date: '2024-02-09'
       - id: 5noRHJMN1Q8stRHv2Hhoqx
         episode: 5
         title: '05: Eder ist an allem schuld (Neue Geschichten vom Pumuckl)'
+        release_date: '2024-02-16'
       - id: 1aTk0FeiimvscYkptrCl6K
         episode: 6
         title: '06: Pumuckl und die Geburtstagsüberraschung (Neue Geschichten vom Pumuckl)'
+        release_date: '2024-02-23'
       - id: 6vewGeULWJmBGLUsEKjufI
         episode: 7
         title: '07: Pumuckl geht Angeln (Neue Geschichten vom Pumuckl)'
+        release_date: '2024-03-01'
       - id: 1WiMMZmOiXbElhKsABYhoe
         episode: 8
         title: '08: Pumuckl wird verzaubert (Neue Geschichten vom Pumuckl)'
+        release_date: '2024-03-22'
       - id: 3nrmZu2O1BHCeDWQBipGSz
         episode: 9
         title: '09: Werkstatt in Gefahr (Neue Geschichten vom Pumuckl)'
+        release_date: '2024-03-29'
       - id: 3ocbUpSMT1A8PnqDWDOkPf
         episode: 10
         title: '10: Pumuckl und das Pferd vom Nil (Neue Geschichten vom Pumuckl)'
+        release_date: '2024-04-05'
       - id: 28hNtwEfL5ZFWZZrr5oiA2
         episode: 11
         title: '11: Pumuckl und die Spinne (Neue Geschichten vom Pumuckl)'
+        release_date: '2024-05-10'
       - id: 4WDHP7CsuBG0GAcxoVCUjs
         episode: 12
         title: '12: Pumuckl will Skifahren (Neue Geschichten vom Pumuckl)'
+        release_date: '2024-05-17'
       - id: 6L66DV2OXCopakZdAQRdYx
         episode: 13
         title: '13: Pumuckl feiert Silvester (Neue Geschichten vom Pumuckl)'
+        release_date: '2024-05-17'
       - id: 6aMoxSSwgJiPsBqcanGlm1
         episode: 14
         title: '14: Pumuckl und der Geisterjäger (Neue Geschichten vom Pumuckl)'
+        release_date: '2025-12-05'
       - id: 1dFekBqxbDUn4oJuy0Se07
         episode: 15
         title: '15: Pumuckl und die eingeworfene Scheibe (Neue Geschichten vom Pumuckl)'
+        release_date: '2025-12-05'
       - id: 65qfQzOWCI8Ag9U1xemgiB
         episode: 16
         title: '16: Der kleine Flori (Neue Geschichten vom Pumuckl)'
+        release_date: '2025-12-05'
       - id: 4hxqwvbnzGpvCYV8dSq3tX
         episode: 17
         title: '17: Pumuckl geht Campen (Neue Geschichten vom Pumuckl)'
+        release_date: '2025-12-05'
       - id: 0YJdenrKvzzgniqlbeOuxg
         episode: 18
         title: '18: Pumuckl und der Schluckauf (Neue Geschichten vom Pumuckl)'
+        release_date: '2025-12-12'
       - id: 0gsZ6ZcNNy7ewIGiLGrhAt
         episode: 19
         title: '19: Pumuckl und das Geräusch (Neue Geschichten vom Pumuckl)'
+        release_date: '2025-12-12'
       - id: 4nEh8IfJHLsFTw5VNjzkb1
         episode: 20
         title: '20: Pumuckl und der krumme Weihnachtsbaum (Neue Geschichten vom Pumuckl)'
+        release_date: '2025-12-12'
       - id: 6goqplQl6q2jnLVCzgGSDZ
         episode: 21
         title: '21: Pumuckl und der sprechende Schreibtisch (Neue Geschichten vom Pumuckl)'
+        release_date: '2026-04-03'
       - id: 3g1E3OmyLwLAtKIw0Yfpsv
         episode: 22
         title: '22: Pumuckl und die schlechte Verliererin (Neue Geschichten vom Pumuckl)'
+        release_date: '2026-04-03'
       - id: 45MICTZzVqMs8xVGyGhWTb
         episode: 23
         title: '23: Pumuckl und das Jo-Jo (Neue Geschichten vom Pumuckl)'
+        release_date: '2026-04-17'
       - id: 1JmE840AdeytVT6r7t4cV9
         episode: 24
         title: '24: Pumuckl und das Heinzelmännchen (Neue Geschichten vom Pumuckl)'
+        release_date: '2026-04-24'
       - id: 6kdg2qPyGNQ1m3jAsCiAnP
         episode: 25
         title: '25: Pumuckl geht verloren (Neue Geschichten vom Pumuckl)'
+        release_date: '2026-04-24'
       - id: 3yLIVCQzGQMNkL8Me0FdQJ
         episode: 26
         title: '26: Wiedersehen mit Pumuckl (Neue Geschichten vom Pumuckl)'
+        release_date: '2026-04-24'
       - id: 3Nu2btZxxyTFoW3UISjRH5
         title: Pumuckl und das große Missverständnis (Das Original-Hörspiel zum Kinofilm) (Neue Geschichten vom Pumuckl)
+        release_date: '2025-10-31'
     apple_music:
       artist_ids:
       - '1710040920'
@@ -44607,90 +44622,116 @@ series:
       - id: '1720424550'
         episode: 1
         title: '01: Koboldsgesetz (Neue Geschichten vom Pumuckl)'
+        release_date: '2023-12-15'
       - id: '1721518411'
         episode: 2
         title: '02: Pumuckl wird verschenkt (Neue Geschichten vom Pumuckl)'
+        release_date: '2023-12-22'
       - id: '1721518234'
         episode: 3
         title: '03: Der alte Eder (Neue Geschichten vom Pumuckl)'
+        release_date: '2023-12-22'
       - id: '1728709973'
         episode: 4
         title: '04: Der verflixte Kaugummi (Neue Geschichten vom Pumuckl)'
+        release_date: '2024-02-09'
       - id: '1729621198'
         episode: 5
         title: '05: Eder ist an allem schuld (Neue Geschichten vom Pumuckl)'
+        release_date: '2024-02-16'
       - id: '1729621436'
         episode: 6
         title: '06: Pumuckl und die Geburtstagsüberraschung (Neue Geschichten vom Pumuckl)'
+        release_date: '2024-02-23'
       - id: '1730795277'
         episode: 7
         title: '07: Pumuckl geht Angeln (Neue Geschichten vom Pumuckl)'
+        release_date: '2024-03-01'
       - id: '1737001698'
         episode: 8
         title: '08: Pumuckl wird verzaubert (Neue Geschichten vom Pumuckl)'
+        release_date: '2024-03-22'
       - id: '1737406522'
         episode: 9
         title: '09: Werkstatt in Gefahr (Neue Geschichten vom Pumuckl)'
+        release_date: '2024-03-29'
       - id: '1737406373'
         episode: 10
         title: '10: Pumuckl und das Pferd vom Nil (Neue Geschichten vom Pumuckl)'
+        release_date: '2024-04-05'
       - id: '1743834489'
         episode: 11
         title: '11: Pumuckl und die Spinne (Neue Geschichten vom Pumuckl)'
+        release_date: '2024-05-10'
       - id: '1746605805'
         episode: 12
         title: '12: Pumuckl will Skifahren (Neue Geschichten vom Pumuckl)'
+        release_date: '2024-05-17'
       - id: '1746605954'
         episode: 13
         title: '13: Pumuckl feiert Silvester (Neue Geschichten vom Pumuckl)'
+        release_date: '2024-05-17'
       - id: '1858016368'
         episode: 14
         title: '14: Pumuckl und der Geisterjäger (Neue Geschichten vom Pumuckl)'
+        release_date: '2025-12-05'
       - id: '1858018262'
         episode: 15
         title: '15: Pumuckl und die eingeworfene Scheibe (Neue Geschichten vom Pumuckl)'
+        release_date: '2025-12-05'
       - id: '1858021254'
         episode: 16
         title: '16: Der kleine Flori (Neue Geschichten vom Pumuckl)'
+        release_date: '2025-12-05'
       - id: '1858017969'
         episode: 17
         title: '17: Pumuckl geht Campen (Neue Geschichten vom Pumuckl)'
+        release_date: '2025-12-05'
       - id: '1860354696'
         episode: 18
         title: '18: Pumuckl und der Schluckauf (Neue Geschichten vom Pumuckl)'
+        release_date: '2025-12-12'
       - id: '1860358598'
         episode: 19
         title: '19: Pumuckl und das Geräusch (Neue Geschichten vom Pumuckl)'
+        release_date: '2025-12-12'
       - id: '1860354944'
         episode: 20
         title: '20: Pumuckl und der krumme Weihnachtsbaum (Neue Geschichten vom Pumuckl)'
+        release_date: '2025-12-12'
       - id: '1889471596'
         episode: 21
         title: '21: Pumuckl und der sprechende Schreibtisch (Neue Geschichten vom Pumuckl)'
+        release_date: '2026-04-03'
       - id: '1889472265'
         episode: 22
         title: '22: Pumuckl und die schlechte Verliererin (Neue Geschichten vom Pumuckl)'
+        release_date: '2026-04-03'
       - id: '1893282532'
         episode: 23
         title: '23: Pumuckl und das Jo-Jo (Neue Geschichten vom Pumuckl)'
+        release_date: '2026-04-17'
       - id: '1895037324'
         episode: 24
         title: '24: Pumuckl und das Heinzelmännchen (Neue Geschichten vom Pumuckl)'
+        release_date: '2026-04-24'
       - id: '1895107975'
         episode: 25
         title: '25: Pumuckl geht verloren (Neue Geschichten vom Pumuckl)'
+        release_date: '2026-04-24'
       - id: '1895107955'
         episode: 26
         title: '26: Wiedersehen mit Pumuckl (Neue Geschichten vom Pumuckl)'
+        release_date: '2026-04-24'
       - id: '1847324343'
         title: Pumuckl und das große Missverständnis (Das Original-Hörspiel zum Kinofilm) (Neue Geschichten vom Pumuckl)
+        release_date: '2025-10-31'
 - id: jan_tenner_der_neue_superheld
   title: Jan Tenner - Der neue Superheld
   aliases: []
   episode_pattern:
   - 'Der neue Superheld - Folge (\d+):'
   - 'Folge (\d+):'
-  content_type: hoerspiel
   split_from: jan_tenner
   providers:
     spotify:
@@ -44700,124 +44741,165 @@ series:
       - id: 4dvvneprXMSJGPZORCMvTb
         episode: 1
         title: 'Der neue Superheld - Folge 1: Ein neuer Anfang'
+        release_date: '2019-09-27'
       - id: 4PpjCU9f9AoWlQ5tjv0gqb
         episode: 2
         title: 'Der neue Superheld - Folge 2: Der lautlose Tod'
+        release_date: '2019-09-27'
       - id: 07c95VpCYJHqhKBKvVOZTz
         episode: 3
         title: 'Der neue Superheld - Folge 3: Das Hirn des Bösen'
+        release_date: '2019-09-27'
       - id: 6J4aFCDUO8JqmWE2Lfs5T6
         episode: 4
         title: 'Der neue Superheld - Folge 4: Gefangene der Parallelwelt'
+        release_date: '2019-10-11'
       - id: 64hp2VyojZU6GxDo5iFQcf
         episode: 5
         title: 'Der neue Superheld - Folge 5: Angriff des Rattenkönigs'
+        release_date: '2019-10-11'
       - id: 027IPtVeYprCiI1jgBDFwz
         episode: 6
         title: 'Der neue Superheld - Folge 6: In der Hölle von Ostland'
+        release_date: '2019-11-01'
       - id: 1I2rpHVrH7KLeTOTfBYvuV
         episode: 7
         title: 'Der neue Superheld - Folge 7: Schatten über Westland'
+        release_date: '2020-10-30'
       - id: 1KO0CdcI8HAwXwfurYGJ5X
         episode: 8
         title: 'Der neue Superheld - Folge 8: Ruf der Sterne'
+        release_date: '2020-11-13'
       - id: 4Srpc5fYgdIxGip7Lnp6nl
         episode: 9
         title: 'Der neue Superheld - Folge 9: Kinder des Nichts'
+        release_date: '2020-12-11'
       - id: 4BF0aEFfjn92ghbncBDuoD
         episode: 10
         title: 'Der neue Superheld - Folge 10: Wächter der Zeiten'
+        release_date: '2020-12-11'
       - id: 3FaTQjT2F8YoQMNF4GCIJ7
         episode: 11
         title: 'Der neue Superheld - Folge 11: Tanjas großer Kampf'
+        release_date: '2021-01-22'
       - id: 34xj424hpy14fokyPNPgdx
         episode: 12
         title: 'Der neue Superheld - Folge 12: Finale für Westland'
+        release_date: '2021-01-22'
       - id: 30pGruf0EO55JVJwJjMDc9
         episode: 13
         title: 'Der neue Superheld - Folge 13: Zweisteins Flucht'
+        release_date: '2021-07-30'
       - id: 3V8XhBvxWrQChn0wt8WT5l
         episode: 14
         title: 'Der neue Superheld - Folge 14: Mutation des Bösen'
+        release_date: '2021-07-30'
       - id: 7dzsDIJauyykY1xcl67jTf
         episode: 15
         title: 'Der neue Superheld - Folge 15: Jagd nach der Unsterblichkeit'
+        release_date: '2021-07-30'
       - id: 33vnON0dstLdvxUbbreDQM
         episode: 16
         title: 'Der neue Superheld - Folge 16: Zweisteins Vermächtnis'
+        release_date: '2021-08-27'
       - id: 6Zc5HBgRBeWHfs7Qg6SntO
         episode: 17
         title: 'Der neue Superheld - Folge 17: Der geheimnisvolle Fremde'
+        release_date: '2021-08-27'
       - id: 1DgWpoWxcixtDetVrUegqN
         episode: 18
         title: 'Der neue Superheld - Folge 18: Zweisteins Erben'
+        release_date: '2021-09-24'
       - id: 73VlDEoWwm9fkkesh3I76h
         episode: 19
         title: 'Der neue Superheld - Folge 19: Die Macht der Medusa'
+        release_date: '2021-09-24'
       - id: 69GmlKfADb9sTvXauCZUuH
         episode: 20
         title: 'Der neue Superheld - Folge 20: Rückkehr ins Reich der Azzarus'
+        release_date: '2021-10-08'
       - id: 1kVtBlnG1iVMwd1y7irvft
         episode: 21
         title: 'Der neue Superheld - Folge 21: Kampf um den Silbervogel'
+        release_date: '2023-05-26'
       - id: 2J02xieWR6v2EPe5G17fmR
         episode: 22
         title: 'Der neue Superheld - Folge 22: Sturm auf die Zeitbastion'
+        release_date: '2023-07-21'
       - id: 1RwH4PR8ZypemCI4XVbmCx
         episode: 23
         title: 'Der neue Superheld - Folge 23: Botschaft von MEDUSA'
+        release_date: '2023-09-22'
       - id: 3V6fNQLzy5lmcPJT6bOjU8
         episode: 24
         title: 'Der neue Superheld - Folge 24: Der Sternenmoloch'
+        release_date: '2023-11-10'
       - id: 5kgIL5l1LxOdMUnNEzsBzV
         episode: 25
         title: 'Der neue Superheld - Folge 25: Freiheit für Nyrad'
+        release_date: '2024-01-26'
       - id: 3MCwCCZ0ge1XcAKAhleILx
         episode: 26
         title: 'Der neue Superheld - Folge 26: Die Quanten-Seuche'
+        release_date: '2024-03-22'
       - id: 188N7Us5Ayic128K0Ns9kI
         episode: 27
         title: 'Der neue Superheld - Folge 27: Die teuflische Falle'
+        release_date: '2024-03-22'
       - id: 6skURDR9ZiDxWIi07vrubs
         episode: 28
         title: 'Der neue Superheld - Folge 28: Rätsel der Rotwelt'
+        release_date: '2024-05-24'
       - id: 2VarvVTd55bxC8f5vzJGmy
         episode: 29
         title: 'Der neue Superheld - Folge 29: Allianz des Schreckens'
+        release_date: '2024-07-19'
       - id: 3G5nq2XpmL1Li29HCggFD6
         episode: 30
         title: 'Der neue Superheld - Folge 30: Furiosas neuntes Leben'
+        release_date: '2024-10-25'
       - id: 25jdW2iTYqqAv3kuEOoKIq
         episode: 31
         title: 'Der neue Superheld - Folge 31: In den Fängen der Kobra'
+        release_date: '2024-10-25'
       - id: 3RTI0LKopKF64v6cV93WEc
         episode: 32
         title: 'Der neue Superheld - Folge 32: Im Bann des Fraktalfeuers'
+        release_date: '2024-11-22'
       - id: 7F7LICoZDarKx6t3vtGWjl
         episode: 33
         title: 'Der neue Superheld - Folge 33: Der gestohlene Planet'
+        release_date: '2024-12-13'
       - id: 0STFX0xhvSK3h0KpGzYKkh
         episode: 34
         title: 'Der neue Superheld - Folge 34: Herr der Rotwelt'
+        release_date: '2025-01-31'
       - id: 3lxOaQsJadRvPqSmm69vYm
         episode: 35
         title: 'Der neue Superheld - Folge 35: Amoklauf der Tecramils'
+        release_date: '2025-08-01'
       - id: 2sq52VIuRVJNEkwjHAwURk
         episode: 36
         title: 'Der neue Superheld - Folge 36: Die Bestien von Zygon'
+        release_date: '2025-10-03'
       - id: 1fKRcahY8D3VcibgToFWoN
         episode: 37
         title: 'Der neue Superheld - Folge 37: Odyssee ins Unbekannte'
+        release_date: '2025-11-21'
       - id: 1OHxPKhL3ejMvQuhWwlGUv
         episode: 38
         title: 'Der neue Superheld - Folge 38: Das grausame Orakel'
+        release_date: '2026-02-20'
       - id: 1BvcaNBKUiQgluIWON17Zv
         episode: 39
         title: 'Der neue Superheld - Folge 39: Ticraxas Schicksal'
+        release_date: '2026-04-10'
       - id: 67OKkeS5g4d2v7K6TxXuCo
         title: 'Der neue Superheld - Spezialfolge: Sturm über Shamazaar - Teil 1'
+        release_date: '2024-03-01'
       - id: 3mLLC4ZRuEm9LRs6fd6rmb
         title: 'Der neue Superheld - Spezialfolge: Das silberne Unheil - Teil 2'
+        release_date: '2024-03-15'
     apple_music:
       artist_ids:
       - '316582880'
@@ -44825,134 +44907,175 @@ series:
       - id: '1480734732'
         episode: 1
         title: 'Der neue Superheld - Folge 1: Ein neuer Anfang'
+        release_date: '2019-09-27'
       - id: '1480733041'
         episode: 2
         title: 'Der neue Superheld - Folge 2: Der lautlose Tod'
+        release_date: '2019-09-27'
       - id: '1480729345'
         episode: 3
         title: 'Der neue Superheld - Folge 3: Das Hirn des Bösen'
+        release_date: '2019-09-27'
       - id: '1481860781'
         episode: 4
         title: 'Der neue Superheld - Folge 4: Gefangene der Parallelwelt'
+        release_date: '2019-10-11'
       - id: '1481860675'
         episode: 5
         title: 'Der neue Superheld (Folge 5: Angriff des Rattenkönigs)'
+        release_date: '2019-10-11'
       - id: '1484394235'
         episode: 6
         title: 'Der neue Superheld - Folge 6: In der Hölle von Ostland'
+        release_date: '2019-11-01'
       - id: '1537122345'
         episode: 7
         title: 'Folge 7: Schatten über Westland (Der neue Superheld)'
+        release_date: '2020-10-30'
       - id: '1538162782'
         episode: 8
         title: 'Der neue Superheld - Folge 8: Ruf der Sterne'
+        release_date: '2020-11-13'
       - id: '1543738701'
         episode: 9
         title: 'Der neue Superheld - Folge 9: Kinder des Nichts'
+        release_date: '2020-11-27'
       - id: '1543731073'
         episode: 10
         title: 'Der neue Superheld, Folge 10: Wächter der Zeiten'
+        release_date: '2020-12-11'
       - id: '1548505290'
         episode: 11
         title: 'Folge 11: Tanjas großer Kampf (Der neue Superheld)'
+        release_date: '2021-01-22'
       - id: '1548363988'
         episode: 12
         title: 'Der neue Superheld - Folge 12: Finale für Westland'
+        release_date: '2021-01-22'
       - id: '1577793993'
         episode: 13
         title: 'Der neue Superheld - Folge 13: Zweisteins Flucht'
+        release_date: '2021-07-30'
       - id: '1577794824'
         episode: 14
         title: 'Der neue Superheld - Folge 14: Mutation des Bösen'
+        release_date: '2021-07-30'
       - id: '1577794689'
         episode: 15
         title: 'Der neue Superheld - Folge 15: Jagd nach der Unsterblichkeit'
+        release_date: '2021-07-30'
       - id: '1581609758'
         episode: 16
         title: 'Folge 16: Zweisteins Vermächtnis (Der neue Superheld)'
+        release_date: '2021-08-27'
       - id: '1581446289'
         episode: 17
         title: 'Der neue Superheld - Folge 17: Der geheimnisvolle Fremde'
+        release_date: '2021-08-27'
       - id: '1585407280'
         episode: 18
         title: 'Der neue Superheld - Folge 18: Zweisteins Erben'
+        release_date: '2021-09-24'
       - id: '1585406912'
         episode: 19
         title: 'Der neue Superheld - Folge 19: Die Macht der Medusa'
+        release_date: '2021-09-24'
       - id: '1587064548'
         episode: 20
         title: 'Der neue Superheld - Folge 20: Rückkehr ins Reich der Azzarus'
+        release_date: '2021-10-08'
       - id: '1686878797'
         episode: 21
         title: 'Folge 21: Kampf um den Silbervogel'
+        release_date: '2023-05-26'
       - id: '1694336223'
         episode: 22
         title: 'Folge 22: Sturm auf die Zeitbastion (Der neue Superheld)'
+        release_date: '2023-07-21'
       - id: '1704168776'
         episode: 23
         title: 'Folge 23: Botschaft von MEDUSA (Der neue Superheld)'
+        release_date: '2023-09-22'
       - id: '1714362764'
         episode: 24
         title: 'Der neue Superheld - Folge 24: Der Sternenmoloch'
+        release_date: '2023-11-10'
       - id: '1726585113'
         episode: 25
         title: 'Der neue Superheld - Folge 25: Freiheit für Nyrad'
+        release_date: '2024-01-26'
       - id: '1734987670'
         episode: 26
         title: 'Der neue Superheld - Folge 26: Die Quanten-Seuche'
+        release_date: '2024-03-22'
       - id: '1734873099'
         episode: 27
         title: 'Der neue Superheld - Folge 27: Die teuflische Falle'
+        release_date: '2024-03-22'
       - id: '1744633750'
         episode: 28
         title: 'Der neue Superheld - Folge 28: Rätsel der Rotwelt'
+        release_date: '2024-05-24'
       - id: '1756761317'
         episode: 29
         title: 'Der neue Superheld - Folge 29: Allianz des Schreckens'
+        release_date: '2024-07-19'
       - id: '1770238367'
         episode: 30
         title: 'Der neue Superheld - Folge 30: Furiosas neuntes Leben'
+        release_date: '2024-10-25'
       - id: '1770246265'
         episode: 31
         title: 'Der neue Superheld (Folge 31: In den Fängen der Kobra)'
+        release_date: '2024-10-25'
       - id: '1777543035'
         episode: 32
         title: 'Der neue Superheld - Folge 32: Im Bann des Fraktalfeuers'
+        release_date: '2024-11-22'
       - id: '1780930549'
         episode: 33
         title: 'Der neue Superheld - Folge 33: Der gestohlene Planet'
+        release_date: '2024-12-13'
       - id: '1786589146'
         episode: 34
         title: 'Der neue Superheld - Folge 34: Herr der Rotwelt'
+        release_date: '2025-01-31'
       - id: '1823734999'
         episode: 35
         title: 'Der neue Superheld - Folge 35: Amoklauf der Tecramils'
+        release_date: '2025-08-01'
       - id: '1828538802'
         episode: 36
         title: 'Der neue Superheld - Folge 36: Die Bestien von Zygon'
+        release_date: '2025-10-03'
       - id: '1848183866'
         episode: 37
         title: 'Der neue Superheld - Folge 37: Odyssee ins Unbekannte'
+        release_date: '2025-11-21'
       - id: '1877137885'
         episode: 38
         title: 'Der neue Superheld - Folge 38: Das grausame Orakel'
+        release_date: '2026-02-20'
       - id: '1877115518'
         episode: 39
         title: 'Der neue Superheld - Folge 39: Ticraxas Schicksal'
+        release_date: '2026-04-10'
       - id: '1889874051'
         episode: 40
         title: 'Der neue Superheld - Folge 40: Konfrontation in Ostland'
+        release_date: '2026-06-05'
       - id: '1733489952'
         title: 'Der neue Superheld - Spezialfolge: Sturm über Shamazaar - Teil 1'
+        release_date: '2024-03-01'
       - id: '1735989786'
         title: 'Der neue Superheld - Spezialfolge: Das silberne Unheil - Teil 2'
+        release_date: '2024-03-15'
 - id: die_biene_maja_cgi
   title: Die Biene Maja (CGI)
   aliases: []
   episode_pattern:
   - ^(\d+)/
   - '^Folge (\d+):'
-  content_type: hoerspiel
   split_from: die_biene_maja
   providers:
     spotify:
@@ -44962,53 +45085,70 @@ series:
       - id: 3j0eypsRnSTiMQm3ddIRH7
         episode: 1
         title: 01/Majas Geburt (CGI)
+        release_date: '2015-02-27'
       - id: 2MrJDH3Vr4U1xRflFoxLRg
         episode: 2
         title: 02/Der Schmetterlingsball (CGI)
+        release_date: '2015-02-28'
       - id: 7vGsiOczDbWl1DYyHZZRUb
         episode: 3
         title: 03/Willi zieht aus (CGI)
+        release_date: '2015-03-01'
       - id: 1JFzgTGNZrDlPpDBBDzQyo
         episode: 4
         title: 04/Majas Kuchenrezept (CGI)
+        release_date: '2015-03-02'
       - id: 6R51c15NOqALq06zzTQsMl
         episode: 5
         title: 05/Die falsche Wespe (CGI)
+        release_date: '2015-03-03'
       - id: 67Kbq6lX6JqLRFaaE8IbJD
         episode: 6
         title: 06/Das Zepter der Königin (CGI)
+        release_date: '2015-03-04'
       - id: 487jVjvsebSknq2vulCq4u
         episode: 7
         title: 07/Die Sonnenfinsternis (CGI)
+        release_date: '2015-03-05'
       - id: 5iI5hQh4fU2HNnbz2LxTqp
         episode: 8
         title: 08/Majas Schatz (CGI)
+        release_date: '2015-03-06'
       - id: 07s0uMtUGiOgc5qS8tyCKs
         episode: 9
         title: 09/Maja feiert Schlüpftag (CGI)
+        release_date: '2015-03-07'
       - id: 12ZHLjObPDVv6yxD4z0dVx
         episode: 10
         title: 10/Königin für einen Tag (CGI)
+        release_date: '2015-03-08'
       - id: 1I4ANUvTxrahaAWhmcp983
         episode: 11
         title: 11/Die Austauschbiene (CGI)
+        release_date: '2015-03-09'
       - id: 1CR4nb9spAdW7lk2Z3fCxr
         episode: 12
         title: 12/Der kleine Ausreißer (CGI)
+        release_date: '2015-03-10'
       - id: 6ZCZ7KXwZugFPewoW7kZVc
         episode: 13
         title: 13/Die Wiesenfreunde (CGI)
+        release_date: '2018-01-05'
       - id: 58owbHyrjYUk6J9LqZHB2Y
         episode: 14
         title: 14/Das süße Geheimnis (CGI)
+        release_date: '2018-01-06'
       - id: 6D9DMe61lCQwmaVP4rtezc
         episode: 15
         title: 15/Ein Salto für die Freundschaft (CGI)
+        release_date: '2018-03-02'
       - id: 3lThbsoEt20TnapXJTFydW
         episode: 16
         title: 16/Die fantastischen Vier (CGI)
+        release_date: '2018-03-03'
       - id: 6ySf1Q9HHKZcQENOpdgOyw
         title: Der Regentanz/Geheimnisvolle Spuren
+        release_date: '2023-03-17'
     apple_music:
       artist_ids:
       - '253463055'
@@ -45016,60 +45156,76 @@ series:
       - id: '1468864060'
         episode: 1
         title: 'Folge 1: Majas Geburt / Der Buschwindbote /  Maja und die Mondblume'
+        release_date: '2015-02-27'
       - id: '1468869961'
         episode: 2
         title: 'Folge 2: Der Schmetterlingsball'
+        release_date: '2015-02-28'
       - id: '1468862092'
         episode: 3
         title: 'Folge 3: Willi zieht aus'
+        release_date: '2015-03-01'
       - id: '1468864490'
         episode: 4
         title: 'Folge 4: Majas Kuchenrezept'
+        release_date: '2015-03-02'
       - id: '1468860831'
         episode: 5
         title: 'Folge 5: Die falsche Wespe'
+        release_date: '2015-03-03'
       - id: '1468871179'
         episode: 6
         title: 'Folge 6: Das Zepter der Königin'
+        release_date: '2015-03-04'
       - id: '1468863276'
         episode: 7
         title: 'Folge 7: Edgar die Pechbiene / Der meistgesuchte Mist / Pauls Himbeere / Die Sonnenfinsternis / Ringkampf im Wald / Majas Blume / Die verwirrte Irma'
+        release_date: '2015-03-05'
       - id: '1468873857'
         episode: 8
         title: 'Folge 8: Majas Schatz'
+        release_date: '2015-03-06'
       - id: '1468861761'
         episode: 9
         title: 'Folge 9: Maja feiert Schlüpftag'
+        release_date: '2015-03-07'
       - id: '1468870106'
         episode: 10
         title: 'Folge 10: Königin für einen Tag'
+        release_date: '2015-03-08'
       - id: '1468862416'
         episode: 11
         title: 'Folge 11: Die Austauschbiene'
+        release_date: '2015-03-09'
       - id: '1468860605'
         episode: 12
         title: 'Folge 12: Der kleine Ausreißer'
+        release_date: '2015-03-10'
       - id: '1468866994'
         episode: 13
         title: 'Folge 13: Die Wiesenfreunde'
+        release_date: '2018-01-05'
       - id: '1468871339'
         episode: 14
         title: 'Folge 14: Das süße Geheimnis'
+        release_date: '2018-01-06'
       - id: '1472006542'
         episode: 15
         title: 'Folge 15: Ein Salto für die Freundschaft'
+        release_date: '2018-03-02'
       - id: '1472007408'
         episode: 16
         title: 'Folge 16: Die fantastischen Vier'
+        release_date: '2018-03-03'
       - id: '1676649857'
         title: Der Regentanz/Geheimnisvolle Spuren
+        release_date: '2023-03-24'
 - id: heidi_cgi
   title: Heidi (CGI)
   aliases: []
   episode_pattern:
   - ^(\d{1,2})/
   - '^Folge (\d+):'
-  content_type: hoerspiel
   split_from: heidi
   providers:
     spotify:
@@ -45079,42 +45235,55 @@ series:
       - id: 6h3slvubJGxkelMTQTmdGs
         episode: 1
         title: 01/Die Reise zum Großvater (CGI)
+        release_date: '2015-05-08'
       - id: 5EjZ1RjwyNbgjAYS7UtcOH
         episode: 2
         title: 02/Freunde für immer (CGI)
+        release_date: '2015-05-09'
       - id: 31m0UdSsHngj3M9H5ZZDxO
         episode: 3
         title: 03/Ein Wolf im Dörfli (CGI)
+        release_date: '2015-05-10'
       - id: 7B2f4GMd62pwVO160b6Jka
         episode: 4
         title: 04/Peters Schatz (CGI)
+        release_date: '2015-09-04'
       - id: 66wmm6hrAuT6OX4FRrAhXJ
         episode: 5
         title: 05/Heidi vermisst die Berge (CGI)
+        release_date: '2015-09-05'
       - id: 6fJGXnRQZprvNpQVS5r7n0
         episode: 6
         title: 06/Das Versprechen (CGI)
+        release_date: '2015-09-06'
       - id: 67UX8QIZxMDuJkCGtd91Dx
         episode: 7
         title: 07/Heidi soll lesen lernen (CGI)
+        release_date: '2016-02-26'
       - id: 1cVQryR5G01un8agbLFJGx
         episode: 8
         title: 08/Wie zwei Schwestern (CGI)
+        release_date: '2016-02-27'
       - id: 5lordaKcBxHKDP582ZLmMb
         episode: 9
         title: 09/Heidi kehrt zurück (CGI)
+        release_date: '2016-02-28'
       - id: 7zbLiVaNJu3HBK4pi8HUnr
         episode: 10
         title: 10/Glöckchen wird geboren (CGI)
+        release_date: '2016-06-10'
       - id: 6oY60aBfm9evnuoMqrJbiH
         episode: 11
         title: 11/Clara kommt, aber nicht allein (CGI)
+        release_date: '2016-06-11'
       - id: 6SnyRipyoLYS2MIvsx3Xoc
         episode: 12
         title: 12/Der Sturm (CGI)
+        release_date: '2016-06-12'
       - id: 1NQb8SZGASwRTZz6elYlcC
         episode: 13
         title: 13/Das größte Glück (CGI)
+        release_date: '2016-06-13'
     apple_music:
       artist_ids:
       - '1277333069'
@@ -45122,49 +45291,61 @@ series:
       - id: '1468860370'
         episode: 1
         title: 'Folge 1: Die Reise zum Großvater'
+        release_date: '2015-05-08'
       - id: '1468865738'
         episode: 2
         title: 02/Freunde für immer (CGI)
+        release_date: '2015-05-09'
       - id: '1468868423'
         episode: 3
         title: 03/Ein Wolf im Dörfli  (CGI)
+        release_date: '2015-05-10'
       - id: '1468858361'
         episode: 4
         title: 04/Peters Schatz (CGI)
+        release_date: '2015-09-04'
       - id: '1468861396'
         episode: 5
         title: 'Folge 5: Heidi vermisst die Berge'
+        release_date: '2015-09-05'
       - id: '1468869050'
         episode: 6
         title: 06/Das Versprechen (CGI)
+        release_date: '2015-09-06'
       - id: '1468871024'
         episode: 7
         title: 'Folge 7: Heidi soll lesen lernen'
+        release_date: '2016-02-26'
       - id: '1468868745'
         episode: 8
         title: 08/Wie zwei Schwestern (CGI)
+        release_date: '2016-02-27'
       - id: '1468874228'
         episode: 9
         title: 'Folge 9: Ein Geist geht um / Kein Brief von Großvater / Heidi kehrt zurück'
+        release_date: '2016-02-28'
       - id: '1468862476'
         episode: 10
         title: 10/Glöckchen wird geboren (CGI)
+        release_date: '2016-06-10'
       - id: '1468861418'
         episode: 11
         title: 11/Clara kommt, aber nicht allein (CGI)
+        release_date: '2016-06-11'
       - id: '1468870749'
         episode: 12
         title: 12/Der Sturm (CGI)
+        release_date: '2016-06-12'
       - id: '1468865785'
         episode: 13
         title: 'Folge 13: Das größte Glück'
+        release_date: '2016-06-13'
 - id: wickie_cgi
   title: Wickie (CGI)
   aliases: []
   episode_pattern:
   - ^(\d+)/
   - '^Folge (\d+):'
-  content_type: hoerspiel
   split_from: wickie
   providers:
     spotify:
@@ -45174,39 +45355,51 @@ series:
       - id: 6CIMPRkR2vOuJfFIDgZCpD
         episode: 1
         title: 01/Wasser auf die Mühlen (CGI)
+        release_date: '2015-03-20'
       - id: 0bYKBtwukDkGX1pIscACVB
         episode: 2
         title: 02/Die Königin der Winde (CGI)
+        release_date: '2015-03-21'
       - id: 2tU47IvruPorwTXemNvtPm
         episode: 3
         title: 03/Tanz mit dem Wolf (CGI)
+        release_date: '2015-03-22'
       - id: 1Pa9rFvXXrJtWh0uzuYOq7
         episode: 4
         title: 04/Der Donnergott (CGI)
+        release_date: '2015-03-23'
       - id: 541fqlrrZtVsg9KC7lUMra
         episode: 5
         title: 05/Thors Urteil (CGI)
+        release_date: '2015-03-24'
       - id: 0FTkpZ3ZBHTMX3BXXUdv3E
         episode: 6
         title: 06/Das Drachenbootrennen (CGI)
+        release_date: '2015-03-25'
       - id: 2kpxd3X4dl9BrNSOiCXK9N
         episode: 7
         title: 07/Thors Hammer (CGI)
+        release_date: '2015-09-18'
       - id: 3mfCuDzB1d2gMaQDk95H8n
         episode: 8
         title: 08/Der falsche Druide (CGI)
+        release_date: '2015-09-19'
       - id: 3Y2o8ZoqYDjNOTt8Bvn81R
         episode: 9
         title: 09/Nächtlicher Diebstahl (CGI)
+        release_date: '2015-09-20'
       - id: 05H6JvPTDlRpMnk5XqcwBe
         episode: 10
         title: 10/Olympische Spiele (CGI)
+        release_date: '2016-03-25'
       - id: 60G01rHe6aphE5Uex6gOPL
         episode: 11
         title: 11/Svens Schiffbruch (CGI)
+        release_date: '2016-03-26'
       - id: 01MSgNKzQsCisg5Z1mQlw5
         episode: 12
         title: 12/Aufstand in Flake (CGI)
+        release_date: '2016-03-27'
     apple_music:
       artist_ids:
       - '26247225'
@@ -45214,45 +45407,56 @@ series:
       - id: '1468872248'
         episode: 1
         title: 'Folge 1: Wasser auf die Mühlen'
+        release_date: '2015-03-20'
       - id: '1468856231'
         episode: 2
         title: 'Folge 2: Die Königin der Winde'
+        release_date: '2015-03-21'
       - id: '1468869322'
         episode: 3
         title: 'Folge 3: Tanz mit dem Wolf'
+        release_date: '2015-03-22'
       - id: '1468859634'
         episode: 4
         title: 'Folge 4: Der Donnergott'
+        release_date: '2015-03-23'
       - id: '1468868320'
         episode: 5
         title: 'Folge 5: Thors Urteil'
+        release_date: '2015-03-24'
       - id: '1468857981'
         episode: 6
         title: 06/Das Drachenbootrennen  (CGI)
+        release_date: '2015-03-25'
       - id: '1468861997'
         episode: 7
         title: 'Folge 7: Thors Hammer'
+        release_date: '2015-09-18'
       - id: '1468868003'
         episode: 8
         title: 'Folge 8: Der falsche Druide'
+        release_date: '2015-09-19'
       - id: '1468870486'
         episode: 9
         title: 09/Nächtlicher Diebstahl (CGI)
+        release_date: '2015-09-20'
       - id: '1468872065'
         episode: 10
         title: 'Folge 10: Olympische Spiele'
+        release_date: '2016-03-25'
       - id: '1468874513'
         episode: 11
         title: 'Folge 11: Svens Schiffbruch'
+        release_date: '2016-03-26'
       - id: '1468872534'
         episode: 12
         title: 'Folge 12: Aufstand in Flake'
+        release_date: '2016-03-27'
 - id: tabaluga_neue_abenteuer
   title: Tabaluga - Die neuen Abenteuer
   aliases: []
   episode_pattern:
   - '^Folge (\d+):'
-  content_type: hoerspiel
   split_from: tabaluga
   providers:
     spotify:
@@ -45262,24 +45466,31 @@ series:
       - id: 52BaPmadnpTkDhNSP87luz
         episode: 1
         title: 'Folge 1: Die große Stadt'
+        release_date: '2021-11-05'
       - id: 4rP8iu8oRrYsR91ELChdG7
         episode: 2
         title: 'Folge 2: Am wilden Meer'
+        release_date: '2022-01-14'
       - id: 31I8XXIgxv7MdAX6WdygeU
         episode: 3
         title: 'Folge 3: In den eisigen Bergen'
+        release_date: '2022-04-29'
       - id: 6hWbLvmZuYNxByx9zaceSu
         episode: 4
         title: 'Folge 4: Im stürmischen Wald'
+        release_date: '2022-07-29'
       - id: 3lqNB64CRZVTacJYx5QT1H
         episode: 5
         title: 'Folge 5: Im Eisbären-Land'
+        release_date: '2023-03-31'
       - id: 0IklRy7YgVQGESlc4nmy1E
         episode: 6
         title: 'Folge 6: Wirbelwind auf dem Bauernhof'
+        release_date: '2023-08-11'
       - id: 3FiJp9SBLabeDIN21MyJ3S
         episode: 7
         title: 'Folge 7: Schneesturm auf dem Weihnachtsmarkt'
+        release_date: '2023-11-10'
     apple_music:
       artist_ids:
       - '1124144497'
@@ -45287,30 +45498,36 @@ series:
       - id: '1590163969'
         episode: 1
         title: 'Folge 1: Die große Stadt'
+        release_date: '2021-11-05'
       - id: '1600096515'
         episode: 2
         title: 'Folge 2: Am wilden Meer'
+        release_date: '2022-01-14'
       - id: '1690340915'
         episode: 3
         title: 'Folge 3: In den eisigen Bergen'
+        release_date: '2022-04-29'
       - id: '1690341318'
         episode: 4
         title: 'Folge 4: Im stürmischen Wald'
+        release_date: '2022-07-29'
       - id: '1677582988'
         episode: 5
         title: 'Folge 5: Im Eisbären-Land'
+        release_date: '2023-03-31'
       - id: '1697490025'
         episode: 6
         title: 'Folge 6: Wirbelwind auf dem Bauernhof'
+        release_date: '2023-08-11'
       - id: '1714463264'
         episode: 7
         title: 'Folge 7: Schneesturm auf dem Weihnachtsmarkt'
+        release_date: '2023-11-10'
 - id: mia_and_me_originals
   title: 'Mia and Me: Original-Hörspiele'
   aliases: []
   episode_pattern:
   - '^Folge (\d+):'
-  content_type: hoerspiel
   split_from: mia_and_me
   providers:
     spotify:
@@ -45320,12 +45537,15 @@ series:
       - id: 3jMDTLSXAB85wBZJybqFCx
         episode: 1
         title: 'Folge 1: Die allerschönste Blume (Das Original-Hörspiel)'
+        release_date: '2025-05-02'
       - id: 4Cy2DhdYwRfi83a9esOD06
         episode: 2
         title: 'Folge 2: Der verliebte Polytheus (Das Original-Hörspiel)'
+        release_date: '2025-06-20'
       - id: 3QbTeOUmMaIsYrN7GUOHpS
         episode: 3
         title: 'Folge 3: Die große Prinzenprüfung (Das Original-Hörspiel)'
+        release_date: '2025-08-15'
     apple_music:
       artist_ids:
       - '553475434'
@@ -45333,18 +45553,20 @@ series:
       - id: '1808972478'
         episode: 1
         title: 'Folge 1: Die allerschönste Blume (Das Original-Hörspiel)'
+        release_date: '2025-05-02'
       - id: '1818635047'
         episode: 2
         title: 'Folge 2: Der verliebte Polytheus (Das Original-Hörspiel)'
+        release_date: '2025-06-20'
       - id: '1825325766'
         episode: 3
         title: 'Folge 3: Die große Prinzenprüfung (Das Original-Hörspiel)'
+        release_date: '2025-08-15'
 - id: die_schluempfe_klassik
   title: Die Schlümpfe (Klassik)
   aliases: []
   episode_pattern:
   - '^Folge (\d+):'
-  content_type: hoerspiel
   split_from: die_schluempfe
   providers:
     spotify:
@@ -45354,60 +45576,79 @@ series:
       - id: 2eMjO7p7ZDQVz0YjpTLZp9
         episode: 1
         title: 'Folge 1: Das Buch, das alles sagt'
+        release_date: '2020-04-17'
       - id: 4KfM86ZxYZao5tqqOk1ENS
         episode: 2
         title: 'Folge 2: Die unsichtbare Pfeife'
+        release_date: '2020-04-17'
       - id: 3i4sII6KEcoqHyS2yFVJyU
         episode: 3
         title: 'Folge 3: Die Wassersucher'
+        release_date: '2020-04-17'
       - id: 3cJErcioeJA3SzIEmWdDvg
         episode: 4
         title: 'Folge 4: Jokeys Reise'
+        release_date: '2020-04-17'
       - id: 6o1DX4goYgIF61oOQrpvFZ
         episode: 5
         title: 'Folge 5: Die wundervolle Pflanze'
+        release_date: '2020-04-17'
       - id: 6yvUkCgUrjdslKvHLfdAfg
         episode: 6
         title: 'Folge 6: Die Schlümpfe in der Mine'
+        release_date: '2020-04-17'
       - id: 2bZY7BOt9Xo0NSWaA8xmiH
         episode: 7
         title: 'Folge 7: Unten! Ganz unten!'
+        release_date: '2020-04-17'
       - id: 78imwjhQfMhp1Hnhep9ASh
         episode: 8
         title: 'Folge 8: Der Schlumpf, der alles mag'
+        release_date: '2020-04-17'
       - id: 2kxFmDF5dydiOCKFH2ijsz
         episode: 9
         title: 'Folge 9: Der freche Geist'
+        release_date: '2020-04-17'
       - id: 6tL1mRFStmjyKZq2dus0Jw
         episode: 11
         title: 'Folge 11: Die traurige Zauberweide'
+        release_date: '2020-04-17'
       - id: 6KUZd9v2JnOB3JE9S7A9Q3
         episode: 12
         title: 'Folge 12: Die Entdeckerschlümpfe'
+        release_date: '2020-04-17'
       - id: 1bb3h2wVqhmjvPKZZYI12q
         episode: 13
         title: 'Folge 13: Eine Kette für Schlumpfine'
+        release_date: '2020-04-17'
       - id: 6YP4B0VNbXvVQeHzlhq5Jy
         episode: 14
         title: 'Folge 14: Ritter Norbert Nulltalent'
+        release_date: '2020-04-17'
       - id: 7ap6j7cgyAW5n7gKRdA82h
         episode: 15
         title: 'Folge 15: Das Ei des Tirilirulis'
+        release_date: '2020-04-17'
       - id: 1ImJM1ylufGHY8JAZuX65e
         episode: 16
         title: 'Folge 16: Sparakel und Pitipus'
+        release_date: '2020-04-17'
       - id: 3Wt2rG4hm051Au1P1W9Cci
         episode: 17
         title: 'Folge 17: Gargamel verkleidet sich'
+        release_date: '2020-04-17'
       - id: 070exhjgYDaq2EvyNf1fhA
         episode: 18
         title: 'Folge 18: Die Hexenschülerin'
+        release_date: '2020-04-17'
       - id: 7rMpaXtiMOc1vSwOkfClPj
         episode: 19
         title: 'Folge 19: Die drei Kerne'
+        release_date: '2020-04-17'
       - id: 39e9AXlk6nQ6nLsZDll613
         episode: 20
         title: 'Folge 20: Blümchen ist verschwunden'
+        release_date: '2020-04-17'
     apple_music:
       artist_ids:
       - '128557561'
@@ -45415,52 +45656,65 @@ series:
       - id: '1508334934'
         episode: 3
         title: 'Folge 3: Die Wassersucher'
+        release_date: '2020-04-17'
       - id: '1508288846'
         episode: 5
         title: 'Folge 5: Die wundervolle Pflanze'
+        release_date: '2020-04-17'
       - id: '1508289452'
         episode: 6
         title: 'Folge 6: Die Schlümpfe in der Mine'
+        release_date: '2020-04-17'
       - id: '1508322434'
         episode: 7
         title: 'Folge 7: Unten! Ganz unten!'
+        release_date: '2020-04-17'
       - id: '1508285539'
         episode: 8
         title: 'Folge 8: Der Schlumpf, der alles mag'
+        release_date: '2020-04-17'
       - id: '1508290056'
         episode: 9
         title: 'Folge 9: Der freche Geist'
+        release_date: '2020-04-17'
       - id: '1508285488'
         episode: 10
         title: 'Folge 10: Ein Geschenk für Yolanda'
+        release_date: '2020-04-17'
       - id: '1508288124'
         episode: 11
         title: 'Folge 11: Die traurige Zauberweide'
+        release_date: '2020-04-17'
       - id: '1508288250'
         episode: 12
         title: 'Folge 12: Die Entdeckerschlümpfe'
+        release_date: '2020-04-17'
       - id: '1508290322'
         episode: 13
         title: 'Folge 13: Eine Kette für Schlumpfine'
+        release_date: '2020-04-17'
       - id: '1508288116'
         episode: 14
         title: 'Folge 14: Ritter Norbert Nulltalent'
+        release_date: '2020-04-17'
       - id: '1508335315'
         episode: 15
         title: 'Folge 15: Das Ei des Tirilirulis'
+        release_date: '2020-04-17'
       - id: '1508335340'
         episode: 16
         title: 'Folge 16: Sparakel und Pitipus'
+        release_date: '2020-04-17'
       - id: '1508285843'
         episode: 17
         title: 'Folge 17: Gargamel verkleidet sich'
+        release_date: '2020-04-17'
 - id: leo_lausemaus_buecher
   title: Leo Lausemaus – Das Original-Hörspiel zu den Büchern
   aliases: []
   episode_pattern:
   - '^Folge (\d+):'
   - ^Folge (\d+)$
-  content_type: hoerspiel
   split_from: leo_lausemaus
   providers:
     spotify:
@@ -45470,27 +45724,35 @@ series:
       - id: 24buaw3qXTDggAgJYUnf0c
         episode: 11
         title: 'Folge 11: Leo will alles alleine machen'
+        release_date: '2019-09-06'
       - id: 7srD0uvQ1i6gHrPhPjR40N
         episode: 12
         title: 'Folge 12: Leo verläuft sich'
+        release_date: '2019-10-25'
       - id: 6JhgZ0EwcAQDhGwzGDfo9s
         episode: 13
         title: 'Folge 13: Leo lässt sich nicht ärgern'
+        release_date: '2020-04-03'
       - id: 6Yjp76n80lWc1krTbq7Z7m
         episode: 14
         title: 'Folge 14: Lilis Geburtstag'
+        release_date: '2020-10-23'
       - id: 09YkqrFbSLRs4QZOzO2xJo
         episode: 15
         title: 'Folge 15: Leo im Kaufhaus'
+        release_date: '2021-04-23'
       - id: 0fwNMMRv7xTgQ2fEAyssd7
         episode: 16
         title: 'Folge 16: Leo und die bunten Blätter'
+        release_date: '2021-10-08'
       - id: 4RyCFkxrN9X3aVKxAKJPQL
         episode: 21
         title: 'Folge 21: Leo wird wieder gesund'
+        release_date: '2025-11-14'
       - id: 7DTFxbu2wz1b772SAgHwr9
         episode: 22
         title: 'Folge 22: Leo wird Baggerfahrer'
+        release_date: '2026-04-03'
     apple_music:
       artist_ids:
       - '263499755'
@@ -45498,69 +45760,91 @@ series:
       - id: '1038173200'
         episode: 1
         title: Folge 1
+        release_date: '2007'
       - id: '1038084918'
         episode: 2
         title: Folge 2
+        release_date: '2007'
       - id: '1038096044'
         episode: 3
         title: Folge 3
+        release_date: '2007'
       - id: '1038181251'
         episode: 4
         title: Folge 4
+        release_date: '2007'
       - id: '1038173238'
         episode: 5
         title: Folge 5
+        release_date: '2007-09-07'
       - id: '1038136999'
         episode: 6
         title: Folge 6
+        release_date: '2007-09-07'
       - id: '1038176873'
         episode: 7
         title: Folge 7
+        release_date: '2007-09-07'
       - id: '1038148297'
         episode: 8
         title: Folge 8
+        release_date: '2007-09-07'
       - id: '1340438225'
         episode: 9
         title: Folge 9
+        release_date: '2018-02-09'
       - id: '1340422826'
         episode: 10
         title: Folge 10
+        release_date: '2018-02-09'
       - id: '1475767678'
         episode: 11
         title: Folge 11
+        release_date: '2019-09-06'
       - id: '1481234515'
         episode: 12
         title: Folge 12
+        release_date: '2019-10-25'
       - id: '1503065305'
         episode: 13
         title: 'Folge 13: Lässt sich nicht ärgern'
+        release_date: '2020-04-03'
       - id: '1534328975'
         episode: 14
         title: Folge 14
+        release_date: '2020-10-23'
       - id: '1561147430'
         episode: 15
         title: Folge 15
+        release_date: '2021-04-23'
       - id: '1584989632'
         episode: 16
         title: Folge 16
+        release_date: '2021-10-08'
       - id: '1708129186'
         episode: 17
         title: Folge 17
+        release_date: '2023-10-13'
       - id: '1728474757'
         episode: 18
         title: Folge 18
+        release_date: '2024-02-09'
       - id: '1777542415'
         episode: 19
         title: Folge 19
+        release_date: '2024-11-15'
       - id: '1780930061'
         episode: 20
         title: Folge 20
+        release_date: '2025-02-14'
       - id: '1843641465'
         episode: 21
         title: Folge 21
+        release_date: '2025-11-14'
       - id: '1877854980'
         episode: 22
         title: 'Folge 22: Leo wird Baggerfahrer'
+        release_date: '2026-04-03'
 - id: hexe_lilli_kinofilm
   title: Hexe Lilli (Kinofilm)
   aliases: []
@@ -45591,7 +45875,6 @@ series:
   aliases: []
   episode_pattern:
   - ^Das Sams (\d+)\.
-  content_type: hoerspiel
   split_from: das_sams
   providers:
     spotify:
@@ -45601,36 +45884,47 @@ series:
       - id: 40pHFqjf9m00ckHNLHpeeS
         episode: 1
         title: Das Sams 1. Eine Woche voller Samstage
+        release_date: '2017-07-24'
       - id: 5bHodA8YdOQZIt4nuJ6TMS
         episode: 2
         title: Das Sams 2. Am Samstag kam das Sams zurück
+        release_date: '1980'
       - id: 1GFIOHPvVDwy7vjVQUinTa
         episode: 3
         title: Das Sams 3. Neue Punkte für das Sams
+        release_date: '2018-07-23'
       - id: 0ygMkaldUnRqyDWh5NenDi
         episode: 4
         title: Das Sams 4. Ein Sams für Martin Taschenbier
+        release_date: '2018-10-22'
       - id: 0NnSr5K3FGCnKlIBLzldci
         episode: 5
         title: Das Sams 5. Sams in Gefahr
+        release_date: '2002'
       - id: 4KeOh5uVjGcNx0nDKQTY4f
         episode: 6
         title: Das Sams 6. Onkel Alwin und das Sams
+        release_date: '2019-07-22'
       - id: 5ghsOkrgV3X91sFPXatcGt
         episode: 8
         title: Das Sams 8. Ein Sams zu viel
+        release_date: '2015-07-17'
       - id: 5SsYiuXWqN0fxPKp47YTgY
         episode: 9
         title: Das Sams 9. Das Sams feiert Weihnachten
+        release_date: '2017-09-25'
       - id: 1JjkQ53xpIzLDRyeL7Yo5D
         episode: 10
         title: Das Sams 10. Das Sams und der blaue Drache
+        release_date: '2020-07-20'
       - id: 6sUBnKxutUBRKsIK74VNi6
         episode: 11
         title: Das Sams 11. Das Sams und die große Weihnachtssuche
+        release_date: '2022-09-13'
       - id: 1sLoetsPK1ZP36QVqiX4eA
         episode: 12
         title: Das Sams 12. Das Mini-Sams ist weg
+        release_date: '2024-09-13'
     apple_music:
       artist_ids:
       - '456935540'
@@ -45638,12 +45932,24 @@ series:
       - id: '1448238424'
         episode: 2
         title: Das Sams 2. Am Samstag kam das Sams zurück
+        release_date: '1980-03-01'
       - id: '1448236653'
         episode: 3
         title: Das Sams 3. Neue Punkte für das Sams
+        release_date: '1992-02-01'
       - id: '1448233599'
         episode: 4
         title: Das Sams 4. Ein Sams für Martin Taschenbier
+        release_date: '1996-01-01'
+  series_facts:
+    known_gaps:
+    - number: 7
+      range_end:
+      reason: Audiobook of "Das Sams wird unsichtbar" (1983) was never produced or released digitally; absent from both Spotify and Apple Music.
+      curated_by: minimax-m2.7
+      curated_at: '2026-09-20T10:24:09.577479+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-09-20T10:24:09.577479+00:00'
 - id: meine_freundin_conni_adventskalender
   title: 'Meine Freundin Conni: Adventskalender'
   aliases: []
