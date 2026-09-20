@@ -318,8 +318,13 @@ def _inject_split_children(
     if not series_id:
         return existing_curation
 
+    from lauschi_catalog.catalog.partition import family_of
+
     catalog = load_catalog()
-    children = [e for e in catalog if e.split_from == series_id]
+    me = next((e for e in catalog if e.id == series_id), None)
+    if me is None:
+        return existing_curation
+    children = list(family_of(me, catalog).children)
     if not children:
         return existing_curation
 
@@ -516,6 +521,8 @@ def _inject_for_split_child(
     """
     if not entry.split_from:
         return existing_curation
+    from lauschi_catalog.catalog.partition import family_of
+
     catalog = load_catalog()
     if existing_curation is None:
         existing_curation = {"albums": []}
@@ -546,9 +553,7 @@ def _inject_for_split_child(
                 **prov,
             }
         )
-    owners = [e for e in catalog if e.id == entry.split_from] + [
-        e for e in catalog if e.split_from == entry.split_from and e.id != entry.id
-    ]
+    owners = list(family_of(entry, catalog).siblings_of(entry.id))
     for owner in owners:
         for provider, album_id, title, _episode, release_date in _applied_records(
             owner
@@ -619,8 +624,9 @@ def _family_of(
 ) -> list["CatalogEntry"]:
     """The entries that share this entry's artist page by design: the
     parent and all its split-off children, including the entry itself."""
-    root_id = entry.split_from or entry.id
-    return [e for e in catalog if e.id == root_id or e.split_from == root_id]
+    from lauschi_catalog.catalog.partition import family_of
+
+    return list(family_of(entry, catalog).members)
 
 
 def _line_owning(album_ids: list[str], members: list["CatalogEntry"]) -> str | None:
@@ -648,7 +654,9 @@ def _drop_proposals_for_existing_lines(
     re-propose the split and fail on the existing id."""
     if proposed is None or entry is None or not proposed.sub_series:
         return proposed
-    root_id = entry.split_from or entry.id
+    from lauschi_catalog.catalog.partition import family_of as _fam
+
+    root_id = _fam(entry, catalog).root_id
     # family members, plus entries named as this root's lines that keep
     # their own artist page (wieso_weshalb_warum_junior): both exist
     others = [

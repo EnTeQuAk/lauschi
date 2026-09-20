@@ -55,41 +55,33 @@ def discography_from_curation(curation: dict) -> frozenset[AlbumKey]:
     return _album_keys(curation.get("albums", []), include=None)
 
 
-def _parent_albums(curation: dict, curation_dir: Path) -> frozenset[AlbumKey]:
-    """Albums of the series this one was split from.
+def _relative_albums(curation: dict, curation_dir: Path) -> frozenset[AlbumKey]:
+    """Albums belonging to family members (parent and/or children).
 
     A split-off sub-series shares its artist pages with the parent, so
-    a fresh curation sees the whole parent discography. The committed
-    sub-series curation holds only its own albums and says nothing
-    about the rest. The parent's curation does: everything in it that
-    is not in the sub-series is, for the sub-series, a wrong inclusion.
+    a fresh curation sees the whole family's discography. Albums from
+    relatives that are not in this series' included set are treated as
+    wrong inclusions for eval purposes.
     """
-    parent_id = curation.get("split_from")
-    if not parent_id:
+    from lauschi_catalog.catalog.partition import family_ids_from_curation_dir
+
+    series_id = curation.get("id")
+    if not series_id:
         return frozenset()
-    parent_path = curation_dir / f"{parent_id}.json"
-    if not parent_path.is_file():
-        return frozenset()
-    parent = json.loads(parent_path.read_text(encoding="utf-8"))
-    return _album_keys(parent.get("albums", []), include=None)
-
-
-def _child_albums(curation: dict, curation_dir: Path) -> frozenset[AlbumKey]:
-    """Albums of the series split off from this one.
-
-    The mirror of ``_parent_albums``: apply-splits moved those albums
-    out of the parent's committed curation, so the parent has no
-    opinion on them, while a fresh curation of the parent sees them on
-    the shared artist pages. For the parent they are wrong inclusions.
-    """
-    own_id = curation.get("id")
-    if not own_id:
+    parent_id, child_ids = family_ids_from_curation_dir(series_id, curation_dir)
+    relative_ids = []
+    if parent_id:
+        relative_ids.append(parent_id)
+    relative_ids.extend(child_ids)
+    if not relative_ids:
         return frozenset()
     keys: set[AlbumKey] = set()
-    for path in curation_dir.glob("*.json"):
-        child = json.loads(path.read_text(encoding="utf-8"))
-        if child.get("split_from") == own_id:
-            keys |= _album_keys(child.get("albums", []), include=None)
+    for rel_id in relative_ids:
+        path = curation_dir / f"{rel_id}.json"
+        if not path.is_file():
+            continue
+        rel = json.loads(path.read_text(encoding="utf-8"))
+        keys |= _album_keys(rel.get("albums", []), include=None)
     return frozenset(keys)
 
 
@@ -118,9 +110,7 @@ def load_truth(
 ) -> SeriesTruth:
     curation = json.loads(curation_path.read_text(encoding="utf-8"))
     included, excluded = truth_from_curation(curation)
-    relatives = _parent_albums(curation, curation_path.parent) | _child_albums(
-        curation, curation_path.parent
-    )
+    relatives = _relative_albums(curation, curation_path.parent)
     excluded |= relatives - included
     return SeriesTruth(
         series_id=series_id,

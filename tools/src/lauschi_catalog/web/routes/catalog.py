@@ -322,16 +322,13 @@ def _render_series_detail(
     active_job = get_active_job(series_id)
 
     # Split relationship: parent and children
-    split_from = None
-    if series.split_from:
-        parent = get_series_by_id(series.split_from)
-        if parent:
-            split_from = {"id": parent.id, "title": parent.title}
-    split_children = [
-        {"id": s.id, "title": s.title}
-        for s in get_all_series()
-        if s.split_from == series_id
-    ]
+    from lauschi_catalog.catalog.partition import family_of
+
+    fam = family_of(series, get_all_series())
+    split_from = (
+        {"id": fam.parent.id, "title": fam.parent.title} if series.split_from else None
+    )
+    split_children = [{"id": c.id, "title": c.title} for c in fam.children]
 
     # Group included albums by episode for the preview tab
     grouped_episodes: list[dict[str, Any]] = []
