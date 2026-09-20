@@ -52,6 +52,7 @@ _ONE_SHOT_MAX = _AUDIT_PROFILE.one_shot_max_tokens
 # 336 and 364 parent albums excluded as bleed next to its own 31 and 3,
 # and the audit prompt lists exclusions too.
 _CHUNKED_SERIES = {
+    "bibi_blocksberg",
     "wieso_weshalb_warum",
     "wieso_weshalb_warum_profiwissen",
     "wieso_weshalb_warum_vorlesegeschichten",
