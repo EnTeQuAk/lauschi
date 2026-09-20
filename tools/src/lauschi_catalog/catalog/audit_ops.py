@@ -93,8 +93,7 @@ class AuditResult(BaseModel):
     concerns: list[str] = Field(
         default_factory=list,
         description="Issues found, even if still approving. "
-        "Each concern is a human-readable sentence. More than 5 "
-        "concerns automatically escalates regardless of approve.",
+        "Each concern is a human-readable sentence.",
     )
     overrides: list[AuditOverride] = Field(default_factory=list)
     fact_updates: list[AuditFactUpdate] = Field(default_factory=list)
