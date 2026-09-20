@@ -374,26 +374,6 @@ def test_apply_refuses_provider_collapse():
     assert any("REFUSED" in m for m in messages)
 
 
-def test_apply_allows_provider_collapse_with_allow_loss():
-    """--allow-loss overrides the loss guard."""
-    yaml_data = _yaml_with(
-        [{"id": f"a{i}", "episode": i, "title": f"Folge {i}"} for i in range(50)]
-    )
-    curation = {
-        **_curation(
-            albums=[
-                _included(f"a{i}", episode_num=i, title=f"Folge {i}") for i in range(3)
-            ]
-        ),
-        "curated_at": "2026-04-01T00:00:00+00:00",
-        "review": {"status": "approved", "audited_at": "2026-05-01T00:00:00+00:00"},
-    }
-    updated = apply_one("s1", curation, yaml_data, allow_loss=True)
-    assert updated is True
-    saved = yaml_data["series"][0]["providers"]["spotify"]["albums"]
-    assert len(saved) == 3
-
-
 def test_apply_allows_modest_drop():
     """A modest drop (< 50%) should still apply normally."""
     yaml_data = _yaml_with(

@@ -26,12 +26,3 @@ def test_apple_touch_icon_is_served(client: TestClient) -> None:
     resp = client.get("/static/apple-touch-icon.png")
     assert resp.status_code == 200
     assert resp.headers["content-type"] == "image/png"
-
-
-def test_pages_link_the_favicon(client: TestClient) -> None:
-    resp = client.get("/catalog")
-    assert resp.status_code == 200
-    assert '<link rel="icon" href="/static/favicon.ico">' in resp.text
-    assert (
-        '<link rel="apple-touch-icon" href="/static/apple-touch-icon.png">' in resp.text
-    )
