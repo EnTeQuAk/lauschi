@@ -9,6 +9,7 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 
 from lauschi_catalog.catalog.merge_ops import merge_series, normalize_album_ids
+from lauschi_catalog.catalog.partition import family_of
 from lauschi_catalog.catalog.paths import (
     artist_image_path,
     cover_cache_path,
@@ -322,8 +323,6 @@ def _render_series_detail(
     active_job = get_active_job(series_id)
 
     # Split family tree
-    from lauschi_catalog.catalog.partition import family_of
-
     fam = family_of(series, get_all_series())
     family: dict[str, Any] | None = None
     if not fam.is_standalone:

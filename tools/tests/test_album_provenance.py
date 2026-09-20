@@ -4,7 +4,7 @@ Every album decision should trace back to who made it (the model, the
 reconciler, the operator, the split-routing logic, etc.) and when.
 """
 
-from lauschi_catalog.catalog.curate_ops import AlbumDecision, _album_provenance
+from lauschi_catalog.catalog.curate_ops import AlbumDecision, album_provenance
 from lauschi_catalog.catalog.lint_ops import lint_provenance_flips
 from lauschi_catalog.catalog.reconcile import reconcile_cross_provider
 from tests.factories import album_record
@@ -39,8 +39,8 @@ def test_album_decision_serializes_provenance():
     assert dump["decided_at"] == "2026-09-20T12:00:00+00:00"
 
 
-def test_album_provenance_helper():
-    prov = _album_provenance("route")
+def testalbum_provenance_helper():
+    prov = album_provenance("route")
     assert prov["decided_by"] == "route"
     assert prov["decided_at"] is not None
 

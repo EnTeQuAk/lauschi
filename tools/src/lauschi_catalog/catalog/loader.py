@@ -9,6 +9,7 @@ from pathlib import Path
 from lauschi_catalog.catalog import io
 from lauschi_catalog.catalog.io import locked_raw
 from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
+from lauschi_catalog.catalog.partition import family_of
 from lauschi_catalog.catalog.paths import series_yaml_path
 
 
@@ -189,8 +190,6 @@ def sibling_series(
     prompt lists them so an album that belongs to a sibling is recognised
     as sub_series_bleed from a fact the catalog holds, not from inference.
     """
-    from lauschi_catalog.catalog.partition import family_of
-
     wanted = {(prov, aid) for prov, ids in artist_ids.items() for aid in ids}
     titles: set[str] = set()
     split_ids: set[str] = set()

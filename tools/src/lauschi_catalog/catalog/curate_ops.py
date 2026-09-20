@@ -64,6 +64,7 @@ from lauschi_catalog.catalog.matcher import (
     spread_sample,
 )
 from lauschi_catalog.catalog.models import CatalogEntry
+from lauschi_catalog.catalog.partition import family_of
 from lauschi_catalog.catalog.paths import (
     cover_cache_dir,
     cover_cache_path,
@@ -91,7 +92,7 @@ _DEFAULT_MODEL = "kimi-k2.6"
 _BATCH_SIZE = 30
 
 
-def _album_provenance(source: str) -> dict[str, str]:
+def album_provenance(source: str) -> dict[str, str]:
     return {"decided_by": source, "decided_at": datetime.now(UTC).isoformat()}
 
 
@@ -318,8 +319,6 @@ def _inject_split_children(
     if not series_id:
         return existing_curation
 
-    from lauschi_catalog.catalog.partition import family_of
-
     catalog = load_catalog()
     me = next((e for e in catalog if e.id == series_id), None)
     if me is None:
@@ -337,7 +336,7 @@ def _inject_split_children(
     }
 
     for child in children:
-        prov = _album_provenance("split")
+        prov = album_provenance("split")
         for provider, album_id, title in _child_album_records(child):
             key = (provider, album_id)
             if key in existing_keys:
@@ -490,7 +489,7 @@ def _settle_same_provider_duplicates(
                         f"({decisions[newest].release_date}); no era_boundary "
                         f"separates them, the newest release is kept."
                     ),
-                    **_album_provenance("duplicate"),
+                    **album_provenance("duplicate"),
                 }
             )
     return settled
@@ -521,8 +520,6 @@ def _inject_for_split_child(
     """
     if not entry.split_from:
         return existing_curation
-    from lauschi_catalog.catalog.partition import family_of
-
     catalog = load_catalog()
     if existing_curation is None:
         existing_curation = {"albums": []}
@@ -538,7 +535,7 @@ def _inject_for_split_child(
         existing_curation.setdefault("albums", []).append(record)
         existing_keys.add(key)
 
-    prov = _album_provenance("split")
+    prov = album_provenance("split")
     for provider, album_id, title, episode, release_date in _applied_records(entry):
         add(
             {
@@ -619,16 +616,6 @@ def _applied_records(
     ]
 
 
-def _family_of(
-    entry: "CatalogEntry", catalog: list["CatalogEntry"]
-) -> list["CatalogEntry"]:
-    """The entries that share this entry's artist page by design: the
-    parent and all its split-off children, including the entry itself."""
-    from lauschi_catalog.catalog.partition import family_of
-
-    return list(family_of(entry, catalog).members)
-
-
 def _line_owning(album_ids: list[str], members: list["CatalogEntry"]) -> str | None:
     """The family member that already holds every album of a proposal,
     if there is one. Proposal ids are "provider:id" or bare ids."""
@@ -654,9 +641,7 @@ def _drop_proposals_for_existing_lines(
     re-propose the split and fail on the existing id."""
     if proposed is None or entry is None or not proposed.sub_series:
         return proposed
-    from lauschi_catalog.catalog.partition import family_of as _fam
-
-    root_id = _fam(entry, catalog).root_id
+    root_id = family_of(entry, catalog).root_id
     # family members, plus entries named as this root's lines that keep
     # their own artist page (wieso_weshalb_warum_junior): both exist
     others = [
@@ -703,7 +688,7 @@ def _route_by_family_patterns(
     the model. Two clean runs of the LEGO Ninjago Hörbuch child both
     excluded the line's own new "(Band 13-20)" books before this existed.
     """
-    family = _family_of(entry, catalog)
+    family = list(family_of(entry, catalog).members)
     if len(family) < 2:
         return [], remaining
     decided: list[AlbumDecision] = []
@@ -737,7 +722,7 @@ def _route_by_family_patterns(
                     release_date=album.get("release_date"),
                     confidence="high",
                     notes="Matches this entry's own episode pattern.",
-                    **_album_provenance("route"),
+                    **album_provenance("route"),
                 )
             )
         else:
@@ -752,7 +737,7 @@ def _route_by_family_patterns(
                     exclude_reason="sub_series_bleed",
                     confidence="high",
                     notes=f"Matches the episode pattern of '{member.id}'.",
-                    **_album_provenance("route"),
+                    **album_provenance("route"),
                 )
             )
     return decided, still

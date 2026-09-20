@@ -1,13 +1,13 @@
 """CLI for editing curation files (add/remove/toggle albums)."""
 
 import json
-from datetime import UTC, datetime
 from pathlib import Path
 
 import click
 from rich.console import Console
 
 from lauschi_catalog.catalog.canonical import album_sort_key
+from lauschi_catalog.catalog.curate_ops import album_provenance
 from lauschi_catalog.catalog.io import safe_write_json
 from lauschi_catalog.catalog.paths import curation_path
 
@@ -53,8 +53,7 @@ def exclude(series_id: str, album_id: str, provider: str, reason: str):
         if a["album_id"] == album_id and a.get("provider", "spotify") == provider:
             a["include"] = False
             a["exclude_reason"] = reason
-            a["decided_by"] = "operator"
-            a["decided_at"] = datetime.now(UTC).isoformat()
+            a.update(album_provenance("operator"))
             console.print(f"Excluded: {a['title']}")
             console.print(f"  reason: {reason}")
             _save(path, data)
@@ -73,8 +72,7 @@ def include(series_id: str, album_id: str, provider: str):
         if a["album_id"] == album_id and a.get("provider", "spotify") == provider:
             a["include"] = True
             a.pop("exclude_reason", None)
-            a["decided_by"] = "operator"
-            a["decided_at"] = datetime.now(UTC).isoformat()
+            a.update(album_provenance("operator"))
             console.print(f"Included: {a['title']}")
             _save(path, data)
             return
