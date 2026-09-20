@@ -345,22 +345,14 @@ class TestApplyAuditStatus:
         assert action == "escalated"
         assert data["review"]["status"] == "escalated"
 
-    def test_more_than_5_concerns_auto_escalates(self, tmp_path):
+    def test_many_concerns_do_not_escalate_when_approved(self, tmp_path):
         result = AuditResult(
             approve=True,
-            concerns=[f"concern {i}" for i in range(6)],
-        )
-        action, data = self._apply(tmp_path, result)
-        assert action == "escalated"
-        assert data["review"]["status"] == "escalated"
-
-    def test_exactly_5_concerns_does_not_escalate(self, tmp_path):
-        result = AuditResult(
-            approve=True,
-            concerns=[f"concern {i}" for i in range(5)],
+            concerns=[f"concern {i}" for i in range(20)],
         )
         action, data = self._apply(tmp_path, result)
         assert action == "approved"
+        assert len(data["review"]["concerns"]) == 20
 
     def test_stamps_audited_by_and_at(self, tmp_path):
         result = AuditResult(approve=True)

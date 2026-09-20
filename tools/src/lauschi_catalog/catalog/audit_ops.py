@@ -1081,7 +1081,6 @@ def apply_audit(
     escalated = (
         bool(hard_flags)
         or not result.approve
-        or len(result.concerns) > 5
         or bool(cap_concerns)
     )
 
