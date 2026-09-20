@@ -18,11 +18,6 @@ def _series_path(path: Path | None) -> Path:
     return path if path is not None else series_yaml_path()
 
 
-def _series_path(path: Path | None) -> Path:
-    """Call-time resolution so LAUSCHI_REPO_ROOT overrides always work."""
-    return path if path is not None else series_yaml_path()
-
-
 def _cache_key(path: Path) -> tuple[str, int, int]:
     """Cheap identity of the file's content.
 
