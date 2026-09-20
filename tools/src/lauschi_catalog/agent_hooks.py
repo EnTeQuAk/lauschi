@@ -68,12 +68,13 @@ def build_progress_hooks() -> Hooks:
 def _format_tool_progress(name: str, args: dict[str, Any], result: Any) -> str | None:
     if name == "web_search":
         query = args.get("query", "?")
-        n = (
-            len([r for r in result if "error" not in r])
-            if isinstance(result, list)
-            else "?"
-        )
-        return f"  web_search({query!r}) -> {n} results"
+        if isinstance(result, list):
+            errors = [r.get("error") for r in result if "error" in r]
+            n = len(result) - len(errors)
+            if errors:
+                return f"  web_search({query!r}) -> {n} results, error: {errors[0]}"
+            return f"  web_search({query!r}) -> {n} results"
+        return f"  web_search({query!r}) -> ? results"
 
     if name == "fetch_page":
         url = str(args.get("url", "?"))[:60]

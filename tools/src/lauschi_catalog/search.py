@@ -5,10 +5,13 @@ metadata alone is ambiguous. Searches default to German results
 (country=DE, search_lang=de) since the catalog targets DACH.
 """
 
+import logging
 import os
 import re
 
 import requests
+
+log = logging.getLogger(__name__)
 
 BRAVE_API_URL = "https://api.search.brave.com/res/v1/web/search"
 _TIMEOUT = 15
@@ -57,9 +60,12 @@ def brave_search(
         if msg:
             return [{"error": f"Brave API: {msg}"}]
         if "web" not in data:
+            log.warning("Brave API: no 'web' key in response. Keys: %s", list(data.keys()))
             return [
                 {"error": "Brave API returned no web results (account or quota issue?)"}
             ]
+        log.debug("Brave API: empty results for %r. Response keys: %s", query, list(data.keys()))
+        return []
     results: list[dict[str, str]] = []
     for item in items:
         results.append(
