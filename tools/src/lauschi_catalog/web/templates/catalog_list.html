@@ -38,10 +38,16 @@
             Musik
             <span class="catalog-tab__count">{{ counts.music }}</span>
         </a>
+        <a href="/catalog?tab=audiobook{{ qs_tail }}"
+           class="catalog-tab {% if tab == 'audiobook' %}catalog-tab--active{% endif %}">
+            <i data-lucide="book-headphones" style="width:16px;height:16px"></i>
+            Hörbücher
+            <span class="catalog-tab__count">{{ counts.audiobook }}</span>
+        </a>
         <a href="/catalog?tab=all{{ qs_tail }}"
            class="catalog-tab {% if tab == 'all' %}catalog-tab--active{% endif %}">
             Alle
-            <span class="catalog-tab__count">{{ counts.hoerspiel + counts.music }}</span>
+            <span class="catalog-tab__count">{{ counts.hoerspiel + counts.music + counts.audiobook }}</span>
         </a>
     </nav>
     {% if status_filters %}
@@ -158,7 +164,7 @@
                             {% if s.album_count %}
                                 {{ s.album_count }} {{ 'Alben' if s.content_type == 'music' else 'Folgen' }}
                             {% else %}
-                                {{ 'Musik' if s.content_type == 'music' else 'Hörspiel' }}
+                                {% if s.content_type == 'music' %}Musik{% elif s.content_type == 'audiobook' %}Hörbuch{% else %}Hörspiel{% endif %}
                             {% endif %}
                         </p>
                     </div>

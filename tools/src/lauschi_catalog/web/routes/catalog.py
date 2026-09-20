@@ -125,14 +125,14 @@ async def catalog_list(
     all_series = get_all_series()
     series = all_series
 
-    if tab in ("hoerspiel", "music"):
+    if tab in ("hoerspiel", "music", "audiobook"):
         series = [s for s in series if (s.content_type or "hoerspiel") == tab]
 
     if q:
         term = q.lower()
         series = [s for s in series if term in s.title.lower() or term in s.id.lower()]
 
-    counts = {"hoerspiel": 0, "music": 0}
+    counts = {"hoerspiel": 0, "music": 0, "audiobook": 0}
     for s in all_series:
         ct = s.content_type or "hoerspiel"
         if ct in counts:
