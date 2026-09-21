@@ -1,5 +1,6 @@
 """Abstract provider interface for catalog operations."""
 
+import logging
 import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
@@ -7,6 +8,8 @@ from dataclasses import dataclass, field
 import requests
 
 from lauschi_catalog.providers._retry import parse_retry_after
+
+log = logging.getLogger(__name__)
 
 DEFAULT_TTL = 7 * 24 * 3600  # 7 days
 
@@ -168,6 +171,8 @@ class CachedHttpProvider(CatalogProvider):
             self._token = self._fetch_token()
             self._token_time = time.time()
 
+    _max_retries: int = 5
+
     def _request(self, url: str, *, params: dict | None = None) -> dict:
         """HTTP GET with token refresh, 429 Retry-After and 5xx backoff.
 
@@ -177,7 +182,8 @@ class CachedHttpProvider(CatalogProvider):
         """
         self._ensure_token()
         response: requests.Response | None = None
-        for attempt in range(3):
+        last = self._max_retries - 1
+        for attempt in range(self._max_retries):
             response = requests.get(
                 url,
                 headers={"Authorization": f"Bearer {self._token}"},
@@ -185,17 +191,32 @@ class CachedHttpProvider(CatalogProvider):
                 timeout=self.request_timeout,
             )
             status = response.status_code
-            if status == 429 and attempt < 2:
-                time.sleep(parse_retry_after(response.headers.get("Retry-After")))
+            if status == 429 and attempt < last:
+                wait = parse_retry_after(response.headers.get("Retry-After"))
+                log.warning(
+                    "429 from %s (attempt %d/%d, waiting %.0fs)",
+                    url[:80],
+                    attempt + 1,
+                    self._max_retries,
+                    wait,
+                )
+                time.sleep(wait)
                 continue
             if status == 401 and attempt < 2:
                 self._token = self._fetch_token()
                 self._token_time = time.time()
                 continue
-            # Transient upstream failures (502/503/504) shouldn't kill a
-            # long sweep; the token path already backs off this way.
-            if 500 <= status < 600 and attempt < 2:
-                time.sleep(2 * 2**attempt)
+            if 500 <= status < 600 and attempt < last:
+                wait = 2 * 2**attempt
+                log.warning(
+                    "%d from %s (attempt %d/%d, backoff %.0fs)",
+                    status,
+                    url[:80],
+                    attempt + 1,
+                    self._max_retries,
+                    wait,
+                )
+                time.sleep(wait)
                 continue
             response.raise_for_status()
             return response.json()

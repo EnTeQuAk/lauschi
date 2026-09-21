@@ -169,7 +169,7 @@ class SpotifyProvider(CachedHttpProvider):
             raw: list[dict] = list(data.get("items", []))
             url = data.get("next") or ""
             while url:
-                time.sleep(0.05)
+                time.sleep(0.1)
                 data = self._get(url)
                 raw.extend(data.get("items", []))
                 url = data.get("next") or ""
@@ -194,7 +194,7 @@ class SpotifyProvider(CachedHttpProvider):
 
     def album_details(self, album_id: str) -> Album | None:
         def fetch():
-            time.sleep(0.05)
+            time.sleep(0.1)
             try:
                 return self._get(f"albums/{album_id}", market="DE")
             except requests.HTTPError as e:
