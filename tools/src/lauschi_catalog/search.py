@@ -60,11 +60,17 @@ def brave_search(
         if msg:
             return [{"error": f"Brave API: {msg}"}]
         if "web" not in data:
-            log.warning("Brave API: no 'web' key in response. Keys: %s", list(data.keys()))
+            log.warning(
+                "Brave API: no 'web' key in response. Keys: %s", list(data.keys())
+            )
             return [
                 {"error": "Brave API returned no web results (account or quota issue?)"}
             ]
-        log.debug("Brave API: empty results for %r. Response keys: %s", query, list(data.keys()))
+        log.debug(
+            "Brave API: empty results for %r. Response keys: %s",
+            query,
+            list(data.keys()),
+        )
         return []
     results: list[dict[str, str]] = []
     for item in items:
