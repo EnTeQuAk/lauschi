@@ -51,8 +51,23 @@ _ONE_SHOT_MAX = _AUDIT_PROFILE.one_shot_max_tokens
 # 2026-09-06: a split child's curation carries the whole shared page,
 # 336 and 364 parent albums excluded as bleed next to its own 31 and 3,
 # and the audit prompt lists exclusions too.
+# The 2026-09-28 re-curation added eleven by the same mechanism: every
+# member of the Benjamin Blümchen (567 albums), Bibi Blocksberg (498),
+# Feuerwehrmann Sam (377) and Lego Ninjago (560) families now carries its
+# shared page, so a child with 5 included albums routes chunked.
 _CHUNKED_SERIES = {
+    "benjamin_bluemchen",
+    "benjamin_bluemchen_finds_raus",
+    "benjamin_bluemchen_gute_nacht_geschichten",
+    "benjamin_bluemchen_minis",
+    "benjamin_bluemchen_tv_serie",
     "bibi_blocksberg",
+    "bibi_blocksberg_bibi_erzaehlt",
+    "bibi_blocksberg_englisch_lernen",
+    "bibi_blocksberg_kampf_um_kartoffelbrei",
+    "bibi_blocksberg_kinofilm",
+    "feuerwehrmann_sam_film_hoerspiele",
+    "lego_ninjago_hoerbuch",
     "wieso_weshalb_warum",
     "wieso_weshalb_warum_profiwissen",
     "wieso_weshalb_warum_vorlesegeschichten",
