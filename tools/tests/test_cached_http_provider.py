@@ -12,6 +12,7 @@ from __future__ import annotations
 import time
 from unittest.mock import MagicMock
 
+import pytest
 import requests
 
 from lauschi_catalog.providers import apple_music as am_mod
@@ -68,6 +69,29 @@ def test_spotify_429_retries_with_retry_after_and_succeeds(tmp_path, monkeypatch
     assert provider._get("albums/a1") == {"id": "a1"}
     assert calls["n"] == 2
     assert 3.0 in sleeps  # the server's hint, not the default
+
+
+@pytest.mark.parametrize(("throttled", "succeeds"), [(4, True), (5, False)])
+def test_429_retry_budget_is_five_attempts(
+    tmp_path, monkeypatch, throttled: int, succeeds: bool
+):
+    provider = _spotify(SpotifyProvider, tmp_path, monkeypatch)
+    calls = {"n": 0}
+    monkeypatch.setattr(time, "sleep", lambda s: None)
+
+    def fake_get(url, headers=None, params=None, timeout=None):
+        calls["n"] += 1
+        if calls["n"] <= throttled:
+            return _response(429, {}, {"Retry-After": "1"})
+        return _response(200, {"id": "a1"})
+
+    monkeypatch.setattr(requests, "get", fake_get)
+    if succeeds:
+        assert provider._get("albums/a1") == {"id": "a1"}
+    else:
+        with pytest.raises(requests.HTTPError):
+            provider._get("albums/a1")
+    assert calls["n"] == min(throttled + 1, 5)
 
 
 def test_spotify_401_refreshes_token_and_retries(tmp_path, monkeypatch):
