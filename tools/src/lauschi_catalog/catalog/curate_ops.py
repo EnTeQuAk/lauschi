@@ -1838,26 +1838,26 @@ async def _run_agent(agent, prompt, deps):
 _BATCH_ATTEMPTS = 3
 
 
-def dump_batch_failure(
+def dump_curate_failure(
     series_id: str,
-    batch_num: int,
+    stage: str,
     prompt: str,
     messages: list[ModelMessage],
     exc: BaseException,
 ) -> Path:
-    """Write what the model saw and answered for a batch that failed.
+    """Write what the model saw and answered for a stage that failed.
 
-    A batch that exhausts its output retries takes the rest of the
-    series with it (every later album is auto-included), so the
+    A failed batch or finalize leaves the run incomplete, so the
     exchange that led there is worth keeping: the exact prompt and
     every request/response, including the retry prompts and what the
-    model returned to each. Returns the file written.
+    model returned to each. ``stage`` names the file ("batch03",
+    "finalize"). Returns the file written.
     """
-    path = log_dir() / "curate-failures" / f"{series_id}-batch{batch_num:02d}.json"
+    path = log_dir() / "curate-failures" / f"{series_id}-{stage}.json"
     path.parent.mkdir(parents=True, exist_ok=True)
     payload = {
         "series_id": series_id,
-        "batch": batch_num,
+        "stage": stage,
         "error": describe_failure(exc),
         "prompt": prompt,
         "messages": json.loads(ModelMessagesTypeAdapter.dump_json(messages)),
@@ -2255,9 +2255,9 @@ async def _run_large(
                 attempts=_BATCH_ATTEMPTS,
                 label=f"Batch {batch_num}/{len(batches)}",
                 on_progress=on_progress,
-                on_failure=lambda _attempt, exc, messages: dump_batch_failure(
+                on_failure=lambda _attempt, exc, messages: dump_curate_failure(
                     meta.id,
-                    batch_num,
+                    f"batch{batch_num:02d}",
                     prompt,
                     messages,
                     exc,
@@ -2549,17 +2549,25 @@ async def _run_large(
                 usage=shared_deps.usage,
             )
             try:
-                await _run_with_retry(
-                    lambda: asyncio.wait_for(
-                        _run_agent(
-                            finalize_agent,
-                            finalize_prompt,
-                            finalize_deps,
+                await run_with_attempts(
+                    lambda: _run_with_retry(
+                        lambda: asyncio.wait_for(
+                            _run_agent(
+                                finalize_agent,
+                                finalize_prompt,
+                                finalize_deps,
+                            ),
+                            timeout=timeout,
                         ),
-                        timeout=timeout,
+                        phase="finalize",
+                        on_progress=on_progress,
                     ),
-                    phase="finalize",
+                    attempts=1,
+                    label="Finalize",
                     on_progress=on_progress,
+                    on_failure=lambda _attempt, exc, messages: dump_curate_failure(
+                        meta.id, "finalize", finalize_prompt, messages, exc
+                    ),
                 )
                 # Pattern updates are side effects of the
                 # propose_pattern_update tool; the output field is gone.
