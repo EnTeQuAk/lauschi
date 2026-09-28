@@ -2075,16 +2075,12 @@ async def _run_large(
     # -- Step 2a: Pre-fetch full album details
     on_progress("  Pre-fetching album details...")
     prefetch_details: dict[str, dict] = {}
-    for a in all_albums:
-        provider = next((p for p in providers if p.name == a["provider"]), None)
-        if not provider:
+    for provider in providers:
+        ids = [a["id"] for a in all_albums if a["provider"] == provider.name]
+        if not ids:
             continue
-        key = f"{a['provider']}:{a['id']}"
-        if key in prefetch_details:
-            continue
-        detail = provider.album_details(a["id"])
-        if detail:
-            prefetch_details[key] = album_to_dict(detail)
+        for album_id, detail in provider.album_details_many(ids).items():
+            prefetch_details[f"{provider.name}:{album_id}"] = album_to_dict(detail)
     on_progress(f"  -> {len(prefetch_details)} albums with full metadata\n")
 
     # -- Step 2: Metadata extraction

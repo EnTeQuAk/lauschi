@@ -112,6 +112,15 @@ class CatalogProvider(ABC):
     def album_details(self, album_id: str) -> Album | None:
         """Fetch full album details including tracks."""
 
+    def album_details_many(self, album_ids: list[str]) -> dict[str, Album]:
+        """album_details for many ids, keyed by id. Gone ids are absent."""
+        details: dict[str, Album] = {}
+        for album_id in dict.fromkeys(album_ids):
+            album = self.album_details(album_id)
+            if album is not None:
+                details[album_id] = album
+        return details
+
     @abstractmethod
     def search_albums(self, query: str, limit: int = 10) -> list[Album]:
         """Search for albums by query."""
@@ -152,6 +161,9 @@ class CachedHttpProvider(CatalogProvider):
     #: cache key prefix for per-id batch rows (no track lists; distinct
     #: from the full album_details entry which carries tracks).
     row_cache_prefix: str = "albums:"
+    #: cache key prefix of the full album_details entry, shared by
+    #: album_details and album_details_many.
+    detail_cache_prefix: str = "album:"
 
     def __init__(self, *, cache_dir, use_cache: bool = True) -> None:
         import diskcache
@@ -258,6 +270,63 @@ class CachedHttpProvider(CatalogProvider):
     def _album_chunk_url(self, ids: list[str]) -> str:
         """URL of the batched album lookup endpoint (subclass mapping)."""
         raise NotImplementedError
+
+    def _album_chunk_params(self, ids: list[str]) -> dict:
+        """Query params of the batched album lookup (subclass mapping)."""
+        raise NotImplementedError
+
+    def _detail_chunk_params(self, ids: list[str]) -> dict:
+        """Query params of a batched lookup that also returns tracks."""
+        return self._album_chunk_params(ids)
+
+    def _album_from_details(self, raw: dict) -> Album:
+        """Map one full album entry, tracks included (subclass mapping)."""
+        raise NotImplementedError
+
+    def album_details_many(self, album_ids: list[str]) -> dict[str, Album]:
+        """album_details for many ids, in batched requests.
+
+        A batch row is the same entry the single endpoint returns, so it
+        is cached under album_details' key and either path answers the
+        other; a gone id is cached as gone. A chunk the provider refuses
+        falls back to single lookups.
+        """
+        details: dict[str, Album] = {}
+        missing: list[str] = []
+        for album_id in dict.fromkeys(album_ids):
+            hit = (
+                self._cache.get(f"{self.detail_cache_prefix}{album_id}")
+                if self._use_cache
+                else None
+            )
+            if hit is None:
+                missing.append(album_id)
+            elif not _is_not_found(hit):
+                details[album_id] = self._album_from_details(hit)
+
+        for i in range(0, len(missing), self.batch_size):
+            chunk = missing[i : i + self.batch_size]
+            time.sleep(0.1)
+            try:
+                data = self._request(
+                    self._album_chunk_url(chunk),
+                    params=self._detail_chunk_params(chunk),
+                )
+            except requests.HTTPError, requests.ConnectionError, requests.Timeout:
+                details.update(super().album_details_many(chunk))
+                continue
+            rows = {row["id"]: row for row in self.album_rows(data) if row.get("id")}
+            for album_id in chunk:
+                raw = rows.get(album_id)
+                if self._use_cache:
+                    self._cache.set(
+                        f"{self.detail_cache_prefix}{album_id}",
+                        _NOT_FOUND if raw is None else raw,
+                        expire=DEFAULT_TTL,
+                    )
+                if raw is not None:
+                    details[album_id] = self._album_from_details(raw)
+        return details
 
     def albums_by_ids(self, album_ids: list[str]) -> AlbumBatch:
         """Batch album lookup with per-id cache rows.

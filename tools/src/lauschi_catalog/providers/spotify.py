@@ -36,6 +36,7 @@ class SpotifyProvider(CachedHttpProvider):
     request_timeout = 20.0  # the API reliably answers within that
     batch_size = 20  # API maximum for /albums?ids=
     row_cache_prefix = "spotify:albums:"
+    detail_cache_prefix = "album:"
 
     def __init__(self, *, use_cache: bool = True) -> None:
         self._cid = os.environ.get("SPOTIFY_CLIENT_ID", "")
@@ -203,7 +204,7 @@ class SpotifyProvider(CachedHttpProvider):
                     return _NOT_FOUND
                 raise
 
-        data = self._cached(f"album:{album_id}", fetch)
+        data = self._cached(f"{self.detail_cache_prefix}{album_id}", fetch)
         if data is None or _is_not_found(data) or "error" in data:
             return None
 

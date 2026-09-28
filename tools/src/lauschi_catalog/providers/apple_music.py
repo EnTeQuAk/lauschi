@@ -40,6 +40,7 @@ class AppleMusicProvider(CachedHttpProvider):
     request_timeout = 15.0  # Apple Music times out on large batches under load
     batch_size = 100  # 300 is rejected
     row_cache_prefix = "apple_music:albums:"
+    detail_cache_prefix = "am_album:"
 
     def __init__(self, *, use_cache: bool = True) -> None:
         super().__init__(cache_dir=CACHE_DIR, use_cache=use_cache)
@@ -184,10 +185,13 @@ class AppleMusicProvider(CachedHttpProvider):
                     return _NOT_FOUND
                 raise
 
-        data = self._cached(f"am_album:{album_id}", fetch)
+        data = self._cached(f"{self.detail_cache_prefix}{album_id}", fetch)
         if data is None or _is_not_found(data):
             return None
+        return self._album_from_details(data)
 
+    def _album_from_details(self, data: dict) -> Album:
+        """Full album entry with track list (albums?include=tracks)."""
         attrs = data["attributes"]
         tracks_data = data.get("relationships", {}).get("tracks", {}).get("data", [])
 
@@ -240,6 +244,9 @@ class AppleMusicProvider(CachedHttpProvider):
 
     def _album_chunk_params(self, ids: list[str]) -> dict:
         return {"ids": ",".join(ids)}
+
+    def _detail_chunk_params(self, ids: list[str]) -> dict:
+        return {"ids": ",".join(ids), "include": "tracks"}
 
     def search_albums(self, query: str, limit: int = 10) -> list[Album]:
         def fetch():
