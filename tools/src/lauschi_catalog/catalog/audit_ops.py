@@ -871,6 +871,28 @@ def _chunk_prompt(
     return "\n".join(lines)
 
 
+def keep_chunk_overrides(result: AuditResult, chunk: Chunk) -> AuditResult:
+    """A chunk's result with overrides limited to the chunk's own albums.
+
+    An album outside the chunk was never shown to it with its neighbours
+    (it reached it through a search tool), so an override of it is
+    recorded as a concern and not applied.
+    """
+    own = {(a.get("provider"), a.get("album_id")) for a in chunk.albums}
+    kept = [o for o in result.overrides if (o.provider, o.album_id) in own]
+    outside = [
+        f"[out_of_chunk] {o.provider}:{o.album_id} is outside chunk "
+        f"'{chunk.label}'; {o.action} ({o.reason}) not applied"
+        for o in result.overrides
+        if (o.provider, o.album_id) not in own
+    ]
+    if not outside:
+        return result
+    return result.model_copy(
+        update={"overrides": kept, "concerns": [*result.concerns, *outside]}
+    )
+
+
 def merge_results(partials: list[AuditResult]) -> AuditResult:
     """Fold per-chunk results into one verdict without losing a finding
     or silently resolving a disagreement.
@@ -914,10 +936,13 @@ def merge_results(partials: list[AuditResult]) -> AuditResult:
     for r in partials:
         for u in r.fact_updates:
             if u.mode == "replace":
-                concerns.append(
+                note = (
                     "[chunk_facts] a chunk proposed replacing the series facts; "
                     "applied as a merge instead, since a chunk sees one slice"
                 )
+                if note not in seen_concerns:
+                    seen_concerns.add(note)
+                    concerns.append(note)
                 u = u.model_copy(update={"mode": "merge"})
             fact_updates.append(u)
 
@@ -982,6 +1007,7 @@ async def _audit_chunked(
                 exc,
             ),
         )
+        result = keep_chunk_overrides(result, chunk)
         on_progress(
             f"    -> {'approve' if result.approve else 'disapprove'}, "
             f"{len(result.overrides)} overrides, {len(result.concerns)} concerns"

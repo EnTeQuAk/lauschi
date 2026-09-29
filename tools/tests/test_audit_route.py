@@ -29,6 +29,7 @@ from lauschi_catalog.catalog.audit_ops import (
     audit_route,
     build_overview,
     build_prompt,
+    keep_chunk_overrides,
     merge_results,
     plan_chunks,
     prompt_size,
@@ -416,6 +417,33 @@ def test_merge_dedups_repeated_concerns_before_the_escalation_count():
     assert merged.concerns == [same]
 
 
+def test_merge_reports_a_chunk_facts_replace_once():
+    """Six chunks proposing replace are one finding, not six."""
+    merged = merge_results(
+        [
+            AuditResult(approve=True, fact_updates=[AuditFactUpdate(mode="replace")])
+            for _ in range(6)
+        ]
+    )
+    assert sum("[chunk_facts]" in c for c in merged.concerns) == 1
+
+
+def test_a_chunk_override_outside_its_chunk_is_recorded_not_applied():
+    """A chunk judges its own albums against the overview; one it reached
+    through a search tool was never shown to it with its neighbours, so
+    its override becomes a concern and the album stays as it is."""
+    chunk = Chunk(label="Folge 1-2", albums=[_album(1), _album(2)])
+    result = AuditResult(
+        approve=True, overrides=[_ov("a1", "exclude"), _ov("a9", "exclude")]
+    )
+    scoped = keep_chunk_overrides(result, chunk)
+    assert [o.album_id for o in scoped.overrides] == ["a1"]
+    assert scoped.approve is True
+    assert any(
+        "[out_of_chunk] spotify:a9" in c and "Folge 1-2" in c for c in scoped.concerns
+    )
+
+
 def test_merge_any_disapproving_chunk_disapproves():
     merged = merge_results(
         [AuditResult(approve=True), AuditResult(approve=False, concerns=["bad"])]
@@ -507,6 +535,31 @@ def test_a_chunk_that_keeps_failing_fails_the_series_after_three_attempts(
     with pytest.raises(RuntimeError):
         asyncio.run(m.audit_one("s", force=True))
     assert len(calls) == 3
+
+
+def test_only_the_chunk_holding_an_album_may_override_it(monkeypatch, tmp_path):
+    m, c, lint = _chunked_setup(monkeypatch, tmp_path)
+    target = c["albums"][0]
+
+    async def overreaching_run(prepared, prompt, **kw):
+        return AuditResult(
+            approve=True,
+            overrides=[
+                AuditOverride(
+                    album_id=target["album_id"],
+                    provider=target["provider"],
+                    action="exclude",
+                    reason="compilation",
+                )
+            ],
+        )
+
+    monkeypatch.setattr(m, "_run_audit_prompt", overreaching_run)
+    result = asyncio.run(m.audit_one("s", force=True))
+    n_chunks = len(plan_chunks(c, lint))
+    assert result is not None
+    assert [o.album_id for o in result.overrides] == [target["album_id"]]
+    assert sum("[out_of_chunk]" in x for x in result.concerns) == n_chunks - 1
 
 
 def test_chunked_series_runs_one_prompt_per_chunk_and_merges(monkeypatch, tmp_path):
