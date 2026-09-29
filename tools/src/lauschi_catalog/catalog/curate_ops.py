@@ -918,6 +918,21 @@ def _ownerless_bleed(
     return titles, records
 
 
+def _split_candidates(
+    decisions: list["AlbumDecision"],
+    entry: "CatalogEntry | None",
+) -> tuple[list[str], dict[str, list[tuple[str, str]]]]:
+    """The bleed finalize weighs for a split proposal.
+
+    What nobody owns on a shared page belongs to the family's root: the
+    root's run proposes splits for it, and a dissolved root's leftovers
+    were settled when it was dissolved. A split child has none.
+    """
+    if entry is not None and entry.split_from:
+        return [], {}
+    return _ownerless_bleed(decisions)
+
+
 def render_sub_series_exclusions(
     records: dict[str, list[tuple[str, str]]], *, cap: int = 60
 ) -> str:
@@ -2465,7 +2480,9 @@ async def _run_large(
             if isinstance(pc, dict):
                 analysis_lines.append(f"Pattern coverage: {pc['percentage']}%")
 
-        sub_bleed_titles, sub_bleed_records = _ownerless_bleed(all_decisions)
+        sub_bleed_titles, sub_bleed_records = _split_candidates(
+            all_decisions, catalog_entry
+        )
         has_sub_bleed = bool(sub_bleed_titles)
         if has_sub_bleed:
             analysis_lines.append(

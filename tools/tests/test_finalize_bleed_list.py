@@ -82,3 +82,20 @@ def test_bleed_with_a_known_owner_is_not_finalize_work():
     assert bleed_owner(stray.notes) is None and bleed_owner(None) is None
     titles, records = _ownerless_bleed(owned + [stray])
     assert titles == ["E"] and records == {"E": [("spotify", "e")]}
+
+
+def test_a_split_childs_leftovers_are_its_roots_to_propose():
+    """Wieso? Weshalb? Warum? ProfiWissen (114 titles) and Hände weg
+    von Mississippi (59) reasoned through finalize's whole output budget
+    evaluating their shared page for splits (2026-09-22). What nobody
+    owns on a shared page belongs to the family's root: the root's run
+    proposes splits for it, and a dissolved root's leftovers were
+    settled when it was dissolved."""
+    from lauschi_catalog.catalog.curate_ops import _split_candidates
+    from tests.factories import decision, entry
+
+    stray = decision("e", include=False, exclude_reason="sub_series_bleed", title="E")
+    child = entry("wieso_weshalb_warum_profiwissen", split_from="wieso_weshalb_warum")
+    assert _split_candidates([stray], child) == ([], {})
+    assert _split_candidates([stray], entry("wieso_weshalb_warum"))[0] == ["E"]
+    assert _split_candidates([stray], None)[0] == ["E"]
