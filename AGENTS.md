@@ -132,8 +132,8 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
    status `approved` or `escalated`, plus album overrides and fact
    updates. Escalates instead of approving when it declines approval, a
    regression flag fired, or its overrides exceed the volume cap (more
-   than 5% of the reviewed albums) or include albums on a split-off;
-   escalated overrides are recorded, not applied.
+   than 5% of the reviewed albums) or include albums on a split-off.
+   Escalated overrides are recorded, not applied.
 
 4. **Lint** (`lint`): Deterministic findings over curations: episode gaps,
    duplicates, regressions against the previous curation, unaudited facts.
