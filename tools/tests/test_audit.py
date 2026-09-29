@@ -1179,6 +1179,53 @@ class TestApplyAuditOutputCaps:
         assert action == "overridden"
         assert data["albums"][0]["include"] is False
 
+    def _with_family_rows(self, curation: dict, n: int, owner: str) -> dict:
+        curation["albums"] += [
+            {
+                "album_id": f"f{i}",
+                "provider": "spotify",
+                "include": False,
+                "exclude_reason": "sub_series_bleed",
+                "title": f"Familie {i}",
+                "notes": f"Belongs to split series '{owner}'",
+            }
+            for i in range(n)
+        ]
+        return curation
+
+    def test_override_cap_counts_only_the_rows_the_audit_reviews(self, tmp_path):
+        """Rows another family member owns are not in the prompt, so they
+        must not raise the cap: 6 overrides on 6 reviewed albums is all of
+        them, however many family rows the page carries."""
+        curation = self._with_family_rows(self._big_curation(6), 200, "kid")
+        overrides = [
+            AuditOverride(
+                album_id=f"a{i}", provider="spotify", action="exclude", reason="x"
+            )
+            for i in range(1, 7)
+        ]
+        action, _ = self._apply(
+            tmp_path, curation, AuditResult(approve=True, overrides=overrides)
+        )
+        assert action == "escalated"
+
+    def test_override_on_a_row_another_member_owns_is_ignored(self, tmp_path):
+        curation = self._with_family_rows(self._big_curation(3), 1, "kid")
+        result = AuditResult(
+            approve=True,
+            overrides=[
+                AuditOverride(
+                    album_id="f0", provider="spotify", action="include", reason="x"
+                )
+            ],
+        )
+        _, data = self._apply(tmp_path, curation, result)
+        (f0,) = [a for a in data["albums"] if a["album_id"] == "f0"]
+        assert f0["include"] is False
+        assert any(
+            "[owned_elsewhere]" in c and "kid" in c for c in data["review"]["concerns"]
+        )
+
     def test_unknown_album_id_becomes_a_concern(self, tmp_path):
         curation = self._big_curation(3)
         result = AuditResult(

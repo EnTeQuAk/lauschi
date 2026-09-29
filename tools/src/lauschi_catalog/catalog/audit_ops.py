@@ -46,6 +46,7 @@ from lauschi_catalog.catalog.lint_ops import (
     critical_issues,
     lint_curation,
 )
+from lauschi_catalog.catalog.partition import bleed_owner
 from lauschi_catalog.catalog.paths import curation_path, log_dir
 from lauschi_catalog.fanout import run_bounded
 from lauschi_catalog.prompts import load_curate_skill
@@ -208,6 +209,41 @@ def _sorted_included(albums: list[dict]) -> list[dict]:
     )
 
 
+def _audit_scope(curation: dict) -> tuple[dict, dict[str, int]]:
+    """The curation as this series' audit reviews it, and what it leaves out.
+
+    Every member of a split family carries the whole shared artist page.
+    Rows another member owns were decided by code from that member's
+    applied albums and are audited in its curation, so they are counted
+    per owner instead of listed. Everything this series or its model
+    decided stays in.
+    """
+    own_id = curation.get("id")
+    kept: list[dict] = []
+    owned: dict[str, int] = {}
+    for a in curation.get("albums", []):
+        owner = None if a.get("include") else bleed_owner(a.get("notes"))
+        if owner is not None and owner != own_id:
+            owned[owner] = owned.get(owner, 0) + 1
+        else:
+            kept.append(a)
+    if not owned:
+        return curation, {}
+    return {**curation, "albums": kept}, owned
+
+
+def _owned_lines(owned: dict[str, int]) -> list[str]:
+    if not owned:
+        return []
+    lines = [
+        f"\n### Owned by other family members ({sum(owned.values())}, "
+        "audited in their own curations, not listed)"
+    ]
+    for owner, n in sorted(owned.items(), key=lambda kv: (-kv[1], kv[0])):
+        lines.append(f"  {owner}: {n}")
+    return lines
+
+
 def _header_lines(curation: dict) -> list[str]:
     lines = [
         f"## Series: {curation.get('title', '?')} (id: {curation.get('id', '?')})",
@@ -216,8 +252,11 @@ def _header_lines(curation: dict) -> list[str]:
     split_from = curation.get("split_from")
     if split_from:
         lines.append(
-            f"Note: This series was split from '{split_from}'. "
-            "The albums were moved from the parent's curation, not re-discovered."
+            f"Note: This series was split from '{split_from}' and shares its "
+            "artist pages with that family. Albums excluded as "
+            "sub_series_bleed with no owner belong to the family's root: "
+            "check only whether one of them is really this series' own "
+            "episode, and propose no split for them."
         )
     return lines
 
@@ -404,13 +443,14 @@ _PROMPT_FOOTER = (
 
 
 def build_prompt(curation: dict, lint_issues: list[str]) -> str:
-    """The one-shot audit prompt: the whole series, every album listed."""
-    albums = curation.get("albums", [])
+    """The one-shot audit prompt: the whole series, every album it owns listed."""
+    scoped, owned = _audit_scope(curation)
     lines = [
-        *_header_lines(curation),
-        *_album_lines(albums),
-        *_facts_lines(curation),
-        *_analysis_lines(curation),
+        *_header_lines(scoped),
+        *_album_lines(scoped.get("albums", [])),
+        *_owned_lines(owned),
+        *_facts_lines(scoped),
+        *_analysis_lines(scoped),
         *_lint_lines(lint_issues),
         _PROMPT_FOOTER,
     ]
@@ -427,12 +467,13 @@ def build_overview(curation: dict, lint_issues: list[str]) -> str:
     build_prompt except the album lines, which the model pulls on demand
     through its tools instead.
     """
-    albums = curation.get("albums", [])
+    scoped, owned = _audit_scope(curation)
     lines = [
-        *_header_lines(curation),
-        *_coverage_lines(albums),
-        *_facts_lines(curation),
-        *_analysis_lines(curation, max_clusters=_OVERVIEW_MAX_CLUSTERS),
+        *_header_lines(scoped),
+        *_coverage_lines(scoped.get("albums", [])),
+        *_owned_lines(owned),
+        *_facts_lines(scoped),
+        *_analysis_lines(scoped, max_clusters=_OVERVIEW_MAX_CLUSTERS),
         *_lint_lines(lint_issues),
     ]
     return "\n".join(lines)
@@ -440,7 +481,7 @@ def build_overview(curation: dict, lint_issues: list[str]) -> str:
 
 # -- Chunk planner --
 #
-# Only the four series whose one-shot prompt is past the model profile's
+# Only series whose one-shot prompt is past the model profile's
 # one_shot_max_tokens are chunked. A chunk is a small one-shot audit: the
 # overview plus a subset of albums, and it must itself fit the one-shot
 # limit. Albums are grouped so the judgment each chunk is asked for stays
@@ -544,7 +585,7 @@ def plan_chunks(
     """Group a chunked series' albums into chunks that each fit the
     one-shot limit alongside the overview. Pure; no model call."""
     profile = get_model_profile(model_name)
-    albums = curation.get("albums", [])
+    albums = _audit_scope(curation)[0].get("albums", [])
     overview_cost = prompt_size(build_overview(curation, lint_issues))
     fixed = overview_cost + _CHUNK_FRAMING_TOKENS
     cap = profile.one_shot_max_tokens - fixed
@@ -1062,12 +1103,13 @@ def apply_audit(
     # escalate instead of auto-applying: a scope-blind critic once
     # proposed 41 wrong includes on one split series.
     albums = data.get("albums", [])
-    override_cap = max(5, len(albums) // 20)
+    reviewed = _audit_scope(data)[0].get("albums", [])
+    override_cap = max(5, len(reviewed) // 20)
     cap_concerns: list[str] = []
     if len(result.overrides) > override_cap:
         cap_concerns.append(
             f"[override-volume] {len(result.overrides)} overrides exceed the "
-            f"cap of {override_cap} (>5% of {len(albums)} albums); not applied"
+            f"cap of {override_cap} (>5% of {len(reviewed)} albums); not applied"
         )
     if data.get("split_from"):
         n_incl = sum(1 for o in result.overrides if o.action == "include")
@@ -1088,6 +1130,13 @@ def apply_audit(
             unknown_concerns.append(
                 f"[unknown_album_id] {o.provider}:{o.album_id} is not an album "
                 f"in this curation; override ignored"
+            )
+            continue
+        owner = None if album.get("include") else bleed_owner(album.get("notes"))
+        if owner is not None and owner != data.get("id"):
+            unknown_concerns.append(
+                f"[owned_elsewhere] {o.provider}:{o.album_id} belongs to "
+                f"'{owner}' and is audited there; override ignored"
             )
             continue
         # Materialize into the album record: include flags are the one
