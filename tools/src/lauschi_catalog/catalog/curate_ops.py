@@ -64,7 +64,7 @@ from lauschi_catalog.catalog.matcher import (
     spread_sample,
 )
 from lauschi_catalog.catalog.models import CatalogEntry
-from lauschi_catalog.catalog.partition import family_of
+from lauschi_catalog.catalog.partition import bleed_owner, family_of
 from lauschi_catalog.catalog.paths import (
     cover_cache_dir,
     cover_cache_path,
@@ -885,20 +885,6 @@ def _restore_identity(
         d.episode_num = extract_episode(pattern, d.title) if pattern else None
         corrected += 1
     return corrected
-
-
-_OWNER_NOTE = re.compile(
-    r"(?:Belongs to (?:split series )?|Matches the episode pattern of )'([^']+)'"
-    r"|^'([^']+)' excluded it as"
-)
-
-
-def bleed_owner(notes: str | None) -> str | None:
-    """The family member a bleed record already belongs to, read from the
-    note the injection and routing steps leave on it. None for bleed the
-    model decided on its own, which is what a split proposal is for."""
-    m = _OWNER_NOTE.search(notes or "")
-    return (m.group(1) or m.group(2)) if m else None
 
 
 def _ownerless_bleed(

@@ -8,6 +8,7 @@ inline; this module is the single source of truth.
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -49,6 +50,20 @@ class Family:
     @property
     def is_standalone(self) -> bool:
         return len(self.children) == 0
+
+
+_OWNER_NOTE = re.compile(
+    r"(?:Belongs to (?:split series )?|Matches the episode pattern of )'([^']+)'"
+    r"|^'([^']+)' excluded it as"
+)
+
+
+def bleed_owner(notes: str | None) -> str | None:
+    """The family member a bleed record already belongs to, read from the
+    note the injection and routing steps leave on it. None for bleed the
+    model decided on its own, which is what a split proposal is for."""
+    m = _OWNER_NOTE.search(notes or "")
+    return (m.group(1) or m.group(2)) if m else None
 
 
 def family_of(entry: CatalogEntry, catalog: list[CatalogEntry]) -> Family:
