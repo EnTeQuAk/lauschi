@@ -127,6 +127,20 @@ class TestInjectForSplitChild:
         p1 = [a for a in result["albums"] if a["album_id"] == "p1"]
         assert len(p1) == 1 and p1[0]["include"] is True
 
+    def test_a_child_run_keeps_its_own_albums_when_the_prior_lacks_them(
+        self, monkeypatch: pytest.MonkeyPatch
+    ):
+        """curate_one injects a parent's children before a child's facts.
+        For a child, the first step has no children to add. It once added
+        every sibling, the child itself included, so an own album the
+        prior curation lacked (a provider lost to a 429) arrived as bleed
+        "belonging to" the child and was carried forward excluded."""
+        monkeypatch.setattr(curate_ops, "load_catalog", lambda: CATALOG)
+        existing = curate_ops._inject_split_children(None, CHILD.id)
+        result = _inject_for_split_child(existing, CHILD)
+        by = {a["album_id"]: a for a in result["albums"]}
+        assert by["h1"]["include"] is True and by["h1"]["episode_num"] == 16
+
     def test_a_series_that_is_not_a_child_is_left_alone(
         self, monkeypatch: pytest.MonkeyPatch
     ):

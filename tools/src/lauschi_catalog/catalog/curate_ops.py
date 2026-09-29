@@ -323,7 +323,7 @@ def _inject_split_children(
     me = next((e for e in catalog if e.id == series_id), None)
     if me is None:
         return existing_curation
-    children = list(family_of(me, catalog).children)
+    children = list(family_of(me, catalog).children_of(me.id))
     if not children:
         return existing_curation
 
