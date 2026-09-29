@@ -127,6 +127,42 @@ class TestInjectForSplitChild:
         p1 = [a for a in result["albums"] if a["album_id"] == "p1"]
         assert len(p1) == 1 and p1[0]["include"] is True
 
+    @pytest.mark.parametrize(
+        ("carried", "owned"),
+        [
+            ({"include": False, "exclude_reason": "music_single"}, True),
+            ({"include": False, "exclude_reason": "sub_series_bleed"}, True),
+            (
+                {
+                    "include": False,
+                    "exclude_reason": "music_single",
+                    "decided_by": "operator",
+                },
+                False,
+            ),
+        ],
+    )
+    def test_a_carried_exclusion_of_a_siblings_album_records_its_owner(
+        self, monkeypatch: pytest.MonkeyPatch, carried: dict, owned: bool
+    ):
+        """An exclusion carried from before the family was known (a
+        dissolved root's children, or a run that predates injection)
+        stays an exclusion, but now names the member that owns it, so
+        finalize and the audit leave it to that member. An operator's
+        call is left as it is."""
+        monkeypatch.setattr(curate_ops, "load_catalog", lambda: CATALOG)
+        existing = {
+            "albums": [
+                {"provider": "spotify", "album_id": "k1", "title": "Der Film"} | carried
+            ]
+        }
+        result = _inject_for_split_child(existing, CHILD)
+        (k1,) = [a for a in result["albums"] if a["album_id"] == "k1"]
+        assert k1["include"] is False
+        assert (
+            curate_ops.bleed_owner(k1.get("notes")) == "lego_ninjago_kinofilm"
+        ) is owned
+
     def test_a_child_run_keeps_its_own_albums_when_the_prior_lacks_them(
         self, monkeypatch: pytest.MonkeyPatch
     ):

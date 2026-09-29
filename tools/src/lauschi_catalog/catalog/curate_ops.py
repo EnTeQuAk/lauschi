@@ -513,27 +513,43 @@ def _inject_for_split_child(
     albums arrive excluded as sub_series_bleed, and so does what those
     pages rejected for a reason of their own (a duplicate of a parent
     episode is not the child's to re-judge). Only what an owner handed
-    away as sub_series_bleed stays open. _preseed_decisions then
-    carries all of it forward and the batch only decides what is new on
-    the page (a line's latest releases). Returns None for a series that
-    is not a split-off.
+    away as sub_series_bleed stays open. A carried exclusion of another
+    member's album gains that owner. _preseed_decisions then carries all
+    of it forward and the batch only decides what is new on the page (a
+    line's latest releases). Returns None for a series that is not a
+    split-off.
     """
     if not entry.split_from:
         return existing_curation
     catalog = load_catalog()
     if existing_curation is None:
         existing_curation = {"albums": []}
-    existing_keys = {
-        (a.get("provider"), a.get("album_id"))
-        for a in existing_curation.get("albums", [])
-    }
+    albums: list[dict] = existing_curation.setdefault("albums", [])
+    index = {(a.get("provider"), a.get("album_id")): i for i, a in enumerate(albums)}
 
     def add(record: dict) -> None:
         key = (record["provider"], record["album_id"])
-        if key in existing_keys:
+        if key in index:
             return
-        existing_curation.setdefault("albums", []).append(record)
-        existing_keys.add(key)
+        index[key] = len(albums)
+        albums.append(record)
+
+    def claim(record: dict) -> None:
+        """Add an album another member owns. A carried exclusion that
+        names no owner (it predates the family being known) takes the
+        owner's record; an inclusion or an operator's call stays."""
+        i = index.get((record["provider"], record["album_id"]))
+        if i is None:
+            add(record)
+            return
+        carried = albums[i]
+        if (
+            carried.get("include")
+            or carried.get("decided_by") == "operator"
+            or bleed_owner(carried.get("notes")) is not None
+        ):
+            return
+        albums[i] = record
 
     prov = album_provenance("split")
     for provider, album_id, title, episode, release_date in _applied_records(entry):
@@ -555,7 +571,7 @@ def _inject_for_split_child(
         for provider, album_id, title, _episode, release_date in _applied_records(
             owner
         ):
-            add(
+            claim(
                 {
                     "album_id": album_id,
                     "provider": provider,
@@ -569,7 +585,7 @@ def _inject_for_split_child(
                 }
             )
         for rejected in _owner_rejects(owner.id):
-            add(
+            claim(
                 {
                     "album_id": rejected["album_id"],
                     "provider": rejected["provider"],
