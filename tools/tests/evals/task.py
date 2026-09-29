@@ -10,7 +10,7 @@ from dataclasses import dataclass
 
 from pydantic_ai import Agent
 
-from lauschi_catalog._opencode import build_model, get_model_settings
+from lauschi_catalog._opencode import build_model, get_model_settings, model_api_key
 from lauschi_catalog.agent_tools import build_agent_tools
 from lauschi_catalog.catalog.curate_ops import BatchResult, CurateDeps
 from lauschi_catalog.catalog.prompt import format_albums_xml
@@ -35,8 +35,7 @@ def _build_eval_agent(
     inp: BatchInput,
 ) -> Agent[CurateDeps, BatchResult]:
     """Build a batch agent with real prompts, pointed at the eval model."""
-    api_key = os.environ.get("OPENCODE_API_KEY") or os.environ.get("OPENAI_API_KEY", "")
-    model = build_model(MODEL_NAME, api_key)
+    model = build_model(MODEL_NAME, model_api_key())
 
     skill_instructions = load_curate_skill(
         phase="batch",

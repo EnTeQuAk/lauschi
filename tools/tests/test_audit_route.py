@@ -469,7 +469,7 @@ def test_one_shot_series_runs_exactly_todays_prompt_once(monkeypatch, tmp_path):
     curation_dir.mkdir(parents=True)
     (curation_dir / "s.json").write_text(json.dumps(c))
     monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-    monkeypatch.setenv("OPENCODE_API_KEY", "test")
+    monkeypatch.setenv("OLLAMA_API_KEY", "test")
     monkeypatch.setattr(m, "build_model", lambda *a, **k: object())
     monkeypatch.setattr(m, "_build_audit_agent", lambda *a, **k: object())
     calls: list[str] = []
@@ -496,7 +496,7 @@ def _chunked_setup(monkeypatch, tmp_path):
     curation_dir.mkdir(parents=True)
     (curation_dir / "s.json").write_text(json.dumps(c))
     monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-    monkeypatch.setenv("OPENCODE_API_KEY", "test")
+    monkeypatch.setenv("OLLAMA_API_KEY", "test")
     monkeypatch.setattr(m, "build_model", lambda *a, **k: object())
     monkeypatch.setattr(m, "_build_audit_agent", lambda *a, **k: object())
     return m, c, lint
@@ -576,7 +576,7 @@ def test_chunked_series_runs_one_prompt_per_chunk_and_merges(monkeypatch, tmp_pa
     curation_dir.mkdir(parents=True)
     (curation_dir / "s.json").write_text(json.dumps(c))
     monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-    monkeypatch.setenv("OPENCODE_API_KEY", "test")
+    monkeypatch.setenv("OLLAMA_API_KEY", "test")
     monkeypatch.setattr(m, "build_model", lambda *a, **k: object())
     monkeypatch.setattr(m, "_build_audit_agent", lambda *a, **k: object())
     prompts: list[str] = []

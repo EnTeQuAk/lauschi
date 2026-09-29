@@ -1,10 +1,13 @@
 """Shared model construction for AI providers.
 
-All models route through the opencode-zen relay, an OpenAI-compatible
-endpoint. Model-specific tuning (temperature, seed) is centralized
-here so agents don't carry per-model configuration.
+All models route through one OpenAI-compatible host, Ollama Cloud by
+default and opencode-zen on request (``LAUSCHI_MODEL_HOST``). Both
+serve the pipeline's models under the same ids. Model-specific tuning
+(temperature, seed) is centralized here so agents don't carry
+per-model configuration.
 """
 
+import os
 from dataclasses import dataclass
 
 from pydantic_ai import InlineDefsJsonSchemaTransformer
@@ -14,7 +17,45 @@ from pydantic_ai.profiles.openai import OpenAIJsonSchemaTransformer, OpenAIModel
 from pydantic_ai.providers.openai import OpenAIProvider
 from pydantic_ai.settings import ModelSettings
 
-OPENCODE_BASE_URL = "https://opencode.ai/zen/v1"
+
+@dataclass(frozen=True)
+class ModelHost:
+    """An OpenAI-compatible endpoint and the variable holding its key."""
+
+    base_url: str
+    key_env: str
+
+
+# opencode-zen was the only host until its Kimi K2 upstream started
+# answering 410 "Endpoint is unavailable" (2026-09-28) while its own
+# model list still offered kimi-k2.6. Ollama Cloud serves the same ids.
+_HOSTS: dict[str, ModelHost] = {
+    "ollama": ModelHost("https://ollama.com/v1", "OLLAMA_API_KEY"),
+    "opencode": ModelHost("https://opencode.ai/zen/v1", "OPENCODE_API_KEY"),
+}
+_DEFAULT_HOST = "ollama"
+
+
+def model_host() -> ModelHost:
+    """The host every model call goes to, chosen by ``LAUSCHI_MODEL_HOST``."""
+    name = os.environ.get("LAUSCHI_MODEL_HOST") or _DEFAULT_HOST
+    try:
+        return _HOSTS[name]
+    except KeyError:
+        raise ValueError(
+            f"LAUSCHI_MODEL_HOST={name!r} is not a known host; "
+            f"use one of: {', '.join(_HOSTS)}"
+        ) from None
+
+
+def model_api_key() -> str:
+    """The configured host's API key. Raises when it is not set."""
+    key_env = model_host().key_env
+    key = os.environ.get(key_env, "")
+    if not key:
+        raise ValueError(f"{key_env} not set")
+    return key
+
 
 # Per-phase defaults for deterministic analytical classification.
 # temperature=0.0 everywhere for reproducibility. Finalize was 0.1 on
@@ -152,7 +193,7 @@ def get_model_settings(phase: str, model_name: str) -> ModelSettings:
 
 
 def build_model(model_name: str, api_key: str) -> Model:
-    """Construct a model pointed at opencode-zen with ``$defs`` inlined
+    """Construct a model on the configured host with ``$defs`` inlined
     in the output schema.
 
     The transport follows the model: the GPT-5.6 family is served on
@@ -165,7 +206,7 @@ def build_model(model_name: str, api_key: str) -> Model:
     flat and self-contained. No-op when the schema has no nested
     pydantic models; correctness-preserving when it does.
     """
-    provider = OpenAIProvider(base_url=OPENCODE_BASE_URL, api_key=api_key)
+    provider = OpenAIProvider(base_url=model_host().base_url, api_key=api_key)
     if uses_responses_api(model_name):
         # The Responses API enforces strict tool schemas: every object
         # needs additionalProperties: false, which InlineDefs does not

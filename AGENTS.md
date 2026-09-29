@@ -34,10 +34,11 @@ flutter test test/core/catalog/catalog_service_test.dart --dart-define-from-file
 Multi-provider catalog management via the `lauschi-catalog` CLI plus a FastAPI
 web UI (both in `tools/`, a Python package, tests with pytest). Supports
 Spotify and Apple Music. The AI commands (`curate`, `audit`) run pydantic-ai
-agents through the opencode-zen relay (OpenAI-compatible). Keys, all in `.env`
+agents on an OpenAI-compatible host: Ollama Cloud by default, opencode-zen
+with `LAUSCHI_MODEL_HOST=opencode`. Keys, all in `.env`
 (loaded by mise): `SPOTIFY_CLIENT_ID`/`SPOTIFY_CLIENT_SECRET` for the provider
 APIs (Apple Music uses the shared MusicKit key `android/app/AuthKey_*.p8`),
-`OPENCODE_API_KEY` for model calls, `BRAVE_API_KEY` for the agents' web search
+`OLLAMA_API_KEY` (or `OPENCODE_API_KEY`) for model calls, `BRAVE_API_KEY` for the agents' web search
 tool, `REFERENCE_INDEX_URL` (optional) for the public line index behind the
 agents' `lookup_reference_lines` tool and `lauschi-catalog reference <title>`
 (a brand's lines and their numbered episodes; lags on new releases, so
@@ -45,8 +46,8 @@ absence there proves nothing).
 
 Default models: `kimi-k2.6` curates, `minimax-m2.7` audits. The 4-eye
 principle requires two different model families. Curate and audit pin
-temperature 0 and seed 42 for reproducibility (finalize uses 0.1);
-per-model and per-phase overrides live in `_opencode.py` (`get_model_settings`).
+temperature 0 and seed 42 for reproducibility, finalize too.
+Per-model and per-phase overrides live in `_opencode.py` (`get_model_settings`).
 
 **Full pipeline** (runs autonomously, takes hours for the full catalog; a
 failing stage does not stop the later ones, so check the log and

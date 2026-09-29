@@ -14,9 +14,10 @@ the relay never has to follow a $ref. Same fix pydantic-ai uses
 for Meta, Amazon, Qwen, and OpenRouter providers.
 """
 
+import pytest
 from pydantic_ai import InlineDefsJsonSchemaTransformer
 
-from lauschi_catalog._opencode import OPENCODE_BASE_URL, build_model
+from lauschi_catalog._opencode import build_model, model_api_key, model_host
 
 
 def test_helper_returns_chat_model_with_inline_defs_transformer():
@@ -27,9 +28,48 @@ def test_helper_returns_chat_model_with_inline_defs_transformer():
     assert model.profile.json_schema_transformer is InlineDefsJsonSchemaTransformer
 
 
-def test_helper_uses_opencode_base_url():
-    """Pin the relay URL via the module-level constant."""
-    assert OPENCODE_BASE_URL == "https://opencode.ai/zen/v1"
+@pytest.mark.parametrize(
+    ("setting", "base_url", "key_env"),
+    [
+        (None, "https://ollama.com/v1", "OLLAMA_API_KEY"),
+        ("ollama", "https://ollama.com/v1", "OLLAMA_API_KEY"),
+        ("opencode", "https://opencode.ai/zen/v1", "OPENCODE_API_KEY"),
+    ],
+)
+def test_the_model_host_follows_the_setting(
+    monkeypatch: pytest.MonkeyPatch, setting: str | None, base_url: str, key_env: str
+) -> None:
+    """Ollama Cloud serves the same model ids (kimi-k2.6, minimax-m2.7)
+    since Zen's Kimi K2 upstream went away (2026-09-28); Zen stays one
+    setting away."""
+    if setting is None:
+        monkeypatch.delenv("LAUSCHI_MODEL_HOST", raising=False)
+    else:
+        monkeypatch.setenv("LAUSCHI_MODEL_HOST", setting)
+    host = model_host()
+    assert (host.base_url, host.key_env) == (base_url, key_env)
+    model = build_model("kimi-k2.6", api_key="test-key")
+    assert str(model.client.base_url).rstrip("/") == base_url
+
+
+def test_an_unknown_model_host_names_the_choices(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("LAUSCHI_MODEL_HOST", "zen")
+    with pytest.raises(ValueError, match="ollama.*opencode"):
+        model_host()
+
+
+def test_the_api_key_comes_from_the_hosts_variable(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("LAUSCHI_MODEL_HOST", "ollama")
+    monkeypatch.setenv("OLLAMA_API_KEY", "ollama-key")
+    monkeypatch.setenv("OPENCODE_API_KEY", "zen-key")
+    assert model_api_key() == "ollama-key"
+    monkeypatch.delenv("OLLAMA_API_KEY")
+    with pytest.raises(ValueError, match="OLLAMA_API_KEY not set"):
+        model_api_key()
 
 
 def test_helper_passes_through_arbitrary_model_name():

@@ -8,7 +8,6 @@ and web UI can consume it.
 
 import asyncio
 import json
-import os
 import re
 import time
 from collections.abc import Sequence
@@ -25,6 +24,7 @@ from pydantic_ai.usage import RunUsage
 from lauschi_catalog._opencode import (
     build_model,
     get_model_settings,
+    model_api_key,
 )
 from lauschi_catalog.agent_deps import AgentDeps, Progress, _noop
 from lauschi_catalog.agent_hooks import build_progress_hooks
@@ -2983,9 +2983,7 @@ async def curate_one(
                 f"included, the family's as sub_series_bleed.\n"
             )
         existing_facts = _carry_facts(existing_facts, existing_curation)
-        api_key = os.environ.get("OPENCODE_API_KEY", "")
-        if not api_key:
-            raise ValueError("OPENCODE_API_KEY not set")
+        api_key = model_api_key()
         series = await _run_large(
             query,
             providers,

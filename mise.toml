@@ -100,7 +100,7 @@ description = "Validate series.yaml against Apple Music only"
 run = "uv run --directory tools lauschi-catalog validate -p apple_music"
 
 [tasks.catalog-curate]
-description = "AI-curate a series across all providers (needs OPENCODE_API_KEY)"
+description = "AI-curate a series across all providers (needs OLLAMA_API_KEY)"
 run = "uv run --directory tools --extra ai lauschi-catalog curate"
 
 [tasks.catalog-curate-all]

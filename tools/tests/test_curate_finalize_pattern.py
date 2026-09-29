@@ -44,7 +44,7 @@ def test_curated_series_still_validates_pattern():
 @pytest.mark.anyio
 async def test_finalize_deps_pattern_is_single_source_of_truth(monkeypatch):
     """When the finalize tool updates deps.pattern, shared_deps picks it up."""
-    monkeypatch.setenv("OPENCODE_API_KEY", "test")
+    monkeypatch.setenv("OLLAMA_API_KEY", "test")
 
     decisions = [
         AlbumDecision(

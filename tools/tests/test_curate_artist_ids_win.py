@@ -27,7 +27,7 @@ class _FakeProvider:
 @pytest.fixture
 def fake_model(monkeypatch):
     """All model requests route to TestModel so no network is needed."""
-    monkeypatch.setenv("OPENCODE_API_KEY", "test")
+    monkeypatch.setenv("OLLAMA_API_KEY", "test")
     monkeypatch.setattr(
         curate_ops,
         "build_model",

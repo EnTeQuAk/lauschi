@@ -8,7 +8,6 @@ Pipeline: curated -> audited -> approved / escalated
 
 import asyncio
 import json
-import os
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
@@ -23,6 +22,7 @@ from lauschi_catalog._opencode import (
     build_model,
     get_model_profile,
     get_model_settings,
+    model_api_key,
 )
 from lauschi_catalog.agent_deps import AgentDeps, Progress, _noop
 from lauschi_catalog.agent_hooks import build_progress_hooks
@@ -701,9 +701,10 @@ def _prepare_audit(
     """Everything both audit paths share before the model runs: load,
     skip checks, lint, agent and deps. Returns None when there is nothing
     to audit (and has already said why)."""
-    api_key = os.environ.get("OPENCODE_API_KEY", "")
-    if not api_key:
-        on_progress("OPENCODE_API_KEY not set")
+    try:
+        api_key = model_api_key()
+    except ValueError as exc:
+        on_progress(str(exc))
         return None
 
     path = curation_path(series_id)

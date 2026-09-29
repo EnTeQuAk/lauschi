@@ -6,7 +6,8 @@ Usage:
     python -m tests.evals.run_evals --cases benjamin_sub_series,pumuckl_mixed_content
     python -m tests.evals.run_evals --verbose
 
-Requires OPENCODE_API_KEY (or OPENAI_API_KEY) in env.
+Requires the model host's API key (OLLAMA_API_KEY by default, see
+lauschi_catalog._opencode.model_host).
 Set EVAL_MODEL to override the default model (kimi-k2.6).
 Set EVAL_JUDGE_MODEL to override the LLM judge model (minimax-m2.7).
 """
@@ -16,22 +17,19 @@ import asyncio
 import os
 import sys
 
-from pydantic_ai.models.openai import OpenAIChatModel
-from pydantic_ai.providers.openai import OpenAIProvider
+from pydantic_ai.models import Model
 from pydantic_evals.evaluators import LLMJudge
+
+from lauschi_catalog._opencode import build_model, model_api_key
 
 from .cases import build_dataset
 from .task import run_batch_curation
 
-OPENCODE_BASE_URL = "https://opencode.ai/zen/v1"
 
-
-def _build_judge_model() -> OpenAIChatModel:
+def _build_judge_model() -> Model:
     """Build the model used for LLMJudge evaluations."""
     model_name = os.environ.get("EVAL_JUDGE_MODEL", "minimax-m2.7")
-    api_key = os.environ.get("OPENCODE_API_KEY") or os.environ.get("OPENAI_API_KEY", "")
-    provider = OpenAIProvider(base_url=OPENCODE_BASE_URL, api_key=api_key)
-    return OpenAIChatModel(model_name, provider=provider)
+    return build_model(model_name, model_api_key())
 
 
 def main() -> None:
