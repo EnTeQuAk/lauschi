@@ -16,17 +16,21 @@ from lauschi_catalog.catalog.models import CatalogEntry
 
 @dataclass(frozen=True)
 class Family:
-    """A split family: one parent and zero or more children."""
+    """A split family: one root and zero or more children.
 
-    parent: CatalogEntry
+    ``parent`` is None when the root entry was dissolved (deleted.yaml)
+    and its children kept their ``split_from``: they still share the
+    artist page and own each other's albums.
+    """
+
+    root_id: str
+    parent: CatalogEntry | None
     children: tuple[CatalogEntry, ...]
 
     @property
-    def root_id(self) -> str:
-        return self.parent.id
-
-    @property
     def members(self) -> tuple[CatalogEntry, ...]:
+        if self.parent is None:
+            return self.children
         return (self.parent, *self.children)
 
     def siblings_of(self, entry_id: str) -> tuple[CatalogEntry, ...]:
@@ -35,7 +39,7 @@ class Family:
 
     def children_of(self, entry_id: str) -> tuple[CatalogEntry, ...]:
         """Children of the named entry (empty if it is itself a child)."""
-        if entry_id != self.parent.id:
+        if entry_id != self.root_id:
             return ()
         return self.children
 
@@ -50,37 +54,20 @@ class Family:
 def family_of(entry: CatalogEntry, catalog: list[CatalogEntry]) -> Family:
     """Build the Family for any entry (parent or child)."""
     root_id = entry.split_from or entry.id
-    parent = None
-    children: list[CatalogEntry] = []
-    for e in catalog:
-        if e.id == root_id:
-            parent = e
-        elif e.split_from == root_id:
-            children.append(e)
-    if parent is None:
-        parent = entry
-        children = [e for e in catalog if e.split_from == entry.id]
-    return Family(parent=parent, children=tuple(children))
+    parent = next((e for e in catalog if e.id == root_id), None)
+    children = tuple(e for e in catalog if e.split_from == root_id)
+    return Family(root_id=root_id, parent=parent, children=children)
 
 
 def families(catalog: list[CatalogEntry]) -> dict[str, Family]:
-    """All families keyed by root_id."""
-    by_root: dict[str, tuple[CatalogEntry | None, list[CatalogEntry]]] = {}
-    for e in catalog:
-        root = e.split_from or e.id
-        if root not in by_root:
-            by_root[root] = (None, [])
-        parent, kids = by_root[root]
-        if e.id == root:
-            by_root[root] = (e, kids)
-        elif e.split_from == root:
-            kids.append(e)
-    result: dict[str, Family] = {}
-    for root_id, (parent, kids) in by_root.items():
-        if parent is None:
-            continue
-        result[root_id] = Family(parent=parent, children=tuple(kids))
-    return result
+    """All families keyed by root_id, dissolved roots included."""
+    roots = dict.fromkeys(e.split_from or e.id for e in catalog)
+    return {
+        root_id: family_of(
+            next(e for e in catalog if (e.split_from or e.id) == root_id), catalog
+        )
+        for root_id in roots
+    }
 
 
 def family_ids_from_curation_dir(

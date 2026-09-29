@@ -32,16 +32,20 @@
         {% if family %}
             <details class="family-tree mb-05">
                 <summary class="family-tree__toggle text-muted">
-                    <small>Family tree ({{ family.children | length + 1 }} series)</small>
+                    <small>Family tree ({{ family.children | length + (1 if family.parent else 0) }} series)</small>
                 </summary>
                 <ul class="family-tree__list">
                     <li>
-                        {% if family.parent.is_current %}
+                        {% if not family.parent %}
+                            <span class="text-muted">{{ family.root_id }} (dissolved)</span>
+                        {% elif family.parent.is_current %}
                             <strong>{{ family.parent.title }}</strong>
                         {% else %}
                             <a href="/catalog/{{ family.parent.id }}">{{ family.parent.title }}</a>
                         {% endif %}
-                        <span class="text-muted"><small>{{ family.parent.album_count }} albums</small></span>
+                        {% if family.parent %}
+                            <span class="text-muted"><small>{{ family.parent.album_count }} albums</small></span>
+                        {% endif %}
                         {% if family.children %}
                             <ul>
                                 {% for child in family.children %}

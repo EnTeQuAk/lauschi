@@ -111,3 +111,24 @@ def test_family_ids_missing_file(tmp_path):
     parent_id, child_ids = family_ids_from_curation_dir("nonexistent", tmp_path)
     assert parent_id is None
     assert child_ids == []
+
+
+def test_children_of_a_dissolved_root_stay_one_family():
+    """An umbrella entry can be dissolved (deleted.yaml) while its
+    children keep split_from. They still share the artist page and own
+    each other's albums; the family simply has no parent entry."""
+    madita = entry("madita", split_from="astrid_lindgren_deutsch")
+    michel = entry("michel", split_from="astrid_lindgren_deutsch")
+    mio = entry("mio", split_from="astrid_lindgren_deutsch")
+    cat = [madita, michel, mio, entry("tkkg")]
+
+    fam = family_of(madita, cat)
+
+    assert fam.root_id == "astrid_lindgren_deutsch"
+    assert fam.parent is None
+    assert fam.members == (madita, michel, mio)
+    assert fam.siblings_of("madita") == (michel, mio)
+    assert fam.is_child("madita")
+    assert fam.children_of("madita") == ()
+    assert not fam.is_standalone
+    assert families(cat)["astrid_lindgren_deutsch"].members == (madita, michel, mio)

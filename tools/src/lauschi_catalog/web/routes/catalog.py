@@ -336,7 +336,8 @@ def _render_series_detail(
             }
 
         family = {
-            "parent": _member_info(fam.parent),
+            "root_id": fam.root_id,
+            "parent": _member_info(fam.parent) if fam.parent is not None else None,
             "children": [_member_info(c) for c in fam.children],
         }
 
