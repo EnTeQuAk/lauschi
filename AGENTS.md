@@ -111,6 +111,10 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
    Split-off children (`split_from`) curate their own line: their applied
    albums arrive included, the parent's and siblings' applied albums arrive
    excluded, and the batch only decides what is new on the shared page.
+   What nobody owns on a shared page is the family root's: only the root's
+   finalize proposes splits for it. Children of a dissolved root (listed in
+   `deleted.yaml`, e.g. `astrid_lindgren_deutsch`) stay one family, and
+   their page's leftovers were settled at dissolution.
    Output: `assets/catalog/curation/{series_id}.json` (committed to git).
 
 2. **Reconcile** (`reconcile`): Deterministic cross-provider consistency.
@@ -121,11 +125,15 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
 
 3. **Audit** (`audit`): The second model reviews one curation: sub-series
    bleed, episode gaps, duplicates, pattern problems, split proposals.
-   One-shot for small series, token-budgeted chunks for large ones. Writes
-   the `review` block into the curation JSON: status `approved` or
-   `escalated`, plus album overrides and fact updates. Escalates instead of
-   approving when it declines approval, has more than 5 concerns, or a
-   regression flag fired; escalated overrides are recorded, not applied.
+   One-shot for small series, token-budgeted chunks for large ones. On a
+   shared artist page it reviews only what the series owns: rows another
+   family member owns are counted per owner, not listed, and an override
+   on one is ignored. Writes the `review` block into the curation JSON:
+   status `approved` or `escalated`, plus album overrides and fact
+   updates. Escalates instead of approving when it declines approval, a
+   regression flag fired, or its overrides exceed the volume cap (more
+   than 5% of the reviewed albums) or include albums on a split-off;
+   escalated overrides are recorded, not applied.
 
 4. **Lint** (`lint`): Deterministic findings over curations: episode gaps,
    duplicates, regressions against the previous curation, unaudited facts.
