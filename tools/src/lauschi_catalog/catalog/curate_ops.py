@@ -2815,6 +2815,14 @@ def save_curation(
     # when the album ID set is identical. Clearing forces re-audit.
     data.pop("review", None)
 
+    # series.yaml decides the family; the audit reads it from here.
+    entry = lookup_catalog_entry(series.id)
+    if entry is not None:
+        if entry.split_from:
+            data["split_from"] = entry.split_from
+        else:
+            data.pop("split_from", None)
+
     data.update(
         {
             "id": series.id,

@@ -177,3 +177,52 @@ def test_save_curation_persists_regression_flags(curation_dir: Path):
     save_curation(series)
     data = json.loads((curation_dir / "test_series.json").read_text())
     assert data["regression_flags"] == series.regression_flags
+
+
+@pytest.mark.parametrize(
+    ("catalog_split_from", "prior", "expected"),
+    [
+        ("wieso_weshalb_warum", None, "wieso_weshalb_warum"),
+        ("wieso_weshalb_warum", "stale_parent", "wieso_weshalb_warum"),
+        (None, "stale_parent", None),
+    ],
+)
+def test_split_from_follows_the_catalog(
+    curation_dir: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    catalog_split_from: str | None,
+    prior: str | None,
+    expected: str | None,
+) -> None:
+    """series.yaml is the authority on the family. JUNIOR and Erstleser
+    became split children there (2026-09-30), but their curations never
+    said so, and the audit reads split_from from the curation."""
+    from lauschi_catalog.catalog import curate_ops
+    from tests.factories import entry
+
+    monkeypatch.setattr(
+        curate_ops,
+        "lookup_catalog_entry",
+        lambda sid: entry(sid, split_from=catalog_split_from),
+    )
+    if prior:
+        existing = _write_existing(curation_dir, "test_series")
+        data = json.loads(existing.read_text())
+        data["split_from"] = prior
+        existing.write_text(json.dumps(data))
+    path = save_curation(_series())
+    assert json.loads(path.read_text()).get("split_from") == expected
+
+
+def test_a_series_the_catalog_does_not_know_keeps_its_split_from(
+    curation_dir: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from lauschi_catalog.catalog import curate_ops
+
+    monkeypatch.setattr(curate_ops, "lookup_catalog_entry", lambda sid: None)
+    existing = _write_existing(curation_dir, "test_series")
+    data = json.loads(existing.read_text())
+    data["split_from"] = "proposed_parent"
+    existing.write_text(json.dumps(data))
+    path = save_curation(_series())
+    assert json.loads(path.read_text())["split_from"] == "proposed_parent"
