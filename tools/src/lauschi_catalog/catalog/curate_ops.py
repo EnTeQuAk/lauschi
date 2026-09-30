@@ -311,6 +311,42 @@ def _build_batch_summary(
     return "\n".join(lines) if lines else ""
 
 
+class _AlbumRows:
+    """A curation's album rows, indexed by (provider, album_id), for the
+    injection steps that add what the catalog already knows."""
+
+    def __init__(self, albums: list[dict]) -> None:
+        self.albums = albums
+        self._index = {
+            (a.get("provider"), a.get("album_id")): i for i, a in enumerate(albums)
+        }
+
+    def add(self, record: dict) -> None:
+        """Add a record unless the album already has one."""
+        key = (record["provider"], record["album_id"])
+        if key in self._index:
+            return
+        self._index[key] = len(self.albums)
+        self.albums.append(record)
+
+    def claim(self, record: dict) -> None:
+        """Add an album another series owns. A carried exclusion that
+        names no owner (it predates the family being known) takes the
+        owner's record; an inclusion or an operator's call stays."""
+        i = self._index.get((record["provider"], record["album_id"]))
+        if i is None:
+            self.add(record)
+            return
+        carried = self.albums[i]
+        if (
+            carried.get("include")
+            or carried.get("decided_by") == "operator"
+            or bleed_owner(carried.get("notes")) is not None
+        ):
+            return
+        self.albums[i] = record
+
+
 def _inject_split_children(
     existing_curation: dict | None,
     series_id: str | None,
@@ -336,18 +372,11 @@ def _inject_split_children(
     if existing_curation is None:
         existing_curation = {"albums": []}
 
-    existing_keys = {
-        (a.get("provider"), a.get("album_id"))
-        for a in existing_curation.get("albums", [])
-    }
-
+    rows = _AlbumRows(existing_curation.setdefault("albums", []))
     for child in children:
         prov = album_provenance("split")
         for provider, album_id, title in _child_album_records(child):
-            key = (provider, album_id)
-            if key in existing_keys:
-                continue
-            existing_curation.setdefault("albums", []).append(
+            rows.claim(
                 {
                     "album_id": album_id,
                     "provider": provider,
@@ -360,7 +389,6 @@ def _inject_split_children(
                     **prov,
                 }
             )
-            existing_keys.add(key)
 
     return existing_curation
 
@@ -530,32 +558,8 @@ def _inject_for_split_child(
     catalog = load_catalog()
     if existing_curation is None:
         existing_curation = {"albums": []}
-    albums: list[dict] = existing_curation.setdefault("albums", [])
-    index = {(a.get("provider"), a.get("album_id")): i for i, a in enumerate(albums)}
-
-    def add(record: dict) -> None:
-        key = (record["provider"], record["album_id"])
-        if key in index:
-            return
-        index[key] = len(albums)
-        albums.append(record)
-
-    def claim(record: dict) -> None:
-        """Add an album another member owns. A carried exclusion that
-        names no owner (it predates the family being known) takes the
-        owner's record; an inclusion or an operator's call stays."""
-        i = index.get((record["provider"], record["album_id"]))
-        if i is None:
-            add(record)
-            return
-        carried = albums[i]
-        if (
-            carried.get("include")
-            or carried.get("decided_by") == "operator"
-            or bleed_owner(carried.get("notes")) is not None
-        ):
-            return
-        albums[i] = record
+    rows = _AlbumRows(existing_curation.setdefault("albums", []))
+    add, claim = rows.add, rows.claim
 
     prov = album_provenance("split")
     for provider, album_id, title, episode, release_date in _applied_records(entry):

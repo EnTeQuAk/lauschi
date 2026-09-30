@@ -252,3 +252,49 @@ class TestParentJudgementStands:
             "duplicate" in by["dup"]["notes"] and "lego_ninjago" in by["dup"]["notes"]
         )
         assert "handed" not in by
+
+
+class TestParentClaimsForItsChildren:
+    """The parent's side of the owner claim. Wieso? Weshalb? Warum?
+    kept 181 ownerless exclusions of its JUNIOR and Erstleser albums
+    after both became split children (2026-09-30), because the parent's
+    injection skipped every album its prior curation already had."""
+
+    @pytest.fixture(autouse=True)
+    def _catalog(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setattr(curate_ops, "load_catalog", lambda: CATALOG)
+
+    @pytest.mark.parametrize(
+        ("carried", "owner"),
+        [
+            (
+                {"include": False, "exclude_reason": "sub_series_bleed"},
+                "lego_ninjago_hoerbuch",
+            ),
+            (
+                {"include": False, "exclude_reason": "music_single"},
+                "lego_ninjago_hoerbuch",
+            ),
+            ({"include": True}, None),
+            (
+                {
+                    "include": False,
+                    "exclude_reason": "duplicate",
+                    "decided_by": "operator",
+                },
+                None,
+            ),
+        ],
+    )
+    def test_a_carried_exclusion_of_a_childs_album_names_the_child(
+        self, carried: dict, owner: str | None
+    ) -> None:
+        existing = {
+            "albums": [
+                {"provider": "spotify", "album_id": "h1", "title": "Zane (Band 16)"}
+                | carried
+            ]
+        }
+        result = curate_ops._inject_split_children(existing, PARENT.id)
+        (h1,) = [a for a in result["albums"] if a["album_id"] == "h1"]
+        assert curate_ops.bleed_owner(h1.get("notes")) == owner
