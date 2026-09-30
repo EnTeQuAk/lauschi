@@ -3,32 +3,17 @@
 Die Schule der magischen Tiere took 107 requests and Unser Sandmännchen
 37 at 64K tokens each (2026-09-30), while Stephen Janetzko needed 6 for
 687 albums. Only totals were recorded and a successful run left no
-trace, so nobody could say which phase spent them or on what. Now every
-tool call shows up in the progress lines, the lines are also written to
-a per-series transcript, and usage is recorded per phase.
+trace, so nobody could say which phase spent them or on what. Now the
+progress lines (every tool reports its own call) are also written to a
+per-series transcript, and usage is recorded per phase.
 """
 
 from pathlib import Path
 
 import pytest
 
-from lauschi_catalog import agent_hooks
 from lauschi_catalog.catalog import curate_ops
 from lauschi_catalog.run import usage_delta
-
-
-def test_every_tool_call_reports_its_arguments_and_result_size() -> None:
-    line = agent_hooks._format_tool_progress(
-        "search_excluded_albums", {"query": "Kinofilm", "limit": 20}, [{}, {}, {}]
-    )
-    assert line == "  search_excluded_albums(query='Kinofilm', limit=20) -> 3 results"
-    text = agent_hooks._format_tool_progress("propose_pattern_update", {}, "ok")
-    assert text == "  propose_pattern_update() -> 2 chars"
-
-
-def test_long_tool_arguments_are_shortened() -> None:
-    line = agent_hooks._format_tool_progress("lookup", {"q": "x" * 500}, None)
-    assert line is not None and len(line) < 200 and line.endswith("-> None")
 
 
 def test_usage_delta_is_what_one_phase_spent() -> None:

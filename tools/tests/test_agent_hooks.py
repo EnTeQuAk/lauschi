@@ -177,7 +177,7 @@ class TestToolProgressHook(unittest.TestCase):
         assert "3 ids" in msg
         assert "2 results" in msg
 
-    def test_any_other_tool_reports_its_call(self) -> None:
+    def test_unknown_tool_no_progress(self) -> None:
         hooks = build_progress_hooks()
         hook = self._get_tool_hook(hooks)
         ctx = self._make_ctx()
@@ -185,7 +185,7 @@ class TestToolProgressHook(unittest.TestCase):
         tool_def = MagicMock()
 
         self._run(hook(ctx, call=call, tool_def=tool_def, args={}, result="ok"))
-        ctx.deps.on_progress.assert_called_once_with("  some_other_tool() -> 2 chars")
+        ctx.deps.on_progress.assert_not_called()
 
     def test_skips_when_no_on_progress(self) -> None:
         hooks = build_progress_hooks()

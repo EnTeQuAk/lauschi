@@ -4,8 +4,8 @@ Builds a Hooks capability that reports agent activity via
 deps.on_progress. Captures two things:
 
 1. Thinking snippets from model responses (>80 chars, truncated to 500)
-2. One line per tool call: a summary for web_search, fetch_page and
-   get_album_details, the arguments and result size for any other tool
+2. Shared tool completion summaries for web_search, fetch_page,
+   and get_album_details
 
 Agents attach this via capabilities=[build_progress_hooks()].
 """
@@ -86,15 +86,4 @@ def _format_tool_progress(name: str, args: dict[str, Any], result: Any) -> str |
         n = len(result) if isinstance(result, list) else "?"
         return f"  get_album_details({provider}, {len(ids)} ids) -> {n} results"
 
-    shown = ", ".join(f"{k}={v!r}" for k, v in args.items())
-    if len(shown) > 100:
-        shown = shown[:97] + "..."
-    return f"  {name}({shown}) -> {_result_size(result)}"
-
-
-def _result_size(result: Any) -> str:
-    if isinstance(result, list | tuple | dict):
-        return f"{len(result)} results"
-    if isinstance(result, str):
-        return f"{len(result)} chars"
-    return repr(result)[:60]
+    return None
