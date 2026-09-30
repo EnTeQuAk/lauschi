@@ -1926,6 +1926,54 @@ def _discovery_album_dict(provider_name: str, album) -> dict:
     }
 
 
+def keep_unlisted_shipped(
+    all_albums: list[dict],
+    providers: list[CatalogProvider],
+    entry: "CatalogEntry | None",
+    on_progress: Progress,
+) -> tuple[list[dict], list[str]]:
+    """Carry shipped albums the artist page no longer lists, while they exist.
+
+    A provider can drop an album from the artist page and keep serving
+    it by id (Spotify, Volker Rosin, 2026-09-30), so a shipped album
+    discovery misses is looked up. One that exists joins the discovered
+    albums, and preseed carries its decision. One the provider no longer
+    knows is dropped. One that cannot be checked is returned as an error
+    that makes the run incomplete. Returns the albums and those errors.
+    """
+    if entry is None:
+        return all_albums, []
+    listed = {(a["provider"], a["id"]) for a in all_albums}
+    kept = list(all_albums)
+    errors: list[str] = []
+    for provider in providers:
+        cfg = entry.providers.get(provider.name)
+        shipped = [x["id"] for x in cfg.albums] if cfg else []
+        missing = [i for i in shipped if (provider.name, i) not in listed]
+        if not missing:
+            continue
+        batch = provider.albums_by_ids(missing)
+        kept.extend(_discovery_album_dict(provider.name, a) for a in batch.albums)
+        found = {a.id for a in batch.albums}
+        gone = [i for i in missing if i not in found and i not in batch.unverified]
+        if batch.albums:
+            on_progress(
+                f"  [{provider.name}] Kept {len(batch.albums)} shipped album(s) "
+                f"the artist page no longer lists but that still exist"
+            )
+        if gone:
+            on_progress(
+                f"  [{provider.name}] Dropped {len(gone)} shipped album(s) the "
+                f"provider no longer knows: {', '.join(gone)}"
+            )
+        if batch.unverified:
+            errors.append(
+                f"{provider.name}: could not check shipped album(s) "
+                f"{', '.join(batch.unverified)}"
+            )
+    return kept, errors
+
+
 async def _run_with_retry(
     coro_factory,
     *,
@@ -2076,10 +2124,16 @@ async def _run_large(
         known_artist_ids=known_artist_ids,
         on_progress=on_progress,
     )
-    all_albums = discovery.all_albums
     artist_ids = discovery.artist_ids
     provider_errors = discovery.provider_errors
     incomplete = discovery.incomplete
+    catalog_entry = lookup_catalog_entry(series_id) if series_id else None
+    all_albums, unchecked = keep_unlisted_shipped(
+        discovery.all_albums, providers, catalog_entry, on_progress
+    )
+    if unchecked:
+        provider_errors.extend(unchecked)
+        incomplete = True
 
     # The catalog knows which other entries live on these artist pages;
     # the batch prompt states them so sibling albums are not guessed at.
@@ -2161,7 +2215,6 @@ async def _run_large(
     # -- Step 3: Batched curation
     all_discovered = all_albums  # full list for cover cache
     all_decisions, all_albums = _preseed_decisions(all_albums, existing_curation)
-    catalog_entry = lookup_catalog_entry(series_id) if series_id else None
     if catalog_entry is not None:
         routed, all_albums = _route_by_family_patterns(
             all_albums, catalog_entry, load_catalog()
