@@ -29288,6 +29288,7 @@ series:
   - Benjamin Blümchen Hörspiel
 - id: die_wilden_huehner
   title: Die Wilden Hühner
+  split_from: cornelia_funke
   providers:
     spotify:
       artist_ids:
@@ -29343,6 +29344,7 @@ series:
       audited_at: '2026-07-24T07:40:16.987539+00:00'
 - id: ferien_auf_saltkrokan
   title: Ferien auf Saltkrokan
+  split_from: astrid_lindgren_deutsch
   providers:
     spotify:
       artist_ids:
@@ -44478,7 +44480,7 @@ series:
   aliases: []
   episode_pattern:
   content_type: hoerspiel
-  split_from: die_wilden_huehner
+  split_from: cornelia_funke
   providers:
     spotify:
       artist_ids:
