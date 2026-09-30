@@ -85,6 +85,33 @@ def families(catalog: list[CatalogEntry]) -> dict[str, Family]:
     }
 
 
+def catalog_album_owners(
+    catalog: list[CatalogEntry], entry_id: str
+) -> dict[tuple[str, str], str]:
+    """Which other series ships each album, keyed by (provider, album_id).
+
+    Shipping an album is a catalog fact, so it decides ownership on a
+    shared artist page whether or not the series are one family. Albums
+    the entry ships itself, and albums two other series both ship, have
+    no single other owner and are left out.
+    """
+    own: set[tuple[str, str]] = set()
+    shippers: dict[tuple[str, str], set[str]] = {}
+    for e in catalog:
+        for provider, cfg in e.providers.items():
+            for album in cfg.albums:
+                key = (provider, album["id"])
+                if e.id == entry_id:
+                    own.add(key)
+                else:
+                    shippers.setdefault(key, set()).add(e.id)
+    return {
+        key: next(iter(ids))
+        for key, ids in shippers.items()
+        if len(ids) == 1 and key not in own
+    }
+
+
 def family_ids_from_curation_dir(
     series_id: str,
     curation_dir: Path,

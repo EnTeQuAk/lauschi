@@ -65,7 +65,11 @@ from lauschi_catalog.catalog.matcher import (
     spread_sample,
 )
 from lauschi_catalog.catalog.models import CatalogEntry
-from lauschi_catalog.catalog.partition import bleed_owner, family_of
+from lauschi_catalog.catalog.partition import (
+    bleed_owner,
+    catalog_album_owners,
+    family_of,
+)
 from lauschi_catalog.catalog.paths import (
     cover_cache_dir,
     cover_cache_path,
@@ -767,6 +771,60 @@ def _route_by_family_patterns(
                 )
             )
     return decided, still
+
+
+def _route_to_catalog_owners(
+    remaining: list[dict], owners: dict[tuple[str, str], str]
+) -> tuple[list["AlbumDecision"], list[dict]]:
+    """Settle undecided albums another catalog series ships as its bleed.
+
+    See partition.catalog_album_owners. Returns the decisions and the
+    albums still left for the model.
+    """
+    decided: list[AlbumDecision] = []
+    still: list[dict] = []
+    for album in remaining:
+        owner = owners.get((album["provider"], album["id"]))
+        if owner is None:
+            still.append(album)
+            continue
+        decided.append(
+            AlbumDecision(
+                album_id=album["id"],
+                provider=album["provider"],
+                include=False,
+                episode_num=None,
+                title=album.get("name", ""),
+                release_date=album.get("release_date"),
+                exclude_reason="sub_series_bleed",
+                confidence="high",
+                notes=f"Belongs to '{owner}'",
+                **album_provenance("route"),
+            )
+        )
+    return decided, still
+
+
+def _name_catalog_owners(
+    decisions: list["AlbumDecision"], owners: dict[tuple[str, str], str]
+) -> int:
+    """Name the owner on carried bleed exclusions another series ships.
+
+    Only an exclusion that names no owner yet changes; an inclusion or
+    an operator's call stays. Returns how many were named.
+    """
+    named = 0
+    for d in decisions:
+        if d.include or d.exclude_reason != "sub_series_bleed":
+            continue
+        if d.decided_by == "operator" or bleed_owner(d.notes) is not None:
+            continue
+        owner = owners.get((d.provider, d.album_id))
+        if owner is None:
+            continue
+        d.notes = f"Belongs to '{owner}'"
+        named += 1
+    return named
 
 
 def _preseed_decisions(
@@ -2250,6 +2308,16 @@ async def _run_large(
     # -- Step 3: Batched curation
     all_discovered = all_albums  # full list for cover cache
     all_decisions, all_albums = _preseed_decisions(all_albums, existing_curation)
+    if series_id:
+        owners = catalog_album_owners(load_catalog(), series_id)
+        named = _name_catalog_owners(all_decisions, owners)
+        claimed, all_albums = _route_to_catalog_owners(all_albums, owners)
+        all_decisions.extend(claimed)
+        if named or claimed:
+            on_progress(
+                f"  Albums other catalog series ship: {len(claimed)} settled as "
+                f"theirs, {named} carried exclusion(s) now name their owner.\n"
+            )
     if catalog_entry is not None:
         routed, all_albums = _route_by_family_patterns(
             all_albums, catalog_entry, load_catalog()
