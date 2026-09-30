@@ -30,7 +30,9 @@ class RunEvent:
     outcome: str  # ok | failed | skipped
     detail: str = ""
     usage: dict[str, int] = field(default_factory=dict)
+    usage_by_phase: dict[str, dict[str, int]] = field(default_factory=dict)
     evidence: str | None = None
+    transcript: str | None = None
     recorded_at: str = ""
 
     def __post_init__(self) -> None:

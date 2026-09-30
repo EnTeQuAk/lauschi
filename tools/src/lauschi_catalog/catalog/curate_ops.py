@@ -10,7 +10,8 @@ import asyncio
 import json
 import re
 import time
-from collections.abc import Sequence
+from collections.abc import Iterator, Sequence
+from contextlib import contextmanager
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
@@ -78,7 +79,12 @@ from lauschi_catalog.prompts import load_curate_skill
 from lauschi_catalog.providers import CatalogProvider
 from lauschi_catalog.rate_limit import run_with_rate_limit_retry
 from lauschi_catalog.retry import describe_failure
-from lauschi_catalog.run import run_agent, run_with_attempts, usage_summary
+from lauschi_catalog.run import (
+    run_agent,
+    run_with_attempts,
+    usage_delta,
+    usage_summary,
+)
 from lauschi_catalog.run_events import (
     OUTCOME_FAILED,
     OUTCOME_OK,
@@ -1203,6 +1209,7 @@ class CuratedSeries(BaseModel):
     curated_by: str = ""
     #: requests / input_tokens / output_tokens spent producing this
     usage: dict[str, int] = Field(default_factory=dict)
+    usage_by_phase: dict[str, dict[str, int]] = Field(default_factory=dict)
     #: ``provider:album_id`` decisions the model returned for albums it
     #: was never given; dropped, see drop_orphan_decisions
     orphan_ids: list[str] = Field(default_factory=list)
@@ -1883,6 +1890,29 @@ def dump_curate_failure(
     return path
 
 
+@contextmanager
+def curate_transcript(
+    series_key: str, on_progress: Progress
+) -> Iterator[tuple[Path, Progress]]:
+    """Pass progress lines on and keep a copy in a per-series log file.
+
+    A successful run leaves no failure dump, so without the transcript a
+    run that spent a hundred requests could not be read back. The file
+    is logs/catalog/curate/<series>-<stamp>.log.
+    """
+    stamp = datetime.now(UTC).strftime("%Y%m%d-%H%M%S")
+    path = log_dir() / "curate" / f"{series_key}-{stamp}.log"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8") as f:
+
+        def tee(msg: str) -> None:
+            f.write(msg.rstrip("\n") + "\n")
+            f.flush()
+            on_progress(msg)
+
+        yield path, tee
+
+
 def _fmt_elapsed(seconds: float) -> str:
     s = int(seconds)
     if s < 60:
@@ -2211,6 +2241,7 @@ async def _run_large(
         f"pattern={meta.episode_pattern}  age={meta.age_note}\n",
     )
     on_progress(f"  ({_fmt_elapsed(time.monotonic() - t0)})\n")
+    usage_after_metadata = usage_summary(meta_deps.usage)
 
     # -- Step 3: Batched curation
     all_discovered = all_albums  # full list for cover cache
@@ -2377,6 +2408,7 @@ async def _run_large(
         all_decisions.extend(result.albums)
 
     curation_elapsed = _fmt_elapsed(time.monotonic() - t_curation)
+    usage_after_batches = usage_summary(shared_deps.usage)
     on_progress(
         f"\n  Total: {total_inc} included  "
         f"{total_exc} excluded  [{curation_elapsed}]\n",
@@ -2704,12 +2736,23 @@ async def _run_large(
     on_progress(f"  Finalize: {_fmt_elapsed(time.monotonic() - t_finalize)}\n")
 
     overall = _fmt_elapsed(time.monotonic() - t_overall)
+    usage_total = usage_summary(shared_deps.usage)
+    usage_by_phase = {
+        "metadata": usage_after_metadata,
+        "batches": usage_delta(usage_after_metadata, usage_after_batches),
+        "finalize": usage_delta(usage_after_batches, usage_total),
+    }
     on_progress(
         f"\n== Done == {total_inc} included, {total_exc} excluded [{overall}] "
         f"{shared_deps.usage.requests} requests, "
         f"{shared_deps.usage.input_tokens} in / "
         f"{shared_deps.usage.output_tokens} out tokens\n"
     )
+    for phase, u in usage_by_phase.items():
+        on_progress(
+            f"  {phase}: {u['requests']} requests, "
+            f"{u['input_tokens']} in / {u['output_tokens']} out\n"
+        )
 
     write_cover_cache(meta.id, all_discovered)
 
@@ -2726,7 +2769,8 @@ async def _run_large(
         incomplete=incomplete,
         incomplete_reason="; ".join(provider_errors) if incomplete else "",
         curated_by=model_name,
-        usage=usage_summary(shared_deps.usage),
+        usage=usage_total,
+        usage_by_phase=usage_by_phase,
         orphan_ids=orphan_ids,
     )
 
@@ -2811,6 +2855,7 @@ def save_curation(
             "incomplete_reason": series.incomplete_reason,
             "curated_by": series.curated_by,
             "usage": series.usage,
+            "usage_by_phase": series.usage_by_phase,
             "orphan_ids": series.orphan_ids,
         }
     )
@@ -3015,7 +3060,46 @@ async def curate_one(
     existing_facts: SeriesFacts | None = None,
     on_progress: Progress = _noop,
 ) -> CurateOneResult:
-    """Curate a single series (non-interactive).
+    """Curate a single series (non-interactive), keeping a transcript.
+
+    Runs the AI curation pipeline: discovery, metadata extraction,
+    batched album decisions, finalization. Writes the curation JSON,
+    the cover cache and the run transcript (see curate_transcript).
+    """
+    with curate_transcript(series_id or title_to_id(query), on_progress) as (
+        transcript,
+        tee,
+    ):
+        return await _curate_one(
+            query,
+            providers,
+            model=model,
+            timeout=timeout,
+            series_id=series_id,
+            known_artist_ids=known_artist_ids,
+            existing_curation=existing_curation,
+            content_type=content_type,
+            existing_facts=existing_facts,
+            on_progress=tee,
+            transcript=transcript,
+        )
+
+
+async def _curate_one(
+    query: str,
+    providers: list[CatalogProvider],
+    *,
+    model: str = _DEFAULT_MODEL,
+    timeout: int = 3600,
+    series_id: str | None = None,
+    known_artist_ids: dict[str, list[str]] | None = None,
+    existing_curation: dict | None = None,
+    content_type: str = "hoerspiel",
+    existing_facts: SeriesFacts | None = None,
+    on_progress: Progress = _noop,
+    transcript: Path | None = None,
+) -> CurateOneResult:
+    """The work behind curate_one; ``on_progress`` already feeds the transcript.
 
     Runs the AI curation pipeline: discovery, metadata extraction,
     batched album decisions, finalization. Writes the curation JSON
@@ -3073,7 +3157,9 @@ async def curate_one(
                 f"{len(series.albums) - len(series.included())} excluded"
                 + (" [incomplete run]" if series.incomplete else ""),
                 usage=series.usage,
+                usage_by_phase=series.usage_by_phase,
                 evidence=str(path),
+                transcript=str(transcript) if transcript else None,
             )
         )
         return CurateOneResult(ok=True, series=series, path=path)
@@ -3089,6 +3175,7 @@ async def curate_one(
                 phase="curate",
                 outcome=OUTCOME_FAILED,
                 detail=msg,
+                transcript=str(transcript) if transcript else None,
             )
         )
         return CurateOneResult(ok=False, error=msg)

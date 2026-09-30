@@ -33,6 +33,11 @@ def usage_summary(usage: "RunUsage | dict[str, int]") -> dict[str, int]:
     }
 
 
+def usage_delta(before: dict[str, int], after: dict[str, int]) -> dict[str, int]:
+    """What was spent between two usage summaries of one tally."""
+    return {k: after.get(k, 0) - before.get(k, 0) for k in after}
+
+
 OnFailure = "Callable[[int, BaseException, list[ModelMessage]], None]"
 
 
