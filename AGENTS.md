@@ -132,8 +132,9 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
    on one is ignored. Writes the `review` block into the curation JSON:
    status `approved` or `escalated`, plus album overrides and fact
    updates. Escalates instead of approving when it declines approval, a
-   regression flag fired, or its overrides exceed the volume cap (more
-   than 5% of the reviewed albums) or include albums on a split-off.
+   regression flag fired, or its overrides flip more than 5% of the
+   reviewed albums or include albums on a split-off. Naming the reason
+   of an album that is already excluded is not a flip.
    Escalated overrides are recorded, not applied.
 
 4. **Lint** (`lint`): Deterministic findings over curations: episode gaps,

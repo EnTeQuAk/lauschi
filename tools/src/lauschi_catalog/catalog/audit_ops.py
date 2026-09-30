@@ -1132,11 +1132,22 @@ def apply_audit(
     albums = data.get("albums", [])
     reviewed = _audit_scope(data)[0].get("albums", [])
     override_cap = max(5, len(reviewed) // 20)
+    included = {
+        (a.get("provider"), a["album_id"]): bool(a.get("include")) for a in albums
+    }
+    # Only a flip changes what ships; naming the reason of an album that
+    # is already excluded does not.
+    flips = [
+        o
+        for o in result.overrides
+        if included.get((o.provider, o.album_id)) != (o.action == "include")
+    ]
     cap_concerns: list[str] = []
-    if len(result.overrides) > override_cap:
+    if len(flips) > override_cap:
         cap_concerns.append(
-            f"[override-volume] {len(result.overrides)} overrides exceed the "
-            f"cap of {override_cap} (>5% of {len(reviewed)} albums); not applied"
+            f"[override-volume] {len(flips)} overrides flip include/exclude, "
+            f"over the cap of {override_cap} (>5% of {len(reviewed)} albums); "
+            f"not applied"
         )
     if data.get("split_from"):
         n_incl = sum(1 for o in result.overrides if o.action == "include")

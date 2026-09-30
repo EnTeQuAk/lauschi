@@ -1129,6 +1129,53 @@ class TestApplyAuditOutputCaps:
         assert all(a["include"] for a in data["albums"][:7])
         assert any("override-volume" in c for c in data["review"]["concerns"])
 
+    def test_naming_reasons_on_excluded_albums_is_not_override_volume(self, tmp_path):
+        """Die Schule escalated on 12 overrides that only named the reason
+        of albums already excluded without one (2026-09-30). The cap is
+        there to stop a critic flipping decisions en masse, so only
+        overrides that flip include or exclude count toward it."""
+        curation = self._big_curation(100)
+        for a in curation["albums"][:12]:
+            a.update(include=False, exclude_reason="unspecified")
+        overrides = [
+            AuditOverride(
+                album_id=f"a{i}",
+                provider="spotify",
+                action="exclude",
+                reason="wrong_content_type",
+            )
+            for i in range(1, 13)
+        ]
+        action, data = self._apply(
+            tmp_path, curation, AuditResult(approve=True, overrides=overrides)
+        )
+        assert action == "overridden"
+        assert data["albums"][0]["exclude_reason"] == "wrong_content_type"
+        assert not any("override-volume" in c for c in data["review"]["concerns"])
+
+    def test_flips_still_count_toward_the_cap(self, tmp_path):
+        curation = self._big_curation(100)
+        for a in curation["albums"][:12]:
+            a.update(include=False, exclude_reason="unspecified")
+        overrides = [
+            AuditOverride(
+                album_id=f"a{i}",
+                provider="spotify",
+                action="exclude",
+                reason="wrong_content_type",
+            )
+            for i in range(1, 13)
+        ] + [
+            AuditOverride(
+                album_id=f"a{i}", provider="spotify", action="exclude", reason="x"
+            )
+            for i in range(20, 26)  # 6 real flips > cap of 5
+        ]
+        action, _ = self._apply(
+            tmp_path, curation, AuditResult(approve=True, overrides=overrides)
+        )
+        assert action == "escalated"
+
     def test_a_handful_of_overrides_still_applies(self, tmp_path):
         curation = self._big_curation(100)
         overrides = [
