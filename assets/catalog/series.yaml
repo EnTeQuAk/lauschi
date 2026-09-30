@@ -46675,3 +46675,19 @@ series:
     apple_music:
       artist_ids:
       - '1560025489'
+- id: die_schule_der_magischen_tiere_ermittelt
+  title: Die Schule der magischen Tiere ermittelt
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: die_schule_der_magischen_tiere
+  providers:
+    spotify:
+      artist_ids:
+      - 1BElEHaU2xaZg7FOGsSird
+      - 6wlMx6MhWCynm8yVU0K3V3
+    apple_music:
+      artist_ids:
+      - '1328909127'
+      - '1676101199'
+      - '1805765716'
