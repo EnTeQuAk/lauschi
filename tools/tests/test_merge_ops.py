@@ -165,6 +165,56 @@ class TestSplitOps:
         assert len(new_data["albums"]) == 1
         assert new_data["albums"][0]["album_id"] == "a3"
 
+    def test_accepted_line_arrives_undecided_where_the_parent_excluded_it(
+        self, split_env
+    ):
+        """The parent excludes a sub-series' albums as sub_series_bleed
+        because they belong to the line being split off. Carried into the
+        child that exclusion would drop the child's own episodes (Die
+        Schule ermittelt 3 and 4, 2026-09-30), so the child's run decides
+        them instead."""
+        path = split_env["curation_dir"] / "parent.json"
+        data = json.loads(path.read_text())
+        data["albums"].append(
+            {
+                "album_id": "a4",
+                "provider": "spotify",
+                "title": "Spinoff 2",
+                "include": False,
+                "exclude_reason": "sub_series_bleed",
+            }
+        )
+        data["series_facts"]["sub_series"][0]["album_ids"].append("a4")
+        path.write_text(json.dumps(data))
+
+        merge_ops.accept_split("parent", 0)
+
+        child = json.loads(
+            (split_env["curation_dir"] / "parent_spinoff.json").read_text()
+        )
+        parent = json.loads(path.read_text())
+        assert [a["album_id"] for a in child["albums"]] == ["a3"]
+        assert "a4" not in {a["album_id"] for a in parent["albums"]}
+
+    def test_a_line_the_parent_excluded_entirely_still_splits(self, split_env):
+        """The usual proposal: finalize proposes a split from bleed the
+        parent excluded, so none of the line's albums is carried."""
+        path = split_env["curation_dir"] / "parent.json"
+        data = json.loads(path.read_text())
+        for a in data["albums"]:
+            if a["album_id"] == "a3":
+                a.update(include=False, exclude_reason="sub_series_bleed")
+        path.write_text(json.dumps(data))
+
+        result = merge_ops.accept_split("parent", 0)
+
+        assert result.ok, result.error
+        child = json.loads(
+            (split_env["curation_dir"] / "parent_spinoff.json").read_text()
+        )
+        assert child["albums"] == []
+        assert child["split_from"] == "parent"
+
     def test_accept_split_removes_albums_from_parent(self, split_env):
         merge_ops.accept_split("parent", 0)
         parent = json.loads((split_env["curation_dir"] / "parent.json").read_text())

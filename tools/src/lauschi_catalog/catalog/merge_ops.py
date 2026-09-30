@@ -198,11 +198,20 @@ def accept_split(
             error=f"curation file '{new_id}.json' already exists",
         )
 
-    moved = [a for a in albums if a.get("album_id", "") in album_ids]
+    line = [a for a in albums if a.get("album_id", "") in album_ids]
     remaining = [a for a in albums if a.get("album_id", "") not in album_ids]
 
-    if not moved:
+    if not line:
         return SplitResult(ok=False, error="no albums matched sub_series")
+
+    # The parent excluded some of the line as sub_series_bleed precisely
+    # because they belong to it; in the child they are its own albums, so
+    # they arrive undecided and the child's run decides them.
+    moved = [
+        a
+        for a in line
+        if a.get("include", True) or a.get("exclude_reason") != "sub_series_bleed"
+    ]
 
     now = datetime.now(UTC).isoformat()
 
@@ -215,7 +224,7 @@ def accept_split(
         "age_note": curation.get("age_note", ""),
         "curator_notes": (
             f"Split from {parent_title}. "
-            f"Contains {len(moved)} albums from the '{label}' sub-series."
+            f"Contains {len(line)} albums from the '{label}' sub-series."
         ),
         "series_facts": {},
         "albums": moved,
@@ -233,7 +242,7 @@ def accept_split(
     parent_covers_path = paths.cover_cache_path(series_id)
     if parent_covers_path.exists():
         parent_covers = json.loads(parent_covers_path.read_text())
-        moved_ids = {a.get("album_id") for a in moved}
+        moved_ids = {a.get("album_id") for a in line}
         inherited = {k: v for k, v in parent_covers.items() if k in moved_ids}
         if inherited:
             safe_write_json(paths.cover_cache_path(new_id), inherited)
