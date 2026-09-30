@@ -30982,6 +30982,7 @@ series:
       audited_at: '2026-05-31T16:40:27.053370+00:00'
 - id: wieso_weshalb_warum_junior
   title: Wieso? Weshalb? Warum? Junior
+  split_from: wieso_weshalb_warum
   providers:
     apple_music:
       artist_ids:
@@ -31522,6 +31523,7 @@ series:
   - Wieso? Weshalb? Warum? junior
 - id: wieso_weshalb_warum_erstleser
   title: Wieso? Weshalb? Warum? Erstleser
+  split_from: wieso_weshalb_warum
   providers:
     apple_music:
       artist_ids:
@@ -33628,6 +33630,7 @@ series:
     spotify:
       artist_ids:
       - 1BElEHaU2xaZg7FOGsSird
+      - 6wlMx6MhWCynm8yVU0K3V3
       albums:
       - id: 21JyQm4gA1T6JPP9D2M6n1
         episode: 1
@@ -33728,6 +33731,8 @@ series:
     apple_music:
       artist_ids:
       - '1328909127'
+      - '1805765716'
+      - '1676101199'
       albums:
       - id: '1875981083'
         episode: 1
