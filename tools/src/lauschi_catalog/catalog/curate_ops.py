@@ -2142,7 +2142,7 @@ async def _run_large(
     existing_curation: dict | None = None,
     content_type: str = "hoerspiel",
     known_artist_ids: dict[str, list[str]] | None = None,
-    existing_facts: SeriesFacts | None = None,
+    existing_facts: SeriesFacts,
     series_id: str | None = None,
     on_progress: Progress = _noop,
 ) -> CuratedSeries:
@@ -2563,29 +2563,7 @@ async def _run_large(
 
         needs_finalize = bool(era_evidence_lines) or has_sub_bleed
         if needs_finalize:
-            facts_lines: list[str] = []
-            if existing_facts:
-                if existing_facts.era_boundaries:
-                    facts_lines.append("Existing era_boundaries:")
-                    for e in existing_facts.era_boundaries:
-                        facts_lines.append(f"  - {e.label}: {e.release_date_range}")
-                if existing_facts.known_gaps:
-                    facts_lines.append("Existing known_gaps:")
-                    for g in existing_facts.known_gaps:
-                        label = (
-                            f"{g.number}-{g.range_end}"
-                            if g.range_end
-                            else str(g.number)
-                        )
-                        facts_lines.append(f"  - Episode {label}: {g.reason}")
-                if existing_facts.sub_series:
-                    facts_lines.append("Existing sub_series:")
-                    for s in existing_facts.sub_series:
-                        facts_lines.append(f"  - {s.label}: {s.reason}")
-                if not facts_lines:
-                    facts_lines.append("Existing facts: (none)")
-            else:
-                facts_lines.append("Existing facts: (none)")
+            facts_lines = existing_facts_lines(existing_facts)
 
             header_parts: list[str] = []
             if era_evidence_lines:
@@ -2894,6 +2872,25 @@ def resolve_content_type(
             f"curation. Use one of: hoerspiel, music, audiobook.",
         )
     return "hoerspiel"
+
+
+def existing_facts_lines(facts: SeriesFacts) -> list[str]:
+    """The series' existing facts as the finalize prompt lists them."""
+    lines: list[str] = []
+    if facts.era_boundaries:
+        lines.append("Existing era_boundaries:")
+        lines.extend(
+            f"  - {e.label}: {e.release_date_range}" for e in facts.era_boundaries
+        )
+    if facts.known_gaps:
+        lines.append("Existing known_gaps:")
+        for g in facts.known_gaps:
+            label = f"{g.number}-{g.range_end}" if g.range_end else str(g.number)
+            lines.append(f"  - Episode {label}: {g.reason}")
+    if facts.sub_series:
+        lines.append("Existing sub_series:")
+        lines.extend(f"  - {s.label}: {s.reason}" for s in facts.sub_series)
+    return lines or ["Existing facts: (none)"]
 
 
 def _carry_facts(

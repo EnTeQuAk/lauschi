@@ -8,6 +8,7 @@ from lauschi_catalog.catalog import curate_ops
 from lauschi_catalog.catalog.curate_ops import (
     CurateDeps,
     DiscoveryResult,
+    SeriesFacts,
     SeriesMetadata,
 )
 
@@ -76,6 +77,7 @@ async def test_provider_artist_ids_always_equal_discovery(fake_model, monkeypatc
         timeout=60,
         content_type="music",
         known_artist_ids={"spotify": ["discovered_artist_1"]},
+        existing_facts=SeriesFacts(),
     )
 
     assert result.provider_artist_ids == discovered
