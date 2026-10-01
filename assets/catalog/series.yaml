@@ -46774,7 +46774,6 @@ series:
   - '^Die Schule der magischen Tiere ermittelt (?:- Hörspiele |Erstausstattung |Neuausgabe )?(\d+):'
   - '^Die Schule der magischen Tiere ermittelt: .*?\(Folge (\d+)\)'
   - '^Folge (\d+): .*?\(Die Schule der magischen Tiere ermittelt\)'
-  - '^(\d+):'
   split_from: die_schule_der_magischen_tiere
   providers:
     spotify:
