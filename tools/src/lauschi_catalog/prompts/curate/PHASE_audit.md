@@ -30,6 +30,9 @@ verify that work.
   wrong content included, facts that contradict album data.
 - Use the `overrides` field for per-album fixes (exclude a compilation
   that curate missed, include a real episode that was wrongly dropped).
+  An excluded album whose reason is missing (`unspecified`) or wrong is
+  fixed the same way: an `exclude` override carrying the right reason.
+  It changes no decision, so it is a fix to make, not a concern.
   Each album is listed as `[provider:album_id]` in the data below.
   Use the exact `album_id` and `provider` values from those brackets
   in your overrides; invented or descriptive IDs will silently fail.
