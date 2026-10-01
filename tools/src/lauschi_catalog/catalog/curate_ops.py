@@ -2549,44 +2549,14 @@ async def _run_large(
     final_pattern = shared_deps.pattern
     proposed_facts: SeriesFacts | None = None
     if content_type not in ("music", "audiobook"):
-        era_evidence_lines: list[str] = []
-        n_existing_eras = len(existing_facts.era_boundaries)
-        era_decisions = [
-            d
-            for d in all_decisions
-            if d.include and d.notes and "era" in d.notes.lower()
-        ]
         # Only include era evidence when no era_boundaries exist yet.
         # When eras are already documented, the agent wastes 20-30 tool
         # calls re-investigating collisions it can't resolve. The
         # existing eras are shown in the facts section; the agent can
         # still propose genuinely new eras if it discovers them.
-        if era_decisions and not n_existing_eras:
-            by_provider: dict[str, list[tuple[int, str, str]]] = {}
-            for d in era_decisions:
-                ep = d.episode_num
-                if ep is None:
-                    continue
-                by_provider.setdefault(d.provider, []).append(
-                    (ep, d.title, d.release_date or "?"),
-                )
-            era_evidence_lines.append(
-                "### Batch-phase era evidence (consider before proposing facts)",
-            )
-            era_evidence_lines.append(
-                "The batch phase flagged the following albums as era "
-                "collisions (same episode number, different title / "
-                "release date). Group them into distinct eras by "
-                "release_date and title pattern, then propose era_boundary "
-                "facts. Look for ~3 distinct clusters (e.g. 1977 classics, "
-                "2015 CGI reboot, 2025 continuation)."
-            )
-            for prov, items in sorted(by_provider.items()):
-                items.sort(key=lambda x: x[0])
-                era_evidence_lines.append(f"  {prov} ({len(items)} albums):")
-                for ep, title, date in items:
-                    era_evidence_lines.append(f"    ep {ep} | {date} | {title}")
-            era_evidence_lines.append("")
+        era_evidence = (
+            [] if existing_facts.era_boundaries else era_evidence_lines(all_decisions)
+        )
 
         analysis_lines: list[str] = []
         if all_decisions:
@@ -2631,12 +2601,12 @@ async def _run_large(
                 f"titles excluded as sub_series_bleed or sub_series."
             )
 
-        needs_finalize = bool(era_evidence_lines) or has_sub_bleed
+        needs_finalize = bool(era_evidence) or has_sub_bleed
         if needs_finalize:
             facts_lines = existing_facts_lines(existing_facts)
 
             header_parts: list[str] = []
-            if era_evidence_lines:
+            if era_evidence:
                 header_parts.append("era evidence found")
             if has_sub_bleed:
                 header_parts.append(
@@ -2658,14 +2628,14 @@ async def _run_large(
             # Build a concise work-item summary so the agent
             # knows exactly what to focus on.
             work_items: list[str] = []
-            if era_evidence_lines:
+            if era_evidence:
                 work_items.append(
                     "- Era evidence: propose era_boundaries from flagged albums"
                 )
-            elif era_decisions and n_existing_eras:
+            elif existing_facts.era_boundaries and era_evidence_lines(all_decisions):
                 work_items.append(
-                    f"- Era: {n_existing_eras} era_boundaries already "
-                    f"documented, skip Step 2"
+                    f"- Era: {len(existing_facts.era_boundaries)} era_boundaries "
+                    f"already documented, skip Step 2"
                 )
             if has_sub_bleed:
                 work_items.append(render_sub_series_exclusions(sub_bleed_records))
@@ -2681,7 +2651,7 @@ async def _run_large(
                     "",
                     "\n".join(facts_lines),
                     "",
-                    "\n".join(era_evidence_lines),
+                    "\n".join(era_evidence),
                 ]
             )
             if analysis_lines:
@@ -2969,6 +2939,48 @@ def existing_facts_lines(facts: SeriesFacts) -> list[str]:
         lines.append("Existing sub_series:")
         lines.extend(f"  - {s.label}: {s.reason}" for s in facts.sub_series)
     return lines or ["Existing facts: (none)"]
+
+
+_ERA_NOTE = re.compile(r"\bera\b", re.IGNORECASE)
+
+
+def era_evidence_lines(decisions: list["AlbumDecision"]) -> list[str]:
+    """The finalize section listing the batch phase's era collisions.
+
+    An included, numbered album whose notes name an era (the word, not a
+    substring of "several" or "literary") is evidence. Without any, no
+    section: an announced list with nothing under it sent finalize
+    searching for it.
+    """
+    by_provider: dict[str, list[tuple[int, str, str]]] = {}
+    for d in decisions:
+        if (
+            not d.include
+            or d.episode_num is None
+            or not _ERA_NOTE.search(d.notes or "")
+        ):
+            continue
+        by_provider.setdefault(d.provider, []).append(
+            (d.episode_num, d.title, d.release_date or "?")
+        )
+    if not by_provider:
+        return []
+    lines = [
+        "### Batch-phase era evidence (consider before proposing facts)",
+        "The batch phase flagged the following albums as era "
+        "collisions (same episode number, different title / "
+        "release date). Group them into distinct eras by "
+        "release_date and title pattern, then propose era_boundary "
+        "facts. Look for ~3 distinct clusters (e.g. 1977 classics, "
+        "2015 CGI reboot, 2025 continuation).",
+    ]
+    for prov, items in sorted(by_provider.items()):
+        items.sort(key=lambda x: x[0])
+        lines.append(f"  {prov} ({len(items)} albums):")
+        for ep, title, date in items:
+            lines.append(f"    ep {ep} | {date} | {title}")
+    lines.append("")
+    return lines
 
 
 def coverage_titles(entry: "CatalogEntry | None", discovered: list[str]) -> list[str]:
