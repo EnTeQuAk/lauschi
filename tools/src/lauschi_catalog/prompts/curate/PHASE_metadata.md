@@ -25,8 +25,11 @@ Step 1: Infer candidate patterns from the sample titles. Look for common
 formats like `^Folge (\d+):`, `^(\d{3})/`, `^Teil (\d+):`, etc.
 
 Step 2: Call `check_pattern_coverage` immediately with your candidates.
-The tool tests against ALL titles in the discography, not just the sample.
-Most series reach >90% coverage on the first or second try. If coverage
+The tool tests against the series' own titles: the albums it already
+ships, or every title in the discography for a series that ships nothing
+yet (not just the sample). On an artist page shared with other series,
+those other series' albums are not part of the measure. Most series reach
+>90% coverage on the first or second try. If coverage
 is acceptable, commit the pattern and move on.
 
 Step 3 (only if needed): Use `web_search` (max 3 queries) and

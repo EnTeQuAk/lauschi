@@ -1333,6 +1333,9 @@ class CurateDeps(AgentDeps):
     pattern_from_catalog: bool = False
     pattern_revisions: list[str | list[str]] = field(default_factory=list)
     titles: list[str] = field(default_factory=list)
+    #: what an episode pattern is measured against (see coverage_titles);
+    #: empty means every discovered title
+    coverage_titles: list[str] = field(default_factory=list)
     existing_facts: SeriesFacts = field(default_factory=SeriesFacts)
     proposed_facts: SeriesFacts | None = field(default=None, init=False)
     all_decisions: list[AlbumDecision] = field(default_factory=list)
@@ -1505,33 +1508,23 @@ def _build_metadata_agent(
     def _validate_metadata(
         ctx: RunContext[CurateDeps], meta: SeriesMetadata
     ) -> SeriesMetadata:
-        """Post-output validation: ensure the agent tested its pattern."""
-        if ctx.deps._pattern_check_count == 0:
-            raise ModelRetry(
-                "You must call check_pattern_coverage with your proposed "
-                "episode_pattern before returning. If titles genuinely carry "
-                "no episode numbers, set episode_pattern=None.",
-            )
+        """Post-output validation: the pattern was tested and fits."""
+        titles = ctx.deps.coverage_titles or ctx.deps.titles
+        problem = metadata_problem(
+            meta.episode_pattern, titles, checks=ctx.deps._pattern_check_count
+        )
+        if problem:
+            raise ModelRetry(problem)
         if meta.episode_pattern:
             matched = sum(
                 1
-                for t in ctx.deps.titles
+                for t in titles
                 if extract_episode(meta.episode_pattern, t) is not None
             )
-            total = len(ctx.deps.titles)
-            coverage = matched / total if total else 0
-            if coverage < 0.3:
-                raise ModelRetry(
-                    f"Coverage only {coverage:.0%} ({matched}/{total}). "
-                    f"Legitimate episodes are being missed. Add a new regex "
-                    f"pattern that matches the unmatched titles, or set "
-                    f"episode_pattern=None if this series truly has no "
-                    f"numbered episodes.",
-                )
-            if coverage < 0.8:
+            if titles and matched / len(titles) < 0.8:
                 ctx.deps.on_progress(
-                    f"  [warning] Pattern coverage {coverage:.0%} "
-                    f"({matched}/{total}) is below 80%. Unmatched albums "
+                    f"  [warning] Pattern coverage {matched / len(titles):.0%} "
+                    f"({matched}/{len(titles)}) is below 80%. Unmatched albums "
                     f"may be sub-series, compilations, or non-episode content.",
                 )
         return meta
@@ -1541,7 +1534,9 @@ def _build_metadata_agent(
         ctx: RunContext[CurateDeps],
         pattern: str | list[str],
     ) -> PatternCoverageReport:
-        """Test a proposed episode_pattern against ALL discovered titles.
+        """Test a proposed episode_pattern against this series' own titles:
+        the albums it ships, or every discovered title for a series that
+        ships nothing yet.
 
         Accepts a single regex or a list of regexes (tried in order,
         first match wins). Use a list when naming conventions changed
@@ -1572,7 +1567,9 @@ def _build_metadata_agent(
                 "Set episode_pattern=None if coverage is below 80%, "
                 "or use your best pattern if coverage is acceptable.",
             )
-        report = _pattern_coverage_report(ctx.deps.titles, pattern, max_samples=15)
+        report = _pattern_coverage_report(
+            ctx.deps.coverage_titles or ctx.deps.titles, pattern, max_samples=15
+        )
         if report.message:
             ctx.deps.on_progress(
                 f"  check_pattern_coverage({pattern!r}) -> error: {report.message}",
@@ -2271,6 +2268,7 @@ async def _run_large(
     meta_deps = CurateDeps(
         providers=providers,
         titles=all_titles,
+        coverage_titles=coverage_titles(catalog_entry, all_titles),
         on_progress=on_progress,
     )
     sample_lines = "\n".join(
@@ -2971,6 +2969,52 @@ def existing_facts_lines(facts: SeriesFacts) -> list[str]:
         lines.append("Existing sub_series:")
         lines.extend(f"  - {s.label}: {s.reason}" for s in facts.sub_series)
     return lines or ["Existing facts: (none)"]
+
+
+def coverage_titles(entry: "CatalogEntry | None", discovered: list[str]) -> list[str]:
+    """The titles an episode pattern is measured against.
+
+    A series that ships albums is measured against those: on a shared
+    artist page most titles belong to other series, and a pattern for
+    the series' own line could never cover them. A series that ships
+    nothing yet has no own line to go by and is measured against every
+    discovered title.
+    """
+    shipped = (
+        [a.get("title", "") for cfg in entry.providers.values() for a in cfg.albums]
+        if entry is not None
+        else []
+    )
+    return shipped or discovered
+
+
+def metadata_problem(
+    pattern: str | list[str] | None, titles: list[str], *, checks: int
+) -> str | None:
+    """Why proposed metadata is sent back to the agent, or None.
+
+    A proposed pattern must have been tested and must cover at least
+    30% of the titles it is measured against. No pattern (named titles)
+    needs neither.
+    """
+    if not pattern:
+        return None
+    if checks == 0:
+        return (
+            "You must call check_pattern_coverage with your proposed "
+            "episode_pattern before returning. If titles genuinely carry "
+            "no episode numbers, set episode_pattern=None."
+        )
+    matched = sum(1 for t in titles if extract_episode(pattern, t) is not None)
+    coverage = matched / len(titles) if titles else 0
+    if coverage < 0.3:
+        return (
+            f"Coverage only {coverage:.0%} ({matched}/{len(titles)}). "
+            f"Legitimate episodes are being missed. Add a new regex pattern "
+            f"that matches the unmatched titles, or set episode_pattern=None "
+            f"if this series truly has no numbered episodes."
+        )
+    return None
 
 
 def _carry_facts(
