@@ -33829,14 +33829,6 @@ series:
   - '^(\d+):'
   aliases:
   - Die Schule der magischen Tiere - Hörspiele
-  series_facts:
-    known_gaps:
-    - number: 5
-      reason: Episode 5 (Der Gurkenschurke) of 'ermittelt' sub-series appears to be available only on Spotify; Apple Music catalog gap or title variant not identified in curation.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T19:06:57.110821+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T19:06:57.110821+00:00'
 - id: dikka
   title: DIKKA
   providers:
