@@ -78,3 +78,23 @@ def test_chunks_never_carry_rows_another_member_owns():
     chunks = plan_chunks(_child(800), [])
     listed = {a["album_id"] for c in chunks for a in c.albums}
     assert listed == {"own1", "stray"}
+
+
+def test_a_parent_is_told_which_lines_were_split_off() -> None:
+    """Die Schule's audit declined approval looking for its ermittelt
+    line (2026-10-01), which had become its own series: nothing in the
+    prompt said so."""
+    parent = {
+        "id": "die_schule_der_magischen_tiere",
+        "title": "Die Schule der magischen Tiere",
+        "split_children": ["die_schule_der_magischen_tiere_ermittelt"],
+        "albums": [_row("own1", include=True)],
+    }
+    prompt = build_prompt(parent, [])
+    assert "die_schule_der_magischen_tiere_ermittelt" in prompt
+    assert "own curation" in prompt
+
+
+def test_a_series_without_children_gets_no_family_note() -> None:
+    standalone = {"id": "s", "title": "S", "albums": [_row("own1", include=True)]}
+    assert "split off" not in build_prompt(standalone, []).lower()

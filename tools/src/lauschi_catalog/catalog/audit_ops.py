@@ -46,6 +46,7 @@ from lauschi_catalog.catalog.lint_ops import (
     critical_issues,
     lint_curation,
 )
+from lauschi_catalog.catalog.loader import load_catalog
 from lauschi_catalog.catalog.partition import bleed_owner
 from lauschi_catalog.catalog.paths import curation_path, log_dir
 from lauschi_catalog.fanout import run_bounded
@@ -257,6 +258,13 @@ def _header_lines(curation: dict) -> list[str]:
             "sub_series_bleed with no owner belong to the family's root: "
             "check only whether one of them is really this series' own "
             "episode, and propose no split for them."
+        )
+    children = curation.get("split_children") or []
+    if children:
+        lines.append(
+            f"Note: These lines were split off into their own series: "
+            f"{', '.join(children)}. Each is audited in its own curation, so "
+            "its albums and gaps are not missing here."
         )
     return lines
 
@@ -713,6 +721,9 @@ def _prepare_audit(
         return None
 
     curation = load_curation(series_id)
+    children = [e.id for e in load_catalog() if e.split_from == series_id]
+    if children:
+        curation["split_children"] = children
     state = CurationState.from_curation(curation)
     stale = audit_is_stale(curation)
     if not force and not stale and not needs_audit(state):
