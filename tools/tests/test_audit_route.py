@@ -48,10 +48,11 @@ _ONE_SHOT_MAX = _AUDIT_PROFILE.one_shot_max_tokens
 # Split families share their artist pages, but rows another member owns
 # are counted rather than listed (audit_ops._audit_scope), so a family
 # page alone no longer pushes a parent or child past the boundary.
+# wieso_weshalb_warum left on 2026-10-01 once its 181 Junior and
+# Erstleser rows named their owners.
 _CHUNKED_SERIES = {
     "paw_patrol",
     "stephen_janetzko",
-    "wieso_weshalb_warum",
 }
 
 # The largest series shown to pass in one shot. It must stay above the

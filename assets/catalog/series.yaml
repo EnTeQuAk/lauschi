@@ -33637,99 +33637,115 @@ series:
       - id: 21JyQm4gA1T6JPP9D2M6n1
         episode: 1
         title: '01: Die Schule der magischen Tiere'
+        release_date: '2018-01-24'
       - id: 1isQiIubSAe8uOvzDfAF3H
         episode: 2
         title: '02: Voller Löcher!'
+        release_date: '2018-01-25'
       - id: 5TfoKo78yKBCWbLqboT9pl
         episode: 3
         title: '03: Licht aus!'
+        release_date: '2018-01-26'
       - id: 756UFNiaRWDFiIvXdAfrKQ
         episode: 4
         title: '04: Abgefahren!'
+        release_date: '2018-09-26'
       - id: 7fEGweN9eH9qPRDJ5AjumD
         episode: 5
         title: '05: Top oder Flop!'
+        release_date: '2018-09-27'
       - id: 11TICoqmIEY3dDf7XiFcAt
         episode: 6
         title: '06: Nass und nasser'
-      - id: 59I8Hl9YYx3RuiXgNQxZEj
+        release_date: '2018-09-28'
+      - id: 6X09jzgS0peMkPRtDw47bK
         episode: 7
         title: '07: Wo ist Mr. M?'
-      - id: 7wOZOFofAgQj5RkgkDsP3u
+        release_date: '2019-08-30'
+      - id: 3rDUTgxONiZHsRHB8L6YXm
         episode: 8
         title: '08: Voll verknallt!'
-      - id: 4WIXp1CtcNtjy6ST6PYDU5
+        release_date: '2019-08-30'
+      - id: 2pjVBXXNGIAxYNyuiqBQuQ
         episode: 9
         title: '09: Versteinert!'
-      - id: 19ETAfHVmfLdNCblyzxnEx
+        release_date: '2019-08-30'
+      - id: 37wa2CDk8o51cOuFTcqACg
         episode: 10
         title: '10: Hin und weg!'
+        release_date: '2020-03-06'
       - id: 35GBDxpgWrAQDk8v2zywMX
         episode: 11
         title: '11: Wilder, wilder Wald!'
+        release_date: '2021-02-05'
       - id: 5KAiz0MNnhq5gGko9knR76
         episode: 12
         title: '12: Voll das Chaos!'
+        release_date: '2021-11-26'
       - id: 5nJA9iloM84ePXu7kMBpka
         episode: 13
         title: '13: Bravo, bravissimo!'
+        release_date: '2022-11-04'
       - id: 1hJPZNkKT3NeK6SK4rTPIm
         episode: 14
         title: '14: Ach du Schreck!'
+        release_date: '2023-11-24'
       - id: 5qC7Jr1oiwlwp663Uoi0Ng
         episode: 15
         title: '15: Vierundzwanzig'
+        release_date: '2024-12-06'
       - id: 2XgghqqSSYMgqzIYWTSTbZ
         episode: 16
         title: '16: Land unter!'
+        release_date: '2025-10-03'
       - id: 5AVlKonmf9X6D2IRJJrbpU
         title: 'Die Schule der magischen Tiere - Hörspiele: Witze!'
+        release_date: '2019'
       - id: 6y5OBVbcnhU6BbEXCX9XoA
         title: 'Endlich Ferien 01: Rabbat und Ida'
+        release_date: '2019-05-17'
       - id: 0tax3ZStMyaU8rak9TJ6cs
         title: 'Endlich Ferien 02: Silas und Rick'
+        release_date: '2019-05-17'
       - id: 7qRSZOL23yGru3xymVdZJH
         title: 'Endlich Ferien 03: Henry und Leander'
-      - id: 643cmle3dhPECgxkcig9rU
-        title: 'Die Schule der magischen Tiere ermittelt Neuausgabe 2: Der Hausschuh-Dieb (Der fröhliche Mini-Krimi mit den beliebten magischen Tieren)'
+        release_date: '2019-05-17'
       - id: 0IuqwNz9RuQAMVnMEwOUv9
         title: 'Endlich Ferien 04: Helene und Karajan'
+        release_date: '2020-06-05'
       - id: 5xLcIgxQauHyKrJ1zTQPNE
         title: 'Endlich Ferien 05: Benni und Henrietta'
+        release_date: '2020-06-05'
       - id: 6w6QEuBt1MHOuxC2N7QN2s
         title: Eingeschneit! Ein Winterabenteuer
-      - id: 4GSCVM2I65Axk4SnLG7uwP
-        title: 'Die Schule der magischen Tiere ermittelt - Hörspiele 3: Der Kokosnuss-Klau'
+        release_date: '2020-10-23'
       - id: 6aoLiV4Ljy1lf4OjO3NsOh
         title: 'Endlich Ferien 06: Hatice und Mette-Maja'
+        release_date: '2021-05-28'
       - id: 7AiahzWnYQyp0s5do79qtd
         title: Die Schule der magischen Tiere - Hörspiel zum Film
-      - id: 4cnVJNwU7zxqoWhdXfTQVE
-        title: 'Die Schule der magischen Tiere ermittelt - Hörspiele 4: Der Flötenschreck'
+        release_date: '2021-09-17'
       - id: 39iuzjoFbMjXjmR6Ugids1
         title: 'Endlich Ferien 07: Max und Muriel'
-      - id: 04BuA44dPX7sScp7gVKvg4
-        title: 'Die Schule der magischen Tiere: Mister Morrisons gesammeltes Tierwissen'
+        release_date: '2022-06-24'
       - id: 57SIUrP27UFwFxKKWXEmuJ
         title: Die Schule der magischen Tiere 2 - Hörspiel zum Film
-      - id: 2BV1llH2yEJHA0sd1v79XS
-        title: 'Die Schule der magischen Tiere ermittelt - Hörspiele 5: Der Gurkenschurke'
+        release_date: '2022-09-23'
+      - id: 04BuA44dPX7sScp7gVKvg4
+        title: 'Die Schule der magischen Tiere Erstausstattung: Mister Morrisons gesammeltes Tierwissen'
+        release_date: '2022-09-29'
       - id: 4cAtFVlC8CUbMOZhKA66T6
         title: 'Endlich Ferien 08: Franka & Cooper'
-      - id: 40ykQ1s1aXHBvqY01icOgH
-        title: 'Die Schule der magischen Tiere ermittelt - Hörspiele 6: Die Plätzchenfalle'
+        release_date: '2023-06-09'
       - id: 6QqN7eIdQxZRaEuOCKE2BP
         title: 'Endlich Ferien 09: Elisa und Silber'
+        release_date: '2024-08-23'
       - id: 7bB2Qm2ldjkV4UCgZSx6Id
         title: Die Schule der magischen Tiere 3 - Hörspiel zum Kinofilm
-      - id: 6J0lMf0VTKlMOFdOWBH6cx
-        title: 'Die Schule der magischen Tiere ermittelt Neuausgabe 1: Der grüne Glibber-Brief (Der fröhliche Mini-Krimi mit den beliebten magischen Tieren)'
-      - id: 0wJI1LC9ILBeqfdmmbtgOY
-        title: 'Die Schule der magischen Tiere ermittelt Neuausgabe 7: Das Biber-Rätsel (Der fröhliche Mini-Krimi mit den beliebten magischen Tieren)'
+        release_date: '2024-09-27'
       - id: 1hhNtSsFWuqeNsV1gXiiQV
         title: Die Schule der magischen Tiere 4 - Hörspiel zum Kinofilm
-      - id: 7xo3FS0wq9Y8xZeObRrNmM
-        title: 'Die Schule der magischen Tiere ermittelt: Die Erdbeer-Spur (Folge 8)'
+        release_date: '2025-09-26'
     apple_music:
       artist_ids:
       - '1328909127'
@@ -33739,96 +33755,178 @@ series:
       - id: '1875981083'
         episode: 1
         title: '01: Die Schule der magischen Tiere'
+        release_date: '2018-01-24'
       - id: '1875981203'
         episode: 2
         title: '02: Voller Löcher!'
+        release_date: '2018-01-25'
       - id: '1875981054'
         episode: 3
         title: '03: Licht aus!'
+        release_date: '2018-01-26'
       - id: '1875981660'
         episode: 4
         title: '04: Abgefahren!'
+        release_date: '2018-09-26'
       - id: '1885852318'
         episode: 5
         title: '05: Top oder Flop!'
+        release_date: '2018-09-27'
       - id: '1894791871'
         episode: 6
         title: '06: Nass und nasser'
+        release_date: '2026-04-30'
       - id: '6771691431'
         episode: 7
         title: '07: Wo ist Mr. M?'
+        release_date: '2019-08-30'
       - id: '6782990555'
         episode: 8
         title: '08: Voll verknallt!'
-      - id: '1686283833'
+        release_date: '2019-08-30'
+      - id: '6808632317'
         episode: 9
         title: '09: Versteinert!'
-      - id: '1686286438'
+        release_date: '2019-08-30'
+      - id: '6808631789'
         episode: 10
         title: '10: Hin und weg!'
+        release_date: '2020-03-06'
       - id: '1686249232'
         episode: 11
         title: '11: Wilder, wilder Wald!'
+        release_date: '2021-02-05'
       - id: '1686277307'
         episode: 12
         title: '12: Voll das Chaos!'
+        release_date: '2021-11-26'
       - id: '1686235809'
         episode: 13
         title: '13: Bravo, bravissimo!'
+        release_date: '2022-10-28'
       - id: '1716335135'
         episode: 14
         title: '14: Ach du Schreck!'
+        release_date: '2023-11-24'
       - id: '1781714939'
         episode: 15
         title: '15: Vierundzwanzig'
+        release_date: '2024-12-06'
       - id: '1841670092'
         episode: 16
         title: '16: Land unter!'
+        release_date: '2025-10-03'
       - id: '1686139756'
         title: 'Endlich Ferien 1: Rabbat und Ida'
+        release_date: '2019-05-17'
       - id: '1686142581'
         title: 'Endlich Ferien 2: Silas und Rick'
+        release_date: '2019-05-17'
       - id: '1686140413'
         title: 'Endlich Ferien 3: Henry und Leander'
+        release_date: '2019-05-17'
       - id: '1686242747'
         title: 'Endlich Ferien 4: Helene und Karajan'
+        release_date: '2020-06-05'
       - id: '1686261888'
         title: 'Endlich Ferien 5: Benni und Henrietta'
+        release_date: '2020-06-05'
       - id: '1686073562'
         title: Eingeschneit! Ein Winterabenteuer
-      - id: '1647812789'
-        title: 'Die Schule der magischen Tiere ermittelt - Hörspiele 3: Der Kokosnuss-Klau'
+        release_date: '2020-10-23'
       - id: '1686281064'
         title: 'Endlich Ferien 6: Hatice und Mette-Maja'
-      - id: '1616895199'
-        title: 'Die Schule der magischen Tiere ermittelt - Hörspiele 4: Der Flötenschreck'
+        release_date: '2021-05-28'
       - id: '1686207054'
         title: 'Endlich Ferien 7: Max und Muriel'
+        release_date: '2022-06-24'
       - id: '1642750282'
         title: Die Schule der magischen Tiere 2 - Hörspiel zum Film
+        release_date: '2022-09-23'
       - id: '1689357610'
         title: 'Endlich Ferien 8: Franka & Cooper'
-      - id: '1702832306'
-        title: 'Die Schule der magischen Tiere ermittelt - Hörspiele 6: Die Plätzchenfalle'
+        release_date: '2023-06-09'
       - id: '1761360366'
         title: 'Endlich Ferien 09: Elisa und Silber'
+        release_date: '2024-08-23'
       - id: '1769665977'
         title: Die Schule der magischen Tiere 3 - Hörspiel zum Kinofilm
+        release_date: '2024-09-27'
       - id: '1841820000'
         title: Die Schule der magischen Tiere 4 - Hörspiel zum Kinofilm
-      - id: '1831929684'
-        title: 'Die Schule der magischen Tiere ermittelt Neuausgabe 1: Der grüne Glibber-Brief (Der fröhliche Mini-Krimi mit den beliebten magischen Tieren)'
-      - id: '1834927140'
-        title: 'Die Schule der magischen Tiere ermittelt Neuausgabe 7: Das Biber-Rätsel (Der fröhliche Mini-Krimi mit den beliebten magischen Tieren)'
-      - id: '1866626908'
-        title: 'Die Schule der magischen Tiere ermittelt Neuausgabe 2: Der Hausschuh-Dieb (Der fröhliche Mini-Krimi mit den beliebten magischen Tieren)'
-      - id: '1895109986'
-        title: 'Die Schule der magischen Tiere ermittelt: Die Erdbeer-Spur (Folge 8)'
+        release_date: '2025-09-26'
   episode_pattern:
   - '^Die Schule der magischen Tiere (\d+):'
   - '^(\d+):'
   aliases:
   - Die Schule der magischen Tiere - Hörspiele
+  series_facts:
+    known_gaps:
+    - number: 17
+      range_end:
+      reason: Main series paused after episode 16 (Dec 2025). Episode 17 not yet published.
+      curated_by: minimax-m2.7
+      curated_at: '2026-10-01T05:35:54.484526+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-10-01T05:35:54.484526+00:00'
+    - number: 18
+      range_end:
+      reason: Main series paused after episode 16 (Dec 2025). Episode 18 not yet published.
+      curated_by: minimax-m2.7
+      curated_at: '2026-10-01T05:35:54.484526+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-10-01T05:35:54.484526+00:00'
+    sub_series:
+    - label: endlich_ferien
+      album_ids:
+      - apple_music:1686139756
+      - apple_music:1686140413
+      - apple_music:1686142581
+      - apple_music:1686207054
+      - apple_music:1686242747
+      - apple_music:1686261888
+      - apple_music:1686281064
+      - apple_music:1689357610
+      - apple_music:1761360366
+      - spotify:0IuqwNz9RuQAMVnMEwOUv9
+      - spotify:0tax3ZStMyaU8rak9TJ6cs
+      - spotify:39iuzjoFbMjXjmR6Ugids1
+      - spotify:4cAtFVlC8CUbMOZhKA66T6
+      - spotify:5xLcIgxQauHyKrJ1zTQPNE
+      - spotify:6QqN7eIdQxZRaEuOCKE2BP
+      - spotify:6aoLiV4Ljy1lf4OjO3NsOh
+      - spotify:6y5OBVbcnhU6BbEXCX9XoA
+      - spotify:7qRSZOL23yGru3xymVdZJH
+      reason: Sub-series of holiday stories with own numbering (1-9). Not part of main series episode count. Both Karussell Hörspiele (included) and Silberfisch audiobooks (excluded) versions exist.
+      curated_by: minimax-m2.7
+      curated_at: '2026-10-01T05:35:54.484526+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-10-01T05:35:54.484526+00:00'
+    - label: film_tie_in
+      album_ids:
+      - apple_music:1642750282
+      - apple_music:1769665977
+      - apple_music:1841820000
+      - spotify:1hhNtSsFWuqeNsV1gXiiQV
+      - spotify:57SIUrP27UFwFxKKWXEmuJ
+      - spotify:7AiahzWnYQyp0s5do79qtd
+      - spotify:7bB2Qm2ldjkV4UCgZSx6Id
+      reason: Film adaptation Hörspiele, not part of main series episode numbering. Film 1 (2021), Film 2 (2022), Film 3 (2024), Film 4 (2025). Each has a corresponding Silberfisch audiobook version 
+        (excluded) and score/soundtrack album (excluded).
+      curated_by: minimax-m2.7
+      curated_at: '2026-10-01T05:35:54.484526+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-10-01T05:35:54.484526+00:00'
+    - label: specials
+      album_ids:
+      - apple_music:1686073562
+      - spotify:5AVlKonmf9X6D2IRJJrbpU
+      - spotify:6w6QEuBt1MHOuxC2N7QN2s
+      reason: "Special Hörsppiele: 'Witze!' joke collection (2019) and 'Eingeschneit! Ein Winterabenteuer' winter special (2020). No main-series episode number."
+      curated_by: minimax-m2.7
+      curated_at: '2026-10-01T05:35:54.484526+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-10-01T05:35:54.484526+00:00'
 - id: dikka
   title: DIKKA
   providers:
@@ -46673,15 +46771,84 @@ series:
   title: Die Schule der magischen Tiere ermittelt
   aliases: []
   episode_pattern:
-  content_type: hoerspiel
+  - '^Die Schule der magischen Tiere ermittelt (?:- Hörspiele |Erstausstattung |Neuausgabe )?(\d+):'
+  - '^Die Schule der magischen Tiere ermittelt: .*?\(Folge (\d+)\)'
+  - '^Folge (\d+): .*?\(Die Schule der magischen Tiere ermittelt\)'
+  - '^(\d+):'
   split_from: die_schule_der_magischen_tiere
   providers:
     spotify:
       artist_ids:
       - 1BElEHaU2xaZg7FOGsSird
       - 6wlMx6MhWCynm8yVU0K3V3
+      albums:
+      - id: 6J0lMf0VTKlMOFdOWBH6cx
+        episode: 1
+        title: 'Die Schule der magischen Tiere ermittelt 1: Der grüne Glibber-Brief (Der fröhliche Mini-Krimi mit den beliebten magischen Tieren)'
+        release_date: '2025-09-18'
+      - id: 643cmle3dhPECgxkcig9rU
+        episode: 2
+        title: 'Die Schule der magischen Tiere ermittelt 2: Der Hausschuh-Dieb (Der fröhliche Mini-Krimi mit den beliebten magischen Tieren)'
+        release_date: '2020'
+      - id: 2iEJhZIpVQuEPY0ZqkCPLA
+        episode: 3
+        title: 'Die Schule der magischen Tiere ermittelt 3: Der Kokosnuss-Klau (Der fröhliche Mini-Krimi mit den beliebten magischen Tieren)'
+        release_date: '2026-09-25'
+      - id: 6T28gBFAvET4C01g2sFP3H
+        episode: 4
+        title: 'Die Schule der magischen Tiere ermittelt 4: Der Flötenschreck (Der fröhliche Mini-Krimi mit den beliebten magischen Tieren)'
+        release_date: '2026-09-25'
+      - id: 2BV1llH2yEJHA0sd1v79XS
+        episode: 5
+        title: 'Die Schule der magischen Tiere ermittelt Erstausstattung 5: Der Gurkenschurke'
+        release_date: '2023-04-27'
+      - id: 40ykQ1s1aXHBvqY01icOgH
+        episode: 6
+        title: 'Die Schule der magischen Tiere ermittelt Erstausstattung 6: Die Plätzchenfalle'
+        release_date: '2023-09-28'
+      - id: 0wJI1LC9ILBeqfdmmbtgOY
+        episode: 7
+        title: 'Die Schule der magischen Tiere ermittelt 7: Das Biber-Rätsel (Der fröhliche Mini-Krimi mit den beliebten magischen Tieren)'
+        release_date: '2025-09-18'
+      - id: 7xo3FS0wq9Y8xZeObRrNmM
+        episode: 8
+        title: 'Die Schule der magischen Tiere ermittelt: Die Erdbeer-Spur (Folge 8)'
+        release_date: '2026-04-30'
     apple_music:
       artist_ids:
       - '1328909127'
       - '1676101199'
       - '1805765716'
+      albums:
+      - id: '1831929684'
+        episode: 1
+        title: 'Die Schule der magischen Tiere ermittelt Neuausgabe 1: Der grüne Glibber-Brief (Der fröhliche Mini-Krimi mit den beliebten magischen Tieren)'
+        release_date: '2025-09-29'
+      - id: '1866626908'
+        episode: 2
+        title: 'Die Schule der magischen Tiere ermittelt Neuausgabe 2: Der Hausschuh-Dieb (Der fröhliche Mini-Krimi mit den beliebten magischen Tieren)'
+        release_date: '2026-04-30'
+      - id: '6767594795'
+        episode: 3
+        title: 'Die Schule der magischen Tiere ermittelt 3: Der Kokosnuss-Klau (Der fröhliche Mini-Krimi mit den beliebten magischen Tieren)'
+        release_date: '2026-09-25'
+      - id: '6767594539'
+        episode: 4
+        title: 'Die Schule der magischen Tiere ermittelt 4: Der Flötenschreck (Der fröhliche Mini-Krimi mit den beliebten magischen Tieren)'
+        release_date: '2026-09-25'
+      - id: '1678113655'
+        episode: 5
+        title: 'Folge 5: Der Gurkenschurke (Die Schule der magischen Tiere ermittelt)'
+        release_date: '2023-04-27'
+      - id: '1702832306'
+        episode: 6
+        title: 'Die Schule der magischen Tiere ermittelt - Hörspiele 6: Die Plätzchenfalle'
+        release_date: '2023-09-28'
+      - id: '1834927140'
+        episode: 7
+        title: 'Die Schule der magischen Tiere ermittelt Neuausgabe 7: Das Biber-Rätsel (Der fröhliche Mini-Krimi mit den beliebten magischen Tieren)'
+        release_date: '2025-09-29'
+      - id: '1895109986'
+        episode: 8
+        title: 'Die Schule der magischen Tiere ermittelt: Die Erdbeer-Spur (Folge 8)'
+        release_date: '2026-04-30'
