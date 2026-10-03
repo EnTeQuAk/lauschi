@@ -15,6 +15,7 @@ from lauschi_catalog.catalog import reasons
 from lauschi_catalog.catalog.analysis import group_by_shape, normalize_title
 from lauschi_catalog.catalog.facts import SeriesFacts
 from lauschi_catalog.catalog.matcher import extract_episode
+from lauschi_catalog.catalog.partition import bleed_owner
 
 # Issues with this prefix are hard-gate: the audit phase refuses to
 # auto-approve while any are present, regardless of the audit model's
@@ -154,6 +155,16 @@ def _reason_key(exclude_reason: str | None) -> str:
 # Redundancy reasons (duplicate, format_variant) describe a relationship
 # to another album, not the content, and a split on them is deliberate.
 _CONTENT_REASONS = reasons.CONTRADICTION_REASON_KEYS
+
+
+def _owned_elsewhere(curation_id: str | None, album: dict) -> bool:
+    """An excluded row another series owns: code routed it there, and that
+    series' own curation and audit decide it, so it is not this one's
+    finding (same scope as audit_ops._audit_scope)."""
+    if album.get("include"):
+        return False
+    owner = bleed_owner(album.get("notes"))
+    return owner is not None and owner != curation_id
 
 
 def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
@@ -376,6 +387,7 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
         if (
             a.get("include")
             or _reason_key(a.get("exclude_reason")) not in _CONTENT_REASONS
+            or _owned_elsewhere(curation.get("id"), a)
         ):
             continue
         norm = _norm_title(a.get("title") or "")
@@ -408,6 +420,7 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
             for m in members
             if not m.get("include")
             and _reason_key(m.get("exclude_reason")) in _CONTENT_REASONS
+            and not _owned_elsewhere(curation.get("id"), m)
         ]
         if inc_n and content_exc:
             reason_labels = sorted(
@@ -426,7 +439,7 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
     # so the direction of the prefix decides.
     excluded_by_provider: dict[str, list[dict]] = {}
     for a in albums:
-        if not a.get("include"):
+        if not a.get("include") and not _owned_elsewhere(curation.get("id"), a):
             excluded_by_provider.setdefault(a.get("provider", "?"), []).append(a)
     for a in albums:
         if not a.get("include"):
@@ -436,7 +449,9 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
             continue
         for b in excluded_by_provider.get(a.get("provider", "?"), []):
             nb = _norm_title(b.get("title") or "")
-            if nb and na != nb and na.startswith(nb):
+            # A fragment continues the full title at a word boundary:
+            # "folge 10: ..." does not continue an album titled "folge 1".
+            if nb and na != nb and na.startswith(nb) and not na[len(nb)].isalnum():
                 issues.append(
                     f"[fragment_included] {a.get('provider')}:{a.get('album_id')} "
                     f"{a.get('title')!r} looks like a fragment of excluded "
