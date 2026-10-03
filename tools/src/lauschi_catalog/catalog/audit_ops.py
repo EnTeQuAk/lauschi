@@ -1109,6 +1109,40 @@ def _merge_facts(
         series_facts[key] = list(existing.values())
 
 
+def _drop_included_gaps(
+    update: AuditFactUpdate,
+    included_eps: set[int],
+    existing_eras: list[dict],
+) -> tuple[AuditFactUpdate, list[str]]:
+    """Leave out proposed known gaps for episodes that are included.
+
+    A known gap means the episode does not exist; an episode included on
+    any provider is not one (the 2026-10-02 audit wrote 95 such gaps,
+    "Spotify-only; no Apple Music entry"). Same rule as
+    reconcile.drop_stale_known_gaps: only for a series with at most one
+    era, where a classic-versus-new numbering clash cannot make a real
+    gap look filled. Returns the update and a concern per gap left out.
+    """
+    if len(existing_eras) + len(update.era_boundaries) > 1:
+        return update, []
+    kept: list[KnownGapProposal] = []
+    refused: list[str] = []
+    for g in update.known_gaps:
+        span = set(range(g.number, (g.range_end or g.number) + 1))
+        hit = sorted(span & included_eps)
+        if hit:
+            refused.append(
+                f"[gap_included] known gap {g.number}"
+                f"{'-' + str(g.range_end) if g.range_end else ''} not recorded: "
+                f"episode(s) {', '.join(map(str, hit))} included ({g.reason})"
+            )
+        else:
+            kept.append(g)
+    if not refused:
+        return update, []
+    return update.model_copy(update={"known_gaps": kept}), refused
+
+
 def apply_audit(
     series_id: str,
     result: AuditResult,
@@ -1216,7 +1250,16 @@ def apply_audit(
     series_facts = data.setdefault("series_facts", {})
     prov = fact_provenance(by=model_name, at=now, audited=True)
     # An escalated run must not touch state; facts are state too.
+    included_eps = {
+        a.get("episode_num")
+        for a in albums
+        if a.get("include") and a.get("episode_num") is not None
+    }
     for update in [] if escalated else result.fact_updates:
+        update, refused = _drop_included_gaps(
+            update, included_eps, series_facts.get("era_boundaries") or []
+        )
+        unknown_concerns.extend(refused)
         if update.mode == "replace":
             series_facts["era_boundaries"] = [
                 {**e.model_dump(), **prov} for e in update.era_boundaries

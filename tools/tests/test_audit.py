@@ -1294,6 +1294,31 @@ class TestApplyAuditOutputCaps:
             "[owned_elsewhere]" in c and "kid" in c for c in data["review"]["concerns"]
         )
 
+    def test_a_known_gap_for_an_included_episode_is_refused(self, tmp_path):
+        """The 2026-10-02 audit recorded 95 known gaps for episodes that
+        are included on one provider ("Spotify-only; no Apple Music
+        entry"). A known gap means the episode does not exist, so an
+        included episode is never one."""
+        curation = self._big_curation(5)
+        result = AuditResult(
+            approve=True,
+            fact_updates=[
+                AuditFactUpdate(
+                    known_gaps=[
+                        KnownGapProposal(number=3, reason="Spotify-only"),
+                        KnownGapProposal(number=9, reason="never released"),
+                    ]
+                )
+            ],
+        )
+        action, data = self._apply(tmp_path, curation, result)
+        assert action == "overridden"
+        gaps = [g["number"] for g in data["series_facts"]["known_gaps"]]
+        assert gaps == [9]
+        assert any(
+            "[gap_included]" in c and "3" in c for c in data["review"]["concerns"]
+        )
+
     def test_unknown_album_id_becomes_a_concern(self, tmp_path):
         curation = self._big_curation(3)
         result = AuditResult(
