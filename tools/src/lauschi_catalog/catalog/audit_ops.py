@@ -892,17 +892,28 @@ def keep_chunk_overrides(result: AuditResult, chunk: Chunk) -> AuditResult:
     """
     own = {(a.get("provider"), a.get("album_id")) for a in chunk.albums}
     kept = [o for o in result.overrides if (o.provider, o.album_id) in own]
-    outside = [
-        f"[out_of_chunk] {o.provider}:{o.album_id} is outside chunk "
-        f"'{chunk.label}'; {o.action} ({o.reason}) not applied"
-        for o in result.overrides
-        if (o.provider, o.album_id) not in own
-    ]
+    outside = [o for o in result.overrides if (o.provider, o.album_id) not in own]
     if not outside:
         return result
-    return result.model_copy(
-        update={"overrides": kept, "concerns": [*result.concerns, *outside]}
+    sample = ", ".join(
+        f"{o.provider}:{o.album_id} {o.action}" for o in outside[:_OUTSIDE_SAMPLE]
     )
+    more = (
+        f" +{len(outside) - _OUTSIDE_SAMPLE} more"
+        if len(outside) > _OUTSIDE_SAMPLE
+        else ""
+    )
+    concern = (
+        f"[out_of_chunk] chunk '{chunk.label}': {len(outside)} override(s) outside "
+        f"it not applied ({sample}{more})"
+    )
+    return result.model_copy(
+        update={"overrides": kept, "concerns": [*result.concerns, concern]}
+    )
+
+
+#: out-of-chunk overrides named in the concern; the rest are counted.
+_OUTSIDE_SAMPLE = 5
 
 
 def merge_results(partials: list[AuditResult]) -> AuditResult:

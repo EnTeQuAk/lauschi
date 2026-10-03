@@ -441,8 +441,23 @@ def test_a_chunk_override_outside_its_chunk_is_recorded_not_applied():
     assert [o.album_id for o in scoped.overrides] == ["a1"]
     assert scoped.approve is True
     assert any(
-        "[out_of_chunk] spotify:a9" in c and "Folge 1-2" in c for c in scoped.concerns
+        c.startswith("[out_of_chunk]") and "spotify:a9" in c and "Folge 1-2" in c
+        for c in scoped.concerns
     )
+
+
+def test_a_chunks_out_of_chunk_overrides_are_one_concern():
+    """paw_patrol's review carried 51 [out_of_chunk] lines (2026-10-02);
+    one per chunk says the same and leaves the review readable."""
+    chunk = Chunk(label="Folge 1-2", albums=[_album(1), _album(2)])
+    result = AuditResult(
+        approve=True,
+        overrides=[_ov(f"a{i}", "exclude") for i in range(7, 12)],
+    )
+    concerns = [
+        c for c in keep_chunk_overrides(result, chunk).concerns if "[out_of_chunk]" in c
+    ]
+    assert len(concerns) == 1 and "5 override(s)" in concerns[0]
 
 
 def test_merge_any_disapproving_chunk_disapproves():

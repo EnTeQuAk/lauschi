@@ -732,3 +732,21 @@ class TestUnspecifiedCount:
         ]
         issues = lint_curation({"id": "s", "content_type": "music", "albums": albums})
         assert not any(i.startswith("[unspecified_count]") for i in issues)
+
+
+def test_unaudited_sub_series_are_one_count_line():
+    """Unaudited sub_series are pending split proposals; 117 of the 151
+    unaudited-fact lines on 2026-10-03 listed them one by one, which
+    `catalog-splits list` already does."""
+    curation = {
+        "albums": [],
+        "series_facts": {
+            "sub_series": [
+                {"label": f"line{i}", "reason": "r", "album_ids": []} for i in range(4)
+            ]
+        },
+    }
+    lines = [i for i in lint_curation(curation) if "sub_series" in i]
+    assert lines == [
+        "4 unaudited sub_series (pending split proposals, see catalog-splits list)"
+    ]

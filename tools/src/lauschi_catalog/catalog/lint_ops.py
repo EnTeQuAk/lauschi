@@ -322,9 +322,12 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
             if not g.audited_by:
                 label = f"{g.number}-{g.range_end}" if g.range_end else str(g.number)
                 issues.append(f"Unaudited known_gap ep {label}")
-        for s in facts.sub_series:
-            if not s.audited_by:
-                issues.append(f"Unaudited sub_series '{s.label}'")
+        n_subs = sum(1 for s in facts.sub_series if not s.audited_by)
+        if n_subs:
+            issues.append(
+                f"{n_subs} unaudited sub_series (pending split proposals, "
+                f"see catalog-splits list)"
+            )
 
     # ── Rule 9: Future-dated releases ────────────────────────────────
     # Deterministic on purpose: models date-reason from their training
