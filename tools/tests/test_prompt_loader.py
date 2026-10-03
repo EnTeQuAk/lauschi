@@ -120,6 +120,14 @@ class TestPolicyTeaching:
     """The policy decided 2026-09-05 is taught, not listed; these pins keep
     the statements that carry a decision alive until someone re-decides."""
 
+    def test_an_ep_is_included_and_is_not_a_single(self):
+        """Decided 2026-10-03: a music artist's EP is a small album, while
+        an EP label in a Hörspiel series says nothing about the content."""
+        music = load_curate_skill(phase="batch", content_type="music")
+        assert "An EP is not a single." in music
+        hoerspiel = load_curate_skill(phase="batch", content_type="hoerspiel")
+        assert "no signal on its own" in hoerspiel
+
     def test_two_stories_in_one_release_are_an_episode_and_doppelfolge_is_gone(self):
         p = load_curate_skill(phase="batch", content_type="hoerspiel")
         assert "Two stories in one release is not a repackaging" in p

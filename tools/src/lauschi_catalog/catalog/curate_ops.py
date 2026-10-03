@@ -1995,9 +1995,9 @@ def _dedupe_albums(albums: list[dict]) -> list[dict]:
 def _discovery_album_dict(provider_name: str, album) -> dict:
     """Convert a provider Album to the dict shape the curate flow uses.
 
-    album_type (album/single/compilation, Spotify only) is part of the
-    batch prompt: it lets the agent tell artist-own primary albums from
-    repackaged compilations.
+    album_type (album/single/ep/compilation, the store's own label) is
+    part of the batch prompt: it lets the agent tell artist-own primary
+    albums from repackaged compilations and EPs from singles.
     """
     return {
         "provider": provider_name,

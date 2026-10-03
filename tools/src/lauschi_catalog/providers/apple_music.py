@@ -19,6 +19,20 @@ CACHE_DIR = cache_dir("apple_music")
 KEY_PATH = repo_root() / "android" / "app" / "AuthKey_PWHK2R76T9.p8"
 
 
+def _album_type(attrs: dict) -> str:
+    """The release type as the store labels it: its single and
+    compilation flags, and the " - EP" title suffix it gives EPs. Track
+    count says nothing here, a Hörspiel episode often has one to five
+    tracks."""
+    if attrs.get("isSingle"):
+        return "single"
+    if attrs.get("isCompilation"):
+        return "compilation"
+    if attrs.get("name", "").rstrip().endswith(" - EP"):
+        return "ep"
+    return "album"
+
+
 def _pick_artwork(attrs: dict, size: int = 300) -> str:
     """Resolve Apple Music artwork URL template to a concrete URL."""
     artwork = attrs.get("artwork", {})
@@ -167,6 +181,7 @@ class AppleMusicProvider(CachedHttpProvider):
                 release_date=a["attributes"].get("releaseDate", ""),
                 total_tracks=a["attributes"].get("trackCount", 0),
                 artists=a["attributes"].get("artistName", ""),
+                album_type=_album_type(a["attributes"]),
                 image_url=_pick_artwork(a.get("attributes", {})),
             )
             for a in raw
@@ -195,17 +210,6 @@ class AppleMusicProvider(CachedHttpProvider):
         attrs = data["attributes"]
         tracks_data = data.get("relationships", {}).get("tracks", {}).get("data", [])
 
-        # Derive album_type from Apple Music flags
-        am_type = ""
-        if attrs.get("isSingle"):
-            am_type = "single"
-        elif attrs.get("isCompilation"):
-            am_type = "compilation"
-        elif attrs.get("trackCount", 0) <= 5:
-            am_type = "ep"
-        else:
-            am_type = "album"
-
         return Album(
             id=data["id"],
             name=attrs["name"],
@@ -213,7 +217,7 @@ class AppleMusicProvider(CachedHttpProvider):
             release_date=attrs.get("releaseDate", ""),
             total_tracks=attrs.get("trackCount", 0),
             artists=attrs.get("artistName", ""),
-            album_type=am_type,
+            album_type=_album_type(attrs),
             image_url=_pick_artwork(attrs),
             tracks=[
                 Track(
@@ -236,6 +240,7 @@ class AppleMusicProvider(CachedHttpProvider):
             release_date=attrs.get("releaseDate", ""),
             total_tracks=attrs.get("trackCount", 0),
             artists=attrs.get("artistName", ""),
+            album_type=_album_type(attrs),
             image_url=_pick_artwork(attrs),
         )
 
@@ -262,6 +267,7 @@ class AppleMusicProvider(CachedHttpProvider):
                 provider="apple_music",
                 total_tracks=a["attributes"].get("trackCount", 0),
                 artists=a["attributes"].get("artistName", ""),
+                album_type=_album_type(a["attributes"]),
                 image_url=_pick_artwork(a.get("attributes", {})),
             )
             for a in raw

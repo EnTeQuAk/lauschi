@@ -20,6 +20,19 @@ from lauschi_catalog.providers.base import (
 CACHE_DIR = cache_dir("spotify")
 
 
+def _album_type(raw: dict) -> str:
+    """The release type, with EPs named as such.
+
+    The API knows only album, single and compilation and returns EPs as
+    singles. Spotify's own release types make a single one to three
+    tracks, so a "single" of four or more is the EP it is.
+    """
+    kind = raw.get("album_type", "")
+    if kind == "single" and raw.get("total_tracks", 0) >= 4:
+        return "ep"
+    return kind
+
+
 def _pick_image(images: list[dict]) -> str:
     """Pick a ~300px image URL from Spotify's images array (sorted largest-first)."""
     if not images:
@@ -184,7 +197,7 @@ class SpotifyProvider(CachedHttpProvider):
                 provider="spotify",
                 release_date=a.get("release_date", ""),
                 total_tracks=a.get("total_tracks", 0),
-                album_type=a.get("album_type", ""),
+                album_type=_album_type(a),
                 image_url=_pick_image(a.get("images", [])),
             )
             for a in raw
@@ -219,7 +232,7 @@ class SpotifyProvider(CachedHttpProvider):
             release_date=data.get("release_date", ""),
             total_tracks=data.get("total_tracks", 0),
             label=data.get("label", ""),
-            album_type=data.get("album_type", ""),
+            album_type=_album_type(data),
             image_url=_pick_image(data.get("images", [])),
             tracks=[
                 Track(name=t["name"], duration_ms=t.get("duration_ms", 0))
@@ -238,7 +251,7 @@ class SpotifyProvider(CachedHttpProvider):
             release_date=raw.get("release_date", ""),
             total_tracks=raw.get("total_tracks", 0),
             label=raw.get("label", ""),
-            album_type=raw.get("album_type", ""),
+            album_type=_album_type(raw),
             image_url=_pick_image(raw.get("images", [])),
         )
 

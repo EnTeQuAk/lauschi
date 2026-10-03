@@ -8,6 +8,7 @@ Kinderlieder, Kinderpop, and music albums. No episode numbers, no
 | Title shape | Track count | Likely type | Action |
 |---|---|---|---|
 | Album of songs by this artist | 8-20 | ALBUM | Include |
+| EP of this artist's own songs (`album_type=ep`) | 4-8 | EP | Include |
 | "Best of", "Greatest Hits" | Variable | COMPILATION | Exclude |
 | Multi-artist compilation ("Kinderhits 2024") | Variable | COMPILATION | Exclude |
 | Karaoke, instrumental, sped-up | Variable | FORMAT_VARIANT | Exclude |
@@ -31,7 +32,14 @@ compilations (e.g. Simone Sommerland's "Die 30 besten …" series — those
 are her primary studio albums, include them).
 
 Singles stay excluded either way (`music_single`): one-track albums make
-poor listening units, and their songs are on the collection albums. A
+poor listening units, and their songs are on the collection albums.
+
+An EP is not a single. `album_type=ep` marks a short release of several
+different songs (Spotify returns these as singles, so the field is named
+from the track count; Apple Music titles them " - EP"), and it is a small
+album of the artist's: include it. Read the track names first: one song
+in several versions (original, instrumental, karaoke, remix) is still a
+single, `music_single`, or `format_variant` for the version-only packs. A
 title the store itself marks " - Single" or "(Instrumental)" has its
 reason ready-made, `music_single` or `format_variant`; never leave such
 an album `unspecified`.
