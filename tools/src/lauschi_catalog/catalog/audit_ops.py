@@ -1277,6 +1277,8 @@ def apply_audit(
     # facts-wipe vs the previous curation) force escalation no matter
     # what the audit model concluded. Approval is necessary, not
     # sufficient; a human resolves these via catalog-review.
+    # The auditor's own verdict, apart from the gates that may override it.
+    review["auditor_approved"] = result.approve
     if escalated:
         for c in gate_concerns:
             on_progress(f"  {c}")

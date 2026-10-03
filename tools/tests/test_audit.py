@@ -1319,6 +1319,24 @@ class TestApplyAuditOutputCaps:
             "[gap_included]" in c and "3" in c for c in data["review"]["concerns"]
         )
 
+    @pytest.mark.parametrize("approve", [True, False])
+    def test_the_review_keeps_the_auditors_own_verdict(self, tmp_path, approve: bool):
+        """An escalation can come from the auditor declining or from a
+        gate; the review says which (67 escalations on 2026-10-02 could
+        not be told apart)."""
+        curation = self._big_curation(100)
+        overrides = [
+            AuditOverride(
+                album_id=f"a{i}", provider="spotify", action="exclude", reason="x"
+            )
+            for i in range(1, 8)
+        ]
+        _, data = self._apply(
+            tmp_path, curation, AuditResult(approve=approve, overrides=overrides)
+        )
+        assert data["review"]["status"] == "escalated"
+        assert data["review"]["auditor_approved"] is approve
+
     def test_unknown_album_id_becomes_a_concern(self, tmp_path):
         curation = self._big_curation(3)
         result = AuditResult(
