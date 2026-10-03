@@ -36,7 +36,7 @@ class AgentDeps:
     _fetch_count: int = field(default=0, init=False)
     _detail_count: int = field(default=0, init=False)
     _reference_count: int = field(default=0, init=False)
-    _MAX_SEARCHES: int = 3
+    _MAX_SEARCHES: int = 10
     _MAX_FETCHES: int = 2
     _MAX_DETAIL_CALLS: int = 40
     _MAX_REFERENCE_CALLS: int = 5

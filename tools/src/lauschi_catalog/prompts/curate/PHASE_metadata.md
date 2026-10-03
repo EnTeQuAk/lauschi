@@ -32,7 +32,7 @@ those other series' albums are not part of the measure. Most series reach
 >90% coverage on the first or second try. If coverage
 is acceptable, commit the pattern and move on.
 
-Step 3 (only if needed): Use `web_search` (max 3 queries) and
+Step 3 (only if needed): Use `web_search` (max 10 queries) and
 `fetch_page` (max 2 URLs) when:
 - Coverage is ambiguous (60-80%) and you need to classify unmatched titles
 - The series structure is genuinely unclear from titles alone

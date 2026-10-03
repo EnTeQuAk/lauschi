@@ -100,7 +100,7 @@ conventions into one broad regex. Each regex must be `^`-anchored.
 
 ## Web research (optional)
 
-`web_search` (max 3 queries) and `fetch_page` (max 2 URLs). Use for
+`web_search` (max 10 queries) and `fetch_page` (max 2 URLs). Use for
 confirming gap reasons or sub-series boundaries, not for mapping the
 catalog.
 

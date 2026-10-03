@@ -57,7 +57,7 @@ class TestBudgetExhaustion(unittest.TestCase):
             self._ctx(_search_count=AgentDeps._MAX_SEARCHES), "Kira Kolumna Folge 28"
         )
         assert result == [
-            {"error": "Search limit reached (3). Decide with what you have."}
+            {"error": "Search limit reached (10). Decide with what you have."}
         ]
 
     def test_fetch_past_the_budget_returns_the_limit_as_a_result(self) -> None:
