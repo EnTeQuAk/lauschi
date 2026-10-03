@@ -26,9 +26,10 @@ console = Console()
 def reconcile(series_id: str | None, run_all: bool, normalize: bool, dry_run: bool):
     """Fix cross-provider mismatches in curation decisions.
 
-    Auto-flips wrong_content_type/music_single mismatches where the
-    same title is included on the other provider. Flags compilation
-    and sub_series_bleed mismatches for human review.
+    Flips an exclusion to include when the same title is included on
+    the other provider and the reason is one that proves wrong
+    (compilation, wrong_content_type, no reason, ...). Every other
+    mismatch stays as it is; `lint` reports it as [title_counterpart].
     """
     if not series_id and not run_all:
         console.print("[red]Provide a series ID or use --all[/red]")
