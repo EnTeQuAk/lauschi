@@ -560,6 +560,14 @@ class TestTitleCounterpartRule:
         issues = lint_curation({"albums": self._pair("duplicate")})
         assert not any(i.startswith("[title_counterpart]") for i in issues)
 
+    def test_format_variant_under_the_same_title_fires(self):
+        """ "Für Alle! (Mitsing-Version)" sat included on Apple Music and
+        excluded as format_variant on Spotify (Honigkuchenpferde,
+        2026-10-03). The label names what the content is, so the same
+        title cannot be a variant on one store and an album on the other."""
+        issues = lint_curation({"albums": self._pair("format_variant")})
+        assert any(i.startswith("[title_counterpart]") for i in issues)
+
 
 class TestFragmentIncluded:
     """An included title that extends an excluded sibling's title on

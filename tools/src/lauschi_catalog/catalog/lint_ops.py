@@ -155,6 +155,10 @@ def _reason_key(exclude_reason: str | None) -> str:
 # Redundancy reasons (duplicate, format_variant) describe a relationship
 # to another album, not the content, and a split on them is deliberate.
 _CONTENT_REASONS = reasons.CONTRADICTION_REASON_KEYS
+#: A format variant beside a differently titled original is deliberate,
+#: but the label names what the content is, so under the very same title
+#: on the other store it contradicts that store's include.
+_COUNTERPART_REASONS = _CONTENT_REASONS | {"format_variant"}
 
 
 def _owned_elsewhere(curation_id: str | None, album: dict) -> bool:
@@ -364,11 +368,12 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
 
     # ── Rule 11: Cross-provider title counterparts ───────────────────
     # Same normalized title included on one provider but excluded on
-    # another with a CONTENT-classifying reason: the same content can't
-    # be a music_single there and an episode here. Redundancy reasons
-    # (duplicate) are deliberate and stay silent, matching Rule 5's
-    # "properly excluded" convention. Complements Rule 5, which needs
-    # episode numbers; this catches the unnumbered case (music albums).
+    # another with a CONTENT-classifying reason or as a format variant:
+    # the same content can't be a music_single there and an episode here.
+    # Redundancy reasons (duplicate) are deliberate and stay silent,
+    # matching Rule 5's "properly excluded" convention. Complements Rule 5,
+    # which needs episode numbers; this catches the unnumbered case
+    # (music albums).
     included_titles: dict[str, str] = {}
     for a in included:
         included_titles.setdefault(
@@ -377,7 +382,7 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
     for a in albums:
         if (
             a.get("include")
-            or _reason_key(a.get("exclude_reason")) not in _CONTENT_REASONS
+            or _reason_key(a.get("exclude_reason")) not in _COUNTERPART_REASONS
             or _owned_elsewhere(curation.get("id"), a)
         ):
             continue
