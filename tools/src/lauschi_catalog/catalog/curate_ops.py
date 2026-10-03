@@ -1403,6 +1403,12 @@ def _pattern_for_run(
     return entry_pattern if entry_pattern else proposed
 
 
+#: Share of the series' own titles an episode pattern must number. Below
+#: it the pattern misses its own line, and "no pattern" is the honest
+#: answer for a line of named titles.
+MIN_PATTERN_COVERAGE = 0.3
+
+
 def pattern_update_impact(
     old: str | list[str] | None,
     new: str | list[str],
@@ -1416,7 +1422,7 @@ def pattern_update_impact(
     their numbers, which can be deliberate denoising) and matches on
     excluded titles (an increase means stray digits would be captured;
     the merged-regex failure mode). ``rejected`` is set only when the
-    new pattern is below the 30% coverage floor AND worse than the old
+    new pattern is below MIN_PATTERN_COVERAGE AND worse than the old
     one; improving from a bad baseline is always allowed.
     """
 
@@ -1453,9 +1459,10 @@ def pattern_update_impact(
             f"{old_inc}/{total} included titles; the proposal numbers only "
             f"{new_inc}. A catalog pattern may be extended, not narrowed."
         )
-    elif total and new_inc < total * 0.3 and new_inc < old_inc:
+    elif total and new_inc < total * MIN_PATTERN_COVERAGE and new_inc < old_inc:
         rejected = (
-            f"Coverage {new_inc}/{total} is below the 30% floor and worse "
+            f"Coverage {new_inc}/{total} is below the "
+            f"{MIN_PATTERN_COVERAGE:.0%} floor and worse "
             f"than the current pattern ({old_inc}/{total}). Keep the "
             f"current pattern or extend it instead."
         )
@@ -1515,18 +1522,6 @@ def _build_metadata_agent(
         )
         if problem:
             raise ModelRetry(problem)
-        if meta.episode_pattern:
-            matched = sum(
-                1
-                for t in titles
-                if extract_episode(meta.episode_pattern, t) is not None
-            )
-            if titles and matched / len(titles) < 0.8:
-                ctx.deps.on_progress(
-                    f"  [warning] Pattern coverage {matched / len(titles):.0%} "
-                    f"({matched}/{len(titles)}) is below 80%. Unmatched albums "
-                    f"may be sub-series, compilations, or non-episode content.",
-                )
         return meta
 
     @agent.tool
@@ -3006,8 +3001,8 @@ def metadata_problem(
     """Why proposed metadata is sent back to the agent, or None.
 
     A proposed pattern must have been tested and must cover at least
-    30% of the titles it is measured against. No pattern (named titles)
-    needs neither.
+    MIN_PATTERN_COVERAGE of the titles it is measured against. No
+    pattern (named titles) needs neither.
     """
     if not pattern:
         return None
@@ -3019,7 +3014,7 @@ def metadata_problem(
         )
     matched = sum(1 for t in titles if extract_episode(pattern, t) is not None)
     coverage = matched / len(titles) if titles else 0
-    if coverage < 0.3:
+    if coverage < MIN_PATTERN_COVERAGE:
         return (
             f"Coverage only {coverage:.0%} ({matched}/{len(titles)}). "
             f"Legitimate episodes are being missed. Add a new regex pattern "

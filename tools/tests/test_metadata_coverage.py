@@ -8,7 +8,13 @@ and after 10-15 requests the agent settled for no pattern at all
 only a series that ships nothing yet is measured against the page.
 """
 
-from lauschi_catalog.catalog.curate_ops import coverage_titles, metadata_problem
+import pytest
+
+from lauschi_catalog.catalog.curate_ops import (
+    coverage_titles,
+    metadata_problem,
+    pattern_update_impact,
+)
 from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
 
 PAGE = [
@@ -68,3 +74,19 @@ def test_no_pattern_needs_no_coverage_check() -> None:
 def test_a_proposed_pattern_must_have_been_checked() -> None:
     problem = metadata_problem(r"^Madita (\d+)", PAGE, checks=0)
     assert problem is not None and "check_pattern_coverage" in problem
+
+
+@pytest.mark.parametrize(("numbered", "accepted"), [(2, False), (4, True)])
+def test_metadata_and_finalize_share_one_coverage_floor(
+    numbered: int, accepted: bool
+) -> None:
+    """The metadata phase measures a pattern against what the series
+    ships, finalize against this run's includes: the same line at two
+    points of the run, held to the same floor."""
+    titles = [f"Folge {i}" for i in range(numbered)] + [
+        f"Special {i}" for i in range(10 - numbered)
+    ]
+    pattern = r"^Folge (\d+)"
+    assert (metadata_problem(pattern, titles, checks=1) is None) is accepted
+    impact = pattern_update_impact(r"^(?:Folge|Special) (\d+)", pattern, titles, [])
+    assert (impact["rejected"] is None) is accepted
