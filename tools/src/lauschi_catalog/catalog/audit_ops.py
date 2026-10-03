@@ -1170,10 +1170,10 @@ def apply_audit(
     hard_flags = critical_issues(data.get("regression_flags") or [])
     gate_concerns = [f"[hard-gate] {f}" for f in hard_flags]
 
-    # A critic's overrides are checked before they are trusted. Volume
-    # or an include on a split-off (its albums belong to the parent)
-    # escalate instead of auto-applying: a scope-blind critic once
-    # proposed 41 wrong includes on one split series.
+    # A critic's overrides are checked before they are trusted: flipping
+    # more than 5% of the reviewed albums escalates instead of applying.
+    # A split child's include needs no rule of its own: it curates its own
+    # line, and overrides on rows another series owns are ignored below.
     albums = data.get("albums", [])
     reviewed = _audit_scope(data)[0].get("albums", [])
     override_cap = max(5, len(reviewed) // 20)
@@ -1194,13 +1194,6 @@ def apply_audit(
             f"over the cap of {override_cap} (>5% of {len(reviewed)} albums); "
             f"not applied"
         )
-    if data.get("split_from"):
-        n_incl = sum(1 for o in flips if o.action == "include")
-        if n_incl:
-            cap_concerns.append(
-                f"[split-include] {n_incl} override(s) would include an excluded "
-                f"album on a split-off series; check each is this line's own"
-            )
 
     escalated = bool(hard_flags) or not result.approve or bool(cap_concerns)
 
