@@ -49,6 +49,7 @@ from lauschi_catalog.catalog.lint_ops import (
 from lauschi_catalog.catalog.loader import load_catalog
 from lauschi_catalog.catalog.partition import bleed_owner
 from lauschi_catalog.catalog.paths import curation_path, log_dir
+from lauschi_catalog.catalog.reconcile import normalize_exclude_reason
 from lauschi_catalog.fanout import run_bounded
 from lauschi_catalog.prompts import load_curate_skill
 from lauschi_catalog.rate_limit import run_with_rate_limit_retry
@@ -1233,7 +1234,9 @@ def apply_audit(
             pass
         elif o.action == "exclude":
             album["include"] = False
-            album["exclude_reason"] = o.reason
+            # The auditor explains in free text; the album carries the
+            # vocabulary key a later curate can re-enter.
+            album["exclude_reason"] = normalize_exclude_reason(o.reason)
         else:
             album["include"] = True
             album["exclude_reason"] = ""

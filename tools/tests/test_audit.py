@@ -1193,6 +1193,26 @@ class TestApplyAuditOutputCaps:
         assert action == "overridden"
         assert data["albums"][0]["include"] is False
 
+    def test_an_exclude_override_writes_the_reason_key_not_the_text(self, tmp_path):
+        """The auditor wrote "duplicate: the 12-track Pommesgabel is a
+        strict subset of ..." into exclude_reason, and the next curate of
+        Heavysaurus aborted on the off-vocabulary record (2026-10-03).
+        The key goes on the album, the text stays in the override trail."""
+        curation = self._big_curation(10)
+        text = "duplicate: the 12-track album is a strict subset of the 20-track one"
+        result = AuditResult(
+            approve=True,
+            overrides=[
+                AuditOverride(
+                    album_id="a1", provider="spotify", action="exclude", reason=text
+                )
+            ],
+        )
+        action, data = self._apply(tmp_path, curation, result)
+        assert action == "overridden"
+        assert data["albums"][0]["exclude_reason"] == "duplicate"
+        assert data["review"]["overrides"][0]["reason"] == text
+
     def test_a_split_child_including_its_own_album_applies(self, tmp_path):
         """Split children curate their own line, so an include override
         there is an ordinary flip: counted by the cap, applied when the
