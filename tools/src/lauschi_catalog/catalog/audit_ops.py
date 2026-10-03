@@ -1161,11 +1161,11 @@ def apply_audit(
             f"not applied"
         )
     if data.get("split_from"):
-        n_incl = sum(1 for o in result.overrides if o.action == "include")
+        n_incl = sum(1 for o in flips if o.action == "include")
         if n_incl:
             cap_concerns.append(
-                f"[split-include] {n_incl} include override(s) on a split-off "
-                f"series; the parent's albums must not be added here"
+                f"[split-include] {n_incl} override(s) would include an excluded "
+                f"album on a split-off series; check each is this line's own"
             )
 
     escalated = bool(hard_flags) or not result.approve or bool(cap_concerns)

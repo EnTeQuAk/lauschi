@@ -1196,6 +1196,7 @@ class TestApplyAuditOutputCaps:
     def test_include_override_on_a_split_series_escalates(self, tmp_path):
         curation = self._big_curation(10)
         curation["split_from"] = "parent"
+        curation["albums"][0].update(include=False, exclude_reason="sub_series_bleed")
         result = AuditResult(
             approve=True,
             overrides=[
@@ -1207,6 +1208,26 @@ class TestApplyAuditOutputCaps:
         action, data = self._apply(tmp_path, curation, result)
         assert action == "escalated"
         assert any("split-include" in c for c in data["review"]["concerns"])
+
+    def test_confirming_an_included_album_on_a_split_series_is_not_a_flip(
+        self, tmp_path
+    ):
+        """20 split children escalated on 2026-10-02 because the auditor
+        restated already-included albums as include overrides. Only an
+        include that flips an excluded album is what the rule guards."""
+        curation = self._big_curation(10)
+        curation["split_from"] = "parent"
+        result = AuditResult(
+            approve=True,
+            overrides=[
+                AuditOverride(
+                    album_id="a1", provider="spotify", action="include", reason="ok"
+                )
+            ],
+        )
+        action, data = self._apply(tmp_path, curation, result)
+        assert action == "overridden"
+        assert not any("split-include" in c for c in data["review"]["concerns"])
 
     def test_exclude_override_on_a_split_series_still_applies(self, tmp_path):
         curation = self._big_curation(10)
