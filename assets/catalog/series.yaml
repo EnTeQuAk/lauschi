@@ -46851,3 +46851,16 @@ series:
         episode: 8
         title: 'Die Schule der magischen Tiere ermittelt: Die Erdbeer-Spur (Folge 8)'
         release_date: '2026-04-30'
+- id: nils_holgersson_cgi
+  title: Nils Holgersson (CGI)
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: nils_holgersson
+  providers:
+    spotify:
+      artist_ids:
+      - 6vS1r2PgQlby3jeU4KpDds
+    apple_music:
+      artist_ids:
+      - '1691363679'
