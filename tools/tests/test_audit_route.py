@@ -58,7 +58,7 @@ _CHUNKED_SERIES = {
 # The largest series shown to pass in one shot. It must stay above the
 # threshold so the one-shot path never runs a series that has not been
 # demonstrated to fit.
-_LARGEST_KNOWN_ONE_SHOT = "feuerwehrmann_sam"
+_LARGEST_KNOWN_ONE_SHOT = "reinhard_horn"  # 13,511, approved 2026-10-03
 
 
 def _album(i: int, *, include: bool = True) -> dict:
