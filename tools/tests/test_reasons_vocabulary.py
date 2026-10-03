@@ -13,7 +13,6 @@ from lauschi_catalog.catalog.curate_ops import ExcludeReason
 from lauschi_catalog.catalog.lint_ops import _CONTENT_REASONS
 from lauschi_catalog.catalog.reconcile import (
     _AUTO_FLIP_REASONS,
-    _FLAG_REASONS,
     ALL_KNOWN_REASONS,
     EXCLUDE_REASONS,
 )
@@ -29,10 +28,6 @@ def test_contradiction_reasons_match_the_existing_lint_set() -> None:
 
 def test_auto_flip_reasons_match_the_existing_reconcile_set() -> None:
     assert reasons.AUTO_FLIP_REASON_KEYS == _AUTO_FLIP_REASONS
-
-
-def test_flag_reasons_match_the_existing_reconcile_set() -> None:
-    assert reasons.FLAG_REASON_KEYS == _FLAG_REASONS
 
 
 def test_all_reason_keys_match_the_existing_reconcile_union() -> None:

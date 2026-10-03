@@ -178,20 +178,6 @@ AUTO_FLIP_REASON_KEYS: frozenset[str] = frozenset(
     r.key for r in _ALL_REASONS if r.auto_flip
 )
 
-#: Structural decisions that may be correct on both sides, so reconcile
-#: flags them for human review instead of flipping. `wrong_artist` is
-#: likewise structural, but reconcile has never flagged it; it is listed
-#: here for completeness and kept out of the reconcile set.
-FLAG_REASON_KEYS: frozenset[str] = frozenset(
-    {
-        "sub_series_bleed",
-        "different_series",
-        "audit_override",
-        "music_single",
-        "format_variant",
-    }
-)
-
 #: Reasons that make a same-title decision pair contradictory: the same
 #: content cannot be classified one way for one member and the opposite
 #: way for a sibling. Redundancy reasons (duplicate, format_variant)

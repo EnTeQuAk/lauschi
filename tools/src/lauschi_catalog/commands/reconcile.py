@@ -40,7 +40,6 @@ def reconcile(series_id: str | None, run_all: bool, normalize: bool, dry_run: bo
         paths = sorted(curation_dir().glob("*.json"))
 
     total_flipped = 0
-    total_flagged = 0
     total_normalized = 0
     total_gaps_dropped = 0
 
@@ -72,29 +71,21 @@ def reconcile(series_id: str | None, run_all: bool, normalize: bool, dry_run: bo
 
         result = reconcile_cross_provider(albums)
 
-        if result.flipped > 0 or result.flagged > 0:
+        if result.flipped > 0:
             console.print(f"\n[bold]{data.get('title', sid)}[/bold]")
             for d in result.details:
-                if d["action"] == "flipped":
-                    console.print(
-                        f"  [green]FLIP[/green] {d['provider']}: "
-                        f"{d['title']!r} ({d['old_reason']} -> include)"
-                    )
-                else:
-                    console.print(
-                        f"  [yellow]FLAG[/yellow] {d['provider']}: "
-                        f"{d['title']!r} ({d['reason']})"
-                    )
+                console.print(
+                    f"  [green]FLIP[/green] {d['provider']}: "
+                    f"{d['title']!r} ({d['old_reason']} -> include)"
+                )
 
         total_flipped += result.flipped
-        total_flagged += result.flagged
 
         if (result.flipped > 0 or changed) and not dry_run:
             safe_write_json(path, data)
 
     console.print("\n[bold]Summary:[/bold]")
     console.print(f"  Flipped (auto-fixed): {total_flipped}")
-    console.print(f"  Flagged (needs review): {total_flagged}")
     if normalize:
         console.print(f"  Reasons normalized: {total_normalized}")
         console.print(f"  Stale known_gaps dropped: {total_gaps_dropped}")

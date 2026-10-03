@@ -1,8 +1,10 @@
 """Cross-provider reconciliation and exclude_reason normalization.
 
 Detects same-title albums with inconsistent include/exclude decisions
-across providers and either auto-fixes (flips) or flags them for
-human review depending on the exclude_reason category.
+across providers and flips the exclusion when its reason is one a
+same-title include proves wrong. Every other mismatch is left as it is
+for lint's [title_counterpart] to report, which the audit and
+`catalog-review` read.
 """
 
 import re
@@ -22,9 +24,6 @@ ALL_KNOWN_REASONS: frozenset[str] = reasons.ALL_REASON_KEYS
 # Auto-flip: these exclusions on one provider are almost certainly wrong
 # when the same title is included on the other provider.
 _AUTO_FLIP_REASONS: frozenset[str] = reasons.AUTO_FLIP_REASON_KEYS
-
-# Flag for review: structural decisions that may be correct on both sides.
-_FLAG_REASONS: frozenset[str] = reasons.FLAG_REASON_KEYS
 
 
 _FORMAT_VARIANT_MARKERS = (
@@ -124,7 +123,6 @@ def normalize_exclude_reason(reason: str | None) -> str | None:
 @dataclass
 class ReconcileResult:
     flipped: int = 0
-    flagged: int = 0
     details: list[dict] = field(default_factory=list)
 
 
@@ -143,13 +141,13 @@ def reconcile_cross_provider(albums: list[dict]) -> ReconcileResult:
     Mutates albums in place. Returns a summary of changes.
 
     Rules:
-    - Content-classification reasons (wrong_content_type, music_single,
-      compilation, etc.) on one provider + included on the other:
-      auto-flip to include. Same content can't be a different type on
-      a different provider.
-    - Structural reasons (sub_series_bleed, different_series): flag for
-      human review. These reflect catalog-level decisions that may be
-      correct on both sides.
+    - Auto-flip reasons (wrong_content_type, compilation, etc.) or no
+      reason on one provider + included on the other: flip to include.
+      Same content can't be a different type on a different provider.
+    - A flip that would ship an included episode twice is left alone.
+    - Every other reason (sub_series_bleed, music_single, ...) is left as
+      it is, since either side may be the wrong one; lint's
+      [title_counterpart] reports the pair.
     """
     result = ReconcileResult()
 
@@ -194,46 +192,22 @@ def reconcile_cross_provider(albums: list[dict]) -> ReconcileResult:
                 "unspecified",
             )
             ep = album.get("episode_num")
-            if (
-                wants_flip
-                and ep is not None
-                and (album.get("provider"), ep) in included_eps
-            ):
-                result.flagged += 1
-                result.details.append(
-                    {
-                        "title": original_title,
-                        "album_id": album["album_id"],
-                        "provider": album.get("provider"),
-                        "reason": f"flip would duplicate included episode {ep}",
-                        "action": "flagged",
-                    }
-                )
+            # A flip that would ship an included episode twice is left alone.
+            ships_twice = ep is not None and (album.get("provider"), ep) in included_eps
+            if not wants_flip or ships_twice:
                 continue
-            if wants_flip:
-                album["include"] = True
-                album.pop("exclude_reason", None)
-                album.update(album_provenance("reconcile"))
-                result.flipped += 1
-                result.details.append(
-                    {
-                        "title": original_title,
-                        "album_id": album["album_id"],
-                        "provider": album.get("provider"),
-                        "old_reason": reason or "unspecified",
-                        "action": "flipped",
-                    }
-                )
-            elif reason in _FLAG_REASONS:
-                result.flagged += 1
-                result.details.append(
-                    {
-                        "title": original_title,
-                        "album_id": album["album_id"],
-                        "provider": album.get("provider"),
-                        "reason": reason,
-                        "action": "flagged",
-                    }
-                )
+            album["include"] = True
+            album.pop("exclude_reason", None)
+            album.update(album_provenance("reconcile"))
+            result.flipped += 1
+            result.details.append(
+                {
+                    "title": original_title,
+                    "album_id": album["album_id"],
+                    "provider": album.get("provider"),
+                    "old_reason": reason or "unspecified",
+                    "action": "flipped",
+                }
+            )
 
     return result

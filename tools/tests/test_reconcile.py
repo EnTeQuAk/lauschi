@@ -32,7 +32,6 @@ class TestReconcileCrossProvider:
         ]
         result = reconcile_cross_provider(albums)
         assert result.flipped == 0
-        assert result.flagged == 0
 
     def test_no_change_when_both_excluded(self):
         albums = [
@@ -65,26 +64,27 @@ class TestReconcileCrossProvider:
         assert result.flipped == 1
         assert albums[0]["include"] is True
 
-    def test_sub_series_bleed_gets_flagged(self):
+    def test_sub_series_bleed_is_left_for_lint(self):
+        """Reconcile only fixes; a structural mismatch is reported by
+        lint's [title_counterpart], which the audit and review read."""
         albums = [
             _album("sp1", "Folge 1", "spotify", True),
             _album("am1", "Folge 1", "apple_music", False, "sub_series_bleed"),
         ]
         result = reconcile_cross_provider(albums)
         assert result.flipped == 0
-        assert result.flagged == 1
+        assert result.details == []
+        assert albums[1]["include"] is False
 
-    def test_music_single_is_flagged_not_flipped(self):
-        """A single included on one provider and excluded on the other is put on
-        the review list, not flipped: the include is the questionable side
-        (Chris, 2026-09-05)."""
+    def test_music_single_is_not_flipped(self):
+        """A single included on one provider and excluded on the other is not
+        flipped: the include is the questionable side (Chris, 2026-09-05)."""
         albums = [
             _album("sp1", "Song", "spotify", True),
             _album("am1", "Song", "apple_music", False, "music_single"),
         ]
         result = reconcile_cross_provider(albums)
         assert result.flipped == 0
-        assert result.flagged == 1
         assert albums[1]["include"] is False
 
     def test_multiple_titles_processed_independently(self):
@@ -96,7 +96,7 @@ class TestReconcileCrossProvider:
         ]
         result = reconcile_cross_provider(albums)
         assert result.flipped == 1
-        assert result.flagged == 1
+        assert albums[3]["include"] is False
 
     def test_title_only_on_one_provider_ignored(self):
         albums = [
@@ -105,7 +105,6 @@ class TestReconcileCrossProvider:
         ]
         result = reconcile_cross_provider(albums)
         assert result.flipped == 0
-        assert result.flagged == 0
 
     def test_multiple_releases_same_title_uses_any_included(self):
         """If Apple Music has both an included and excluded version of
@@ -117,16 +116,6 @@ class TestReconcileCrossProvider:
         ]
         result = reconcile_cross_provider(albums)
         assert result.flipped == 0
-
-    def test_returns_details_for_flagged(self):
-        albums = [
-            _album("sp1", "Folge 1", "spotify", True),
-            _album("am1", "Folge 1", "apple_music", False, "sub_series_bleed"),
-        ]
-        result = reconcile_cross_provider(albums)
-        assert len(result.details) == 1
-        assert result.details[0]["title"] == "Folge 1"
-        assert result.details[0]["action"] == "flagged"
 
     def test_returns_details_for_flipped(self):
         albums = [
@@ -141,11 +130,10 @@ class TestReconcileCrossProvider:
     def test_normalized_title_matching_strips_single_suffix(self):
         albums = [
             _album("sp1", "Song Title", "spotify", True),
-            _album("am1", "Song Title - Single", "apple_music", False, "music_single"),
+            _album("am1", "Song Title - Single", "apple_music", False, "compilation"),
         ]
         result = reconcile_cross_provider(albums)
-        assert result.flipped == 0
-        assert result.flagged == 1
+        assert result.flipped == 1
 
     def test_normalized_title_matching_is_case_insensitive(self):
         albums = [
@@ -230,14 +218,12 @@ class TestUnspecifiedAutoFlip:
         result = reconcile_cross_provider(albums)
         assert result.flipped == 0
         assert albums[1]["include"] is False
-        assert result.flagged == 1
-        assert any("duplicate" in d.get("reason", "") for d in result.details)
 
 
 class TestSinglesAndVariantsDoNotFlipToInclude:
     """A same-title include on the other provider does not validate a
     single or an instrumental version: the include is the questionable
-    side. Reconcile flags the pair for review instead of flipping."""
+    side. Reconcile leaves the pair as it is, and lint reports it."""
 
     def _pair(self, reason):
         return [
@@ -246,7 +232,8 @@ class TestSinglesAndVariantsDoNotFlipToInclude:
         ]
 
     @pytest.mark.parametrize("reason", ["music_single", "format_variant"])
-    def test_stays_excluded_and_is_flagged(self, reason):
-        result = reconcile_cross_provider(self._pair(reason))
+    def test_stays_excluded(self, reason):
+        albums = self._pair(reason)
+        result = reconcile_cross_provider(albums)
         assert result.flipped == 0
-        assert result.flagged == 1
+        assert albums[1]["include"] is False
