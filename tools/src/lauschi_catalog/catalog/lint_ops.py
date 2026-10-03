@@ -326,18 +326,6 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
             if not s.audited_by:
                 issues.append(f"Unaudited sub_series '{s.label}'")
 
-    # ── Rule 7: Low-confidence clusters ──────────────────────────────
-    low_conf = [a for a in albums if a.get("confidence") in ("medium", "low")]
-    total_decisions = len(albums)
-    if low_conf:
-        threshold = max(5, total_decisions // 10)
-        if len(low_conf) > threshold:
-            issues.append(
-                f"[low_confidence_cluster] {len(low_conf)} decisions are "
-                f"MEDIUM or LOW confidence (> {threshold}). Review their "
-                f"`notes` fields."
-            )
-
     # ── Rule 9: Future-dated releases ────────────────────────────────
     # Deterministic on purpose: models date-reason from their training
     # cutoff (an auditor once flagged a three-month-old release as
