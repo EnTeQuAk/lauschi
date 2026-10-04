@@ -46,10 +46,13 @@ void main() {
     // Second entry: Apple mislabels Spirit's "Ein Pferd für Turo" as
     // "Folge 2" but it is canonically Folge 3 (publisher + Spotify agree,
     // and Apple has no Folge 3), so the curation stores 3 against a title
-    // that prints 2.
+    // that prints 2. Third entry: Apple's "Gute-Nacht-Geschichten (Folge 3)"
+    // counts the CD, which holds stories 5+6; the series numbers by first
+    // story, as Spotify and EUROPA's own playlist do.
     const knownAmbiguous = {
       'spotify:4J7VLI47aJNd2vQEdbfdDO',
       'apple_music:1434409926',
+      'apple_music:1474808673',
     };
 
     final disagreements = <String>[];
