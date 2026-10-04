@@ -24,7 +24,7 @@ dependencies:
   flutter_riverpod: ^3.2.1
   flutter_secure_storage: ^10.0.0
   flutter_svg: ^2.2.3
-  go_router: ^17.1.0
+  go_router: ^18.0.2
   just_audio: ^0.10.5
   music_kit:
     path: packages/music_kit

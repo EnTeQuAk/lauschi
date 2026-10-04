@@ -97,6 +97,14 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
       SnackBarClearObserver(rootNavigatorKey),
     ],
     redirect: (context, state) => _globalRedirect(ref, state),
+    // A stale deep link or NFC tag can carry a path no route matches.
+    // go_router shows its own English error page for that, so this sends
+    // you to the kid home instead. The guard stops a loop if the home
+    // itself fails.
+    onException: (context, state, router) {
+      Log.warn(_tag, 'No route for location', data: {'uri': '${state.uri}'});
+      if (state.uri.path != AppRoutes.kidHome) router.go(AppRoutes.kidHome);
+    },
     routes: [
       GoRoute(
         name: 'onboarding',
