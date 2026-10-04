@@ -1,4 +1,4 @@
-import 'dart:async' show Timer, unawaited;
+import 'dart:async' show Timer;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -84,7 +84,7 @@ class _InterpolatedProgressState extends ConsumerState<InterpolatedProgress>
     }
 
     if (state.isPlaying && !_controller.isAnimating) {
-      unawaited(_controller.forward());
+      _controller.forward();
     } else if (!state.isPlaying && _controller.isAnimating) {
       _controller.stop();
     }
@@ -113,7 +113,7 @@ class _InterpolatedProgressState extends ConsumerState<InterpolatedProgress>
     _snapTo(ms, _lastDurationMs);
     widget.onSeek(ms);
     if (ref.read(playerProvider).isPlaying && _lastDurationMs > 0) {
-      unawaited(_controller.forward());
+      _controller.forward();
     }
   }
 

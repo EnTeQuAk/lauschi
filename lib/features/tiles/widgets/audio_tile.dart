@@ -1,5 +1,3 @@
-import 'dart:async' show unawaited;
-
 import 'package:flutter/material.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/core/utils/title_cleaner.dart';
@@ -79,7 +77,7 @@ class _AudioCardState extends State<TileItem>
   }
 
   void _handleTapDown(TapDownDetails _) {
-    unawaited(_controller.forward());
+    _controller.forward();
   }
 
   void _handleTapUp(TapUpDetails _) {
@@ -88,11 +86,11 @@ class _AudioCardState extends State<TileItem>
     // canceled (a second tap-down mid-reverse, or the card being
     // disposed by a DB update).
     widget.onTap();
-    unawaited(_controller.reverse());
+    _controller.reverse();
   }
 
   void _handleTapCancel() {
-    unawaited(_controller.reverse());
+    _controller.reverse();
   }
 
   @override

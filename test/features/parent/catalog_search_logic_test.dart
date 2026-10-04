@@ -86,7 +86,8 @@ void main() {
       // matched, odd unmatched; the result must be every matched index in
       // its original order, then every unmatched index in its order.
       final matches = <CatalogMatch?>[
-        for (var i = 0; i < 50; i++) i.isEven ? _match('s$i') : null,
+        for (var i = 0; i < 50; i++)
+          if (i.isEven) _match('s$i') else null,
       ];
 
       final sorted = sortByCatalogMatch(matches, 50);

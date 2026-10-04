@@ -269,7 +269,10 @@ class SpotifyAuth {
         },
         options: Options(contentType: Headers.formUrlEncodedContentType),
       );
-      return _saveAndReturn(resp.data!, fallbackRefreshToken: refreshToken);
+      return await _saveAndReturn(
+        resp.data!,
+        fallbackRefreshToken: refreshToken,
+      );
     } on DioException catch (e) {
       if (e.type == DioExceptionType.connectionError ||
           e.type == DioExceptionType.connectionTimeout) {
@@ -374,7 +377,7 @@ class SpotifyAuth {
         options: Options(contentType: Headers.formUrlEncodedContentType),
       );
       Log.info(_tag, 'Token exchange success');
-      return _saveAndReturn(resp.data!, authorizedAt: DateTime.now());
+      return await _saveAndReturn(resp.data!, authorizedAt: DateTime.now());
     } on DioException catch (e) {
       if (e.type == DioExceptionType.connectionError ||
           e.type == DioExceptionType.connectionTimeout) {

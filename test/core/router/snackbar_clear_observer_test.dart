@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/router/app_router.dart';
@@ -26,11 +24,9 @@ void main() {
     await tester.pump();
     expect(find.text('stale'), findsOneWidget);
 
-    unawaited(
-      navKey.currentState!.push(
-        MaterialPageRoute<void>(
-          builder: (_) => const Scaffold(body: Text('page2')),
-        ),
+    navKey.currentState!.push(
+      MaterialPageRoute<void>(
+        builder: (_) => const Scaffold(body: Text('page2')),
       ),
     );
     await tester.pumpAndSettle();

@@ -1,5 +1,3 @@
-import 'dart:async' show unawaited;
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
@@ -94,7 +92,7 @@ class _ShimmerPlaceholderState extends State<ShimmerPlaceholder>
       duration: const Duration(milliseconds: 1500),
       vsync: this,
     );
-    unawaited(_controller.repeat());
+    _controller.repeat();
   }
 
   @override

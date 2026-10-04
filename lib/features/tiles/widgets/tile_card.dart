@@ -1,5 +1,3 @@
-import 'dart:async' show unawaited;
-
 import 'package:flutter/material.dart';
 import 'package:lauschi/core/catalog/catalog_service.dart' show ContentType;
 import 'package:lauschi/core/theme/app_theme.dart';
@@ -193,9 +191,9 @@ class _GroupCardState extends State<TileCard>
         // why it must not wait on the reverse animation.
         onTapUp: (_) {
           widget.onTap();
-          unawaited(_controller.reverse());
+          _controller.reverse();
         },
-        onTapCancel: () => unawaited(_controller.reverse()),
+        onTapCancel: () => _controller.reverse(),
         child: AnimatedScale(
           scale: widget.isNestTarget ? 1.08 : 1.0,
           duration: const Duration(milliseconds: 200),

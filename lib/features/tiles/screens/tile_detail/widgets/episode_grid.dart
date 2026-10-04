@@ -1,4 +1,3 @@
-import 'dart:async' show unawaited;
 import 'dart:math' show pi, sin;
 
 import 'package:flutter/material.dart';
@@ -111,12 +110,10 @@ class _EpisodeGridState extends State<EpisodeGrid>
         _scrollController.position.maxScrollExtent,
       );
       if (animate) {
-        unawaited(
-          _scrollController.animateTo(
-            clamped,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeOutCubic,
-          ),
+        _scrollController.animateTo(
+          clamped,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOutCubic,
         );
       } else {
         _scrollController.jumpTo(clamped);
@@ -139,7 +136,7 @@ class _EpisodeGridState extends State<EpisodeGrid>
             animate: isSubsequent,
           );
           if (isSubsequent) {
-            unawaited(_pulseController.forward(from: 0));
+            _pulseController.forward(from: 0);
           }
         }
 
