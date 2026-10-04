@@ -70,6 +70,15 @@ flutter:
         - asset: fonts/Nunito-Italic-Variable.ttf
           style: italic
 
+# WORKAROUND: nfc_manager 4.2.1 applies kotlin-android unconditionally,
+# which breaks the build with android.builtInKotlin=true. The vendored
+# copy is 4.2.1 plus upstream PR #278.
+# See https://github.com/okadan/flutter-nfc-manager/pull/278
+# Remove once a release includes it.
+dependency_overrides:
+  nfc_manager:
+    path: packages/nfc_manager
+
 patrol:
   app_name: lauschi
   test_directory: integration_test
