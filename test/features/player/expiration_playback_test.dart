@@ -68,34 +68,28 @@ void main() {
       expect(isItemExpired(item), isFalse);
     });
 
-    test(
-      'contentUnavailable has the "gone" error category',
-      () {
-        expect(
-          PlayerError.contentUnavailable.category,
-          ErrorCategory.gone,
-        );
+    test('contentUnavailable has the "gone" error category', () {
+      expect(PlayerError.contentUnavailable.category, ErrorCategory.gone);
 
-        // Retryable errors use the "oops" category.
-        for (final error in [
-          PlayerError.playbackFailed,
-          PlayerError.spotifyConnectionLost,
-          PlayerError.spotifyNetworkError,
-        ]) {
-          expect(
-            error.category,
-            ErrorCategory.oops,
-            reason: '$error should be oops category',
-          );
-        }
-
-        // Auth errors need parent action.
+      // Retryable errors use the "oops" category.
+      for (final error in [
+        PlayerError.playbackFailed,
+        PlayerError.spotifyConnectionLost,
+        PlayerError.spotifyNetworkError,
+      ]) {
         expect(
-          PlayerError.spotifyAuthExpired.category,
-          ErrorCategory.parentAction,
+          error.category,
+          ErrorCategory.oops,
+          reason: '$error should be oops category',
         );
-      },
-    );
+      }
+
+      // Auth errors need parent action.
+      expect(
+        PlayerError.spotifyAuthExpired.category,
+        ErrorCategory.parentAction,
+      );
+    });
 
     test('Spotify items without markedUnavailable are not expired', () {
       final item = TileItem(

@@ -38,11 +38,10 @@ void main() {
       expect(tracks, hasLength(70));
       expect(tracks.first.name, 'Track 1');
       expect(tracks.last.name, 'Track 70');
-      expect(
-        adapter.requests.map((r) => r.queryParameters['offset']),
-        [0, 50],
-        reason: 'exactly one follow-up page request',
-      );
+      expect(adapter.requests.map((r) => r.queryParameters['offset']), [
+        0,
+        50,
+      ], reason: 'exactly one follow-up page request');
     });
 
     test('single page needs one request', () async {
@@ -83,11 +82,10 @@ void main() {
 
       final tracks = await _apiWith(adapter).getAlbumTracks('album-1');
 
-      expect(
-        tracks.map((t) => t.id),
-        ['track-1', 'track-3'],
-        reason: 'the malformed track is skipped, the good ones survive',
-      );
+      expect(tracks.map((t) => t.id), [
+        'track-1',
+        'track-3',
+      ], reason: 'the malformed track is skipped, the good ones survive');
     });
   });
 

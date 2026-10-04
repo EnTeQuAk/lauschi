@@ -15,77 +15,71 @@ import 'ard_helpers.dart';
 import 'helpers.dart';
 
 void main() {
-  patrolTest(
-    'tiles created via DB appear in kid grid',
-    ($) async {
-      await pumpApp(
-        $,
-        prefs: {'onboarding_complete': true},
-        overrides: [parentAuthProvider.overrideWith(_AlwaysAuth.new)],
-      );
-      await clearAppState($);
+  patrolTest('tiles created via DB appear in kid grid', ($) async {
+    await pumpApp(
+      $,
+      prefs: {'onboarding_complete': true},
+      overrides: [parentAuthProvider.overrideWith(_AlwaysAuth.new)],
+    );
+    await clearAppState($);
 
-      final container = getContainer($);
-      final episode = await getStableTestEpisode(container);
+    final container = getContainer($);
+    final episode = await getStableTestEpisode(container);
 
-      // Insert a tile with an episode.
-      await insertTestTileWithEpisode($, episode, title: 'Testkachel');
+    // Insert a tile with an episode.
+    await insertTestTileWithEpisode($, episode, title: 'Testkachel');
 
-      // ── Verify tile appears in kid grid as a TileCard widget ─────────
-      expect($('Meine Hörspiele'), findsOneWidget);
-      expect(
-        find.byType(TileCard),
-        findsOneWidget,
-        reason: 'Tile should render as TileCard in kid grid',
-      );
+    // ── Verify tile appears in kid grid as a TileCard widget ─────────
+    expect($('Meine Hörspiele'), findsOneWidget);
+    expect(
+      find.byType(TileCard),
+      findsOneWidget,
+      reason: 'Tile should render as TileCard in kid grid',
+    );
 
-      // Also verify DB state.
-      final tiles = await container.read(tileRepositoryProvider).getAll();
-      expect(tiles, hasLength(1));
-      expect(tiles.first.title, 'Testkachel');
-    },
-  );
+    // Also verify DB state.
+    final tiles = await container.read(tileRepositoryProvider).getAll();
+    expect(tiles, hasLength(1));
+    expect(tiles.first.title, 'Testkachel');
+  });
 
-  patrolTest(
-    'tiles persist across app navigation',
-    ($) async {
-      await pumpApp(
-        $,
-        prefs: {'onboarding_complete': true},
-        overrides: [parentAuthProvider.overrideWith(_AlwaysAuth.new)],
-      );
-      await clearAppState($);
+  patrolTest('tiles persist across app navigation', ($) async {
+    await pumpApp(
+      $,
+      prefs: {'onboarding_complete': true},
+      overrides: [parentAuthProvider.overrideWith(_AlwaysAuth.new)],
+    );
+    await clearAppState($);
 
-      final container = getContainer($);
-      final tiles = container.read(tileRepositoryProvider);
+    final container = getContainer($);
+    final tiles = container.read(tileRepositoryProvider);
 
-      // Create two tiles.
-      await tiles.insert(title: 'Tile A');
-      await tiles.insert(title: 'Tile B');
-      await pumpFrames($);
+    // Create two tiles.
+    await tiles.insert(title: 'Tile A');
+    await tiles.insert(title: 'Tile B');
+    await pumpFrames($);
 
-      // Verify both exist in DB.
-      final all = await tiles.getAll();
-      expect(all, hasLength(2));
+    // Verify both exist in DB.
+    final all = await tiles.getAll();
+    expect(all, hasLength(2));
 
-      // Navigate to parent dashboard via router (avoids Patrol native
-      // server dependency which is flaky on some devices).
-      container.read(appRouterProvider).go(AppRoutes.parentDashboard);
-      await pumpFrames($);
+    // Navigate to parent dashboard via router (avoids Patrol native
+    // server dependency which is flaky on some devices).
+    container.read(appRouterProvider).go(AppRoutes.parentDashboard);
+    await pumpFrames($);
 
-      // Tiles should still be in DB while in parent area.
-      final inParent = await tiles.getAll();
-      expect(inParent, hasLength(2));
+    // Tiles should still be in DB while in parent area.
+    final inParent = await tiles.getAll();
+    expect(inParent, hasLength(2));
 
-      // Navigate back to kid home.
-      container.read(appRouterProvider).go(AppRoutes.kidHome);
-      await pumpFrames($);
+    // Navigate back to kid home.
+    container.read(appRouterProvider).go(AppRoutes.kidHome);
+    await pumpFrames($);
 
-      // Tiles still there.
-      final afterBack = await tiles.getAll();
-      expect(afterBack, hasLength(2));
-    },
-  );
+    // Tiles still there.
+    final afterBack = await tiles.getAll();
+    expect(afterBack, hasLength(2));
+  });
 }
 
 class _AlwaysAuth extends ParentAuth {

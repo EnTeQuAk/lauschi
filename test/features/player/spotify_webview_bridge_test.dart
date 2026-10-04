@@ -64,11 +64,7 @@ void main() {
       // leaked state into the shared bridge, the post-reconnect
       // assertions could pass for the wrong reason (the state
       // was already null/empty before reconnect did anything).
-      expect(
-        bridge.deviceId,
-        isNull,
-        reason: 'fresh bridge has no device id',
-      );
+      expect(bridge.deviceId, isNull, reason: 'fresh bridge has no device id');
       expect(states, isEmpty, reason: 'no events emitted yet');
 
       await bridge.reconnect();

@@ -232,11 +232,7 @@ abstract class AppleMusicBackend extends PlayerBackend {
           Log.info(
             logTag,
             'Track changed',
-            data: {
-              'from': '$trackIndex',
-              'to': '$newIndex',
-              'songId': songId,
-            },
+            data: {'from': '$trackIndex', 'to': '$newIndex', 'songId': songId},
           );
           trackIndex = newIndex;
           positionMs = 0;
@@ -272,10 +268,7 @@ abstract class AppleMusicBackend extends PlayerBackend {
         );
         isPlaying = false;
         emitState(
-          error: classifyEventError(
-            errorCode: errorCode,
-            message: message,
-          ),
+          error: classifyEventError(errorCode: errorCode, message: message),
         );
 
       default:

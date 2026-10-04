@@ -321,11 +321,10 @@ void main() {
 
     // Context: both items start ungrouped.
     final preCheck = await cards.getUngrouped();
-    expect(
-      preCheck.map((c) => c.id).toSet(),
-      {id1, id2},
-      reason: 'setup: both items should be ungrouped before merge',
-    );
+    expect(preCheck.map((c) => c.id).toSet(), {
+      id1,
+      id2,
+    }, reason: 'setup: both items should be ungrouped before merge');
 
     final tileId = await groups.createTileFromItems([id1, id2]);
 

@@ -50,9 +50,7 @@ class EpisodeReorderList extends ConsumerWidget {
         unawaited(
           ref
               .read(tileItemRepositoryProvider)
-              .reorder(
-                reordered.map((c) => c.id).toList(),
-              ),
+              .reorder(reordered.map((c) => c.id).toList()),
         );
       },
       itemCount: episodes.length,

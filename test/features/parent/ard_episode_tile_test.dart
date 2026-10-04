@@ -13,10 +13,7 @@ void main() {
   ArdItem episode() =>
       ArdItem(id: '1', title: 'Folge 1', publishDate: DateTime(2020));
 
-  Widget host({
-    required bool enabled,
-    required VoidCallback onRemove,
-  }) {
+  Widget host({required bool enabled, required VoidCallback onRemove}) {
     return MaterialApp(
       theme: buildAppTheme(),
       home: Scaffold(

@@ -65,11 +65,7 @@ class ArdProgramSet {
 
 /// Multipart group metadata from the ARD Audiothek Grouping type.
 class ArdGroup {
-  const ArdGroup({
-    required this.title,
-    this.type,
-    this.count,
-  });
+  const ArdGroup({required this.title, this.type, this.count});
 
   factory ArdGroup.fromJson(Map<String, dynamic> json) {
     return ArdGroup(
@@ -185,10 +181,7 @@ class ArdItem {
 
 /// Audio asset from ARD Audiothek (AssetType in the GraphQL schema).
 class ArdAudio {
-  const ArdAudio({
-    required this.url,
-    required this.mimeType,
-  });
+  const ArdAudio({required this.url, required this.mimeType});
 
   factory ArdAudio.fromJson(Map<String, dynamic> json) {
     return ArdAudio(

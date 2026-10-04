@@ -377,10 +377,8 @@ void main() {
     test('different providers get independent state', () async {
       final spotifySetup = setup();
       container =
-          spotifySetup.container..listen(
-            catalogSearchProvider(ProviderType.appleMusic),
-            (_, _) {},
-          );
+          spotifySetup.container
+            ..listen(catalogSearchProvider(ProviderType.appleMusic), (_, _) {});
 
       final spotifyNotifier = container.read(
         catalogSearchProvider(ProviderType.spotify).notifier,
@@ -404,10 +402,7 @@ void main() {
       expect(spotifyState.albums, hasLength(2));
       expect(appleState.albums, isEmpty, reason: 'untouched provider');
 
-      await appleNotifier.search(
-        'other',
-        _FakeSource(albums: [_album('a1')]),
-      );
+      await appleNotifier.search('other', _FakeSource(albums: [_album('a1')]));
 
       final spotifyAfter = container.read(
         catalogSearchProvider(ProviderType.spotify),

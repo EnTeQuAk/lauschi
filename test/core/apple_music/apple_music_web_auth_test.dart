@@ -19,9 +19,7 @@ void main() {
     when(
       () => storage.write(key: any(named: 'key'), value: any(named: 'value')),
     ).thenAnswer((_) async {});
-    when(
-      () => storage.delete(key: any(named: 'key')),
-    ).thenAnswer((_) async {});
+    when(() => storage.delete(key: any(named: 'key'))).thenAnswer((_) async {});
     when(
       () => storage.read(key: any(named: 'key')),
     ).thenAnswer((_) async => null);

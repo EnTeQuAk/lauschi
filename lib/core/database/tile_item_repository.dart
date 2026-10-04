@@ -109,11 +109,7 @@ class TileItemRepository {
           ),
         );
 
-    Log.info(
-      _tag,
-      'Item added',
-      data: {'title': title, 'provider': provider},
-    );
+    Log.info(_tag, 'Item added', data: {'title': title, 'provider': provider});
     return id;
   }
 
@@ -233,17 +229,17 @@ class TileItemRepository {
 
   /// Mark an item as unavailable (content removed or license expired).
   Future<void> markUnavailable(String id) async {
-    await (_db.update(_db.cards)..where((t) => t.id.equals(id))).write(
-      CardsCompanion(markedUnavailable: Value(DateTime.now())),
-    );
+    await (_db.update(_db.cards)..where(
+      (t) => t.id.equals(id),
+    )).write(CardsCompanion(markedUnavailable: Value(DateTime.now())));
     Log.info(_tag, 'Item marked unavailable', data: {'id': id});
   }
 
   /// Clear the unavailable flag (content is back).
   Future<void> clearUnavailable(String id) async {
-    await (_db.update(_db.cards)..where((t) => t.id.equals(id))).write(
-      const CardsCompanion(markedUnavailable: Value(null)),
-    );
+    await (_db.update(_db.cards)..where(
+      (t) => t.id.equals(id),
+    )).write(const CardsCompanion(markedUnavailable: Value(null)));
     Log.info(_tag, 'Item availability restored', data: {'id': id});
   }
 
@@ -322,9 +318,9 @@ class TileItemRepository {
 
   /// Mark an item as heard.
   Future<void> markHeard(String itemId) async {
-    await (_db.update(_db.cards)..where((t) => t.id.equals(itemId))).write(
-      const CardsCompanion(isHeard: Value(true)),
-    );
+    await (_db.update(_db.cards)..where(
+      (t) => t.id.equals(itemId),
+    )).write(const CardsCompanion(isHeard: Value(true)));
     Log.info(_tag, 'Item marked heard', data: {'itemId': itemId});
   }
 
@@ -343,10 +339,7 @@ class TileItemRepository {
   ///
   /// Also clears `lastPlayedAt` so stale timestamps don't confuse
   /// the "in progress" detection in `tileNextUnheardProvider`.
-  Future<void> clearPositions(
-    String tileId, {
-    String? excludeItemId,
-  }) async {
+  Future<void> clearPositions(String tileId, {String? excludeItemId}) async {
     var query = _db.update(_db.cards)..where((t) => t.groupId.equals(tileId));
     if (excludeItemId != null) {
       query = query..where((t) => t.id.equals(excludeItemId).not());
@@ -409,9 +402,9 @@ class TileItemRepository {
         // it assigns no number, so an album reclassified as a compilation
         // clears the stored number and sorts as bonus content instead of
         // keeping a now-stale one.
-        await (_db.update(_db.cards)..where((t) => t.id.equals(item.id))).write(
-          CardsCompanion(episodeNumber: Value(album.episode)),
-        );
+        await (_db.update(_db.cards)..where(
+          (t) => t.id.equals(item.id),
+        )).write(CardsCompanion(episodeNumber: Value(album.episode)));
         changed++;
       }
       return (changed, items.length);
@@ -429,9 +422,9 @@ class TileItemRepository {
 
   /// Mark an item as unheard.
   Future<void> markUnheard(String itemId) async {
-    await (_db.update(_db.cards)..where((t) => t.id.equals(itemId))).write(
-      const CardsCompanion(isHeard: Value(false)),
-    );
+    await (_db.update(_db.cards)..where(
+      (t) => t.id.equals(itemId),
+    )).write(const CardsCompanion(isHeard: Value(false)));
     Log.info(_tag, 'Item marked unheard', data: {'itemId': itemId});
   }
 
@@ -500,9 +493,9 @@ class TileItemRepository {
     required String itemId,
     required int totalTracks,
   }) async {
-    await (_db.update(_db.cards)..where((t) => t.id.equals(itemId))).write(
-      CardsCompanion(totalTracks: Value(totalTracks)),
-    );
+    await (_db.update(_db.cards)..where(
+      (t) => t.id.equals(itemId),
+    )).write(CardsCompanion(totalTracks: Value(totalTracks)));
   }
 
   /// Get ungrouped items as a one-shot fetch.
@@ -615,12 +608,12 @@ double albumProgress(TileItem card) {
 /// Per-tile item counts and heard progress, derived from allTileItemsProvider.
 /// Avoids N+1 queries when rendering the kid home grid.
 /// Excludes expired items so kids see accurate episode counts.
-final tileProgressProvider = Provider<Map<String, ({int total, int heard})>>(
-  (ref) {
-    final items = ref.watch(allTileItemsProvider).value ?? [];
-    return computeTileProgress(items);
-  },
-);
+final tileProgressProvider = Provider<Map<String, ({int total, int heard})>>((
+  ref,
+) {
+  final items = ref.watch(allTileItemsProvider).value ?? [];
+  return computeTileProgress(items);
+});
 
 /// Set of provider URIs already in the collection.
 ///

@@ -86,10 +86,7 @@ void main() {
     });
 
     test('handles missing new fields gracefully', () {
-      final json = <String, dynamic>{
-        'id': 123,
-        'title': 'Minimal Show',
-      };
+      final json = <String, dynamic>{'id': 123, 'title': 'Minimal Show'};
 
       final show = ArdProgramSet.fromJson(json);
 
@@ -204,11 +201,7 @@ void main() {
         'publishDate': '2025-02-25T00:00:00Z',
         'episodeNumber': 1,
         'groupId': '10458067',
-        'group': {
-          'title': 'Superhelden :',
-          'type': 'MULTIPART',
-          'count': 5,
-        },
+        'group': {'title': 'Superhelden :', 'type': 'MULTIPART', 'count': 5},
         'audios': <dynamic>[],
       };
 

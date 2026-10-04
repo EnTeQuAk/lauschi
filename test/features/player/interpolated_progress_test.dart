@@ -42,9 +42,7 @@ void main() {
       ProviderScope(
         overrides: [playerProvider.overrideWith(() => notifier)],
         child: MaterialApp(
-          home: Scaffold(
-            body: InterpolatedProgress(onSeek: (_) {}),
-          ),
+          home: Scaffold(body: InterpolatedProgress(onSeek: (_) {})),
         ),
       ),
     );

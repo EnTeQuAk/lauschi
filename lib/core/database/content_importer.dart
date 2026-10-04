@@ -264,10 +264,7 @@ class ContentImporter extends _$ContentImporter {
     Log.info(
       _tag,
       'Batch import complete',
-      data: {
-        'group': groupTitle,
-        'added': '$added',
-      },
+      data: {'group': groupTitle, 'added': '$added'},
     );
 
     return added;
@@ -304,10 +301,7 @@ class ContentImporter extends _$ContentImporter {
     Log.debug(
       _tag,
       'All pages loaded',
-      data: {
-        'showId': showId,
-        'total': '${allItems.length}',
-      },
+      data: {'showId': showId, 'total': '${allItems.length}'},
     );
     return allItems;
   }

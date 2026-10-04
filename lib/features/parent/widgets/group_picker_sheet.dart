@@ -202,11 +202,7 @@ class GroupPickerSheet extends ConsumerWidget {
   }
 }
 
-void _createAndAssign(
-  BuildContext context,
-  WidgetRef ref,
-  db.TileItem card,
-) {
+void _createAndAssign(BuildContext context, WidgetRef ref, db.TileItem card) {
   final controller = TextEditingController();
   unawaited(
     showDialog<void>(
@@ -217,9 +213,7 @@ void _createAndAssign(
             content: TextField(
               controller: controller,
               autofocus: true,
-              decoration: const InputDecoration(
-                hintText: 'Name der Serie',
-              ),
+              decoration: const InputDecoration(hintText: 'Name der Serie'),
               onSubmitted: (_) async {
                 final title = controller.text.trim();
                 if (title.isEmpty) return;

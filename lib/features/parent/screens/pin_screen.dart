@@ -251,10 +251,7 @@ class _PinScreenState extends ConsumerState<PinScreen>
             ),
             const SizedBox(height: AppSpacing.xxl),
             // Numpad
-            PinNumpad(
-              onDigit: _onDigit,
-              onBackspace: _onBackspace,
-            ),
+            PinNumpad(onDigit: _onDigit, onBackspace: _onBackspace),
             const Spacer(),
           ],
         ),

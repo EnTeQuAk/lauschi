@@ -20,10 +20,7 @@ void main() {
       isFalse,
       reason: 'a fresh user starts incomplete on the very first read',
     );
-    expect(
-      withPreload(done: true).read(onboardingCompleteProvider),
-      isTrue,
-    );
+    expect(withPreload(done: true).read(onboardingCompleteProvider), isTrue);
   });
 
   test('markIncomplete resets state and persists false', () async {

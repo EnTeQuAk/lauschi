@@ -18,10 +18,7 @@ Widget _buildApp(ProviderContainer container) {
     child: Consumer(
       builder: (context, ref, _) {
         final router = ref.watch(appRouterProvider);
-        return MaterialApp.router(
-          theme: buildAppTheme(),
-          routerConfig: router,
-        );
+        return MaterialApp.router(theme: buildAppTheme(), routerConfig: router);
       },
     ),
   );
@@ -104,9 +101,7 @@ void main() {
     expect(find.byIcon(Icons.play_arrow_rounded), findsAtLeastNWidgets(1));
   });
 
-  testWidgets('navigating to /parent renders parent dashboard', (
-    tester,
-  ) async {
+  testWidgets('navigating to /parent renders parent dashboard', (tester) async {
     final container = ProviderContainer(overrides: _testOverrides());
     addTearDown(container.dispose);
 

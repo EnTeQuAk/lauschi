@@ -70,9 +70,8 @@ class ManageTilesScreen extends ConsumerWidget {
         },
         loading: () => const Center(child: CircularProgressIndicator()),
         error:
-            (_, _) => const Center(
-              child: Text('Fehler beim Laden der Kacheln.'),
-            ),
+            (_, _) =>
+                const Center(child: Text('Fehler beim Laden der Kacheln.')),
       ),
     );
   }
@@ -87,11 +86,7 @@ class _EmptyState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            Icons.layers_rounded,
-            size: 48,
-            color: AppColors.textSecondary,
-          ),
+          Icon(Icons.layers_rounded, size: 48, color: AppColors.textSecondary),
           SizedBox(height: AppSpacing.md),
           Text(
             'Noch keine Kacheln',
@@ -273,19 +268,14 @@ class _MixedGrid extends ConsumerWidget {
     if (draggedKind == GridItemKind.tile &&
         targetKind == GridItemKind.episode) {
       unawaited(
-        tileRepo.createTileFromTileAndItem(
-          tileId: draggedId,
-          itemId: targetId,
-        ),
+        tileRepo.createTileFromTileAndItem(tileId: draggedId, itemId: targetId),
       );
       return;
     }
 
     if (draggedKind == GridItemKind.episode &&
         targetKind == GridItemKind.episode) {
-      unawaited(
-        _createTileAndJump(context, ref, [draggedId, targetId]),
-      );
+      unawaited(_createTileAndJump(context, ref, [draggedId, targetId]));
       return;
     }
   }

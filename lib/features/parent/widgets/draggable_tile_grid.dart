@@ -271,14 +271,7 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
     _dragUpdateCount = 0;
     unawaited(HapticFeedback.lightImpact());
     final title = _order.firstWhere((t) => t.id == id).title;
-    Log.info(
-      _tag,
-      'Drag START',
-      data: {
-        'id': id,
-        'title': title,
-      },
-    );
+    Log.info(_tag, 'Drag START', data: {'id': id, 'title': title});
     Log.debug(
       _tag,
       'Grid layout',
@@ -470,29 +463,21 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
       Log.info(
         _tag,
         'DROP ZONE action',
-        data: {
-          'tileId': draggedId,
-          'zone': zone.label,
-        },
+        data: {'tileId': draggedId, 'zone': zone.label},
       );
       zone.onDrop(draggedId);
     } else if (wasNested) {
       Log.info(
         _tag,
         'NESTING',
-        data: {
-          'childId': draggedId,
-          'parentId': _nestTargetId!,
-        },
+        data: {'childId': draggedId, 'parentId': _nestTargetId!},
       );
       widget.onNest(draggedId, _nestTargetId!);
     } else if (_orderChanged) {
       Log.info(
         _tag,
         'REORDER committed',
-        data: {
-          'order': _order.map((t) => t.title).join(', '),
-        },
+        data: {'order': _order.map((t) => t.title).join(', ')},
       );
       widget.onReorder(_order.map((t) => t.id).toList());
     } else {
@@ -682,9 +667,7 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
     // view handles overflow when there are more rows than fit on screen.
     return Column(
       children: [
-        Expanded(
-          child: SingleChildScrollView(child: grid),
-        ),
+        Expanded(child: SingleChildScrollView(child: grid)),
         if (showDropZones) _buildDropZonesPadding(context),
       ],
     );
@@ -692,9 +675,7 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
 
   Widget _buildDropZonesPadding(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).padding.bottom,
-      ),
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -767,10 +748,7 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
                 child: _tileContent(item),
               ),
             ),
-            childWhenDragging: Opacity(
-              opacity: 0.3,
-              child: _tileContent(item),
-            ),
+            childWhenDragging: Opacity(opacity: 0.3, child: _tileContent(item)),
             onDragStarted: () => _onDragStart(item.id),
             onDragUpdate: _onDragUpdate,
             onDragEnd: (_) => _onDragEnd(),

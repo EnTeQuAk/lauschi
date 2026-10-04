@@ -25,9 +25,7 @@ Future<void> main() async {
   final shortestSide =
       (view?.physicalSize.shortestSide ?? 0) / (view?.devicePixelRatio ?? 1);
   if (shortestSide > 0 && shortestSide < 600) {
-    await SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
 
   // Initialize media session for lock screen / notification controls.

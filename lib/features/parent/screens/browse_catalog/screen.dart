@@ -515,9 +515,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
                   )
                   : catalogAsync.when(
                     loading:
-                        () => const Center(
-                          child: CircularProgressIndicator(),
-                        ),
+                        () => const Center(child: CircularProgressIndicator()),
                     error:
                         (_, _) => const Center(
                           child: Text('Katalog konnte nicht geladen werden'),
@@ -533,10 +531,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
     );
 
     if (widget.embedded) {
-      return ColoredBox(
-        color: AppColors.parentBackground,
-        child: body,
-      );
+      return ColoredBox(color: AppColors.parentBackground, child: body);
     }
 
     return Scaffold(
@@ -562,9 +557,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
     final series =
         catalog.all
             .where((s) => s.hasCuratedAlbumsFor(_provider))
-            .where(
-              (s) => isMusicMode ? s.isMusic : !s.isMusic,
-            )
+            .where((s) => isMusicMode ? s.isMusic : !s.isMusic)
             .toList()
           ..sort((a, b) => a.title.compareTo(b.title));
 
@@ -919,11 +912,7 @@ class _AutoAssignBanner extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(
-            Icons.layers_rounded,
-            size: 16,
-            color: AppColors.primary,
-          ),
+          const Icon(Icons.layers_rounded, size: 16, color: AppColors.primary),
           const SizedBox(width: AppSpacing.xs),
           Expanded(
             child: Text(

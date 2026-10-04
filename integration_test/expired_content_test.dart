@@ -34,141 +34,136 @@ import 'ard_helpers.dart';
 import 'helpers.dart';
 
 void main() {
-  patrolTest(
-    'unavailable ungrouped item is hidden from kid home screen',
-    ($) async {
-      await pumpApp($, prefs: {'onboarding_complete': true});
-      await clearAppState($);
+  patrolTest('unavailable ungrouped item is hidden from kid home screen', (
+    $,
+  ) async {
+    await pumpApp($, prefs: {'onboarding_complete': true});
+    await clearAppState($);
 
-      final container = getContainer($);
-      final items = container.read(tileItemRepositoryProvider);
+    final container = getContainer($);
+    final items = container.read(tileItemRepositoryProvider);
 
-      // Insert a confirmed-unavailable ARD episode. The DB write
-      // sets markedUnavailable directly because the production
-      // path that would set this (StreamPlayer playback failure)
-      // can't be triggered without a real failing stream.
-      final id = await items.insertArdEpisode(
-        title: 'Unavailable Episode',
-        providerUri: 'ard:item:unavailable-test-123',
-        audioUrl: 'https://example.com/audio.mp3',
-        durationMs: 60000,
-      );
-      await items.markUnavailable(id);
+    // Insert a confirmed-unavailable ARD episode. The DB write
+    // sets markedUnavailable directly because the production
+    // path that would set this (StreamPlayer playback failure)
+    // can't be triggered without a real failing stream.
+    final id = await items.insertArdEpisode(
+      title: 'Unavailable Episode',
+      providerUri: 'ard:item:unavailable-test-123',
+      audioUrl: 'https://example.com/audio.mp3',
+      durationMs: 60000,
+    );
+    await items.markUnavailable(id);
 
-      // Context-assert: the item is actually in the DB AND its
-      // markedUnavailable flag is set. Without these, a silent
-      // insert failure or markUnavailable bug would let the
-      // findsNothing assertion below pass for the wrong reason.
-      final inDb = await items.getById(id);
-      expect(inDb, isNotNull, reason: 'item must exist in DB');
-      expect(
-        inDb!.markedUnavailable,
-        isNotNull,
-        reason: 'markedUnavailable must be set so the kid grid hides it',
-      );
-      expect(
-        isItemExpired(inDb),
-        isTrue,
-        reason: 'sanity: production isItemExpired agrees the item is hidden',
-      );
+    // Context-assert: the item is actually in the DB AND its
+    // markedUnavailable flag is set. Without these, a silent
+    // insert failure or markUnavailable bug would let the
+    // findsNothing assertion below pass for the wrong reason.
+    final inDb = await items.getById(id);
+    expect(inDb, isNotNull, reason: 'item must exist in DB');
+    expect(
+      inDb!.markedUnavailable,
+      isNotNull,
+      reason: 'markedUnavailable must be set so the kid grid hides it',
+    );
+    expect(
+      isItemExpired(inDb),
+      isTrue,
+      reason: 'sanity: production isItemExpired agrees the item is hidden',
+    );
 
-      await pumpFrames($);
+    await pumpFrames($);
 
-      // The unavailable item must NOT appear in the kid grid.
-      expect(find.text('Unavailable Episode'), findsNothing);
-      expect(find.byType(TileItem), findsNothing);
-    },
-  );
+    // The unavailable item must NOT appear in the kid grid.
+    expect(find.text('Unavailable Episode'), findsNothing);
+    expect(find.byType(TileItem), findsNothing);
+  });
 
-  patrolTest(
-    'unavailable item inside tile shows greyed out in tile detail',
-    ($) async {
-      await pumpApp($, prefs: {'onboarding_complete': true});
-      await clearAppState($);
+  patrolTest('unavailable item inside tile shows greyed out in tile detail', (
+    $,
+  ) async {
+    await pumpApp($, prefs: {'onboarding_complete': true});
+    await clearAppState($);
 
-      final container = getContainer($);
-      final tiles = container.read(tileRepositoryProvider);
-      final items = container.read(tileItemRepositoryProvider);
+    final container = getContainer($);
+    final tiles = container.read(tileRepositoryProvider);
+    final items = container.read(tileItemRepositoryProvider);
 
-      // Create a tile with one valid and one unavailable episode.
-      final tileId = await tiles.insert(title: 'Mixed Tile');
-      await items.insertArdEpisode(
-        title: 'Valid Episode',
-        providerUri: 'ard:item:valid-test-123',
-        audioUrl: 'https://example.com/valid.mp3',
-        durationMs: 60000,
-        tileId: tileId,
-      );
-      final unavailableId = await items.insertArdEpisode(
-        title: 'Unavailable Episode',
-        providerUri: 'ard:item:unavailable-test-456',
-        audioUrl: 'https://example.com/expired.mp3',
-        durationMs: 60000,
-        tileId: tileId,
-      );
-      await items.markUnavailable(unavailableId);
+    // Create a tile with one valid and one unavailable episode.
+    final tileId = await tiles.insert(title: 'Mixed Tile');
+    await items.insertArdEpisode(
+      title: 'Valid Episode',
+      providerUri: 'ard:item:valid-test-123',
+      audioUrl: 'https://example.com/valid.mp3',
+      durationMs: 60000,
+      tileId: tileId,
+    );
+    final unavailableId = await items.insertArdEpisode(
+      title: 'Unavailable Episode',
+      providerUri: 'ard:item:unavailable-test-456',
+      audioUrl: 'https://example.com/expired.mp3',
+      durationMs: 60000,
+      tileId: tileId,
+    );
+    await items.markUnavailable(unavailableId);
 
-      // Both items exist in DB.
-      final allItems = await items.getAll();
-      final tileItems = allItems.where((i) => i.groupId == tileId).toList();
-      expect(tileItems, hasLength(2), reason: 'Both items in DB');
+    // Both items exist in DB.
+    final allItems = await items.getAll();
+    final tileItems = allItems.where((i) => i.groupId == tileId).toList();
+    expect(tileItems, hasLength(2), reason: 'Both items in DB');
 
-      // Context-assert: exactly one of the two has markedUnavailable.
-      // Without this, a markUnavailable bug that no-ops would mean
-      // the tile-detail filter would show 2 episodes instead of 1
-      // and the test would fail with a misleading message.
-      final markedCount =
-          tileItems.where((i) => i.markedUnavailable != null).length;
-      expect(
-        markedCount,
-        1,
-        reason: 'exactly one item should be marked unavailable',
-      );
+    // Context-assert: exactly one of the two has markedUnavailable.
+    // Without this, a markUnavailable bug that no-ops would mean
+    // the tile-detail filter would show 2 episodes instead of 1
+    // and the test would fail with a misleading message.
+    final markedCount =
+        tileItems.where((i) => i.markedUnavailable != null).length;
+    expect(
+      markedCount,
+      1,
+      reason: 'exactly one item should be marked unavailable',
+    );
 
-      // Tile should appear on home screen (it has valid content).
-      expect(find.byType(TileCard), findsOneWidget);
+    // Tile should appear on home screen (it has valid content).
+    expect(find.byType(TileCard), findsOneWidget);
 
-      // Navigate to tile detail.
-      container.read(appRouterProvider).go(AppRoutes.tileDetail(tileId));
-      await pumpFrames($);
+    // Navigate to tile detail.
+    container.read(appRouterProvider).go(AppRoutes.tileDetail(tileId));
+    await pumpFrames($);
 
-      // Both episodes render in the grid: expired ones show greyed out
-      // with a tap handler that explains unavailability. They're not
-      // hidden from the tile detail view (unlike ungrouped items on the
-      // kid home screen, which ARE filtered out entirely).
-      // Episode titles are not shown by default (showEpisodeTitles is
-      // false), so we count TileItem widgets instead of matching text.
-      expect(find.byType(TileItem), findsNWidgets(2));
-    },
-  );
+    // Both episodes render in the grid: expired ones show greyed out
+    // with a tap handler that explains unavailability. They're not
+    // hidden from the tile detail view (unlike ungrouped items on the
+    // kid home screen, which ARE filtered out entirely).
+    // Episode titles are not shown by default (showEpisodeTitles is
+    // false), so we count TileItem widgets instead of matching text.
+    expect(find.byType(TileItem), findsNWidgets(2));
+  });
 
-  patrolTest(
-    'unavailable items remain in database for parent management',
-    ($) async {
-      await pumpApp($, prefs: {'onboarding_complete': true});
-      await clearAppState($);
+  patrolTest('unavailable items remain in database for parent management', (
+    $,
+  ) async {
+    await pumpApp($, prefs: {'onboarding_complete': true});
+    await clearAppState($);
 
-      final container = getContainer($);
-      final items = container.read(tileItemRepositoryProvider);
+    final container = getContainer($);
+    final items = container.read(tileItemRepositoryProvider);
 
-      final id = await items.insertArdEpisode(
-        title: 'Unavailable DB Test',
-        providerUri: 'ard:item:unavailable-db-test',
-        audioUrl: 'https://example.com/expired.mp3',
-        durationMs: 60000,
-      );
-      await items.markUnavailable(id);
+    final id = await items.insertArdEpisode(
+      title: 'Unavailable DB Test',
+      providerUri: 'ard:item:unavailable-db-test',
+      audioUrl: 'https://example.com/expired.mp3',
+      durationMs: 60000,
+    );
+    await items.markUnavailable(id);
 
-      // Item exists in DB despite being marked unavailable.
-      final all = await items.getAll();
-      expect(all.any((i) => i.title == 'Unavailable DB Test'), isTrue);
+    // Item exists in DB despite being marked unavailable.
+    final all = await items.getAll();
+    expect(all.any((i) => i.title == 'Unavailable DB Test'), isTrue);
 
-      // And isItemExpired correctly identifies it.
-      final unavailable = all.firstWhere(
-        (i) => i.title == 'Unavailable DB Test',
-      );
-      expect(unavailable.markedUnavailable, isNotNull);
-      expect(isItemExpired(unavailable), isTrue);
-    },
-  );
+    // And isItemExpired correctly identifies it.
+    final unavailable = all.firstWhere((i) => i.title == 'Unavailable DB Test');
+    expect(unavailable.markedUnavailable, isNotNull);
+    expect(isItemExpired(unavailable), isTrue);
+  });
 }

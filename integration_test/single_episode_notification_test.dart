@@ -33,36 +33,33 @@ import 'ard_helpers.dart';
 import 'helpers.dart';
 
 void main() {
-  patrolTest(
-    'single-episode tile (no next track) plays end-to-end',
-    ($) async {
-      await pumpApp($, prefs: {'onboarding_complete': true});
-      await clearAppState($);
+  patrolTest('single-episode tile (no next track) plays end-to-end', ($) async {
+    await pumpApp($, prefs: {'onboarding_complete': true});
+    await clearAppState($);
 
-      final container = getContainer($);
-      final episode = await getStableTestEpisode(container);
+    final container = getContainer($);
+    final episode = await getStableTestEpisode(container);
 
-      // Single episode in its own tile: no siblings = no next track.
-      final result = await insertTestTileWithEpisode($, episode);
+    // Single episode in its own tile: no siblings = no next track.
+    final result = await insertTestTileWithEpisode($, episode);
 
-      final notifier = container.read(playerProvider.notifier);
-      unawaited(notifier.playCard(result.itemId));
+    final notifier = container.read(playerProvider.notifier);
+    unawaited(notifier.playCard(result.itemId));
 
-      await waitForPlayback($);
+    await waitForPlayback($);
 
-      final state = container.read(playerProvider);
-      expect(state.isPlaying, isTrue);
-      expect(state.error, isNull);
-      expect(state.activeCardId, result.itemId);
-      // Track URI must match — this catches the case where playCard
-      // loaded the wrong source despite reporting the right activeCardId.
-      expect(
-        state.track?.uri,
-        episode.providerUri,
-        reason: 'Player must load the inserted episode',
-      );
+    final state = container.read(playerProvider);
+    expect(state.isPlaying, isTrue);
+    expect(state.error, isNull);
+    expect(state.activeCardId, result.itemId);
+    // Track URI must match — this catches the case where playCard
+    // loaded the wrong source despite reporting the right activeCardId.
+    expect(
+      state.track?.uri,
+      episode.providerUri,
+      reason: 'Player must load the inserted episode',
+    );
 
-      await stopPlayback($);
-    },
-  );
+    await stopPlayback($);
+  });
 }

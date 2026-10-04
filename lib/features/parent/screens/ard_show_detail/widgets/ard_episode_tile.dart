@@ -47,10 +47,7 @@ class ArdEpisodeTile extends StatelessWidget {
               ? BoxDecoration(
                 color: AppColors.accent.withAlpha(15),
                 border: const Border(
-                  left: BorderSide(
-                    color: AppColors.accent,
-                    width: 3,
-                  ),
+                  left: BorderSide(color: AppColors.accent, width: 3),
                 ),
               )
               : null,

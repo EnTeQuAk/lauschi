@@ -181,10 +181,7 @@ class DiscoverScreen extends ConsumerWidget {
     );
 
     if (embedded) {
-      return ColoredBox(
-        color: AppColors.parentBackground,
-        child: body,
-      );
+      return ColoredBox(color: AppColors.parentBackground, child: body);
     }
 
     return Scaffold(

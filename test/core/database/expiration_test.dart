@@ -73,15 +73,8 @@ void main() {
           groupId: 'tile-a',
           markedUnavailable: DateTime.now(), // confirmed unavailable
         ),
-        _item(
-          id: '2',
-          groupId: 'tile-a',
-          isHeard: true,
-        ),
-        _item(
-          id: '3',
-          groupId: 'tile-a',
-        ),
+        _item(id: '2', groupId: 'tile-a', isHeard: true),
+        _item(id: '3', groupId: 'tile-a'),
       ];
 
       final result = computeTileProgress(items);
@@ -99,10 +92,7 @@ void main() {
           groupId: 'tile-a',
           availableUntil: DateTime.now().subtract(const Duration(days: 5)),
         ),
-        _item(
-          id: '2',
-          groupId: 'tile-a',
-        ),
+        _item(id: '2', groupId: 'tile-a'),
       ];
 
       final result = computeTileProgress(items);
@@ -115,16 +105,8 @@ void main() {
       // The zero-total entry is how the kid grid tells a broken tile
       // (gets the red cross) apart from an empty one.
       final items = [
-        _item(
-          id: '1',
-          groupId: 'tile-a',
-          markedUnavailable: DateTime.now(),
-        ),
-        _item(
-          id: '2',
-          groupId: 'tile-a',
-          markedUnavailable: DateTime.now(),
-        ),
+        _item(id: '1', groupId: 'tile-a', markedUnavailable: DateTime.now()),
+        _item(id: '2', groupId: 'tile-a', markedUnavailable: DateTime.now()),
       ];
 
       final result = computeTileProgress(items);
@@ -234,11 +216,10 @@ void main() {
         isFalse,
         reason: 'a tile with no items at all is empty, not broken',
       );
-      expect(
-        stats['dead'],
-        (total: 0, heard: 0),
-        reason: 'expired items register their tile with zero contribution',
-      );
+      expect(stats['dead'], (
+        total: 0,
+        heard: 0,
+      ), reason: 'expired items register their tile with zero contribution');
     });
   });
 

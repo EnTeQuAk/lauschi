@@ -260,10 +260,7 @@ void main() {
 
   group('PlayerError', () {
     test('error categories are assigned correctly', () {
-      expect(
-        PlayerError.contentUnavailable.category,
-        ErrorCategory.gone,
-      );
+      expect(PlayerError.contentUnavailable.category, ErrorCategory.gone);
       expect(
         PlayerError.spotifyAuthExpired.category,
         ErrorCategory.parentAction,

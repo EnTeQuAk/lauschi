@@ -423,14 +423,8 @@ void main() {
             ..insertAll(oldDb.cards, oldCardsData);
         },
         validateItems: (newDb) async {
-          expect(
-            await newDb.select(newDb.cards).get(),
-            expectedNewCardsData,
-          );
-          expect(
-            await newDb.select(newDb.groups).get(),
-            expectedNewGroupsData,
-          );
+          expect(await newDb.select(newDb.cards).get(), expectedNewCardsData);
+          expect(await newDb.select(newDb.groups).get(), expectedNewGroupsData);
         },
       );
     },

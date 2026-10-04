@@ -96,11 +96,9 @@ class SpotifyTokens {
 /// 3. App receives deep link, calls [handleCallback] with the URI
 /// 4. [handleCallback] exchanges code for tokens and completes the login future
 class SpotifyAuth {
-  SpotifyAuth({
-    FlutterSecureStorage? storage,
-    Dio? dio,
-  }) : _storage = storage ?? _defaultStorage,
-       _dio = dio ?? Dio();
+  SpotifyAuth({FlutterSecureStorage? storage, Dio? dio})
+    : _storage = storage ?? _defaultStorage,
+      _dio = dio ?? Dio();
 
   final FlutterSecureStorage _storage;
   final Dio _dio;
@@ -288,9 +286,7 @@ class SpotifyAuth {
       Log.error(
         _tag,
         'Token refresh failed',
-        data: {
-          'status': '${e.response?.statusCode}',
-        },
+        data: {'status': '${e.response?.statusCode}'},
       );
       rethrow;
     }
@@ -387,9 +383,7 @@ class SpotifyAuth {
       Log.error(
         _tag,
         'Token exchange failed',
-        data: {
-          'status': '${e.response?.statusCode}',
-        },
+        data: {'status': '${e.response?.statusCode}'},
       );
       rethrow;
     }

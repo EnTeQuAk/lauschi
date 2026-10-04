@@ -79,10 +79,7 @@ class ProviderAttribution extends StatelessWidget {
               child: GestureDetector(
                 onTap:
                     () => unawaited(
-                      launchUrl(
-                        _ardUrl,
-                        mode: LaunchMode.externalApplication,
-                      ),
+                      launchUrl(_ardUrl, mode: LaunchMode.externalApplication),
                     ),
                 child: const Text(
                   'ardaudiothek.de',

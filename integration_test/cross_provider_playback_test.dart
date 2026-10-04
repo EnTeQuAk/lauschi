@@ -393,201 +393,189 @@ Future<void> _runPlaybackSuite(
 // ── The single big test ────────────────────────────────────────────────────
 
 void main() {
-  patrolTest(
-    'cross-provider playback (ARD + Spotify + Apple Music)',
-    ($) async {
-      await pumpApp($, prefs: {'onboarding_complete': true});
+  patrolTest('cross-provider playback (ARD + Spotify + Apple Music)', (
+    $,
+  ) async {
+    await pumpApp($, prefs: {'onboarding_complete': true});
 
-      // Wipe DB before anything else: with `clearPackageData=false` the
-      // SQLite file persists across patrolTests, so leftover content from
-      // the previous test run could survive into ours.
-      await clearAppState($);
+    // Wipe DB before anything else: with `clearPackageData=false` the
+    // SQLite file persists across patrolTests, so leftover content from
+    // the previous test run could survive into ours.
+    await clearAppState($);
 
-      final container = getContainer($);
+    final container = getContainer($);
 
-      // Sanity: DB really is empty before we start seeding.
-      expect(
-        await container.read(tileRepositoryProvider).getAllFlat(),
-        isEmpty,
-        reason: 'clearAppState should leave 0 tiles',
+    // Sanity: DB really is empty before we start seeding.
+    expect(
+      await container.read(tileRepositoryProvider).getAllFlat(),
+      isEmpty,
+      reason: 'clearAppState should leave 0 tiles',
+    );
+    expect(
+      await container.read(tileItemRepositoryProvider).getAll(),
+      isEmpty,
+      reason: 'clearAppState should leave 0 items',
+    );
+
+    // ── Auth check ──────────────────────────────────────────────────────
+
+    print('▶ Setup: checking provider auth');
+    final spotifyAuth = await _waitForSpotify($);
+    final appleMusicAuth = await _waitForAppleMusic($);
+    final spotifyOk = spotifyAuth == _AuthResult.ok;
+    final appleMusicOk = appleMusicAuth == _AuthResult.ok;
+    print('  spotify=${_authReason(spotifyAuth, "Spotify")}');
+    print('  appleMusic=${_authReason(appleMusicAuth, "Apple Music")}');
+
+    // ── ARD episode discovery ───────────────────────────────────────────
+
+    print('▶ Setup: discovering ARD episodes');
+    final ardApi = container.read(ardApiProvider);
+    final page = await ardApi.getItems(programSetId: _ardShowId, first: 10);
+    final episodes =
+        page.items
+            .where(
+              (e) =>
+                  e.bestAudioUrl != null && e.duration >= _minEpisodeDuration,
+            )
+            .take(2)
+            .toList();
+    if (episodes.length < 2) {
+      fail(
+        'Need 2+ playable $_ardShowTitle episodes, '
+        'got ${episodes.length}.',
       );
-      expect(
-        await container.read(tileItemRepositoryProvider).getAll(),
-        isEmpty,
-        reason: 'clearAppState should leave 0 items',
+    }
+    print('  found ${episodes.length} episodes');
+
+    // ── DB seeding ──────────────────────────────────────────────────────
+    //
+    // We seed exactly one tile + one item per available provider.
+    // We deliberately do NOT seed nested-folder content here even
+    // though the catalog has Folge 2 entries for Spotify and Apple
+    // Music. Folder navigation tests are a separate concern and
+    // should seed their own data when they're written. Keeping that
+    // dead code here is YAGNI.
+
+    print('▶ Setup: seeding DB');
+    final items = container.read(tileItemRepositoryProvider);
+    final tiles = container.read(tileRepositoryProvider);
+    // DB was already wiped via clearAppState() above.
+
+    // ARD (always available — no auth)
+    final ardTileId = await tiles.insert(title: _ardShowTitle);
+    final ardItemId = await items.insertArdEpisode(
+      title: episodes[0].title,
+      providerUri: episodes[0].providerUri,
+      audioUrl: episodes[0].bestAudioUrl!,
+      durationMs: episodes[0].duration * 1000,
+      tileId: ardTileId,
+    );
+
+    String? spotifyItemId;
+    if (spotifyOk) {
+      final spotifyTileId = await tiles.insert(title: 'Die drei ???');
+      spotifyItemId = await items.insertIfAbsent(
+        title: _spotifyTitle,
+        providerUri: _spotifyUri,
+        cardType: 'album',
       );
+      await items.assignToTile(itemId: spotifyItemId, tileId: spotifyTileId);
+    }
 
-      // ── Auth check ──────────────────────────────────────────────────────
+    String? amItemId;
+    if (appleMusicOk) {
+      final amTileId = await tiles.insert(title: 'Asterix');
+      amItemId = await items.insertIfAbsent(
+        title: _appleMusicTitle,
+        providerUri: _appleMusicUri,
+        cardType: 'album',
+      );
+      await items.assignToTile(itemId: amItemId, tileId: amTileId);
+    }
 
-      print('▶ Setup: checking provider auth');
-      final spotifyAuth = await _waitForSpotify($);
-      final appleMusicAuth = await _waitForAppleMusic($);
-      final spotifyOk = spotifyAuth == _AuthResult.ok;
-      final appleMusicOk = appleMusicAuth == _AuthResult.ok;
+    await pumpFrames($);
+
+    // ── Verify the seed actually landed ────────────────────────────────
+    //
+    // If a repository bug or constraint violation silently swallows an
+    // insert, the playback suites later fail with a confusing "item
+    // not found" rather than a clear "seed produced 0 items". These
+    // assertions catch that.
+
+    final expectedItemCount = 1 + (spotifyOk ? 1 : 0) + (appleMusicOk ? 1 : 0);
+    final allItems = await items.getAll();
+    expect(
+      allItems,
+      hasLength(expectedItemCount),
+      reason:
+          'Seed should produce $expectedItemCount items '
+          '(1 ARD + Spotify? + AppleMusic?)',
+    );
+
+    final allTiles = await tiles.getAllFlat();
+    expect(
+      allTiles,
+      hasLength(expectedItemCount),
+      reason: 'One tile per seeded item',
+    );
+
+    // ARD episode is the linchpin — it always exists. Verify the
+    // round-trip from insertArdEpisode to getById preserved the data.
+    final ardItem = await items.getById(ardItemId);
+    expect(ardItem, isNotNull, reason: 'ARD item must be retrievable');
+    expect(
+      ardItem!.audioUrl,
+      episodes[0].bestAudioUrl,
+      reason: 'ARD audio URL must round-trip through DB',
+    );
+    expect(
+      ardItem.providerUri,
+      episodes[0].providerUri,
+      reason: 'ARD providerUri must round-trip through DB',
+    );
+
+    if (spotifyOk) {
+      final spotifyItem = await items.getByProviderUri(_spotifyUri);
+      expect(
+        spotifyItem,
+        isNotNull,
+        reason: 'Spotify item must be retrievable by URI',
+      );
+    }
+    if (appleMusicOk) {
+      final amItem = await items.getByProviderUri(_appleMusicUri);
+      expect(
+        amItem,
+        isNotNull,
+        reason: 'Apple Music item must be retrievable by URI',
+      );
+    }
+
+    print('  DB seeded ($expectedItemCount items, $expectedItemCount tiles)');
+
+    // ── Run playback suites ─────────────────────────────────────────────
+
+    await _runPlaybackSuite($, 'ARD', ardItemId);
+
+    if (spotifyOk && spotifyItemId != null) {
+      await _runPlaybackSuite($, 'Spotify', spotifyItemId);
+    } else {
       print(
-        '  spotify=${_authReason(spotifyAuth, "Spotify")}',
+        '⏭ Skipping Spotify suite: '
+        '${_authReason(spotifyAuth, "Spotify")}',
       );
+    }
+
+    if (appleMusicOk && amItemId != null) {
+      await _runPlaybackSuite($, 'Apple Music', amItemId);
+    } else {
       print(
-        '  appleMusic=${_authReason(appleMusicAuth, "Apple Music")}',
+        '⏭ Skipping Apple Music suite: '
+        '${_authReason(appleMusicAuth, "Apple Music")}',
       );
+    }
 
-      // ── ARD episode discovery ───────────────────────────────────────────
-
-      print('▶ Setup: discovering ARD episodes');
-      final ardApi = container.read(ardApiProvider);
-      final page = await ardApi.getItems(
-        programSetId: _ardShowId,
-        first: 10,
-      );
-      final episodes =
-          page.items
-              .where(
-                (e) =>
-                    e.bestAudioUrl != null && e.duration >= _minEpisodeDuration,
-              )
-              .take(2)
-              .toList();
-      if (episodes.length < 2) {
-        fail(
-          'Need 2+ playable $_ardShowTitle episodes, '
-          'got ${episodes.length}.',
-        );
-      }
-      print('  found ${episodes.length} episodes');
-
-      // ── DB seeding ──────────────────────────────────────────────────────
-      //
-      // We seed exactly one tile + one item per available provider.
-      // We deliberately do NOT seed nested-folder content here even
-      // though the catalog has Folge 2 entries for Spotify and Apple
-      // Music. Folder navigation tests are a separate concern and
-      // should seed their own data when they're written. Keeping that
-      // dead code here is YAGNI.
-
-      print('▶ Setup: seeding DB');
-      final items = container.read(tileItemRepositoryProvider);
-      final tiles = container.read(tileRepositoryProvider);
-      // DB was already wiped via clearAppState() above.
-
-      // ARD (always available — no auth)
-      final ardTileId = await tiles.insert(title: _ardShowTitle);
-      final ardItemId = await items.insertArdEpisode(
-        title: episodes[0].title,
-        providerUri: episodes[0].providerUri,
-        audioUrl: episodes[0].bestAudioUrl!,
-        durationMs: episodes[0].duration * 1000,
-        tileId: ardTileId,
-      );
-
-      String? spotifyItemId;
-      if (spotifyOk) {
-        final spotifyTileId = await tiles.insert(title: 'Die drei ???');
-        spotifyItemId = await items.insertIfAbsent(
-          title: _spotifyTitle,
-          providerUri: _spotifyUri,
-          cardType: 'album',
-        );
-        await items.assignToTile(
-          itemId: spotifyItemId,
-          tileId: spotifyTileId,
-        );
-      }
-
-      String? amItemId;
-      if (appleMusicOk) {
-        final amTileId = await tiles.insert(title: 'Asterix');
-        amItemId = await items.insertIfAbsent(
-          title: _appleMusicTitle,
-          providerUri: _appleMusicUri,
-          cardType: 'album',
-        );
-        await items.assignToTile(itemId: amItemId, tileId: amTileId);
-      }
-
-      await pumpFrames($);
-
-      // ── Verify the seed actually landed ────────────────────────────────
-      //
-      // If a repository bug or constraint violation silently swallows an
-      // insert, the playback suites later fail with a confusing "item
-      // not found" rather than a clear "seed produced 0 items". These
-      // assertions catch that.
-
-      final expectedItemCount =
-          1 + (spotifyOk ? 1 : 0) + (appleMusicOk ? 1 : 0);
-      final allItems = await items.getAll();
-      expect(
-        allItems,
-        hasLength(expectedItemCount),
-        reason:
-            'Seed should produce $expectedItemCount items '
-            '(1 ARD + Spotify? + AppleMusic?)',
-      );
-
-      final allTiles = await tiles.getAllFlat();
-      expect(
-        allTiles,
-        hasLength(expectedItemCount),
-        reason: 'One tile per seeded item',
-      );
-
-      // ARD episode is the linchpin — it always exists. Verify the
-      // round-trip from insertArdEpisode to getById preserved the data.
-      final ardItem = await items.getById(ardItemId);
-      expect(ardItem, isNotNull, reason: 'ARD item must be retrievable');
-      expect(
-        ardItem!.audioUrl,
-        episodes[0].bestAudioUrl,
-        reason: 'ARD audio URL must round-trip through DB',
-      );
-      expect(
-        ardItem.providerUri,
-        episodes[0].providerUri,
-        reason: 'ARD providerUri must round-trip through DB',
-      );
-
-      if (spotifyOk) {
-        final spotifyItem = await items.getByProviderUri(_spotifyUri);
-        expect(
-          spotifyItem,
-          isNotNull,
-          reason: 'Spotify item must be retrievable by URI',
-        );
-      }
-      if (appleMusicOk) {
-        final amItem = await items.getByProviderUri(_appleMusicUri);
-        expect(
-          amItem,
-          isNotNull,
-          reason: 'Apple Music item must be retrievable by URI',
-        );
-      }
-
-      print('  DB seeded ($expectedItemCount items, $expectedItemCount tiles)');
-
-      // ── Run playback suites ─────────────────────────────────────────────
-
-      await _runPlaybackSuite($, 'ARD', ardItemId);
-
-      if (spotifyOk && spotifyItemId != null) {
-        await _runPlaybackSuite($, 'Spotify', spotifyItemId);
-      } else {
-        print(
-          '⏭ Skipping Spotify suite: '
-          '${_authReason(spotifyAuth, "Spotify")}',
-        );
-      }
-
-      if (appleMusicOk && amItemId != null) {
-        await _runPlaybackSuite($, 'Apple Music', amItemId);
-      } else {
-        print(
-          '⏭ Skipping Apple Music suite: '
-          '${_authReason(appleMusicAuth, "Apple Music")}',
-        );
-      }
-
-      print('✓ All playback suites complete');
-    },
-  );
+    print('✓ All playback suites complete');
+  });
 }

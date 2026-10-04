@@ -410,21 +410,14 @@ class SpotifyApi {
       // them like connection errors: log and return null. Callers already
       // handle null responses gracefully.
       if (status != null && status >= 500) {
-        Log.warn(
-          _tag,
-          'Server error (transient)',
-          data: {'status': '$status'},
-        );
+        Log.warn(_tag, 'Server error (transient)', data: {'status': '$status'});
         return null;
       }
 
       Log.error(
         _tag,
         'API error',
-        data: {
-          'status': '$status',
-          'body': '${e.response?.data}',
-        },
+        data: {'status': '$status', 'body': '${e.response?.data}'},
       );
 
       // Stale device_id — Spotify returns 404, sometimes 400 with

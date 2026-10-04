@@ -21,10 +21,7 @@ const _tag = 'ArdShowDetailScreen';
 /// Used for both the discover grid (auto-assign) and featured section
 /// (highlight specific episodes).
 class ShowDetailExtra {
-  const ShowDetailExtra({
-    this.autoAssignTileId,
-    this.highlightEpisodeUris,
-  });
+  const ShowDetailExtra({this.autoAssignTileId, this.highlightEpisodeUris});
 
   /// When set, episodes are added directly to this tile instead of
   /// creating a group by show title.
@@ -156,9 +153,9 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
   /// Add all episodes from the show via the provider-based importer.
   void _addAll(ArdProgramSet show, List<ArdItem> items) {
     if (ref.read(contentImporterProvider).isImporting) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Import läuft bereits.')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Import läuft bereits.')));
       return;
     }
 
@@ -296,33 +293,28 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
                   // Featured episodes section (when navigating from featured tiles)
                   if (highlighted.isNotEmpty) ...[
                     SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                          final item = highlighted[index];
-                          final alreadyAdded = existingUris.contains(
-                            item.providerUri,
-                          );
-                          final isAdding = _addingUris.contains(
-                            item.providerUri,
-                          );
-                          final isRemoving = _removingUris.contains(
-                            item.providerUri,
-                          );
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        final item = highlighted[index];
+                        final alreadyAdded = existingUris.contains(
+                          item.providerUri,
+                        );
+                        final isAdding = _addingUris.contains(item.providerUri);
+                        final isRemoving = _removingUris.contains(
+                          item.providerUri,
+                        );
 
-                          return ArdEpisodeTile(
-                            item: item,
-                            alreadyAdded: alreadyAdded,
-                            isAdding: isAdding,
-                            isRemoving: isRemoving,
-                            enabled: cardsLoaded && !isImporting,
-                            onAdd: () => _addEpisode(item, show),
-                            onRemove: () => _removeEpisode(item),
-                            showImageUrl: show.imageUrl,
-                            isFeatured: true,
-                          );
-                        },
-                        childCount: highlighted.length,
-                      ),
+                        return ArdEpisodeTile(
+                          item: item,
+                          alreadyAdded: alreadyAdded,
+                          isAdding: isAdding,
+                          isRemoving: isRemoving,
+                          enabled: cardsLoaded && !isImporting,
+                          onAdd: () => _addEpisode(item, show),
+                          onRemove: () => _removeEpisode(item),
+                          showImageUrl: show.imageUrl,
+                          isFeatured: true,
+                        );
+                      }, childCount: highlighted.length),
                     ),
                   ],
 

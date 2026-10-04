@@ -46,9 +46,8 @@ class AppleMusicTokens {
 /// 3. After login, auth page redirects to lauschi://apple-music-callback?code=TOKEN
 /// 4. [handleCallback] extracts the token and stores it
 class AppleMusicWebAuth {
-  AppleMusicWebAuth({
-    FlutterSecureStorage? storage,
-  }) : _storage = storage ?? _defaultStorage;
+  AppleMusicWebAuth({FlutterSecureStorage? storage})
+    : _storage = storage ?? _defaultStorage;
 
   final FlutterSecureStorage _storage;
 
@@ -72,12 +71,9 @@ class AppleMusicWebAuth {
     // Persist state for app-kill recovery.
     await _storage.write(key: _pendingStateKey, value: state);
 
-    final authUrl = Uri.parse(_authPageUrl).replace(
-      queryParameters: {
-        'token': developerToken,
-        'state': state,
-      },
-    );
+    final authUrl = Uri.parse(
+      _authPageUrl,
+    ).replace(queryParameters: {'token': developerToken, 'state': state});
 
     Log.info(_tag, 'Opening browser for Apple Music auth');
 
@@ -156,10 +152,7 @@ class AppleMusicWebAuth {
       Log.info(
         _tag,
         'Token received',
-        data: {
-          'length': '${token.length}',
-          'storefront': storefront,
-        },
+        data: {'length': '${token.length}', 'storefront': storefront},
       );
 
       final tokens = AppleMusicTokens(
@@ -204,10 +197,7 @@ class AppleMusicWebAuth {
       data: {'length': '${token.length}', 'storefront': storefront},
     );
 
-    return AppleMusicTokens(
-      musicUserToken: token,
-      storefront: storefront,
-    );
+    return AppleMusicTokens(musicUserToken: token, storefront: storefront);
   }
 
   /// Clear stored tokens.

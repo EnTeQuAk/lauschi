@@ -319,11 +319,10 @@ void main() {
       await gesture.up();
       await tester.pump(const Duration(milliseconds: 250));
 
-      expect(
-        newOrder,
-        ['b', 'a'],
-        reason: 'Alpha moved to the end, after Beta',
-      );
+      expect(newOrder, [
+        'b',
+        'a',
+      ], reason: 'Alpha moved to the end, after Beta');
     });
 
     testWidgets('a mid-drag items change shows after a no-op drag', (
@@ -412,10 +411,7 @@ class _HostState extends State<_Host> {
 
   void addCharlie() {
     setState(() {
-      _items = [
-        ..._items,
-        const DraggableTileItem(id: 'c', title: 'Charlie'),
-      ];
+      _items = [..._items, const DraggableTileItem(id: 'c', title: 'Charlie')];
     });
   }
 

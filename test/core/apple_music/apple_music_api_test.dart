@@ -42,11 +42,10 @@ void main() {
       expect(tracks, hasLength(150));
       expect(tracks.first.name, 'Track 1');
       expect(tracks.last.name, 'Track 150');
-      expect(
-        adapter.requests.map((r) => r.queryParameters['offset']),
-        [0, 100],
-        reason: 'exactly one follow-up page request',
-      );
+      expect(adapter.requests.map((r) => r.queryParameters['offset']), [
+        0,
+        100,
+      ], reason: 'exactly one follow-up page request');
     });
 
     test('single page needs one request', () async {
@@ -161,10 +160,7 @@ void main() {
 
       final url = await _apiWith(adapter)
           .getAlbumCover('requested-id')
-          .timeout(
-            const Duration(seconds: 2),
-            onTimeout: () => 'TIMEOUT',
-          );
+          .timeout(const Duration(seconds: 2), onTimeout: () => 'TIMEOUT');
 
       expect(url, isNull);
     });

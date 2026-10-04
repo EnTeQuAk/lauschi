@@ -135,9 +135,7 @@ class _InterpolatedProgressState extends ConsumerState<InterpolatedProgress>
   @override
   Widget build(BuildContext context) {
     ref.listen(playerProvider, _syncController);
-    final durationMs = ref.watch(
-      playerProvider.select((s) => s.durationMs),
-    );
+    final durationMs = ref.watch(playerProvider.select((s) => s.durationMs));
     return RepaintBoundary(
       child: AnimatedBuilder(
         animation: _controller,

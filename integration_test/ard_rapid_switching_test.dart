@@ -17,115 +17,106 @@ import 'ard_helpers.dart';
 import 'helpers.dart';
 
 void main() {
-  patrolTest(
-    'rapid card switching lands on the last card',
-    ($) async {
-      await pumpApp($, prefs: {'onboarding_complete': true});
-      await clearAppState($);
+  patrolTest('rapid card switching lands on the last card', ($) async {
+    await pumpApp($, prefs: {'onboarding_complete': true});
+    await clearAppState($);
 
-      final container = getContainer($);
-      final episode = await getStableTestEpisode(container);
+    final container = getContainer($);
+    final episode = await getStableTestEpisode(container);
 
-      // Insert two distinct episodes from the same show.
-      final itemA = await insertTestEpisode($, episode);
-      final itemB = await insertTestEpisode($, episode);
+    // Insert two distinct episodes from the same show.
+    final itemA = await insertTestEpisode($, episode);
+    final itemB = await insertTestEpisode($, episode);
 
-      final notifier = container.read(playerProvider.notifier);
+    final notifier = container.read(playerProvider.notifier);
 
-      // ── Rapid fire: A → B → A → B without waiting ──────────────────
-      unawaited(notifier.playCard(itemA));
-      unawaited(notifier.playCard(itemB));
-      unawaited(notifier.playCard(itemA));
-      unawaited(notifier.playCard(itemB));
+    // ── Rapid fire: A → B → A → B without waiting ──────────────────
+    unawaited(notifier.playCard(itemA));
+    unawaited(notifier.playCard(itemB));
+    unawaited(notifier.playCard(itemA));
+    unawaited(notifier.playCard(itemB));
 
-      // Wait for playback to settle on the last card.
-      await waitForPlayback($);
+    // Wait for playback to settle on the last card.
+    await waitForPlayback($);
 
-      final state = container.read(playerProvider);
-      expect(state.isPlaying, isTrue);
-      expect(
-        state.activeCardId,
-        itemB,
-        reason: 'Should play the last requested card, not an earlier one',
-      );
-      expect(
-        state.error,
-        isNull,
-        reason: 'Rapid switching should not produce errors',
-      );
-      expect(
-        state.positionMs,
-        lessThan(5000),
-        reason: 'Fresh play should start near beginning',
-      );
+    final state = container.read(playerProvider);
+    expect(state.isPlaying, isTrue);
+    expect(
+      state.activeCardId,
+      itemB,
+      reason: 'Should play the last requested card, not an earlier one',
+    );
+    expect(
+      state.error,
+      isNull,
+      reason: 'Rapid switching should not produce errors',
+    );
+    expect(
+      state.positionMs,
+      lessThan(5000),
+      reason: 'Fresh play should start near beginning',
+    );
 
-      await stopPlayback($);
-    },
-  );
+    await stopPlayback($);
+  });
 
-  patrolTest(
-    'double-tap same card is idempotent',
-    ($) async {
-      await pumpApp($, prefs: {'onboarding_complete': true});
-      await clearAppState($);
+  patrolTest('double-tap same card is idempotent', ($) async {
+    await pumpApp($, prefs: {'onboarding_complete': true});
+    await clearAppState($);
 
-      final container = getContainer($);
-      final episode = await getStableTestEpisode(container);
-      final itemId = await insertTestEpisode($, episode);
+    final container = getContainer($);
+    final episode = await getStableTestEpisode(container);
+    final itemId = await insertTestEpisode($, episode);
 
-      final notifier = container.read(playerProvider.notifier);
+    final notifier = container.read(playerProvider.notifier);
 
-      // ── Tap the same card twice rapidly ─────────────────────────────
-      unawaited(notifier.playCard(itemId));
-      unawaited(notifier.playCard(itemId));
+    // ── Tap the same card twice rapidly ─────────────────────────────
+    unawaited(notifier.playCard(itemId));
+    unawaited(notifier.playCard(itemId));
 
-      await waitForPlayback($);
+    await waitForPlayback($);
 
-      final state = container.read(playerProvider);
-      expect(state.isPlaying, isTrue);
-      expect(state.activeCardId, itemId);
-      expect(state.error, isNull, reason: 'No error from double-tap');
+    final state = container.read(playerProvider);
+    expect(state.isPlaying, isTrue);
+    expect(state.activeCardId, itemId);
+    expect(state.error, isNull, reason: 'No error from double-tap');
 
-      await stopPlayback($);
-    },
-  );
+    await stopPlayback($);
+  });
 
-  patrolTest(
-    'play-pause mashing settles correctly',
-    ($) async {
-      await pumpApp($, prefs: {'onboarding_complete': true});
-      await clearAppState($);
+  patrolTest('play-pause mashing settles correctly', ($) async {
+    await pumpApp($, prefs: {'onboarding_complete': true});
+    await clearAppState($);
 
-      final container = getContainer($);
-      final episode = await getStableTestEpisode(container);
-      final itemId = await insertTestEpisode($, episode);
+    final container = getContainer($);
+    final episode = await getStableTestEpisode(container);
+    final itemId = await insertTestEpisode($, episode);
 
-      final notifier = container.read(playerProvider.notifier);
+    final notifier = container.read(playerProvider.notifier);
 
-      // Start playback.
-      unawaited(notifier.playCard(itemId));
-      await waitForPlayback($);
+    // Start playback.
+    unawaited(notifier.playCard(itemId));
+    await waitForPlayback($);
 
-      // ── Mash pause/resume rapidly ──────────────────────────────────
-      unawaited(notifier.pause());
-      unawaited(notifier.resume());
-      unawaited(notifier.pause());
-      unawaited(notifier.resume());
-      unawaited(notifier.pause());
+    // ── Mash pause/resume rapidly ──────────────────────────────────
+    unawaited(notifier.pause());
+    unawaited(notifier.resume());
+    unawaited(notifier.pause());
+    unawaited(notifier.resume());
+    unawaited(notifier.pause());
 
-      // Give it a moment to settle.
-      await $.pump(const Duration(seconds: 1));
+    // Give it a moment to settle.
+    await $.pump(const Duration(seconds: 1));
 
-      // Last command was pause, so we should be paused.
-      await waitForPause($);
-      final state = container.read(playerProvider);
-      expect(state.isPlaying, isFalse);
-      expect(state.activeCardId, itemId);
-      expect(state.error, isNull, reason: 'No errors from rapid toggling');
+    // Last command was pause, so we should be paused.
+    await waitForPause($);
+    final state = container.read(playerProvider);
+    expect(state.isPlaying, isFalse);
+    expect(state.activeCardId, itemId);
+    expect(state.error, isNull, reason: 'No errors from rapid toggling');
 
-      await stopPlayback($);
-    },
-  );
+    await stopPlayback($);
+  });
 
   patrolTest(
     'switching cards during playback preserves position of first card',
@@ -166,14 +157,10 @@ void main() {
       );
 
       // ── Verify card A position was saved ───────────────────────────
-      await waitForCondition(
-        $,
-        () async {
-          final saved = await items.getById(itemA);
-          return saved != null && saved.lastPositionMs > 15000;
-        },
-        description: 'Card A position saved (was at ${posBeforeSwitch}ms)',
-      );
+      await waitForCondition($, () async {
+        final saved = await items.getById(itemA);
+        return saved != null && saved.lastPositionMs > 15000;
+      }, description: 'Card A position saved (was at ${posBeforeSwitch}ms)');
 
       // Tighten the assertion: the saved position should be CLOSE
       // to where we actually paused, not just "any value over

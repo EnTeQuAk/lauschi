@@ -74,9 +74,9 @@ class _CatalogSeriesDetailScreenState
   Future<void> _addSelected(CatalogSeries series) async {
     if (_selected.isEmpty) return;
     if (ref.read(contentImporterProvider).isImporting) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Import läuft bereits.')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Import läuft bereits.')));
       return;
     }
 
@@ -87,9 +87,7 @@ class _CatalogSeriesDetailScreenState
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(
-              '${widget.provider.displayName} nicht verbunden',
-            ),
+            content: Text('${widget.provider.displayName} nicht verbunden'),
           ),
         );
         setState(() => _isAdding = false);
@@ -98,9 +96,7 @@ class _CatalogSeriesDetailScreenState
     }
 
     final progressNotifier = ValueNotifier<(int, int)>((0, _selected.length));
-    final statusNotifier = ValueNotifier<String>(
-      'Lade ${series.title}…',
-    );
+    final statusNotifier = ValueNotifier<String>('Lade ${series.title}…');
 
     if (mounted) {
       unawaited(
@@ -213,9 +209,8 @@ class _CatalogSeriesDetailScreenState
 
     return catalogAsync.when(
       loading:
-          () => const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
-          ),
+          () =>
+              const Scaffold(body: Center(child: CircularProgressIndicator())),
       error:
           (_, _) => const Scaffold(
             body: Center(child: Text('Serie konnte nicht geladen werden')),

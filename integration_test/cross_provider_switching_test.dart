@@ -19,125 +19,124 @@ import 'ard_helpers.dart';
 import 'helpers.dart';
 
 void main() {
-  patrolTest(
-    'rapid cross-provider switching settles on last provider',
-    ($) async {
-      await pumpApp($, prefs: {'onboarding_complete': true});
-      await clearAppState($);
-      final container = getContainer($);
-      final notifier = container.read(playerProvider.notifier);
+  patrolTest('rapid cross-provider switching settles on last provider', (
+    $,
+  ) async {
+    await pumpApp($, prefs: {'onboarding_complete': true});
+    await clearAppState($);
+    final container = getContainer($);
+    final notifier = container.read(playerProvider.notifier);
 
-      // Set up content from all three providers.
-      final ardEpisode = await getStableTestEpisode(container);
-      final ardId = await insertTestEpisode($, ardEpisode);
+    // Set up content from all three providers.
+    final ardEpisode = await getStableTestEpisode(container);
+    final ardId = await insertTestEpisode($, ardEpisode);
 
-      // Wait for Spotify auto-auth to complete from stored tokens.
-      // Reading the session synchronously would race with token refresh.
-      await waitForCondition(
-        $,
-        () async {
-          final s = container.read(spotifySessionProvider);
-          return s is SpotifyAuthenticated ||
-              s is SpotifyUnauthenticated ||
-              s is SpotifyError;
-        },
-        description: 'Spotify auth to settle',
-        timeout: const Duration(seconds: 30),
-      );
-      final spotifySession = container.read(spotifySessionProvider);
-      expect(
-        spotifySession,
-        isA<SpotifyAuthenticated>(),
-        reason:
-            'Spotify must be authenticated. '
-            'Run `mise run dev` and log into Spotify first.',
-      );
-      final spotifyApi = container.read(spotifySessionProvider.notifier).api;
-      final spotifyResults = await spotifyApi.searchAlbums('TKKG');
-      expect(spotifyResults.albums, isNotEmpty);
-      final spotifyAlbum = spotifyResults.albums.first;
-      final items = container.read(tileItemRepositoryProvider);
-      final tiles = container.read(tileRepositoryProvider);
-      final spotifyTileId = await tiles.insert(title: 'Spotify Rapid Test');
-      final spotifyId = await items.insertIfAbsent(
-        title: spotifyAlbum.name,
-        providerUri: spotifyAlbum.uri,
-        cardType: 'album',
-        coverUrl: spotifyAlbum.imageUrl,
-        totalTracks: spotifyAlbum.totalTracks,
-      );
-      await items.assignToTile(itemId: spotifyId, tileId: spotifyTileId);
+    // Wait for Spotify auto-auth to complete from stored tokens.
+    // Reading the session synchronously would race with token refresh.
+    await waitForCondition(
+      $,
+      () async {
+        final s = container.read(spotifySessionProvider);
+        return s is SpotifyAuthenticated ||
+            s is SpotifyUnauthenticated ||
+            s is SpotifyError;
+      },
+      description: 'Spotify auth to settle',
+      timeout: const Duration(seconds: 30),
+    );
+    final spotifySession = container.read(spotifySessionProvider);
+    expect(
+      spotifySession,
+      isA<SpotifyAuthenticated>(),
+      reason:
+          'Spotify must be authenticated. '
+          'Run `mise run dev` and log into Spotify first.',
+    );
+    final spotifyApi = container.read(spotifySessionProvider.notifier).api;
+    final spotifyResults = await spotifyApi.searchAlbums('TKKG');
+    expect(spotifyResults.albums, isNotEmpty);
+    final spotifyAlbum = spotifyResults.albums.first;
+    final items = container.read(tileItemRepositoryProvider);
+    final tiles = container.read(tileRepositoryProvider);
+    final spotifyTileId = await tiles.insert(title: 'Spotify Rapid Test');
+    final spotifyId = await items.insertIfAbsent(
+      title: spotifyAlbum.name,
+      providerUri: spotifyAlbum.uri,
+      cardType: 'album',
+      coverUrl: spotifyAlbum.imageUrl,
+      totalTracks: spotifyAlbum.totalTracks,
+    );
+    await items.assignToTile(itemId: spotifyId, tileId: spotifyTileId);
 
-      final amSession = container.read(appleMusicSessionProvider);
-      expect(
-        amSession,
-        isA<AppleMusicAuthenticated>(),
-        reason: 'Apple Music must be authenticated',
-      );
-      final amApi = container.read(appleMusicSessionProvider.notifier).api;
-      final amResults = await amApi.searchAlbums('Benjamin Blümchen');
-      expect(amResults, isNotEmpty);
-      final amAlbum = amResults.first;
-      final amTileId = await tiles.insert(title: 'Apple Music Rapid Test');
-      final amId = await items.insertIfAbsent(
-        title: amAlbum.name,
-        providerUri: ProviderType.appleMusic.albumUri(amAlbum.id),
-        cardType: 'album',
-        coverUrl: amAlbum.artworkUrlForSize(200),
-        totalTracks: amAlbum.trackCount,
-      );
-      await items.assignToTile(itemId: amId, tileId: amTileId);
-      await pumpFrames($);
+    final amSession = container.read(appleMusicSessionProvider);
+    expect(
+      amSession,
+      isA<AppleMusicAuthenticated>(),
+      reason: 'Apple Music must be authenticated',
+    );
+    final amApi = container.read(appleMusicSessionProvider.notifier).api;
+    final amResults = await amApi.searchAlbums('Benjamin Blümchen');
+    expect(amResults, isNotEmpty);
+    final amAlbum = amResults.first;
+    final amTileId = await tiles.insert(title: 'Apple Music Rapid Test');
+    final amId = await items.insertIfAbsent(
+      title: amAlbum.name,
+      providerUri: ProviderType.appleMusic.albumUri(amAlbum.id),
+      cardType: 'album',
+      coverUrl: amAlbum.artworkUrlForSize(200),
+      totalTracks: amAlbum.trackCount,
+    );
+    await items.assignToTile(itemId: amId, tileId: amTileId);
+    await pumpFrames($);
 
-      // Look up the expected card so we can assert against the
-      // actual provider URI after the rapid switching settles
-      // (round-1 review H1: provider context-assert).
-      final amCard = await items.getById(amId);
-      expect(
-        amCard,
-        isNotNull,
-        reason: 'precondition: Apple Music card exists in DB',
-      );
+    // Look up the expected card so we can assert against the
+    // actual provider URI after the rapid switching settles
+    // (round-1 review H1: provider context-assert).
+    final amCard = await items.getById(amId);
+    expect(
+      amCard,
+      isNotNull,
+      reason: 'precondition: Apple Music card exists in DB',
+    );
 
-      // Rapid fire: ARD → Spotify → Apple Music without waiting.
-      // The generation counter in PlayerNotifier should ensure only
-      // the last one wins.
-      unawaited(notifier.playCard(ardId));
-      unawaited(notifier.playCard(spotifyId));
-      unawaited(notifier.playCard(amId));
+    // Rapid fire: ARD → Spotify → Apple Music without waiting.
+    // The generation counter in PlayerNotifier should ensure only
+    // the last one wins.
+    unawaited(notifier.playCard(ardId));
+    unawaited(notifier.playCard(spotifyId));
+    unawaited(notifier.playCard(amId));
 
-      // Wait for the last provider to start playing.
-      await waitForPlayback($, timeout: const Duration(seconds: 45));
+    // Wait for the last provider to start playing.
+    await waitForPlayback($, timeout: const Duration(seconds: 45));
 
-      // The last-requested card should win.
-      final state = container.read(playerProvider);
-      expect(
-        state.activeCardId,
-        amId,
-        reason: 'Last playCard call (Apple Music) should win',
-      );
-      expect(state.isPlaying, isTrue);
-      // **Provider context-assert** (round-1 review H1, unanimous):
-      // verify the player is actually driven by the Apple Music
-      // backend, not still playing ARD or Spotify with a stale
-      // activeCardId. The track URI carries the `apple_music:`
-      // prefix so this catches any provider mismatch.
-      expect(
-        state.track?.uri,
-        amCard!.providerUri,
-        reason:
-            'Player must be playing the Apple Music track URI '
-            '(got ${state.track?.uri}, expected ${amCard.providerUri}). '
-            'A wrong-provider bug would leave activeCardId set to amId '
-            'while the previous provider is still playing.',
-      );
-      expect(
-        state.positionMs,
-        lessThan(5000),
-        reason: 'Should be near start of the winning track',
-      );
+    // The last-requested card should win.
+    final state = container.read(playerProvider);
+    expect(
+      state.activeCardId,
+      amId,
+      reason: 'Last playCard call (Apple Music) should win',
+    );
+    expect(state.isPlaying, isTrue);
+    // **Provider context-assert** (round-1 review H1, unanimous):
+    // verify the player is actually driven by the Apple Music
+    // backend, not still playing ARD or Spotify with a stale
+    // activeCardId. The track URI carries the `apple_music:`
+    // prefix so this catches any provider mismatch.
+    expect(
+      state.track?.uri,
+      amCard!.providerUri,
+      reason:
+          'Player must be playing the Apple Music track URI '
+          '(got ${state.track?.uri}, expected ${amCard.providerUri}). '
+          'A wrong-provider bug would leave activeCardId set to amId '
+          'while the previous provider is still playing.',
+    );
+    expect(
+      state.positionMs,
+      lessThan(5000),
+      reason: 'Should be near start of the winning track',
+    );
 
-      await stopPlayback($);
-    },
-  );
+    await stopPlayback($);
+  });
 }

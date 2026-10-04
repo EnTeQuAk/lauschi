@@ -50,9 +50,8 @@ class EpisodeTile extends ConsumerWidget {
                       memCacheHeight: 80,
                       fadeInDuration: Duration.zero,
                       placeholder:
-                          (_, _) => const ColoredBox(
-                            color: AppColors.surfaceDim,
-                          ),
+                          (_, _) =>
+                              const ColoredBox(color: AppColors.surfaceDim),
                     )
                     : const ColoredBox(
                       color: AppColors.surfaceDim,

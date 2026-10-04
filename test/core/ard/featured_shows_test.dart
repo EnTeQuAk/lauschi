@@ -95,11 +95,10 @@ void main() {
         DateTime(2026, 8, 10),
         reason: 'publishDate is the newest part, not the oldest',
       );
-      expect(
-        grouped.map((g) => g.title),
-        ['Saga', 'Einzelfolge'],
-        reason: 'the freshly-completed story sorts ahead of the older single',
-      );
+      expect(grouped.map((g) => g.title), [
+        'Saga',
+        'Einzelfolge',
+      ], reason: 'the freshly-completed story sorts ahead of the older single');
     });
 
     test('carries the show title as the subtitle source', () {

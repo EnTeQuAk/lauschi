@@ -131,10 +131,7 @@ class _PinSetupPageState extends ConsumerState<PinSetupPage> {
           if (_saving)
             const CircularProgressIndicator()
           else
-            PinNumpad(
-              onDigit: _onDigit,
-              onBackspace: _onBackspace,
-            ),
+            PinNumpad(onDigit: _onDigit, onBackspace: _onBackspace),
         ],
       ),
     );

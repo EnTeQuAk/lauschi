@@ -57,11 +57,7 @@ void main() {
     });
 
     test('preserves order within matched group', () {
-      final matches = <CatalogMatch?>[
-        _match('a'),
-        _match('b'),
-        _match('c'),
-      ];
+      final matches = <CatalogMatch?>[_match('a'), _match('b'), _match('c')];
 
       // Context: test name says "within matched group" — guarantee
       // every input slot is a match so there's nothing else to sort.
@@ -207,10 +203,7 @@ void main() {
     });
 
     test('returns null for empty album list', () {
-      expect(
-        detectBatchSeries([], [], <String>{}),
-        isNull,
-      );
+      expect(detectBatchSeries([], [], <String>{}), isNull);
     });
   });
 }

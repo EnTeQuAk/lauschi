@@ -240,10 +240,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           ListTile(
             key: const Key('logout_button'),
             tileColor: AppColors.parentSurface,
-            leading: const Icon(
-              Icons.logout_rounded,
-              color: AppColors.error,
-            ),
+            leading: const Icon(Icons.logout_rounded, color: AppColors.error),
             title: const Text(
               'Abmelden',
               style: TextStyle(

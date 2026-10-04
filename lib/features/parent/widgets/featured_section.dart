@@ -198,10 +198,7 @@ class FeaturedScrollSection extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
             itemCount: items.length,
             separatorBuilder: (_, _) => const SizedBox(width: AppSpacing.md),
-            itemBuilder:
-                (context, index) => _FeaturedTile(
-                  item: items[index],
-                ),
+            itemBuilder: (context, index) => _FeaturedTile(item: items[index]),
           ),
         ),
       ],
@@ -245,16 +242,11 @@ class _FeaturedTile extends ConsumerWidget {
                   fit: StackFit.expand,
                   children: [
                     if (imageUrl != null)
-                      CachedNetworkImage(
-                        imageUrl: imageUrl,
-                        fit: BoxFit.cover,
-                      )
+                      CachedNetworkImage(imageUrl: imageUrl, fit: BoxFit.cover)
                     else
                       const ColoredBox(
                         color: AppColors.surfaceDim,
-                        child: Center(
-                          child: Icon(Icons.auto_stories_rounded),
-                        ),
+                        child: Center(child: Icon(Icons.auto_stories_rounded)),
                       ),
                     if (allAdded)
                       ColoredBox(

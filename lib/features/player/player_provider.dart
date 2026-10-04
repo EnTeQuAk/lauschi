@@ -390,9 +390,7 @@ class PlayerNotifier extends _$PlayerNotifier {
       Log.info(
         _tag,
         'playCard ignored, already playing',
-        data: {
-          'cardId': cardId,
-        },
+        data: {'cardId': cardId},
       );
       return;
     }
@@ -438,9 +436,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     // endDate is an editorial broadcast window, not content removal.
     // Audio URLs remain accessible on CDN well past endDate.
     if (card.markedUnavailable != null) {
-      state = state.copyWith(
-        error: PlayerError.contentUnavailable,
-      );
+      state = state.copyWith(error: PlayerError.contentUnavailable);
       return;
     }
 
@@ -529,9 +525,7 @@ class PlayerNotifier extends _$PlayerNotifier {
             'Provider not yet supported',
             data: {'provider': card.provider},
           );
-          state = state.copyWith(
-            error: PlayerError.playbackFailed,
-          );
+          state = state.copyWith(error: PlayerError.playbackFailed);
       }
     } on Exception catch (e) {
       if (_playGen != gen) return;
@@ -647,9 +641,7 @@ class PlayerNotifier extends _$PlayerNotifier {
 
     if (deviceId == null) {
       Log.warn(_tag, 'No device ID after reconnect');
-      state = state.copyWith(
-        error: PlayerError.spotifyNotConnected,
-      );
+      state = state.copyWith(error: PlayerError.spotifyNotConnected);
       return null;
     }
 
@@ -689,9 +681,7 @@ class PlayerNotifier extends _$PlayerNotifier {
       if (_playGen != gen) return;
       if (newDeviceId == null) {
         Log.warn(_tag, 'No device ID after reconnect');
-        state = state.copyWith(
-          error: PlayerError.spotifyConnectionLost,
-        );
+        state = state.copyWith(error: PlayerError.spotifyConnectionLost);
         return;
       }
       await Future<void>.delayed(_deviceRegistrationDelay);
@@ -703,9 +693,7 @@ class PlayerNotifier extends _$PlayerNotifier {
       } on SpotifyDeviceNotFoundException {
         if (_playGen != gen) return;
         Log.warn(_tag, 'Device still not found after reconnect');
-        state = state.copyWith(
-          error: PlayerError.spotifyConnectionLost,
-        );
+        state = state.copyWith(error: PlayerError.spotifyConnectionLost);
       }
     }
   }
@@ -738,9 +726,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     );
     if (card.audioUrl == null || card.audioUrl!.isEmpty) {
       Log.error(_tag, 'No audio URL', data: {'cardId': card.id});
-      state = state.copyWith(
-        error: PlayerError.noAudioUrl,
-      );
+      state = state.copyWith(error: PlayerError.noAudioUrl);
       return;
     }
 
@@ -798,11 +784,7 @@ class PlayerNotifier extends _$PlayerNotifier {
   Future<void> _startAppleMusic(db.TileItem card, int gen) async {
     final amSession = ref.read(appleMusicSessionProvider.notifier);
 
-    Log.info(
-      _tag,
-      'Starting Apple Music gen=$gen',
-      data: {'card': card.title},
-    );
+    Log.info(_tag, 'Starting Apple Music gen=$gen', data: {'card': card.title});
 
     final albumId = ProviderType.extractId(card.providerUri) ?? '';
 
@@ -870,11 +852,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     // Don't set isPlaying: true here. The EventChannel will push the
     // confirmed playing state from native player. Setting it prematurely
     // causes a brief "playing" flash if play() fails.
-    state = state.copyWith(
-      isReady: true,
-      isLoading: true,
-      track: trackInfo,
-    );
+    state = state.copyWith(isReady: true, isLoading: true, track: trackInfo);
 
     // Resume from saved track position. lastTrackNumber is 1-based in DB;
     // play() expects 0-based trackIndex.
@@ -1048,39 +1026,36 @@ class PlayerNotifier extends _$PlayerNotifier {
     if (_positionSaveTimer != null) return;
 
     if (!_playStopwatch.isRunning) _playStopwatch.start();
-    _positionSaveTimer = Timer.periodic(
-      _positionSaveInterval,
-      (_) {
-        if (_active == null) return; // Backend torn down between ticks (#216)
-        _updatePlayTime();
-        final cardId = state.activeCardId;
-        final track = state.track;
-        final posMs = _active?.backend.currentPositionMs ?? state.positionMs;
-        final durationMs = state.durationMs;
+    _positionSaveTimer = Timer.periodic(_positionSaveInterval, (_) {
+      if (_active == null) return; // Backend torn down between ticks (#216)
+      _updatePlayTime();
+      final cardId = state.activeCardId;
+      final track = state.track;
+      final posMs = _active?.backend.currentPositionMs ?? state.positionMs;
+      final durationMs = state.durationMs;
 
-        // Check for album completion continuously while playing.
-        // This catches natural track endings where isPlaying stays true.
-        // Guard prevents repeated triggers while position lingers near end.
-        if (!_completionHandledForSession &&
-            isAlbumComplete(
-              hasNextTrack: _active?.backend.hasNextTrack ?? false,
-              positionMs: posMs,
-              durationMs: durationMs,
-            )) {
-          _completionHandledForSession = true;
-          unawaited(_onAlbumCompleted(cardId, state.activeGroupId));
-        }
+      // Check for album completion continuously while playing.
+      // This catches natural track endings where isPlaying stays true.
+      // Guard prevents repeated triggers while position lingers near end.
+      if (!_completionHandledForSession &&
+          isAlbumComplete(
+            hasNextTrack: _active?.backend.hasNextTrack ?? false,
+            positionMs: posMs,
+            durationMs: durationMs,
+          )) {
+        _completionHandledForSession = true;
+        unawaited(_onAlbumCompleted(cardId, state.activeGroupId));
+      }
 
-        if (shouldSavePositionInSession(
-              playTimeMs: _playTimeMs,
-              completionHandled: _completionHandledForSession,
-            ) &&
-            cardId != null &&
-            track != null) {
-          unawaited(_savePosition(cardId, track, posMs));
-        }
-      },
-    );
+      if (shouldSavePositionInSession(
+            playTimeMs: _playTimeMs,
+            completionHandled: _completionHandledForSession,
+          ) &&
+          cardId != null &&
+          track != null) {
+        unawaited(_savePosition(cardId, track, posMs));
+      }
+    });
   }
 
   void _stopPositionSave() {
@@ -1248,10 +1223,7 @@ Future<void> handleAlbumCompleted(
     Log.info(
       'PlayerProvider',
       'Marked as heard',
-      data: {
-        'cardId': card.id,
-        'title': card.title,
-      },
+      data: {'cardId': card.id, 'title': card.title},
     );
   } on Exception catch (e) {
     Log.error('PlayerProvider', 'Mark heard failed', exception: e);

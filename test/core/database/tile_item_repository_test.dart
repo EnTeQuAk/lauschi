@@ -461,11 +461,7 @@ void main() {
       reason: 'setup: target tile exists',
     );
 
-    await repo.assignToTile(
-      itemId: cardId,
-      tileId: groupId,
-      episodeNumber: 5,
-    );
+    await repo.assignToTile(itemId: cardId, tileId: groupId, episodeNumber: 5);
     var card = await repo.getById(cardId);
     expect(card, isNotNull);
     expect(card!.groupId, groupId);
@@ -846,9 +842,9 @@ void main() {
         episodeNumber: episodeNumber,
       );
       if (sortOrder != null) {
-        await (db.update(db.cards)..where((t) => t.id.equals(id))).write(
-          CardsCompanion(sortOrder: Value(sortOrder)),
-        );
+        await (db.update(db.cards)..where(
+          (t) => t.id.equals(id),
+        )).write(CardsCompanion(sortOrder: Value(sortOrder)));
       }
       if (isHeard) await repo.markHeard(id);
       if (lastPositionMs > 0) {

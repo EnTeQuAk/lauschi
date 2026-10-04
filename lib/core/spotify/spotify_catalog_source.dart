@@ -34,10 +34,7 @@ class SpotifyCatalogSource implements CatalogSource {
     final covers = <String, String>{};
     // Spotify batch endpoint supports max 20 IDs per request.
     for (var i = 0; i < albumIds.length; i += 20) {
-      final batch = albumIds.sublist(
-        i,
-        (i + 20).clamp(0, albumIds.length),
-      );
+      final batch = albumIds.sublist(i, (i + 20).clamp(0, albumIds.length));
       try {
         final albums = await _api.getAlbums(batch);
         for (final album in albums) {

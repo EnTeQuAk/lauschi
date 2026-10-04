@@ -224,12 +224,7 @@ class SpotifySession extends _$SpotifySession {
       }
       return false;
     } on Exception catch (e, stack) {
-      Log.error(
-        _tag,
-        'OAuth callback failed',
-        exception: e,
-        stackTrace: stack,
-      );
+      Log.error(_tag, 'OAuth callback failed', exception: e, stackTrace: stack);
       state = SpotifyError('$e');
       return false;
     }

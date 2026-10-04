@@ -125,9 +125,10 @@ class _GroupCardState extends State<TileCard>
       duration: const Duration(milliseconds: 150),
       vsync: this,
     );
-    _scaleAnimation = Tween<double>(begin: 1, end: 0.96).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _scaleAnimation = Tween<double>(
+      begin: 1,
+      end: 0.96,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -240,10 +241,7 @@ class _GroupCardState extends State<TileCard>
                               _art(showBadge: true),
                             ),
                           ),
-                          TileLabel(
-                            title: widget.title,
-                            subtitle: countLabel,
-                          ),
+                          TileLabel(title: widget.title, subtitle: countLabel),
                         ],
                       ),
             ),

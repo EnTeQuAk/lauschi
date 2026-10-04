@@ -42,9 +42,7 @@ class SearchResultTile extends StatelessWidget {
                   memCacheWidth: compact ? 88 : 112,
                   fadeInDuration: const Duration(milliseconds: 200),
                   placeholder:
-                      (_, _) => const ColoredBox(
-                        color: AppColors.surfaceDim,
-                      ),
+                      (_, _) => const ColoredBox(color: AppColors.surfaceDim),
                   errorWidget:
                       (_, _, _) => const ColoredBox(
                         color: AppColors.surfaceDim,

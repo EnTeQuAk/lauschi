@@ -40,10 +40,7 @@ class AppleMusicNativeBackend extends AppleMusicBackend {
       Log.info(
         _tag,
         'Playback started',
-        data: {
-          'track': tracks[trackIndex].name,
-          'positionMs': '$positionMs',
-        },
+        data: {'track': tracks[trackIndex].name, 'positionMs': '$positionMs'},
       );
     } on PlatformException catch (e) {
       Log.error(

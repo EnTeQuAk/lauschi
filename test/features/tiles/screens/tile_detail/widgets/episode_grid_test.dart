@@ -97,9 +97,7 @@ void main() {
     (i) => _episode(id: 'ep-$i', sortOrder: i, episodeNumber: i + 1),
   );
 
-  testWidgets('initial build scrolls to nextUnheardId episode', (
-    tester,
-  ) async {
+  testWidgets('initial build scrolls to nextUnheardId episode', (tester) async {
     // Episode 20 is well below the fold in a 400px-tall viewport with 2 columns.
     await tester.pumpWidget(
       _Harness(episodes: episodes, initialNextUnheardId: 'ep-20'),
@@ -275,9 +273,7 @@ void main() {
     );
   });
 
-  testWidgets('an expired episode routes taps to onExpiredTap', (
-    tester,
-  ) async {
+  testWidgets('an expired episode routes taps to onExpiredTap', (tester) async {
     // This wiring shipped broken once (all tap handlers null on expired
     // cards) and later came back without coverage: a kid tapping a
     // greyed episode must get the friendly modal, never playCard on a

@@ -156,10 +156,7 @@ void main() {
 
     test('still respects the minimum play time', () {
       expect(
-        shouldSavePositionInSession(
-          playTimeMs: 5000,
-          completionHandled: false,
-        ),
+        shouldSavePositionInSession(playTimeMs: 5000, completionHandled: false),
         isFalse,
       );
     });
@@ -192,10 +189,7 @@ void main() {
     });
 
     test('respects custom minimum', () {
-      expect(
-        shouldSavePosition(playTimeMs: 5000, minPlayTimeMs: 3000),
-        isTrue,
-      );
+      expect(shouldSavePosition(playTimeMs: 5000, minPlayTimeMs: 3000), isTrue);
       expect(
         shouldSavePosition(playTimeMs: 1000, minPlayTimeMs: 3000),
         isFalse,
@@ -205,24 +199,15 @@ void main() {
 
   group('isNearTrackEnd', () {
     test('false when far from end', () {
-      expect(
-        isNearTrackEnd(positionMs: 10000, durationMs: 300000),
-        isFalse,
-      );
+      expect(isNearTrackEnd(positionMs: 10000, durationMs: 300000), isFalse);
     });
 
     test('true when within threshold of end', () {
-      expect(
-        isNearTrackEnd(positionMs: 296000, durationMs: 300000),
-        isTrue,
-      );
+      expect(isNearTrackEnd(positionMs: 296000, durationMs: 300000), isTrue);
     });
 
     test('false when duration is zero', () {
-      expect(
-        isNearTrackEnd(positionMs: 0, durationMs: 0),
-        isFalse,
-      );
+      expect(isNearTrackEnd(positionMs: 0, durationMs: 0), isFalse);
     });
 
     test('respects custom threshold', () {
@@ -354,20 +339,14 @@ void main() {
   group('computePlayTime', () {
     test('returns previous when no elapsed time', () {
       expect(
-        computePlayTime(
-          elapsedSinceStartMs: null,
-          previousPlayTimeMs: 5000,
-        ),
+        computePlayTime(elapsedSinceStartMs: null, previousPlayTimeMs: 5000),
         5000,
       );
     });
 
     test('accumulates elapsed time', () {
       expect(
-        computePlayTime(
-          elapsedSinceStartMs: 10000,
-          previousPlayTimeMs: 5000,
-        ),
+        computePlayTime(elapsedSinceStartMs: 10000, previousPlayTimeMs: 5000),
         15000,
       );
     });

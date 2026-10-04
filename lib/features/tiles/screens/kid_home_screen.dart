@@ -164,10 +164,7 @@ class KidHomeScreen extends ConsumerWidget {
                     Log.info(
                       _tag,
                       'Tile tapped',
-                      data: {
-                        'tileId': group.id,
-                        'title': group.title,
-                      },
+                      data: {'tileId': group.id, 'title': group.title},
                     );
                     unawaited(context.push(AppRoutes.tileDetail(group.id)));
                   },
@@ -311,9 +308,7 @@ class _GroupGridItem extends ConsumerWidget {
     // Select this tile's record only (records are value-equal), so a
     // position save on some other tile's card does not rebuild every
     // tile on the grid.
-    final stats = ref.watch(
-      tileProgressProvider.select((m) => m[group.id]),
-    );
+    final stats = ref.watch(tileProgressProvider.select((m) => m[group.id]));
     final total = stats?.total ?? 0;
     final heard = stats?.heard ?? 0;
     final progress = total > 0 ? (heard / total) : 0.0;

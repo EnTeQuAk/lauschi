@@ -67,9 +67,9 @@ void main() {
       providerUri: huiBuhEp2,
       cardType: 'album',
     );
-    await (db.update(db.cards)..where((t) => t.id.equals(id))).write(
-      const CardsCompanion(episodeNumber: Value(6)),
-    );
+    await (db.update(db.cards)..where(
+      (t) => t.id.equals(id),
+    )).write(const CardsCompanion(episodeNumber: Value(6)));
 
     final changed = await repo.reconcileEpisodeNumbers(catalog);
 
@@ -85,9 +85,9 @@ void main() {
       providerUri: filmNoEpisode,
       cardType: 'album',
     );
-    await (db.update(db.cards)..where((t) => t.id.equals(id))).write(
-      const CardsCompanion(episodeNumber: Value(5)),
-    );
+    await (db.update(db.cards)..where(
+      (t) => t.id.equals(id),
+    )).write(const CardsCompanion(episodeNumber: Value(5)));
 
     final changed = await repo.reconcileEpisodeNumbers(catalog);
 
@@ -101,9 +101,9 @@ void main() {
       providerUri: 'spotify:album:zzzzzzzzzzzzzzzzzzzzzz',
       cardType: 'album',
     );
-    await (db.update(db.cards)..where((t) => t.id.equals(id))).write(
-      const CardsCompanion(episodeNumber: Value(3)),
-    );
+    await (db.update(db.cards)..where(
+      (t) => t.id.equals(id),
+    )).write(const CardsCompanion(episodeNumber: Value(3)));
 
     expect(await repo.reconcileEpisodeNumbers(catalog), 0);
     expect((await only()).episodeNumber, 3);
@@ -116,9 +116,9 @@ void main() {
       providerUri: 'ard:album:xyz',
       cardType: 'album',
     );
-    await (db.update(db.cards)..where((t) => t.id.equals(id))).write(
-      const CardsCompanion(episodeNumber: Value(4)),
-    );
+    await (db.update(db.cards)..where(
+      (t) => t.id.equals(id),
+    )).write(const CardsCompanion(episodeNumber: Value(4)));
 
     expect(await repo.reconcileEpisodeNumbers(catalog), 0);
     expect((await only()).episodeNumber, 4);

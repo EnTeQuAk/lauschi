@@ -100,11 +100,7 @@ class AppleMusicApi {
     try {
       final response = await _dio.get<Map<String, dynamic>>(
         '/search',
-        queryParameters: {
-          'term': query,
-          'types': 'albums',
-          'limit': limit,
-        },
+        queryParameters: {'term': query, 'types': 'albums', 'limit': limit},
       );
 
       final results = response.data?['results'] as Map<String, dynamic>?;
@@ -129,10 +125,7 @@ class AppleMusicApi {
 
     final results = <AppleMusicAlbum>[];
     for (var i = 0; i < albumIds.length; i += 25) {
-      final batch = albumIds.sublist(
-        i,
-        (i + 25).clamp(0, albumIds.length),
-      );
+      final batch = albumIds.sublist(i, (i + 25).clamp(0, albumIds.length));
       try {
         final response = await _dio.get<Map<String, dynamic>>(
           '/albums',

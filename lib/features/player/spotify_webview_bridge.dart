@@ -106,9 +106,7 @@ class SpotifyWebViewBridge {
   ///
   /// Can be called again after [tearDown] to re-initialize (e.g. after
   /// re-login). Cleans up any previous controller.
-  Future<void> init({
-    required Future<String?> Function() getValidToken,
-  }) async {
+  Future<void> init({required Future<String?> Function() getValidToken}) async {
     if (_disposed) {
       throw StateError(
         'Cannot init a disposed bridge. '
@@ -146,11 +144,7 @@ class SpotifyWebViewBridge {
         // Only grant PROTECTED_MEDIA_ID (Widevine DRM). Reject everything else.
         const allowed = {'protectedMediaId'};
         final requested = request.types.map((t) => t.name).toSet();
-        Log.info(
-          _tag,
-          'Permission request',
-          data: {'types': '$requested'},
-        );
+        Log.info(_tag, 'Permission request', data: {'types': '$requested'});
         if (requested.any(allowed.contains)) {
           unawaited(request.grant());
         } else {
@@ -208,11 +202,7 @@ class SpotifyWebViewBridge {
           if (allowed.contains(host) || request.url == 'about:blank') {
             return NavigationDecision.navigate;
           }
-          Log.warn(
-            _tag,
-            'Blocked navigation',
-            data: {'url': request.url},
-          );
+          Log.warn(_tag, 'Blocked navigation', data: {'url': request.url});
           return NavigationDecision.prevent;
         },
         onPageFinished: (_) {
@@ -282,9 +272,7 @@ class SpotifyWebViewBridge {
       try {
         unawaited(
           controller
-              .runJavaScript(
-                'if(window.lauschi){window.lauschi.disconnect()}',
-              )
+              .runJavaScript('if(window.lauschi){window.lauschi.disconnect()}')
               .catchError((_) {}),
         );
       } on Exception {
@@ -393,9 +381,7 @@ class SpotifyWebViewBridge {
           'SDK error',
           data: {'type': errType, 'message': errMsg},
         );
-        _updateState(
-          _state.copyWith(error: _classifyError(errType, errMsg)),
-        );
+        _updateState(_state.copyWith(error: _classifyError(errType, errMsg)));
 
       case 'log':
         Log.debug('js', _sanitize('${payload['message']}'));
@@ -413,19 +399,16 @@ class SpotifyWebViewBridge {
 
   void _handleStateChanged(Map<String, dynamic> payload) {
     final paused = payload['paused'] as bool? ?? true;
-    final posMs = coerceJsonInt(payload['position_ms']).clamp(
-      0,
-      _maxPositionMs,
-    );
-    final durMs = coerceJsonInt(payload['duration_ms']).clamp(
-      0,
-      _maxPositionMs,
-    );
+    final posMs = coerceJsonInt(
+      payload['position_ms'],
+    ).clamp(0, _maxPositionMs);
+    final durMs = coerceJsonInt(
+      payload['duration_ms'],
+    ).clamp(0, _maxPositionMs);
     final trackNum = coerceJsonInt(payload['track_number']).clamp(0, 9999);
-    final nextCount = coerceJsonInt(payload['next_tracks_count']).clamp(
-      0,
-      9999,
-    );
+    final nextCount = coerceJsonInt(
+      payload['next_tracks_count'],
+    ).clamp(0, 9999);
     final trackData = coerceJsonMap(payload['track']);
 
     TrackInfo? track;

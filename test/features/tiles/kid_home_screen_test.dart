@@ -47,10 +47,7 @@ Widget _buildApp(ProviderContainer container) {
     child: Consumer(
       builder: (context, ref, _) {
         final router = ref.watch(appRouterProvider);
-        return MaterialApp.router(
-          theme: buildAppTheme(),
-          routerConfig: router,
-        );
+        return MaterialApp.router(theme: buildAppTheme(), routerConfig: router);
       },
     ),
   );
@@ -91,9 +88,7 @@ List<Override> _testOverrides({
 
 void main() {
   testWidgets('shows empty state when no cards exist', (tester) async {
-    final container = ProviderContainer(
-      overrides: _testOverrides(),
-    );
+    final container = ProviderContainer(overrides: _testOverrides());
     addTearDown(container.dispose);
 
     await tester.pumpWidget(_buildApp(container));
@@ -132,10 +127,7 @@ void main() {
     final notifier = _TrackingPlayerNotifier();
 
     final container = ProviderContainer(
-      overrides: _testOverrides(
-        ungrouped: cards,
-        playerNotifier: notifier,
-      ),
+      overrides: _testOverrides(ungrouped: cards, playerNotifier: notifier),
     );
     addTearDown(container.dispose);
 
@@ -147,11 +139,9 @@ void main() {
     await tester.pump();
     await tester.pump();
 
-    expect(
-      notifier.playCardCalls,
-      ['card-1'],
-      reason: 'a tap with isReady=false must still start playback',
-    );
+    expect(notifier.playCardCalls, [
+      'card-1',
+    ], reason: 'a tap with isReady=false must still start playback');
     expect(find.byIcon(Icons.chevron_left_rounded), findsOneWidget);
   });
 
@@ -342,9 +332,7 @@ class _FakeOnline extends IsOnline {
 
 /// Player notifier that tracks method calls without needing a real bridge.
 class _TrackingPlayerNotifier extends PlayerNotifier {
-  _TrackingPlayerNotifier({
-    this.initialState = const PlaybackState(),
-  });
+  _TrackingPlayerNotifier({this.initialState = const PlaybackState()});
 
   final PlaybackState initialState;
   final List<String> playCardCalls = [];

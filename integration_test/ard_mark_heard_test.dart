@@ -15,99 +15,95 @@ import 'ard_helpers.dart';
 import 'helpers.dart';
 
 void main() {
-  patrolTest(
-    'does NOT mark heard when paused outside completion threshold',
-    ($) async {
-      await pumpApp($, prefs: {'onboarding_complete': true});
-      await clearAppState($);
+  patrolTest('does NOT mark heard when paused outside completion threshold', (
+    $,
+  ) async {
+    await pumpApp($, prefs: {'onboarding_complete': true});
+    await clearAppState($);
 
-      final container = getContainer($);
-      final episode = await getStableTestEpisode(container);
-      final itemId = await insertTestEpisode($, episode);
+    final container = getContainer($);
+    final episode = await getStableTestEpisode(container);
+    final itemId = await insertTestEpisode($, episode);
 
-      final notifier = container.read(playerProvider.notifier);
-      final items = container.read(tileItemRepositoryProvider);
+    final notifier = container.read(playerProvider.notifier);
+    final items = container.read(tileItemRepositoryProvider);
 
-      unawaited(notifier.playCard(itemId));
-      await waitForPlayback($);
+    unawaited(notifier.playCard(itemId));
+    await waitForPlayback($);
 
-      // Wait for duration to be known. Uses the shared helper that
-      // wraps waitForCondition with a clear timeout message.
-      // Replaces the inline polling loop the round-1 review flagged
-      // (G7).
-      await waitForDurationKnown($);
+    // Wait for duration to be known. Uses the shared helper that
+    // wraps waitForCondition with a clear timeout message.
+    // Replaces the inline polling loop the round-1 review flagged
+    // (G7).
+    await waitForDurationKnown($);
 
-      final duration = container.read(playerProvider).durationMs;
-      expect(duration, greaterThan(10000));
+    final duration = container.read(playerProvider).durationMs;
+    expect(duration, greaterThan(10000));
 
-      // Seek to 8s from end — outside the 5s completion threshold.
-      await notifier.seek(duration - 8000);
-      await $.pump(const Duration(seconds: 1));
+    // Seek to 8s from end — outside the 5s completion threshold.
+    await notifier.seek(duration - 8000);
+    await $.pump(const Duration(seconds: 1));
 
-      // Pause here — should NOT trigger completion.
-      await notifier.pause();
-      await waitForPause($);
-      await $.pump(const Duration(seconds: 1));
+    // Pause here — should NOT trigger completion.
+    await notifier.pause();
+    await waitForPause($);
+    await $.pump(const Duration(seconds: 1));
 
-      final item = await items.getById(itemId);
-      expect(
-        item!.isHeard,
-        isFalse,
-        reason:
-            'Should NOT be marked heard when paused 8s from end '
-            '(threshold is 5s)',
-      );
+    final item = await items.getById(itemId);
+    expect(
+      item!.isHeard,
+      isFalse,
+      reason:
+          'Should NOT be marked heard when paused 8s from end '
+          '(threshold is 5s)',
+    );
 
-      await stopPlayback($);
-    },
-  );
+    await stopPlayback($);
+  });
 
-  patrolTest(
-    'marks episode heard when playback reaches end',
-    ($) async {
-      await pumpApp($, prefs: {'onboarding_complete': true});
-      await clearAppState($);
+  patrolTest('marks episode heard when playback reaches end', ($) async {
+    await pumpApp($, prefs: {'onboarding_complete': true});
+    await clearAppState($);
 
-      final container = getContainer($);
-      final episode = await getStableTestEpisode(container);
-      final itemId = await insertTestEpisode($, episode);
+    final container = getContainer($);
+    final episode = await getStableTestEpisode(container);
+    final itemId = await insertTestEpisode($, episode);
 
-      final notifier = container.read(playerProvider.notifier);
-      final items = container.read(tileItemRepositoryProvider);
+    final notifier = container.read(playerProvider.notifier);
+    final items = container.read(tileItemRepositoryProvider);
 
-      // Verify starts as unheard.
-      var item = await items.getById(itemId);
-      expect(item!.isHeard, isFalse);
+    // Verify starts as unheard.
+    var item = await items.getById(itemId);
+    expect(item!.isHeard, isFalse);
 
-      unawaited(notifier.playCard(itemId));
-      await waitForPlayback($);
+    unawaited(notifier.playCard(itemId));
+    await waitForPlayback($);
 
-      // Same helper migration as the first test (G7).
-      await waitForDurationKnown($);
+    // Same helper migration as the first test (G7).
+    await waitForDurationKnown($);
 
-      final duration = container.read(playerProvider).durationMs;
-      expect(duration, greaterThan(10000));
+    final duration = container.read(playerProvider).durationMs;
+    expect(duration, greaterThan(10000));
 
-      // Seek to 3s from end — inside the 5s completion threshold.
-      await notifier.seek(duration - 3000);
-      await pumpFrames($);
+    // Seek to 3s from end — inside the 5s completion threshold.
+    await notifier.seek(duration - 3000);
+    await pumpFrames($);
 
-      // Let it play to completion (3s remaining + detection delay).
-      for (var i = 0; i < 50; i++) {
-        await $.pump(const Duration(milliseconds: 200));
-        if (!container.read(playerProvider).isPlaying) break;
-      }
+    // Let it play to completion (3s remaining + detection delay).
+    for (var i = 0; i < 50; i++) {
+      await $.pump(const Duration(milliseconds: 200));
+      if (!container.read(playerProvider).isPlaying) break;
+    }
 
-      await $.pump(const Duration(seconds: 2));
+    await $.pump(const Duration(seconds: 2));
 
-      item = await items.getById(itemId);
-      expect(
-        item!.isHeard,
-        isTrue,
-        reason: 'Episode should be marked heard after reaching end',
-      );
+    item = await items.getById(itemId);
+    expect(
+      item!.isHeard,
+      isTrue,
+      reason: 'Episode should be marked heard after reaching end',
+    );
 
-      await stopPlayback($);
-    },
-  );
+    await stopPlayback($);
+  });
 }

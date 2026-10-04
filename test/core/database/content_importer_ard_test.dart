@@ -164,9 +164,7 @@ void main() {
             _makeItem(id: 'ep3', title: 'Ep 3', audioUrl: 'http://a/3.mp3'),
             _makeItem(id: 'ep4', title: 'Ep 4', audioUrl: 'http://a/4.mp3'),
           ],
-          [
-            _makeItem(id: 'ep5', title: 'Ep 5', audioUrl: 'http://a/5.mp3'),
-          ],
+          [_makeItem(id: 'ep5', title: 'Ep 5', audioUrl: 'http://a/5.mp3')],
         ],
       );
 
@@ -195,11 +193,7 @@ void main() {
       final pages = List.generate(
         102,
         (i) => [
-          _makeItem(
-            id: 'ep$i',
-            title: 'Ep $i',
-            audioUrl: 'http://a/$i.mp3',
-          ),
+          _makeItem(id: 'ep$i', title: 'Ep $i', audioUrl: 'http://a/$i.mp3'),
         ],
       );
 

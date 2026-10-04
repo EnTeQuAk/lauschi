@@ -252,11 +252,10 @@ series:
 
       final result = CatalogService.parseSeriesYaml(yaml);
 
-      expect(
-        result.series.map((s) => s.id),
-        ['good_before', 'good_after'],
-        reason: 'entries around the malformed one survive',
-      );
+      expect(result.series.map((s) => s.id), [
+        'good_before',
+        'good_after',
+      ], reason: 'entries around the malformed one survive');
       expect(result.series.last.albums.single.episode, 1);
       expect(result.errors, hasLength(1));
       expect(

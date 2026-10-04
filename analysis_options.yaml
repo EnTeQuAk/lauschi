@@ -1,11 +1,5 @@
 include: package:very_good_analysis/analysis_options.yaml
 
-# very_good_analysis 11 switched to trailing_commas: automate, which
-# reflows 125 files. Kept at the previous style until that reformat is
-# its own commit.
-formatter:
-  trailing_commas: preserve
-
 analyzer:
   errors:
     missing_required_param: error

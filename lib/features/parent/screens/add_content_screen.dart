@@ -76,9 +76,7 @@ class AddContentScreen extends ConsumerWidget {
           embedded: true,
           autoAssignTileId: autoAssignTileId,
         ),
-        ProviderType.spotify => _SpotifyTab(
-          autoAssignTileId: autoAssignTileId,
-        ),
+        ProviderType.spotify => _SpotifyTab(autoAssignTileId: autoAssignTileId),
         ProviderType.appleMusic => _AppleMusicTab(
           autoAssignTileId: autoAssignTileId,
         ),
@@ -200,11 +198,7 @@ class _AutoAssignBanner extends ConsumerWidget {
       ),
       child: Row(
         children: [
-          const Icon(
-            Icons.layers_rounded,
-            size: 16,
-            color: AppColors.primary,
-          ),
+          const Icon(Icons.layers_rounded, size: 16, color: AppColors.primary),
           const SizedBox(width: AppSpacing.xs),
           Expanded(
             child: Text(

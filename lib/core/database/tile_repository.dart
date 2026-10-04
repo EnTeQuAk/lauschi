@@ -231,10 +231,7 @@ class TileRepository {
       Log.info(
         _tag,
         'Tile unnested',
-        data: {
-          'tileId': tileId,
-          'to': grandparentId ?? 'root',
-        },
+        data: {'tileId': tileId, 'to': grandparentId ?? 'root'},
       );
 
       // Auto-dissolve the parent folder if it now has no children left.
@@ -313,11 +310,7 @@ class TileRepository {
     Log.info(
       _tag,
       'Folder created from drag',
-      data: {
-        'folderId': folderId,
-        'dragged': draggedId,
-        'target': targetId,
-      },
+      data: {'folderId': folderId, 'dragged': draggedId, 'target': targetId},
     );
     return folderId;
   }
@@ -362,12 +355,7 @@ class TileRepository {
       for (var i = 0; i < itemIds.length; i++) {
         await (_db.update(_db.cards)..where(
           (t) => t.id.equals(itemIds[i]),
-        )).write(
-          CardsCompanion(
-            groupId: Value(tileId),
-            sortOrder: Value(i),
-          ),
-        );
+        )).write(CardsCompanion(groupId: Value(tileId), sortOrder: Value(i)));
       }
     });
     Log.info(
@@ -409,18 +397,14 @@ class TileRepository {
       await nestInto(childId: tileId, parentId: folderId);
 
       // Item is assigned directly to the folder.
-      await (_db.update(_db.cards)..where((t) => t.id.equals(itemId))).write(
-        CardsCompanion(groupId: Value(folderId)),
-      );
+      await (_db.update(_db.cards)..where(
+        (t) => t.id.equals(itemId),
+      )).write(CardsCompanion(groupId: Value(folderId)));
     });
     Log.info(
       _tag,
       'Folder created from tile + item',
-      data: {
-        'folderId': folderId,
-        'tile': tileId,
-        'item': itemId,
-      },
+      data: {'folderId': folderId, 'tile': tileId, 'item': itemId},
     );
     return folderId;
   }
@@ -530,9 +514,7 @@ class TileRepository {
                       'FROM groups WHERE parent_tile_id = ?'
                   : 'SELECT COALESCE(MAX(sort_order), -1) AS max_order '
                       'FROM groups WHERE parent_tile_id IS NULL',
-              variables: [
-                if (parentId != null) Variable.withString(parentId),
-              ],
+              variables: [if (parentId != null) Variable.withString(parentId)],
             )
             .getSingle();
     return row.read<int>('max_order') + 1;

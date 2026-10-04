@@ -34,10 +34,7 @@ void main() {
         await raisePlayerError(tester, notifier, c.error);
 
         expect(find.text(c.category.headline), findsOneWidget);
-        expect(
-          find.textContaining(c.category.subtitle),
-          findsOneWidget,
-        );
+        expect(find.textContaining(c.category.subtitle), findsOneWidget);
         expect(find.text(c.category.actionLabel), findsOneWidget);
         // Technical message for parents (small print).
         expect(find.text(c.error.message), findsOneWidget);

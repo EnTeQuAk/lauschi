@@ -41,9 +41,7 @@ class PinService {
     if (pin.length < minPinLength) {
       throw ArgumentError('PIN must be at least $minPinLength characters');
     }
-    final hash = await Isolate.run(
-      () => BCrypt.hashpw(pin, BCrypt.gensalt()),
-    );
+    final hash = await Isolate.run(() => BCrypt.hashpw(pin, BCrypt.gensalt()));
     await _storage.write(key: _pinHashKey, value: hash);
     Log.info(_tag, 'PIN set');
   }

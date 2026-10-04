@@ -116,49 +116,48 @@ String formatCatalogDuration(int ms) {
 /// Key format: "provider:id1,id2,id3" where provider is the ProviderType value
 /// and IDs are comma-separated.
 final albumCoversProvider = FutureProvider.autoDispose
-    .family<Map<String, String>, String>(
-      (ref, key) async {
-        if (key.isEmpty) return {};
+    .family<Map<String, String>, String>((ref, key) async {
+      if (key.isEmpty) return {};
 
-        final colonIdx = key.indexOf(':');
-        if (colonIdx < 0) return {};
+      final colonIdx = key.indexOf(':');
+      if (colonIdx < 0) return {};
 
-        final providerValue = key.substring(0, colonIdx);
-        final joinedIds = key.substring(colonIdx + 1);
-        if (joinedIds.isEmpty) return {};
+      final providerValue = key.substring(0, colonIdx);
+      final joinedIds = key.substring(colonIdx + 1);
+      if (joinedIds.isEmpty) return {};
 
-        final albumIds = joinedIds.split(',');
-        final source = resolveSource(ref, providerValue);
-        if (source == null) return {};
+      final albumIds = joinedIds.split(',');
+      final source = resolveSource(ref, providerValue);
+      if (source == null) return {};
 
-        return await source.getAlbumCovers(albumIds);
-      },
-    );
+      return await source.getAlbumCovers(albumIds);
+    });
 
 /// Fetches a single album's cover URL from the provider API.
 ///
 /// Key format: "provider_value:album_id". Each card watches its own
 /// cover independently, so covers appear as each card becomes visible.
 /// Riverpod deduplicates identical requests.
-final albumCoverProvider = FutureProvider.autoDispose.family<String?, String>(
-  (ref, key) async {
-    final colonIdx = key.indexOf(':');
-    if (colonIdx < 0) return null;
+final albumCoverProvider = FutureProvider.autoDispose.family<String?, String>((
+  ref,
+  key,
+) async {
+  final colonIdx = key.indexOf(':');
+  if (colonIdx < 0) return null;
 
-    final providerValue = key.substring(0, colonIdx);
-    final albumId = key.substring(colonIdx + 1);
-    if (albumId.isEmpty) return null;
+  final providerValue = key.substring(0, colonIdx);
+  final albumId = key.substring(colonIdx + 1);
+  if (albumId.isEmpty) return null;
 
-    final source = resolveSource(ref, providerValue);
-    if (source == null) return null;
+  final source = resolveSource(ref, providerValue);
+  if (source == null) return null;
 
-    // Cancel pending cover request when card scrolls off screen.
-    ref.onDispose(() => source.cancelCover(albumId));
+  // Cancel pending cover request when card scrolls off screen.
+  ref.onDispose(() => source.cancelCover(albumId));
 
-    final covers = await source.getAlbumCovers([albumId]);
-    return covers[albumId];
-  },
-);
+  final covers = await source.getAlbumCovers([albumId]);
+  return covers[albumId];
+});
 
 /// Build a CatalogSource from session state.
 ///

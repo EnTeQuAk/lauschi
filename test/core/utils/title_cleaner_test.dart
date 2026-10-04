@@ -105,30 +105,12 @@ void main() {
           'Brüderchen und Schwesterchen (Das Original-Hörspiel zur TV Serie)',
           'Brüderchen und Schwesterchen',
         ),
-        (
-          'Die Olchis im Zoo (Hörspiel)',
-          'Die Olchis im Zoo',
-        ),
-        (
-          'Das Mega-Team (Hörspiel zum Kinofilm 2017)',
-          'Das Mega-Team',
-        ),
-        (
-          'Findet Nemo (Hörspiel zum Disney/Pixar Film)',
-          'Findet Nemo',
-        ),
-        (
-          'Zoomania (Hörspiel zum Disney Film)',
-          'Zoomania',
-        ),
-        (
-          'Zoomania 2 (Hörspiel zum Disney Film)',
-          'Zoomania 2',
-        ),
-        (
-          'Zoomania+ (Hörspiel zur Disney TV-Serie)',
-          'Zoomania+',
-        ),
+        ('Die Olchis im Zoo (Hörspiel)', 'Die Olchis im Zoo'),
+        ('Das Mega-Team (Hörspiel zum Kinofilm 2017)', 'Das Mega-Team'),
+        ('Findet Nemo (Hörspiel zum Disney/Pixar Film)', 'Findet Nemo'),
+        ('Zoomania (Hörspiel zum Disney Film)', 'Zoomania'),
+        ('Zoomania 2 (Hörspiel zum Disney Film)', 'Zoomania 2'),
+        ('Zoomania+ (Hörspiel zur Disney TV-Serie)', 'Zoomania+'),
         (
           'Fünf Freunde und das Tal der Dinosaurier - Das Original-Hörspiel zum Kinofilm',
           'Fünf Freunde und das Tal der Dinosaurier - Das Original-Hörspiel zum Kinofilm',
@@ -137,10 +119,7 @@ void main() {
           'Erbe des Drachen (Das Original-Hörspiel zum Kinofilm)',
           'Erbe des Drachen',
         ),
-        (
-          'Woodwalkers (Das Original-Hörspiel zum Kinofilm)',
-          'Woodwalkers',
-        ),
+        ('Woodwalkers (Das Original-Hörspiel zum Kinofilm)', 'Woodwalkers'),
         (
           'Findus erklärt die Welt: Tiere entdecken in Wald und Wiese (Das Original-Hörspiel zum Naturbuch)',
           'Findus erklärt die Welt: Tiere entdecken in Wald und Wiese',
@@ -363,58 +342,55 @@ void main() {
       });
     });
 
-    group(
-      'preserves Pumuckl-style titles (no Folge, prefix is "NN:" not '
-      '"Folge NN", or trailing parens contain the series name not '
-      'just Hörspiel boilerplate)',
-      () {
-        final cases = <(String, String)>[
-          (
-            // No "Folge" word, prefix is just "NN:"
-            '02: Pumuckl wird verschenkt (Neue Geschichten vom Pumuckl)',
-            '02: Pumuckl wird verschenkt (Neue Geschichten vom Pumuckl)',
-          ),
-          (
-            // Trailing parens contain series-name material, not just
-            // Hörspiel boilerplate.
-            '07: Pumuckl macht Ferien (Das Original aus der Fernsehserie)',
-            '07: Pumuckl macht Ferien (Das Original aus der Fernsehserie)',
-          ),
-          (
-            // First parens IS a Hörspiel suffix, but a second
-            // (series-name) parens follows it. Stripping would lose
-            // the series context.
-            'Pumuckl und das große Missverständnis (Das Original-Hörspiel zum Kinofilm) (Neue Geschichten vom Pumuckl)',
-            'Pumuckl und das große Missverständnis (Das Original-Hörspiel zum Kinofilm) (Neue Geschichten vom Pumuckl)',
-          ),
-        ];
+    group('preserves Pumuckl-style titles (no Folge, prefix is "NN:" not '
+        '"Folge NN", or trailing parens contain the series name not '
+        'just Hörspiel boilerplate)', () {
+      final cases = <(String, String)>[
+        (
+          // No "Folge" word, prefix is just "NN:"
+          '02: Pumuckl wird verschenkt (Neue Geschichten vom Pumuckl)',
+          '02: Pumuckl wird verschenkt (Neue Geschichten vom Pumuckl)',
+        ),
+        (
+          // Trailing parens contain series-name material, not just
+          // Hörspiel boilerplate.
+          '07: Pumuckl macht Ferien (Das Original aus der Fernsehserie)',
+          '07: Pumuckl macht Ferien (Das Original aus der Fernsehserie)',
+        ),
+        (
+          // First parens IS a Hörspiel suffix, but a second
+          // (series-name) parens follows it. Stripping would lose
+          // the series context.
+          'Pumuckl und das große Missverständnis (Das Original-Hörspiel zum Kinofilm) (Neue Geschichten vom Pumuckl)',
+          'Pumuckl und das große Missverständnis (Das Original-Hörspiel zum Kinofilm) (Neue Geschichten vom Pumuckl)',
+        ),
+      ];
 
-        for (final (input, expected) in cases) {
-          test('"${input.substring(0, 30)}..."', () {
-            // Context: every input mentions Pumuckl somewhere, and
-            // either lacks the "Folge" prefix or has nested parens.
-            // Without these guards a copy-paste error in the test
-            // data could turn this into a trivial identity test.
-            expect(
-              input,
-              contains('Pumuckl'),
-              reason: 'test data: should mention Pumuckl',
-            );
-            expect(
-              input,
-              isNot(startsWith('Folge ')),
-              reason:
-                  'test data: Pumuckl titles do not start with "Folge "; '
-                  'cleaner should not strip a non-existent prefix',
-            );
+      for (final (input, expected) in cases) {
+        test('"${input.substring(0, 30)}..."', () {
+          // Context: every input mentions Pumuckl somewhere, and
+          // either lacks the "Folge" prefix or has nested parens.
+          // Without these guards a copy-paste error in the test
+          // data could turn this into a trivial identity test.
+          expect(
+            input,
+            contains('Pumuckl'),
+            reason: 'test data: should mention Pumuckl',
+          );
+          expect(
+            input,
+            isNot(startsWith('Folge ')),
+            reason:
+                'test data: Pumuckl titles do not start with "Folge "; '
+                'cleaner should not strip a non-existent prefix',
+          );
 
-            // Behavior: cleaner returns the title unchanged because
-            // there's nothing it knows how to strip safely.
-            expect(cleanEpisodeTitle(input), expected);
-          });
-        }
-      },
-    );
+          // Behavior: cleaner returns the title unchanged because
+          // there's nothing it knows how to strip safely.
+          expect(cleanEpisodeTitle(input), expected);
+        });
+      }
+    });
 
     group('handles number-slash format (Fünf Freunde, TKKG)', () {
       final cases = <(String, String)>[
@@ -454,64 +430,61 @@ void main() {
       }
     });
 
-    group(
-      'preserves Nils Holgersson / Biene Maja nested parens — '
-      'parseEpisodeNumber does NOT recognize this format (the catalog '
-      'YAML supplies the episode number out-of-band), and '
-      'cleanEpisodeTitle leaves the parens alone because they are '
-      'series context, not Hörspiel boilerplate',
-      () {
-        final cases = <(String, int?, String)>[
-          (
-            'Der Adler Gorgo (Nils Holgersson, Folge 37)',
-            37,
-            'Der Adler Gorgo (Nils Holgersson, Folge 37)',
-          ),
-          (
-            'Die Elfenfahrt (Die Biene Maja, Folge 13)',
-            13,
-            'Die Elfenfahrt (Die Biene Maja, Folge 13)',
-          ),
-          (
-            'Das Eisenwerk (Nils Holgersson, Folge 27)',
-            27,
-            'Das Eisenwerk (Nils Holgersson, Folge 27)',
-          ),
-        ];
+    group('preserves Nils Holgersson / Biene Maja nested parens — '
+        'parseEpisodeNumber does NOT recognize this format (the catalog '
+        'YAML supplies the episode number out-of-band), and '
+        'cleanEpisodeTitle leaves the parens alone because they are '
+        'series context, not Hörspiel boilerplate', () {
+      final cases = <(String, int?, String)>[
+        (
+          'Der Adler Gorgo (Nils Holgersson, Folge 37)',
+          37,
+          'Der Adler Gorgo (Nils Holgersson, Folge 37)',
+        ),
+        (
+          'Die Elfenfahrt (Die Biene Maja, Folge 13)',
+          13,
+          'Die Elfenfahrt (Die Biene Maja, Folge 13)',
+        ),
+        (
+          'Das Eisenwerk (Nils Holgersson, Folge 27)',
+          27,
+          'Das Eisenwerk (Nils Holgersson, Folge 27)',
+        ),
+      ];
 
-        for (final (input, num, expected) in cases) {
-          test('"$input"', () {
-            // Context: this format puts the series name AND the
-            // episode number inside trailing parens. The parser
-            // currently does NOT recognize this — the noMatch tests
-            // earlier in the file confirm that bare "1: ..." prefixes
-            // and similar return null. The number `$num` here comes
-            // from the catalog YAML's explicit episode_number column,
-            // not from parsing the title.
-            //
-            // If a future change teaches the parser this format, this
-            // assert flips to `equals($num)` and that's a real
-            // improvement worth documenting.
-            expect(
-              parseEpisodeNumber(input),
-              isNull,
-              reason:
-                  'parseEpisodeNumber currently does NOT extract from '
-                  'nested-parens "(... Folge N)" — the catalog supplies '
-                  'these numbers out-of-band',
-            );
+      for (final (input, num, expected) in cases) {
+        test('"$input"', () {
+          // Context: this format puts the series name AND the
+          // episode number inside trailing parens. The parser
+          // currently does NOT recognize this — the noMatch tests
+          // earlier in the file confirm that bare "1: ..." prefixes
+          // and similar return null. The number `$num` here comes
+          // from the catalog YAML's explicit episode_number column,
+          // not from parsing the title.
+          //
+          // If a future change teaches the parser this format, this
+          // assert flips to `equals($num)` and that's a real
+          // improvement worth documenting.
+          expect(
+            parseEpisodeNumber(input),
+            isNull,
+            reason:
+                'parseEpisodeNumber currently does NOT extract from '
+                'nested-parens "(... Folge N)" — the catalog supplies '
+                'these numbers out-of-band',
+          );
 
-            // Behavior: cleaner leaves these alone — the parens are
-            // series context, not strippable boilerplate. The supplied
-            // `episodeNumber` is what the catalog already knows and
-            // is passed in case the cleaner needs it for stripping a
-            // matching "Folge N:" prefix; here there is no such prefix
-            // so the cleaner is a no-op.
-            expect(cleanEpisodeTitle(input, episodeNumber: num), expected);
-          });
-        }
-      },
-    );
+          // Behavior: cleaner leaves these alone — the parens are
+          // series context, not strippable boilerplate. The supplied
+          // `episodeNumber` is what the catalog already knows and
+          // is passed in case the cleaner needs it for stripping a
+          // matching "Folge N:" prefix; here there is no such prefix
+          // so the cleaner is a no-op.
+          expect(cleanEpisodeTitle(input, episodeNumber: num), expected);
+        });
+      }
+    });
 
     group('handles multi-episode / slash titles', () {
       final cases = <(String, int, String)>[

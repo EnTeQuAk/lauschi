@@ -68,15 +68,13 @@ void main() {
       // keychain and return to Unauthenticated so the UI prompts re-auth.
       final musicKit = _FakeMusicKit();
       final webAuth = _FakeWebAuth();
-      when(
-        () => webAuth.loadStored(),
-      ).thenAnswer(
+      when(() => webAuth.loadStored()).thenAnswer(
         (_) async =>
             const AppleMusicTokens(musicUserToken: 'mut', storefront: 'de'),
       );
-      when(() => musicKit.requestDeveloperToken()).thenAnswer(
-        (_) async => 'devtoken',
-      );
+      when(
+        () => musicKit.requestDeveloperToken(),
+      ).thenAnswer((_) async => 'devtoken');
       when(() => musicKit.setMusicUserToken('mut')).thenAnswer((_) async {});
       when(() => webAuth.logout()).thenAnswer((_) async {});
 
@@ -110,12 +108,12 @@ void main() {
         // is Android-only. iOS still drops to Unauthenticated to re-prompt.
         final musicKit = _FakeMusicKit();
         final webAuth = _FakeWebAuth();
-        when(() => musicKit.authorizationStatus).thenAnswer(
-          (_) async => MusicAuthorizationStatusAuthorized(null),
-        );
-        when(() => musicKit.requestDeveloperToken()).thenAnswer(
-          (_) async => 'devtoken',
-        );
+        when(
+          () => musicKit.authorizationStatus,
+        ).thenAnswer((_) async => MusicAuthorizationStatusAuthorized(null));
+        when(
+          () => musicKit.requestDeveloperToken(),
+        ).thenAnswer((_) async => 'devtoken');
         when(() => musicKit.currentCountryCode).thenAnswer((_) async => 'de');
 
         final built = _build(
@@ -183,9 +181,9 @@ void main() {
         final webAuth = _FakeWebAuth();
         final api = _FakeApi();
         when(() => webAuth.loadStored()).thenAnswer((_) async => null);
-        when(() => musicKit.requestDeveloperToken()).thenAnswer(
-          (_) async => 'devtoken',
-        );
+        when(
+          () => musicKit.requestDeveloperToken(),
+        ).thenAnswer((_) async => 'devtoken');
         when(() => webAuth.login(developerToken: 'devtoken')).thenAnswer(
           (_) async =>
               const AppleMusicTokens(musicUserToken: 'x', storefront: 'de'),
@@ -222,15 +220,15 @@ void main() {
       () async {
         final musicKit = _FakeMusicKit();
         final api = _FakeApi();
-        when(() => musicKit.authorizationStatus).thenAnswer(
-          (_) async => MusicAuthorizationStatusNotDetermined(),
-        );
-        when(() => musicKit.requestAuthorizationStatus()).thenAnswer(
-          (_) async => MusicAuthorizationStatusAuthorized(null),
-        );
-        when(() => musicKit.requestDeveloperToken()).thenAnswer(
-          (_) async => 'devtoken',
-        );
+        when(
+          () => musicKit.authorizationStatus,
+        ).thenAnswer((_) async => MusicAuthorizationStatusNotDetermined());
+        when(
+          () => musicKit.requestAuthorizationStatus(),
+        ).thenAnswer((_) async => MusicAuthorizationStatusAuthorized(null));
+        when(
+          () => musicKit.requestDeveloperToken(),
+        ).thenAnswer((_) async => 'devtoken');
         when(() => musicKit.currentCountryCode).thenAnswer((_) async => 'de');
 
         final built = _build(
@@ -259,12 +257,12 @@ void main() {
     test('on iOS, a denied prompt stays Unauthenticated, not Error', () async {
       // The user declining the system popup is a choice, not a failure.
       final musicKit = _FakeMusicKit();
-      when(() => musicKit.authorizationStatus).thenAnswer(
-        (_) async => MusicAuthorizationStatusNotDetermined(),
-      );
-      when(() => musicKit.requestAuthorizationStatus()).thenAnswer(
-        (_) async => MusicAuthorizationStatusDenied(),
-      );
+      when(
+        () => musicKit.authorizationStatus,
+      ).thenAnswer((_) async => MusicAuthorizationStatusNotDetermined());
+      when(
+        () => musicKit.requestAuthorizationStatus(),
+      ).thenAnswer((_) async => MusicAuthorizationStatusDenied());
 
       final built = _build(
         musicKit: musicKit,
@@ -285,12 +283,12 @@ void main() {
 
     test('on iOS, a thrown auth flow surfaces an Error state', () async {
       final musicKit = _FakeMusicKit();
-      when(() => musicKit.authorizationStatus).thenAnswer(
-        (_) async => MusicAuthorizationStatusNotDetermined(),
-      );
-      when(() => musicKit.requestAuthorizationStatus()).thenThrow(
-        Exception('native auth crashed'),
-      );
+      when(
+        () => musicKit.authorizationStatus,
+      ).thenAnswer((_) async => MusicAuthorizationStatusNotDetermined());
+      when(
+        () => musicKit.requestAuthorizationStatus(),
+      ).thenThrow(Exception('native auth crashed'));
 
       final built = _build(
         musicKit: musicKit,
@@ -330,9 +328,9 @@ void main() {
           (_) async =>
               const AppleMusicTokens(musicUserToken: 'tok', storefront: 'at'),
         );
-        when(() => musicKit.requestDeveloperToken()).thenAnswer(
-          (_) async => 'devtoken',
-        );
+        when(
+          () => musicKit.requestDeveloperToken(),
+        ).thenAnswer((_) async => 'devtoken');
 
         final built = _build(
           musicKit: musicKit,
@@ -372,9 +370,9 @@ void main() {
         final musicKit = _FakeMusicKit();
         final webAuth = _FakeWebAuth();
         when(() => webAuth.loadStored()).thenAnswer((_) async => null);
-        when(() => webAuth.handleCallback(callbackUri)).thenAnswer(
-          (_) async => null,
-        );
+        when(
+          () => webAuth.handleCallback(callbackUri),
+        ).thenAnswer((_) async => null);
 
         final built = _build(
           musicKit: musicKit,
@@ -401,9 +399,9 @@ void main() {
         final musicKit = _FakeMusicKit();
         final webAuth = _FakeWebAuth();
         when(() => webAuth.loadStored()).thenAnswer((_) async => null);
-        when(() => webAuth.handleCallback(callbackUri)).thenThrow(
-          Exception('callback exploded'),
-        );
+        when(
+          () => webAuth.handleCallback(callbackUri),
+        ).thenThrow(Exception('callback exploded'));
 
         final built = _build(
           musicKit: musicKit,

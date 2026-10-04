@@ -35,9 +35,7 @@ const _minimumDurationSeconds = 30;
 ///
 /// Tries each show in [_stableShowIds] until finding an episode with
 /// audio and sufficient duration. Throws [TestFailure] if none found.
-Future<TestArdEpisode> getStableTestEpisode(
-  ProviderContainer container,
-) async {
+Future<TestArdEpisode> getStableTestEpisode(ProviderContainer container) async {
   final api = container.read(ardApiProvider);
 
   final errors = <String, String>{};
@@ -134,9 +132,7 @@ Future<({String tileId, String itemId})> insertTestTileWithEpisode(
 
 /// Extracts the [ProviderContainer] from the widget tree.
 ProviderContainer getContainer(PatrolIntegrationTester $) {
-  return ProviderScope.containerOf(
-    $.tester.element(find.byType(MaterialApp)),
-  );
+  return ProviderScope.containerOf($.tester.element(find.byType(MaterialApp)));
 }
 
 // ── Audio State Waiting ────────────────────────────────────────────────────

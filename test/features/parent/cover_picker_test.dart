@@ -68,22 +68,14 @@ void main() {
 
     test('drops a batch whose ids changed while it was in flight', () {
       expect(
-        shouldApplyArtistImages(
-          ranFor: ['a'],
-          current: ['b'],
-          mounted: true,
-        ),
+        shouldApplyArtistImages(ranFor: ['a'], current: ['b'], mounted: true),
         isFalse,
       );
     });
 
     test('drops a batch that resolved after the picker was unmounted', () {
       expect(
-        shouldApplyArtistImages(
-          ranFor: ['a'],
-          current: ['a'],
-          mounted: false,
-        ),
+        shouldApplyArtistImages(ranFor: ['a'], current: ['a'], mounted: false),
         isFalse,
       );
     });

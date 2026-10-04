@@ -16,9 +16,7 @@ typedef DataMigration = Future<void> Function(DataMigrationContext ctx);
 /// Context passed to each migration. Extend with additional services
 /// as needed when adding new migrations.
 class DataMigrationContext {
-  const DataMigrationContext({
-    required this.items,
-  });
+  const DataMigrationContext({required this.items});
 
   final TileItemRepository items;
 }

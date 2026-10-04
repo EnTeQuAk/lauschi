@@ -269,10 +269,7 @@ String? _globalRedirect(Ref ref, GoRouterState state) {
   Log.debug(
     _tag,
     'Redirect check',
-    data: {
-      'path': state.matchedLocation,
-      'onboardingDone': '$onboardingDone',
-    },
+    data: {'path': state.matchedLocation, 'onboardingDone': '$onboardingDone'},
   );
 
   // Redirect to onboarding if not completed
@@ -280,9 +277,7 @@ String? _globalRedirect(Ref ref, GoRouterState state) {
     Log.info(
       _tag,
       'Redirecting to onboarding',
-      data: {
-        'from': state.matchedLocation,
-      },
+      data: {'from': state.matchedLocation},
     );
     return AppRoutes.onboarding;
   }
@@ -300,9 +295,7 @@ String? _globalRedirect(Ref ref, GoRouterState state) {
       Log.info(
         _tag,
         'Parent route not authenticated, redirecting to PIN',
-        data: {
-          'from': state.matchedLocation,
-        },
+        data: {'from': state.matchedLocation},
       );
       return AppRoutes.pinEntry;
     }

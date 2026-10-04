@@ -223,10 +223,7 @@ class ArdApi {
     Log.debug(
       _tag,
       'Search results',
-      data: {
-        'query': query,
-        'count': '${results.length}',
-      },
+      data: {'query': query, 'count': '${results.length}'},
     );
     return results;
   }
@@ -243,10 +240,7 @@ class ArdApi {
       // An unexpected shape is treated as no data instead.
       final response = await _dio.post<dynamic>(
         '/graphql',
-        data: {
-          'query': query,
-          if (variables != null) 'variables': variables,
-        },
+        data: {'query': query, if (variables != null) 'variables': variables},
       );
 
       final body = response.data;

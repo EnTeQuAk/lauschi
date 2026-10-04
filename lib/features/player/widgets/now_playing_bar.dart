@@ -36,9 +36,7 @@ class NowPlayingBar extends StatelessWidget {
           height: 92,
           decoration: const BoxDecoration(
             color: AppColors.surface,
-            border: Border(
-              top: BorderSide(color: AppColors.surfaceDim),
-            ),
+            border: Border(top: BorderSide(color: AppColors.surfaceDim)),
           ),
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
           child: Row(

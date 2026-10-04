@@ -76,9 +76,7 @@ void main() {
 
     test('bridge error replaces existing error', () {
       const before = PlaybackState(error: PlayerError.playbackFailed);
-      const bridgeState = PlaybackState(
-        error: PlayerError.spotifyNotConnected,
-      );
+      const bridgeState = PlaybackState(error: PlayerError.spotifyNotConnected);
 
       final after = mergeSpotifyBridgeState(before, bridgeState);
       expect(after.error, PlayerError.spotifyNotConnected);

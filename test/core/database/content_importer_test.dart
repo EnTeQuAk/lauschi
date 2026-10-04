@@ -206,10 +206,7 @@ void main() {
       ),
     ];
 
-    await importer.importToGroup(
-      groupTitle: 'TKKG',
-      cards: cards,
-    );
+    await importer.importToGroup(groupTitle: 'TKKG', cards: cards);
 
     final allTiles = await tiles.getAll();
     expect(allTiles, hasLength(1));
@@ -243,10 +240,7 @@ void main() {
       ),
     ];
 
-    await importer.importToGroup(
-      groupTitle: 'Mixed',
-      cards: cards,
-    );
+    await importer.importToGroup(groupTitle: 'Mixed', cards: cards);
 
     final allTiles = await tiles.getAll();
     final items = await tiles.watchItems(allTiles.first.id).first;

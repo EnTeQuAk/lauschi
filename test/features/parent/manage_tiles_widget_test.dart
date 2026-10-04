@@ -128,72 +128,69 @@ void main() {
     parentAuthProvider.overrideWith(_FakeParentAuth.new),
   ];
 
-  testWidgets(
-    'renders "Kacheln verwalten" with tiles + one ungrouped item '
-    '(regression for LAUSCHI-1M/LAUSCHI-1T)',
-    (tester) async {
-      await seedMixedState();
+  testWidgets('renders "Kacheln verwalten" with tiles + one ungrouped item '
+      '(regression for LAUSCHI-1M/LAUSCHI-1T)', (tester) async {
+    await seedMixedState();
 
-      // Setup precondition: the DB is in the exact shape that
-      // triggered the bug. seedMixedState() does a lot under the
-      // hood (insert, insertArdEpisode, assignToTile) and any of
-      // those could silently fail in a future refactor; the test
-      // would then fail with a confusing 'expected widget, found 0'
-      // instead of pointing at the actual problem.
-      final allTiles = await tiles.getAll();
-      final allItems = await items.getAll();
-      final ungrouped = allItems.where((i) => i.groupId == null).toList();
-      expect(
-        allTiles.map((t) => t.title),
-        containsAll(['Asterix', 'Biene Maja', 'Checkpod']),
-        reason: 'setup: 3 tiles seeded',
-      );
-      expect(
-        allItems,
-        hasLength(3),
-        reason:
-            'setup: 3 items inserted (1 unassigned ARD, 1 ARD '
-            'biene maja, 1 spotify Asterix)',
-      );
-      expect(
-        ungrouped,
-        hasLength(1),
-        reason:
-            'setup: exactly one ungrouped item — this is the '
-            'condition that triggers the LAUSCHI-1M sliver branch',
-      );
+    // Setup precondition: the DB is in the exact shape that
+    // triggered the bug. seedMixedState() does a lot under the
+    // hood (insert, insertArdEpisode, assignToTile) and any of
+    // those could silently fail in a future refactor; the test
+    // would then fail with a confusing 'expected widget, found 0'
+    // instead of pointing at the actual problem.
+    final allTiles = await tiles.getAll();
+    final allItems = await items.getAll();
+    final ungrouped = allItems.where((i) => i.groupId == null).toList();
+    expect(
+      allTiles.map((t) => t.title),
+      containsAll(['Asterix', 'Biene Maja', 'Checkpod']),
+      reason: 'setup: 3 tiles seeded',
+    );
+    expect(
+      allItems,
+      hasLength(3),
+      reason:
+          'setup: 3 items inserted (1 unassigned ARD, 1 ARD '
+          'biene maja, 1 spotify Asterix)',
+    );
+    expect(
+      ungrouped,
+      hasLength(1),
+      reason:
+          'setup: exactly one ungrouped item — this is the '
+          'condition that triggers the LAUSCHI-1M sliver branch',
+    );
 
-      final container = ProviderContainer(overrides: buildOverrides());
-      addTearDown(container.dispose);
+    final container = ProviderContainer(overrides: buildOverrides());
+    addTearDown(container.dispose);
 
-      await tester.pumpWidget(buildApp(container));
-      // Let Drift streams propagate: one frame per provider chain.
-      for (var i = 0; i < 5; i++) {
-        await tester.pump(const Duration(milliseconds: 50));
-      }
+    await tester.pumpWidget(buildApp(container));
+    // Let Drift streams propagate: one frame per provider chain.
+    for (var i = 0; i < 5; i++) {
+      await tester.pump(const Duration(milliseconds: 50));
+    }
 
-      container.read(appRouterProvider).go(AppRoutes.parentManageTiles);
-      for (var i = 0; i < 10; i++) {
-        await tester.pump(const Duration(milliseconds: 50));
-      }
+    container.read(appRouterProvider).go(AppRoutes.parentManageTiles);
+    for (var i = 0; i < 10; i++) {
+      await tester.pump(const Duration(milliseconds: 50));
+    }
 
-      // Content first: confirm the screen actually rendered the tiles
-      // and the ungrouped section. Without these, a takeException()
-      // failure wouldn't tell us whether the screen built at all.
-      expect(find.text('Kacheln verwalten'), findsOneWidget);
-      expect(find.text('1 einzelne Folge'), findsOneWidget);
+    // Content first: confirm the screen actually rendered the tiles
+    // and the ungrouped section. Without these, a takeException()
+    // failure wouldn't tell us whether the screen built at all.
+    expect(find.text('Kacheln verwalten'), findsOneWidget);
+    expect(find.text('1 einzelne Folge'), findsOneWidget);
 
-      // Behavioral: no layout/semantic exception during the pump.
-      // This is the actual LAUSCHI-1M/1T regression check.
-      expect(
-        tester.takeException(),
-        isNull,
-        reason:
-            'Kacheln verwalten should render without layout or semantic '
-            'assertions when the DB has tiles AND an ungrouped item',
-      );
-    },
-  );
+    // Behavioral: no layout/semantic exception during the pump.
+    // This is the actual LAUSCHI-1M/1T regression check.
+    expect(
+      tester.takeException(),
+      isNull,
+      reason:
+          'Kacheln verwalten should render without layout or semantic '
+          'assertions when the DB has tiles AND an ungrouped item',
+    );
+  });
 
   testWidgets(
     'repeated navigation into and out of Kacheln verwalten stays clean '
@@ -274,47 +271,44 @@ void main() {
     },
   );
 
-  testWidgets(
-    'bounded mode (no ungrouped items) still renders cleanly — '
-    'guards against the fix breaking the unbroken path',
-    (tester) async {
-      // Tiles but ZERO ungrouped items. This is the pre-bug happy path
-      // that always worked; we want to make sure the bounded-layout fix
-      // didn't break it.
-      await tiles.insert(title: 'Asterix');
-      await tiles.insert(title: 'Biene Maja');
+  testWidgets('bounded mode (no ungrouped items) still renders cleanly — '
+      'guards against the fix breaking the unbroken path', (tester) async {
+    // Tiles but ZERO ungrouped items. This is the pre-bug happy path
+    // that always worked; we want to make sure the bounded-layout fix
+    // didn't break it.
+    await tiles.insert(title: 'Asterix');
+    await tiles.insert(title: 'Biene Maja');
 
-      // Setup precondition: only the 2 tiles, no items.
-      final allTiles = await tiles.getAll();
-      final allItems = await items.getAll();
-      expect(allTiles, hasLength(2), reason: 'setup: 2 tiles, no items');
-      expect(allItems, isEmpty, reason: 'setup: no items at all');
+    // Setup precondition: only the 2 tiles, no items.
+    final allTiles = await tiles.getAll();
+    final allItems = await items.getAll();
+    expect(allTiles, hasLength(2), reason: 'setup: 2 tiles, no items');
+    expect(allItems, isEmpty, reason: 'setup: no items at all');
 
-      final container = ProviderContainer(overrides: buildOverrides());
-      addTearDown(container.dispose);
+    final container = ProviderContainer(overrides: buildOverrides());
+    addTearDown(container.dispose);
 
-      await tester.pumpWidget(buildApp(container));
-      for (var i = 0; i < 5; i++) {
-        await tester.pump(const Duration(milliseconds: 50));
-      }
+    await tester.pumpWidget(buildApp(container));
+    for (var i = 0; i < 5; i++) {
+      await tester.pump(const Duration(milliseconds: 50));
+    }
 
-      container.read(appRouterProvider).go(AppRoutes.parentManageTiles);
-      for (var i = 0; i < 10; i++) {
-        await tester.pump(const Duration(milliseconds: 50));
-      }
+    container.read(appRouterProvider).go(AppRoutes.parentManageTiles);
+    for (var i = 0; i < 10; i++) {
+      await tester.pump(const Duration(milliseconds: 50));
+    }
 
-      // Content first, exception check after (consistent with E5).
-      expect(find.text('Kacheln verwalten'), findsOneWidget);
-      expect(
-        find.text('1 einzelne Folge'),
-        findsNothing,
-        reason:
-            'no ungrouped items → no sliver branch → no '
-            '"Nicht zugeordnet" header',
-      );
-      expect(tester.takeException(), isNull);
-    },
-  );
+    // Content first, exception check after (consistent with E5).
+    expect(find.text('Kacheln verwalten'), findsOneWidget);
+    expect(
+      find.text('1 einzelne Folge'),
+      findsNothing,
+      reason:
+          'no ungrouped items → no sliver branch → no '
+          '"Nicht zugeordnet" header',
+    );
+    expect(tester.takeException(), isNull);
+  });
 }
 
 class _FakeSession extends SpotifySession {

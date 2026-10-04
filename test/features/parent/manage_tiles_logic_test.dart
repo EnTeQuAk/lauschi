@@ -3,18 +3,15 @@ import 'package:lauschi/core/database/app_database.dart';
 import 'package:lauschi/features/parent/screens/manage_tiles/screen.dart';
 import 'package:lauschi/features/parent/widgets/draggable_tile_grid.dart';
 
-Tile _tile({
-  required String id,
-  String title = 'Test',
-  String? coverUrl,
-}) => Tile(
-  id: id,
-  title: title,
-  coverUrl: coverUrl,
-  sortOrder: 0,
-  createdAt: DateTime(2026),
-  contentType: 'hoerspiel',
-);
+Tile _tile({required String id, String title = 'Test', String? coverUrl}) =>
+    Tile(
+      id: id,
+      title: title,
+      coverUrl: coverUrl,
+      sortOrder: 0,
+      createdAt: DateTime(2026),
+      contentType: 'hoerspiel',
+    );
 
 TileItem _item({
   required String id,
@@ -179,11 +176,7 @@ void main() {
     });
 
     test('prefers customTitle over title', () {
-      final item = _item(
-        id: 'i1',
-        title: 'Folge 42',
-        customTitle: 'Der Fluch',
-      );
+      final item = _item(id: 'i1', title: 'Folge 42', customTitle: 'Der Fluch');
       expect(item.customTitle, isNotNull, reason: 'setup: has custom title');
 
       final display = buildItemDisplayItem(item);

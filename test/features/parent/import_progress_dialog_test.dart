@@ -52,9 +52,7 @@ void main() {
     // Simulate system back button via the platform channel.
     await tester.binding.defaultBinaryMessenger.handlePlatformMessage(
       'flutter/navigation',
-      const JSONMethodCodec().encodeMethodCall(
-        const MethodCall('popRoute'),
-      ),
+      const JSONMethodCodec().encodeMethodCall(const MethodCall('popRoute')),
       (_) {},
     );
     await tester.pumpAndSettle();

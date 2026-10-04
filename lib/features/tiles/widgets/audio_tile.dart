@@ -65,9 +65,10 @@ class _AudioCardState extends State<TileItem>
       duration: const Duration(milliseconds: 150),
       vsync: this,
     );
-    _scaleAnimation = Tween<double>(begin: 1, end: 0.96).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _scaleAnimation = Tween<double>(
+      begin: 1,
+      end: 0.96,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -117,10 +118,8 @@ class _AudioCardState extends State<TileItem>
         child: AnimatedBuilder(
           animation: _scaleAnimation,
           builder:
-              (context, child) => Transform.scale(
-                scale: _scaleAnimation.value,
-                child: child,
-              ),
+              (context, child) =>
+                  Transform.scale(scale: _scaleAnimation.value, child: child),
           child: _buildCard(),
         ),
       ),
@@ -272,9 +271,7 @@ class _HeardOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned.fill(
-      child: ColoredBox(
-        color: AppColors.textPrimary.withValues(alpha: 0.35),
-      ),
+      child: ColoredBox(color: AppColors.textPrimary.withValues(alpha: 0.35)),
     );
   }
 }
@@ -408,10 +405,7 @@ class _EpisodeLabel extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [
-            Colors.transparent,
-            Colors.black.withAlpha(180),
-          ],
+          colors: [Colors.transparent, Colors.black.withAlpha(180)],
         ),
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(8),

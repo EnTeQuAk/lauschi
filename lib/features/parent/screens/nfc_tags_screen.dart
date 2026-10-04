@@ -201,11 +201,7 @@ class _EmptyState extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              Icons.nfc_rounded,
-              size: 64,
-              color: AppColors.primarySoft,
-            ),
+            Icon(Icons.nfc_rounded, size: 64, color: AppColors.primarySoft),
             SizedBox(height: AppSpacing.lg),
             Text(
               'Noch keine NFC-Tags',

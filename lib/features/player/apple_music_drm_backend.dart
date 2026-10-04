@@ -70,10 +70,7 @@ class AppleMusicDrmBackend extends AppleMusicBackend {
 
   // ── DRM stream resolution + playback ─────────────────────────────
 
-  Future<void> _playTrackAtIndex(
-    int index, {
-    int startPositionMs = 0,
-  }) async {
+  Future<void> _playTrackAtIndex(int index, {int startPositionMs = 0}) async {
     if (index < 0 || index >= tracks.length) return;
     final sw = Stopwatch()..start();
 

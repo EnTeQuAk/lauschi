@@ -35,10 +35,7 @@ class ArdShowHeader extends StatelessWidget {
                 fontWeight: FontWeight.w700,
                 fontSize: 16,
                 color: Colors.white,
-                shadows: [
-                  Shadow(blurRadius: 12),
-                  Shadow(blurRadius: 4),
-                ],
+                shadows: [Shadow(blurRadius: 12), Shadow(blurRadius: 4)],
               ),
             ),
             if (subtitle != null)
@@ -49,10 +46,7 @@ class ArdShowHeader extends StatelessWidget {
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
                   color: Colors.white,
-                  shadows: [
-                    Shadow(blurRadius: 12),
-                    Shadow(blurRadius: 4),
-                  ],
+                  shadows: [Shadow(blurRadius: 12), Shadow(blurRadius: 4)],
                 ),
               ),
           ],
@@ -62,10 +56,7 @@ class ArdShowHeader extends StatelessWidget {
                 ? Stack(
                   fit: StackFit.expand,
                   children: [
-                    CachedNetworkImage(
-                      imageUrl: imageUrl,
-                      fit: BoxFit.cover,
-                    ),
+                    CachedNetworkImage(imageUrl: imageUrl, fit: BoxFit.cover),
                     DecoratedBox(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(

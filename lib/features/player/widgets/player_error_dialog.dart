@@ -96,16 +96,10 @@ class _PlayerErrorDialog extends ConsumerWidget {
     );
   }
 
-  Widget _buildDialog(
-    BuildContext context,
-    WidgetRef ref,
-    PlayerError error,
-  ) {
+  Widget _buildDialog(BuildContext context, WidgetRef ref, PlayerError error) {
     final category = error.category;
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(24),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(
           AppSpacing.xl,

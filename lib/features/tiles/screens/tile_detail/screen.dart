@@ -156,9 +156,7 @@ class TileDetailScreen extends ConsumerWidget {
                             'title': child.title,
                           },
                         );
-                        unawaited(
-                          context.push(AppRoutes.tileDetail(child.id)),
-                        );
+                        unawaited(context.push(AppRoutes.tileDetail(child.id)));
                       },
                     );
                   }

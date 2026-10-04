@@ -40,9 +40,7 @@ void main() {
     if (now != null) return nextUnheardFor(episodes, now: now);
     final container = ProviderContainer(
       overrides: [
-        tileItemsProvider('tile-1').overrideWithValue(
-          AsyncData(episodes),
-        ),
+        tileItemsProvider('tile-1').overrideWithValue(AsyncData(episodes)),
       ],
     );
     addTearDown(container.dispose);
@@ -53,19 +51,16 @@ void main() {
     // ep-3 carries a fresh position; the sequential fallback would pick
     // ep-2, so only the resume branch produces this result.
     final now = DateTime(2026, 8, 11, 12);
-    final result = readNextUnheard(
-      [
-        _episode(id: 'ep-1'),
-        _episode(id: 'ep-2', sortOrder: 1),
-        _episode(
-          id: 'ep-3',
-          sortOrder: 2,
-          lastPositionMs: 5000,
-          lastPlayedAt: now.subtract(const Duration(hours: 1)),
-        ),
-      ],
-      now: now,
-    );
+    final result = readNextUnheard([
+      _episode(id: 'ep-1'),
+      _episode(id: 'ep-2', sortOrder: 1),
+      _episode(
+        id: 'ep-3',
+        sortOrder: 2,
+        lastPositionMs: 5000,
+        lastPlayedAt: now.subtract(const Duration(hours: 1)),
+      ),
+    ], now: now);
     expect(result?.id, 'ep-3');
   });
 
@@ -75,23 +70,20 @@ void main() {
     // time. The badge (and an NFC tag tap) must follow the episode the
     // kid was actually just hearing, not whichever sorts first.
     final now = DateTime(2026, 8, 11, 12);
-    final result = readNextUnheard(
-      [
-        _episode(
-          id: 'moved-in',
-          episodeNumber: 3,
-          lastPositionMs: 60000,
-          lastPlayedAt: now.subtract(const Duration(hours: 20)),
-        ),
-        _episode(
-          id: 'current',
-          episodeNumber: 7,
-          lastPositionMs: 90000,
-          lastPlayedAt: now.subtract(const Duration(minutes: 5)),
-        ),
-      ],
-      now: now,
-    );
+    final result = readNextUnheard([
+      _episode(
+        id: 'moved-in',
+        episodeNumber: 3,
+        lastPositionMs: 60000,
+        lastPlayedAt: now.subtract(const Duration(hours: 20)),
+      ),
+      _episode(
+        id: 'current',
+        episodeNumber: 7,
+        lastPositionMs: 90000,
+        lastPlayedAt: now.subtract(const Duration(minutes: 5)),
+      ),
+    ], now: now);
     expect(result?.id, 'current');
   });
 
@@ -162,15 +154,8 @@ void main() {
 
   test('skips expired episodes in sequential fallback', () {
     final result = readNextUnheard([
-      _episode(
-        id: 'ep-1',
-        markedUnavailable: DateTime(2026),
-      ),
-      _episode(
-        id: 'ep-2',
-        sortOrder: 1,
-        markedUnavailable: DateTime(2026),
-      ),
+      _episode(id: 'ep-1', markedUnavailable: DateTime(2026)),
+      _episode(id: 'ep-2', sortOrder: 1, markedUnavailable: DateTime(2026)),
       _episode(id: 'ep-3', sortOrder: 2),
     ]);
     expect(result?.id, 'ep-3');
@@ -179,11 +164,7 @@ void main() {
   test('returns null when all unheard episodes are expired', () {
     final result = readNextUnheard([
       _episode(id: 'ep-1', isHeard: true),
-      _episode(
-        id: 'ep-2',
-        sortOrder: 1,
-        markedUnavailable: DateTime(2026),
-      ),
+      _episode(id: 'ep-2', sortOrder: 1, markedUnavailable: DateTime(2026)),
     ]);
     expect(result, isNull);
   });
@@ -270,18 +251,15 @@ void main() {
     // cardOrder parks it last — the numbered run must win even though
     // the bonus item's position is fresh enough to resume.
     final now = DateTime(2026, 8, 11, 12);
-    final result = readNextUnheard(
-      [
-        _episode(id: 'ep-1', episodeNumber: 1, isHeard: true),
-        _episode(id: 'ep-2', episodeNumber: 2),
-        _episode(
-          id: 'special-a',
-          lastPositionMs: 3000,
-          lastPlayedAt: now.subtract(const Duration(hours: 1)),
-        ),
-      ],
-      now: now,
-    );
+    final result = readNextUnheard([
+      _episode(id: 'ep-1', episodeNumber: 1, isHeard: true),
+      _episode(id: 'ep-2', episodeNumber: 2),
+      _episode(
+        id: 'special-a',
+        lastPositionMs: 3000,
+        lastPlayedAt: now.subtract(const Duration(hours: 1)),
+      ),
+    ], now: now);
     expect(result?.id, 'ep-2');
   });
 
@@ -289,18 +267,15 @@ void main() {
     // special-b sits before special-a, so the sequential fallback would
     // pick special-b; only the resume branch returns special-a.
     final now = DateTime(2026, 8, 11, 12);
-    final result = readNextUnheard(
-      [
-        _episode(id: 'ep-1', episodeNumber: 1, isHeard: true),
-        _episode(id: 'special-b'),
-        _episode(
-          id: 'special-a',
-          lastPositionMs: 3000,
-          lastPlayedAt: now.subtract(const Duration(hours: 1)),
-        ),
-      ],
-      now: now,
-    );
+    final result = readNextUnheard([
+      _episode(id: 'ep-1', episodeNumber: 1, isHeard: true),
+      _episode(id: 'special-b'),
+      _episode(
+        id: 'special-a',
+        lastPositionMs: 3000,
+        lastPlayedAt: now.subtract(const Duration(hours: 1)),
+      ),
+    ], now: now);
     expect(result?.id, 'special-a');
   });
 
@@ -330,11 +305,7 @@ void main() {
   test('expired numbered episode skipped, picks next available', () {
     final result = readNextUnheard([
       _episode(id: 'ep-1', episodeNumber: 1, isHeard: true),
-      _episode(
-        id: 'ep-2',
-        episodeNumber: 2,
-        markedUnavailable: DateTime(2026),
-      ),
+      _episode(id: 'ep-2', episodeNumber: 2, markedUnavailable: DateTime(2026)),
       _episode(id: 'ep-3', episodeNumber: 3),
     ]);
     expect(result?.id, 'ep-3');
@@ -344,19 +315,16 @@ void main() {
 
   test('recent in-progress episode still wins over the frontier', () {
     final now = DateTime(2026, 7, 24, 12);
-    final result = readNextUnheard(
-      [
-        _episode(
-          id: 'ep-1',
-          episodeNumber: 1,
-          lastPositionMs: 120000,
-          lastPlayedAt: now.subtract(const Duration(hours: 2)),
-        ),
-        _episode(id: 'ep-2', episodeNumber: 2, isHeard: true),
-        _episode(id: 'ep-3', episodeNumber: 3),
-      ],
-      now: now,
-    );
+    final result = readNextUnheard([
+      _episode(
+        id: 'ep-1',
+        episodeNumber: 1,
+        lastPositionMs: 120000,
+        lastPlayedAt: now.subtract(const Duration(hours: 2)),
+      ),
+      _episode(id: 'ep-2', episodeNumber: 2, isHeard: true),
+      _episode(id: 'ep-3', episodeNumber: 3),
+    ], now: now);
     expect(result?.id, 'ep-1');
   });
 
@@ -364,19 +332,16 @@ void main() {
     // Same list, but the saved position is three days old: the badge
     // goes back to following the series instead of resuming.
     final now = DateTime(2026, 7, 24, 12);
-    final result = readNextUnheard(
-      [
-        _episode(
-          id: 'ep-1',
-          episodeNumber: 1,
-          lastPositionMs: 120000,
-          lastPlayedAt: now.subtract(const Duration(days: 3)),
-        ),
-        _episode(id: 'ep-2', episodeNumber: 2, isHeard: true),
-        _episode(id: 'ep-3', episodeNumber: 3),
-      ],
-      now: now,
-    );
+    final result = readNextUnheard([
+      _episode(
+        id: 'ep-1',
+        episodeNumber: 1,
+        lastPositionMs: 120000,
+        lastPlayedAt: now.subtract(const Duration(days: 3)),
+      ),
+      _episode(id: 'ep-2', episodeNumber: 2, isHeard: true),
+      _episode(id: 'ep-3', episodeNumber: 3),
+    ], now: now);
     expect(result?.id, 'ep-3');
   });
 
