@@ -1,5 +1,25 @@
 # Changelog
 
+## v2026.10.1 (Oktober 2026)
+
+🎯 **Weiter, wo dein Kind aufgehört hat**
+Nach einer Folge springt der Weiter-Badge jetzt immer auf die nächste Folge, auch wenn die Reihe zum zweiten Mal gehört wird. Wer den Abspann überspringt, hat die Folge trotzdem gehört. Und die Folgenliste springt beim Zurückkommen aus dem Player nicht mehr ans Ende.
+
+✨ **Rückgängig statt Nachfragen**
+Kachel gelöscht oder Folge entfernt? Ein Tipp auf „Rückgängig" holt alles zurück, statt vorher jedes Mal nachzufragen.
+
+📂 **Aufgeräumter Katalog**
+Bibi Blocksberg, Conni, LEGO Ninjago, WAS IST WAS und viele weitere Reihen sind neu sortiert: Kinofilme, Adventskalender, Hörbücher und Sonderreihen haben eigene Einträge, und Folgen erscheinen erst, wenn sie veröffentlicht sind.
+
+🎵 **Stabilere Wiedergabe**
+Spotify spielt nach einer Pause im Hintergrund an der richtigen Stelle weiter statt von vorn. Apple Music meldet sich neu an, wenn die Anmeldung während des Hörens abläuft.
+
+🐛 **Behoben**
+- Eine gerade angetippte Folge wurde manchmal sofort als gehört markiert
+- Nicht verfügbare Folgen verschwanden auf dem Startbildschirm und sind jetzt ausgegraut wie in den Kacheln, mit einer Erklärung beim Antippen
+- Der Fortschrittsbalken zeigte bei Spotify-Folgen oft zu viel oder zu wenig an
+- Verständliche Fehlermeldungen statt technischer Texte, und viele kleine Abstürze in der Elternansicht
+
 ## v2026.7.1 (Juli 2026)
 
 🎯 **Rund 25 neue Reihen im Katalog**

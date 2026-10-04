@@ -1,5 +1,5 @@
-🎯 About 25 new series: Seawalkers, Olchi-Detektive, Mini-Fälle, Radio Schrottland, Bobo & Hasi and more.
-🍏 Much fuller Apple Music coverage: missing episodes added for Wilde Hühner, Lauras Stern, Petronella and others.
-🧹 Over 180 wrong albums removed (audiobook chapters, duplicates, unplayable titles).
-🐛 Bibi Blocksberg: episodes 59-69 sometimes played the wrong episode. Fixed.
-🐛 The "Next" badge no longer gets stuck on a bonus episode.
+🎯 After an episode, the "Weiter" badge always moves to the next one, and the list no longer jumps to the end.
+✅ Skipped the closing credits? The episode still counts as heard.
+✨ Undo instead of confirmation dialogs when deleting.
+📂 Tidier catalog: Bibi, Conni, Ninjago, WAS IST WAS and more re-sorted.
+🎵 Spotify resumes at the right spot after being in the background.
