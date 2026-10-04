@@ -31415,14 +31415,6 @@ series:
         episode: 1
         title: Folge 1 - Die rote Socke
         release_date: '2011-03-01'
-      - id: 2a63gwDW1NrUSnooY9UrlJ
-        episode: 1
-        title: 'Folge 1: Die rote Socke'
-        release_date: '2018-06-22'
-      - id: 5OtiHgJS7bWbUAseDWBDC8
-        episode: 2
-        title: 'Folge 2: Das blaue Zimmer'
-        release_date: '2018-06-22'
       - id: 18RmT3WdLAXXHZCrfpjbju
         episode: 3
         title: Folge 3 - Der gelbe Juwelenkoffer
@@ -31489,6 +31481,9 @@ series:
       - id: 07lAvUvijAgZqYuG5k9Ra0
         title: Kugelblitz als Weihnachtsmann
         release_date: '2018-11-16'
+      - id: 0aXrCMRvN7F2PTJZeHaQ8i
+        title: Die Nikolaus-Bande (Der Adventskalender)
+        release_date: '2018-11-30'
       - id: 3Ik8gPVRTcFU55PVMwu4sP
         title: Der Fall Shanghai
         release_date: '2019-07-05'
@@ -31504,9 +31499,6 @@ series:
       - id: 4N77PwFUHPIE6qKoZwvq1C
         title: Das Geheimnis von Spooky Hill
         release_date: '2022-09-16'
-      - id: 1XaOn6HfpngCqrQHHBSbaf
-        title: Таємниця Спукі Хілл
-        release_date: '2022-12-02'
       - id: 1w11l4b6TBgDj1cx8pstmY
         title: Auf Gaunerjagd durch Deutschland
         release_date: '2023-08-04'
@@ -31634,9 +31626,6 @@ series:
       - id: '1642733591'
         title: Das Geheimnis von Spooky Hill
         release_date: '2022-09-16'
-      - id: '1656275244'
-        title: Таємниця Спукі Хілл
-        release_date: '2022-12-02'
       - id: '1700490614'
         title: Auf Gaunerjagd durch Deutschland
         release_date: '2023-08-04'
