@@ -146,7 +146,7 @@ def reconcile_cross_provider(albums: list[dict]) -> ReconcileResult:
       Same content can't be a different type on a different provider.
     - A flip that would ship an included episode twice is left alone.
     - Every other reason (sub_series_bleed, music_single, ...) is left as
-      it is, since either side may be the wrong one; lint's
+      it is, since either side may be the wrong one, and lint's
       [title_counterpart] reports the pair.
     """
     result = ReconcileResult()

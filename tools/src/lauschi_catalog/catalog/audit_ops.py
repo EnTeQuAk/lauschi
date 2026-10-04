@@ -913,7 +913,7 @@ def keep_chunk_overrides(result: AuditResult, chunk: Chunk) -> AuditResult:
     )
 
 
-#: out-of-chunk overrides named in the concern; the rest are counted.
+#: out-of-chunk overrides named in the concern, the rest are counted.
 _OUTSIDE_SAMPLE = 5
 
 
@@ -1234,7 +1234,7 @@ def apply_audit(
             pass
         elif o.action == "exclude":
             album["include"] = False
-            # The auditor explains in free text; the album carries the
+            # The auditor explains in free text, and the album carries the
             # vocabulary key a later curate can re-enter.
             album["exclude_reason"] = normalize_exclude_reason(o.reason)
         else:

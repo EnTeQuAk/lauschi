@@ -65,7 +65,7 @@ class TestReconcileCrossProvider:
         assert albums[0]["include"] is True
 
     def test_sub_series_bleed_is_left_for_lint(self):
-        """Reconcile only fixes; a structural mismatch is reported by
+        """Reconcile only fixes. A structural mismatch is reported by
         lint's [title_counterpart], which the audit and review read."""
         albums = [
             _album("sp1", "Folge 1", "spotify", True),

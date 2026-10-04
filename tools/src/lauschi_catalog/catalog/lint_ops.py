@@ -372,7 +372,7 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
     # the same content can't be a music_single there and an episode here.
     # Redundancy reasons (duplicate) are deliberate and stay silent,
     # matching Rule 5's "properly excluded" convention. Complements Rule 5,
-    # which needs episode numbers; this catches the unnumbered case
+    # which needs episode numbers. This catches the unnumbered case
     # (music albums).
     included_titles: dict[str, str] = {}
     for a in included:

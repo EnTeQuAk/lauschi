@@ -66,7 +66,7 @@ Future<void> pumpApp(
   SharedPreferences.setMockInitialValues(prefs);
 
   // main() seeds the onboarding flag before the first frame, and the
-  // router's first redirect throws without it; seed it the same way.
+  // router's first redirect throws without it. Seed it the same way.
   final stored = await SharedPreferences.getInstance();
   final onboardingDone = stored.getBool(onboardingCompleteKey) ?? false;
 

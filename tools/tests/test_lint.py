@@ -743,7 +743,7 @@ class TestUnspecifiedCount:
 
 
 def test_unaudited_sub_series_are_one_count_line():
-    """Unaudited sub_series are pending split proposals; 117 of the 151
+    """Unaudited sub_series are pending split proposals. 117 of the 151
     unaudited-fact lines on 2026-10-03 listed them one by one, which
     `catalog-splits list` already does."""
     curation = {

@@ -553,7 +553,7 @@ npx @sentry/dotagents --project install
 # List installed skills
 npx @sentry/dotagents --project list
 
-# Add a skill (name it; a whole repo pulls in skills that clash with ours)
+# Add a skill by name, since a whole repo pulls in skills that clash with ours
 npx @sentry/dotagents --project add dart-lang/skills --name dart-use-pattern-matching
 ```
 
