@@ -140,10 +140,7 @@ class PlayerNotifier extends _$PlayerNotifier {
   /// StreamPlayer is created per-play and dies with the backend.
   StreamSubscription<PlaybackState>? _bridgeSub;
 
-  /// The bridge's own readiness at its previous event, null before the
-  /// first one. Tracked for every event, whichever backend is active, so
-  /// [isBridgeRecovery] sees real bridge transitions.
-  bool? _lastBridgeReady;
+  final _bridgeRecovery = BridgeRecoveryDetector();
 
   /// The currently active backend + its subscription, or null.
   _ActiveBackend? _active;
@@ -222,8 +219,11 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   void _onBridgeEvent(PlaybackState bridgeState) {
     final isSpotifyActive = _active?.backend is SpotifyPlayer;
-    final lastBridgeReady = _lastBridgeReady;
-    _lastBridgeReady = bridgeState.isReady;
+    final bridgeRecovered = _bridgeRecovery.observe(
+      bridgeReady: bridgeState.isReady,
+      spotifyActive: isSpotifyActive,
+      hasActiveCard: state.activeCardId != null,
+    );
 
     if (isSpotifyActive) {
       // Detect WebView recovery: bridge went not-ready → ready while
@@ -233,14 +233,10 @@ class PlayerNotifier extends _$PlayerNotifier {
       //
       // The bridge can emit several `ready` events in one reload cycle,
       // and each playCard triggers more. Only the first one after a
-      // not-ready event replays, since _lastBridgeReady follows every
-      // event, so one process death replays once.
+      // not-ready event replays, since the detector sees every event, so
+      // one process death replays once.
       final cardId = state.activeCardId;
-      if (cardId != null &&
-          isBridgeRecovery(
-            lastBridgeReady: lastBridgeReady,
-            bridgeReady: bridgeState.isReady,
-          )) {
+      if (bridgeRecovered && cardId != null) {
         Log.info(
           _tag,
           'Bridge recovered while card active, replaying',
@@ -1251,6 +1247,29 @@ Future<void> handleAlbumCompleted(
   await cards.clearPositions(groupId);
 }
 
+/// Tells a Spotify WebView that came back from a switch to Spotify.
+///
+/// It records the bridge's readiness on every event, whichever backend is
+/// active, and reports a recovery only when the bridge itself goes from
+/// not ready to ready while Spotify plays a card. The player's own isReady
+/// can't tell the two apart, it still reflects whichever backend played
+/// before Spotify.
+class BridgeRecoveryDetector {
+  bool? _lastBridgeReady;
+
+  /// Records [bridgeReady] and returns whether the active Spotify card
+  /// has to be replayed.
+  bool observe({
+    required bool bridgeReady,
+    required bool spotifyActive,
+    required bool hasActiveCard,
+  }) {
+    final cameBack = _lastBridgeReady == false && bridgeReady;
+    _lastBridgeReady = bridgeReady;
+    return cameBack && spotifyActive && hasActiveCard;
+  }
+}
+
 /// How a Spotify bridge readiness event updates player state when
 /// Spotify is not the active backend. Returns the new state, or null to
 /// ignore the event.
@@ -1264,14 +1283,6 @@ Future<void> handleAlbumCompleted(
 /// A readiness update also preserves any pending error: copyWith always
 /// replaces error, so an incidental isReady write would otherwise wipe
 /// an error before PlayerErrorHost shows the dialog.
-/// Whether a bridge event means the Spotify WebView came back: the bridge
-/// itself went from not ready to ready. The player's own isReady can't
-/// tell, it still reflects whichever backend played before Spotify.
-bool isBridgeRecovery({
-  required bool? lastBridgeReady,
-  required bool bridgeReady,
-}) => lastBridgeReady == false && bridgeReady;
-
 PlaybackState? applyIdleBridgeReadiness(
   PlaybackState current, {
   required bool bridgeReady,
