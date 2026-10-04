@@ -57,6 +57,9 @@ run = """
 git ls-files -z -- 'lib/*.dart' 'test/*.dart' 'integration_test/*.dart' 'tool/*.dart' | xargs -0 dart format --set-exit-if-changed
 flutter analyze --fatal-infos
 flutter test --dart-define-from-file=.env.app
+# Same as CI: tests don't compile the native side, a stale Gradle cache
+# or a plugin's Kotlin break only shows up in a real build.
+flutter build apk --debug --dart-define-from-file=.env.app
 mise run tools-check
 """
 
