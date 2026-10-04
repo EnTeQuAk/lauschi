@@ -578,7 +578,7 @@ class TileRepository {
     return _db.transaction(() async {
       final existing = await findByTitle(title);
       if (existing != null) return existing.id;
-      return insert(title: title);
+      return await insert(title: title);
     });
   }
 
@@ -600,7 +600,7 @@ class TileRepository {
           ..addColumns([count])
           ..where(_db.cards.groupId.equals(tileId));
     final result = await query.getSingle();
-    return result.read(count) ?? 0;
+    return result.read<int>(count) ?? 0;
   }
 
   /// Get the next episode to play in a tile.

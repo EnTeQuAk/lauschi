@@ -62,7 +62,7 @@ class AppleMusicWebAuth {
     // Prevent concurrent login attempts.
     if (_loginCompleter != null && !_loginCompleter!.isCompleted) {
       Log.warn(_tag, 'Login already in progress');
-      return _loginCompleter!.future;
+      return await _loginCompleter!.future;
     }
 
     final state = _randomHex(16);
@@ -110,7 +110,7 @@ class AppleMusicWebAuth {
       throw StateError('Could not open browser for Apple Music login');
     }
 
-    return _loginCompleter!.future;
+    return await _loginCompleter!.future;
   }
 
   /// Handle the deep link callback from the auth page.

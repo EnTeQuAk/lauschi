@@ -377,7 +377,7 @@ class SpotifyApi {
         final newToken = await onTokenExpired!();
         if (newToken != null) {
           updateToken(newToken);
-          return _request(fn, isRetry: true);
+          return await _request(fn, isRetry: true);
         }
         // Refresh failed — fall through to rethrow.
         Log.error(_tag, 'Token refresh failed, cannot retry');
@@ -395,7 +395,7 @@ class SpotifyApi {
           },
         );
         await Future<void>.delayed(Duration(seconds: retryAfter));
-        return _request(fn, rateLimitRetries: rateLimitRetries + 1);
+        return await _request(fn, rateLimitRetries: rateLimitRetries + 1);
       }
 
       // Connection errors (no internet, DNS failure) are transient —

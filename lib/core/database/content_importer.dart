@@ -338,7 +338,7 @@ class ContentImporter extends _$ContentImporter {
       }
       return existing.id;
     }
-    return _groupRepo.insert(title: title, coverUrl: coverUrl);
+    return await _groupRepo.insert(title: title, coverUrl: coverUrl);
   }
 
   Future<void> _insertCard(PendingCard card, {String? groupId}) async {

@@ -134,7 +134,7 @@ class TileItemRepository {
       final existing = await getByProviderUri(providerUri);
       if (existing != null) return existing.id;
 
-      return insert(
+      return await insert(
         title: title,
         providerUri: providerUri,
         cardType: cardType,

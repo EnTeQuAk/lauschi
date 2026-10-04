@@ -131,7 +131,6 @@ final albumCoversProvider = FutureProvider.autoDispose
         final source = resolveSource(ref, providerValue);
         if (source == null) return {};
 
-        // ignore: unnecessary_await_in_return, async needed for early returns
         return await source.getAlbumCovers(albumIds);
       },
     );

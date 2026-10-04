@@ -123,7 +123,7 @@ class SpotifyAuth {
     // Prevent concurrent login attempts (rapid button taps).
     if (_loginCompleter != null && !_loginCompleter!.isCompleted) {
       Log.warn(_tag, 'Login already in progress, ignoring');
-      return _loginCompleter!.future;
+      return await _loginCompleter!.future;
     }
 
     final pkce = _generatePkce();
@@ -185,7 +185,7 @@ class SpotifyAuth {
       throw StateError('Could not open browser for Spotify login');
     }
 
-    return _loginCompleter!.future;
+    return await _loginCompleter!.future;
   }
 
   /// Handle the OAuth callback deep link.

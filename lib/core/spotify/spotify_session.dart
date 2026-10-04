@@ -137,7 +137,7 @@ class SpotifySession extends _$SpotifySession {
 
   Future<String?> validToken() async {
     // If a refresh is already in flight, wait for it.
-    if (_refreshFuture != null) return _refreshFuture;
+    if (_refreshFuture != null) return await _refreshFuture;
 
     final current = state;
     if (current is! SpotifyAuthenticated) return null;
