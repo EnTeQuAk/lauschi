@@ -579,4 +579,32 @@ void main() {
       );
     });
   });
+
+  group('isBridgeRecovery', () {
+    // The replay is for the bridge itself coming back, an iOS WebView
+    // reload that leaves the SDK without a playback context. On
+    // 2026-10-04 switching from ARD to a Spotify card replayed it from 0
+    // right after it started: the player state still said not ready from
+    // the stopped ARD card, while the bridge had been ready all along.
+    test('a ready bridge staying ready is not a recovery', () {
+      expect(
+        isBridgeRecovery(lastBridgeReady: true, bridgeReady: true),
+        isFalse,
+      );
+    });
+
+    test('the bridge coming back is a recovery', () {
+      expect(
+        isBridgeRecovery(lastBridgeReady: false, bridgeReady: true),
+        isTrue,
+      );
+    });
+
+    test('the first bridge event is not a recovery', () {
+      expect(
+        isBridgeRecovery(lastBridgeReady: null, bridgeReady: true),
+        isFalse,
+      );
+    });
+  });
 }

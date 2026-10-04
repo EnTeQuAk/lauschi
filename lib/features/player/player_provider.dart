@@ -140,6 +140,11 @@ class PlayerNotifier extends _$PlayerNotifier {
   /// StreamPlayer is created per-play and dies with the backend.
   StreamSubscription<PlaybackState>? _bridgeSub;
 
+  /// The bridge's own readiness at its previous event, null before the
+  /// first one. Tracked for every event, whichever backend is active, so
+  /// [isBridgeRecovery] sees real bridge transitions.
+  bool? _lastBridgeReady;
+
   /// The currently active backend + its subscription, or null.
   _ActiveBackend? _active;
 
@@ -217,6 +222,8 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   void _onBridgeEvent(PlaybackState bridgeState) {
     final isSpotifyActive = _active?.backend is SpotifyPlayer;
+    final lastBridgeReady = _lastBridgeReady;
+    _lastBridgeReady = bridgeState.isReady;
 
     if (isSpotifyActive) {
       // Detect WebView recovery: bridge went not-ready → ready while
@@ -228,10 +235,12 @@ class PlayerNotifier extends _$PlayerNotifier {
       // can emit multiple `ready` events during a single reload cycle,
       // and each playCard triggers more bridge events. Without this,
       // one process death causes 3-4 redundant play commands.
-      final wasNotReady = !state.isReady;
-      final isNowReady = bridgeState.isReady;
       final cardId = state.activeCardId;
-      if (wasNotReady && isNowReady && cardId != null) {
+      if (cardId != null &&
+          isBridgeRecovery(
+            lastBridgeReady: lastBridgeReady,
+            bridgeReady: bridgeState.isReady,
+          )) {
         Log.info(
           _tag,
           'Bridge recovered while card active, replaying',
@@ -1257,6 +1266,14 @@ Future<void> handleAlbumCompleted(
 /// A readiness update also preserves any pending error: copyWith always
 /// replaces error, so an incidental isReady write would otherwise wipe
 /// an error before PlayerErrorHost shows the dialog.
+/// Whether a bridge event means the Spotify WebView came back: the bridge
+/// itself went from not ready to ready. The player's own isReady can't
+/// tell, it still reflects whichever backend played before Spotify.
+bool isBridgeRecovery({
+  required bool? lastBridgeReady,
+  required bool bridgeReady,
+}) => lastBridgeReady == false && bridgeReady;
+
 PlaybackState? applyIdleBridgeReadiness(
   PlaybackState current, {
   required bool bridgeReady,
