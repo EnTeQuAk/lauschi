@@ -31,8 +31,8 @@ dependencies:
   nfc_manager: ^4.2.1
   package_info_plus: ^10.0.0
   riverpod_annotation: ^4.0.2
-  sentry_dio: ^9.14.0
-  sentry_flutter: ^9.13.0
+  sentry_dio: ^9.30.1
+  sentry_flutter: ^9.30.1
   shared_preferences: ^2.5.3
   shimmer: ^4.0.0
   url_launcher: ^6.3.1
@@ -50,7 +50,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   mocktail: ^1.0.4
-  patrol: ^4.2.0
+  patrol: ^4.10.0
   riverpod_generator: ^4.0.3
   sentry_dart_plugin: ^3.2.1
   test_api: any

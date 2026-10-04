@@ -483,6 +483,13 @@ mise run test-integration                                   # Patrol on-device t
 patrol test -t integration_test/ard_playback_basic_test.dart  # Single integration test
 ```
 
+The Patrol CLI is a global Dart tool, so no lock file pins it. patrol
+4.10 needs patrol_cli 4.7.0 or newer (see Patrol's
+[compatibility table](https://patrol.leancode.co/documentation/compatibility-table)).
+With an older CLI the tests still run, but the summary reports nothing
+and the Gradle step fails. Update it with
+`mise exec -- dart pub global activate patrol_cli`.
+
 ### On-Device Touch Automation (adb)
 
 Don't estimate tap coordinates from screenshots. Flutter widget positions rarely match visual estimation, especially on high-density screens with SafeArea/Spacer layouts.
