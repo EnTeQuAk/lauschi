@@ -4,7 +4,6 @@ version '1.0-SNAPSHOT'
 buildscript {
    ext {
        agp_version = '9.2.1'
-       kotlin_version = '2.4.0'
 
    }
 
@@ -15,7 +14,6 @@ buildscript {
 
     dependencies {
         classpath "com.android.tools.build:gradle:$agp_version"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
     }
 }
@@ -29,7 +27,6 @@ allprojects {
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
 
 
 android {
@@ -40,12 +37,6 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_21
         targetCompatibility JavaVersion.VERSION_21
-    }
-
-    kotlin {
-        compilerOptions {
-            jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21
-        }
     }
 
     sourceSets {
@@ -93,4 +84,10 @@ dependencies {
     implementation "androidx.media3:media3-datasource-okhttp:$media3_version"
 
 
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21
+    }
 }
