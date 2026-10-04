@@ -37,6 +37,59 @@ const _positionJitterThresholdMs = 2000;
 /// Token callback returns null when auth is unavailable. The bridge
 /// handles this gracefully (sets error state, never crashes).
 ///
+/// How the bridge lost its Spotify player.
+enum PlayerLossCause {
+  /// The page reloaded after the WebView content process died.
+  reload,
+
+  /// The SDK reported the player not ready on its own.
+  sdkNotReady,
+
+  /// A caller asked for [SpotifyWebViewBridge.reconnect] and restarts
+  /// playback itself once the player is back.
+  requested,
+}
+
+/// The Spotify player came back after a loss nobody else restarts.
+class BridgeRecovery {
+  const BridgeRecovery({required this.wasPlaying});
+
+  /// Whether a card was playing when the player was lost.
+  final bool wasPlaying;
+}
+
+/// Remembers why the Spotify player was lost, so the next `ready` can say
+/// whether playback needs restarting.
+///
+/// A requested reconnect owns the loss until the player is ready again,
+/// even when it falls back to a page reload, because its caller restarts
+/// playback. For any other loss the first one decides whether playback
+/// was running.
+class PlayerLossTracker {
+  PlayerLossCause? _cause;
+  var _wasPlaying = false;
+
+  void lost(PlayerLossCause cause, {required bool wasPlaying}) {
+    if (cause == PlayerLossCause.requested) {
+      _cause = cause;
+      return;
+    }
+    if (_cause != null) return;
+    _cause = cause;
+    _wasPlaying = wasPlaying;
+  }
+
+  /// The recovery to announce now that the player is ready, or null.
+  BridgeRecovery? ready() {
+    final cause = _cause;
+    _cause = null;
+    if (cause == null || cause == PlayerLossCause.requested) return null;
+    return BridgeRecovery(wasPlaying: _wasPlaying);
+  }
+
+  void reset() => _cause = null;
+}
+
 /// Name of the JavaScript channel registered in the WebView.
 /// Must match what player.html uses in `SpotifyBridge.postMessage(...)`.
 const spotifyJsChannelName = 'SpotifyBridge';
@@ -45,6 +98,8 @@ const spotifyJsChannelName = 'SpotifyBridge';
 /// Commands flow Dart → JS via `controller.runJavaScript()`.
 class SpotifyWebViewBridge {
   final _stateController = StreamController<PlaybackState>.broadcast();
+  final _recoveryController = StreamController<BridgeRecovery>.broadcast();
+  final _loss = PlayerLossTracker();
 
   /// Callback to get a valid (non-expired) access token.
   /// Returns null when auth is unavailable (logged out, refresh failed).
@@ -81,6 +136,11 @@ class SpotifyWebViewBridge {
 
   /// Current playback state (shared fields only).
   PlaybackState get currentState => _state;
+
+  /// The player came back after a page reload or an SDK drop, losing its
+  /// playback context. Not emitted after a [reconnect], whose caller
+  /// restarts playback itself.
+  Stream<BridgeRecovery> get recoveries => _recoveryController.stream;
 
   /// Position interpolated by monotonic time since the last SDK event.
   int get estimatedPositionMs => interpolatePosition(
@@ -225,6 +285,7 @@ class SpotifyWebViewBridge {
             // is still valid; reload to restart the content process and
             // re-initialize the SDK.
             Log.warn(_tag, 'Content process terminated, reloading');
+            _loss.lost(PlayerLossCause.reload, wasPlaying: _state.isPlaying);
             _deviceId = null;
             _updateState(_state.copyWith(isReady: false));
             unawaited(_reloadPage());
@@ -283,6 +344,7 @@ class SpotifyWebViewBridge {
       );
     }
 
+    _loss.reset();
     _updateState(const PlaybackState());
   }
 
@@ -358,9 +420,14 @@ class SpotifyWebViewBridge {
         Log.info(_tag, 'Player ready', data: {'device_id': '$id'});
         _deviceId = id;
         _updateState(_state.copyWith(isReady: true));
+        final recovery = _loss.ready();
+        if (recovery != null && !_recoveryController.isClosed) {
+          _recoveryController.add(recovery);
+        }
 
       case 'not_ready':
         Log.warn(_tag, 'Player not ready');
+        _loss.lost(PlayerLossCause.sdkNotReady, wasPlaying: _state.isPlaying);
         _deviceId = null;
         _updateState(_state.copyWith(isReady: false));
 
@@ -609,6 +676,7 @@ class SpotifyWebViewBridge {
   /// between the JS call and the clear.
   Future<void> reconnect() async {
     Log.info(_tag, 'Requesting SDK reconnect');
+    _loss.lost(PlayerLossCause.requested, wasPlaying: _state.isPlaying);
     _deviceId = null;
     _updateState(_state.copyWith(isReady: false));
 
@@ -717,6 +785,7 @@ class SpotifyWebViewBridge {
     }
     _controller = null;
     await _stateController.close();
+    await _recoveryController.close();
   }
 }
 

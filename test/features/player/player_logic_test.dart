@@ -580,122 +580,27 @@ void main() {
     });
   });
 
-  group('BridgeRecoveryDetector', () {
-    // The player's isReady still reflects the backend that played before
-    // Spotify, so a stopped ARD card leaves it false while the bridge has
-    // been ready all along. Only the bridge's own transition may replay.
-    test('a bridge ready before Spotify started is no recovery', () {
-      final detector =
-          BridgeRecoveryDetector()
-            ..observe(
-              bridgeReady: false,
-              spotifyActive: false,
-              hasActiveCard: false,
-            )
-            ..observe(
-              bridgeReady: true,
-              spotifyActive: false,
-              hasActiveCard: true,
-            );
-
+  group('shouldReplayAfterRecovery', () {
+    // The bridge reports a recovery after a reload or an SDK drop. Only a
+    // card that was playing gets restarted: a paused card stays paused,
+    // and the next play recovers it through the device-lost replay.
+    test('a Spotify card that was playing is replayed', () {
       expect(
-        detector.observe(
-          bridgeReady: true,
-          spotifyActive: true,
-          hasActiveCard: true,
-        ),
-        isFalse,
-      );
-    });
-
-    test('the bridge coming back while Spotify plays is a recovery', () {
-      final detector =
-          BridgeRecoveryDetector()
-            ..observe(
-              bridgeReady: true,
-              spotifyActive: true,
-              hasActiveCard: true,
-            )
-            ..observe(
-              bridgeReady: false,
-              spotifyActive: true,
-              hasActiveCard: true,
-            );
-
-      expect(
-        detector.observe(
-          bridgeReady: true,
-          spotifyActive: true,
-          hasActiveCard: true,
-        ),
+        shouldReplayAfterRecovery(spotifyActive: true, wasPlaying: true),
         isTrue,
       );
     });
 
-    test('one reload replays once', () {
-      final detector =
-          BridgeRecoveryDetector()..observe(
-            bridgeReady: false,
-            spotifyActive: true,
-            hasActiveCard: true,
-          );
-
+    test('a paused Spotify card stays paused', () {
       expect(
-        [
-          detector.observe(
-            bridgeReady: true,
-            spotifyActive: true,
-            hasActiveCard: true,
-          ),
-          detector.observe(
-            bridgeReady: true,
-            spotifyActive: true,
-            hasActiveCard: true,
-          ),
-        ],
-        [isTrue, isFalse],
-      );
-    });
-
-    test('no card or another backend means no replay', () {
-      final noCard =
-          BridgeRecoveryDetector()..observe(
-            bridgeReady: false,
-            spotifyActive: true,
-            hasActiveCard: false,
-          );
-      final otherBackend =
-          BridgeRecoveryDetector()..observe(
-            bridgeReady: false,
-            spotifyActive: false,
-            hasActiveCard: true,
-          );
-
-      expect(
-        noCard.observe(
-          bridgeReady: true,
-          spotifyActive: true,
-          hasActiveCard: false,
-        ),
-        isFalse,
-      );
-      expect(
-        otherBackend.observe(
-          bridgeReady: true,
-          spotifyActive: false,
-          hasActiveCard: true,
-        ),
+        shouldReplayAfterRecovery(spotifyActive: true, wasPlaying: false),
         isFalse,
       );
     });
 
-    test('the first bridge event is no recovery', () {
+    test('nothing is replayed while another backend plays', () {
       expect(
-        BridgeRecoveryDetector().observe(
-          bridgeReady: true,
-          spotifyActive: true,
-          hasActiveCard: true,
-        ),
+        shouldReplayAfterRecovery(spotifyActive: false, wasPlaying: true),
         isFalse,
       );
     });
