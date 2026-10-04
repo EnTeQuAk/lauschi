@@ -120,17 +120,19 @@ void main() {
     // **Provider context-assert** (round-1 review H1, unanimous):
     // verify the player is actually driven by the Apple Music
     // backend, not still playing ARD or Spotify with a stale
-    // activeCardId. The track URI carries the `apple_music:`
-    // prefix so this catches any provider mismatch.
+    // activeCardId. The playing track is a track of the album card,
+    // so its URI carries the `apple_music:` prefix, not the card URI.
     expect(
       state.track?.uri,
-      amCard!.providerUri,
+      startsWith('apple_music:'),
       reason:
-          'Player must be playing the Apple Music track URI '
-          '(got ${state.track?.uri}, expected ${amCard.providerUri}). '
-          'A wrong-provider bug would leave activeCardId set to amId '
-          'while the previous provider is still playing.',
+          'Player must be playing an Apple Music track '
+          '(got ${state.track?.uri}). A wrong-provider bug would leave '
+          'activeCardId set to amId while the previous provider is '
+          'still playing.',
     );
+    // The kid home and tile detail highlight the playing card by this.
+    expect(state.activeContextUri, amCard!.providerUri);
     expect(
       state.positionMs,
       lessThan(5000),
