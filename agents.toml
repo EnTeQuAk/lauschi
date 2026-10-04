@@ -6,13 +6,6 @@ name = "dotagents"
 source = "getsentry/dotagents"
 
 [[skills]]
-name = "sentry-flutter-sdk"
-source = "getsentry/sentry-for-ai"
-# Sentry froze its per-SDK wizards under skills-legacy/ in favour of the
-# generic sentry-instrument, which ships built in their plugin only.
-path = "skills-legacy/sentry-flutter-sdk"
-
-[[skills]]
 name = "update-changelog"
 source = "path:.agents/skills/update-changelog"
 
@@ -43,3 +36,8 @@ source = "dart-lang/skills"
 [[skills]]
 name = "dart-use-pattern-matching"
 source = "dart-lang/skills"
+
+[[plugins]]
+name = "sentry"
+source = "getsentry/agent-plugin"
+path = "."
