@@ -52,7 +52,9 @@ run = "flutter build apk --dart-define-from-file=.env.app"
 [tasks.check]
 description = "Full CI check: format + analyze + test"
 run = """
-dart format --set-exit-if-changed lib test integration_test tool
+# Tracked files only: Patrol regenerates the gitignored test_bundle.dart
+# unformatted on every integration run.
+git ls-files -z -- 'lib/*.dart' 'test/*.dart' 'integration_test/*.dart' 'tool/*.dart' | xargs -0 dart format --set-exit-if-changed
 flutter analyze --fatal-infos
 flutter test --dart-define-from-file=.env.app
 mise run tools-check
