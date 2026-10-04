@@ -1,5 +1,4 @@
 version = 1
-gitignore = true
 agents = ["claude"]
 
 [[skills]]
@@ -9,6 +8,9 @@ source = "getsentry/dotagents"
 [[skills]]
 name = "sentry-flutter-sdk"
 source = "getsentry/sentry-for-ai"
+# Sentry froze its per-SDK wizards under skills-legacy/ in favour of the
+# generic sentry-instrument, which ships built in their plugin only.
+path = "skills-legacy/sentry-flutter-sdk"
 
 [[skills]]
 name = "update-changelog"
@@ -29,3 +31,15 @@ source = "pbakaus/impeccable"
 [[skills]]
 name = "prompt-optimizer"
 source = "getsentry/skills"
+
+[[skills]]
+name = "dart-run-static-analysis"
+source = "dart-lang/skills"
+
+[[skills]]
+name = "dart-resolve-package-conflicts"
+source = "dart-lang/skills"
+
+[[skills]]
+name = "dart-use-pattern-matching"
+source = "dart-lang/skills"

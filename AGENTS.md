@@ -542,17 +542,25 @@ The repo includes config for [Pi](https://buildwithpi.com) and [Claude Code](htt
 
 ### Dotagents Setup
 
-Skills are declared in `agents.toml` and installed via dotagents:
+Skills are declared in `agents.toml` and installed via dotagents. Since
+dotagents 3 the default scope is global (`~/.agents/`), so pass `--project`
+or the command edits your user config instead of this repo:
 
 ```bash
 # Install all skills after cloning
-npx @sentry/dotagents install
+npx @sentry/dotagents --project install
 
 # List installed skills
-npx @sentry/dotagents list
+npx @sentry/dotagents --project list
 
-# Add a skill from getsentry/skills
-npx @sentry/dotagents add getsentry/skills find-bugs
+# Add a skill (name it; a whole repo pulls in skills that clash with ours)
+npx @sentry/dotagents --project add dart-lang/skills --name dart-use-pattern-matching
 ```
 
-Remote skills (from getsentry/skills and getsentry/sentry-for-ai) are gitignored and fetched on install. Local skills in `.agents/skills/` (update-changelog, code-simplifier) are committed to the repo.
+Remote skills (getsentry/*, dart-lang/skills, pbakaus/impeccable) are
+gitignored and fetched on install, and so is `agents.lock`, which dotagents
+now treats as generated. Local skills in `.agents/skills/` (update-changelog,
+release, code-simplifier) are committed to the repo. From the Dart and
+Flutter skill sets only the ones that don't contradict our conventions are
+declared: the widget-test, architecture, integration-test and mocks skills
+teach `pumpAndSettle`, ChangeNotifier MVVM, Flutter Driver and mockito.
