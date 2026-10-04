@@ -36,6 +36,9 @@ migrate_working_dir/
 # Generated files are committed — build_runner output is required for
 # the project to compile without running codegen first.
 *.g.dart
+# The vendored nfc_manager ships pigeon output, not build_runner output:
+# nothing regenerates it, so it has to be in git.
+!packages/nfc_manager/lib/src/nfc_manager_*/pigeon.g.dart
 *.freezed.dart
 
 # Flutter/Dart/Pub related
