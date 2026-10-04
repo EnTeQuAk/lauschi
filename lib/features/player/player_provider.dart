@@ -231,10 +231,10 @@ class PlayerNotifier extends _$PlayerNotifier {
       // web content process and the page reloads. The SDK is healthy
       // again but has no playback context, so replay the active card.
       //
-      // Guard with _recovering to prevent cascading replays. The bridge
-      // can emit multiple `ready` events during a single reload cycle,
-      // and each playCard triggers more bridge events. Without this,
-      // one process death causes 3-4 redundant play commands.
+      // The bridge can emit several `ready` events in one reload cycle,
+      // and each playCard triggers more. Only the first one after a
+      // not-ready event replays, since _lastBridgeReady follows every
+      // event, so one process death replays once.
       final cardId = state.activeCardId;
       if (cardId != null &&
           isBridgeRecovery(
@@ -246,11 +246,9 @@ class PlayerNotifier extends _$PlayerNotifier {
           'Bridge recovered while card active, replaying',
           data: {'cardId': cardId},
         );
-        // Update isReady BEFORE calling playCard. The early return
-        // below skips the normal state merge, so without this,
-        // state.isReady stays false and the next bridge event
-        // (Track changed) sees wasNotReady=true again, triggering
-        // another recovery cascade.
+        // The early return below skips the normal state merge, so set
+        // isReady here. Otherwise the grids and the connecting spinner
+        // keep showing not ready until the next merged bridge event.
         state = state.copyWith(isReady: true);
         unawaited(playCard(cardId, forceReplay: true));
         return;
