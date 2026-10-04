@@ -478,17 +478,17 @@ Follow `integration_test/helpers.dart` and `integration_test/ard_helpers.dart`:
 
 ```bash
 mise run test                                               # All unit + widget tests
-mise run check                                              # Format + analyze + test
+mise run check                                              # Format + analyze + test + debug APK
 mise run test-integration                                   # Patrol on-device tests
-patrol test -t integration_test/ard_playback_basic_test.dart  # Single integration test
+mise run test-integration integration_test/ard_playback_basic_test.dart  # Single integration test
 ```
 
-The Patrol CLI is a global Dart tool, so no lock file pins it. patrol
-4.10 needs patrol_cli 4.7.0 or newer (see Patrol's
+patrol_cli is a dev dependency, so `pubspec.lock` pins it next to the
+patrol package it has to match (patrol 4.10 needs patrol_cli 4.7 or newer,
+see Patrol's
 [compatibility table](https://patrol.leancode.co/documentation/compatibility-table)).
-With an older CLI the tests still run, but the summary reports nothing
-and the Gradle step fails. Update it with
-`mise exec -- dart pub global activate patrol_cli`.
+The task runs it with `dart run patrol_cli:main`, so you don't need a
+globally activated `patrol`, and it exits non-zero when a test fails.
 
 ### On-Device Touch Automation (adb)
 

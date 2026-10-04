@@ -51,6 +51,7 @@ dev_dependencies:
     sdk: flutter
   mocktail: ^1.0.4
   patrol: ^4.10.0
+  patrol_cli: ^4.8.0
   riverpod_generator: ^4.0.3
   sentry_dart_plugin: ^3.2.1
   test_api: any
