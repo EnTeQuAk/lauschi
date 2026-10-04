@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:lauschi/core/feature_flags.dart';
@@ -97,7 +99,12 @@ class AppleMusicStreamResolver {
         Log.error(
           _tag,
           'Stream resolve failed',
-          data: {'songId': songId, 'status': '$status'},
+          data: {
+            'songId': songId,
+            'status': '$status',
+            'type': e.type.name,
+            'message': '${e.message ?? e.error}',
+          },
         );
         // Retry once, but only for a transient network error (timeout,
         // connection drop, 5xx). A permanent failure returns null from
@@ -127,20 +134,40 @@ class AppleMusicStreamResolver {
   }
 
   Future<StreamResolution?> _resolveStreamOnce(String songId) async {
-    final response = await _dio.post<Map<String, dynamic>>(
+    // Apple sends this JSON as application/octet-stream, and Dio only
+    // decodes JSON content types, so the body is read as text and decoded
+    // here.
+    final response = await _dio.post<String>(
       'https://play.music.apple.com/WebObjects/MZPlay.woa/wa/webPlayback',
       data: {'salableAdamId': songId},
       options: Options(
         headers: _buildHeaders(),
         contentType: 'application/json',
+        responseType: ResponseType.plain,
       ),
     );
 
-    final data = response.data;
-    if (data == null) {
+    final body = response.data;
+    if (body == null || body.isEmpty) {
       Log.warn(_tag, 'Empty response');
       return null;
     }
+    final Object? decoded;
+    try {
+      decoded = jsonDecode(body);
+    } on FormatException {
+      Log.warn(
+        _tag,
+        'Response is not JSON',
+        data: {'contentType': '${response.headers.value('content-type')}'},
+      );
+      return null;
+    }
+    if (decoded is! Map<String, dynamic>) {
+      Log.warn(_tag, 'Response is not a JSON object');
+      return null;
+    }
+    final data = decoded;
 
     final failureType = data['failureType'] as String?;
     if (failureType != null) {

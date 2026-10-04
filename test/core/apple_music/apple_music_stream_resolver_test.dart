@@ -8,9 +8,10 @@ import 'package:lauschi/core/apple_music/apple_music_stream_resolver.dart';
 /// recording how many requests were made. A non-2xx status makes Dio
 /// throw a DioException, the way a real 5xx/timeout would.
 class _SeqAdapter implements HttpClientAdapter {
-  _SeqAdapter(this.steps);
+  _SeqAdapter(this.steps, {this.contentType = Headers.jsonContentType});
 
   final List<({int status, Map<String, dynamic> body})> steps;
+  final String contentType;
   int calls = 0;
 
   @override
@@ -25,7 +26,7 @@ class _SeqAdapter implements HttpClientAdapter {
       jsonEncode(step.body),
       step.status,
       headers: {
-        Headers.contentTypeHeader: [Headers.jsonContentType],
+        Headers.contentTypeHeader: [contentType],
       },
     );
   }
@@ -51,6 +52,22 @@ final _validStream = {
 
 void main() {
   group('AppleMusicStreamResolver.resolveStream', () {
+    test('a JSON body sent as octet-stream still resolves', () async {
+      // Apple's webPlayback answers 200 with the JSON body but a
+      // Content-Type of application/octet-stream (seen 2026-10-04). Dio
+      // only decodes JSON content types, so a Map-typed request failed
+      // its cast and every Apple Music track stopped resolving.
+      final adapter = _SeqAdapter([
+        (status: 200, body: _validStream),
+      ], contentType: 'application/octet-stream');
+
+      final result = await _resolverWith(adapter).resolveStream('song-1');
+
+      expect(result, isNotNull);
+      expect(result!.hlsUrl, 'https://hls');
+      expect(result.licenseUrl, 'https://license');
+    });
+
     test('a permanent failure does not retry', () async {
       // No songs is a permanent result, not a transient blip. Retrying
       // it just burns a second and an extra round-trip on the playback
