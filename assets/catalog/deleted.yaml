@@ -52,3 +52,11 @@ deleted:
   title: 'Bibi und Tina: Klangreise'
   reason: 'Curation found 0 includable albums: the split-off Klangreise sub-series is ASMR ambient (wrong_content_type), not Hörspiel episodes. Decided by Chris 2026-08.'
   deleted_at: '2026-08-13T20:19:42+00:00'
+- id: die_flohtoene
+  title: Die Flohtöne
+  reason: 'Dropped 2026-10-04 to be curated again from scratch: Die Flohtöne and Kalle Klang shipped the same 16 albums and the curator gave all of Die Flohtöne to Kalle Klang. Re-add both together.'
+  deleted_at: '2026-10-04T20:21:07+00:00'
+- id: kalle_klang
+  title: Kalle Klang
+  reason: 'Dropped 2026-10-04 to be curated again from scratch: Die Flohtöne and Kalle Klang shipped the same 16 albums and the curator gave all of Die Flohtöne to Kalle Klang. Re-add both together.'
+  deleted_at: '2026-10-04T20:21:24+00:00'
