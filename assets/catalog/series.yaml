@@ -29744,6 +29744,7 @@ series:
       curated_at: '2026-06-10T18:58:13.736090+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:58:13.736090+00:00'
+  content_type: audiobook
 - id: benjamin_bluemchen
   title: Benjamin Blümchen
   providers:
