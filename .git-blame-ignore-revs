@@ -1,0 +1,5 @@
+# Pure formatting commits, skipped by git blame.
+# Local: git config blame.ignoreRevsFile .git-blame-ignore-revs
+
+# style: adopt very_good_analysis 11 automated trailing commas
+8a5f283840d47f6889492d43e88316fcbc9516f8
