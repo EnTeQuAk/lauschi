@@ -11,6 +11,7 @@ import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart' show find;
 import 'package:lauschi/app.dart';
 import 'package:lauschi/core/database/app_database.dart';
+import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
 import 'package:lauschi/features/player/media_session_handler.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:patrol/patrol.dart';
@@ -64,10 +65,16 @@ Future<void> pumpApp(
   await initServices();
   SharedPreferences.setMockInitialValues(prefs);
 
+  // main() seeds the onboarding flag before the first frame, and the
+  // router's first redirect throws without it; seed it the same way.
+  final stored = await SharedPreferences.getInstance();
+  final onboardingDone = stored.getBool(onboardingCompleteKey) ?? false;
+
   const app = LauschiApp();
 
   final baseOverrides = <Override>[
     mediaSessionHandlerProvider.overrideWithValue(mediaHandler),
+    onboardingCompletePreloadProvider.overrideWithValue(onboardingDone),
     ...overrides,
   ];
 
