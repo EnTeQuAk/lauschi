@@ -564,3 +564,17 @@ release, code-simplifier) are committed to the repo. From the Dart and
 Flutter skill sets only the ones that don't contradict our conventions are
 declared: the widget-test, architecture, integration-test and mocks skills
 teach `pumpAndSettle`, ChangeNotifier MVVM, Flutter Driver and mockito.
+
+Sentry's skills and its hosted MCP server come as a plugin
+(`[[plugins]]` in `agents.toml`, from `getsentry/agent-plugin`).
+dotagents installs it under `.agents/plugins/` and writes the project
+marketplace to `.claude-plugin/marketplace.json`. Claude Code doesn't
+pick that up on its own, so register it once per machine:
+
+```
+/plugin marketplace add ./
+/plugin install sentry@dotagents
+```
+
+The MCP server then logs you in to Sentry with OAuth on first use, so no
+Sentry token lives in the repo.
