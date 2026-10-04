@@ -1,6 +1,6 @@
 # Changelog
 
-## v2026.10.1 (Oktober 2026)
+## v2026.10.2 (Oktober 2026)
 
 🎯 **Weiter, wo dein Kind aufgehört hat**
 Nach einer Folge springt der Weiter-Badge jetzt immer auf die nächste Folge, auch wenn die Reihe zum zweiten Mal gehört wird. Wer den Abspann überspringt, hat die Folge trotzdem gehört. Und die Folgenliste springt beim Zurückkommen aus dem Player nicht mehr ans Ende.
