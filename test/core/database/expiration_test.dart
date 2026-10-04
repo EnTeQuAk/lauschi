@@ -13,9 +13,11 @@ TileItem _item({
   int totalTracks = 0,
   int lastTrackNumber = 0,
   int lastPositionMs = 0,
+  int lastElapsedMs = 0,
   int durationMs = 0,
 }) {
   return TileItem(
+    lastElapsedMs: lastElapsedMs,
     id: id,
     title: 'Test Episode',
     cardType: cardType,
@@ -34,12 +36,12 @@ TileItem _item({
 }
 
 void main() {
-  // isItemExpired only checks markedUnavailable (runtime flag).
+  // isItemUnavailable only checks markedUnavailable (runtime flag).
   // ARD's endDate (stored as availableUntil) is NOT a reliable content
   // removal signal. Audio URLs remain on CDN well past endDate.
-  group('isItemExpired', () {
+  group('isItemUnavailable', () {
     test('returns false when markedUnavailable is null', () {
-      expect(isItemExpired(_item()), isFalse);
+      expect(isItemUnavailable(_item()), isFalse);
     });
 
     test('returns false even when availableUntil is in the past', () {
@@ -48,12 +50,12 @@ void main() {
       final item = _item(
         availableUntil: DateTime.now().subtract(const Duration(hours: 1)),
       );
-      expect(isItemExpired(item), isFalse);
+      expect(isItemUnavailable(item), isFalse);
     });
 
     test('returns true when markedUnavailable is set', () {
       final item = _item(markedUnavailable: DateTime.now());
-      expect(isItemExpired(item), isTrue);
+      expect(isItemUnavailable(item), isTrue);
     });
 
     test('returns true when both markedUnavailable and availableUntil set', () {
@@ -61,7 +63,7 @@ void main() {
         availableUntil: DateTime.now().subtract(const Duration(days: 1)),
         markedUnavailable: DateTime.now(),
       );
-      expect(isItemExpired(item), isTrue);
+      expect(isItemUnavailable(item), isTrue);
     });
   });
 
@@ -224,9 +226,23 @@ void main() {
   });
 
   group('albumProgress', () {
-    test('uses the track position for multi-track albums', () {
+    test('uses the time into the whole album', () {
+      final card = _item(
+        totalTracks: 2,
+        lastTrackNumber: 2,
+        lastPositionMs: 60000,
+        lastElapsedMs: 300000,
+        durationMs: 400000,
+      );
+      expect(albumProgress(card), 0.75);
+    });
+
+    test('counts only finished tracks for resume points without time', () {
+      // Saved before the player recorded the time into the album: the
+      // start of track 5 of 10 is 40 %, not the 50 % the track number
+      // alone suggests (track 2 of 2 used to show a full bar).
       final card = _item(totalTracks: 10, lastTrackNumber: 5);
-      expect(albumProgress(card), 0.5);
+      expect(albumProgress(card), 0.4);
     });
 
     test('falls back to the time position for single-file episodes', () {
@@ -238,8 +254,7 @@ void main() {
       expect(albumProgress(card), closeTo(0.667, 0.001));
     });
 
-    test('returns 0 for heard or never-started cards', () {
-      expect(albumProgress(_item(isHeard: true, totalTracks: 10)), 0);
+    test('returns 0 for never-started cards', () {
       expect(albumProgress(_item(totalTracks: 10)), 0);
       expect(albumProgress(_item(durationMs: 1800000)), 0);
       expect(albumProgress(_item()), 0);

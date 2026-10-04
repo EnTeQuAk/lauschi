@@ -225,162 +225,6 @@ void main() {
     expect(cards, isEmpty);
   });
 
-  test('savePosition and getByProviderUri persist playback state', () async {
-    final id = await repo.insert(
-      title: 'Audiobook',
-      providerUri: 'spotify:album:book1',
-      cardType: 'album',
-    );
-
-    // Verify initial state is blank — context: this proves
-    // savePosition CHANGED something rather than the card always
-    // having had those values.
-    var card = await repo.getByProviderUri('spotify:album:book1');
-    expect(card, isNotNull, reason: 'setup: getByProviderUri should find row');
-    expect(card!.lastTrackUri, isNull);
-    expect(card.lastPositionMs, 0);
-    expect(card.lastPlayedAt, isNull);
-
-    final beforeSave = DateTime.now().subtract(const Duration(seconds: 1));
-    await repo.savePosition(
-      itemId: id,
-      trackUri: 'spotify:track:ch5',
-      positionMs: 45000,
-    );
-
-    card = await repo.getByProviderUri('spotify:album:book1');
-    expect(card, isNotNull);
-    expect(card!.lastTrackUri, 'spotify:track:ch5');
-    expect(card.lastPositionMs, 45000);
-    // Tighten the lastPlayedAt assert: it must be a real "now" value,
-    // not just non-null. A buggy savePosition that wrote a stale
-    // timestamp (or `DateTime(2000)`) would still pass `isNotNull`.
-    expect(card.lastPlayedAt, isNotNull);
-    expect(
-      card.lastPlayedAt!.isAfter(beforeSave),
-      isTrue,
-      reason: 'lastPlayedAt should be the current time, not a stale value',
-    );
-
-    // Verify other fields untouched.
-    expect(card.title, 'Audiobook');
-    expect(card.providerUri, 'spotify:album:book1');
-  });
-
-  test('resetPlaybackPosition clears saved position', () async {
-    final id = await repo.insert(
-      title: 'Audiobook',
-      providerUri: 'spotify:album:book2',
-      cardType: 'album',
-    );
-
-    // Set a saved position.
-    await repo.savePosition(
-      itemId: id,
-      trackUri: 'spotify:track:ch7',
-      positionMs: 90000,
-      trackNumber: 7,
-    );
-
-    // Sanity: position is saved AND we wrote what we expected.
-    // The whole `reset` test is meaningless if there's nothing to
-    // reset because savePosition didn't actually save.
-    var card = await repo.getById(id);
-    expect(card, isNotNull, reason: 'setup: card should exist');
-    expect(
-      card!.lastTrackUri,
-      'spotify:track:ch7',
-      reason: 'setup: savePosition should have written lastTrackUri',
-    );
-    expect(card.lastTrackNumber, 7);
-    expect(card.lastPositionMs, 90000);
-    expect(
-      card.lastPlayedAt,
-      isNotNull,
-      reason: 'setup: savePosition stamps lastPlayedAt',
-    );
-
-    // Reset and verify position fields are cleared.
-    await repo.resetPlaybackPosition(id);
-
-    card = await repo.getById(id);
-    expect(card, isNotNull, reason: 'item should still exist after reset');
-    expect(card!.lastTrackUri, isNull, reason: 'lastTrackUri cleared');
-    expect(card.lastTrackNumber, 0, reason: 'lastTrackNumber cleared');
-    expect(card.lastPositionMs, 0, reason: 'lastPositionMs cleared');
-    // lastPlayedAt must clear too, matching clearPositions. A finished
-    // standalone episode (handleAlbumCompleted calls this) that kept its
-    // timestamp would still win lastPlayed() and resume-on-launch at 0.
-    expect(card.lastPlayedAt, isNull, reason: 'lastPlayedAt cleared');
-    // Untouched fields stay intact.
-    expect(card.title, 'Audiobook', reason: 'title preserved');
-    expect(card.providerUri, 'spotify:album:book2', reason: 'URI preserved');
-  });
-
-  test('resetPlaybackPosition is a no-op for unknown item id', () async {
-    // Should not throw, should not affect existing items.
-    await repo.insert(
-      title: 'Existing',
-      providerUri: 'spotify:album:exists',
-      cardType: 'album',
-    );
-
-    // Context: there is exactly one row in the DB before the no-op.
-    // We're proving that `resetPlaybackPosition('does-not-exist')`
-    // doesn't accidentally delete or rewrite the existing row.
-    expect(
-      await repo.getAll(),
-      hasLength(1),
-      reason: 'setup: 1 existing row that should be untouched',
-    );
-
-    await repo.resetPlaybackPosition('does-not-exist');
-
-    final cards = await repo.getAll();
-    expect(cards, hasLength(1), reason: 'no-op preserved the existing row');
-    expect(cards.first.title, 'Existing');
-  });
-
-  test('lastPlayed returns most recently played card', () async {
-    final oldId = await repo.insert(
-      title: 'Old',
-      providerUri: 'spotify:album:old',
-      cardType: 'album',
-    );
-    final newId = await repo.insert(
-      title: 'New',
-      providerUri: 'spotify:album:new',
-      cardType: 'album',
-    );
-
-    // Context: BEFORE saving any position, the "Old" card has
-    // `lastPlayedAt == null`. This is the load-bearing context
-    // assert: without it, the test could pass even if `lastPlayed()`
-    // returned the most-recently-INSERTED card instead of the
-    // most-recently-PLAYED one (the round-1 review caught this gap).
-    final oldBeforeSave = await repo.getById(oldId);
-    expect(oldBeforeSave, isNotNull);
-    expect(
-      oldBeforeSave!.lastPlayedAt,
-      isNull,
-      reason:
-          'setup: "Old" card has no saved play time, '
-          'so a correct lastPlayed() must NOT pick it',
-    );
-
-    await repo.savePosition(
-      itemId: newId,
-      trackUri: 'spotify:track:t1',
-      positionMs: 1000,
-    );
-
-    final last = await repo.lastPlayed();
-    expect(last, isNotNull);
-    expect(last!.title, 'New');
-    // Belt and suspenders: explicitly verify it's not the old one.
-    expect(last.id, newId, reason: 'lastPlayed should match the saved id');
-  });
-
   test('reorder updates sortOrder for all cards', () async {
     final id1 = await repo.insert(
       title: 'A',
@@ -515,32 +359,6 @@ void main() {
       );
     },
   );
-
-  test('markHeard and markUnheard toggle flag', () async {
-    final id = await repo.insert(
-      title: 'Story',
-      providerUri: 'spotify:album:h1',
-      cardType: 'album',
-    );
-
-    // Context: items default to unheard. The toggle test below
-    // depends on this being the starting state.
-    var card = await repo.getById(id);
-    expect(card, isNotNull);
-    expect(
-      card!.isHeard,
-      isFalse,
-      reason: 'setup: new items default to unheard',
-    );
-
-    await repo.markHeard(id);
-    card = await repo.getById(id);
-    expect(card!.isHeard, isTrue);
-
-    await repo.markUnheard(id);
-    card = await repo.getById(id);
-    expect(card!.isHeard, isFalse);
-  });
 
   test('watchUngrouped excludes grouped items', () async {
     final groupId = await tiles.insert(title: 'G');
@@ -689,9 +507,9 @@ void main() {
 
   // ─── Content expiration ───────────────────────────────────────────
 
-  // isItemExpired only checks markedUnavailable (runtime flag).
+  // isItemUnavailable only checks markedUnavailable (runtime flag).
   // availableUntil is informational; ARD's endDate is unreliable.
-  group('isItemExpired', () {
+  group('isItemUnavailable', () {
     test('not expired when neither field set', () async {
       final id = await repo.insert(
         title: 'Normal Track',
@@ -707,7 +525,7 @@ void main() {
       expect(card.markedUnavailable, isNull);
       expect(card.availableUntil, isNull);
 
-      expect(isItemExpired(card), isFalse);
+      expect(isItemUnavailable(card), isFalse);
     });
 
     test('not expired when only availableUntil is in the past', () async {
@@ -739,7 +557,7 @@ void main() {
       );
 
       expect(
-        isItemExpired(card),
+        isItemUnavailable(card),
         isFalse,
         reason:
             'past availableUntil alone is not expiration; ARD CDN '
@@ -765,7 +583,7 @@ void main() {
 
       final card = (await repo.getAll()).firstWhere((c) => c.id == id);
       expect(card.markedUnavailable, isNotNull, reason: 'mark wrote a value');
-      expect(isItemExpired(card), isTrue);
+      expect(isItemUnavailable(card), isTrue);
     });
   });
 
@@ -814,138 +632,7 @@ void main() {
       await repo.clearUnavailable(id);
       final card = (await repo.getAll()).firstWhere((c) => c.id == id);
       expect(card.markedUnavailable, isNull);
-      expect(isItemExpired(card), isFalse);
-    });
-  });
-
-  // ─── nextUnheard (DB-level, exercises cardOrder() sort) ───────────
-
-  group('nextUnheard', () {
-    late String tileId;
-
-    setUp(() async {
-      tileId = await tiles.insert(title: 'Series');
-    });
-
-    Future<String> addEpisode(
-      String title, {
-      int? episodeNumber,
-      int? sortOrder,
-      bool isHeard = false,
-      int lastPositionMs = 0,
-    }) async {
-      final id = await repo.insertArdEpisode(
-        title: title,
-        providerUri: 'ard:$title',
-        audioUrl: 'https://example.com/$title.mp3',
-        tileId: tileId,
-        episodeNumber: episodeNumber,
-      );
-      if (sortOrder != null) {
-        await (db.update(db.cards)..where(
-          (t) => t.id.equals(id),
-        )).write(CardsCompanion(sortOrder: Value(sortOrder)));
-      }
-      if (isHeard) await repo.markHeard(id);
-      if (lastPositionMs > 0) {
-        await repo.savePosition(
-          itemId: id,
-          trackUri: 'ard:track:$title',
-          positionMs: lastPositionMs,
-        );
-      }
-      return id;
-    }
-
-    test(
-      'picks next numbered episode after heard, skipping specials',
-      () async {
-        await addEpisode('ep1', episodeNumber: 1, isHeard: true);
-        await addEpisode('ep2', episodeNumber: 2, isHeard: true);
-        await addEpisode('ep3', episodeNumber: 3, isHeard: true);
-        final ep4 = await addEpisode('ep4', episodeNumber: 4);
-        await addEpisode('ep5', episodeNumber: 5);
-        // Explicit null: this is a special with no episode number.
-        // ignore: avoid_redundant_argument_values
-        await addEpisode('special', episodeNumber: null);
-
-        final next = await tiles.nextUnheard(tileId);
-        expect(next?.id, ep4);
-      },
-    );
-
-    test('falls through to special when all numbered heard', () async {
-      await addEpisode('ep1', episodeNumber: 1, isHeard: true);
-      await addEpisode('ep2', episodeNumber: 2, isHeard: true);
-      // Explicit null: this is a special with no episode number.
-      // ignore: avoid_redundant_argument_values
-      final special = await addEpisode('special', episodeNumber: null);
-
-      final next = await tiles.nextUnheard(tileId);
-      expect(next?.id, special);
-    });
-
-    test('unheard numbered episode beats an in-progress special', () async {
-      // Field report (Ninjago, 2026-07): a bonus item left mid-play held
-      // the target at the bottom of the list while Folge 28 sat unheard.
-      // Must match the badge (tileNextUnheardProvider) — an NFC tag and
-      // the Weiter badge may never disagree.
-      await addEpisode('ep1', episodeNumber: 1, isHeard: true);
-      final ep2 = await addEpisode('ep2', episodeNumber: 2);
-      await addEpisode(
-        'special',
-        // Explicit null: this is a special with no episode number.
-        // ignore: avoid_redundant_argument_values
-        episodeNumber: null,
-        lastPositionMs: 5000,
-      );
-
-      final next = await tiles.nextUnheard(tileId);
-      expect(next?.id, ep2);
-    });
-
-    test(
-      'in-progress special resumes once numbered episodes are done',
-      () async {
-        await addEpisode('ep1', episodeNumber: 1, isHeard: true);
-        final special = await addEpisode(
-          'special',
-          // Explicit null: this is a special with no episode number.
-          // ignore: avoid_redundant_argument_values
-          episodeNumber: null,
-          lastPositionMs: 5000,
-        );
-
-        final next = await tiles.nextUnheard(tileId);
-        expect(next?.id, special);
-      },
-    );
-
-    test('manual sortOrder overrides episodeNumber', () async {
-      await addEpisode('ep1', episodeNumber: 1, sortOrder: 0, isHeard: true);
-      final special = await addEpisode('special', sortOrder: 1);
-      await addEpisode('ep2', episodeNumber: 2, sortOrder: 2);
-
-      final next = await tiles.nextUnheard(tileId);
-      expect(next?.id, special);
-    });
-
-    test('returns null when all heard', () async {
-      await addEpisode('ep1', episodeNumber: 1, isHeard: true);
-      await addEpisode('ep2', episodeNumber: 2, isHeard: true);
-
-      expect(await tiles.nextUnheard(tileId), isNull);
-    });
-
-    test('wraps to first unheard when nothing after last heard', () async {
-      final ep1 = await addEpisode('ep1', episodeNumber: 1);
-      await addEpisode('ep2', episodeNumber: 2, isHeard: true);
-      // Explicit null: this is a special with no episode number.
-      // ignore: avoid_redundant_argument_values
-      await addEpisode('special', episodeNumber: null, isHeard: true);
-
-      final next = await tiles.nextUnheard(tileId);
-      expect(next?.id, ep1);
+      expect(isItemUnavailable(card), isFalse);
     });
   });
 

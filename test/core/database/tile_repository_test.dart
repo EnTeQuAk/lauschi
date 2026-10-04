@@ -2,6 +2,7 @@ import 'package:drift/drift.dart' hide isNotNull, isNull;
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/database/app_database.dart';
+import 'package:lauschi/core/database/listening_repository.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 
@@ -232,39 +233,44 @@ void main() {
     expect(grouped[1].title, 'Episode 3');
   });
 
-  test('nextUnheard returns first unheard episode', () async {
-    final groupId = await groups.insert(title: 'Series');
-    final id1 = await cards.insert(
-      title: 'Ep 1',
-      providerUri: 'spotify:album:s1',
-      cardType: 'album',
-    );
-    final id2 = await cards.insert(
-      title: 'Ep 2',
-      providerUri: 'spotify:album:s2',
-      cardType: 'album',
-    );
-    await cards.assignToTile(itemId: id1, tileId: groupId, episodeNumber: 1);
-    await cards.assignToTile(itemId: id2, tileId: groupId, episodeNumber: 2);
+  group('weiterItem', () {
+    // What an NFC tag for a tile plays: the stored Weiter item.
+    late String groupId;
+    late String id1;
+    late String id2;
 
-    // Both start unheard.
-    var item1 = await cards.getById(id1);
-    final item2 = await cards.getById(id2);
-    expect(item1, isNotNull, reason: 'setup: card 1 should exist');
-    expect(item2, isNotNull, reason: 'setup: card 2 should exist');
-    expect(item1!.isHeard, isFalse);
-    expect(item2!.isHeard, isFalse);
+    setUp(() async {
+      groupId = await groups.insert(title: 'Series');
+      id1 = await cards.insert(
+        title: 'Ep 1',
+        providerUri: 'spotify:album:s1',
+        cardType: 'album',
+      );
+      id2 = await cards.insert(
+        title: 'Ep 2',
+        providerUri: 'spotify:album:s2',
+        cardType: 'album',
+      );
+      await cards.assignToTile(itemId: id1, tileId: groupId, episodeNumber: 1);
+      await cards.assignToTile(itemId: id2, tileId: groupId, episodeNumber: 2);
+    });
 
-    await cards.markHeard(id1);
+    test('is the first item before anyone listened', () async {
+      expect((await groups.weiterItem(groupId))?.id, id1);
+    });
 
-    // Ep 1 is now heard.
-    item1 = await cards.getById(id1);
-    expect(item1!.isHeard, isTrue);
+    test('is the stored item', () async {
+      await ListeningRepository(db).finishItem(id1);
 
-    final next = await groups.nextUnheard(groupId);
-    expect(next, isNotNull);
-    expect(next!.id, id2);
-    expect(next.title, 'Ep 2');
+      expect((await groups.weiterItem(groupId))?.id, id2);
+    });
+
+    test('is null when nothing in the tile is playable', () async {
+      await cards.markUnavailable(id1);
+      await cards.markUnavailable(id2);
+
+      expect(await groups.weiterItem(groupId), isNull);
+    });
   });
 
   test('cardCount returns correct count', () async {
@@ -302,7 +308,7 @@ void main() {
     expect(count, 2);
   });
 
-  // assignToTile, removeFromTile, markHeard/markUnheard, watchUngrouped
+  // assignToTile, removeFromTile, watchUngrouped
   // are TileItemRepository methods — tests moved to
   // tile_item_repository_test.dart.
 

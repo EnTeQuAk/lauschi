@@ -10,6 +10,7 @@ void main() {
     test('unavailable item retains position data', () {
       // Simulate an item that was being listened to, then marked unavailable.
       final item = TileItem(
+        lastElapsedMs: 0,
         id: 'item-1',
         title: 'Pumuckl Folge 3',
         cardType: 'episode',
@@ -32,13 +33,13 @@ void main() {
       // (e.g. constructor renamed `markedUnavailable` to
       // `unavailableAt`) could leave the field at its default
       // null and the test would still pass for the wrong reason
-      // (`isItemExpired` returning false because nothing was set,
+      // (`isItemUnavailable` returning false because nothing was set,
       // not true because we set it).
       expect(item.markedUnavailable, isNotNull);
       expect(item.lastPositionMs, 450000);
       expect(item.lastTrackUri, 'ard:item:12345');
 
-      expect(isItemExpired(item), isTrue);
+      expect(isItemUnavailable(item), isTrue);
 
       // Position data is intact for when content comes back.
       expect(item.lastPositionMs, 450000);
@@ -51,6 +52,7 @@ void main() {
       // ARD's endDate is an editorial broadcast window, not content removal.
       // Audio URLs remain on CDN well past endDate.
       final item = TileItem(
+        lastElapsedMs: 0,
         id: 'item-2',
         title: 'Gute Nacht mit der Maus',
         cardType: 'episode',
@@ -65,7 +67,7 @@ void main() {
         availableUntil: DateTime(2025, 2), // past, but audio still works
       );
 
-      expect(isItemExpired(item), isFalse);
+      expect(isItemUnavailable(item), isFalse);
     });
 
     test('contentUnavailable has the "gone" error category', () {
@@ -93,6 +95,7 @@ void main() {
 
     test('Spotify items without markedUnavailable are not expired', () {
       final item = TileItem(
+        lastElapsedMs: 0,
         id: 'spotify-item',
         title: 'TKKG Folge 1',
         cardType: 'album',
@@ -108,7 +111,7 @@ void main() {
 
       expect(item.availableUntil, isNull);
       expect(item.markedUnavailable, isNull);
-      expect(isItemExpired(item), isFalse);
+      expect(isItemUnavailable(item), isFalse);
     });
   });
 }

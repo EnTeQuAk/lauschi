@@ -59,8 +59,10 @@ import 'dart:async' show unawaited;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/apple_music/apple_music_session.dart';
 import 'package:lauschi/core/ard/ard_api.dart';
+import 'package:lauschi/core/database/listening_repository.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
+import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:patrol/patrol.dart';
@@ -212,9 +214,7 @@ Future<void> _runPlaybackSuite(
 
   // Fresh start: clear any saved position so playCard restarts from 0
   // instead of resuming where the previous suite left off.
-  await container
-      .read(tileItemRepositoryProvider)
-      .resetPlaybackPosition(itemId);
+  await container.read(listeningRepositoryProvider).resetResumePoint(itemId);
 
   // ── 1. Play starts ───────────────────────────────────────────────────
   print('▶ [$label] play starts');
@@ -247,18 +247,16 @@ Future<void> _runPlaybackSuite(
   // **Provider context-assert**: with three different player backends
   // running in one session, checking activeCardId alone is not enough.
   // A bug could leave one provider playing while we think we're testing
-  // another. activeContextUri is set from card.providerUri in playCard()
-  // and never overwritten by the backend, so an exact match here proves
-  // the right provider is active.
+  // another. The playing track comes from the backend itself, so its
+  // provider matching the card's proves the right backend is active.
   expect(
-    started.activeContextUri,
-    expectedCard!.providerUri,
+    ProviderType.tryFromUri(started.track!.uri),
+    ProviderType.tryFromUri(expectedCard!.providerUri),
     reason:
-        '[$label] activeContextUri must match the card providerUri '
-        '(got ${started.activeContextUri}, '
-        'expected ${expectedCard.providerUri})',
+        '[$label] the playing track must come from the card provider '
+        '(got ${started.track!.uri}, card ${expectedCard.providerUri})',
   );
-  // resetPlaybackPosition above must have actually cleared the saved
+  // resetResumePoint above must have actually cleared the saved
   // position. If it didn't, the playback state would inherit the
   // previous suite's position and the pause-resume math below would lie.
   expect(

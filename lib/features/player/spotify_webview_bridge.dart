@@ -123,6 +123,7 @@ class SpotifyWebViewBridge {
 
   // Spotify-specific state tracked internally (not on PlaybackState).
   String? _deviceId;
+  String? _contextUri;
   int _trackNumber = 0;
   int _nextTracksCount = 0;
 
@@ -152,6 +153,11 @@ class SpotifyWebViewBridge {
 
   /// Spotify device ID, or null if not yet connected.
   String? get deviceId => _deviceId;
+
+  /// The album or playlist the SDK reported with its latest state, e.g.
+  /// `spotify:album:…`. Null before the first state or when the SDK
+  /// reports none.
+  String? get contextUri => _contextUri;
 
   /// 1-based track position within the current album.
   int get trackNumber => _trackNumber;
@@ -319,6 +325,7 @@ class SpotifyWebViewBridge {
     if (_disposed) return;
     Log.info(_tag, 'Tearing down bridge');
     _deviceId = null;
+    _contextUri = null;
     _trackNumber = 0;
     _nextTracksCount = 0;
     _stateStopwatch.reset();
@@ -481,6 +488,9 @@ class SpotifyWebViewBridge {
       payload['next_tracks_count'],
     ).clamp(0, 9999);
     final trackData = coerceJsonMap(payload['track']);
+    final rawContext = coerceJsonString(payload['context_uri']);
+    final contextUri =
+        rawContext == null ? null : _sanitize(rawContext, maxLength: 256);
 
     TrackInfo? track;
     if (trackData != null) {
@@ -531,6 +541,7 @@ class SpotifyWebViewBridge {
       );
     }
 
+    _contextUri = contextUri;
     _trackNumber = trackNum;
     _nextTracksCount = nextCount;
     _stateStopwatch.reset();

@@ -69,6 +69,11 @@ abstract final class AppRoutes {
   static const pinChange = '/pin/change';
 }
 
+/// Tells screens when a route above them is pushed or popped, e.g. the
+/// episode grid scrolling to the Weiter card when the kid comes back from
+/// the player.
+final routeObserver = RouteObserver<ModalRoute<void>>();
+
 @Riverpod(keepAlive: true)
 GoRouter appRouter(Ref ref) => createRouter(ref);
 
@@ -95,6 +100,7 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
     observers: [
       SentryNavigatorObserver(),
       SnackBarClearObserver(rootNavigatorKey),
+      routeObserver,
     ],
     redirect: (context, state) => _globalRedirect(ref, state),
     // A stale deep link or NFC tag can carry a path no route matches.

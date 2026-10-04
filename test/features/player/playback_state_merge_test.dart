@@ -7,7 +7,34 @@ import 'package:lauschi/features/player/player_state.dart';
 import 'package:lauschi/features/player/spotify_webview_bridge.dart';
 
 void main() {
-  group('mergeSpotifyBridgeState (production function)', () {
+  group('mergeBackendState (production function)', () {
+    test('a finished card stays finished when the backend moves on', () {
+      // Spotify reports the end once, then wraps to the first track.
+      const before = PlaybackState(isFinished: true);
+      const backendState = PlaybackState(isReady: true);
+
+      expect(mergeBackendState(before, backendState).isFinished, isTrue);
+    });
+
+    test('takes the end from the backend', () {
+      const backendState = PlaybackState(isReady: true, isFinished: true);
+
+      expect(
+        mergeBackendState(const PlaybackState(), backendState).isFinished,
+        isTrue,
+      );
+    });
+
+    test('keeps the current track when the backend reports none', () {
+      const track = TrackInfo(uri: 'ard:1', name: 'Episode');
+      const before = PlaybackState(track: track);
+
+      expect(
+        mergeBackendState(before, const PlaybackState(isReady: true)).track,
+        track,
+      );
+    });
+
     test('clears isLoading when bridge reports playing', () {
       const before = PlaybackState(isLoading: true);
       const bridgeState = PlaybackState(
@@ -21,7 +48,7 @@ void main() {
         ),
       );
 
-      final after = mergeSpotifyBridgeState(before, bridgeState);
+      final after = mergeBackendState(before, bridgeState);
       expect(
         after.isLoading,
         isFalse,
@@ -35,7 +62,7 @@ void main() {
       const before = PlaybackState(isLoading: true);
       const bridgeState = PlaybackState(isReady: true);
 
-      final after = mergeSpotifyBridgeState(before, bridgeState);
+      final after = mergeBackendState(before, bridgeState);
       expect(
         after.isLoading,
         isTrue,
@@ -50,7 +77,7 @@ void main() {
         error: PlayerError.spotifyNotConnected,
       );
 
-      final after = mergeSpotifyBridgeState(before, bridgeState);
+      final after = mergeBackendState(before, bridgeState);
       expect(after.isLoading, isFalse, reason: 'Error should clear loading');
     });
 
@@ -58,7 +85,7 @@ void main() {
       const before = PlaybackState(isPlaying: true);
       const bridgeState = PlaybackState(isReady: true);
 
-      final after = mergeSpotifyBridgeState(before, bridgeState);
+      final after = mergeBackendState(before, bridgeState);
       expect(
         after.isLoading,
         isFalse,
@@ -70,7 +97,7 @@ void main() {
       const before = PlaybackState(error: PlayerError.playbackFailed);
       const bridgeState = PlaybackState(isPlaying: true, isReady: true);
 
-      final after = mergeSpotifyBridgeState(before, bridgeState);
+      final after = mergeBackendState(before, bridgeState);
       expect(after.error, PlayerError.playbackFailed);
     });
 
@@ -78,7 +105,7 @@ void main() {
       const before = PlaybackState(error: PlayerError.playbackFailed);
       const bridgeState = PlaybackState(error: PlayerError.spotifyNotConnected);
 
-      final after = mergeSpotifyBridgeState(before, bridgeState);
+      final after = mergeBackendState(before, bridgeState);
       expect(after.error, PlayerError.spotifyNotConnected);
     });
 
@@ -113,7 +140,7 @@ void main() {
         );
 
         // Now the FIXED code: uses the real production function.
-        final fixed = mergeSpotifyBridgeState(before, bridgeState);
+        final fixed = mergeBackendState(before, bridgeState);
         expect(
           fixed.isLoading,
           isFalse,

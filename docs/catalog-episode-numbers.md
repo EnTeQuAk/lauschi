@@ -27,9 +27,10 @@ A few series bundle 2–3 episodes per album (Wickie's classic CDs); those
 are excluded as `compilation_as_episode`.
 
 Playback never needs the episode number — the player streams an album by
-URI. The number drives **ordering** (`cardOrder`: sortOrder, then
-episodeNumber, then createdAt) and therefore the "Weiter" badge, and it
-is the **label the child taps**.
+URI. The number drives **ordering** (`cardOrder`: hand-sorted items
+first, then episodeNumber, then createdAt) and therefore which episode
+the "Weiter" badge moves to after a finish, and it is the **label the
+child taps**.
 
 ## Why there is exactly one implementation
 

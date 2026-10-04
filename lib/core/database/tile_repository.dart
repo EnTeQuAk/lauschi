@@ -1,8 +1,8 @@
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/database/app_database.dart';
-import 'package:lauschi/core/database/next_unheard.dart';
 import 'package:lauschi/core/database/tables.dart' show cardOrder;
+import 'package:lauschi/core/database/weiter.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
@@ -585,25 +585,17 @@ class TileRepository {
     return result.read<int>(count) ?? 0;
   }
 
-  /// Get the next episode to play in a tile.
-  ///
-  /// Priority:
-  /// 1. In-progress episode (has saved position, not heard)
-  /// 2. First unheard episode after the last heard one in sort order
-  /// 3. First unheard episode overall (nothing heard yet)
-  ///
-  /// Skips items confirmed unavailable via markedUnavailable flag.
-  Future<TileItem?> nextUnheard(String tileId) async {
-    final episodes =
+  /// The item a kid continues with in [tileId] (see `weiterFor`), or null
+  /// when nothing in the tile is playable.
+  Future<TileItem?> weiterItem(String tileId) async {
+    final tile = await getById(tileId);
+    if (tile == null) return null;
+    final items =
         await (_db.select(_db.cards)
               ..where((t) => t.groupId.equals(tileId))
               ..orderBy(cardOrder()))
             .get();
-
-    return pickNextUnheard(
-      episodes,
-      isAvailable: (ep) => !ep.isHeard && ep.markedUnavailable == null,
-    );
+    return weiterFor(items, tile.weiterItemId);
   }
 }
 
@@ -636,4 +628,13 @@ final childTilesProvider = StreamProvider.family<List<Tile>, String>((
   parentId,
 ) {
   return ref.watch(tileRepositoryProvider).watchChildren(parentId);
+});
+
+/// The item a kid continues with in a tile: the Weiter badge and the
+/// grid's scroll target. Null while loading or when nothing is playable.
+final tileWeiterProvider = Provider.family<TileItem?, String>((ref, tileId) {
+  final tile = ref.watch(tileByIdProvider(tileId)).value;
+  final items = ref.watch(tileItemsProvider(tileId)).value;
+  if (tile == null || items == null) return null;
+  return weiterFor(items, tile.weiterItemId);
 });

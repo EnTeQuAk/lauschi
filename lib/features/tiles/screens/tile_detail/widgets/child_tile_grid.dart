@@ -5,6 +5,7 @@ import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+import 'package:lauschi/features/tiles/card_indicator.dart';
 import 'package:lauschi/features/tiles/widgets/tile_card.dart';
 
 /// Grid of child tiles inside a parent tile.
@@ -36,10 +37,7 @@ class ChildTileGrid extends ConsumerWidget {
           itemCount: children.length,
           itemBuilder: (context, index) {
             final child = children[index];
-            final stats = progressMap[child.id];
-            final total = stats?.total ?? 0;
-            final heard = stats?.heard ?? 0;
-            final progress = total > 0 ? (heard / total) : 0.0;
+            final indicator = tileIndicator(progressMap[child.id]);
             final childCovers =
                 ref
                     .watch(childTilesProvider(child.id))
@@ -57,13 +55,13 @@ class ChildTileGrid extends ConsumerWidget {
             return TileCard(
               key: Key('child_tile_${child.id}'),
               title: child.title,
-              episodeCount: total,
+              episodeCount: indicator.episodeCount,
               coverUrl: child.coverUrl,
-              progress: progress,
+              progress: indicator.progress,
               contentType: ContentType.fromString(child.contentType),
               childCoverUrls: childCovers,
               kidMode: true,
-              isUnavailable: isTileFullyUnavailable(stats),
+              isUnavailable: indicator.isUnavailable,
               onTap: () => onTileTap(child),
             );
           },

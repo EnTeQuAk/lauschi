@@ -80,6 +80,16 @@ abstract class AppleMusicBackend extends PlayerBackend {
   @override
   bool get hasNextTrack => trackIndex < tracks.length - 1;
 
+  @override
+  int get elapsedMs => elapsedAcrossTracks(
+    [for (final t in tracks) t.durationMs],
+    trackNumber: currentTrackNumber,
+    positionMs: positionMs,
+  );
+
+  @override
+  int get contentDurationMs => tracks.fold(0, (sum, t) => sum + t.durationMs);
+
   // ── Abstract platform hooks ──────────────────────────────────────
 
   /// Start playing from the given track index after album setup.
@@ -255,7 +265,7 @@ abstract class AppleMusicBackend extends PlayerBackend {
           unawaited(nextTrack());
         } else {
           isPlaying = false;
-          emitState();
+          emitState(isFinished: true);
         }
 
       case 'error':
@@ -293,7 +303,7 @@ abstract class AppleMusicBackend extends PlayerBackend {
   }
 
   @protected
-  void emitState({PlayerError? error}) {
+  void emitState({PlayerError? error, bool isFinished = false}) {
     if (_stateController.isClosed) return;
     _stateController.add(
       PlaybackState(
@@ -302,6 +312,7 @@ abstract class AppleMusicBackend extends PlayerBackend {
         track: currentTrack,
         positionMs: positionMs,
         durationMs: durationMs,
+        isFinished: isFinished,
         error: error,
       ),
     );

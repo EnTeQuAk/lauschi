@@ -4,9 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/connectivity/connectivity_provider.dart';
-import 'package:lauschi/core/database/app_database.dart' as db;
-import 'package:lauschi/core/database/next_unheard.dart';
-import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/nfc/nfc_pair_dialog.dart';
@@ -20,13 +17,15 @@ import 'package:lauschi/features/tiles/screens/tile_detail/widgets/child_tile_gr
 import 'package:lauschi/features/tiles/screens/tile_detail/widgets/episode_grid.dart';
 import 'package:lauschi/features/tiles/screens/tile_detail/widgets/tile_group_header.dart';
 import 'package:lauschi/features/tiles/tile_actions.dart';
+import 'package:lauschi/features/tiles/widgets/unavailable_dialog.dart';
 
 const _tag = 'TileDetailScreen';
 
 /// Group/series drill-down — shows all episodes in order.
 ///
-/// Heard episodes are visually muted. First unheard episode is highlighted
-/// as the "next" — a gentle nudge without being prescriptive.
+/// Heard episodes are visually muted. The tile's Weiter card, where the
+/// kid continues, is highlighted: a gentle nudge without being
+/// prescriptive.
 class TileDetailScreen extends ConsumerWidget {
   const TileDetailScreen({required this.tileId, super.key});
 
@@ -37,7 +36,7 @@ class TileDetailScreen extends ConsumerWidget {
     final groupAsync = ref.watch(tileByIdProvider(tileId));
     final childTilesAsync = ref.watch(childTilesProvider(tileId));
     final episodesAsync = ref.watch(tileItemsProvider(tileId));
-    final nextUnheard = ref.watch(tileNextUnheardProvider(tileId));
+    final weiter = ref.watch(tileWeiterProvider(tileId));
     // Grid view of the play state: no position ticks, no per-second
     // rebuilds of the episode grid.
     final playerState = ref.watch(playerGridStateProvider);
@@ -167,15 +166,12 @@ class TileDetailScreen extends ConsumerWidget {
                       if (episodes.isEmpty) {
                         return const _EmptyGroupState();
                       }
-                      final nextId = nextUnheard?.id;
                       return EpisodeGrid(
                         episodes: episodes,
-                        nextUnheardId: nextId,
-                        activeUri: playerState.activeContextUri,
-                        isPlaying: playerState.isPlaying,
-                        isActive: playerState.track != null,
+                        weiterId: weiter?.id,
+                        player: playerState,
                         showEpisodeTitles: showTitles,
-                        onExpiredTap: () => _showExpiredModal(context),
+                        onUnavailableTap: () => showUnavailableDialog(context),
                         onCardTap:
                             (card) => playCardAndOpenPlayer(
                               context,
@@ -246,78 +242,6 @@ class TileDetailScreen extends ConsumerWidget {
 
 // ── Inline widgets ──────────────────────────────────────────────────────
 
-void _showExpiredModal(BuildContext context) {
-  unawaited(
-    showDialog<void>(
-      context: context,
-      builder:
-          (_) => Dialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(
-                AppSpacing.xl,
-                AppSpacing.xl,
-                AppSpacing.xl,
-                AppSpacing.lg,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Image.asset(
-                    'assets/images/branding/lauschi-confused.png',
-                    width: 80,
-                    height: 80,
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
-                  const Text(
-                    'Gerade nicht verfügbar',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'Nunito',
-                      fontSize: 22,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.sm),
-                  const Text(
-                    'Diese Folge ist gerade nicht abrufbar. '
-                    'Manchmal werden Inhalte später wieder '
-                    'freigeschaltet.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'Nunito',
-                      fontSize: 15,
-                      color: AppColors.textSecondary,
-                      height: 1.4,
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.xl),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 48,
-                    child: FilledButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      child: const Text(
-                        'Verstanden',
-                        style: TextStyle(
-                          fontFamily: 'Nunito',
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-    ),
-  );
-}
-
 class _EmptyGroupState extends StatelessWidget {
   const _EmptyGroupState();
 
@@ -344,34 +268,4 @@ class _EmptyGroupState extends StatelessWidget {
       ),
     );
   }
-}
-
-/// The episode to show the "Weiter" badge on.
-///
-/// Each tile is a CD player: at most one episode can be in progress.
-/// `clearPositions` enforces this invariant by wiping stale positions
-/// when a new episode starts or the current one completes.
-///
-/// Priority:
-/// 1. The in-progress episode (has saved position, not heard)
-/// 2. The first unheard episode after the last heard one in list order
-/// 3. The first unheard episode (no heard episodes exist yet)
-final tileNextUnheardProvider = Provider.family<db.TileItem?, String>((
-  ref,
-  tileId,
-) {
-  final episodes = ref.watch(tileItemsProvider(tileId)).value ?? [];
-  return nextUnheardFor(episodes);
-});
-
-/// The "Weiter" target for an ordered episode list.
-///
-/// Exposed separately from the provider so the selection rules can be
-/// tested with an injected clock.
-db.TileItem? nextUnheardFor(List<db.TileItem> episodes, {DateTime? now}) {
-  return pickNextUnheard(
-    episodes,
-    isAvailable: (ep) => !ep.isHeard && !isItemExpired(ep),
-    now: now,
-  );
 }

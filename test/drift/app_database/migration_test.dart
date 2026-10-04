@@ -9,6 +9,7 @@ import 'generated/schema_v10.dart' as v10;
 import 'generated/schema_v11.dart' as v11;
 import 'generated/schema_v12.dart' as v12;
 import 'generated/schema_v13.dart' as v13;
+import 'generated/schema_v14.dart' as v14;
 
 void main() {
   driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
@@ -429,4 +430,93 @@ void main() {
       );
     },
   );
+
+  // v14 stores each tile's Weiter item instead of deriving it on every
+  // read. The upgrade runs the old derivation once, so the badge a kid
+  // saw before the update is the one they see after it.
+  test('migration from v13 to v14 stores the Weiter item it showed', () async {
+    const fixedCreatedAt = 1700000000000;
+    // In progress an hour ago: the old rule resumed such an episode.
+    final recentlyPlayedAt =
+        DateTime.now()
+            .subtract(const Duration(hours: 1))
+            .millisecondsSinceEpoch;
+
+    v13.CardsData card(
+      String id,
+      String tile,
+      int episode, {
+      bool heard = false,
+      int positionMs = 0,
+      int? playedAt,
+    }) => v13.CardsData(
+      id: id,
+      title: id,
+      cardType: 'album',
+      provider: 'spotify',
+      providerUri: 'spotify:album:$id',
+      groupId: tile,
+      episodeNumber: episode,
+      isHeard: heard ? 1 : 0,
+      createdAt: fixedCreatedAt,
+      totalTracks: 2,
+      durationMs: 0,
+      lastTrackNumber: positionMs > 0 ? 1 : 0,
+      lastPositionMs: positionMs,
+      lastPlayedAt: playedAt,
+    );
+
+    v13.GroupsData tile(String id) => v13.GroupsData(
+      id: id,
+      title: id,
+      sortOrder: 0,
+      createdAt: fixedCreatedAt,
+      contentType: 'hoerspiel',
+    );
+
+    final oldCards = [
+      // Heard 125 and 178: the old badge sat after the last heard row.
+      card('ep125', 'ninjago', 125, heard: true),
+      card('ep126', 'ninjago', 126),
+      card('ep178', 'ninjago', 178, heard: true),
+      card('ep179', 'ninjago', 179),
+      // An episode in progress wins over the heard frontier.
+      card('kids1', 'kids', 1, heard: true),
+      card('kids2', 'kids', 2),
+      card('kids3', 'kids', 3, positionMs: 30000, playedAt: recentlyPlayedAt),
+      // Everything heard: the old badge was hidden.
+      card('done1', 'done', 1, heard: true),
+    ];
+
+    await verifier.testWithDataIntegrity(
+      oldVersion: 13,
+      newVersion: 14,
+      createOld: v13.DatabaseAtV13.new,
+      createNew: v14.DatabaseAtV14.new,
+      openTestedDatabase: AppDatabase.new,
+      createItems: (batch, oldDb) {
+        batch
+          ..insertAll(oldDb.groups, [
+            tile('ninjago'),
+            tile('kids'),
+            tile('done'),
+          ])
+          ..insertAll(oldDb.cards, oldCards);
+      },
+      validateItems: (newDb) async {
+        final weiter = {
+          for (final g in await newDb.select(newDb.groups).get())
+            g.id: g.weiterItemId,
+        };
+        expect(weiter, {'ninjago': 'ep179', 'kids': 'kids3', 'done': null});
+
+        final cards = await newDb.select(newDb.cards).get();
+        expect(cards, hasLength(oldCards.length), reason: 'no row lost');
+        expect(cards.map((c) => c.lastElapsedMs).toSet(), {0});
+        final inProgress = cards.firstWhere((c) => c.id == 'kids3');
+        expect(inProgress.lastPositionMs, 30000, reason: 'rows unchanged');
+        expect(inProgress.lastPlayedAt, recentlyPlayedAt);
+      },
+    );
+  });
 }

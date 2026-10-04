@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lauschi/features/tiles/card_indicator.dart';
 import 'package:lauschi/features/tiles/widgets/audio_tile.dart';
 import 'package:lauschi/features/tiles/widgets/tile_card.dart';
 
@@ -9,7 +10,7 @@ import 'package:lauschi/features/tiles/widgets/tile_card.dart';
 /// the kid taps twice and nothing plays.
 void main() {
   testWidgets(
-    'TileItem fires onTap when the reverse animation is interrupted',
+    'AudioTile fires onTap when the reverse animation is interrupted',
     (tester) async {
       var taps = 0;
       await tester.pumpWidget(
@@ -19,8 +20,13 @@ void main() {
               child: SizedBox(
                 width: 200,
                 height: 200,
-                child: TileItem(
+                child: AudioTile(
                   title: 'Folge 7',
+                  indicator: (
+                    status: CardStatus.fresh,
+                    isWeiter: false,
+                    progress: 0,
+                  ),
                   kidMode: true,
                   onTap: () => taps++,
                 ),
@@ -30,7 +36,7 @@ void main() {
         ),
       );
 
-      final center = tester.getCenter(find.byType(TileItem));
+      final center = tester.getCenter(find.byType(AudioTile));
 
       // Full press: recognizer deadline and forward animation complete,
       // so the reverse after up runs its full 150ms window.

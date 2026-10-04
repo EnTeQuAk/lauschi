@@ -93,6 +93,10 @@ class StreamPlayer extends PlayerBackend {
   int _positionMs = 0;
   bool _isPlaying = false;
 
+  /// just_audio reported `ProcessingState.completed`: the episode ran
+  /// to its end.
+  bool _reachedEnd = false;
+
   /// Monotonic throttle for position emissions (~1/sec). Uses Stopwatch
   /// instead of DateTime.now() to avoid clock-jump bugs from NTP sync
   /// or manual time changes.
@@ -134,6 +138,13 @@ class StreamPlayer extends PlayerBackend {
   /// Single-file audio: always track 1.
   @override
   int get currentTrackNumber => 1;
+
+  /// Single-file audio: the position is the time into the episode.
+  @override
+  int get elapsedMs => _positionMs;
+
+  @override
+  int get contentDurationMs => _durationMs;
 
   /// Single-file audio: no next tracks.
   @override
@@ -350,6 +361,7 @@ class StreamPlayer extends PlayerBackend {
             playerState.processingState == ja.ProcessingState.completed;
         if (completed) Log.info(_tag, 'Playback completed');
 
+        _reachedEnd = completed;
         _isPlaying = playerState.playing && !completed;
         // Playback is flowing again, so this incident is over: restore
         // the retry budget. It is per incident, not per session —
@@ -403,6 +415,7 @@ class StreamPlayer extends PlayerBackend {
         track: _currentTrack,
         positionMs: _positionMs,
         durationMs: _durationMs,
+        isFinished: _reachedEnd,
         error: error,
       ),
     );

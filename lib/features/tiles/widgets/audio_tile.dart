@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/core/utils/title_cleaner.dart';
+import 'package:lauschi/features/tiles/card_indicator.dart';
 import 'package:lauschi/features/tiles/widgets/cover_art.dart';
 
 /// A single card in the kid-mode grid.
 ///
-/// Shows album art with a title below. Animated press feedback.
-/// Active card gets a green border + play badge.
-class TileItem extends StatefulWidget {
-  const TileItem({
+/// Shows album art with a title below, and renders the card's
+/// [CardIndicator] as given. Animated press feedback.
+class AudioTile extends StatefulWidget {
+  const AudioTile({
     required this.title,
+    required this.indicator,
     required this.onTap,
     super.key,
     this.coverUrl,
-    this.isPlaying = false,
-    this.isPaused = false,
-    this.isHeard = false,
-    this.isExpired = false,
-    this.progress = 0,
     this.kidMode = false,
     this.episodeNumber,
     this.showEpisodeTitles = false,
@@ -25,19 +22,11 @@ class TileItem extends StatefulWidget {
 
   final String title;
   final String? coverUrl;
-  final bool isPlaying;
-  final bool isPaused;
 
-  /// Whether this episode has been heard. Dims the cover and shows ✓ badge.
-  final bool isHeard;
+  /// What the card shows, see [cardIndicator].
+  final CardIndicator indicator;
 
-  /// Whether this content has expired (ARD availability window ended).
-  /// Greyed out with hourglass badge, tap disabled.
-  final bool isExpired;
-
-  /// Album playback progress 0.0–1.0 (track N of M). Shown as a red bar
-  /// at the bottom of the card. Not shown when 0 or when fully heard.
-  final double progress;
+  /// Plays the card. For an unavailable card, explains why it can't.
   final VoidCallback onTap;
 
   /// Kid-facing mode: image-only with episode label overlay, no title text.
@@ -50,13 +39,16 @@ class TileItem extends StatefulWidget {
   final bool showEpisodeTitles;
 
   @override
-  State<TileItem> createState() => _AudioCardState();
+  State<AudioTile> createState() => _AudioTileState();
 }
 
-class _AudioCardState extends State<TileItem>
+class _AudioTileState extends State<AudioTile>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _scaleAnimation;
+
+  CardStatus get _status => widget.indicator.status;
+  bool get _isUnavailable => _status == CardStatus.unavailable;
 
   @override
   void initState() {
@@ -96,25 +88,23 @@ class _AudioCardState extends State<TileItem>
 
   @override
   Widget build(BuildContext context) {
-    final semanticLabel =
-        widget.isExpired
-            ? '${widget.title}, nicht mehr verfügbar'
-            : widget.isPlaying
-            ? '${widget.title}, spielt gerade'
-            : widget.isPaused
-            ? '${widget.title}, pausiert'
-            : widget.isHeard
-            ? '${widget.title}, gehört'
-            : widget.title;
+    final semanticLabel = switch (_status) {
+      CardStatus.unavailable => '${widget.title}, nicht mehr verfügbar',
+      CardStatus.starting => '${widget.title}, startet',
+      CardStatus.playing => '${widget.title}, spielt gerade',
+      CardStatus.paused => '${widget.title}, pausiert',
+      CardStatus.heard => '${widget.title}, gehört',
+      CardStatus.fresh => widget.title,
+    };
 
     return Semantics(
       label: semanticLabel,
-      button: !widget.isExpired,
+      button: !_isUnavailable,
       child: GestureDetector(
-        onTapDown: widget.isExpired ? null : _handleTapDown,
-        onTapUp: widget.isExpired ? null : _handleTapUp,
-        onTapCancel: widget.isExpired ? null : _handleTapCancel,
-        onTap: widget.isExpired ? widget.onTap : null,
+        onTapDown: _isUnavailable ? null : _handleTapDown,
+        onTapUp: _isUnavailable ? null : _handleTapUp,
+        onTapCancel: _isUnavailable ? null : _handleTapCancel,
+        onTap: _isUnavailable ? widget.onTap : null,
         child: AnimatedBuilder(
           animation: _scaleAnimation,
           builder:
@@ -127,52 +117,50 @@ class _AudioCardState extends State<TileItem>
   }
 
   Widget _artWithOverlays() {
+    final progress = widget.indicator.progress;
+    final borderColor = switch (_status) {
+      CardStatus.playing => AppColors.primary,
+      CardStatus.starting || CardStatus.paused => AppColors.primarySoft,
+      _ => null,
+    };
     return Container(
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(AppRadius.card),
         border:
-            (widget.isPlaying || widget.isPaused)
-                ? Border.all(
-                  color:
-                      widget.isPlaying
-                          ? AppColors.primary
-                          : AppColors.primarySoft,
-                  width: 3,
-                )
+            borderColor != null
+                ? Border.all(color: borderColor, width: 3)
                 : null,
       ),
       clipBehavior: Clip.antiAlias,
       child: Stack(
         fit: StackFit.expand,
         children: [
-          if (widget.isExpired)
+          if (_isUnavailable)
             UnavailableWash(child: CoverImage(url: widget.coverUrl))
           else
             CoverImage(url: widget.coverUrl),
-          if (widget.isHeard &&
-              !widget.isExpired &&
-              !widget.isPlaying &&
-              !widget.isPaused)
-            const _HeardOverlay(),
-          if (widget.isPlaying) const _PlayBadge(),
-          if (widget.isPaused) const _PauseBadge(),
-          if (widget.isExpired)
-            const _ExpiredBadge()
-          else if (widget.isHeard && !widget.isPlaying && !widget.isPaused)
-            const _HeardBadge(),
-          if (widget.progress > 0 && !widget.isHeard && !widget.isExpired)
+          if (_status == CardStatus.heard) const _HeardOverlay(),
+          switch (_status) {
+            CardStatus.unavailable => const _UnavailableBadge(),
+            CardStatus.starting => const _StartingBadge(),
+            CardStatus.playing => const _PlayBadge(),
+            CardStatus.paused => const _PauseBadge(),
+            CardStatus.heard => const _HeardBadge(),
+            CardStatus.fresh => const SizedBox.shrink(),
+          },
+          if (progress > 0)
             Positioned(
               left: 0,
               right: 0,
               bottom: 0,
-              child: _ProgressBar(progress: widget.progress),
+              child: _ProgressBar(progress: progress),
             ),
           // Episode label in kid mode — number + cleaned title.
           if (widget.kidMode)
             Positioned(
               left: 0,
               right: 0,
-              bottom: widget.progress > 0 ? 4 : 0,
+              bottom: progress > 0 ? 4 : 0,
               child: _EpisodeLabel(
                 number: widget.episodeNumber,
                 title: widget.title,
@@ -233,6 +221,32 @@ class _PlayBadge extends StatelessWidget {
           Icons.play_arrow_rounded,
           color: AppColors.textOnPrimary,
           size: 16,
+        ),
+      ),
+    );
+  }
+}
+
+/// Spinner badge while the card waits for audio.
+class _StartingBadge extends StatelessWidget {
+  const _StartingBadge();
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      right: 6,
+      bottom: 6,
+      child: Container(
+        width: 24,
+        height: 24,
+        padding: const EdgeInsets.all(5),
+        decoration: const BoxDecoration(
+          color: AppColors.primarySoft,
+          shape: BoxShape.circle,
+        ),
+        child: const CircularProgressIndicator(
+          strokeWidth: 2,
+          color: AppColors.textOnPrimary,
         ),
       ),
     );
@@ -302,12 +316,9 @@ class _HeardBadge extends StatelessWidget {
   }
 }
 
-/// White wash overlay for unavailable content.
-/// Combined with the grayscale filter on the image, this makes the
-/// tile look clearly faded/disabled.
-/// Hourglass badge for expired content.
-class _ExpiredBadge extends StatelessWidget {
-  const _ExpiredBadge();
+/// Hourglass badge for unavailable content.
+class _UnavailableBadge extends StatelessWidget {
+  const _UnavailableBadge();
 
   @override
   Widget build(BuildContext context) {

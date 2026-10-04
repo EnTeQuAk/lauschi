@@ -19,6 +19,7 @@ TileItem _item({
   String? customTitle,
   String? coverUrl,
 }) => TileItem(
+  lastElapsedMs: 0,
   id: id,
   title: title,
   customTitle: customTitle,

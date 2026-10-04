@@ -11,7 +11,6 @@ import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/core/ui/undo_snackbar.dart';
 
 /// Whether the item is confirmed unavailable (runtime flag, not endDate).
-bool _isUnavailable(db.TileItem card) => card.markedUnavailable != null;
 
 const _tag = 'EpisodeTile';
 
@@ -30,7 +29,7 @@ class EpisodeTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final unavailable = _isUnavailable(card);
+    final unavailable = isItemUnavailable(card);
 
     return ListTile(
       tileColor: AppColors.parentSurface,

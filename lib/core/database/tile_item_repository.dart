@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/catalog/catalog_service.dart';
 import 'package:lauschi/core/database/app_database.dart';
+import 'package:lauschi/core/database/listening_repository.dart';
 import 'package:lauschi/core/database/tables.dart' show cardOrder;
 import 'package:lauschi/core/database/tile_repository.dart' show TileSnapshot;
 import 'package:lauschi/core/log.dart';
@@ -153,60 +154,6 @@ class TileItemRepository {
     Log.debug(_tag, 'Items reordered', data: {'count': '${idsInOrder.length}'});
   }
 
-  /// Reset saved playback position for a single item, so next playback
-  /// starts from the beginning instead of resuming.
-  ///
-  /// Clears lastPlayedAt too, matching clearPositions: a finished
-  /// standalone episode (handleAlbumCompleted resets it) that kept its
-  /// timestamp would still win lastPlayed() and resume-on-launch at 0.
-  /// Also used by integration tests needing a clean position each run.
-  Future<void> resetPlaybackPosition(String itemId) async {
-    await (_db.update(_db.cards)..where((t) => t.id.equals(itemId))).write(
-      const CardsCompanion(
-        lastTrackUri: Value(null),
-        lastTrackNumber: Value(0),
-        lastPositionMs: Value(0),
-        lastPlayedAt: Value(null),
-      ),
-    );
-    Log.debug(_tag, 'Position reset', data: {'itemId': itemId});
-  }
-
-  /// Save playback position for an item.
-  Future<void> savePosition({
-    required String itemId,
-    required String trackUri,
-    required int positionMs,
-    int trackNumber = 0,
-  }) async {
-    await (_db.update(_db.cards)..where((t) => t.id.equals(itemId))).write(
-      CardsCompanion(
-        lastTrackUri: Value(trackUri),
-        lastTrackNumber: Value(trackNumber),
-        lastPositionMs: Value(positionMs),
-        lastPlayedAt: Value(DateTime.now()),
-      ),
-    );
-    Log.debug(
-      _tag,
-      'Position saved',
-      data: {
-        'itemId': itemId,
-        'trackNumber': '$trackNumber',
-        'positionMs': '$positionMs',
-      },
-    );
-  }
-
-  /// Get the most recently played item (for resume on app launch).
-  Future<TileItem?> lastPlayed() {
-    return (_db.select(_db.cards)
-          ..where((t) => t.lastPlayedAt.isNotNull())
-          ..orderBy([(t) => OrderingTerm.desc(t.lastPlayedAt)])
-          ..limit(1))
-        .getSingleOrNull();
-  }
-
   /// Find an item by its provider URI.
   ///
   /// The providerUri index is not unique; installs that raced the add
@@ -220,11 +167,14 @@ class TileItemRepository {
   }
 
   /// Delete an item by ID.
-  Future<TileSnapshot> delete(String id) async {
-    final item = await getById(id);
-    await (_db.delete(_db.cards)..where((t) => t.id.equals(id))).go();
-    Log.info(_tag, 'Item deleted', data: {'id': id});
-    return TileSnapshot(items: [if (item != null) item]);
+  Future<TileSnapshot> delete(String id) {
+    return _db.transaction(() async {
+      final item = await getById(id);
+      await ListeningRepository(_db).handOverWeiter(id);
+      await (_db.delete(_db.cards)..where((t) => t.id.equals(id))).go();
+      Log.info(_tag, 'Item deleted', data: {'id': id});
+      return TileSnapshot(items: [if (item != null) item]);
+    });
   }
 
   /// Mark an item as unavailable (content removed or license expired).
@@ -284,13 +234,21 @@ class TileItemRepository {
     required String tileId,
     int? episodeNumber,
   }) async {
-    await (_db.update(_db.cards)..where((t) => t.id.equals(itemId))).write(
-      CardsCompanion(
-        groupId: Value(tileId),
-        episodeNumber:
-            episodeNumber != null ? Value(episodeNumber) : const Value.absent(),
-      ),
-    );
+    await _db.transaction(() async {
+      final item = await getById(itemId);
+      if (item?.groupId != tileId) {
+        await ListeningRepository(_db).handOverWeiter(itemId);
+      }
+      await (_db.update(_db.cards)..where((t) => t.id.equals(itemId))).write(
+        CardsCompanion(
+          groupId: Value(tileId),
+          episodeNumber:
+              episodeNumber != null
+                  ? Value(episodeNumber)
+                  : const Value.absent(),
+        ),
+      );
+    });
     Log.info(
       _tag,
       'Item assigned to tile',
@@ -303,60 +261,20 @@ class TileItemRepository {
   }
 
   /// Remove an item from its tile.
-  Future<TileSnapshot> removeFromTile(String itemId) async {
-    final item = await getById(itemId);
-    await (_db.update(_db.cards)..where((t) => t.id.equals(itemId))).write(
-      const CardsCompanion(
-        groupId: Value(null),
-        episodeNumber: Value(null),
-        sortOrder: Value(null),
-      ),
-    );
-    Log.info(_tag, 'Item removed from tile', data: {'itemId': itemId});
-    return TileSnapshot(items: [if (item != null) item]);
-  }
-
-  /// Mark an item as heard.
-  Future<void> markHeard(String itemId) async {
-    await (_db.update(_db.cards)..where(
-      (t) => t.id.equals(itemId),
-    )).write(const CardsCompanion(isHeard: Value(true)));
-    Log.info(_tag, 'Item marked heard', data: {'itemId': itemId});
-  }
-
-  /// Clear saved playback positions for all items in a tile.
-  ///
-  /// Each tile behaves like a CD player: only one episode can be "in
-  /// progress" at a time. This is called in two situations:
-  ///
-  /// 1. **Episode completes** (no excludeItemId): clears everything,
-  ///    including the completed episode. Its position is meaningless
-  ///    since it's now marked heard.
-  ///
-  /// 2. **New episode starts in the same tile** (excludeItemId set):
-  ///    clears all positions except the new episode, so the "Weiter"
-  ///    badge points at it unambiguously.
-  ///
-  /// Also clears `lastPlayedAt` so stale timestamps don't confuse
-  /// the "in progress" detection in `tileNextUnheardProvider`.
-  Future<void> clearPositions(String tileId, {String? excludeItemId}) async {
-    var query = _db.update(_db.cards)..where((t) => t.groupId.equals(tileId));
-    if (excludeItemId != null) {
-      query = query..where((t) => t.id.equals(excludeItemId).not());
-    }
-    await query.write(
-      const CardsCompanion(
-        lastTrackUri: Value(null),
-        lastTrackNumber: Value(0),
-        lastPositionMs: Value(0),
-        lastPlayedAt: Value(null),
-      ),
-    );
-    Log.info(
-      _tag,
-      'Positions cleared',
-      data: {'tileId': tileId, 'excludeItemId': excludeItemId ?? 'none'},
-    );
+  Future<TileSnapshot> removeFromTile(String itemId) {
+    return _db.transaction(() async {
+      final item = await getById(itemId);
+      await ListeningRepository(_db).handOverWeiter(itemId);
+      await (_db.update(_db.cards)..where((t) => t.id.equals(itemId))).write(
+        const CardsCompanion(
+          groupId: Value(null),
+          episodeNumber: Value(null),
+          sortOrder: Value(null),
+        ),
+      );
+      Log.info(_tag, 'Item removed from tile', data: {'itemId': itemId});
+      return TileSnapshot(items: [if (item != null) item]);
+    });
   }
 
   /// Adopt the catalog's episode numbers for items whose stored number
@@ -418,14 +336,6 @@ class TileItemRepository {
       );
     }
     return changed;
-  }
-
-  /// Mark an item as unheard.
-  Future<void> markUnheard(String itemId) async {
-    await (_db.update(_db.cards)..where(
-      (t) => t.id.equals(itemId),
-    )).write(const CardsCompanion(isHeard: Value(false)));
-    Log.info(_tag, 'Item marked unheard', data: {'itemId': itemId});
   }
 
   /// Set ARD fields after an item's initial insert (audio URL, duration,
@@ -544,13 +454,11 @@ final tileItemByIdProvider = StreamProvider.family<TileItem?, String>((
 /// ARD's `endDate` (stored as `availableUntil`) is an editorial broadcast
 /// window, not content removal. Audio URLs remain on CDN well past endDate.
 /// Use `markedUnavailable` for confirmed removal (set on playback failure).
-bool isItemExpired(TileItem item) {
-  return item.markedUnavailable != null;
-}
+bool isItemUnavailable(TileItem item) => item.markedUnavailable != null;
 
 /// Computes per-tile progress from a list of items.
 ///
-/// Pure function for testability. Excludes expired items and handles
+/// Pure function for testability. Excludes unavailable items and handles
 /// playlist track counting. Called by [tileProgressProvider].
 Map<String, ({int total, int heard})> computeTileProgress(
   List<TileItem> items,
@@ -559,11 +467,11 @@ Map<String, ({int total, int heard})> computeTileProgress(
   for (final item in items) {
     final tid = item.groupId;
     if (tid == null) continue;
-    // Expired items still register their tile with a zero contribution:
+    // Unavailable items still register their tile with a zero contribution:
     // a tile whose items are all unavailable keeps a (total: 0) entry,
     // which is how the kid grid tells "broken" from "empty".
     result[tid] ??= (total: 0, heard: 0);
-    if (isItemExpired(item)) continue;
+    if (isItemUnavailable(item)) continue;
     final prev = result[tid]!;
     // For playlists, use the playlist's track count as the display total
     // instead of counting the playlist itself as 1 item. A tile with one
@@ -590,14 +498,17 @@ Map<String, ({int total, int heard})> computeTileProgress(
 bool isTileFullyUnavailable(({int total, int heard})? stats) =>
     stats != null && stats.total == 0;
 
-/// Playback progress 0.0–1.0 for a single card, from the stored track
-/// position, or from the time position for single-file content (ARD
-/// episodes have no track list). Returns 0 for heard or never-started
-/// cards.
+/// How far into [card] its resume point is, 0.0–1.0. Zero without one.
+///
+/// Uses the time into the whole item when the player recorded it.
+/// Resume points saved before that only know the track number, and
+/// count the tracks before the current one as heard.
 double albumProgress(TileItem card) {
-  if (card.isHeard) return 0;
-  if (card.totalTracks > 0 && card.lastTrackNumber > 0) {
-    return (card.lastTrackNumber / card.totalTracks).clamp(0.0, 1.0);
+  if (card.durationMs > 0 && card.lastElapsedMs > 0) {
+    return (card.lastElapsedMs / card.durationMs).clamp(0.0, 1.0);
+  }
+  if (card.totalTracks > 1 && card.lastTrackNumber > 1) {
+    return ((card.lastTrackNumber - 1) / card.totalTracks).clamp(0.0, 1.0);
   }
   if (card.durationMs > 0 && card.lastPositionMs > 0) {
     return (card.lastPositionMs / card.durationMs).clamp(0.0, 1.0);
@@ -607,7 +518,7 @@ double albumProgress(TileItem card) {
 
 /// Per-tile item counts and heard progress, derived from allTileItemsProvider.
 /// Avoids N+1 queries when rendering the kid home grid.
-/// Excludes expired items so kids see accurate episode counts.
+/// Excludes unavailable items so kids see accurate episode counts.
 final tileProgressProvider = Provider<Map<String, ({int total, int heard})>>((
   ref,
 ) {

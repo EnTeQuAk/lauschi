@@ -1,8 +1,9 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+// The rule the schema 14 upgrade uses once to store each tile's Weiter
+// item: the derivation the app ran on every read before that. Frozen, so
+// these tests pin what existing installs get after the upgrade.
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
-import 'package:lauschi/core/database/tile_repository.dart';
-import 'package:lauschi/features/tiles/screens/tile_detail/screen.dart';
+import 'package:lauschi/core/database/weiter_backfill.dart';
 
 db.TileItem _episode({
   required String id,
@@ -15,6 +16,7 @@ db.TileItem _episode({
   DateTime? createdAt,
 }) {
   return db.TileItem(
+    lastElapsedMs: 0,
     id: id,
     title: 'Episode $id',
     cardType: 'album',
@@ -34,18 +36,8 @@ db.TileItem _episode({
 }
 
 void main() {
-  db.TileItem? readNextUnheard(List<db.TileItem> episodes, {DateTime? now}) {
-    // Time-dependent cases go through the same function the provider calls,
-    // with an injected clock; the rest exercise the provider wiring.
-    if (now != null) return nextUnheardFor(episodes, now: now);
-    final container = ProviderContainer(
-      overrides: [
-        tileItemsProvider('tile-1').overrideWithValue(AsyncData(episodes)),
-      ],
-    );
-    addTearDown(container.dispose);
-    return container.read(tileNextUnheardProvider('tile-1'));
-  }
+  db.TileItem? readNextUnheard(List<db.TileItem> episodes, {DateTime? now}) =>
+      legacyWeiterFor(episodes, now: now ?? DateTime.now());
 
   test('returns in-progress episode over first unheard', () {
     // ep-3 carries a fresh position; the sequential fallback would pick

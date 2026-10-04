@@ -81,19 +81,14 @@ void main() {
       // Simulate what happens in PlayerNotifier: playCard sets app-level
       // fields, then bridge events update playback fields. The app-level
       // fields must survive the merge.
-      const before = PlaybackState(
-        activeCardId: 'card-123',
-        activeContextUri: 'spotify:album:abc',
-        activeGroupId: 'group-456',
-      );
+      const before = PlaybackState(activeCardId: 'card-123', isFinished: true);
 
       // Context: before the merge, the state has the sticky fields set
       // and the playback fields at their defaults. Without these asserts,
       // a broken constructor / copyWith identity would still look right
       // because we'd be echoing back the values we set above.
       expect(before.activeCardId, 'card-123');
-      expect(before.activeContextUri, 'spotify:album:abc');
-      expect(before.activeGroupId, 'group-456');
+      expect(before.isFinished, isTrue);
       expect(before.isPlaying, isFalse, reason: 'setup: default is paused');
       expect(before.track, isNull, reason: 'setup: no track yet');
 
@@ -128,14 +123,12 @@ void main() {
 
       // App-level fields preserved.
       expect(after.activeCardId, 'card-123');
-      expect(after.activeContextUri, 'spotify:album:abc');
-      expect(after.activeGroupId, 'group-456');
+      expect(after.isFinished, isTrue);
     });
 
     test('pause preserves activeCardId for position saving', () {
       const before = PlaybackState(
         activeCardId: 'card-123',
-        activeGroupId: 'group-456',
         isPlaying: true,
         isReady: true,
         positionMs: 60000,
@@ -155,7 +148,6 @@ void main() {
       expect(before.isPlaying, isTrue, reason: 'setup: initially playing');
       expect(before.track?.name, 'Test', reason: 'setup: track present');
       expect(before.activeCardId, 'card-123');
-      expect(before.activeGroupId, 'group-456');
 
       // Bridge reports paused state.
       final after = before.copyWith(
@@ -167,17 +159,12 @@ void main() {
 
       expect(after.isPlaying, isFalse);
       expect(after.activeCardId, 'card-123');
-      expect(after.activeGroupId, 'group-456');
       // Track preserved (copyWith keeps old value when not passed).
       expect(after.track?.name, 'Test');
     });
 
     test('multiple rapid updates do not clear sticky fields', () {
-      var state = const PlaybackState(
-        activeCardId: 'card-1',
-        activeGroupId: 'group-1',
-        activeContextUri: 'spotify:album:abc',
-      );
+      var state = const PlaybackState(activeCardId: 'card-1', isFinished: true);
 
       // Simulate 3 rapid position updates.
       for (var pos = 1000; pos <= 3000; pos += 1000) {
@@ -190,8 +177,7 @@ void main() {
       }
 
       expect(state.activeCardId, 'card-1');
-      expect(state.activeGroupId, 'group-1');
-      expect(state.activeContextUri, 'spotify:album:abc');
+      expect(state.isFinished, isTrue);
       expect(state.positionMs, 3000);
     });
 
@@ -209,16 +195,10 @@ void main() {
       expect(cleared.activeCardId, isNull);
     });
 
-    test('clearActiveContextUri nulls activeContextUri', () {
-      const state = PlaybackState(activeContextUri: 'uri');
-      final cleared = state.copyWith(clearActiveContextUri: true);
-      expect(cleared.activeContextUri, isNull);
-    });
-
-    test('clearActiveGroupId nulls activeGroupId', () {
-      const state = PlaybackState(activeGroupId: 'g');
-      final cleared = state.copyWith(clearActiveGroupId: true);
-      expect(cleared.activeGroupId, isNull);
+    test('isFinished turns off only when passed explicitly', () {
+      const state = PlaybackState(isFinished: true);
+      expect(state.copyWith(isPlaying: true).isFinished, isTrue);
+      expect(state.copyWith(isFinished: false).isFinished, isFalse);
     });
   });
 

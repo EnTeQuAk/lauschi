@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:lauschi/core/apple_music/apple_music_session.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
+import 'package:lauschi/core/database/listening_repository.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
@@ -14,6 +15,7 @@ import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/features/player/apple_music_backend.dart';
 import 'package:lauschi/features/player/apple_music_drm_backend.dart';
 import 'package:lauschi/features/player/apple_music_native_backend.dart';
+import 'package:lauschi/features/player/listening_rules.dart';
 import 'package:lauschi/features/player/media_session_handler.dart';
 import 'package:lauschi/features/player/player_backend.dart';
 import 'package:lauschi/features/player/player_error.dart';
@@ -27,10 +29,6 @@ import 'package:wakelock_plus/wakelock_plus.dart';
 part 'player_provider.g.dart';
 
 const _tag = 'PlayerProvider';
-
-/// Threshold for "near end of track" detection, shared across all completion
-/// paths (transition detection, pause fallback, periodic timer).
-const _completionThresholdMs = 5000;
 
 /// Holds the [MediaSessionHandler] initialized in main().
 /// Must be overridden before use.
@@ -81,31 +79,41 @@ Future<void> teardownBackend(
 }
 
 // ---------------------------------------------------------------------------
-// _LastKnownPlaybackState — tracks previous state for transition detection
+// _PlaySession — one play of one card
 // ---------------------------------------------------------------------------
 
-/// Captures playback state from the previous tick to detect completion
-/// via state transitions rather than just position checks.
+/// One play of one card, from the tap until the next card or a stop.
 ///
-/// This solves the race condition with auto-advancing players (Spotify)
-/// where by the time we check isAlbumComplete, we're already on the next
-/// track and hasNextTrack/position reflect the new track, not the one
-/// that just finished.
-class _LastKnownPlaybackState {
-  _LastKnownPlaybackState({
-    required this.positionMs,
-    required this.durationMs,
-    required this.hasNextTrack,
-    required this.trackUri,
-  });
+/// Backend states and listening writes belong to a session. A closed
+/// session is no longer the player's [PlayerNotifier._session], and
+/// everything still arriving on its behalf is dropped.
+class _PlaySession {
+  _PlaySession(this.id, this.card);
 
-  final int positionMs;
-  final int durationMs;
-  final bool hasNextTrack;
-  final String? trackUri;
+  /// The [PlayerNotifier.playCard] generation that opened it.
+  final int id;
+  final db.TileItem card;
 
-  bool isNearEnd({int thresholdMs = _completionThresholdMs}) =>
-      durationMs > 0 && positionMs > durationMs - thresholdMs;
+  /// Played long enough to count as started (see [isStartedEnough]).
+  bool started = false;
+
+  /// The card is finished. Recorded once, never undone in a session.
+  bool finished = false;
+
+  final Stopwatch _playStopwatch = Stopwatch();
+  Duration _playedBefore = Duration.zero;
+
+  /// How long audio has actually played in this session.
+  Duration get playTime => _playedBefore + _playStopwatch.elapsed;
+
+  void resumeClock() => _playStopwatch.start();
+
+  void pauseClock() {
+    _playedBefore += _playStopwatch.elapsed;
+    _playStopwatch
+      ..stop()
+      ..reset();
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -124,20 +132,19 @@ class PlayerNotifier extends _$PlayerNotifier {
   late MediaSessionHandler _mediaSession;
 
   /// Spotify session. Null when Spotify is disabled.
-  SpotifySession? _session;
+  SpotifySession? _spotifySession;
 
   /// Shortcuts into the session for playback code.
-  SpotifyWebViewBridge? get _bridge => _session?.bridge;
-  SpotifyApi? get _api => _session?.api;
+  SpotifyWebViewBridge? get _bridge => _spotifySession?.bridge;
+  SpotifyApi? get _api => _spotifySession?.api;
 
-  /// Permanent subscription to the Spotify bridge state stream.
-  /// Routes playback events only when Spotify is the active backend;
-  /// always accepts device metadata (isReady).
+  /// Permanent subscription to the Spotify bridge state stream, for the
+  /// device readiness only.
   ///
-  /// This is intentionally asymmetric with StreamPlayer's per-play
-  /// subscription (bundled in _ActiveBackend). The bridge is long-lived
-  /// and reports device readiness even when no card is playing;
-  /// StreamPlayer is created per-play and dies with the backend.
+  /// The bridge is long-lived and reports readiness even when no card is
+  /// playing. Playback states take the same per-card route as every
+  /// other backend: a subscription to the card's own backend, bundled in
+  /// _ActiveBackend.
   StreamSubscription<PlaybackState>? _bridgeSub;
   StreamSubscription<BridgeRecovery>? _recoverySub;
 
@@ -161,18 +168,10 @@ class PlayerNotifier extends _$PlayerNotifier {
   static const _deviceRegistrationDelay = Duration(milliseconds: 500);
   static const _positionSaveInterval = Duration(seconds: 10);
 
-  // -- Position tracking state --
-  int _playTimeMs = 0;
-  final Stopwatch _playStopwatch = Stopwatch();
+  /// The card in the player, or null when nothing is.
+  _PlaySession? _session;
 
-  /// Tracks the last known playback state to detect track completion
-  /// via transitions (needed for auto-advancing players like Spotify).
-  /// Captures position, duration, and hasNextTrack from previous state.
-  _LastKnownPlaybackState? _lastPlaybackState;
-
-  /// Guards against repeated completion triggers from the periodic timer.
-  /// Set to true when completion is handled; reset in playCard().
-  bool _completionHandledForSession = false;
+  ListeningRepository get _listening => ref.read(listeningRepositoryProvider);
 
   @override
   PlaybackState build() {
@@ -189,11 +188,13 @@ class PlayerNotifier extends _$PlayerNotifier {
       // Read (not watch) the session notifier. We don't want token
       // refreshes to rebuild this provider and wipe playback state.
       // Auth loss is handled via ref.listen below.
-      _session = ref.read(spotifySessionProvider.notifier);
+      _spotifySession = ref.read(spotifySessionProvider.notifier);
 
       // Subscribe to bridge state stream (once per provider lifetime).
-      _bridgeSub ??= _session!.bridge.stateStream.listen(_onBridgeEvent);
-      _recoverySub ??= _session!.bridge.recoveries.listen(_onBridgeRecovery);
+      _bridgeSub ??= _spotifySession!.bridge.stateStream.listen(_onBridgeEvent);
+      _recoverySub ??= _spotifySession!.bridge.recoveries.listen(
+        _onBridgeRecovery,
+      );
 
       // React to auth loss without triggering a full rebuild.
       // ref.listen fires the callback on state changes; it does NOT
@@ -219,22 +220,25 @@ class PlayerNotifier extends _$PlayerNotifier {
     return const PlaybackState();
   }
 
+  /// The bridge outlives every Spotify card, so this subscription only
+  /// keeps the device readiness current. A Spotify card's playback
+  /// states reach the player through its own [SpotifyPlayer.stateStream].
   void _onBridgeEvent(PlaybackState bridgeState) {
-    final isSpotifyActive = _active?.backend is SpotifyPlayer;
-
-    if (isSpotifyActive) {
-      // Single write: merge isReady + playback fields.
-      final wasPlaying = state.isPlaying;
-      state = mergeSpotifyBridgeState(state, bridgeState);
-      _onPlaybackStateChange(state, wasPlaying: wasPlaying);
-    } else {
-      final updated = applyIdleBridgeReadiness(
-        state,
-        bridgeReady: bridgeState.isReady,
-        hasActiveBackend: _active != null,
-      );
-      if (updated != null) state = updated;
+    if (_active?.backend is SpotifyPlayer) {
+      if (bridgeState.isReady != state.isReady) {
+        state = state.copyWith(
+          isReady: bridgeState.isReady,
+          error: state.error,
+        );
+      }
+      return;
     }
+    final updated = applyIdleBridgeReadiness(
+      state,
+      bridgeReady: bridgeState.isReady,
+      hasActiveBackend: _active != null,
+    );
+    if (updated != null) state = updated;
   }
 
   /// The bridge's player came back after a reload or an SDK drop and lost
@@ -269,20 +273,19 @@ class PlayerNotifier extends _$PlayerNotifier {
     // tearDown/init cycles (that's the whole point of tearDown vs dispose).
     // If we cancel, the ??= guard in build() prevents re-subscription on
     // re-login since PlayerNotifier is keepAlive and build() won't re-run.
-    // _onBridgeEvent already gates playback events on _active being a
-    // SpotifyPlayer, so stale events from tearDown are harmless.
+    // _onBridgeEvent only follows device readiness, and a card's
+    // playback states arrive through its own SpotifyPlayer, so stale
+    // events from tearDown are harmless.
     assert(
       _bridgeSub != null,
       '_bridgeSub must stay alive across Spotify disconnect/reconnect. '
       'Only ref.onDispose should cancel it.',
     );
 
-    _positionSaveTimer?.cancel();
-    _positionSaveTimer = null;
-    _playTimeMs = 0;
-    _playStopwatch
-      ..stop()
-      ..reset();
+    final session = _session;
+    _session = null;
+    _stopPositionSave();
+    if (session != null) unawaited(_closeSession(session, kidLeft: false));
 
     unawaited(_active?.dispose());
     _active = null;
@@ -300,8 +303,13 @@ class PlayerNotifier extends _$PlayerNotifier {
   /// means the audio already stopped (device gone). Replaying the card
   /// in response would restart audio, which is the opposite of what
   /// the user wanted.
+  ///
+  /// A kid who pauses in the closing credits is done with the card, so
+  /// pausing is one of the moments that can finish it.
   Future<void> pause() async {
     Log.info(_tag, 'pause');
+    final session = _session;
+    final progress = _progress();
 
     try {
       await _active?.backend.pause();
@@ -312,6 +320,9 @@ class PlayerNotifier extends _$PlayerNotifier {
         data: {'error': '$e'},
       );
     }
+    if (session != null && progress != null) {
+      await _finishIfEnough(session, progress, moment: 'paused');
+    }
   }
 
   /// Stop playback and tear down the backend. Resets state to idle.
@@ -320,14 +331,10 @@ class PlayerNotifier extends _$PlayerNotifier {
   /// media player). Used when playback should fully end, not just suspend.
   Future<void> stopCard() async {
     Log.info(_tag, 'stopCard');
-    _positionSaveTimer?.cancel();
-    _positionSaveTimer = null;
-    _playTimeMs = 0;
-    _playStopwatch
-      ..stop()
-      ..reset();
-    _lastPlaybackState = null;
-    _completionHandledForSession = false;
+    final session = _session;
+    _session = null;
+    _stopPositionSave();
+    if (session != null) await _closeSession(session, kidLeft: true);
 
     await _active?.dispose();
     _active = null;
@@ -398,25 +405,17 @@ class PlayerNotifier extends _$PlayerNotifier {
       data: {'cardId': cardId, 'previous': state.activeCardId ?? 'none'},
     );
 
-    // Fold the running stopwatch into the old card's play time and
-    // capture it before the reset below zeroes it. The save-on-switch
-    // guard needs the OLD card's play time; reading _playTimeMs there
-    // (post-reset) is always 0, so that save never ran and up to ~10s
-    // of the old episode's progress was lost since the last periodic
-    // tick.
-    _updatePlayTime();
-    final oldPlayTimeMs = _playTimeMs;
-
-    // Cancel pending timers and reset tracking.
-
-    _positionSaveTimer?.cancel();
-    _positionSaveTimer = null;
-    _playTimeMs = 0;
-    _playStopwatch
-      ..stop()
-      ..reset();
-    _lastPlaybackState = null;
-    _completionHandledForSession = false;
+    // The previous card's session ends first, while its backend can
+    // still say where playback stands, and before anything can report
+    // on its behalf. A recovery replay is not the kid leaving the card,
+    // so it never finishes one.
+    final previous = _session;
+    _session = null;
+    _stopPositionSave();
+    if (previous != null) {
+      await _closeSession(previous, kidLeft: !forceReplay);
+    }
+    if (_playGen != gen) return;
 
     final card = await ref.read(tileItemRepositoryProvider).getById(cardId);
     if (card == null) {
@@ -437,18 +436,14 @@ class PlayerNotifier extends _$PlayerNotifier {
       return;
     }
 
-    // Capture old card values before overwriting state.
-    final oldCardId = state.activeCardId;
-    final oldTrack = state.track;
-    final oldPos = _active?.backend.currentPositionMs ?? state.positionMs;
+    _session = _PlaySession(gen, card);
 
     // Set active card state with placeholder track info from DB so the
     // player screen shows cover art and title immediately. isLoading
     // signals the UI to show a loading overlay on top.
     state = state.copyWith(
       activeCardId: cardId,
-      activeContextUri: card.providerUri,
-      activeGroupId: card.groupId,
+      isFinished: false,
       isLoading: true,
       track: TrackInfo(
         uri: card.providerUri,
@@ -456,33 +451,6 @@ class PlayerNotifier extends _$PlayerNotifier {
         artworkUrl: card.coverUrl,
       ),
     );
-
-    // Save position from the old backend before tearing it down.
-    if (shouldSavePosition(playTimeMs: oldPlayTimeMs) &&
-        oldCardId != null &&
-        oldTrack != null) {
-      Log.info(
-        _tag,
-        'Saving position on card switch',
-        data: {
-          'oldCardId': oldCardId,
-          'positionMs': oldPos,
-          'playTimeMs': oldPlayTimeMs,
-        },
-      );
-      unawaited(_savePosition(oldCardId, oldTrack, oldPos));
-    }
-
-    // CD-player model: each tile has at most one active episode.
-    // Clear stale positions from other episodes in this tile so the
-    // "Weiter" badge always points at the episode we're about to play.
-    if (card.groupId != null) {
-      unawaited(
-        ref
-            .read(tileItemRepositoryProvider)
-            .clearPositions(card.groupId!, excludeItemId: cardId),
-      );
-    }
 
     // Pause Spotify bridge if it's playing (avoid dual audio).
     final bridge = _bridge;
@@ -575,7 +543,7 @@ class PlayerNotifier extends _$PlayerNotifier {
   // ─── Spotify startup ────────────────────────────────────────────────
 
   Future<void> _startSpotify(db.TileItem card, int gen) async {
-    final session = _session;
+    final session = _spotifySession;
     final bridge = _bridge;
     final api = _api;
     if (session == null || bridge == null || api == null) {
@@ -600,9 +568,14 @@ class PlayerNotifier extends _$PlayerNotifier {
     final deviceId = await _ensureDevice(bridge, gen);
     if (deviceId == null || _playGen != gen) return;
 
-    // SpotifyPlayer routes state through _onBridgeEvent, so no
-    // per-backend subscription needed.
-    _active = _ActiveBackend(SpotifyPlayer(bridge, api));
+    final player = SpotifyPlayer(bridge, api, contextUri: card.providerUri);
+    _active = _ActiveBackend(
+      player,
+      player.stateStream.listen((s) => _onBackendState(gen, s)),
+    );
+    // Runs alongside the play command: until it lands, the player knows
+    // only the SDK's track window.
+    unawaited(player.loadTracks(card.providerUri));
 
     await _playOnDevice(api, bridge, card, deviceId, gen);
   }
@@ -730,24 +703,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     final player = StreamPlayer();
     _active = _ActiveBackend(
       player,
-      player.stateStream.listen((directState) {
-        if (_playGen != gen) return;
-        final wasPlaying = state.isPlaying;
-        state = state.copyWith(
-          isPlaying: directState.isPlaying,
-          isReady: directState.isReady,
-          // Clear loading overlay once audio starts or errors.
-          isLoading:
-              state.isLoading &&
-              !directState.isPlaying &&
-              directState.error == null,
-          track: directState.track,
-          positionMs: directState.positionMs,
-          durationMs: directState.durationMs,
-          error: directState.error ?? state.error,
-        );
-        _onPlaybackStateChange(state, wasPlaying: wasPlaying);
-      }),
+      player.stateStream.listen((s) => _onBackendState(gen, s)),
     );
 
     final trackInfo = TrackInfo(
@@ -829,21 +785,7 @@ class PlayerNotifier extends _$PlayerNotifier {
 
     _active = _ActiveBackend(
       player,
-      player.stateStream.listen((amState) {
-        if (_playGen != gen) return;
-        final wasPlaying = state.isPlaying;
-        state = state.copyWith(
-          isPlaying: amState.isPlaying,
-          isReady: amState.isReady,
-          isLoading:
-              state.isLoading && !amState.isPlaying && amState.error == null,
-          track: amState.track ?? state.track,
-          positionMs: amState.positionMs,
-          durationMs: amState.durationMs,
-          error: amState.error ?? state.error,
-        );
-        _onPlaybackStateChange(state, wasPlaying: wasPlaying);
-      }),
+      player.stateStream.listen((s) => _onBackendState(gen, s)),
     );
 
     // Don't set isPlaying: true here. The EventChannel will push the
@@ -866,29 +808,30 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   // ─── Playback state change handling ─────────────────────────────────
 
-  void _onPlaybackStateChange(
-    PlaybackState newState, {
-    required bool wasPlaying,
-  }) {
-    // No active backend → no side effects.
-    if (_active == null) return;
+  /// A state from the backend that session [sessionId] started.
+  void _onBackendState(int sessionId, PlaybackState backendState) {
+    final session = _session;
+    if (session == null || session.id != sessionId) return;
+
+    final wasPlaying = state.isPlaying;
+    state = mergeBackendState(state, backendState);
 
     // Log play/pause transitions (not every position tick).
-    if (newState.isPlaying != wasPlaying) {
+    if (state.isPlaying != wasPlaying) {
       Log.debug(
         _tag,
-        newState.isPlaying ? 'State: playing' : 'State: paused',
+        state.isPlaying ? 'State: playing' : 'State: paused',
         data: {
-          'cardId': state.activeCardId ?? '',
-          'positionMs': '${newState.positionMs}',
-          'durationMs': '${newState.durationMs}',
+          'cardId': session.card.id,
+          'positionMs': '${state.positionMs}',
+          'durationMs': '${state.durationMs}',
         },
       );
     }
 
     // #215: Log wakelock failures instead of silently swallowing.
     unawaited(
-      WakelockPlus.toggle(enable: newState.isPlaying).catchError((Object e) {
+      WakelockPlus.toggle(enable: state.isPlaying).catchError((Object e) {
         Log.warn(_tag, 'Wakelock toggle failed', data: {'error': '$e'});
       }),
     );
@@ -904,210 +847,179 @@ class PlayerNotifier extends _$PlayerNotifier {
       );
     }
 
-    // ─── Album completion detection ───────────────────────────────────
-    // Three paths can detect completion (transition, pause fallback,
-    // periodic timer). The _completionHandledForSession guard prevents
-    // duplicate triggers across all of them.
-    final cardId = state.activeCardId;
-    final groupId = state.activeGroupId;
-
-    // Path 1: Detect completion via state transition. Handles the
-    // auto-advance race where Spotify moves to the next track before
-    // we can check the position of the track that just finished.
-    if (!_completionHandledForSession) {
-      final wasCompletedViaTransition = _detectCompletionViaTransition(
-        newState.track,
-      );
-      if (wasCompletedViaTransition && cardId != null) {
-        _completionHandledForSession = true;
-        unawaited(_onAlbumCompleted(cardId, groupId));
-      }
+    if (backendState.isFinished && !session.finished) {
+      _stopPositionSave();
+      unawaited(_finish(session, moment: 'reached the end'));
+      // Spotify may carry on with autoplay after the album, and nothing
+      // should play past the card's end.
+      unawaited(_pauseBackendQuietly());
+      return;
     }
 
-    // ─── Standard play/pause handling ─────────────────────────────────
-    if (newState.isPlaying) {
+    if (state.isPlaying) {
       _startPositionSave();
     } else {
       _stopPositionSave();
-
-      // Capture values now — by the time the async save/mark-heard runs,
-      // a new card may own state and these fields would be wrong.
-      final track = state.track;
-      final posMs = _active?.backend.currentPositionMs ?? newState.positionMs;
-
-      if (shouldSavePositionInSession(
-            playTimeMs: _playTimeMs,
-            completionHandled: _completionHandledForSession,
-          ) &&
-          cardId != null &&
-          track != null) {
-        unawaited(_savePosition(cardId, track, posMs));
-      }
-
-      // Path 2: Paused on last track, within threshold of end.
-      // Catches cases where transition detection missed it.
-      if (!_completionHandledForSession &&
-          isAlbumComplete(
-            hasNextTrack: _active?.backend.hasNextTrack ?? false,
-            positionMs: posMs,
-            durationMs: newState.durationMs,
-          )) {
-        _completionHandledForSession = true;
-        unawaited(_onAlbumCompleted(cardId, groupId));
-      }
+      unawaited(_recordProgress(session));
     }
+  }
 
-    // ─── Update last known state for next transition detection ─────────
-    _lastPlaybackState = _LastKnownPlaybackState(
-      positionMs: _active?.backend.currentPositionMs ?? newState.positionMs,
-      durationMs: newState.durationMs,
-      hasNextTrack: _active?.backend.hasNextTrack ?? false,
-      trackUri: newState.track?.uri,
+  /// Where playback of the active backend stands, or null without one.
+  PlaybackProgress? _progress() {
+    final backend = _active?.backend;
+    if (backend == null) return null;
+    return (
+      trackNumber: backend.currentTrackNumber,
+      isLastTrack: !backend.hasNextTrack,
+      positionMs: backend.currentPositionMs,
+      trackDurationMs: state.durationMs,
+      elapsedMs: backend.elapsedMs,
+      durationMs: backend.contentDurationMs,
     );
   }
 
-  /// Detects album completion by comparing current state with previous state.
-  ///
-  /// Returns true if:
-  /// - Previous track was near end (within 5s)
-  /// - Previous track had no next track (was last track)
-  /// - Track changed (new track URI differs from previous)
-  ///
-  /// This handles the race condition with auto-advancing players (Spotify)
-  /// where the SDK advances to the next track before we can check completion.
-  bool _detectCompletionViaTransition(TrackInfo? newTrack) {
-    final last = _lastPlaybackState;
-    if (last == null) return false;
-
-    // Track must have changed (or be null now when it wasn't before)
-    final trackChanged = newTrack?.uri != last.trackUri;
-    if (!trackChanged) return false;
-
-    // Previous track must have been near end and had no next track
-    if (!last.isNearEnd()) return false;
-    if (last.hasNextTrack) return false;
-
-    Log.info(
-      _tag,
-      'Album completion detected via transition',
-      data: {
-        'previousPosition': '${last.positionMs}',
-        'previousDuration': '${last.durationMs}',
-        'newTrack': newTrack?.uri ?? 'null',
-      },
-    );
-    return true;
-  }
-
-  // ─── Auto-advance ───────────────────────────────────────────────────
-
-  Future<void> _onAlbumCompleted(String? cardId, String? groupId) async {
-    if (cardId == null) return;
-    Log.info(
-      _tag,
-      'Album completed',
-      data: {
-        'cardId': cardId,
-        'positionMs':
-            '${_active?.backend.currentPositionMs ?? state.positionMs}',
-        'durationMs': '${state.durationMs}',
-      },
-    );
-    final cards = ref.read(tileItemRepositoryProvider);
-    await handleAlbumCompleted(cards, cardId: cardId, groupId: groupId);
-  }
-
-  // ─── Position tracking ──────────────────────────────────────────────
-
-  void _startPositionSave() {
-    if (_positionSaveTimer != null) return;
-
-    if (!_playStopwatch.isRunning) _playStopwatch.start();
-    _positionSaveTimer = Timer.periodic(_positionSaveInterval, (_) {
-      if (_active == null) return; // Backend torn down between ticks (#216)
-      _updatePlayTime();
-      final cardId = state.activeCardId;
-      final track = state.track;
-      final posMs = _active?.backend.currentPositionMs ?? state.positionMs;
-      final durationMs = state.durationMs;
-
-      // Check for album completion continuously while playing.
-      // This catches natural track endings where isPlaying stays true.
-      // Guard prevents repeated triggers while position lingers near end.
-      if (!_completionHandledForSession &&
-          isAlbumComplete(
-            hasNextTrack: _active?.backend.hasNextTrack ?? false,
-            positionMs: posMs,
-            durationMs: durationMs,
-          )) {
-        _completionHandledForSession = true;
-        unawaited(_onAlbumCompleted(cardId, state.activeGroupId));
-      }
-
-      if (shouldSavePositionInSession(
-            playTimeMs: _playTimeMs,
-            completionHandled: _completionHandledForSession,
-          ) &&
-          cardId != null &&
-          track != null) {
-        unawaited(_savePosition(cardId, track, posMs));
-      }
-    });
-  }
-
-  void _stopPositionSave() {
-    if (_positionSaveTimer == null) return;
-    _positionSaveTimer!.cancel();
-    _positionSaveTimer = null;
-    _updatePlayTime();
-    _playStopwatch.stop();
-  }
-
-  void _updatePlayTime() {
-    _playTimeMs = computePlayTime(
-      elapsedSinceStartMs:
-          _playStopwatch.isRunning ? _playStopwatch.elapsedMilliseconds : null,
-      previousPlayTimeMs: _playTimeMs,
-    );
-    _playStopwatch.reset();
-    if (_playTimeMs > 0) _playStopwatch.start();
-  }
-
-  Future<void> _savePosition(
-    String cardId,
-    TrackInfo track,
-    int positionMs,
-  ) async {
-    if (positionMs <= 0) return;
-
-    final trackNumber = _active?.backend.currentTrackNumber ?? 0;
+  Future<void> _pauseBackendQuietly() async {
     try {
-      await ref
-          .read(tileItemRepositoryProvider)
-          .savePosition(
-            itemId: cardId,
-            trackUri: track.uri,
-            trackNumber: trackNumber,
-            positionMs: positionMs,
-          );
+      await _active?.backend.pause();
+    } on Exception catch (e) {
+      Log.debug(_tag, 'pause after the end failed', data: {'error': '$e'});
+    }
+  }
+
+  // ─── Session moments ───────────────────────────────────────────────
+
+  /// End [session]. When the kid left the card ([kidLeft]) and it counts
+  /// as finished, it is recorded as finished. Otherwise its resume point
+  /// is saved, so the next play continues there.
+  ///
+  /// Reads the active backend, so callers run it before tearing the
+  /// backend down.
+  Future<void> _closeSession(
+    _PlaySession session, {
+    required bool kidLeft,
+  }) async {
+    session.pauseClock();
+    final progress = _progress();
+    Log.info(
+      _tag,
+      'Session closed',
+      data: {
+        'cardId': session.card.id,
+        'kidLeft': '$kidLeft',
+        'playTimeMs': '${session.playTime.inMilliseconds}',
+        if (progress != null) ...{
+          'track': '${progress.trackNumber}',
+          'lastTrack': '${progress.isLastTrack}',
+          'positionMs': '${progress.positionMs}',
+          'trackDurationMs': '${progress.trackDurationMs}',
+          'elapsedMs': '${progress.elapsedMs}',
+          'durationMs': '${progress.durationMs}',
+        },
+      },
+    );
+    if (kidLeft && progress != null) {
+      await _finishIfEnough(session, progress, moment: 'left');
+    }
+    await _recordProgress(session, progress: progress);
+  }
+
+  Future<void> _finishIfEnough(
+    _PlaySession session,
+    PlaybackProgress progress, {
+    required String moment,
+  }) async {
+    if (session.finished || !isFinishedEnough(session.card, progress)) return;
+    await _finish(session, moment: moment);
+  }
+
+  /// Record [session]'s card as finished, once per session.
+  Future<void> _finish(_PlaySession session, {required String moment}) async {
+    if (session.finished) return;
+    session.finished = true;
+    if (identical(session, _session)) {
+      state = state.copyWith(isFinished: true, error: state.error);
+    }
+    Log.info(
+      _tag,
+      'Card finished',
+      data: {'cardId': session.card.id, 'moment': moment},
+    );
+    try {
+      await _listening.finishItem(session.card.id);
+    } on Exception catch (e) {
+      Log.error(_tag, 'Recording a finish failed', exception: e);
+    }
+  }
+
+  /// Bring the listening facts up to date with [session]'s play time
+  /// and position: the card counts as started once it has played long
+  /// enough, and a started, unfinished card keeps a resume point.
+  Future<void> _recordProgress(
+    _PlaySession session, {
+    PlaybackProgress? progress,
+  }) async {
+    final current = progress ?? _progress();
+    final trackUri = state.track?.uri;
+    try {
+      if (!session.started && isStartedEnough(session.playTime)) {
+        session.started = true;
+        await _listening.startItem(session.card.id);
+      }
+      if (!session.started ||
+          session.finished ||
+          current == null ||
+          trackUri == null ||
+          current.positionMs <= 0) {
+        return;
+      }
+      await _listening.saveResumePoint(
+        itemId: session.card.id,
+        trackUri: trackUri,
+        trackNumber: current.trackNumber,
+        positionMs: current.positionMs,
+        elapsedMs: current.elapsedMs,
+        durationMs: current.durationMs,
+      );
       Log.debug(
         _tag,
-        'Position saved',
+        'Resume point saved',
         data: {
-          'cardId': cardId,
-          'positionMs': '$positionMs',
-          'trackNumber': '$trackNumber',
-          'playTimeMs': '$_playTimeMs',
+          'cardId': session.card.id,
+          'trackNumber': '${current.trackNumber}',
+          'lastTrack': '${current.isLastTrack}',
+          'positionMs': '${current.positionMs}',
+          'elapsedMs': '${current.elapsedMs}',
+          'durationMs': '${current.durationMs}',
+          'playTimeMs': '${session.playTime.inMilliseconds}',
         },
       );
     } on Exception catch (e) {
       Log.error(
         _tag,
-        'Position save failed',
+        'Recording progress failed',
         exception: e,
-        data: {'cardId': cardId, 'positionMs': '$positionMs'},
+        data: {'cardId': session.card.id},
       );
     }
+  }
+
+  // ─── Position tracking ──────────────────────────────────────────────
+
+  void _startPositionSave() {
+    final session = _session;
+    if (session == null || _positionSaveTimer != null) return;
+    session.resumeClock();
+    _positionSaveTimer = Timer.periodic(_positionSaveInterval, (_) {
+      // Backend torn down between ticks (#216), or the session ended.
+      if (_active == null || !identical(_session, session)) return;
+      unawaited(_recordProgress(session));
+    });
+  }
+
+  void _stopPositionSave() {
+    _session?.pauseClock();
+    _positionSaveTimer?.cancel();
+    _positionSaveTimer = null;
   }
 }
 
@@ -1129,32 +1041,6 @@ bool shouldIgnoreRepeatPlay({
   required bool forceReplay,
 }) => !forceReplay && cardId == activeCardId && isPlaying;
 
-/// Whether enough time has been played to justify saving position.
-/// Prevents brief taps from marking episodes as "in progress".
-/// Minimum play time before a position is worth saving. Prevents brief
-/// taps from marking episodes as "in progress".
-const _minPlayTimeMs = 20000; // 20 seconds
-
-bool shouldSavePosition({
-  required int playTimeMs,
-  int minPlayTimeMs = _minPlayTimeMs,
-}) => playTimeMs >= minPlayTimeMs;
-
-/// Whether a position save is still meaningful for this listening session.
-///
-/// Once the album has completed, the backend keeps emitting state — Spotify
-/// reports a near-zero position after it stops — and those late writes land
-/// after `handleAlbumCompleted` cleared the tile, leaving a finished episode
-/// with a bogus "resume here" marker (seen in the field: a completed episode
-/// left at 1823ms three seconds after being marked heard).
-bool shouldSavePositionInSession({
-  required int playTimeMs,
-  required bool completionHandled,
-  int minPlayTimeMs = _minPlayTimeMs,
-}) =>
-    !completionHandled &&
-    shouldSavePosition(playTimeMs: playTimeMs, minPlayTimeMs: minPlayTimeMs);
-
 /// Estimate current playback position by interpolating from a known
 /// anchor point. Backends that only report position on discrete events
 /// (Spotify Web Playback SDK) need this to avoid stale positions
@@ -1168,77 +1054,6 @@ int interpolatePosition({
 }) {
   if (!isPlaying || durationMs <= 0) return anchorMs;
   return (anchorMs + elapsedMs).clamp(0, durationMs);
-}
-
-/// Whether the current position is near the end of the track.
-/// Used to detect album/episode completion.
-bool isNearTrackEnd({
-  required int positionMs,
-  required int durationMs,
-  int thresholdMs = _completionThresholdMs,
-}) => durationMs > 0 && positionMs > durationMs - thresholdMs;
-
-/// Whether the album is complete: last track and near the end.
-bool isAlbumComplete({
-  required bool hasNextTrack,
-  required int positionMs,
-  required int durationMs,
-  int thresholdMs = _completionThresholdMs,
-}) =>
-    !hasNextTrack &&
-    isNearTrackEnd(
-      positionMs: positionMs,
-      durationMs: durationMs,
-      thresholdMs: thresholdMs,
-    );
-
-/// Accumulate play time from the last anchor.
-/// Returns the new total. Does not mutate anything. Pure function;
-/// caller provides elapsed time from a monotonic source.
-int computePlayTime({
-  required int? elapsedSinceStartMs,
-  required int previousPlayTimeMs,
-}) {
-  if (elapsedSinceStartMs == null) return previousPlayTimeMs;
-  return previousPlayTimeMs + elapsedSinceStartMs;
-}
-
-/// Handle album completion: mark card as heard, clear all positions in tile.
-///
-/// Extracted so it can be tested with an in-memory DB without
-/// instantiating PlayerNotifier.
-Future<void> handleAlbumCompleted(
-  TileItemRepository cards, {
-  required String cardId,
-  String? groupId,
-}) async {
-  try {
-    final card = await cards.getById(cardId);
-    if (card == null || card.isHeard) return;
-
-    await cards.markHeard(card.id);
-    Log.info(
-      'PlayerProvider',
-      'Marked as heard',
-      data: {'cardId': card.id, 'title': card.title},
-    );
-  } on Exception catch (e) {
-    Log.error('PlayerProvider', 'Mark heard failed', exception: e);
-  }
-
-  if (groupId == null) {
-    // Standalone episode: no tile to sweep, but its own near-end
-    // position must still be cleared. markHeard doesn't touch it, so
-    // without this a re-tap resumes at the last few seconds instead of
-    // restarting the story the kid wanted to replay.
-    await cards.resetPlaybackPosition(cardId);
-    return;
-  }
-
-  // Clear ALL positions in the tile, including the completed episode.
-  // The completed episode is now heard; its position is meaningless.
-  // This gives the tile a clean slate for the next listen session.
-  await cards.clearPositions(groupId);
 }
 
 /// Whether a bridge recovery restarts the active card: only when Spotify
@@ -1280,28 +1095,31 @@ const spotifyDisconnectedState = PlaybackState(
   error: PlayerError.spotifyAuthExpired,
 );
 
-/// Merge Spotify bridge state into current playback state.
+/// Merge a backend's state into the player's state.
 ///
 /// Extracted as a top-level function so it's testable without
-/// instantiating PlayerNotifier. Used by [PlayerNotifier._onBridgeEvent].
-PlaybackState mergeSpotifyBridgeState(
+/// instantiating PlayerNotifier. [PlaybackState.isFinished] only ever
+/// turns on within a card: a backend that reports the end once and then
+/// moves on (Spotify wraps to the first track) leaves the card finished.
+PlaybackState mergeBackendState(
   PlaybackState current,
-  PlaybackState bridgeState,
+  PlaybackState backendState,
 ) {
   return current.copyWith(
-    isReady: bridgeState.isReady,
-    isPlaying: bridgeState.isPlaying,
+    isReady: backendState.isReady,
+    isPlaying: backendState.isPlaying,
     // Clear loading overlay once audio starts or errors.
     isLoading:
         current.isLoading &&
-        !bridgeState.isPlaying &&
-        bridgeState.error == null,
-    track: bridgeState.track,
-    positionMs: bridgeState.positionMs,
-    durationMs: bridgeState.durationMs,
-    // Keep existing error if bridge has none
+        !backendState.isPlaying &&
+        backendState.error == null,
+    track: backendState.track ?? current.track,
+    positionMs: backendState.positionMs,
+    durationMs: backendState.durationMs,
+    isFinished: current.isFinished || backendState.isFinished,
+    // Keep existing error if the backend has none
     // (error is always-replace, so passing null clears it).
-    error: bridgeState.error ?? current.error,
+    error: backendState.error ?? current.error,
   );
 }
 
@@ -1309,16 +1127,26 @@ PlaybackState mergeSpotifyBridgeState(
 /// ticking position. A value-equal record, so position updates (several
 /// per second during playback) never rebuild the grids; TrackInfo has
 /// value equality and only changes on track transitions.
-final playerGridStateProvider = Provider<
-  ({bool isPlaying, bool isReady, TrackInfo? track, String? activeContextUri})
->((ref) {
+typedef PlayerGridState =
+    ({
+      bool isPlaying,
+      bool isReady,
+      bool isLoading,
+      bool isFinished,
+      TrackInfo? track,
+      String? activeCardId,
+    });
+
+final playerGridStateProvider = Provider<PlayerGridState>((ref) {
   return ref.watch(
     playerProvider.select(
       (s) => (
         isPlaying: s.isPlaying,
         isReady: s.isReady,
+        isLoading: s.isLoading,
+        isFinished: s.isFinished,
         track: s.track,
-        activeContextUri: s.activeContextUri,
+        activeCardId: s.activeCardId,
       ),
     ),
   );

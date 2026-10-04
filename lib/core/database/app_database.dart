@@ -1,7 +1,9 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:flutter/foundation.dart' show visibleForTesting;
+import 'package:lauschi/core/database/app_database.steps.dart';
 import 'package:lauschi/core/database/tables.dart';
+import 'package:lauschi/core/database/weiter_backfill.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -18,7 +20,7 @@ class AppDatabase extends _$AppDatabase {
 
   /// Bump when schema changes. See [migration] for upgrade steps.
   @override
-  int get schemaVersion => 13;
+  int get schemaVersion => 14;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -109,12 +111,27 @@ class AppDatabase extends _$AppDatabase {
           // the table from the current Dart schema (nullable sort_order).
           // Without the upper bound, migrating to v11/v12 in tests would
           // incorrectly apply v13's schema.
+          //
+          // The rebuild uses the cards table as it was at v13, not the
+          // current Dart schema: copying today's columns would read ones
+          // (like v14's last_elapsed_ms) that don't exist yet at this step.
+          final v13Cards = Schema13(database: this).cards;
           await m.alterTable(
             TableMigration(
-              cards,
-              columnTransformer: {cards.sortOrder: const Constant(null)},
+              v13Cards,
+              columnTransformer: {v13Cards.sortOrder: const Constant(null)},
             ),
           );
+        }
+        // Upper bound for the same reason as v13: tests migrate to older
+        // versions, and the columns added here belong to v14 only.
+        if (from < 14 && to >= 14) {
+          // The Weiter item becomes a stored fact instead of being
+          // derived on every read, and the resume point records how far
+          // into the whole item it is.
+          await m.addColumn(groups, groups.weiterItemId);
+          await m.addColumn(cards, cards.lastElapsedMs);
+          await _backfillWeiter();
         }
         Log.info('Database', 'Migration complete');
       } on Exception catch (e, stack) {
@@ -131,6 +148,25 @@ class AppDatabase extends _$AppDatabase {
       }
     },
   );
+
+  /// Store, for every tile, the Weiter item the app derived before
+  /// schema 14, so the badge stays where the kid left it.
+  Future<void> _backfillWeiter() async {
+    final now = DateTime.now();
+    final tiles = await select(groups).get();
+    for (final tile in tiles) {
+      final items =
+          await (select(cards)
+                ..where((t) => t.groupId.equals(tile.id))
+                ..orderBy(cardOrder()))
+              .get();
+      final weiter = legacyWeiterFor(items, now: now);
+      if (weiter == null) continue;
+      await (update(groups)..where(
+        (t) => t.id.equals(tile.id),
+      )).write(GroupsCompanion(weiterItemId: Value(weiter.id)));
+    }
+  }
 
   static QueryExecutor _openConnection() {
     return driftDatabase(name: 'lauschi');

@@ -132,7 +132,7 @@ void main() {
           'still playing.',
     );
     // The kid home and tile detail highlight the playing card by this.
-    expect(state.activeContextUri, amCard!.providerUri);
+    expect(state.activeCardId, amCard!.id);
     expect(
       state.positionMs,
       lessThan(5000),

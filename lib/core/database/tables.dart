@@ -100,6 +100,16 @@ class Groups extends Table {
   TextColumn get parentTileId =>
       text().nullable().references(Groups, #id, onDelete: KeyAction.cascade)();
 
+  /// The item the kid continues with: the "Weiter" badge, the scroll
+  /// target and what an NFC tag for this tile plays.
+  ///
+  /// Written by the listening repository at two moments only: when an
+  /// item has played long enough to count as started, and when it is
+  /// finished (then it moves to the next item). Null until the first
+  /// listen, and the badge then sits on the first available item. Not a
+  /// foreign key: reads tolerate an id that has left the tile.
+  TextColumn get weiterItemId => text().nullable()();
+
   @override
   Set<Column<Object>> get primaryKey => {id};
 }
@@ -173,9 +183,9 @@ class Cards extends Table {
   /// Null for Spotify/Apple Music (playback via SDK, not direct URL).
   TextColumn get audioUrl => text().nullable()();
 
-  /// Total duration in milliseconds. For Spotify this comes from the SDK
-  /// at runtime; for direct-play providers it's stored at insert time
-  /// since there's no SDK to query.
+  /// Total duration of the item in milliseconds, across all tracks.
+  /// Direct-play providers store it at insert time, Spotify and Apple
+  /// Music items get it with their first resume point. Zero when unknown.
   IntColumn get durationMs => integer().withDefault(const Constant(0))();
 
   /// When this item was marked unavailable (content removed, license expired).
@@ -191,6 +201,11 @@ class Cards extends Table {
   /// so progress can be computed without an API lookup.
   IntColumn get lastTrackNumber => integer().withDefault(const Constant(0))();
   IntColumn get lastPositionMs => integer().withDefault(const Constant(0))();
+
+  /// Time from the start of the item to the resume point, across all
+  /// tracks (for single-file content the same as [lastPositionMs]). With
+  /// [durationMs] it gives the item's progress. Zero when unknown.
+  IntColumn get lastElapsedMs => integer().withDefault(const Constant(0))();
   DateTimeColumn get lastPlayedAt => dateTime().nullable()();
 
   @override
@@ -199,19 +214,26 @@ class Cards extends Table {
 
 // ── Sort helpers ──────────────────────────────────────────────────────────────
 
-/// SQLite sorts NULLs first in ASC. Items with no sortOrder and no
-/// episodeNumber need a high sentinel to land last.
+/// SQLite sorts NULLs first in ASC. Items with no episodeNumber need a
+/// high sentinel to land last.
 const sortLast = Constant<int>(2147483647);
 
-/// Standard card ordering: manual sort, then episode number, then createdAt.
+/// Standard card ordering.
+///
+/// Items a parent ordered by hand (sortOrder set) come first, in that
+/// order. Items without a manual position follow, by episode number,
+/// then by when they were added. The two keys never share one value
+/// space: a manual position 50 and an episode number 50 mean different
+/// things, and mixing them would slot a later-added episode into the
+/// middle of a hand-sorted run.
 ///
 /// Use [withEpisodeNumber] = false for ungrouped items where episode numbers
 /// from different series aren't comparable.
-List<OrderingTerm Function(Cards)> cardOrder({
-  bool withEpisodeNumber = true,
-}) => [
-  (t) => OrderingTerm.asc(
-    coalesce([t.sortOrder, if (withEpisodeNumber) t.episodeNumber, sortLast]),
-  ),
-  (t) => OrderingTerm.asc(t.createdAt),
-];
+List<OrderingTerm Function(Cards)> cardOrder({bool withEpisodeNumber = true}) =>
+    [
+      (t) => OrderingTerm.asc(t.sortOrder.isNull()),
+      (t) => OrderingTerm.asc(t.sortOrder),
+      if (withEpisodeNumber)
+        (t) => OrderingTerm.asc(coalesce([t.episodeNumber, sortLast])),
+      (t) => OrderingTerm.asc(t.createdAt),
+    ];

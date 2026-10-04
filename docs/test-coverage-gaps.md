@@ -119,7 +119,7 @@ but neither is documented or tested.
 (near `tileProgressProvider`)
 **First flagged**: Group B round 1 (commit `6e2c5cf6`)
 
-The `tileProgressProvider` filters items via `isItemExpired` to
+The `tileProgressProvider` filters items via `isItemUnavailable` to
 compute per-tile heard counts. The test at
 `test/core/database/expiration_test.dart` duplicates the filtering
 logic inline because the production provider is a

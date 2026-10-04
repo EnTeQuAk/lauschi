@@ -14,9 +14,11 @@ import 'package:lauschi/core/settings/kid_settings.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/widgets/now_playing_bar.dart';
+import 'package:lauschi/features/tiles/card_indicator.dart';
 import 'package:lauschi/features/tiles/tile_actions.dart';
 import 'package:lauschi/features/tiles/widgets/audio_tile.dart';
 import 'package:lauschi/features/tiles/widgets/tile_card.dart';
+import 'package:lauschi/features/tiles/widgets/unavailable_dialog.dart';
 
 const _tag = 'KidHomeScreen';
 
@@ -133,20 +135,15 @@ class KidHomeScreen extends ConsumerWidget {
             Expanded(
               child: _combineAsync(groupsAsync, ungroupedAsync, (
                 groups,
-                allUngrouped,
+                ungrouped,
               ) {
-                // Hide expired items from kids entirely.
-                final ungrouped =
-                    allUngrouped.where((e) => !isItemExpired(e)).toList();
                 if (groups.isEmpty && ungrouped.isEmpty) {
                   return const _EmptyState();
                 }
                 return _HomeGrid(
                   groups: groups,
                   ungrouped: ungrouped,
-                  activeUri: playerState.activeContextUri,
-                  isPlaying: playerState.isPlaying,
-                  isActive: playerState.track != null,
+                  player: playerState,
                   showEpisodeTitles: showTitles,
                   // Never gate taps on isReady: backends only report
                   // ready after the Spotify bridge connects or a first
@@ -231,9 +228,7 @@ class _HomeGrid extends StatelessWidget {
   const _HomeGrid({
     required this.groups,
     required this.ungrouped,
-    required this.activeUri,
-    required this.isPlaying,
-    required this.isActive,
+    required this.player,
     required this.showEpisodeTitles,
     required this.onCardTap,
     required this.onGroupTap,
@@ -241,9 +236,7 @@ class _HomeGrid extends StatelessWidget {
 
   final List<db.Tile> groups;
   final List<db.TileItem> ungrouped;
-  final String? activeUri;
-  final bool isPlaying;
-  final bool isActive;
+  final PlayerGridState player;
   final bool showEpisodeTitles;
   final void Function(db.TileItem) onCardTap;
   final void Function(db.Tile) onGroupTap;
@@ -275,19 +268,19 @@ class _HomeGrid extends StatelessWidget {
               );
             }
             final card = ungrouped[index - groups.length];
-            final isCurrentCard = isActive && activeUri == card.providerUri;
-            return TileItem(
+            final indicator = cardIndicator(card, player: player);
+            return AudioTile(
               key: ValueKey(card.id),
               title: card.customTitle ?? card.title,
               coverUrl: card.coverUrl,
-              isPlaying: isCurrentCard && isPlaying,
-              isPaused: isCurrentCard && !isPlaying,
-              isHeard: card.isHeard,
-              progress: albumProgress(card),
+              indicator: indicator,
               kidMode: true,
               episodeNumber: card.episodeNumber,
               showEpisodeTitles: showEpisodeTitles,
-              onTap: () => onCardTap(card),
+              onTap:
+                  indicator.status == CardStatus.unavailable
+                      ? () => showUnavailableDialog(context)
+                      : () => onCardTap(card),
             );
           },
         );
@@ -308,11 +301,9 @@ class _GroupGridItem extends ConsumerWidget {
     // Select this tile's record only (records are value-equal), so a
     // position save on some other tile's card does not rebuild every
     // tile on the grid.
-    final stats = ref.watch(tileProgressProvider.select((m) => m[group.id]));
-    final total = stats?.total ?? 0;
-    final heard = stats?.heard ?? 0;
-    final progress = total > 0 ? (heard / total) : 0.0;
-    final isUnavailable = isTileFullyUnavailable(stats);
+    final indicator = tileIndicator(
+      ref.watch(tileProgressProvider.select((m) => m[group.id])),
+    );
 
     final childCovers =
         ref
@@ -331,13 +322,13 @@ class _GroupGridItem extends ConsumerWidget {
     return TileCard(
       key: Key('tile_${group.id}'),
       title: group.title,
-      episodeCount: total,
+      episodeCount: indicator.episodeCount,
       coverUrl: group.coverUrl,
-      progress: progress,
+      progress: indicator.progress,
       contentType: ContentType.fromString(group.contentType),
       childCoverUrls: childCovers,
       kidMode: true,
-      isUnavailable: isUnavailable,
+      isUnavailable: indicator.isUnavailable,
       onTap: onTap,
     );
   }

@@ -114,18 +114,11 @@ class NfcListener extends _$NfcListener {
       final player = ref.read(playerProvider.notifier);
 
       if (mapping.targetType == 'group') {
-        // Play the next unheard episode in the series.
+        // Play the item the kid continues with in this tile.
         final groups = ref.read(tileRepositoryProvider);
-        final nextCard = await groups.nextUnheard(mapping.targetId);
-        if (nextCard != null) {
-          await player.playCard(nextCard.id);
-        } else {
-          // All heard, play from the beginning (first episode).
-          final allCards = await groups.watchItems(mapping.targetId).first;
-          if (allCards.isNotEmpty) {
-            await player.playCard(allCards.first.id);
-          }
-        }
+        // Null only when nothing in the tile is playable.
+        final weiter = await groups.weiterItem(mapping.targetId);
+        if (weiter != null) await player.playCard(weiter.id);
       } else {
         // Play a single card.
         final cards = ref.read(tileItemRepositoryProvider);

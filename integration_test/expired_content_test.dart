@@ -1,12 +1,13 @@
-/// Items confirmed unavailable (`markedUnavailable` set) are hidden
-/// from kids but remain in the database for parent management.
+/// Items confirmed unavailable (`markedUnavailable` set) show greyed out
+/// to kids, with a tap that explains why, and remain in the database for
+/// parent management.
 ///
 /// **CRITICAL DISTINCTION** (caught during round-1 test infra review):
 /// The previous version of this file used `availableUntil: DateTime(2020)`
 /// to create "expired" items. That field is the ARD broadcast-window
 /// hint and is INFORMATIONAL ONLY — production code does NOT filter
 /// on it. Audio URLs remain on CDN well past `endDate`. The actual
-/// "hide from kids" filter (`isItemExpired` in tile_item_repository.dart)
+/// availability check (`isItemUnavailable` in tile_item_repository.dart)
 /// only checks `markedUnavailable`, which the StreamPlayer sets when
 /// playback fails with a non-recoverable error.
 ///
@@ -34,7 +35,7 @@ import 'ard_helpers.dart';
 import 'helpers.dart';
 
 void main() {
-  patrolTest('unavailable ungrouped item is hidden from kid home screen', (
+  patrolTest('unavailable ungrouped item shows greyed out on kid home', (
     $,
   ) async {
     await pumpApp($, prefs: {'onboarding_complete': true});
@@ -64,19 +65,23 @@ void main() {
     expect(
       inDb!.markedUnavailable,
       isNotNull,
-      reason: 'markedUnavailable must be set so the kid grid hides it',
+      reason: 'markedUnavailable must be set so the kid grid greys it',
     );
     expect(
-      isItemExpired(inDb),
+      isItemUnavailable(inDb),
       isTrue,
-      reason: 'sanity: production isItemExpired agrees the item is hidden',
+      reason: 'sanity: production isItemUnavailable agrees',
     );
 
     await pumpFrames($);
 
-    // The unavailable item must NOT appear in the kid grid.
-    expect(find.text('Unavailable Episode'), findsNothing);
-    expect(find.byType(TileItem), findsNothing);
+    // Greyed out, like inside a tile: a card that silently vanishes
+    // confuses kids more than one that explains itself.
+    expect(
+      find.bySemanticsLabel(RegExp('nicht mehr verfügbar')),
+      findsOneWidget,
+    );
+    expect(find.byType(AudioTile), findsOneWidget);
   });
 
   patrolTest('unavailable item inside tile shows greyed out in tile detail', (
@@ -131,13 +136,12 @@ void main() {
     container.read(appRouterProvider).go(AppRoutes.tileDetail(tileId));
     await pumpFrames($);
 
-    // Both episodes render in the grid: expired ones show greyed out
-    // with a tap handler that explains unavailability. They're not
-    // hidden from the tile detail view (unlike ungrouped items on the
-    // kid home screen, which ARE filtered out entirely).
-    // Episode titles are not shown by default (showEpisodeTitles is
-    // false), so we count TileItem widgets instead of matching text.
-    expect(find.byType(TileItem), findsNWidgets(2));
+    // Both episodes render in the grid: unavailable ones show greyed out
+    // with a tap handler that explains why, the same rule as on the kid
+    // home screen. Episode titles are not shown by default
+    // (showEpisodeTitles is false), so we count AudioTile widgets
+    // instead of matching text.
+    expect(find.byType(AudioTile), findsNWidgets(2));
   });
 
   patrolTest('unavailable items remain in database for parent management', (
@@ -161,9 +165,9 @@ void main() {
     final all = await items.getAll();
     expect(all.any((i) => i.title == 'Unavailable DB Test'), isTrue);
 
-    // And isItemExpired correctly identifies it.
+    // And isItemUnavailable correctly identifies it.
     final unavailable = all.firstWhere((i) => i.title == 'Unavailable DB Test');
     expect(unavailable.markedUnavailable, isNotNull);
-    expect(isItemExpired(unavailable), isTrue);
+    expect(isItemUnavailable(unavailable), isTrue);
   });
 }

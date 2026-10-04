@@ -24,6 +24,7 @@ db.TileItem _card({
   DateTime? markedUnavailable,
 }) {
   return db.TileItem(
+    lastElapsedMs: 0,
     id: id,
     title: title,
     cardType: 'album',
@@ -203,7 +204,9 @@ void main() {
     );
   });
 
-  testWidgets('unavailable tiles are hidden from kids', (tester) async {
+  testWidgets('unavailable cards stay visible, greyed out', (tester) async {
+    // Same rule as inside a tile: a card that silently vanishes confuses
+    // kids more than one that is visibly unavailable and explains why.
     final expiredCard = _card(
       id: 'expired-1',
       title: 'Expired Episode',
@@ -225,11 +228,16 @@ void main() {
     await tester.pump();
     await tester.pump();
 
-    // Expired tile should not be in the tree at all.
-    expect(find.byKey(const ValueKey('expired-1')), findsNothing);
-
-    // Valid tile should still be visible.
+    expect(find.byKey(const ValueKey('expired-1')), findsOneWidget);
+    expect(
+      find.bySemanticsLabel('Expired Episode, nicht mehr verfügbar'),
+      findsOneWidget,
+    );
     expect(find.byKey(const ValueKey('valid-1')), findsOneWidget);
+
+    await tester.tap(find.byKey(const ValueKey('expired-1')));
+    await tester.pump();
+    expect(find.text('Gerade nicht verfügbar'), findsOneWidget);
   });
 
   testWidgets('ungrouped cards show the title when "Titel anzeigen" is on', (

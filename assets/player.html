@@ -81,6 +81,9 @@
         });
         var nextCount = sameAlbumNext.length;
         post('state_changed', {
+          // The album or playlist being played. Dart drops events from
+          // another context, e.g. the previous card's last events.
+          context_uri: state.context ? state.context.uri : null,
           paused: state.paused,
           position_ms: state.position,
           duration_ms: state.duration,

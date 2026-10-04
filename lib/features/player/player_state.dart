@@ -54,8 +54,7 @@ class PlaybackState {
     this.durationMs = 0,
     this.error,
     this.activeCardId,
-    this.activeContextUri,
-    this.activeGroupId,
+    this.isFinished = false,
     this.hasNextTrack = false,
     this.hasPrevTrack = false,
   });
@@ -83,16 +82,17 @@ class PlaybackState {
   /// to user-facing text.
   final PlayerError? error;
 
-  /// ID of the card currently being played.
+  /// ID of the card in the player. The grids mark this card, and only
+  /// this card, as playing or paused.
   final String? activeCardId;
 
-  /// URI of the album/context currently being played. Used to highlight
-  /// the active card in the grid.
-  final String? activeContextUri;
-
-  /// Group ID of the tile containing the active episode.
-  /// Used for mark-heard and position clearing on completion.
-  final String? activeGroupId;
+  /// The card in the player is finished.
+  ///
+  /// A backend sets it when playback reaches the end of the card's
+  /// content. The player sets it when the kid leaves a card that counts
+  /// as finished (see `isFinishedEnough`). It stays set until the next
+  /// card starts.
+  final bool isFinished;
 
   /// Whether there is a track after the current one in the queue.
   /// Used to disable/hide the next track button when false.
@@ -115,10 +115,7 @@ class PlaybackState {
     PlayerError? error,
     String? activeCardId,
     bool clearActiveCard = false,
-    String? activeContextUri,
-    bool clearActiveContextUri = false,
-    String? activeGroupId,
-    bool clearActiveGroupId = false,
+    bool? isFinished,
     bool? hasNextTrack,
     bool? hasPrevTrack,
   }) {
@@ -132,12 +129,7 @@ class PlaybackState {
       error: error,
       activeCardId:
           clearActiveCard ? null : (activeCardId ?? this.activeCardId),
-      activeContextUri:
-          clearActiveContextUri
-              ? null
-              : (activeContextUri ?? this.activeContextUri),
-      activeGroupId:
-          clearActiveGroupId ? null : (activeGroupId ?? this.activeGroupId),
+      isFinished: isFinished ?? this.isFinished,
       hasNextTrack: hasNextTrack ?? this.hasNextTrack,
       hasPrevTrack: hasPrevTrack ?? this.hasPrevTrack,
     );
