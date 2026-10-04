@@ -282,8 +282,12 @@ class SpotifyWebViewBridge {
           if (err.errorType ==
               WebResourceErrorType.webContentProcessTerminated) {
             // iOS killed the web content process. The WKWebView object
-            // is still valid; reload to restart the content process and
-            // re-initialize the SDK.
+            // is still valid, so reload to restart the content process
+            // and re-initialize the SDK. Android has no equivalent here:
+            // webview_flutter_android doesn't implement
+            // onRenderProcessGone, so a dead renderer takes the whole app
+            // down. See https://github.com/flutter/flutter/issues/130297
+            // (open since 2023), watched through Sentry.
             Log.warn(_tag, 'Content process terminated, reloading');
             _loss.lost(PlayerLossCause.reload, wasPlaying: _state.isPlaying);
             _deviceId = null;
