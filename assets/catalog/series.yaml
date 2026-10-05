@@ -51488,18 +51488,6 @@ series:
       artist_ids:
       - 7uVDfCKp96l3xCHFYf39vU
       albums:
-      - id: 6P2YB62o29hhFZzDW840DL
-        title: VERLIEREN
-        release_date: '2022-11-04'
-      - id: 7r1PohYvRrwYHjXrSJ0jaZ
-        title: Egal wie weit
-        release_date: '2023-02-24'
-      - id: 2LYAsUTefdwx95zqcYmHUg
-        title: AKUSTIKSESSION
-        release_date: '2023-06-02'
-      - id: 1ha7an7H3CKEvEdgT4vJ5m
-        title: ECHO EP
-        release_date: '2024-05-10'
       - id: 1qkgonws7IBTs3tR8j6PEG
         title: Jetzt
         release_date: '2025-03-14'
@@ -51519,12 +51507,6 @@ series:
       artist_ids:
       - '1622871029'
       albums:
-      - id: '1822440296'
-        title: Egal wie weit
-        release_date: '2023-02-24'
-      - id: '1822417969'
-        title: AKUSTIKSESSION - Single
-        release_date: '2023-06-02'
       - id: '1795714984'
         title: Jetzt - EP
         release_date: '2025-03-14'
