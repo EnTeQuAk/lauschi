@@ -27,6 +27,10 @@ workflows:
     scripts:
       - name: Set up code signing
         script: |
+          # Stop here when App Store Connect refuses (e.g. an expired
+          # agreement), instead of failing much later in the build with a
+          # misleading "no development certificates" error.
+          set -e
           app-store-connect fetch-signing-files "app.lauschi.lauschi" \
             --type IOS_APP_STORE \
             --create
@@ -92,6 +96,10 @@ workflows:
     scripts:
       - name: Set up code signing
         script: |
+          # Stop here when App Store Connect refuses (e.g. an expired
+          # agreement), instead of failing much later in the build with a
+          # misleading "no development certificates" error.
+          set -e
           app-store-connect fetch-signing-files "app.lauschi.lauschi" \
             --type IOS_APP_STORE \
             --create
