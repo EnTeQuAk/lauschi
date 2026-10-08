@@ -58,9 +58,11 @@ jobs:
           ENABLE_SPOTIFY=false
           SPOTIFY_CLIENT_ID=unused
           ENABLE_APPLE_MUSIC=true
-          ENABLE_SENTRY=true
-          SENTRY_DSN=${{ secrets.SENTRY_DSN }}
-          SENTRY_ENVIRONMENT=testing
+          # Store builds collect no data. Sentry stays on in the tester
+          # builds (Firebase, TestFlight) only.
+          ENABLE_SENTRY=false
+          SENTRY_DSN=unused
+          SENTRY_ENVIRONMENT=production
           EOF
 
       - name: Set up signing
