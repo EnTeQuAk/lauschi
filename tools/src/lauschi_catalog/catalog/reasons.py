@@ -37,7 +37,7 @@ CURATE_REASONS: tuple[Reason, ...] = (
         "compilation",
         "content",
         auto_flip=True,
-        description="Box sets, multi-episode compilations, 'Folge 1-10' range releases",
+        description="Re-sells episodes that exist on their own: box sets, 'Best of', a 'Folge 1-10' run whose episodes are also released alone",
     ),
     Reason(
         "kinderlieder_compilation",

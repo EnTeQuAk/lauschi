@@ -182,6 +182,41 @@ def test_overview_carries_coverage_runs_facts_and_lint():
     assert "### Lint findings (1)" in ov and "[spotify] a finding" in ov
 
 
+def test_overview_coverage_counts_a_box_in_full():
+    """Feuerwehrmann Sam 1 to 132 ship as boxes numbered by their first
+    episode. Listed by number alone the auditor would see 1, 6, 11 and
+    read a series full of gaps."""
+    c = {
+        "id": "s",
+        "title": "S",
+        "albums": [
+            {
+                "album_id": "a",
+                "provider": "spotify",
+                "include": True,
+                "episode_num": 1,
+                "title": "Folgen 1-5: Der neue Held",
+            },
+            {
+                "album_id": "b",
+                "provider": "spotify",
+                "include": True,
+                "episode_num": 6,
+                "title": "Folgen 6-10: Das Baby im Schafspelz",
+            },
+            {
+                "album_id": "c",
+                "provider": "spotify",
+                "include": True,
+                "episode_num": 12,
+                "title": "Folge 12: Alarm",
+            },
+        ],
+    }
+    ov = build_overview(c, [])
+    assert "spotify included episodes (11): 1-10, 12" in ov
+
+
 def test_overview_folds_the_cluster_tail_on_a_fragmented_series():
     """A fragmented discography has hundreds of one-off title shapes.
     Listing every one with examples is the album dump under another

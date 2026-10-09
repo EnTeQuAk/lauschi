@@ -214,6 +214,17 @@ class TestEpisodeRangeFact:
         assert box["episode_range"] == RangeFact(6, 10, released_alone=())
         assert "episode_range" not in single
 
+    def test_the_fact_rides_on_its_album_when_details_lack_the_keys(self):
+        # Prefetched details are provider payloads, and album_to_dict falls
+        # back to "?" for a missing provider. The batch row always has both.
+        batch = [{"provider": "spotify", "id": "box", "name": "Folgen 6-10: Baby"}]
+        seen = {"spotify:box": {"name": "Folgen 6-10: Baby", "total_tracks": 25}}
+        facts = {("spotify", "box"): RangeFact(6, 10, released_alone=())}
+
+        (box,) = format_batch_albums(batch, seen, facts)
+
+        assert box["episode_range"] == RangeFact(6, 10, released_alone=())
+
     def test_xml_says_none_of_the_run_exists_alone(self):
         album = {
             "provider": "spotify",

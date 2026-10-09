@@ -29,6 +29,7 @@ from lauschi_catalog.agent_hooks import build_progress_hooks
 from lauschi_catalog.agent_tools import build_agent_tools
 from lauschi_catalog.catalog.analysis import analyze_series, group_by_shape
 from lauschi_catalog.catalog.canonical import album_sort_key, canonicalize
+from lauschi_catalog.catalog.episode_range import covered_episodes
 from lauschi_catalog.catalog.facts import (
     EraBoundaryProposal,
     KnownGapProposal,
@@ -310,22 +311,23 @@ def _coverage_lines(albums: list[dict]) -> list[str]:
     """Per-provider included episodes as compressed runs, plus what each
     provider is excluding and why. This is the whole-series picture the
     chunked audit carries into every chunk in place of the album list."""
-    eps_by_provider: dict[str, set[int]] = {}
+    included_by_provider: dict[str, list[dict]] = {}
     reasons_by_provider: dict[str, dict[str, int]] = {}
     for a in albums:
         prov = a.get("provider", "?")
         if a.get("include"):
-            ep = a.get("episode_num")
-            if ep is not None:
-                eps_by_provider.setdefault(prov, set()).add(ep)
+            included_by_provider.setdefault(prov, []).append(a)
         else:
             key = (a.get("exclude_reason") or "unspecified").split(":")[0].strip()
             counts = reasons_by_provider.setdefault(prov, {})
             counts[key] = counts.get(key, 0) + 1
     lines = ["", "### Coverage"]
-    for prov in sorted(eps_by_provider):
-        eps = sorted(eps_by_provider[prov])
-        lines.append(f"  {prov} included episodes ({len(eps)}): {compress_runs(eps)}")
+    for prov in sorted(included_by_provider):
+        eps = sorted(covered_episodes(included_by_provider[prov]))
+        if eps:
+            lines.append(
+                f"  {prov} included episodes ({len(eps)}): {compress_runs(eps)}"
+            )
     for prov in sorted(reasons_by_provider):
         top = sorted(reasons_by_provider[prov].items(), key=lambda kv: (-kv[1], kv[0]))
         summary = ", ".join(f"{r} {n}" for r, n in top)

@@ -11,8 +11,10 @@ verify that work.
    EXPECTED; they are the same content in different catalogs. Both
    should stay included.
 2. **Excluded albums**: Were they correctly excluded? Legitimate content
-   should not be excluded. Valid exclusions: compilations, box sets,
-   wrong content type, format variants, unrelated content.
+   should not be excluded. Valid exclusions: compilations and box sets
+   that re-sell episodes released on their own, wrong content type,
+   format variants, unrelated content. A box that is the only release of
+   its episodes is the episode release (see compilation_as_episode).
 3. **Structural facts**: Do era_boundaries match release-date clusters?
    Do known_gaps have plausible reasons (legal dispute, skipped number)?
    Do sub_series labels match the claimed albums?

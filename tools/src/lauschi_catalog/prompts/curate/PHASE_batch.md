@@ -16,7 +16,7 @@ field is an enum; use exactly one of these values:
 
 | Value | When to use |
 |---|---|
-| `compilation` | Box sets, multi-episode compilations, "Folge 1-10" range releases |
+| `compilation` | Re-sells episodes that exist on their own: box sets, "Best of", a "Folge 1-10" run whose episodes are also released alone |
 | `kinderlieder_compilation` | "Die schönsten..." children's song compilations |
 | `multi_artist_compilation` | Multi-artist compilations, "Kinderparty" releases |
 | `wrong_content_type` | Audiobook reading in a Hörspiel series, music in a non-music series, etc. |
@@ -57,12 +57,25 @@ Reasoning:
 **Clear exclude** (compilation box set):
 ```
 Title: "Folge 1-10: Jubiläumsbox"
+<episode_range first="1" last="10" also_released_alone="1, 2, 3, 4, 5, 6, 7, 8, 9, 10"/>
 Reasoning:
-  1. Pattern check: "Folge 1-10:" does NOT match ^Folge (\d+): (range, not single digit)
-  2. Title contains range pattern "1-10", matching compilation_as_episode
-  3. Track count: 78 tracks confirms box set
-  4. Named failure pattern: compilation
+  1. Pattern check: "Folge 1-10:" does NOT match ^Folge (\d+): (a run, not one episode)
+  2. episode_range: all ten episodes are released on their own on this page,
+     so the box re-sells them (compilation_as_episode)
+  3. Track count: 78 tracks fits a box set
 → include=false, exclude_reason=compilation, confidence=high
+```
+
+**A run that is the episode release** (the only way to hear these episodes):
+```
+Title: "Folgen 6-10: Das Baby im Schafspelz"
+<episode_range first="6" last="10" also_released_alone="none"/>
+Reasoning:
+  1. Pattern check: no match, the title names a run of episodes
+  2. episode_range: none of 6 to 10 exists on its own on this page, so this
+     album is their only release, not a repackaging
+  3. A run takes the number of its first episode, read from its title
+→ episode_num=6, include=true, confidence=high
 ```
 
 **No pattern match, but valid episode** (different naming era):

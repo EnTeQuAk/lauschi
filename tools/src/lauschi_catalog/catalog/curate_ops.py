@@ -233,8 +233,8 @@ def format_batch_albums(
                 "tracks": [],
             }
         )
-    for album in albums:
-        fact = (run_facts or {}).get((album["provider"], album["id"]))
+    for a, album in zip(batch, albums, strict=True):
+        fact = (run_facts or {}).get((a["provider"], a["id"]))
         if fact is not None:
             album["episode_range"] = fact
     return albums

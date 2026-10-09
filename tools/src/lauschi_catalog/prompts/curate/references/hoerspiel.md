@@ -82,9 +82,25 @@ their own releases. Publishers do this constantly, TKKG "3er Box",
 The listener gains nothing new, and a box sitting between Folge 12 and
 Folge 13 breaks the sequence a child scrolls through.
 
-Recognise it relative to the episodes it repackages. The progress block
-shows the episode numbers already decided: "Folge 1-3" when 1, 2 and 3
-exist on their own is a repackaging. A range, a plus or an "und" in the
+Recognise it relative to the episodes it repackages. An album whose
+title names a run of episodes carries
+`<episode_range first="…" last="…" also_released_alone="…"/>`, worked out
+from the whole provider page, which no single batch shows you. It answers
+the question for you:
+
+- Every episode of the run is listed in `also_released_alone`: the album
+  re-sells them, exclude it as `compilation`.
+- `also_released_alone="none"`: the album is the only release of those
+  episodes on this provider. Feuerwehrmann Sam 1 to 132 exist only as
+  "Folgen 1-5", "Folgen 6-10" and so on. That is the episode release:
+  include it with the number of its first episode, the way "Folge 1+2"
+  double episodes are numbered.
+- Only some are listed: the album overlaps releases that exist, and
+  including it would put two albums under one number. Exclude it as
+  `compilation` and name the episodes only it carries in the notes, so a
+  human can decide.
+
+Without `<episode_range>`, a range, a plus or an "und" in the
 number position ("Folge 1-10", "Folgen 3 & 4", "1+2") is the usual tell;
 "Box", "Sammelbox", "Kollektion", "Jubiläum", "Best of" and seasonal
 bundles ("Weihnachtsfolgen", "Osterbundle") are others. A very high track
