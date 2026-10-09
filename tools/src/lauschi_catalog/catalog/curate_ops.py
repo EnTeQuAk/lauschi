@@ -10,7 +10,7 @@ import asyncio
 import json
 import re
 import time
-from collections.abc import Iterator, Sequence
+from collections.abc import Iterator, Mapping, Sequence
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
@@ -33,6 +33,11 @@ from lauschi_catalog.agent_tools import build_agent_tools
 from lauschi_catalog.catalog.add_ops import title_to_id
 from lauschi_catalog.catalog.analysis import analyze_series, normalize_title
 from lauschi_catalog.catalog.canonical import album_sort_key, canonicalize
+from lauschi_catalog.catalog.episode_range import (
+    RangeFact,
+    numbers_released_alone,
+    range_facts,
+)
 from lauschi_catalog.catalog.facts import (
     EraBoundary,
     EraBoundaryProposal,
@@ -197,11 +202,14 @@ def build_structural_hints(analysis: dict) -> list[str]:
 def format_batch_albums(
     batch: list[dict],
     seen_details: dict[str, dict],
+    run_facts: Mapping[tuple[str, str], RangeFact] | None = None,
 ) -> list[dict]:
     """Normalize a batch to unified album dicts for the prompt XML.
 
     Full details where the prefetch has them; explicit fallback keys
-    (the same shape prompt.album_to_dict emits) where it does not.
+    (the same shape prompt.album_to_dict emits) where it does not. An
+    album that holds a run of episodes carries its fact from
+    ``run_facts`` as ``episode_range``.
     """
     albums: list[dict] = []
     for a in batch:
@@ -225,6 +233,10 @@ def format_batch_albums(
                 "tracks": [],
             }
         )
+    for album in albums:
+        fact = (run_facts or {}).get((album["provider"], album["id"]))
+        if fact is not None:
+            album["episode_range"] = fact
     return albums
 
 
@@ -2368,6 +2380,12 @@ async def _run_large(
         usage=meta_deps.usage,
     )
 
+    # Whether a box's episodes also exist on their own is a page-wide fact
+    # that no batch of 30 can see.
+    run_facts = range_facts(
+        all_discovered, shared_deps.pattern, numbers_released_alone(all_decisions)
+    )
+
     for batch_num, batch in enumerate(batches, 1):
         if episode_nums:
             progress_text = (
@@ -2384,7 +2402,7 @@ async def _run_large(
             batch_num,
         )
 
-        batch_albums = format_batch_albums(batch, shared_deps.seen_details)
+        batch_albums = format_batch_albums(batch, shared_deps.seen_details, run_facts)
 
         structural_hints: list[str] = []
         if all_decisions:

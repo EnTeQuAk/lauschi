@@ -19,7 +19,8 @@ def format_album_xml(album: dict, *, include_tracks: bool = True) -> str:
         album: dict with keys matching the unified schema:
             provider, id, title, episode_num, release_date,
             album_type, total_tracks, duration_min, label, artist,
-            tracks (list of {name, duration_ms, track_number}).
+            tracks (list of {name, duration_ms, track_number}), and
+            optionally episode_range (a RangeFact for a run of episodes).
         include_tracks: whether to inline the track listing.
 
     Returns:
@@ -56,6 +57,13 @@ def format_album_xml(album: dict, *, include_tracks: bool = True) -> str:
     artist = album.get("artist")
     if artist:
         lines.append(f"  <artist>{artist}</artist>")
+    run = album.get("episode_range")
+    if run is not None:
+        alone = ", ".join(str(n) for n in run.released_alone) or "none"
+        lines.append(
+            f'  <episode_range first="{run.first}" last="{run.last}" '
+            f'also_released_alone="{alone}"/>'
+        )
 
     tracks = album.get("tracks", [])
     if include_tracks and tracks:

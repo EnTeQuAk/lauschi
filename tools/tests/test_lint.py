@@ -57,6 +57,25 @@ class TestLintGapDetection:
         issues = lint_curation(curation)
         assert any("Unexpected gaps at episodes: [2]" in i for i in issues)
 
+    def test_double_episodes_are_no_gap(self):
+        curation = {
+            "albums": [
+                _make_album("a", "Folge 1+2 - A/B", episode_num=1),
+                _make_album("b", "Folge 3+4 - C/D", episode_num=3),
+            ],
+        }
+        assert not any("Unexpected gaps" in i for i in lint_curation(curation))
+
+    def test_box_covers_its_run_but_not_beyond(self):
+        curation = {
+            "albums": [
+                _make_album("a", "Folgen 1-5: Der neue Held", episode_num=1),
+                _make_album("b", "Folge 8: Allein", episode_num=8),
+            ],
+        }
+        issues = lint_curation(curation)
+        assert any("Unexpected gaps at episodes: [6, 7]" in i for i in issues)
+
     def test_known_gap_skipped(self):
         curation = {
             "albums": [

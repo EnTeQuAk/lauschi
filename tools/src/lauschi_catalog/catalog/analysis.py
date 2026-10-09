@@ -10,6 +10,8 @@ import re
 from collections import Counter
 from typing import Any
 
+from lauschi_catalog.catalog.episode_range import covered_episodes
+
 
 def effective_albums(curation: dict) -> list[dict]:
     """Return included albums.
@@ -196,13 +198,11 @@ def analyze_series(curation: dict) -> dict[str, Any]:
     """
     albums = effective_albums(curation)
     episodes = [a for a in albums if a.get("episode_num") is not None]
-    nums = sorted(a["episode_num"] for a in episodes)
 
+    covered = sorted(covered_episodes(episodes))
     gaps: list[int] = []
-    if nums:
-        for i in range(nums[0], nums[-1] + 1):
-            if i not in nums:
-                gaps.append(i)
+    if covered:
+        gaps = [i for i in range(covered[0], covered[-1] + 1) if i not in covered]
 
     title_counter: Counter[str] = Counter()
     for a in albums:
@@ -223,7 +223,7 @@ def analyze_series(curation: dict) -> dict[str, Any]:
     return {
         "total": len(albums),
         "with_episode_num": len(episodes),
-        "episode_range": f"{nums[0]}-{nums[-1]}" if nums else "none",
+        "episode_range": f"{covered[0]}-{covered[-1]}" if covered else "none",
         "gaps": gaps,
         "providers": dict(providers),
         "common_words": title_counter.most_common(10),

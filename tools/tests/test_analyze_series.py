@@ -128,6 +128,42 @@ def test_analyze_gaps_includes_all():
     assert result["gaps"] == list(range(2, 100))
 
 
+def test_analyze_double_episodes_leave_no_gaps():
+    """Lillifee's Gute-Nacht-Geschichten ship two episodes per release,
+    numbered by the first ("Folge 1+2" is 1, "Folge 3+4" is 3). The even
+    numbers are inside those releases, not missing."""
+    albums = [
+        make_album("a", "Gute-Nacht-Geschichten Folge 1+2 - A/B", episode_num=1),
+        make_album("b", "Gute-Nacht-Geschichten Folge 3+4 - C/D", episode_num=3),
+        make_album("c", "Gute-Nacht-Geschichten Folge 5+6 - E/F", episode_num=5),
+    ]
+    result = analyze_series(make_curation(albums=albums))
+    assert result["gaps"] == []
+    assert result["episode_range"] == "1-6"
+
+
+def test_analyze_box_covers_its_run():
+    albums = [
+        make_album("a", "Folgen 1-5: Der neue Held", episode_num=1),
+        make_album("b", "Folgen 6-10: Das Baby im Schafspelz", episode_num=6),
+        make_album("c", "Folge 12: Monster-Alarm", episode_num=12),
+    ]
+    result = analyze_series(make_curation(albums=albums))
+    assert result["gaps"] == [11]
+
+
+def test_analyze_run_numbered_off_its_start_covers_only_its_number():
+    """A run only counts when it carries its own first number. Anything
+    else is a numbering question for a human, not coverage."""
+    albums = [
+        make_album("a", "Folge 1: A", episode_num=1),
+        make_album("b", "Folgen 2-4: Box", episode_num=3),
+        make_album("c", "Folge 5: C", episode_num=5),
+    ]
+    result = analyze_series(make_curation(albums=albums))
+    assert result["gaps"] == [2, 4]
+
+
 def test_analyze_gaps_small_range():
     albums = [
         make_album("a", "Folge 1: A", episode_num=1),

@@ -13,6 +13,7 @@ from datetime import date
 
 from lauschi_catalog.catalog import reasons
 from lauschi_catalog.catalog.analysis import group_by_shape, normalize_title
+from lauschi_catalog.catalog.episode_range import covered_episodes
 from lauschi_catalog.catalog.facts import SeriesFacts
 from lauschi_catalog.catalog.matcher import extract_episode
 from lauschi_catalog.catalog.partition import bleed_owner
@@ -234,10 +235,17 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
 
     # ── Rule 2: Unknown gaps ─────────────────────────────────────────
     for prov, eps in eps_by_provider.items():
-        nums = sorted(set(eps))
-        if len(nums) < 2:
+        if len(set(eps)) < 2:
             continue
-        gaps = _find_gaps(nums)
+        gaps = _find_gaps(
+            sorted(
+                covered_episodes(
+                    a
+                    for by_number in eps_albums_by_provider[prov].values()
+                    for a in by_number
+                )
+            )
+        )
         # Filter out known gaps (individual numbers and ranges)
         known: set[int] = set()
         for g in facts.known_gaps if facts else []:

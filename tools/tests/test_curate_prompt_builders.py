@@ -15,6 +15,8 @@ from lauschi_catalog.catalog.curate_ops import (
     curation_from_decisions,
     format_batch_albums,
 )
+from lauschi_catalog.catalog.episode_range import RangeFact
+from lauschi_catalog.catalog.prompt import format_album_xml
 from tests.factories import decision
 
 
@@ -194,3 +196,44 @@ class TestFormatBatchAlbums:
             assert key in album
         assert album["title"] == "N"
         assert album["episode_num"] is None
+
+
+class TestEpisodeRangeFact:
+    """The batch sees a page in slices of 30, so whether a box's episodes
+    also exist on their own is handed to it as a fact per album."""
+
+    def test_the_fact_rides_on_its_album(self):
+        batch = [
+            {"provider": "spotify", "id": "box", "name": "Folgen 6-10: Baby"},
+            {"provider": "spotify", "id": "one", "name": "Folge 12: Alarm"},
+        ]
+        facts = {("spotify", "box"): RangeFact(6, 10, released_alone=())}
+
+        box, single = format_batch_albums(batch, {}, facts)
+
+        assert box["episode_range"] == RangeFact(6, 10, released_alone=())
+        assert "episode_range" not in single
+
+    def test_xml_says_none_of_the_run_exists_alone(self):
+        album = {
+            "provider": "spotify",
+            "id": "box",
+            "title": "Folgen 6-10: Baby",
+            "episode_range": RangeFact(6, 10, released_alone=()),
+        }
+
+        xml = format_album_xml(album, include_tracks=False)
+
+        assert '<episode_range first="6" last="10" also_released_alone="none"/>' in xml
+
+    def test_xml_lists_the_episodes_that_exist_alone(self):
+        album = {
+            "provider": "spotify",
+            "id": "box",
+            "title": "Folgen 1-3: Start",
+            "episode_range": RangeFact(1, 3, released_alone=(1, 3)),
+        }
+
+        xml = format_album_xml(album, include_tracks=False)
+
+        assert 'also_released_alone="1, 3"' in xml
