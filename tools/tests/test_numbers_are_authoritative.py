@@ -11,7 +11,10 @@ An album whose tracks are unknown keeps it: dropping on missing data
 would be a guess in the other direction.
 """
 
-from lauschi_catalog.catalog.curate_ops import _drop_unsupported_numbers
+from lauschi_catalog.catalog.curate_ops import (
+    _drop_unsupported_numbers,
+    _reextract_episode_numbers,
+)
 from tests.factories import decision
 
 PATTERN = r"Folge (\d+)"
@@ -61,3 +64,45 @@ def test_excluded_and_unnumbered_albums_are_untouched():
     b = decision("b", provider="apple_music", title="Ohne")
     assert _drop_unsupported_numbers([a, b], _tracks("a", "Kapitel 1"), PATTERN) == 0
     assert a.episode_num == 3 and b.episode_num is None
+
+
+# Feuerwehrmann Sam 1 to 132 ship only as boxes ("Folgen 6-10: ..."), and
+# the series pattern reads single episodes. A box that is the only release
+# of its episodes is numbered by its first episode, read from the title the
+# way the Lillifee double episodes ("Folge 1+2") are.
+FS_PATTERN = r"^Folge (\d+):"
+
+
+def test_a_box_takes_the_first_number_of_its_run_from_the_title():
+    d = decision(
+        "box", provider="apple_music", title="Folgen 6-10: Das Baby im Schafspelz"
+    )
+
+    assert _reextract_episode_numbers([d], FS_PATTERN) == 1
+    assert d.episode_num == 6
+
+
+def test_the_first_number_of_a_run_is_supported_by_the_title():
+    d = decision(
+        "box",
+        provider="apple_music",
+        title="Folgen 6-10: Das Baby im Schafspelz",
+        episode_num=6,
+    )
+    tracks = _tracks("box", "Das Baby im Schafspelz - Teil 1")
+
+    assert _drop_unsupported_numbers([d], tracks, FS_PATTERN) == 0
+    assert d.episode_num == 6
+
+
+def test_another_number_inside_the_run_is_not():
+    d = decision(
+        "box",
+        provider="apple_music",
+        title="Folgen 6-10: Das Baby im Schafspelz",
+        episode_num=8,
+    )
+    tracks = _tracks("box", "Das Baby im Schafspelz - Teil 1")
+
+    assert _drop_unsupported_numbers([d], tracks, FS_PATTERN) == 1
+    assert d.episode_num is None

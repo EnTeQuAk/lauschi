@@ -70,6 +70,18 @@ def episode_range(title: str) -> EpisodeRange | None:
     return EpisodeRange(first, last)
 
 
+def title_number(pattern: str | list[str] | None, title: str) -> int | None:
+    """The episode number a title carries: what the series pattern reads,
+    or else the first episode of a run the title names. A box that is the
+    only release of its episodes is numbered that way, as the Lillifee
+    double episodes ("Folge 1+2") are."""
+    number = extract_episode(pattern, title)
+    if number is not None:
+        return number
+    run = episode_range(title)
+    return run.first if run is not None else None
+
+
 def range_facts(
     albums: Iterable[Mapping[str, object]],
     pattern: str | list[str] | None,

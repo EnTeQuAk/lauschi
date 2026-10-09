@@ -37,6 +37,7 @@ from lauschi_catalog.catalog.episode_range import (
     RangeFact,
     numbers_released_alone,
     range_facts,
+    title_number,
 )
 from lauschi_catalog.catalog.facts import (
     EraBoundary,
@@ -1147,7 +1148,7 @@ def _drop_unsupported_numbers(
     for d in decisions:
         if not d.include or d.episode_num is None:
             continue
-        if extract_episode(pattern, d.title) is not None:
+        if title_number(pattern, d.title) == d.episode_num:
             continue
         detail = seen_details.get(f"{d.provider}:{d.album_id}")
         if not detail or not detail.get("tracks"):
@@ -1176,7 +1177,7 @@ def _reextract_episode_numbers(
         return 0
     changed = 0
     for d in decisions:
-        new_ep = extract_episode(pattern, d.title)
+        new_ep = title_number(pattern, d.title)
         if new_ep is not None and new_ep != d.episode_num:
             d.episode_num = new_ep
             changed += 1
