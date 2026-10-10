@@ -3709,39 +3709,6 @@ series:
       - id: 4tjQJ8CEeQu8E8cf23aNnj
         title: Der verhexte Weihnachtsmarkt [Der Adventskalender zum Hören]
         release_date: '2012-11-16'
-      - id: 7HIgLk8Y8m3KQIFjPiYWQW
-        title: Kurzgeschichte - Bibi als Krankenschwester
-        release_date: '2015-08-28'
-      - id: 1t8zf2fKNcPrWgHYM6Osdx
-        title: Kurzgeschichte - Bibi gibt nicht auf
-        release_date: '2015-08-28'
-      - id: 1urP4nLKa3iooOSAKEfR4n
-        title: Kurzgeschichte - Der Hexen-Imbiss
-        release_date: '2015-08-28'
-      - id: 6hsICirPDSiqsUWd6aPjWh
-        title: Kurzgeschichte - Der Minihexen-Geburtstag
-        release_date: '2015-08-28'
-      - id: 2koBhLRLpynXYosdbh6t90
-        title: Kurzgeschichte - Die verhexte Badeschlacht
-        release_date: '2015-08-28'
-      - id: 07jZKXbS0rmgVqlobFSEGl
-        title: Kurzgeschichte - Die verrückte Eulen-Fete
-        release_date: '2015-08-28'
-      - id: 0aNwD5Pc5KY3ueTKR8gZ5y
-        title: Kurzgeschichte - Du Bürgermeister - ich Bibi
-        release_date: '2015-08-28'
-      - id: 51pw4EkHbOF72FAIda9szT
-        title: Kurzgeschichte - Mümmel, das Hexen-Häschen
-        release_date: '2015-08-28'
-      - id: 5kTtqROa4p7yslTVaki1YU
-        title: Kurzgeschichte - Streit im Hause Blocksberg
-        release_date: '2015-08-28'
-      - id: 7nXV04lqI1Tegqq8RmehA0
-        title: Kurzgeschichte - Wer hat Angst vor Klopf-Monstern?
-        release_date: '2015-08-28'
-      - id: 1ZFAoGJnnqowbNhy3Y8mjI
-        title: Kurzgeschichte - Zeltausflug mit Hindernissen
-        release_date: '2015-08-28'
       - id: 0yuyavgAHn3FypyDkwSGn1
         title: 'Adventskalender: Die leuchtenden Hexsterne'
         release_date: '2023-12-01'
@@ -4411,39 +4378,6 @@ series:
       - id: '1069121458'
         title: Der verhexte Weihnachtsmarkt (Der Adventskalender zum Hören)
         release_date: '2012-11-16'
-      - id: '1069102309'
-        title: Kurzgeschichte - Bibi als Krankenschwester - Single
-        release_date: '2015-08-28'
-      - id: '1069173664'
-        title: Kurzgeschichte - Bibi gibt nicht auf - Single
-        release_date: '2015-08-28'
-      - id: '1069132584'
-        title: Kurzgeschichte - Der Hexen-Imbiss - Single
-        release_date: '2015-08-28'
-      - id: '1069165177'
-        title: Kurzgeschichte - Der Minihexen-Geburtstag - Single
-        release_date: '2015-08-28'
-      - id: '1069183096'
-        title: Kurzgeschichte - Die verhexte Badeschlacht - Single
-        release_date: '2015-08-28'
-      - id: '1069145344'
-        title: Kurzgeschichte - Die verrückte Eulen-Fete - Single
-        release_date: '2015-08-28'
-      - id: '1069234790'
-        title: Kurzgeschichte - Du Bürgermeister - ich Bibi - Single
-        release_date: '2015-08-28'
-      - id: '1069145772'
-        title: Kurzgeschichte - Mümmel, das Hexen-Häschen - Single
-        release_date: '2015-08-28'
-      - id: '1069141735'
-        title: Kurzgeschichte - Streit im Hause Blocksberg - Single
-        release_date: '2015-08-28'
-      - id: '1069233934'
-        title: Kurzgeschichte - Wer hat Angst vor Klopf-Monstern? - Single
-        release_date: '2015-08-28'
-      - id: '1069059907'
-        title: Kurzgeschichte - Zeltausflug mit Hindernissen - Single
-        release_date: '2015-08-28'
       - id: '1713516434'
         title: 'Adventskalender: Die leuchtenden Hexsterne'
         release_date: '2023-12-01'
@@ -60801,3 +60735,84 @@ series:
         episode: 4
         title: 04/Fuchs in der Falle (CGI)
         release_date: '2018-01-27'
+- id: bibi_blocksberg_kurzgeschichten
+  title: 'Bibi Blocksberg: Kurzgeschichten'
+  aliases: []
+  episode_pattern:
+  content_type: audiobook
+  split_from: bibi_blocksberg
+  providers:
+    spotify:
+      artist_ids:
+      - 3t2iKODSDyzoDJw7AsD99u
+      albums:
+      - id: 7HIgLk8Y8m3KQIFjPiYWQW
+        title: Kurzgeschichte - Bibi als Krankenschwester
+        release_date: '2015-08-28'
+      - id: 1t8zf2fKNcPrWgHYM6Osdx
+        title: Kurzgeschichte - Bibi gibt nicht auf
+        release_date: '2015-08-28'
+      - id: 1urP4nLKa3iooOSAKEfR4n
+        title: Kurzgeschichte - Der Hexen-Imbiss
+        release_date: '2015-08-28'
+      - id: 6hsICirPDSiqsUWd6aPjWh
+        title: Kurzgeschichte - Der Minihexen-Geburtstag
+        release_date: '2015-08-28'
+      - id: 2koBhLRLpynXYosdbh6t90
+        title: Kurzgeschichte - Die verhexte Badeschlacht
+        release_date: '2015-08-28'
+      - id: 07jZKXbS0rmgVqlobFSEGl
+        title: Kurzgeschichte - Die verrückte Eulen-Fete
+        release_date: '2015-08-28'
+      - id: 0aNwD5Pc5KY3ueTKR8gZ5y
+        title: Kurzgeschichte - Du Bürgermeister - ich Bibi
+        release_date: '2015-08-28'
+      - id: 51pw4EkHbOF72FAIda9szT
+        title: Kurzgeschichte - Mümmel, das Hexen-Häschen
+        release_date: '2015-08-28'
+      - id: 5kTtqROa4p7yslTVaki1YU
+        title: Kurzgeschichte - Streit im Hause Blocksberg
+        release_date: '2015-08-28'
+      - id: 7nXV04lqI1Tegqq8RmehA0
+        title: Kurzgeschichte - Wer hat Angst vor Klopf-Monstern?
+        release_date: '2015-08-28'
+      - id: 1ZFAoGJnnqowbNhy3Y8mjI
+        title: Kurzgeschichte - Zeltausflug mit Hindernissen
+        release_date: '2015-08-28'
+    apple_music:
+      artist_ids:
+      - '41480004'
+      albums:
+      - id: '1069102309'
+        title: Kurzgeschichte - Bibi als Krankenschwester - Single
+        release_date: '2015-08-28'
+      - id: '1069173664'
+        title: Kurzgeschichte - Bibi gibt nicht auf - Single
+        release_date: '2015-08-28'
+      - id: '1069132584'
+        title: Kurzgeschichte - Der Hexen-Imbiss - Single
+        release_date: '2015-08-28'
+      - id: '1069165177'
+        title: Kurzgeschichte - Der Minihexen-Geburtstag - Single
+        release_date: '2015-08-28'
+      - id: '1069183096'
+        title: Kurzgeschichte - Die verhexte Badeschlacht - Single
+        release_date: '2015-08-28'
+      - id: '1069145344'
+        title: Kurzgeschichte - Die verrückte Eulen-Fete - Single
+        release_date: '2015-08-28'
+      - id: '1069234790'
+        title: Kurzgeschichte - Du Bürgermeister - ich Bibi - Single
+        release_date: '2015-08-28'
+      - id: '1069145772'
+        title: Kurzgeschichte - Mümmel, das Hexen-Häschen - Single
+        release_date: '2015-08-28'
+      - id: '1069141735'
+        title: Kurzgeschichte - Streit im Hause Blocksberg - Single
+        release_date: '2015-08-28'
+      - id: '1069233934'
+        title: Kurzgeschichte - Wer hat Angst vor Klopf-Monstern? - Single
+        release_date: '2015-08-28'
+      - id: '1069059907'
+        title: Kurzgeschichte - Zeltausflug mit Hindernissen - Single
+        release_date: '2015-08-28'
