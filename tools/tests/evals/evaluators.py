@@ -6,8 +6,16 @@ eval pattern.
 """
 
 from dataclasses import dataclass
+from typing import Any
 
-from pydantic_evals.evaluators import EvaluationReason, Evaluator, EvaluatorContext
+from pydantic_evals.evaluators import (
+    EvaluationReason,
+    Evaluator,
+    EvaluatorContext,
+    ReportEvaluator,
+    ReportEvaluatorContext,
+)
+from pydantic_evals.reporting.analyses import TableResult
 
 
 @dataclass
@@ -188,3 +196,111 @@ class NotesPresent(Evaluator):
                 reason=f"Missing/short notes on non-high: {'; '.join(missing)}",
             )
         return EvaluationReason(value=True, reason="All non-high decisions have notes")
+
+
+def _outcome(
+    expected: dict[tuple[str, str], dict[str, Any]], albums: list[Any]
+) -> tuple[int, int, int]:
+    """Albums decided as expected, albums that would ship and should not,
+    and albums that should ship and would not."""
+    included = {(d.provider, d.album_id): d.include for d in albums}
+    right = sum(
+        1 for key, exp in expected.items() if included.get(key) == exp["include"]
+    )
+    wrong = sum(
+        1 for key, exp in expected.items() if not exp["include"] and included.get(key)
+    )
+    missing = sum(
+        1 for key, exp in expected.items() if exp["include"] and not included.get(key)
+    )
+    return right, wrong, missing
+
+
+@dataclass
+class CatalogOutcome(Evaluator):
+    """Score what the decisions would do to the catalog.
+
+    Three scores per case. ``right`` is the share of the albums decided
+    as expected. ``wrong_content`` counts the albums that would ship and
+    should not, ``missing_content`` the albums that should ship and
+    would not. An album without a decision is not right, and missing if
+    it should ship.
+    """
+
+    def evaluate(self, ctx: EvaluatorContext) -> dict[str, float | int]:
+        expected = ctx.metadata or {}
+        right, wrong, missing = _outcome(expected, ctx.output.albums)
+        return {
+            "right": right / len(expected) if expected else 1.0,
+            "wrong_content": wrong,
+            "missing_content": missing,
+        }
+
+
+@dataclass
+class CatalogTotals(ReportEvaluator):
+    """Add the albums of all cases up: how many were asked, how many came
+    out right, how many would ship wrongly and how many would be missing.
+    Cases differ in size, so the average over cases is not this."""
+
+    def evaluate(self, ctx: ReportEvaluatorContext) -> TableResult:
+        albums = right = wrong = missing = 0
+        for case in ctx.report.cases:
+            expected = case.metadata or {}
+            counts = _outcome(expected, case.output.albums)
+            albums += len(expected)
+            right, wrong, missing = (
+                right + counts[0],
+                wrong + counts[1],
+                missing + counts[2],
+            )
+        return TableResult(
+            title="Albums across all cases",
+            columns=["albums", "right", "wrong content", "missing content"],
+            rows=[[albums, right, wrong, missing]],
+        )
+
+
+@dataclass
+class EpisodeNumbersCorrect(Evaluator):
+    """Check the episode numbers a case names.
+
+    An expectation carries ``episode_num`` where the number is known:
+    an integer, or None for an album that must ship without one. Only
+    albums that ship as expected are checked, since a wrong decision is
+    counted by ``CatalogOutcome``. A case that names no number reports
+    nothing.
+    """
+
+    def get_default_evaluation_name(self) -> str:
+        return "episode_numbers"
+
+    def evaluate(self, ctx: EvaluatorContext) -> EvaluationReason | dict[str, bool]:
+        expected = ctx.metadata or {}
+        decided = {(d.provider, d.album_id): d for d in ctx.output.albums}
+        checked = 0
+        wrong: list[str] = []
+        for key, exp in expected.items():
+            decision = decided.get(key)
+            if "episode_num" not in exp or decision is None or not decision.include:
+                continue
+            checked += 1
+            if decision.episode_num != exp["episode_num"]:
+                want = (
+                    exp["episode_num"]
+                    if exp["episode_num"] is not None
+                    else "no number"
+                )
+                have = (
+                    decision.episode_num
+                    if decision.episode_num is not None
+                    else "no number"
+                )
+                wrong.append(
+                    f"{key[0]}:{key[1]} ({decision.title}): ships as {have}, expected {want}"
+                )
+        if wrong:
+            return EvaluationReason(value=False, reason="; ".join(wrong))
+        if not checked:
+            return {}
+        return EvaluationReason(value=True, reason=f"{checked} number(s) as expected")

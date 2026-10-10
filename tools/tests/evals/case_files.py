@@ -17,7 +17,6 @@ from pydantic_evals import Case
 
 from lauschi_catalog.catalog.curate_ops import AlbumDecision, BatchResult, ExcludeReason
 
-from .evaluators import DecisionsCorrect, ExcludeReasonsCorrect
 from .task import BatchInput, SeriesContext
 
 FIXTURES = Path(__file__).parent / "fixtures"
@@ -86,7 +85,6 @@ def load_case(path: Path) -> Case[BatchInput, BatchResult]:
         name=path.stem,
         inputs=BatchInput(series=data.series, albums=albums, decided=data.decided),
         metadata=expected,
-        evaluators=(DecisionsCorrect(), ExcludeReasonsCorrect()),
     )
 
 

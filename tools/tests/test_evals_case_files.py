@@ -168,6 +168,12 @@ def test_every_committed_case_file_loads() -> None:
 def test_the_dataset_holds_the_case_files() -> None:
     dataset = build_dataset()
 
+    assert {type(e).__name__ for e in dataset.evaluators} >= {
+        "DecisionsCorrect",
+        "CatalogOutcome",
+        "EpisodeNumbersCorrect",
+    }
+
     assert {c.name for c in load_cases()} <= {c.name for c in dataset.cases}
     assert [c.name for c in build_dataset(["hexe_lilli_erstleser_own_line"]).cases] == [
         "hexe_lilli_erstleser_own_line"

@@ -19,8 +19,11 @@ from lauschi_catalog.catalog.curate_ops import BatchResult
 
 from .case_files import load_cases
 from .evaluators import (
+    CatalogOutcome,
+    CatalogTotals,
     ConfidenceMinimum,
     DecisionsCorrect,
+    EpisodeNumbersCorrect,
     ExcludeReasonsCorrect,
     NotesPresent,
 )
@@ -160,8 +163,6 @@ _BENJAMIN_SUB_SERIES = Case[BatchInput, BatchResult](
         },
     },
     evaluators=(
-        DecisionsCorrect(),
-        ExcludeReasonsCorrect(),
         ConfidenceMinimum(),
         NotesPresent(),
     ),
@@ -303,8 +304,6 @@ _BENJAMIN_EDGE_CASES = Case[BatchInput, BatchResult](
         },
     },
     evaluators=(
-        DecisionsCorrect(),
-        ExcludeReasonsCorrect(),
         ConfidenceMinimum(),
         NotesPresent(),
     ),
@@ -441,8 +440,6 @@ _PUMUCKL_MIXED = Case[BatchInput, BatchResult](
         },
     },
     evaluators=(
-        DecisionsCorrect(),
-        ExcludeReasonsCorrect(),
         ConfidenceMinimum(),
         NotesPresent(),
         _judge(
@@ -563,8 +560,6 @@ _BIBI_KINOFILM = Case[BatchInput, BatchResult](
         },
     },
     evaluators=(
-        DecisionsCorrect(),
-        ExcludeReasonsCorrect(),
         ConfidenceMinimum(),
         NotesPresent(),
         _judge(
@@ -710,8 +705,6 @@ _DDF_KIDS_MINI_FALL = Case[BatchInput, BatchResult](
         },
     },
     evaluators=(
-        DecisionsCorrect(),
-        ExcludeReasonsCorrect(),
         ConfidenceMinimum(),
         NotesPresent(),
         _judge(
@@ -838,8 +831,6 @@ _HUI_BUH_FORMAT_VARIANT = Case[BatchInput, BatchResult](
         },
     },
     evaluators=(
-        DecisionsCorrect(),
-        ExcludeReasonsCorrect(),
         ConfidenceMinimum(),
         NotesPresent(),
         _judge(
@@ -979,8 +970,6 @@ _LILIANE_DIFFERENT_SERIES = Case[BatchInput, BatchResult](
         },
     },
     evaluators=(
-        DecisionsCorrect(),
-        ExcludeReasonsCorrect(),
         ConfidenceMinimum(),
         NotesPresent(),
         _judge(
@@ -1118,8 +1107,6 @@ _WAS_IST_WAS_DOPPELFOLGE = Case[BatchInput, BatchResult](
         },
     },
     evaluators=(
-        DecisionsCorrect(),
-        ExcludeReasonsCorrect(),
         ConfidenceMinimum(),
         NotesPresent(),
         _judge(
@@ -1162,4 +1149,11 @@ def build_dataset(names: list[str] | None = None) -> Dataset[BatchInput, BatchRe
     return Dataset[BatchInput, BatchResult](
         name="catalog_curation_batch",
         cases=cases,
+        evaluators=(
+            DecisionsCorrect(),
+            ExcludeReasonsCorrect(),
+            CatalogOutcome(),
+            EpisodeNumbersCorrect(),
+        ),
+        report_evaluators=(CatalogTotals(),),
     )
