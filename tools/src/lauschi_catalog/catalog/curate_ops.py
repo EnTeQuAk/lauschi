@@ -901,6 +901,7 @@ def settle_batch_decisions(
     discovered: list[dict],
     pattern: str | list[str] | None,
     entry: "CatalogEntry | None",
+    line_of: str | None,
     series_names: list[str],
     seen_details: dict[str, dict],
     on_progress: Progress = _noop,
@@ -913,6 +914,8 @@ def settle_batch_decisions(
     names the root on the rest. Numbers come last, from the title, the
     track names and the twin on the other provider, so they follow the
     albums that are still included. ``decisions`` is changed in place.
+    ``line_of`` is the root's title for a split-off line, for the
+    progress lines.
     """
     # Identity fields come from the provider record, never from what the
     # model echoed back; the episode number must follow the true title.
@@ -923,7 +926,6 @@ def settle_batch_decisions(
             f"numbers follow the provider's titles.\n"
         )
 
-    line_of = _root_title(entry)
     doubted = _leave_doubt_to_root(decisions, entry)
     if doubted:
         on_progress(
@@ -2681,6 +2683,7 @@ async def _run_large(
         discovered=all_discovered,
         pattern=final_pattern,
         entry=catalog_entry,
+        line_of=line_of,
         series_names=[meta.title, *meta.aliases],
         seen_details=shared_deps.seen_details,
         on_progress=on_progress,

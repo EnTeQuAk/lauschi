@@ -9,8 +9,6 @@ twins. The curate flow calls it, and so do the evals, so that a case is
 scored on what would ship.
 """
 
-import pytest
-
 from lauschi_catalog.catalog import curate_ops
 from lauschi_catalog.catalog.curate_ops import settle_batch_decisions
 from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
@@ -31,11 +29,6 @@ def _page(*albums: tuple[str, str, str, str]) -> list[dict]:
         {"provider": p, "id": i, "name": name, "release_date": date}
         for p, i, name, date in albums
     ]
-
-
-@pytest.fixture(autouse=True)
-def _catalog(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setattr(curate_ops, "load_catalog", lambda: [MAIN, SUB])
 
 
 def test_a_sub_series_settles_doubt_then_twins_then_owner_then_numbers() -> None:
@@ -72,6 +65,7 @@ def test_a_sub_series_settles_doubt_then_twins_then_owner_then_numbers() -> None
         ),
         pattern=PATTERN,
         entry=SUB,
+        line_of=MAIN.title,
         series_names=["Hexe Lilli Erstlesergeschichten"],
         seen_details={},
     )
@@ -104,6 +98,7 @@ def test_a_main_series_keeps_its_unsure_includes_and_ownerless_bleed() -> None:
         ),
         pattern=PATTERN,
         entry=MAIN,
+        line_of=None,
         series_names=["Hexe Lilli"],
         seen_details={},
     )

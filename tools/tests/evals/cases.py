@@ -23,7 +23,7 @@ from .evaluators import (
     ExcludeReasonsCorrect,
     NotesPresent,
 )
-from .task import BatchInput
+from .task import BatchInput, SeriesContext
 
 
 def _judge(rubric: str) -> LLMJudge:
@@ -35,10 +35,13 @@ def _judge(rubric: str) -> LLMJudge:
 _BENJAMIN_SUB_SERIES = Case[BatchInput, BatchResult](
     name="benjamin_sub_series",
     inputs=BatchInput(
-        series_title="Benjamin Blümchen",
-        content_type="hoerspiel",
-        episode_pattern="^Folge (\\d+):",
-        discography_span_years=49,
+        series=SeriesContext(
+            id="benjamin_bluemchen",
+            title="Benjamin Blümchen",
+            content_type="hoerspiel",
+            episode_pattern="^Folge (\\d+):",
+            discography_span_years=49,
+        ),
         albums=[
             {
                 "provider": "apple_music",
@@ -169,10 +172,13 @@ _BENJAMIN_SUB_SERIES = Case[BatchInput, BatchResult](
 _BENJAMIN_EDGE_CASES = Case[BatchInput, BatchResult](
     name="benjamin_edge_cases",
     inputs=BatchInput(
-        series_title="Benjamin Blümchen",
-        content_type="hoerspiel",
-        episode_pattern="^Folge (\\d+):",
-        discography_span_years=49,
+        series=SeriesContext(
+            id="benjamin_bluemchen",
+            title="Benjamin Blümchen",
+            content_type="hoerspiel",
+            episode_pattern="^Folge (\\d+):",
+            discography_span_years=49,
+        ),
         albums=[
             {
                 "provider": "apple_music",
@@ -309,10 +315,13 @@ _BENJAMIN_EDGE_CASES = Case[BatchInput, BatchResult](
 _PUMUCKL_MIXED = Case[BatchInput, BatchResult](
     name="pumuckl_mixed_content",
     inputs=BatchInput(
-        series_title="Pumuckl",
-        content_type="hoerspiel",
-        episode_pattern=["^(\\d+):", "^Folge (\\d+):"],
-        discography_span_years=44,
+        series=SeriesContext(
+            id="pumuckl",
+            title="Pumuckl",
+            content_type="hoerspiel",
+            episode_pattern=["^(\\d+):", "^Folge (\\d+):"],
+            discography_span_years=44,
+        ),
         albums=[
             {
                 "provider": "apple_music",
@@ -452,10 +461,13 @@ _PUMUCKL_MIXED = Case[BatchInput, BatchResult](
 _BIBI_KINOFILM = Case[BatchInput, BatchResult](
     name="bibi_kinofilm_vs_soundtrack",
     inputs=BatchInput(
-        series_title="Bibi Blocksberg",
-        content_type="hoerspiel",
-        episode_pattern=["^Folge (\\d+)(?![-\\d])"],
-        discography_span_years=46,
+        series=SeriesContext(
+            id="bibi_blocksberg",
+            title="Bibi Blocksberg",
+            content_type="hoerspiel",
+            episode_pattern=["^Folge (\\d+)(?![-\\d])"],
+            discography_span_years=46,
+        ),
         albums=[
             {
                 "provider": "apple_music",
@@ -572,10 +584,13 @@ _BIBI_KINOFILM = Case[BatchInput, BatchResult](
 _DDF_KIDS_MINI_FALL = Case[BatchInput, BatchResult](
     name="ddf_kids_mini_fall",
     inputs=BatchInput(
-        series_title="Die drei ??? Kids",
-        content_type="hoerspiel",
-        episode_pattern=["^(\\d{3})/", "^Folge (\\d+):"],
-        discography_span_years=17,
+        series=SeriesContext(
+            id="die_drei_fragezeichen_kids",
+            title="Die drei ??? Kids",
+            content_type="hoerspiel",
+            episode_pattern=["^(\\d{3})/", "^Folge (\\d+):"],
+            discography_span_years=17,
+        ),
         albums=[
             {
                 "provider": "apple_music",
@@ -716,10 +731,13 @@ _DDF_KIDS_MINI_FALL = Case[BatchInput, BatchResult](
 _HUI_BUH_FORMAT_VARIANT = Case[BatchInput, BatchResult](
     name="hui_buh_format_variant",
     inputs=BatchInput(
-        series_title="Hui Buh (neue Welt)",
-        content_type="hoerspiel",
-        episode_pattern=["^(\\d+)/", "^Folge (\\d+):"],
-        discography_span_years=18,
+        series=SeriesContext(
+            id="hui_buh_neue_welt",
+            title="Hui Buh (neue Welt)",
+            content_type="hoerspiel",
+            episode_pattern=["^(\\d+)/", "^Folge (\\d+):"],
+            discography_span_years=18,
+        ),
         albums=[
             {
                 "provider": "spotify",
@@ -841,10 +859,13 @@ _HUI_BUH_FORMAT_VARIANT = Case[BatchInput, BatchResult](
 _LILIANE_DIFFERENT_SERIES = Case[BatchInput, BatchResult](
     name="liliane_different_series",
     inputs=BatchInput(
-        series_title="Liliane Susewind",
-        content_type="audiobook",
-        episode_pattern=None,
-        discography_span_years=16,
+        series=SeriesContext(
+            id="liliane_susewind",
+            title="Liliane Susewind",
+            content_type="audiobook",
+            episode_pattern=None,
+            discography_span_years=16,
+        ),
         albums=[
             {
                 "provider": "spotify",
@@ -981,10 +1002,13 @@ _LILIANE_DIFFERENT_SERIES = Case[BatchInput, BatchResult](
 _WAS_IST_WAS_DOPPELFOLGE = Case[BatchInput, BatchResult](
     name="was_ist_was_doppelfolge",
     inputs=BatchInput(
-        series_title="Was Ist Was",
-        content_type="hoerspiel",
-        episode_pattern=None,
-        discography_span_years=14,
+        series=SeriesContext(
+            id="was_ist_was",
+            title="Was Ist Was",
+            content_type="hoerspiel",
+            episode_pattern=None,
+            discography_span_years=14,
+        ),
         albums=[
             {
                 "provider": "spotify",
