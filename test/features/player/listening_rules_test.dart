@@ -20,13 +20,20 @@ final _item = TileItem(
 const _minute = 60000;
 
 /// Progress with [remainingMs] left of a [durationMs] long item.
-PlaybackProgress _left(int remainingMs, {required int durationMs}) => (
+///
+/// [coveredMs] defaults to a listen from the start up to there.
+PlaybackProgress _left(
+  int remainingMs, {
+  required int durationMs,
+  int? coveredMs,
+}) => (
   trackNumber: 3,
   isLastTrack: false,
   positionMs: 0,
   trackDurationMs: 0,
   elapsedMs: durationMs - remainingMs,
   durationMs: durationMs,
+  coveredMs: coveredMs ?? durationMs - remainingMs,
 );
 
 void main() {
@@ -88,6 +95,36 @@ void main() {
     }
   });
 
+  group('isFinishedEnough needs the listen to cover the item', () {
+    test('skipping chapters to the end is not hearing it (10-05)', () {
+      // Folge 264: "next" through the chapters, the last one ran out.
+      final progress = _left(0, durationMs: 12 * _minute, coveredMs: 115000);
+
+      expect(isFinishedEnough(_item, progress), isFalse);
+    });
+
+    test('resuming in the credits after a real listen is', () {
+      // The listen opened at 11:40 of 12:00 and played the rest.
+      final progress = _left(
+        0,
+        durationMs: 12 * _minute,
+        coveredMs: 11 * _minute + 40000 + 20000,
+      );
+
+      expect(isFinishedEnough(_item, progress), isTrue);
+    });
+
+    test('half the item covered is enough', () {
+      final progress = _left(
+        0,
+        durationMs: 12 * _minute,
+        coveredMs: 6 * _minute,
+      );
+
+      expect(isFinishedEnough(_item, progress), isTrue);
+    });
+  });
+
   group('isFinishedEnough without a known duration', () {
     PlaybackProgress onTrack({required bool last, required int leftMs}) => (
       trackNumber: 2,
@@ -96,6 +133,7 @@ void main() {
       trackDurationMs: 180000,
       elapsedMs: 0,
       durationMs: 0,
+      coveredMs: 0,
     );
 
     test('the last seconds of the last track count', () {

@@ -16,12 +16,14 @@ void main() {
       expect(mergeBackendState(before, backendState).isFinished, isTrue);
     });
 
-    test('takes the end from the backend', () {
-      const backendState = PlaybackState(isReady: true, isFinished: true);
+    test("the backend's end does not finish the card by itself", () {
+      // The player decides with isFinishedEnough: a kid who skipped to
+      // the last chapter reached the end without hearing the episode.
+      const backendState = PlaybackState(isReady: true, reachedEnd: true);
 
       expect(
         mergeBackendState(const PlaybackState(), backendState).isFinished,
-        isTrue,
+        isFalse,
       );
     });
 

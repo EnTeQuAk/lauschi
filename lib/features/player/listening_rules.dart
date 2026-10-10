@@ -29,6 +29,11 @@ typedef PlaybackProgress =
 
       /// Duration of the whole item, 0 when the backend doesn't know it.
       int durationMs,
+
+      /// How much of the item this listen covered: where it started (a
+      /// resume point) plus the time audio actually played. Skipping
+      /// chapters moves [elapsedMs] but not this.
+      int coveredMs,
     });
 
 /// How long an item has to play before it counts as started.
@@ -49,6 +54,12 @@ const finishedWithinShare = 0.10;
 /// album doesn't count as heard with seven minutes of story left.
 const finishedWithinAtMost = Duration(minutes: 4);
 
+/// Share of an item a listen has to cover before reaching its end counts
+/// as hearing it. A kid skipping chapters to the last one and letting it
+/// run out has not heard the episode (seen in 2026-10: marked heard after
+/// 115 s of a Ninjago episode).
+const finishedAfterCoveredShare = 0.5;
+
 /// Fallback when the backend doesn't know the item's duration: how
 /// close to the end of the last track counts as finished.
 const finishedWithinLastTrack = Duration(seconds: 30);
@@ -56,11 +67,19 @@ const finishedWithinLastTrack = Duration(seconds: 30);
 /// Whether an item that played for [playTime] counts as started.
 bool isStartedEnough(Duration playTime) => playTime >= startedAfterPlayTime;
 
+/// Whether the listen covered enough of the item to count as hearing it
+/// ([finishedAfterCoveredShare]). True when the item's duration is
+/// unknown: then nothing can be said.
+bool hasCoveredEnough(PlaybackProgress progress) =>
+    progress.durationMs <= 0 ||
+    progress.coveredMs >= progress.durationMs * finishedAfterCoveredShare;
+
 /// Whether the kid has heard [item], given where its playback stands.
 ///
 /// [item] is unused today, it is the hook for content-specific rules
 /// (e.g. a curated credits length from the catalog).
 bool isFinishedEnough(TileItem item, PlaybackProgress progress) {
+  if (!hasCoveredEnough(progress)) return false;
   if (progress.durationMs > 0) {
     final remainingMs = progress.durationMs - progress.elapsedMs;
     final allowedMs = (progress.durationMs * finishedWithinShare).round();

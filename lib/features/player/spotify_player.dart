@@ -37,6 +37,10 @@ class SpotifyPlayer extends PlayerBackend {
             (state) => _gate.accept(
               state,
               contextUri: _bridge.contextUri,
+              isOwnTrack:
+                  _tracks.isEmpty || state.track == null
+                      ? null
+                      : _indexOf(state.track?.uri) >= 0,
               isLastTrack: !hasNextTrack,
             ),
           )
@@ -49,11 +53,17 @@ class SpotifyPlayer extends PlayerBackend {
   /// The card's tracks, in order, once [loadTracks] has fetched them.
   List<SpotifyTrack> _tracks = const [];
 
-  /// Index of the playing track in [_tracks], or -1 when unknown.
-  int get _trackIndex {
-    final uri = _bridge.currentState.track?.uri;
-    return uri == null ? -1 : _tracks.indexWhere((t) => t.uri == uri);
+  /// Index of [trackUri] in [_tracks], or -1. A market-relinked copy
+  /// matches through its original (`linkedFromUri`), which the bridge
+  /// sets alongside the state being handled.
+  int _indexOf(String? trackUri) {
+    if (trackUri == null) return -1;
+    final linked = _bridge.linkedFromUri;
+    return _tracks.indexWhere((t) => t.uri == trackUri || t.uri == linked);
   }
+
+  /// Index of the playing track in [_tracks], or -1 when unknown.
+  int get _trackIndex => _indexOf(_bridge.currentState.track?.uri);
 
   /// Fetch the card's track list. The SDK's own track window only holds
   /// the tracks around the current one, so it can't say where in a
@@ -181,12 +191,14 @@ class SpotifyPlayer extends PlayerBackend {
 /// The bridge keeps reporting the previous card for a moment after a
 /// switch. In the field, the old episode's last "paused near the end"
 /// state arrived after the new card's play command and marked the new
-/// card heard. So a card ignores every state from another context until
-/// its own context has started.
+/// card heard, and later a state carrying the previous card's track came
+/// in 6 ms after a tap. So a state counts only when both its context
+/// (the album or playlist) and its track fit the card, as far as either
+/// is known, and nothing counts before the card's own playback started.
 ///
 /// Spotify has no "album ended" event. It leaves the last track without
 /// being asked: it either wraps to the start of the album and pauses, or
-/// moves on to another context (autoplay). Both count as the end, and
+/// moves on to something else (autoplay). Both count as the end, and
 /// both are recognised only right after a state on the last track, so a
 /// kid's own seek or skip ([expectJump]) never looks like one.
 class SpotifyContextGate {
@@ -202,29 +214,37 @@ class SpotifyContextGate {
   /// the jump that follows is not taken for the end.
   void expectJump() => _last = null;
 
-  /// The state to pass on for a bridge [state] that the SDK reported with
-  /// [contextUri] and [isLastTrack], or null to drop it.
+  /// The state to pass on for a bridge [state], or null to drop it.
   ///
-  /// A missing context counts as this card's: the SDK only omits it in
-  /// rare cases, and dropping those states could leave a card stuck in
-  /// loading.
+  /// [contextUri] is what the SDK reported with it (null when it reported
+  /// none), [isOwnTrack] whether its track is one of the card's (null
+  /// while the card's track list isn't known).
   PlaybackState? accept(
     PlaybackState state, {
     required String? contextUri,
+    required bool? isOwnTrack,
     required bool isLastTrack,
   }) {
     final last = _last;
-    final isOwn = contextUri == null || contextUri == this.contextUri;
-    if (!isOwn) {
+    final foreign =
+        (contextUri != null && contextUri != this.contextUri) ||
+        isOwnTrack == false;
+    if (foreign) {
       if (!_started || last == null || !last.isLastTrack) return null;
-      // Autoplay moved on after the last track. Keep showing this card.
+      // Playback moved on after the last track. Keep showing this card.
       _last = null;
       return last.state.copyWith(
         isPlaying: false,
-        isFinished: true,
+        reachedEnd: true,
         error: last.state.error,
       );
     }
+
+    // Neither the context nor the track says whose state this is. Before
+    // the card's own playback has shown up, it may well be the previous
+    // card's, so it waits for a state that can be attributed.
+    final attributed = contextUri != null || isOwnTrack == true;
+    if (!_started && !attributed) return null;
 
     _started = true;
     final wrapped =
@@ -235,7 +255,7 @@ class SpotifyContextGate {
         state.positionMs == 0;
     _last = _GateState(state, isLastTrack: isLastTrack);
     return wrapped
-        ? state.copyWith(isFinished: true, error: state.error)
+        ? state.copyWith(reachedEnd: true, error: state.error)
         : state;
   }
 }

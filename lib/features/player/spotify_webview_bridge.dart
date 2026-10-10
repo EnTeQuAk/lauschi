@@ -124,6 +124,7 @@ class SpotifyWebViewBridge {
   // Spotify-specific state tracked internally (not on PlaybackState).
   String? _deviceId;
   String? _contextUri;
+  String? _linkedFromUri;
   int _trackNumber = 0;
   int _nextTracksCount = 0;
 
@@ -158,6 +159,10 @@ class SpotifyWebViewBridge {
   /// `spotify:album:…`. Null before the first state or when the SDK
   /// reports none.
   String? get contextUri => _contextUri;
+
+  /// The original URI of the playing track when Spotify plays a
+  /// market-relinked copy of it, else null.
+  String? get linkedFromUri => _linkedFromUri;
 
   /// 1-based track position within the current album.
   int get trackNumber => _trackNumber;
@@ -326,6 +331,7 @@ class SpotifyWebViewBridge {
     Log.info(_tag, 'Tearing down bridge');
     _deviceId = null;
     _contextUri = null;
+    _linkedFromUri = null;
     _trackNumber = 0;
     _nextTracksCount = 0;
     _stateStopwatch.reset();
@@ -469,6 +475,12 @@ class SpotifyWebViewBridge {
     }
   }
 
+  /// A Spotify URI from [payload], sanitized, or null when absent.
+  static String? _uriField(Map<String, dynamic> payload, String key) {
+    final raw = coerceJsonString(payload[key]);
+    return raw == null ? null : _sanitize(raw, maxLength: 256);
+  }
+
   static String _sanitize(String input, {int maxLength = 500}) {
     final clamped =
         input.length > maxLength ? '${input.substring(0, maxLength)}…' : input;
@@ -488,9 +500,8 @@ class SpotifyWebViewBridge {
       payload['next_tracks_count'],
     ).clamp(0, 9999);
     final trackData = coerceJsonMap(payload['track']);
-    final rawContext = coerceJsonString(payload['context_uri']);
-    final contextUri =
-        rawContext == null ? null : _sanitize(rawContext, maxLength: 256);
+    final contextUri = _uriField(payload, 'context_uri');
+    final linkedFromUri = _uriField(payload, 'linked_from_uri');
 
     TrackInfo? track;
     if (trackData != null) {
@@ -542,6 +553,7 @@ class SpotifyWebViewBridge {
     }
 
     _contextUri = contextUri;
+    _linkedFromUri = linkedFromUri;
     _trackNumber = trackNum;
     _nextTracksCount = nextCount;
     _stateStopwatch.reset();

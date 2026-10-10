@@ -55,6 +55,7 @@ class PlaybackState {
     this.error,
     this.activeCardId,
     this.isFinished = false,
+    this.reachedEnd = false,
     this.hasNextTrack = false,
     this.hasPrevTrack = false,
   });
@@ -86,13 +87,14 @@ class PlaybackState {
   /// this card, as playing or paused.
   final String? activeCardId;
 
-  /// The card in the player is finished.
-  ///
-  /// A backend sets it when playback reaches the end of the card's
-  /// content. The player sets it when the kid leaves a card that counts
-  /// as finished (see `isFinishedEnough`). It stays set until the next
-  /// card starts.
+  /// The player recorded the card in the player as finished (see
+  /// `isFinishedEnough`). It stays set until the next card starts.
   final bool isFinished;
+
+  /// A backend's report that playback reached the end of the card's
+  /// content. An input the player decides on: reaching the end after
+  /// skipping through the chapters doesn't make a card finished.
+  final bool reachedEnd;
 
   /// Whether there is a track after the current one in the queue.
   /// Used to disable/hide the next track button when false.
@@ -116,6 +118,7 @@ class PlaybackState {
     String? activeCardId,
     bool clearActiveCard = false,
     bool? isFinished,
+    bool? reachedEnd,
     bool? hasNextTrack,
     bool? hasPrevTrack,
   }) {
@@ -130,6 +133,7 @@ class PlaybackState {
       activeCardId:
           clearActiveCard ? null : (activeCardId ?? this.activeCardId),
       isFinished: isFinished ?? this.isFinished,
+      reachedEnd: reachedEnd ?? this.reachedEnd,
       hasNextTrack: hasNextTrack ?? this.hasNextTrack,
       hasPrevTrack: hasPrevTrack ?? this.hasPrevTrack,
     );

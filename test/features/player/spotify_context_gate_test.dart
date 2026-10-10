@@ -34,25 +34,33 @@ void main() {
           playing: false,
         ),
         contextUri: _album126,
+        isOwnTrack: null,
         isLastTrack: true,
       );
       final own = gate.accept(
         _state(track: '127-track1', positionMs: 0, durationMs: 202453),
         contextUri: _album127,
+        isOwnTrack: null,
         isLastTrack: false,
       );
 
       expect(stale, isNull);
       expect(own, isNotNull);
-      expect(own!.isFinished, isFalse);
+      expect(own!.reachedEnd, isFalse);
     });
 
-    test('a state without a context counts as its own', () {
-      final gate = SpotifyContextGate(_album127);
+    test('a state without a context counts once the card started', () {
+      final gate = SpotifyContextGate(_album127)..accept(
+        _state(track: '127-track1', positionMs: 0, durationMs: 202453),
+        contextUri: _album127,
+        isOwnTrack: null,
+        isLastTrack: false,
+      );
 
       final state = gate.accept(
-        _state(track: 't', positionMs: 0, durationMs: 1000),
+        _state(track: '127-track1', positionMs: 1000, durationMs: 202453),
         contextUri: null,
+        isOwnTrack: null,
         isLastTrack: false,
       );
 
@@ -65,6 +73,7 @@ void main() {
       final gate = SpotifyContextGate(_album126)..accept(
         _state(track: 'track2', positionMs: 202301, durationMs: 206467),
         contextUri: _album126,
+        isOwnTrack: null,
         isLastTrack: true,
       );
 
@@ -76,26 +85,29 @@ void main() {
           playing: false,
         ),
         contextUri: _album126,
+        isOwnTrack: null,
         isLastTrack: false,
       );
 
-      expect(wrapped!.isFinished, isTrue);
+      expect(wrapped!.reachedEnd, isTrue);
     });
 
     test('autoplay moving to another album is the end', () {
       final gate = SpotifyContextGate(_album126)..accept(
         _state(track: 'track2', positionMs: 205000, durationMs: 206467),
         contextUri: _album126,
+        isOwnTrack: null,
         isLastTrack: true,
       );
 
       final left = gate.accept(
         _state(track: 'recommended', positionMs: 0, durationMs: 150000),
         contextUri: 'spotify:album:something-else',
+        isOwnTrack: null,
         isLastTrack: false,
       );
 
-      expect(left!.isFinished, isTrue);
+      expect(left!.reachedEnd, isTrue);
       expect(left.isPlaying, isFalse);
       expect(left.track?.uri, 'track2', reason: 'keeps showing this card');
     });
@@ -104,6 +116,7 @@ void main() {
       final gate = SpotifyContextGate(_album126)..accept(
         _state(track: 'track2', positionMs: 90000, durationMs: 206467),
         contextUri: _album126,
+        isOwnTrack: null,
         isLastTrack: true,
       );
 
@@ -115,26 +128,29 @@ void main() {
           playing: false,
         ),
         contextUri: _album126,
+        isOwnTrack: null,
         isLastTrack: true,
       );
 
-      expect(paused!.isFinished, isFalse);
+      expect(paused!.reachedEnd, isFalse);
     });
 
     test('moving from an earlier track to the next is not the end', () {
       final gate = SpotifyContextGate(_album126)..accept(
         _state(track: 'track1', positionMs: 200000, durationMs: 200506),
         contextUri: _album126,
+        isOwnTrack: null,
         isLastTrack: false,
       );
 
       final next = gate.accept(
         _state(track: 'track2', positionMs: 0, durationMs: 206467),
         contextUri: _album126,
+        isOwnTrack: null,
         isLastTrack: true,
       );
 
-      expect(next!.isFinished, isFalse);
+      expect(next!.reachedEnd, isFalse);
     });
 
     test("a kid's seek back to the start is not the end", () {
@@ -143,6 +159,7 @@ void main() {
             ..accept(
               _state(track: 'track2', positionMs: 120000, durationMs: 206467),
               contextUri: _album126,
+              isOwnTrack: null,
               isLastTrack: true,
             )
             ..expectJump();
@@ -155,26 +172,99 @@ void main() {
           playing: false,
         ),
         contextUri: _album126,
+        isOwnTrack: null,
         isLastTrack: true,
       );
 
-      expect(sought!.isFinished, isFalse);
+      expect(sought!.reachedEnd, isFalse);
     });
 
     test('another album playing mid-card is ignored, not the end', () {
       final gate = SpotifyContextGate(_album126)..accept(
         _state(track: 'track1', positionMs: 30000, durationMs: 200506),
         contextUri: _album126,
+        isOwnTrack: null,
         isLastTrack: false,
       );
 
       final foreign = gate.accept(
         _state(track: 'other', positionMs: 0, durationMs: 1000),
         contextUri: 'spotify:album:other',
+        isOwnTrack: null,
         isLastTrack: false,
       );
 
       expect(foreign, isNull);
+    });
+  });
+
+  group('attributing a state to the card', () {
+    test('no context and an unknown track before the card started is '
+        'dropped (10-08 07:02:05, 6 ms after a tap)', () {
+      final gate = SpotifyContextGate(_album127);
+
+      final unattributed = gate.accept(
+        _state(
+          track: '126-track2',
+          positionMs: 160532,
+          durationMs: 165094,
+          playing: false,
+        ),
+        contextUri: null,
+        isOwnTrack: null,
+        isLastTrack: true,
+      );
+
+      expect(unattributed, isNull);
+    });
+
+    test('a track of another card is dropped even with the right context', () {
+      final gate = SpotifyContextGate(_album127);
+
+      final stale = gate.accept(
+        _state(
+          track: '126-track2',
+          positionMs: 160532,
+          durationMs: 165094,
+          playing: false,
+        ),
+        contextUri: _album127,
+        isOwnTrack: false,
+        isLastTrack: true,
+      );
+
+      expect(stale, isNull);
+    });
+
+    test("the card's own track opens the gate without a context", () {
+      final gate = SpotifyContextGate(_album127);
+
+      final own = gate.accept(
+        _state(track: '127-track1', positionMs: 0, durationMs: 202453),
+        contextUri: null,
+        isOwnTrack: true,
+        isLastTrack: false,
+      );
+
+      expect(own, isNotNull);
+    });
+
+    test('a foreign track after the last one is the end', () {
+      final gate = SpotifyContextGate(_album126)..accept(
+        _state(track: 'track2', positionMs: 205000, durationMs: 206467),
+        contextUri: _album126,
+        isOwnTrack: true,
+        isLastTrack: true,
+      );
+
+      final left = gate.accept(
+        _state(track: 'recommended', positionMs: 0, durationMs: 150000),
+        contextUri: null,
+        isOwnTrack: false,
+        isLastTrack: false,
+      );
+
+      expect(left!.reachedEnd, isTrue);
     });
   });
 }

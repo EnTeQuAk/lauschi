@@ -26,9 +26,8 @@ const _episodeCount = 24;
 /// A tile of [_episodeCount] episodes, all playing the same real ARD
 /// audio, numbered 1 to [_episodeCount]. Returns the tile id and the item
 /// ids in episode order.
-Future<({String tileId, List<String> itemIds})> _insertLongTile(
-  PatrolIntegrationTester $,
-) async {
+Future<({String tileId, List<String> itemIds, TestArdEpisode episode})>
+_insertLongTile(PatrolIntegrationTester $) async {
   final container = getContainer($);
   final episode = await getStableTestEpisode(container);
   final tileId = await container
@@ -47,7 +46,7 @@ Future<({String tileId, List<String> itemIds})> _insertLongTile(
       ),
   ];
   await pumpFrames($);
-  return (tileId: tileId, itemIds: ids);
+  return (tileId: tileId, itemIds: ids, episode: episode);
 }
 
 Future<String?> _weiterOf(PatrolIntegrationTester $, String tileId) async =>
@@ -107,6 +106,19 @@ void main() {
         .read(listeningRepositoryProvider)
         .finishItem(tile.itemIds[_episodeCount - 3]);
     await container.read(listeningRepositoryProvider).startItem(folge12);
+    // Folge 12 was heard to 60 % before, so finishing it now counts.
+    final durationMs = tile.episode.durationSeconds * 1000;
+    final atMs = (durationMs * 0.6).round();
+    await container
+        .read(listeningRepositoryProvider)
+        .saveResumePoint(
+          itemId: folge12,
+          trackUri: 'ard:item:weiter-test-12',
+          trackNumber: 1,
+          positionMs: atMs,
+          elapsedMs: atMs,
+          durationMs: durationMs,
+        );
 
     container.read(appRouterProvider).go(AppRoutes.tileDetail(tile.tileId));
     await pumpFrames($, count: 20);

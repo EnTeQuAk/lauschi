@@ -17,6 +17,7 @@ import 'package:lauschi/features/player/apple_music_drm_backend.dart';
 import 'package:lauschi/features/player/apple_music_native_backend.dart';
 import 'package:lauschi/features/player/listening_rules.dart';
 import 'package:lauschi/features/player/media_session_handler.dart';
+import 'package:lauschi/features/player/play_session.dart';
 import 'package:lauschi/features/player/player_backend.dart';
 import 'package:lauschi/features/player/player_error.dart';
 import 'package:lauschi/features/player/player_state.dart';
@@ -79,44 +80,6 @@ Future<void> teardownBackend(
 }
 
 // ---------------------------------------------------------------------------
-// _PlaySession — one play of one card
-// ---------------------------------------------------------------------------
-
-/// One play of one card, from the tap until the next card or a stop.
-///
-/// Backend states and listening writes belong to a session. A closed
-/// session is no longer the player's [PlayerNotifier._session], and
-/// everything still arriving on its behalf is dropped.
-class _PlaySession {
-  _PlaySession(this.id, this.card);
-
-  /// The [PlayerNotifier.playCard] generation that opened it.
-  final int id;
-  final db.TileItem card;
-
-  /// Played long enough to count as started (see [isStartedEnough]).
-  bool started = false;
-
-  /// The card is finished. Recorded once, never undone in a session.
-  bool finished = false;
-
-  final Stopwatch _playStopwatch = Stopwatch();
-  Duration _playedBefore = Duration.zero;
-
-  /// How long audio has actually played in this session.
-  Duration get playTime => _playedBefore + _playStopwatch.elapsed;
-
-  void resumeClock() => _playStopwatch.start();
-
-  void pauseClock() {
-    _playedBefore += _playStopwatch.elapsed;
-    _playStopwatch
-      ..stop()
-      ..reset();
-  }
-}
-
-// ---------------------------------------------------------------------------
 // PlayerNotifier
 // ---------------------------------------------------------------------------
 
@@ -169,7 +132,7 @@ class PlayerNotifier extends _$PlayerNotifier {
   static const _positionSaveInterval = Duration(seconds: 10);
 
   /// The card in the player, or null when nothing is.
-  _PlaySession? _session;
+  PlaySession? _session;
 
   ListeningRepository get _listening => ref.read(listeningRepositoryProvider);
 
@@ -309,7 +272,7 @@ class PlayerNotifier extends _$PlayerNotifier {
   Future<void> pause() async {
     Log.info(_tag, 'pause');
     final session = _session;
-    final progress = _progress();
+    final progress = session == null ? null : _progress(session);
 
     try {
       await _active?.backend.pause();
@@ -407,12 +370,15 @@ class PlayerNotifier extends _$PlayerNotifier {
 
     // The previous card's session ends first, while its backend can
     // still say where playback stands, and before anything can report
-    // on its behalf. A recovery replay is not the kid leaving the card,
-    // so it never finishes one.
+    // on its behalf. A recovery replay of the same card is not a new
+    // listen: it continues the session on a fresh backend instead.
     final previous = _session;
     _session = null;
     _stopPositionSave();
-    if (previous != null) {
+    final continues = forceReplay && previous?.card.id == cardId;
+    if (continues) {
+      previous!.pauseClock();
+    } else if (previous != null) {
       await _closeSession(previous, kidLeft: !forceReplay);
     }
     if (_playGen != gen) return;
@@ -436,14 +402,16 @@ class PlayerNotifier extends _$PlayerNotifier {
       return;
     }
 
-    _session = _PlaySession(gen, card);
+    final session = continues ? previous! : PlaySession(card);
+    _session = session;
+    final resume = startPosition(card, continuing: continues ? session : null);
 
     // Set active card state with placeholder track info from DB so the
     // player screen shows cover art and title immediately. isLoading
     // signals the UI to show a loading overlay on top.
     state = state.copyWith(
       activeCardId: cardId,
-      isFinished: false,
+      isFinished: session.finished,
       isLoading: true,
       track: TrackInfo(
         uri: card.providerUri,
@@ -479,11 +447,11 @@ class PlayerNotifier extends _$PlayerNotifier {
     try {
       switch (ProviderType.fromString(card.provider)) {
         case ProviderType.spotify:
-          await _startSpotify(card, gen);
+          await _startSpotify(card, resume, gen);
         case ProviderType.ardAudiothek:
-          await _startDirect(card, gen);
+          await _startDirect(card, resume, gen);
         case ProviderType.appleMusic:
-          await _startAppleMusic(card, gen);
+          await _startAppleMusic(card, resume, gen);
         case ProviderType.tidal:
           Log.error(
             _tag,
@@ -542,7 +510,7 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   // ─── Spotify startup ────────────────────────────────────────────────
 
-  Future<void> _startSpotify(db.TileItem card, int gen) async {
+  Future<void> _startSpotify(db.TileItem card, ResumeAt resume, int gen) async {
     final session = _spotifySession;
     final bridge = _bridge;
     final api = _api;
@@ -577,7 +545,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     // only the SDK's track window.
     unawaited(player.loadTracks(card.providerUri));
 
-    await _playOnDevice(api, bridge, card, deviceId, gen);
+    await _playOnDevice(api, bridge, card, resume, deviceId, gen);
   }
 
   /// Get a valid device ID, reconnecting if needed. Returns null on failure.
@@ -626,6 +594,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     SpotifyApi api,
     SpotifyWebViewBridge bridge,
     db.TileItem card,
+    ResumeAt resume,
     String deviceId,
     int gen,
   ) async {
@@ -635,13 +604,13 @@ class PlayerNotifier extends _$PlayerNotifier {
       data: {
         'uri': card.providerUri,
         'provider': card.provider,
-        'resumeTrack': card.lastTrackUri ?? 'none',
-        'resumeMs': '${card.lastPositionMs}',
+        'resumeTrack': resume.trackUri ?? 'none',
+        'resumeMs': '${resume.positionMs}',
       },
     );
 
     try {
-      await _sendPlayCommand(api, card.providerUri, deviceId, card);
+      await _sendPlayCommand(api, card.providerUri, deviceId, resume);
       if (_playGen != gen) return;
     } on SpotifyDeviceNotFoundException {
       if (_playGen != gen) return;
@@ -658,7 +627,7 @@ class PlayerNotifier extends _$PlayerNotifier {
       if (_playGen != gen) return;
 
       try {
-        await _sendPlayCommand(api, card.providerUri, newDeviceId, card);
+        await _sendPlayCommand(api, card.providerUri, newDeviceId, resume);
         if (_playGen != gen) return;
       } on SpotifyDeviceNotFoundException {
         if (_playGen != gen) return;
@@ -672,14 +641,15 @@ class PlayerNotifier extends _$PlayerNotifier {
     SpotifyApi api,
     String spotifyUri,
     String deviceId,
-    db.TileItem card,
+    ResumeAt resume,
   ) async {
-    if (card.lastTrackUri != null && card.lastPositionMs > 0) {
+    final trackUri = resume.trackUri;
+    if (trackUri != null && resume.positionMs > 0) {
       await api.play(
         spotifyUri,
         deviceId: deviceId,
-        offsetUri: card.lastTrackUri,
-        positionMs: card.lastPositionMs,
+        offsetUri: trackUri,
+        positionMs: resume.positionMs,
       );
     } else {
       await api.play(spotifyUri, deviceId: deviceId);
@@ -688,7 +658,7 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   // ─── StreamPlayer startup ──────────────────────────────────────────
 
-  Future<void> _startDirect(db.TileItem card, int gen) async {
+  Future<void> _startDirect(db.TileItem card, ResumeAt resume, int gen) async {
     Log.info(
       _tag,
       'Starting StreamPlayer gen=$gen',
@@ -718,7 +688,7 @@ class PlayerNotifier extends _$PlayerNotifier {
       data: {
         'cardId': card.id,
         'provider': card.provider,
-        'resumeMs': '${card.lastPositionMs}',
+        'resumeMs': '${resume.positionMs}',
       },
     );
 
@@ -728,13 +698,17 @@ class PlayerNotifier extends _$PlayerNotifier {
     await player.play(
       audioUrl: card.audioUrl!,
       trackInfo: trackInfo,
-      positionMs: card.lastPositionMs,
+      positionMs: resume.positionMs,
     );
   }
 
   // ─── Apple Music startup ──────────────────────────────────────────
 
-  Future<void> _startAppleMusic(db.TileItem card, int gen) async {
+  Future<void> _startAppleMusic(
+    db.TileItem card,
+    ResumeAt resume,
+    int gen,
+  ) async {
     final amSession = ref.read(appleMusicSessionProvider.notifier);
 
     Log.info(_tag, 'Starting Apple Music gen=$gen', data: {'card': card.title});
@@ -795,26 +769,36 @@ class PlayerNotifier extends _$PlayerNotifier {
 
     // Resume from saved track position. lastTrackNumber is 1-based in DB;
     // play() expects 0-based trackIndex.
-    final savedTrackIndex =
-        card.lastTrackNumber > 0 ? card.lastTrackNumber - 1 : 0;
+    final savedTrackIndex = resume.trackNumber > 0 ? resume.trackNumber - 1 : 0;
 
     await player.play(
       albumId: albumId,
       trackInfo: trackInfo,
       trackIndex: savedTrackIndex,
-      positionMs: card.lastPositionMs,
+      positionMs: resume.positionMs,
     );
   }
 
   // ─── Playback state change handling ─────────────────────────────────
 
-  /// A state from the backend that session [sessionId] started.
-  void _onBackendState(int sessionId, PlaybackState backendState) {
+  /// A state from the backend that `playCard` generation [gen] started.
+  /// States from an older generation's backend are dropped.
+  void _onBackendState(int gen, PlaybackState backendState) {
     final session = _session;
-    if (session == null || session.id != sessionId) return;
+    if (session == null || gen != _playGen) return;
 
     final wasPlaying = state.isPlaying;
     state = mergeBackendState(state, backendState);
+    final track = backendState.track;
+    final backend = _active?.backend;
+    final positionMs = backend?.currentPositionMs ?? 0;
+    if (track != null && backend != null && positionMs > 0) {
+      session.lastPosition = (
+        trackUri: track.uri,
+        trackNumber: backend.currentTrackNumber,
+        positionMs: positionMs,
+      );
+    }
 
     // Log play/pause transitions (not every position tick).
     if (state.isPlaying != wasPlaying) {
@@ -847,12 +831,16 @@ class PlayerNotifier extends _$PlayerNotifier {
       );
     }
 
-    if (backendState.isFinished && !session.finished) {
+    // Backends keep reporting the end while they sit there (just_audio's
+    // completed state), so only a new report of it counts.
+    final endReported = backendState.reachedEnd && !session.reachedEnd;
+    session.reachedEnd = backendState.reachedEnd;
+    if (endReported) {
       _stopPositionSave();
-      unawaited(_finish(session, moment: 'reached the end'));
       // Spotify may carry on with autoplay after the album, and nothing
       // should play past the card's end.
       unawaited(_pauseBackendQuietly());
+      unawaited(_finishAtEnd(session));
       return;
     }
 
@@ -864,8 +852,9 @@ class PlayerNotifier extends _$PlayerNotifier {
     }
   }
 
-  /// Where playback of the active backend stands, or null without one.
-  PlaybackProgress? _progress() {
+  /// Where [session]'s playback on the active backend stands, or null
+  /// without a backend.
+  PlaybackProgress? _progress(PlaySession session) {
     final backend = _active?.backend;
     if (backend == null) return null;
     return (
@@ -875,6 +864,27 @@ class PlayerNotifier extends _$PlayerNotifier {
       trackDurationMs: state.durationMs,
       elapsedMs: backend.elapsedMs,
       durationMs: backend.contentDurationMs,
+      coveredMs: session.coveredMs,
+    );
+  }
+
+  /// The backend played [session]'s card to its end. That finishes it
+  /// when the listen covered enough of it ([hasCoveredEnough]), not when
+  /// the kid skipped through to the last chapter.
+  Future<void> _finishAtEnd(PlaySession session) async {
+    final progress = _progress(session);
+    if (progress == null || hasCoveredEnough(progress)) {
+      await _finish(session, moment: 'reached the end');
+      return;
+    }
+    Log.info(
+      _tag,
+      'End reached, too little heard to count',
+      data: {
+        'cardId': session.card.id,
+        'coveredMs': '${progress.coveredMs}',
+        'durationMs': '${progress.durationMs}',
+      },
     );
   }
 
@@ -895,11 +905,11 @@ class PlayerNotifier extends _$PlayerNotifier {
   /// Reads the active backend, so callers run it before tearing the
   /// backend down.
   Future<void> _closeSession(
-    _PlaySession session, {
+    PlaySession session, {
     required bool kidLeft,
   }) async {
     session.pauseClock();
-    final progress = _progress();
+    final progress = _progress(session);
     Log.info(
       _tag,
       'Session closed',
@@ -924,7 +934,7 @@ class PlayerNotifier extends _$PlayerNotifier {
   }
 
   Future<void> _finishIfEnough(
-    _PlaySession session,
+    PlaySession session,
     PlaybackProgress progress, {
     required String moment,
   }) async {
@@ -933,7 +943,7 @@ class PlayerNotifier extends _$PlayerNotifier {
   }
 
   /// Record [session]'s card as finished, once per session.
-  Future<void> _finish(_PlaySession session, {required String moment}) async {
+  Future<void> _finish(PlaySession session, {required String moment}) async {
     if (session.finished) return;
     session.finished = true;
     if (identical(session, _session)) {
@@ -944,24 +954,41 @@ class PlayerNotifier extends _$PlayerNotifier {
       'Card finished',
       data: {'cardId': session.card.id, 'moment': moment},
     );
-    try {
-      await _listening.finishItem(session.card.id);
-    } on Exception catch (e) {
-      Log.error(_tag, 'Recording a finish failed', exception: e);
-    }
+    await session.queue(() async {
+      try {
+        await _listening.finishItem(session.card.id);
+      } on Exception catch (e) {
+        Log.error(_tag, 'Recording a finish failed', exception: e);
+      }
+    });
   }
 
   /// Bring the listening facts up to date with [session]'s play time
   /// and position: the card counts as started once it has played long
   /// enough, and a started, unfinished card keeps a resume point.
+  ///
+  /// The position is taken now, the writes run in the session's queue, so
+  /// a save that is still waiting when the card finishes is dropped.
   Future<void> _recordProgress(
-    _PlaySession session, {
+    PlaySession session, {
     PlaybackProgress? progress,
-  }) async {
-    final current = progress ?? _progress();
+  }) {
+    final current = progress ?? _progress(session);
     final trackUri = state.track?.uri;
+    final playTime = session.playTime;
+    return session.queue(
+      () => _writeProgress(session, current, trackUri, playTime),
+    );
+  }
+
+  Future<void> _writeProgress(
+    PlaySession session,
+    PlaybackProgress? current,
+    String? trackUri,
+    Duration playTime,
+  ) async {
     try {
-      if (!session.started && isStartedEnough(session.playTime)) {
+      if (!session.started && isStartedEnough(playTime)) {
         session.started = true;
         await _listening.startItem(session.card.id);
       }
@@ -990,7 +1017,8 @@ class PlayerNotifier extends _$PlayerNotifier {
           'positionMs': '${current.positionMs}',
           'elapsedMs': '${current.elapsedMs}',
           'durationMs': '${current.durationMs}',
-          'playTimeMs': '${session.playTime.inMilliseconds}',
+          'coveredMs': '${current.coveredMs}',
+          'playTimeMs': '${playTime.inMilliseconds}',
         },
       );
     } on Exception catch (e) {
@@ -1098,9 +1126,8 @@ const spotifyDisconnectedState = PlaybackState(
 /// Merge a backend's state into the player's state.
 ///
 /// Extracted as a top-level function so it's testable without
-/// instantiating PlayerNotifier. [PlaybackState.isFinished] only ever
-/// turns on within a card: a backend that reports the end once and then
-/// moves on (Spotify wraps to the first track) leaves the card finished.
+/// instantiating PlayerNotifier. [PlaybackState.reachedEnd] stays with
+/// the backend: the player decides on it in its state handler.
 PlaybackState mergeBackendState(
   PlaybackState current,
   PlaybackState backendState,
@@ -1116,7 +1143,6 @@ PlaybackState mergeBackendState(
     track: backendState.track ?? current.track,
     positionMs: backendState.positionMs,
     durationMs: backendState.durationMs,
-    isFinished: current.isFinished || backendState.isFinished,
     // Keep existing error if the backend has none
     // (error is always-replace, so passing null clears it).
     error: backendState.error ?? current.error,

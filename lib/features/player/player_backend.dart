@@ -3,7 +3,7 @@ import 'package:lauschi/features/player/player_state.dart';
 /// Abstraction over playback control for different audio providers.
 ///
 /// A backend reports the end of the card's content explicitly, with
-/// `PlaybackState.isFinished`, in whatever way its provider signals it.
+/// `PlaybackState.reachedEnd`, in whatever way its provider signals it.
 /// The player never infers the end from positions.
 ///
 /// Implementations: SpotifyPlayer (WebView SDK), StreamPlayer

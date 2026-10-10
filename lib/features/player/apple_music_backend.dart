@@ -265,7 +265,7 @@ abstract class AppleMusicBackend extends PlayerBackend {
           unawaited(nextTrack());
         } else {
           isPlaying = false;
-          emitState(isFinished: true);
+          emitState(reachedEnd: true);
         }
 
       case 'error':
@@ -303,7 +303,7 @@ abstract class AppleMusicBackend extends PlayerBackend {
   }
 
   @protected
-  void emitState({PlayerError? error, bool isFinished = false}) {
+  void emitState({PlayerError? error, bool reachedEnd = false}) {
     if (_stateController.isClosed) return;
     _stateController.add(
       PlaybackState(
@@ -312,7 +312,7 @@ abstract class AppleMusicBackend extends PlayerBackend {
         track: currentTrack,
         positionMs: positionMs,
         durationMs: durationMs,
-        isFinished: isFinished,
+        reachedEnd: reachedEnd,
         error: error,
       ),
     );

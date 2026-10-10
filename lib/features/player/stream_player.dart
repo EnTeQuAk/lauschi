@@ -415,7 +415,7 @@ class StreamPlayer extends PlayerBackend {
         track: _currentTrack,
         positionMs: _positionMs,
         durationMs: _durationMs,
-        isFinished: _reachedEnd,
+        reachedEnd: _reachedEnd,
         error: error,
       ),
     );
