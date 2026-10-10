@@ -73,13 +73,11 @@ mise run catalog-report       # Show curation statistics (included/excluded/gaps
 mise run catalog-review       # List series needing human attention (escalated, flagged)
 mise run catalog-edit         # Manual include/exclude on curations
 mise run catalog-test         # Run the tools/ pytest suite
+mise run catalog-evals        # Eval cases against the live model (see "Evaluating a change")
 mise run catalog-web          # Catalog web UI (state browse, background jobs, review queue)
 ```
 
 CLI subcommands without a mise task: `lint`, `reconcile`, `eval`, `delete`.
-`eval` scores curator/auditor runs produced in a scratch repo root
-(`LAUSCHI_REPO_ROOT=/tmp/...`) against ground-truth verdicts; run it before
-changing prompts or models.
 
 **Single-provider and single-series:**
 ```bash
@@ -164,6 +162,43 @@ Escalations and lint findings are resolved by hand: `catalog-review` lists
 what needs attention, `catalog-edit` and `catalog-splits` make the changes,
 `mise run catalog-audit --force` re-checks afterwards.
 
+#### Evaluating a change
+
+Run the evals before and after you change a prompt, a model or the agent
+code. There are two levels.
+
+**Eval cases** (`mise run catalog-evals`, 30 to 60 minutes) answer "is this
+change better?". A case is one batch of albums from a real artist page with
+the decision every album must come out with. It runs through the production
+batch agent, its prompt, its tools and the deterministic steps after a
+batch, so it is scored on what would ship. The report counts three things
+per case: the share decided right, wrong content (ships and should not) and
+missing content (should ship and does not), plus the episode numbers a case
+names. The model and its tools are called for real, and two runs of one
+case can differ, so every case runs three times.
+
+```bash
+mise run catalog-evals -- --smoke                    # three quick cases once
+mise run catalog-evals -- --cases rolf_zuckowski_own_albums --repeat 1 -v
+mise run catalog-evals                               # all cases, compared with the baseline
+mise run catalog-evals -- --save                     # keep this run as the baseline
+```
+
+The cases are files in `tools/tests/evals/fixtures/`. Every expectation
+names its source: the line index where it lists the title, a hand decision
+with its reason where it does not. To add one, run
+`python -m tests.evals.build_case <series_id> --list` from `tools/` (with
+`mise exec -- uv run --extra ai`), pick the albums, and replace each `todo`
+the builder leaves with a decision you checked. A case states only what you
+can back: leave an album out when neither the index nor another source
+settles it.
+
+**Whole-series eval** (`lauschi-catalog eval`) scores complete curate and
+audit runs, produced in a scratch repo root (`LAUSCHI_REPO_ROOT=/tmp/...`),
+against the committed curations and ground-truth verdicts. It takes hours
+and measures against our own earlier output, so use it before a larger
+change such as a new model, after the cases look good.
+
 #### Tracing agent runs
 
 With a Logfire credential in `.logfire/` (written by `logfire init`,
@@ -175,7 +210,7 @@ That content is catalog metadata from the provider pages, never user data.
 Without a credential nothing is sent and nobody is asked to log in.
 
 `lauschi_catalog.observability.configure_observability()` turns it on, and
-the `lauschi-catalog` console script calls it once. The credential is read
+the `lauschi-catalog` console script and the eval runner call it once. The credential is read
 from the checkout, so a run against a scratch `LAUSCHI_REPO_ROOT` is traced
 like any other. To keep prompts and responses out, pass
 `include_content=False` to `logfire.instrument_pydantic_ai()` there. The
