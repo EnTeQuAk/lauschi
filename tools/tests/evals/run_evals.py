@@ -5,6 +5,7 @@ Usage:
     mise run catalog-evals -- --smoke       # three quick cases once, to check the setup
     mise run catalog-evals -- --cases feuerwehrmann_sam_boxes --repeat 1 -v
     mise run catalog-evals -- --save        # keep the run as the baseline
+    mise run catalog-evals -- --cases a,b --save   # replace only a and b in it
 
 A case calls the model and its tools for real, so two runs of one case
 can differ. Repeats show that as a spread instead of as a result. A run
@@ -21,10 +22,15 @@ import argparse
 import asyncio
 import os
 import sys
+from collections.abc import Collection
 from dataclasses import replace
 from pathlib import Path
 
-from pydantic_evals.reporting import EvaluationReport, EvaluationReportAdapter
+from pydantic_evals.reporting import (
+    EvaluationReport,
+    EvaluationReportAdapter,
+    ReportCase,
+)
 
 from lauschi_catalog.observability import configure_observability
 
@@ -42,16 +48,43 @@ SMOKE_CASES = (
 )
 
 
-def save_report(report: EvaluationReport, path: Path) -> None:
+def _case_name(case: ReportCase) -> str:
+    """The case a run belongs to: with repeats a run is named "case [2/3]"."""
+    return case.source_case_name or case.name
+
+
+def save_report(
+    report: EvaluationReport, path: Path, *, keep: Collection[str] = ()
+) -> None:
     """Keep a run to compare later runs against: scores, assertions with
     their reasons, metrics and durations per case. The albums and the
-    decisions stay out, the case files hold the albums already."""
+    decisions stay out, the case files hold the albums already.
+
+    A run of some cases replaces only those in a saved baseline. ``keep``
+    names the cases that exist today: their saved runs stay, the runs of
+    a case that is gone do not.
+    """
+    ran = {_case_name(case) for case in report.cases}
+    kept = (
+        [
+            case
+            for case in load_report(path).cases
+            if _case_name(case) in keep and _case_name(case) not in ran
+        ]
+        if keep and path.exists()
+        else []
+    )
     slim = replace(
         report,
         cases=[
-            replace(case, inputs=None, metadata=None, output=None)
-            for case in report.cases
+            *kept,
+            *(
+                replace(case, inputs=None, metadata=None, output=None)
+                for case in report.cases
+            ),
         ],
+        # the totals of one run say nothing about a merged baseline
+        analyses=[] if kept else report.analyses,
     )
     path.write_bytes(EvaluationReportAdapter.dump_json(slim, indent=1) + b"\n")
 
@@ -138,7 +171,7 @@ def main() -> None:
     )
     print(f"\nModel requests: {model_requests(report)}")
     if args.save:
-        save_report(report, BASELINE)
+        save_report(report, BASELINE, keep={c.name for c in build_dataset().cases})
         print(f"Saved as the baseline: {BASELINE}")
     if report.failures:
         print(f"\n{len(report.failures)} case run(s) did not finish.")

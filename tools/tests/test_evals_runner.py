@@ -25,7 +25,7 @@ EXPECTED = {
 }
 
 
-def _run(*, ost_included: bool) -> EvaluationReport:
+def _run(*, ost_included: bool, names: tuple[str, ...] = ("case",)) -> EvaluationReport:
     answer = BatchResult(
         albums=[
             decision("ep1", episode_num=1),
@@ -38,7 +38,10 @@ def _run(*, ost_included: bool) -> EvaluationReport:
     )
     dataset = Dataset(
         name="runner",
-        cases=[Case(name="case", inputs="a big batch of albums", metadata=EXPECTED)],
+        cases=[
+            Case(name=name, inputs="a big batch of albums", metadata=EXPECTED)
+            for name in names
+        ],
         evaluators=[DecisionsCorrect(), CatalogOutcome()],
     )
     return dataset.evaluate_sync(lambda _: answer, progress=False)
@@ -70,6 +73,30 @@ def test_a_later_run_is_printed_against_the_saved_one(tmp_path: Path) -> None:
     text = out.file.getvalue()
     assert "Evaluation Diff" in text
     assert "0.500 → 1.00" in text
+
+
+def test_saving_a_run_of_some_cases_keeps_the_others(tmp_path: Path) -> None:
+    """One change is measured on the cases it touches. Saving that run
+    must not throw the rest of the baseline away."""
+    path = tmp_path / "baseline.json"
+    save_report(_run(ost_included=True, names=("rolf", "sam")), path)
+
+    save_report(_run(ost_included=False, names=("rolf",)), path, keep={"rolf", "sam"})
+
+    saved = {
+        case.name: case.scores["wrong_content"].value
+        for case in load_report(path).cases
+    }
+    assert saved == {"sam": 1, "rolf": 0}
+
+
+def test_a_case_that_is_gone_leaves_the_baseline(tmp_path: Path) -> None:
+    path = tmp_path / "baseline.json"
+    save_report(_run(ost_included=True, names=("bibi", "sam")), path)
+
+    save_report(_run(ost_included=False, names=("sam",)), path, keep={"sam"})
+
+    assert [case.name for case in load_report(path).cases] == ["sam"]
 
 
 def test_model_requests_are_added_up_over_the_cases() -> None:
