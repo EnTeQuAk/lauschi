@@ -8,7 +8,33 @@
   "aliases": [],
   "discography_span_years": 49,
   "sibling_titles": [],
-  "ships": []
+  "ships": [],
+  "left_by_lines": {
+   "Benjamin Blümchen: Find's raus": [
+    ["apple_music", "1069138151"],
+    ["apple_music", "1069156880"],
+    ["apple_music", "1139284022"],
+    ["apple_music", "1840617912"]
+   ],
+   "Benjamin Blümchen: Gute-Nacht-Geschichten": [
+    ["apple_music", "1069138151"],
+    ["apple_music", "1069156880"],
+    ["apple_music", "1139284022"],
+    ["apple_music", "1840617912"]
+   ],
+   "Benjamin Blümchen: Minis": [
+    ["apple_music", "1069138151"],
+    ["apple_music", "1069156880"],
+    ["apple_music", "1139284022"],
+    ["apple_music", "1840617912"]
+   ],
+   "Benjamin Blümchen: TV-Serie": [
+    ["apple_music", "1069138151"],
+    ["apple_music", "1069156880"],
+    ["apple_music", "1139284022"],
+    ["apple_music", "1840617912"]
+   ]
+  }
  },
  "decided": [],
  "albums": [

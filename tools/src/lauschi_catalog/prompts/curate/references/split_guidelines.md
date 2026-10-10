@@ -181,6 +181,22 @@ could not settle.
 For a split-off line the inclusion bias reads: in doubt, leave it to the
 root.
 
+## Curating a series that has split-off lines
+
+When the prompt lists lines that curated this page before you, those
+lines have taken their albums, and what they took is not in your batch.
+An album marked `<left_by>` with a line's name was seen by that line and
+not taken. An album a line saw and left is not that line's. Calling it
+`sub_series_bleed` for that line hands it back to an entry that already
+passed on it, and then no entry ships it.
+
+The marker rules out the lines it names and nothing more. An album can
+still belong to a line that has not left it, or to a line that has no
+entry yet: then it is `sub_series_bleed`, with that line named in the
+notes. Only when every line it could belong to has left it, decide it
+as your own: include it, or exclude it for what it is (a compilation,
+a format variant, another type of content).
+
 ## The golden rule
 
 Never split in a way that turns the parent into a graveyard. The

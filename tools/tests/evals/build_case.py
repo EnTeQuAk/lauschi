@@ -27,10 +27,15 @@ import re
 import shlex
 import sys
 import unicodedata
+from collections.abc import Collection, Mapping
 from pathlib import Path
 from typing import Any
 
-from lauschi_catalog.catalog.curate_ops import _root_title, _route_by_family_patterns
+from lauschi_catalog.catalog.curate_ops import (
+    _root_title,
+    _route_by_family_patterns,
+    albums_left_by_lines,
+)
 from lauschi_catalog.catalog.loader import load_catalog, sibling_series
 from lauschi_catalog.catalog.models import CatalogEntry
 from lauschi_catalog.catalog.paths import curation_path
@@ -118,10 +123,13 @@ def series_context(
     page: list[dict[str, Any]],
     main_series_title: str | None,
     asked: frozenset[tuple[str, str]] | set[tuple[str, str]] = frozenset(),
+    left_by_lines: Mapping[str, Collection[tuple[str, str]]] | None = None,
 ) -> dict[str, Any]:
     """The catalog facts a run reads about the series. An album the case
     asks about is left out of what the entry ships: a run never asks
-    about an album it ships, so the case treats it as new on the page."""
+    about an album it ships, so the case treats it as new on the page.
+    ``left_by_lines`` is what albums_left_by_lines returns for a main
+    series, and the case keeps the asked albums of it."""
     years = [
         int(str(row["release_date"])[:4])
         for row in page
@@ -145,6 +153,13 @@ def series_context(
     if entry.split_from:
         context["split_from"] = entry.split_from
         context["main_series_title"] = main_series_title
+    if left_by_lines:
+        context["left_by_lines"] = {
+            title: sorted(
+                [provider, album_id] for provider, album_id in set(left) & set(asked)
+            )
+            for title, left in sorted(left_by_lines.items())
+        }
     return context
 
 
@@ -329,7 +344,14 @@ def main() -> None:
     case = {
         "question": before.get("question") or args.question,
         "built_with": shlex.join(sys.argv[1:]),
-        "series": series_context(entry, catalog, page, _root_title(entry), asked_keys),
+        "series": series_context(
+            entry,
+            catalog,
+            page,
+            _root_title(entry),
+            asked_keys,
+            albums_left_by_lines(entry.id),
+        ),
         "decided": decided_rows(entry, curation, asked_keys, args.reopen),
         "albums": albums,
     }

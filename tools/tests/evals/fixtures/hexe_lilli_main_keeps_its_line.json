@@ -54,7 +54,30 @@
    ["spotify", "0SkX4W1bURosTGQ6IDMOy7"],
    ["spotify", "4WO6LcJf1nMV9oUnff4CKA"],
    ["spotify", "2F4qbEk1JH1nj4E89882JI"]
-  ]
+  ],
+  "left_by_lines": {
+   "Hexe Lilli (Kinofilm)": [
+    ["spotify", "4IzmCaIX0eEgRb7xsQFkfv"]
+   ],
+   "Hexe Lilli: Erstlesergeschichten": [
+    ["apple_music", "1055056779"],
+    ["apple_music", "1056433966"],
+    ["apple_music", "1056436201"],
+    ["apple_music", "1356623749"],
+    ["apple_music", "1356624523"],
+    ["apple_music", "1356630478"],
+    ["apple_music", "1356652069"],
+    ["spotify", "17r2Acz7jO4CK7HH8vPB2k"],
+    ["spotify", "2AAyaocf5n35vHhq43ATco"],
+    ["spotify", "2UFXuzfiqd0cThQRCalzdy"],
+    ["spotify", "4IzmCaIX0eEgRb7xsQFkfv"],
+    ["spotify", "4rRg8Lxw09m5FsCGWid99d"],
+    ["spotify", "6wCQWfFLjfH2Uz5BhwkM94"],
+    ["spotify", "7J10fbU5ef9lYoxFMXhwqs"],
+    ["spotify", "7Js7yHJKNpYOy4maCeMXEY"],
+    ["spotify", "7iQo6EXjMtLPorNrw2vlXW"]
+   ]
+  }
  },
  "decided": [
   {"album_id": "1356624929", "provider": "apple_music", "title": "Folge 3: und der Zirkuszauber", "include": true, "episode_num": 3, "release_date": "1995-01-01"},

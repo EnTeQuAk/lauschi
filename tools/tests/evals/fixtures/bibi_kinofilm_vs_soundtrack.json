@@ -343,7 +343,72 @@
    ["spotify", "4tjQJ8CEeQu8E8cf23aNnj"],
    ["spotify", "0yuyavgAHn3FypyDkwSGn1"],
    ["spotify", "5GCfCc49yUevoXg5JkUilY"]
-  ]
+  ],
+  "left_by_lines": {
+   "Bibi Blocksberg: Bibi erzählt": [
+    ["apple_music", "1069102309"],
+    ["apple_music", "1069132584"],
+    ["apple_music", "1144142594"],
+    ["apple_music", "1228734010"],
+    ["apple_music", "1228748853"],
+    ["apple_music", "1801200242"],
+    ["apple_music", "1827953733"],
+    ["apple_music", "1851429423"],
+    ["apple_music", "1862241025"],
+    ["apple_music", "6782027563"],
+    ["apple_music", "6798866356"],
+    ["spotify", "1LueDXY6cF4HllLN8HfeqW"],
+    ["spotify", "1urP4nLKa3iooOSAKEfR4n"],
+    ["spotify", "5MuK38H2p9v1O7mnVUMRTP"],
+    ["spotify", "7HIgLk8Y8m3KQIFjPiYWQW"]
+   ],
+   "Bibi Blocksberg: Englisch Lernen": [
+    ["apple_music", "1069102309"],
+    ["apple_music", "1069132584"],
+    ["apple_music", "1144142594"],
+    ["apple_music", "1228734010"],
+    ["apple_music", "1228748853"],
+    ["apple_music", "1801200242"],
+    ["apple_music", "1827953733"],
+    ["apple_music", "1851429423"],
+    ["apple_music", "1862241025"],
+    ["apple_music", "6782027563"],
+    ["apple_music", "6798866356"],
+    ["spotify", "1LueDXY6cF4HllLN8HfeqW"],
+    ["spotify", "1urP4nLKa3iooOSAKEfR4n"],
+    ["spotify", "5MuK38H2p9v1O7mnVUMRTP"],
+    ["spotify", "7HIgLk8Y8m3KQIFjPiYWQW"]
+   ],
+   "Bibi Blocksberg: Kampf um Kartoffelbrei": [
+    ["apple_music", "1069102309"],
+    ["apple_music", "1069132584"],
+    ["apple_music", "1144142594"],
+    ["apple_music", "1228734010"],
+    ["apple_music", "1228748853"],
+    ["apple_music", "1801200242"],
+    ["apple_music", "1827953733"],
+    ["apple_music", "1851429423"],
+    ["apple_music", "1862241025"],
+    ["apple_music", "6782027563"],
+    ["apple_music", "6798866356"],
+    ["spotify", "1LueDXY6cF4HllLN8HfeqW"],
+    ["spotify", "1urP4nLKa3iooOSAKEfR4n"],
+    ["spotify", "5MuK38H2p9v1O7mnVUMRTP"],
+    ["spotify", "7HIgLk8Y8m3KQIFjPiYWQW"]
+   ],
+   "Bibi Blocksberg: Kinofilm": [
+    ["apple_music", "1069102309"],
+    ["apple_music", "1069132584"],
+    ["apple_music", "1144142594"],
+    ["apple_music", "1801200242"],
+    ["apple_music", "1827953733"],
+    ["apple_music", "1862241025"],
+    ["apple_music", "6782027563"],
+    ["spotify", "1urP4nLKa3iooOSAKEfR4n"],
+    ["spotify", "7HIgLk8Y8m3KQIFjPiYWQW"]
+   ],
+   "Bibi Blocksberg: Kurzgeschichten": []
+  }
  },
  "decided": [
   {"album_id": "1143559999", "provider": "apple_music", "title": "Folge 1: Hexen gibt es doch", "include": true, "episode_num": 1, "release_date": "1980-01-01"},

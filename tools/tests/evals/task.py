@@ -61,6 +61,9 @@ class SeriesContext:
     sibling_titles: list[str] = field(default_factory=list)
     #: (provider, album_id) of what the entry ships today
     ships: list[tuple[str, str]] = field(default_factory=list)
+    #: for a main series: per sub-series title, the albums of the case
+    #: that sub-series saw and left
+    left_by_lines: dict[str, list[tuple[str, str]]] = field(default_factory=dict)
 
     def entry(self) -> CatalogEntry:
         providers: dict[str, ProviderConfig] = {}
@@ -149,6 +152,9 @@ async def run_batch_curation(
         ),
         sibling_titles=series.sibling_titles,
         line_of=series.main_series_title,
+        left_by_lines={
+            title: set(left) for title, left in series.left_by_lines.items()
+        },
         batch_num=1,
         n_batches=1,
     )

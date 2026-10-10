@@ -119,7 +119,9 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
    is claimed on the other too. The root then takes its children's claims
    from their current curations, so `curate --all` finishes every child
    before a root starts. What no child claims is the family root's: only
-   the root's finalize proposes splits for it. Children of a dissolved root
+   the root's finalize proposes splits for it. The root's batch marks each
+   album with the children that saw it and left it (`<left_by>`), so the
+   root does not hand an album back to a child that passed on it. Children of a dissolved root
    (listed in `deleted.yaml`, e.g. `astrid_lindgren_deutsch`) stay one
    family, and their page's leftovers were settled at dissolution.
    On a page that several entries share, the batch instructions carry what

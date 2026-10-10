@@ -109,6 +109,24 @@ async def test_a_sub_series_is_told_its_line() -> None:
     assert "a line split off from 'Hexe Lilli'" in script.prompts[0]
 
 
+async def test_a_main_series_is_told_what_its_sub_series_left() -> None:
+    script = _Script([_decide("west")])
+    inp = BatchInput(
+        series=SeriesContext(
+            id="hexe_lilli",
+            title="Hexe Lilli",
+            sibling_titles=["Hexe Lilli Erstlesergeschichten"],
+            left_by_lines={"Hexe Lilli Erstlesergeschichten": [("spotify", "west")]},
+        ),
+        albums=[_album("west", "Im wilden Wilden Westen")],
+    )
+
+    await run_batch_curation(inp, model=FunctionModel(script))
+
+    assert "  - Hexe Lilli Erstlesergeschichten\n" in script.prompts[0]
+    assert "<left_by>Hexe Lilli Erstlesergeschichten</left_by>" in script.prompts[0]
+
+
 async def test_an_incomplete_answer_is_sent_back_by_the_output_validator() -> None:
     complete = [_decide("a", episode_num=1), _decide("b", episode_num=2)]
     script = _Script([complete[0]], complete)

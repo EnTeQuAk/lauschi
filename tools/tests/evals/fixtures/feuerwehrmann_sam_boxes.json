@@ -265,7 +265,23 @@
    ["spotify", "6vPVMABaTlBFL2Bqc9Kfu4"],
    ["spotify", "1ZEE4iXQ0CGWkAAUS8YZIY"],
    ["spotify", "1zmYsNl03wrpwBcUnVupU3"]
-  ]
+  ],
+  "left_by_lines": {
+   "Feuerwehrmann Sam: Film Hoerspiele": [
+    ["apple_music", "6772152389"],
+    ["apple_music", "6772153685"],
+    ["apple_music", "6772156052"],
+    ["apple_music", "6772156218"],
+    ["apple_music", "6772156424"],
+    ["apple_music", "6772222780"],
+    ["apple_music", "6772229477"],
+    ["apple_music", "6773707612"],
+    ["apple_music", "6783678062"],
+    ["apple_music", "6783717302"],
+    ["spotify", "4W0ANHLO45Dn5kEo6PL9dU"],
+    ["spotify", "60JZcEsvEqo0jml5JOdZ0k"]
+   ]
+  }
  },
  "decided": [
   {"album_id": "6772151971", "provider": "apple_music", "title": "Folge 134: Norman auf magischer Mission (Das Original-Hörspiel zur TV-Serie)", "include": true, "episode_num": 134, "release_date": "2026-05-29"},

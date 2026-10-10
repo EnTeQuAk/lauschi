@@ -11,7 +11,22 @@
   "aliases": [],
   "discography_span_years": 17,
   "sibling_titles": [],
-  "ships": []
+  "ships": [],
+  "left_by_lines": {
+   "Die drei ??? Kids: Adventskalender": [
+    ["apple_music", "1092525638"],
+    ["apple_music", "1752881332"],
+    ["apple_music", "1849207129"],
+    ["spotify", "5VGU97jdV50FJ8GgGI9qcf"],
+    ["spotify", "5mQg8r5ivI0IX5bTV57KyN"]
+   ],
+   "Die drei ??? Kids: Mini-Fälle": [
+    ["apple_music", "1092525638"],
+    ["apple_music", "1849207129"],
+    ["spotify", "5VGU97jdV50FJ8GgGI9qcf"],
+    ["spotify", "5mQg8r5ivI0IX5bTV57KyN"]
+   ]
+  }
  },
  "decided": [],
  "albums": [

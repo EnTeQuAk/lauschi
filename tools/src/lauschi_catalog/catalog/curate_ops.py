@@ -11,7 +11,7 @@ import json
 import re
 import time
 from collections import Counter
-from collections.abc import Iterator, Mapping, Sequence
+from collections.abc import Collection, Iterator, Mapping, Sequence
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
@@ -212,13 +212,15 @@ def format_batch_albums(
     batch: list[dict],
     seen_details: dict[str, dict],
     run_facts: Mapping[tuple[str, str], RangeFact] | None = None,
+    left_by_lines: Mapping[str, Collection[tuple[str, str]]] | None = None,
 ) -> list[dict]:
     """Normalize a batch to unified album dicts for the prompt XML.
 
     Full details where the prefetch has them; explicit fallback keys
     (the same shape prompt.album_to_dict emits) where it does not. An
     album that holds a run of episodes carries its fact from
-    ``run_facts`` as ``episode_range``.
+    ``run_facts`` as ``episode_range``, and one that split-off lines of
+    the series saw and left carries their titles as ``left_by``.
     """
     albums: list[dict] = []
     for a in batch:
@@ -246,6 +248,13 @@ def format_batch_albums(
         fact = (run_facts or {}).get((a["provider"], a["id"]))
         if fact is not None:
             album["episode_range"] = fact
+        left_by = sorted(
+            title
+            for title, left in (left_by_lines or {}).items()
+            if (a["provider"], a["id"]) in left
+        )
+        if left_by:
+            album["left_by"] = left_by
     return albums
 
 
@@ -262,10 +271,13 @@ def build_batch_prompt(
     n_albums: int,
     albums_xml: str,
     line_of: str | None = None,
+    lines: Sequence[str] = (),
 ) -> str:
     """Assemble the per-batch user prompt. Pure; snapshot-tested.
 
     ``line_of`` is the root's title when the series is a split-off line.
+    ``lines`` is for a series that has split-off lines: the titles of the
+    lines that curated the page, which the albums' ``<left_by>`` name.
     """
     prompt = f"Series: {series_title!r}\nEpisode pattern: {pattern}\n{progress_text}\n"
     if line_of:
@@ -288,6 +300,14 @@ def build_batch_prompt(
             "that belongs to one of them is sub_series_bleed, not part of this "
             "series:\n" + "\n".join(f"  - {t}" for t in sibling_titles) + "\n\n"
         )
+    if lines:
+        prompt += (
+            "These lines of the series curated this page before you and took "
+            "their albums:\n"
+            + "".join(f"  - {title}\n" for title in lines)
+            + "An album marked `<left_by>` was seen by that line and not taken "
+            "(see 'Curating a series that has split-off lines').\n\n"
+        )
     prompt += f"\nBatch {batch_num}/{n_batches} ({n_albums} albums):\n\n{albums_xml}"
     return prompt
 
@@ -304,13 +324,15 @@ def batch_prompt(
     line_of: str | None,
     batch_num: int,
     n_batches: int,
+    left_by_lines: Mapping[str, Collection[tuple[str, str]]] | None = None,
 ) -> str:
     """The prompt for one batch, with what the run has decided so far.
 
     ``decisions`` is everything decided before this batch: the pre-seed
     and the earlier batches. The progress line, the rolling summary and
     the structural hints are read from it, so a later batch stays
-    consistent with the earlier ones.
+    consistent with the earlier ones. ``left_by_lines`` is what
+    albums_left_by_lines returns for the series.
     """
     included = [d for d in decisions if d.include]
     episode_nums = [d.episode_num for d in included if d.episode_num is not None]
@@ -329,7 +351,7 @@ def batch_prompt(
         partial = curation_from_decisions(decisions, pattern)
         structural_hints = build_structural_hints(analyze_series(partial))
 
-    batch_albums = format_batch_albums(batch, seen_details, run_facts)
+    batch_albums = format_batch_albums(batch, seen_details, run_facts, left_by_lines)
     return build_batch_prompt(
         series_title=series_title,
         pattern=pattern,
@@ -338,6 +360,7 @@ def batch_prompt(
         structural_hints=structural_hints,
         sibling_titles=sibling_titles,
         line_of=line_of,
+        lines=sorted(left_by_lines or {}),
         batch_num=batch_num,
         n_batches=n_batches,
         n_albums=len(batch),
@@ -518,6 +541,31 @@ def _child_album_records(child) -> list[tuple[str, str, str]]:
         for provider, cfg in child.providers.items()
         for album in cfg.albums
     ]
+
+
+def albums_left_by_lines(series_id: str | None) -> dict[str, set[tuple[str, str]]]:
+    """Per split-off line of a series: the albums that line saw and left.
+
+    A line's curation holds the whole shared page. What it excludes as
+    ``sub_series_bleed`` it has seen and called not its own, which is a
+    fact the root's run can be told. A line without a curation has seen
+    nothing and is not in the result.
+    """
+    catalog = load_catalog()
+    me = next((e for e in catalog if e.id == series_id), None)
+    if me is None:
+        return {}
+    left: dict[str, set[tuple[str, str]]] = {}
+    for child in family_of(me, catalog).children_of(me.id):
+        child_path = curation_path(child.id)
+        if not child_path.exists():
+            continue
+        left[child.title] = {
+            (a["provider"], a["album_id"])
+            for a in json.loads(child_path.read_text()).get("albums", [])
+            if not a.get("include") and a.get("exclude_reason") == "sub_series_bleed"
+        }
+    return left
 
 
 def core_title(title: str, series_names: list[str]) -> str:
@@ -2548,6 +2596,9 @@ async def _run_large(
             f"  Sibling entries on these artist pages: {', '.join(sibling_titles)}\n"
         )
     line_of = _root_title(catalog_entry)
+    # A series with split-off lines is told which albums they saw and left,
+    # so it does not hand one back to a line that passed on it.
+    left_by_lines = albums_left_by_lines(series_id)
 
     # -- Step 2a: Pre-fetch full album details
     on_progress("  Pre-fetching album details...")
@@ -2712,6 +2763,7 @@ async def _run_large(
             run_facts=run_facts,
             sibling_titles=sibling_titles,
             line_of=line_of,
+            left_by_lines=left_by_lines,
             batch_num=batch_num,
             n_batches=len(batches),
         )

@@ -5,7 +5,11 @@ from typing import get_args
 
 import pytest
 
-from lauschi_catalog.catalog.curate_ops import AlbumAnswer, ExcludeReason
+from lauschi_catalog.catalog.curate_ops import (
+    AlbumAnswer,
+    ExcludeReason,
+    build_batch_prompt,
+)
 from lauschi_catalog.prompts import ContentType, load_curate_skill
 
 
@@ -168,6 +172,14 @@ class TestPolicyTeaching:
         assert "It says\nnothing about the number." in p
         assert "yours with `high`, also when your pattern does not match it" in p
 
+    def test_a_main_series_keeps_what_its_lines_saw_and_left(self):
+        """The main series called such an album the sub-series', and it
+        shipped in neither entry."""
+        p = load_curate_skill(phase="batch", content_type="hoerspiel")
+        assert "An album a line saw and left is not that line's." in p
+        # one line passing on a film Hörspiel does not make it the main series'
+        assert "The marker rules out the lines it names and nothing more." in p
+
     def test_split_guidelines_teach_erstleser_films_and_one_advent_child(self):
         p = load_curate_skill(phase="finalize", content_type="hoerspiel")
         assert "Erstleser" in p
@@ -212,3 +224,25 @@ def test_every_worked_example_ends_in_fields_the_batch_answer_has(
     named = {key for line in results for key in re.findall(r"(\w+)=", line)}
     assert results, "the prompt has no worked example"
     assert named <= set(AlbumAnswer.model_fields)
+
+
+def test_every_section_the_batch_prompt_points_to_is_in_the_skill() -> None:
+    prompt = build_batch_prompt(
+        series_title="S",
+        pattern=None,
+        progress_text="",
+        rolling="",
+        structural_hints=[],
+        sibling_titles=[],
+        line_of="Main",
+        lines=["Line"],
+        batch_num=1,
+        n_batches=1,
+        n_albums=0,
+        albums_xml="",
+    )
+    skill = load_curate_skill(phase="batch", content_type="hoerspiel")
+
+    sections = re.findall(r"\(see\s+'([^']+)'\)", prompt)
+    assert len(sections) == 2
+    assert all(f"\n## {section}\n" in skill for section in sections)

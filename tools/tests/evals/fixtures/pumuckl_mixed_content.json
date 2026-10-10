@@ -169,7 +169,22 @@
    ["spotify", "3e0VgC2evBsa5Vjv7HBzux"],
    ["spotify", "0rww9VO4XelsKVqTcqpV4O"],
    ["spotify", "2USE12izRUjpp8HPMiCnUp"]
-  ]
+  ],
+  "left_by_lines": {
+   "Neue Geschichten vom Pumuckl": [
+    ["apple_music", "1736038177"],
+    ["apple_music", "1880740586"],
+    ["spotify", "1cOFQWQW6BHrLbSiuQfsdO"],
+    ["spotify", "6GPEsKop8ENzW3pJUduDGN"]
+   ],
+   "Pumuckl: Weihnachten": [
+    ["apple_music", "1720424550"],
+    ["apple_music", "1736038177"],
+    ["apple_music", "1880740586"],
+    ["spotify", "1cOFQWQW6BHrLbSiuQfsdO"],
+    ["spotify", "6GPEsKop8ENzW3pJUduDGN"]
+   ]
+  }
  },
  "decided": [
   {"album_id": "1685911446", "provider": "apple_music", "title": "01: Spuk in der Werkstatt (Das Original aus dem Fernsehen)", "include": true, "episode_num": 1, "release_date": "1982-01-08"},

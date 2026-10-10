@@ -134,6 +134,27 @@ class TestSeriesContext:
             "ships": [["apple_music", "am1"], ["spotify", "sp1"], ["spotify", "sp2"]],
         }
 
+    def test_a_main_series_carries_what_its_sub_series_left_of_the_asked(self) -> None:
+        """Only the albums the case asks about: a sub-series' curation
+        holds the whole page, and the prompt compares it with the batch."""
+        main = _shipping("lilli", "Hexe Lilli")
+
+        context = series_context(
+            main,
+            [main],
+            PAGE,
+            None,
+            asked={("spotify", "west")},
+            left_by_lines={"Erstleser": {("spotify", "west"), ("spotify", "other")}},
+        )
+
+        assert context["left_by_lines"] == {"Erstleser": [["spotify", "west"]]}
+
+    def test_a_series_without_curated_sub_series_carries_no_such_fact(self) -> None:
+        main = _shipping("lilli", "Hexe Lilli")
+
+        assert "left_by_lines" not in series_context(main, [main], PAGE, None)
+
     def test_a_sub_series_names_its_main_series(self) -> None:
         main = entry("lilli", "Hexe Lilli", spotify=["artist"])
         sub = _shipping("lilli_erstleser", "Erstleser", split_from="lilli")
