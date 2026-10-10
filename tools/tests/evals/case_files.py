@@ -54,6 +54,8 @@ class _CaseFile(BaseModel):
 
     #: what the case finds out, in one sentence
     question: str = Field(min_length=1)
+    #: the build_case arguments that froze the case
+    built_with: str | None = None
     series: SeriesContext
     decided: list[dict[str, Any]] = []
     albums: list[dict[str, Any]] = Field(min_length=1)

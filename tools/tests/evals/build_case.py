@@ -17,17 +17,20 @@ the gold standard for which line a title belongs to. Where it does not
 list a title, the expectation is a hand decision and says so.
 
 Run it again with the same name to refresh the frozen data: the question
-and the expectations already written are kept.
+and the expectations already written are kept. The file records the
+arguments it was built with (``built_with``).
 """
 
 import argparse
 import json
 import re
+import shlex
+import sys
 import unicodedata
 from pathlib import Path
 from typing import Any
 
-from lauschi_catalog.catalog.curate_ops import _root_title
+from lauschi_catalog.catalog.curate_ops import _root_title, _route_by_family_patterns
 from lauschi_catalog.catalog.loader import load_catalog, sibling_series
 from lauschi_catalog.catalog.models import CatalogEntry
 from lauschi_catalog.catalog.paths import curation_path
@@ -77,6 +80,18 @@ def index_evidence(title: str, series: ReferenceSeries) -> list[str]:
     return hits
 
 
+def evidence_from(title: str, brands: list[ReferenceSeries]) -> list[str]:
+    """Index evidence from every brand that shares the store page. With
+    more than one brand, each hit names its brand."""
+    if len(brands) == 1:
+        return index_evidence(title, brands[0])
+    return [
+        f"{brand.name} > {hit}"
+        for brand in brands
+        for hit in index_evidence(title, brand)
+    ]
+
+
 def series_context(
     entry: CatalogEntry,
     catalog: list[CatalogEntry],
@@ -113,13 +128,18 @@ def decided_rows(
     entry: CatalogEntry,
     curation_albums: list[dict[str, Any]],
     asked: set[tuple[str, str]],
+    reopened: str | None = None,
 ) -> list[dict[str, Any]]:
     """What the run has decided before the batch: the curation's rows
     that are not asked. A sub-series brings only what it includes, since
-    it inherits no decision from the main series."""
+    it inherits no decision from the main series. ``reopened`` is a regex
+    over the title for decisions the case treats as open again, so they
+    do not reach the model as settled."""
     rows: list[dict[str, Any]] = []
     for album in curation_albums:
         if (album["provider"], album["album_id"]) in asked:
+            continue
+        if reopened and re.search(reopened, album["title"], re.IGNORECASE):
             continue
         if entry.split_from and not album["include"]:
             continue
@@ -139,6 +159,16 @@ def decided_rows(
             row["decided_by"] = "operator"
         rows.append(row)
     return rows
+
+
+def never_asked(
+    asked: list[dict[str, Any]], entry: CatalogEntry, catalog: list[CatalogEntry]
+) -> list[str]:
+    """The picked albums a run settles by the family's episode patterns
+    before the model is called. A case that asked them would measure
+    nothing."""
+    settled, _ = _route_by_family_patterns(asked, entry, catalog)
+    return [f"{d.provider}:{d.album_id} {d.title}" for d in settled]
 
 
 def _page(
@@ -189,7 +219,17 @@ def main() -> None:
     parser.add_argument("--match", help="regex over the store title")
     parser.add_argument("--albums", nargs="*", default=[], metavar="PROVIDER:ID")
     parser.add_argument("--question", default="TODO: what does this case find out?")
-    parser.add_argument("--index-name", help="the brand's name in the line index")
+    parser.add_argument(
+        "--index-name",
+        nargs="*",
+        default=[],
+        help="the brand's name in the line index, several when brands share the page",
+    )
+    parser.add_argument(
+        "--reopen",
+        metavar="REGEX",
+        help="leave prior decisions on matching titles out of the case",
+    )
     args = parser.parse_args()
 
     catalog = load_catalog()
@@ -223,14 +263,20 @@ def main() -> None:
         parser.error(f"not on the page: {sorted(':'.join(ref) for ref in unknown)}")
     if not asked:
         parser.error("no album picked, see --list")
+    if settled := never_asked(asked, entry, catalog):
+        parser.error(
+            "settled by the family's episode patterns before the model runs:\n  "
+            + "\n  ".join(settled)
+        )
 
     out: Path = FIXTURES / f"{args.name}.json"
     before = json.loads(out.read_text()) if out.exists() else {}
     kept = {(a["provider"], a["id"]): a["expect"] for a in before.get("albums", [])}
 
     index = ReferenceIndex()
-    brand = args.index_name or _root_title(entry) or entry.title
-    reference = index.lines_for(brand) if index.configured else None
+    names = args.index_name or [_root_title(entry) or entry.title]
+    found = [index.lines_for(name) for name in names] if index.configured else []
+    brands = [brand for brand in found if brand is not None]
 
     albums: list[dict[str, Any]] = []
     for provider in providers:
@@ -240,8 +286,8 @@ def main() -> None:
             album = album_to_dict(details[album_id])
             album["expect"] = kept.get((provider.name, album_id)) or {
                 "todo": {
-                    "index": index_evidence(album["title"], reference)
-                    if reference
+                    "index": evidence_from(album["title"], brands)
+                    if brands
                     else "no index entry",
                     "curation": _today(today.get((provider.name, album_id))),
                 }
@@ -250,9 +296,10 @@ def main() -> None:
 
     case = {
         "question": before.get("question") or args.question,
+        "built_with": shlex.join(sys.argv[1:]),
         "series": series_context(entry, catalog, page, _root_title(entry)),
         "decided": decided_rows(
-            entry, curation, {(a["provider"], a["id"]) for a in albums}
+            entry, curation, {(a["provider"], a["id"]) for a in albums}, args.reopen
         ),
         "albums": albums,
     }
@@ -260,7 +307,7 @@ def main() -> None:
     out.write_text(dump(case))
     print(
         f"{out}: {len(albums)} album(s) to decide, {len(case['decided'])} decided "
-        f"before. Index: {reference.name if reference else 'none'}."
+        f"before. Index: {', '.join(brand.name for brand in brands) or 'none'}."
     )
 
 

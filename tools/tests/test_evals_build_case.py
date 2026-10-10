@@ -10,7 +10,14 @@ from typing import Any
 
 from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
 from lauschi_catalog.reference import ReferenceEpisode, ReferenceLine, ReferenceSeries
-from tests.evals.build_case import decided_rows, dump, index_evidence, series_context
+from tests.evals.build_case import (
+    decided_rows,
+    dump,
+    evidence_from,
+    index_evidence,
+    never_asked,
+    series_context,
+)
 from tests.factories import album_record, entry
 
 INDEX = ReferenceSeries(
@@ -185,6 +192,18 @@ class TestDecidedRows:
             },
         ]
 
+    def test_decisions_a_case_reopens_are_left_out(self) -> None:
+        """A case about boxes must not tell the model that every other box
+        was already excluded."""
+        rows = decided_rows(
+            entry("lilli"),
+            self.CURATION,
+            {("spotify", "asked")},
+            reopened="^(other|by-)",
+        )
+
+        assert [row["album_id"] for row in rows] == ["own"]
+
     def test_a_sub_series_brings_only_what_it_includes(self) -> None:
         sub = entry("lilli_erstleser", split_from="lilli")
 
@@ -224,3 +243,62 @@ class TestDump:
 
         assert '    {"name": "Teil 1", "duration_ms": 1},' in lines
         assert '   ["spotify", "a"],' in lines
+
+
+def test_evidence_from_two_brands_names_the_brand() -> None:
+    """Wieso? Weshalb? Warum? and its Junior books are two brands in the
+    index and share one store page."""
+    junior = ReferenceSeries(
+        id=3,
+        name="Hexe Lilli Junior",
+        lines=[
+            ReferenceLine("Junior", [ReferenceEpisode("4", "Feiert Geburtstag", 1)])
+        ],
+    )
+
+    assert evidence_from("Hexe Lilli feiert Geburtstag", [INDEX, junior]) == [
+        "Hexe Lilli > Erstlesergeschichten 2: Feiert Geburtstag",
+        "Hexe Lilli Junior > Junior 4: Feiert Geburtstag",
+    ]
+    assert evidence_from("Hexe Lilli feiert Geburtstag", [INDEX]) == [
+        "Erstlesergeschichten 2: Feiert Geburtstag"
+    ]
+
+
+class TestNeverAsked:
+    """A case must not ask what a run settles before the model is called."""
+
+    MAIN = entry("ninjago", "Ninjago", spotify=["a"], episode_pattern=r"^Folge (\d+):")
+    BOOKS = entry(
+        "ninjago_buch",
+        "Ninjago: Hörbücher",
+        spotify=["a"],
+        split_from="ninjago",
+        episode_pattern=r"\(Band (\d+)\)",
+    )
+    PAGE = [
+        {"provider": "spotify", "id": "band", "name": "Kai (Band 13)"},
+        {"provider": "spotify", "id": "folge", "name": "Folge 100: Nichts los"},
+        {
+            "provider": "spotify",
+            "id": "special",
+            "name": "Special: Tag der Erinnerungen",
+        },
+    ]
+
+    def test_a_sub_series_is_not_asked_what_one_pattern_of_the_family_matches(
+        self,
+    ) -> None:
+        catalog = [self.MAIN, self.BOOKS]
+
+        assert never_asked(self.PAGE, self.BOOKS, catalog) == [
+            "spotify:band Kai (Band 13)",
+            "spotify:folge Folge 100: Nichts los",
+        ]
+
+    def test_a_main_series_is_asked_about_its_own_matches(self) -> None:
+        catalog = [self.MAIN, self.BOOKS]
+
+        assert never_asked(self.PAGE, self.MAIN, catalog) == [
+            "spotify:band Kai (Band 13)"
+        ]
