@@ -9,6 +9,7 @@ from rich.console import Console
 from lauschi_catalog.catalog.canonical import album_sort_key
 from lauschi_catalog.catalog.curate_ops import album_provenance
 from lauschi_catalog.catalog.io import safe_write_json
+from lauschi_catalog.catalog.merge_ops import move_albums
 from lauschi_catalog.catalog.paths import curation_path
 
 console = Console()
@@ -77,6 +78,41 @@ def include(series_id: str, album_id: str, provider: str):
             _save(path, data)
             return
     console.print(f"[yellow]Album {album_id} not found in {series_id}[/yellow]")
+
+
+@edit.command()
+@click.argument("source_id")
+@click.argument("target_id")
+@click.argument("albums", nargs=-1, required=True, metavar="PROVIDER:ALBUM_ID...")
+def move(source_id: str, target_id: str, albums: tuple[str, ...]):
+    """Move albums to another entry of the same family.
+
+    The source keeps each album as sub_series_bleed with the target named
+    as its owner. The target includes it, numbered by its own pattern.
+    series.yaml changes with the next apply, source first.
+
+    Example:
+
+      lauschi-catalog edit move hexe_lilli hexe_lilli_erstlesergeschichten \\
+          apple_music:1056441922 spotify:4ghoOGAttLAGG5LHZ2TyJI
+    """
+    keys: list[tuple[str, str]] = []
+    for ref in albums:
+        provider, sep, album_id = ref.partition(":")
+        if not sep or not provider or not album_id:
+            raise click.UsageError(f"{ref!r} is not provider:album_id")
+        keys.append((provider, album_id))
+
+    result = move_albums(source_id, target_id, keys)
+    if not result.ok:
+        console.print(f"[red]Nothing moved: {result.error}[/red]")
+        raise SystemExit(1)
+    console.print(
+        f"[green]Moved {result.moved} album(s) from {source_id} to {target_id}[/green]"
+    )
+    console.print("Write series.yaml with, in this order:")
+    console.print(f"  lauschi-catalog apply {source_id}")
+    console.print(f"  lauschi-catalog apply {target_id}")
 
 
 @edit.command("list")

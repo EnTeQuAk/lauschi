@@ -9,8 +9,11 @@ from datetime import UTC, datetime
 from typing import Any
 
 from lauschi_catalog.catalog import paths
+from lauschi_catalog.catalog.curate_ops import album_provenance
+from lauschi_catalog.catalog.episode_range import title_number
 from lauschi_catalog.catalog.io import safe_write_json
 from lauschi_catalog.catalog.loader import load_catalog
+from lauschi_catalog.catalog.partition import family_of
 from lauschi_catalog.catalog.series_ops import add_series_entry, remove_series_from_yaml
 
 
@@ -99,6 +102,99 @@ def merge_series(
     source_path.unlink()
 
     return MergeResult(ok=True, added=added, skipped=skipped)
+
+
+# ---- Moving albums inside a family ----
+
+
+@dataclass
+class MoveResult:
+    ok: bool
+    moved: int = 0
+    error: str | None = None
+
+
+def move_albums(
+    source_id: str, target_id: str, albums: list[tuple[str, str]]
+) -> MoveResult:
+    """Hand albums from one entry of a family to another.
+
+    ``albums`` are (provider, album_id) pairs. In the source curation the
+    album becomes sub_series_bleed and names the target as its owner, the
+    note a curate run reads. In the target curation it is included, with
+    the number the target's own pattern reads from the title: a number is
+    a fact of the line, so the source's is not carried over. Both rows are
+    stamped as an operator's decision. Nothing is written unless every
+    album can be moved, and series.yaml changes only with the next apply.
+    """
+    if source_id == target_id:
+        return MoveResult(ok=False, error="source and target must be different")
+    catalog = load_catalog()
+    entries = {e.id: e for e in catalog}
+    for series_id in (source_id, target_id):
+        if series_id not in entries:
+            return MoveResult(ok=False, error=f"'{series_id}' is not in the catalog")
+    target = entries[target_id]
+    if source_id not in {m.id for m in family_of(target, catalog).members}:
+        return MoveResult(
+            ok=False, error=f"'{source_id}' and '{target_id}' are not in one family"
+        )
+
+    curations: dict[str, dict[str, Any]] = {}
+    for series_id in (source_id, target_id):
+        path = paths.curation_path(series_id)
+        if not path.exists():
+            return MoveResult(ok=False, error=f"'{series_id}' has no curation")
+        curations[series_id] = json.loads(path.read_text())
+    rows = {
+        series_id: {(a.get("provider"), a.get("album_id")): a for a in cur["albums"]}
+        for series_id, cur in curations.items()
+    }
+    for key in albums:
+        if key not in rows[source_id] and key not in rows[target_id]:
+            return MoveResult(
+                ok=False, error=f"{key[0]}:{key[1]} is in neither curation"
+            )
+
+    for key in albums:
+        provider, album_id = key
+        known = rows[source_id].get(key) or rows[target_id][key]
+        identity = {
+            "album_id": album_id,
+            "provider": provider,
+            "title": known.get("title", ""),
+            "release_date": known.get("release_date"),
+        }
+        taken = rows[target_id].get(key)
+        if taken is None:
+            taken = dict(identity)
+            curations[target_id]["albums"].append(taken)
+        taken.pop("exclude_reason", None)
+        taken.update(
+            include=True,
+            episode_num=title_number(
+                target.effective_pattern(provider), taken["title"]
+            ),
+            confidence="high",
+            notes=f"Moved here from '{source_id}' by hand.",
+            **album_provenance("operator"),
+        )
+        given = rows[source_id].get(key)
+        if given is None:
+            given = dict(identity)
+            curations[source_id]["albums"].append(given)
+        given.update(
+            include=False,
+            exclude_reason="sub_series_bleed",
+            episode_num=None,
+            confidence="high",
+            notes=f"Belongs to '{target_id}'",
+            **album_provenance("operator"),
+        )
+
+    for series_id, curation in curations.items():
+        safe_write_json(paths.curation_path(series_id), curation)
+    return MoveResult(ok=True, moved=len(albums))
 
 
 # ---- Split operations ----

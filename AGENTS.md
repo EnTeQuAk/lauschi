@@ -160,7 +160,11 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
 
 Escalations and lint findings are resolved by hand: `catalog-review` lists
 what needs attention, `catalog-edit` and `catalog-splits` make the changes,
-`mise run catalog-audit --force` re-checks afterwards.
+`mise run catalog-audit --force` re-checks afterwards. An album that sits in
+the wrong entry of a family moves with
+`catalog-edit move <from> <to> <provider>:<album_id>...`: the entry that
+gives it up records the new owner, the entry that takes it numbers it by its
+own pattern, and `apply` for both (the giving one first) writes series.yaml.
 
 #### Evaluating a change
 
