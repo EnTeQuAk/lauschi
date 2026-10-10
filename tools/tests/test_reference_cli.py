@@ -21,6 +21,21 @@ def test_reference_prints_lines_and_numbered_episodes(monkeypatch):
     assert "Die rote Socke" in result.output
 
 
+def test_reference_prints_the_products_without_a_line(monkeypatch):
+    monkeypatch.setattr(
+        reference_cmd,
+        "ReferenceIndex",
+        lambda: ReferenceIndex(
+            "https://example.test/api", fetch=fake_fetch, use_cache=False
+        ),
+    )
+    result = CliRunner().invoke(reference_cmd.reference, ["Kugelblitz"])
+    assert result.exit_code == 0, result.output
+    assert "Without a line (1)" in result.output
+    assert "Der grüne Schal" in result.output
+    assert "EUROPA mini" in result.output
+
+
 def test_reference_refuses_without_configuration(monkeypatch):
     monkeypatch.delenv("REFERENCE_INDEX_URL", raising=False)
     result = CliRunner().invoke(reference_cmd.reference, ["Kugelblitz"])

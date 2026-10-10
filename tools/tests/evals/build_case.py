@@ -11,7 +11,7 @@ series facts, the prior decisions and the picked albums in full.
 
 What it cannot write is the expectation. Every album gets an ``expect``
 with a ``todo`` instead: the lines of the line index that list the title,
-and what the curation says today. The loader refuses the file until each
+its products without a line that match, and what the curation says today. The loader refuses the file until each
 ``todo`` is replaced by a decision and its source, by hand. The index is
 the gold standard for which line a title belongs to. Where it does not
 list a title, the expectation is a hand decision and says so.
@@ -38,7 +38,7 @@ from lauschi_catalog.catalog.prompt import album_to_dict
 from lauschi_catalog.providers.apple_music import AppleMusicProvider
 from lauschi_catalog.providers.base import CatalogProvider
 from lauschi_catalog.providers.spotify import SpotifyProvider
-from lauschi_catalog.reference import ReferenceIndex, ReferenceSeries
+from lauschi_catalog.reference import ReferenceIndex, ReferenceProduct, ReferenceSeries
 
 from .case_files import FIXTURES
 
@@ -90,6 +90,26 @@ def evidence_from(title: str, brands: list[ReferenceSeries]) -> list[str]:
         for brand in brands
         for hit in index_evidence(title, brand)
     ]
+
+
+def unfiled_evidence(
+    title: str, products: list[ReferenceProduct], brand: str
+) -> list[str]:
+    """The brand's products without a line that tell the story of a store
+    title. The index has them, and does not say which line they are."""
+    drop = _words(brand)
+    wanted = _words(title, drop)
+    hits: list[str] = []
+    for product in products:
+        words = _words(product.title, drop)
+        if not wanted or not words:
+            continue
+        if len(wanted & words) / min(len(wanted), len(words)) >= 0.75:
+            minutes = (product.seconds or 0) // 60
+            hits.append(
+                f"a product without a line: {product.title} ({product.label}, {minutes} min)"
+            )
+    return hits
 
 
 def series_context(
@@ -287,6 +307,13 @@ def main() -> None:
             album["expect"] = kept.get((provider.name, album_id)) or {
                 "todo": {
                     "index": evidence_from(album["title"], brands)
+                    + [
+                        hit
+                        for brand in brands
+                        for hit in unfiled_evidence(
+                            album["title"], index.without_a_line(brand), brand.name
+                        )
+                    ]
                     if brands
                     else "no index entry",
                     "curation": _today(today.get((provider.name, album_id))),

@@ -11,6 +11,11 @@ episode carries inside its line when the provider title carries none,
 and the names of a brand's lines when a split is proposed. Not good
 for completeness: it lags behind new releases and lists only what its
 owner licenses, so an absent title proves nothing.
+
+The index also holds products it files under no line. A brand's lines
+do not show them, so they are read through the product search
+(``products``, ``without_a_line``): a title missing from every line may
+still be a product of the brand.
 """
 
 import os
@@ -49,6 +54,25 @@ class ReferenceSeries:
     id: int
     name: str
     lines: list[ReferenceLine]
+
+
+@dataclass(frozen=True)
+class ReferenceProduct:
+    """One release in the index. ``brand`` is None for a product the
+    index files under no brand, and then ``line`` and ``number`` are too.
+    A filed product can still come without a line name."""
+
+    id: int
+    title: str
+    author: str
+    label: str
+    #: RADIOPLAY, AUDIOBOOK or MUSIC
+    kind: str
+    seconds: int | None
+    categories: tuple[str, ...]
+    brand: str | None
+    line: str | None
+    number: str | None
 
 
 def _key(name: str) -> str:
@@ -99,6 +123,49 @@ def _parse_series(data: dict) -> ReferenceSeries:
     return ReferenceSeries(
         id=int(data["id"]), name=str(data.get("name") or "").strip(), lines=lines
     )
+
+
+def _first_name(items: object) -> str | None:
+    """The name of the first entry of an embedded list, if it has one."""
+    if isinstance(items, list) and items and isinstance(items[0], dict):
+        return str(items[0].get("name") or "").strip() or None
+    return None
+
+
+def _parse_product(item: dict) -> ReferenceProduct:
+    embedded = item.get("_embedded") or {}
+    episodes = embedded.get("episodes") or []
+    number = episodes[0].get("episodeNumber") if episodes else None
+    return ReferenceProduct(
+        id=int(item["id"]),
+        title=str(item.get("title") or "").strip(),
+        author=str(item.get("author") or "").strip(),
+        label=str((item.get("imprint") or {}).get("name") or "").strip(),
+        kind=str(item.get("productClassification") or "").strip(),
+        seconds=_int((item.get("attributes") or {}).get("length")),
+        categories=tuple(
+            str(c.get("name") or "").strip() for c in item.get("categories") or []
+        ),
+        brand=_first_name(embedded.get("series")),
+        line=_first_name(embedded.get("season")),
+        number=(str(number).strip() or None) if number is not None else None,
+    )
+
+
+#: The fields of a search hit that are kept. A hit carries a long
+#: description, prices and cover links the catalog has no use for.
+_PRODUCT_FIELDS = (
+    "id",
+    "title",
+    "author",
+    "imprint",
+    "productClassification",
+    "attributes",
+    "categories",
+    "_embedded",
+)
+#: A product search is full text and can match hundreds of releases.
+_MAX_PRODUCT_PAGES = 20
 
 
 class ReferenceIndex:
@@ -195,3 +262,52 @@ class ReferenceIndex:
         """The best-matching series with its lines, or None."""
         hits = self.find(query)
         return self.series(hits[0][0]) if hits else None
+
+    def products(self, query: str) -> list[ReferenceProduct]:
+        """Products the index's full-text search finds for a query,
+        whether they sit in a line or not. Cached per query."""
+        if not self.configured or not _key(query):
+            return []
+        raw = self._cached(
+            f"products:{_key(query)}", lambda: self._fetch_products(query)
+        )
+        return [_parse_product(item) for item in raw]  # type: ignore[union-attr]
+
+    def _fetch_products(self, query: str) -> list[dict]:
+        items: list[dict] = []
+        for page in range(_MAX_PRODUCT_PAGES):
+            data = self._fetch(
+                f"{self._base}/searches/products-by-clients",
+                {"query": query, "page": page, "per_page": _PAGE_SIZE},
+            )
+            for item in data.get("_embedded", {}).get(
+                "simpleHalRepresentationModels", []
+            ):
+                items.append({k: item[k] for k in _PRODUCT_FIELDS if k in item})
+            if page + 1 >= int((data.get("page") or {}).get("totalPages", 0)):
+                break
+        return items
+
+    def without_a_line(self, series: ReferenceSeries) -> list[ReferenceProduct]:
+        """A brand's products that the index files under no line.
+
+        Such a product is filed under no brand at all, so it is found by
+        the full-text search and counts only when it names the brand: as
+        its author, in its title, or as a category. An unfiled copy of a
+        release that is filed is left out. Which line the rest belong to
+        the index does not say.
+        """
+        brand = _key(series.name)
+        hits = self.products(series.name)
+        filed = {_key(product.title) for product in hits if product.brand}
+        return [
+            product
+            for product in hits
+            if product.brand is None
+            and _key(product.title) not in filed
+            and (
+                _key(product.author) == brand
+                or brand in _key(product.title)
+                or brand in {_key(c) for c in product.categories}
+            )
+        ]

@@ -101,6 +101,12 @@ def build_agent_tools() -> FunctionToolset[AgentDeps]:
         come from the provider metadata, never from here. The index
         lags behind new releases and lists only licensed titles: an
         absent title proves nothing.
+
+        The index also holds releases of the brand that it files under
+        no line. They come back as ``products_without_a_line``, with
+        label and running time. They are the brand's. Which line each
+        belongs to the index does not say: compare label, running time
+        and the form of the title with the titles that are in a line.
         """
         if ctx.deps._reference_count >= ctx.deps._MAX_REFERENCE_CALLS:
             return {"error": _limit("Reference lookup", ctx.deps._MAX_REFERENCE_CALLS)}
@@ -124,6 +130,15 @@ def build_agent_tools() -> FunctionToolset[AgentDeps]:
             "lines": [
                 {"name": line.name, "titles": [e.title for e in line.episodes]}
                 for line in found.lines
+            ],
+            "products_without_a_line": [
+                {
+                    "title": product.title,
+                    "label": product.label,
+                    "kind": product.kind,
+                    "minutes": (product.seconds or 0) // 60,
+                }
+                for product in index.without_a_line(found)
             ],
         }
 

@@ -90,6 +90,27 @@ class TestReferenceLookup(unittest.TestCase):
         assert result["lines"][0]["titles"] == ["Die rote Socke", "Sammelband"]
         assert "number" not in str(result), "numbers never come from the index"
 
+    def test_products_the_index_files_under_no_line_come_back_apart(self) -> None:
+        """A title missing from every line can still be the brand's: the
+        index holds products it files nowhere. Without them the curator
+        took "not in a line" for "not this series"."""
+        tool = build_agent_tools().tools["lookup_reference_lines"].function
+        index = ReferenceIndex(
+            "https://example.test/api", fetch=fake_fetch, use_cache=False
+        )
+
+        result = tool(self._ctx(index), "Kommissar Kugelblitz")
+
+        assert result["products_without_a_line"] == [
+            {
+                "title": "Der grüne Schal",
+                "label": "EUROPA mini",
+                "kind": "RADIOPLAY",
+                "minutes": 48,
+            }
+        ]
+        assert "number" not in str(result), "numbers never come from the index"
+
     def test_lookups_past_the_budget_return_the_limit(self) -> None:
         tool = build_agent_tools().tools["lookup_reference_lines"].function
         ctx = self._ctx(None)

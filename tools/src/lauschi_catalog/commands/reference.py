@@ -15,7 +15,7 @@ console = Console()
 @click.option("--all", "show_all", is_flag=True, help="Show every matching series")
 def reference(query: str, show_all: bool):
     """Show how the public line index organises a series: its lines and
-    their numbered episodes."""
+    their numbered episodes, and the products it files under no line."""
     index = ReferenceIndex()
     if not index.configured:
         console.print(
@@ -37,6 +37,21 @@ def reference(query: str, show_all: bool):
             for e in line.episodes:
                 table.add_row(
                     e.number or "", e.title, str(e.seconds // 60) if e.seconds else ""
+                )
+            console.print(table)
+        unfiled = index.without_a_line(series)
+        if unfiled:
+            table = Table(title=f"Without a line ({len(unfiled)})", box=box.SIMPLE)
+            table.add_column("Title")
+            table.add_column("Label")
+            table.add_column("Kind")
+            table.add_column("Min", justify="right")
+            for product in unfiled:
+                table.add_row(
+                    product.title,
+                    product.label,
+                    product.kind,
+                    str(product.seconds // 60) if product.seconds else "",
                 )
             console.print(table)
     if len(hits) > 1 and not show_all:

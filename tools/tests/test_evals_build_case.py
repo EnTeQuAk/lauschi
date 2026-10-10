@@ -9,7 +9,12 @@ import json
 from typing import Any
 
 from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
-from lauschi_catalog.reference import ReferenceEpisode, ReferenceLine, ReferenceSeries
+from lauschi_catalog.reference import (
+    ReferenceEpisode,
+    ReferenceLine,
+    ReferenceProduct,
+    ReferenceSeries,
+)
 from tests.evals.build_case import (
     decided_rows,
     dump,
@@ -17,6 +22,7 @@ from tests.evals.build_case import (
     index_evidence,
     never_asked,
     series_context,
+    unfiled_evidence,
 )
 from tests.factories import album_record, entry
 
@@ -263,6 +269,32 @@ def test_evidence_from_two_brands_names_the_brand() -> None:
     assert evidence_from("Hexe Lilli feiert Geburtstag", [INDEX]) == [
         "Erstlesergeschichten 2: Feiert Geburtstag"
     ]
+
+
+def test_a_product_the_index_files_under_no_line_is_evidence_too() -> None:
+    """Three states, not two: in a line, a product without a line, or
+    not in the index at all."""
+    unfiled = [
+        ReferenceProduct(
+            id=7,
+            title="Und der kleine Eisbär Knöpfchen",
+            author="Hexe Lilli",
+            label="EUROPA mini",
+            kind="RADIOPLAY",
+            seconds=2880,
+            categories=(),
+            brand=None,
+            line=None,
+            number=None,
+        )
+    ]
+
+    assert unfiled_evidence(
+        "Hexe Lilli und der kleine Eisbär Knöpfchen", unfiled, "Hexe Lilli"
+    ) == [
+        "a product without a line: Und der kleine Eisbär Knöpfchen (EUROPA mini, 48 min)"
+    ]
+    assert unfiled_evidence("Hexe Lilli feiert Geburtstag", unfiled, "Hexe Lilli") == []
 
 
 class TestNeverAsked:
