@@ -2394,292 +2394,6 @@
    "evaluator_failures": []
   },
   {
-   "name": "rolf_zuckowski_own_albums [1/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 1,
-    "input_tokens": 22543,
-    "output_tokens": 11346,
-    "cache_read.input_tokens": 3040,
-    "cache_read_tokens": 3040
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 0.6923076923076923,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 1,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 7,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": false,
-     "reason": "Wrong: spotify:4zGRevN8nf4f80OF8SX6jq (Der Spielmann - Das Beste aus 20 Jahren): excluded, expected include; spotify:3EkatvT4rP38Jvts9DdVjl (Rolfs fröhlicher Familientag): excluded, expected include; spotify:7oe96EpBKDY6iAKkjHXmCc (Bei uns in der Kita - 22 Lieder im Frühling + Sommer): excluded, expected include; spotify:4KHRvwGl5Acb0O57Fn7mWN (Gute Laune - Gute Fahrt!): excluded, expected include; apple_music:1442238036 (LeiseStärke): included, expected exclude; apple_music:1688448748 (Sommer mit Rolf Zuckowski): excluded, expected include; apple_music:1747860648 (Neue Schule - Neue Freunde): excluded, expected include; apple_music:1774754436 (Einschlaflieder mit Rolf Zuckowski): excluded, expected include",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": false,
-     "reason": "Wrong reasons: apple_music:1641961181: got 'kinderlieder_compilation', expected one of ['not_kids_content']",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 310.606857357,
-   "total_duration": 310.614639828,
-   "source_case_name": "rolf_zuckowski_own_albums",
-   "trace_id": "01a1272c1fbcc40c61cceee7bfc4178b",
-   "span_id": "369e4acd2272d414",
-   "evaluator_failures": []
-  },
-  {
-   "name": "rolf_zuckowski_own_albums [2/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 1,
-    "input_tokens": 22543,
-    "output_tokens": 12311,
-    "cache_read.input_tokens": 224,
-    "cache_read_tokens": 224
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 0.6153846153846154,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 1,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 9,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": false,
-     "reason": "Wrong: spotify:4zGRevN8nf4f80OF8SX6jq (Der Spielmann - Das Beste aus 20 Jahren): excluded, expected include; spotify:3EkatvT4rP38Jvts9DdVjl (Rolfs fröhlicher Familientag): excluded, expected include; spotify:7oe96EpBKDY6iAKkjHXmCc (Bei uns in der Kita - 22 Lieder im Frühling + Sommer): excluded, expected include; spotify:4KHRvwGl5Acb0O57Fn7mWN (Gute Laune - Gute Fahrt!): excluded, expected include; spotify:4ThoiOZmkF8ZLIatJDyajl (Laterne Laufen mit Rolf Zuckowski): excluded, expected include; apple_music:1442238036 (LeiseStärke): included, expected exclude; apple_music:1688448748 (Sommer mit Rolf Zuckowski): excluded, expected include; apple_music:1747860648 (Neue Schule - Neue Freunde): excluded, expected include; apple_music:1774754436 (Einschlaflieder mit Rolf Zuckowski): excluded, expected include; apple_music:1843665485 (Laterne Laufen mit Rolf Zuckowski): excluded, expected include",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": false,
-     "reason": "Wrong reasons: apple_music:1641961181: got 'kinderlieder_compilation', expected one of ['not_kids_content']",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 488.55281561,
-   "total_duration": 488.561019258,
-   "source_case_name": "rolf_zuckowski_own_albums",
-   "trace_id": "01a1272c1fbcc40c61cceee7bfc4178b",
-   "span_id": "5148551e39292871",
-   "evaluator_failures": []
-  },
-  {
-   "name": "rolf_zuckowski_own_albums [3/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 1,
-    "input_tokens": 22543,
-    "output_tokens": 9758
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 0.6923076923076923,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 1,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 7,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": false,
-     "reason": "Wrong: spotify:4zGRevN8nf4f80OF8SX6jq (Der Spielmann - Das Beste aus 20 Jahren): excluded, expected include; spotify:3EkatvT4rP38Jvts9DdVjl (Rolfs fröhlicher Familientag): excluded, expected include; spotify:7oe96EpBKDY6iAKkjHXmCc (Bei uns in der Kita - 22 Lieder im Frühling + Sommer): excluded, expected include; spotify:4KHRvwGl5Acb0O57Fn7mWN (Gute Laune - Gute Fahrt!): excluded, expected include; apple_music:1442238036 (LeiseStärke): included, expected exclude; apple_music:1688448748 (Sommer mit Rolf Zuckowski): excluded, expected include; apple_music:1747860648 (Neue Schule - Neue Freunde): excluded, expected include; apple_music:1774754436 (Einschlaflieder mit Rolf Zuckowski): excluded, expected include",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": false,
-     "reason": "Wrong reasons: apple_music:1641961181: got 'kinderlieder_compilation', expected one of ['not_kids_content']",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 510.696589253,
-   "total_duration": 510.704828051,
-   "source_case_name": "rolf_zuckowski_own_albums",
-   "trace_id": "01a1272c1fbcc40c61cceee7bfc4178b",
-   "span_id": "edd0ab4893017bea",
-   "evaluator_failures": []
-  },
-  {
    "name": "was_ist_was_doppelfolge [1/3]",
    "inputs": null,
    "metadata": null,
@@ -4526,12 +4240,300 @@
    "trace_id": "01a127596dcafa94b539b5ef8b8bc123",
    "span_id": "4325ff357bb56c97",
    "evaluator_failures": []
+  },
+  {
+   "name": "rolf_zuckowski_own_albums [1/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 1,
+    "input_tokens": 22479,
+    "output_tokens": 8055,
+    "cache_read.input_tokens": 22432,
+    "cache_read_tokens": 22432
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 0.9230769230769231,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 2,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": false,
+     "reason": "Wrong: apple_music:1442238036 (LeiseStärke): included, expected exclude; apple_music:1641961181 (Selbstportrait): included, expected exclude",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 165.431325557,
+   "total_duration": 165.43926059,
+   "source_case_name": "rolf_zuckowski_own_albums",
+   "trace_id": "01a1278704d5c6068cf63a0c752002ed",
+   "span_id": "72d48c5ef5b30f00",
+   "evaluator_failures": []
+  },
+  {
+   "name": "rolf_zuckowski_own_albums [2/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 1,
+    "input_tokens": 22479,
+    "output_tokens": 7825,
+    "cache_read.input_tokens": 22432,
+    "cache_read_tokens": 22432
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 0.9230769230769231,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 2,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": false,
+     "reason": "Wrong: apple_music:1442238036 (LeiseStärke): included, expected exclude; apple_music:1641961181 (Selbstportrait): included, expected exclude",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 159.569544164,
+   "total_duration": 159.576699714,
+   "source_case_name": "rolf_zuckowski_own_albums",
+   "trace_id": "01a1278704d5c6068cf63a0c752002ed",
+   "span_id": "c83319078f332484",
+   "evaluator_failures": []
+  },
+  {
+   "name": "rolf_zuckowski_own_albums [3/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 1,
+    "input_tokens": 22479,
+    "output_tokens": 7123,
+    "cache_read.input_tokens": 22432,
+    "cache_read_tokens": 22432
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 0.9230769230769231,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 2,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": false,
+     "reason": "Wrong: apple_music:1442238036 (LeiseStärke): included, expected exclude; apple_music:1641961181 (Selbstportrait): included, expected exclude",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": false,
+     "reason": "Wrong reasons: apple_music:1853816718: got 'format_variant', expected one of ['music_single']",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 145.354821907,
+   "total_duration": 145.368619249,
+   "source_case_name": "rolf_zuckowski_own_albums",
+   "trace_id": "01a1278704d5c6068cf63a0c752002ed",
+   "span_id": "4ad35fe81fde2e15",
+   "evaluator_failures": []
   }
  ],
  "failures": [],
  "analyses": [],
  "report_evaluator_failures": [],
  "experiment_metadata": null,
- "trace_id": "01a127596dcafa94b539b5ef8b8bc123",
- "span_id": "61bedca76c864d47"
+ "trace_id": "01a1278704d5c6068cf63a0c752002ed",
+ "span_id": "c246c3cadeff452f"
 }
