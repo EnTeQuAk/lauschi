@@ -164,6 +164,10 @@ run = "uv run --directory tools lauschi-catalog report"
 description = "Run the lauschi-catalog Python test suite"
 run = "uv run --directory tools --extra ai --extra web pytest"
 
+[tasks.catalog-evals]
+description = "Run the curation eval cases against the live model (30 to 60 min; -- --smoke for a quick check)"
+run = "uv run --directory tools --extra ai python -m tests.evals.run_evals"
+
 [tasks.catalog-edit]
 description = "Edit curation files (exclude/include/list)"
 run = "uv run --directory tools lauschi-catalog edit"
