@@ -143,6 +143,13 @@ def test_a_wrong_expectation_is_refused(
         load_case(path)
 
 
+def test_a_least_confidence_reaches_the_evaluators(tmp_path: Path) -> None:
+    expect = {"include": True, "min_confidence": "medium", "source": "by hand"}
+    path = _write(tmp_path, albums=[_album("ep2", "Folge 2: Geburtstag", expect)])
+
+    assert load_case(path).metadata == {("spotify", "ep2"): expect}
+
+
 def test_an_album_cannot_be_asked_and_already_decided(tmp_path: Path) -> None:
     decided = [
         {

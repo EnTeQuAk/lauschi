@@ -1,0 +1,86 @@
+{
+ "question": "Does the main series keep its numbered episodes and leave out the Gute-Nacht-Geschichten line, the Liederzoo songs and the anniversary compilation?",
+ "series": {
+  "id": "benjamin_bluemchen",
+  "title": "Benjamin Blümchen",
+  "content_type": "hoerspiel",
+  "episode_pattern": "^Folge (\\d+):",
+  "aliases": [],
+  "discography_span_years": 49,
+  "sibling_titles": [],
+  "ships": []
+ },
+ "decided": [],
+ "albums": [
+  {
+   "provider": "apple_music",
+   "id": "1139339828",
+   "title": "Folge 1: als Wetterelefant",
+   "release_date": "1977-01-01",
+   "total_tracks": 3,
+   "album_type": "",
+   "tracks": [
+    {"name": "Folge 1: als Wetterelefant, Teil 1", "duration_ms": 1500000, "track_number": 1},
+    {"name": "Folge 1: als Wetterelefant, Teil 2", "duration_ms": 1400000, "track_number": 2},
+    {"name": "Folge 1: als Wetterelefant, Teil 3", "duration_ms": 600000, "track_number": 3}
+   ],
+   "expect": {"include": true, "min_confidence": "high", "source": "by hand: the reviewed curation of 2026-06"}
+  },
+  {
+   "provider": "apple_music",
+   "id": "1069063539",
+   "title": "Benjamin Blümchen Gute-Nacht-Geschichten - Folge 13: Die Traumfeekönigin Karolila",
+   "release_date": "2010-09-10",
+   "total_tracks": 9,
+   "album_type": "",
+   "tracks": [
+    {"name": "Schlafliedchen", "duration_ms": 90000, "track_number": 1},
+    {"name": "Kapitel 1", "duration_ms": 180000, "track_number": 2},
+    {"name": "Kapitel 2", "duration_ms": 200000, "track_number": 3}
+   ],
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "min_confidence": "high", "source": "by hand: the reviewed curation of 2026-06"}
+  },
+  {
+   "provider": "apple_music",
+   "id": "1038224754",
+   "title": "Benjamin Blümchen Liederzoo: 1x1 und ABC",
+   "release_date": "2004",
+   "total_tracks": 16,
+   "album_type": "",
+   "tracks": [
+    {"name": "1+1=2, das kann ich schon", "duration_ms": 180000, "track_number": 1},
+    {"name": "ABC, das Alphabet", "duration_ms": 195000, "track_number": 2}
+   ],
+   "expect": {
+    "include": false,
+    "exclude_reason": ["wrong_content_type", "kinderlieder_compilation"],
+    "min_confidence": "high",
+    "source": "by hand: the reviewed curation of 2026-06"
+   }
+  },
+  {
+   "provider": "apple_music",
+   "id": "550922630",
+   "title": "30 Jahre - Feier mit Törööö!",
+   "release_date": "2007",
+   "total_tracks": 78,
+   "album_type": "",
+   "tracks": [
+    {"name": "Folge 75: Der geheimnisvolle Brief, Teil 1", "duration_ms": 900000, "track_number": 1}
+   ],
+   "expect": {"include": false, "exclude_reason": "compilation", "min_confidence": "high", "source": "by hand: the reviewed curation of 2026-06"}
+  },
+  {
+   "provider": "apple_music",
+   "id": "1139324907",
+   "title": "Folge 2: rettet den Zoo",
+   "release_date": "1977-01-01",
+   "total_tracks": 3,
+   "album_type": "",
+   "tracks": [
+    {"name": "Folge 2: rettet den Zoo, Teil 1", "duration_ms": 1400000, "track_number": 1}
+   ],
+   "expect": {"include": true, "min_confidence": "high", "source": "by hand: the reviewed curation of 2026-06"}
+  }
+ ]
+}

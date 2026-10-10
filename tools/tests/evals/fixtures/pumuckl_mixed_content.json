@@ -1,0 +1,82 @@
+{
+ "question": "Does the series keep episode 1 of two production eras, and leave out the audiobook, the dance songs and the seasonal compilation?",
+ "series": {
+  "id": "pumuckl",
+  "title": "Pumuckl",
+  "content_type": "hoerspiel",
+  "episode_pattern": ["^(\\d+):", "^Folge (\\d+):"],
+  "aliases": [],
+  "discography_span_years": 44,
+  "sibling_titles": [],
+  "ships": []
+ },
+ "decided": [],
+ "albums": [
+  {
+   "provider": "apple_music",
+   "id": "1720424550",
+   "title": "01: Koboldsgesetz (Neue Geschichten vom Pumuckl)",
+   "release_date": "2023-12-15",
+   "total_tracks": 17,
+   "album_type": "",
+   "tracks": [
+    {"name": "01: Koboldsgesetz, Teil 1", "duration_ms": 900000, "track_number": 1},
+    {"name": "01: Koboldsgesetz, Teil 2", "duration_ms": 850000, "track_number": 2}
+   ],
+   "expect": {"include": true, "min_confidence": "high", "source": "by hand: the reviewed curation of 2026-06"}
+  },
+  {
+   "provider": "spotify",
+   "id": "1cOFQWQW6BHrLbSiuQfsdO",
+   "title": "01: Spuk in der Werkstatt (Das Original aus dem Fernsehen)",
+   "release_date": "1982-01-08",
+   "total_tracks": 17,
+   "album_type": "album",
+   "tracks": [
+    {"name": "Spuk in der Werkstatt, Teil 1", "duration_ms": 900000, "track_number": 1}
+   ],
+   "expect": {"include": true, "min_confidence": "high", "source": "by hand: the reviewed curation of 2026-06"}
+  },
+  {
+   "provider": "spotify",
+   "id": "6GPEsKop8ENzW3pJUduDGN",
+   "title": "Pumuckl (Abenteuergeschichten)",
+   "release_date": "2019-11-25",
+   "total_tracks": 40,
+   "album_type": "album",
+   "tracks": [
+    {"name": "Teil 01", "duration_ms": 200000, "track_number": 1},
+    {"name": "Teil 02", "duration_ms": 210000, "track_number": 2},
+    {"name": "Teil 03", "duration_ms": 195000, "track_number": 3},
+    {"name": "Teil 40", "duration_ms": 180000, "track_number": 40}
+   ],
+   "expect": {"include": false, "exclude_reason": "wrong_content_type", "min_confidence": "high", "source": "by hand: the reviewed curation of 2026-06"}
+  },
+  {
+   "provider": "apple_music",
+   "id": "1736038177",
+   "title": "Pumuckl tanzt!",
+   "release_date": "1996",
+   "total_tracks": 16,
+   "album_type": "",
+   "tracks": [
+    {"name": "Pumuckl-Polonaise", "duration_ms": 180000, "track_number": 1},
+    {"name": "Pumuckl Rock'n'Roll", "duration_ms": 195000, "track_number": 2},
+    {"name": "Tanz den Pumuckl", "duration_ms": 170000, "track_number": 3}
+   ],
+   "expect": {"include": false, "exclude_reason": "kinderlieder_compilation", "min_confidence": "high", "source": "by hand: the reviewed curation of 2026-06"}
+  },
+  {
+   "provider": "apple_music",
+   "id": "1880740586",
+   "title": "Frühling & Ostern mit Pumuckl",
+   "release_date": "2026-02-27",
+   "total_tracks": 128,
+   "album_type": "",
+   "tracks": [
+    {"name": "01: Spuk in der Werkstatt, Teil 1", "duration_ms": 900000, "track_number": 1}
+   ],
+   "expect": {"include": false, "exclude_reason": "compilation", "min_confidence": "high", "source": "by hand: the reviewed curation of 2026-06"}
+  }
+ ]
+}

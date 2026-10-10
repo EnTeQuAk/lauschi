@@ -1,0 +1,72 @@
+{
+ "question": "Does the main series keep a Sonderedition and the first half of a two-part episode, and leave out a single and a collection of episodes?",
+ "series": {
+  "id": "benjamin_bluemchen",
+  "title": "Benjamin Blümchen",
+  "content_type": "hoerspiel",
+  "episode_pattern": "^Folge (\\d+):",
+  "aliases": [],
+  "discography_span_years": 49,
+  "sibling_titles": [],
+  "ships": []
+ },
+ "decided": [],
+ "albums": [
+  {
+   "provider": "apple_music",
+   "id": "1069138151",
+   "title": "Benjamin Blümchen als Apotheker (Sonderedition)",
+   "release_date": "2005",
+   "total_tracks": 4,
+   "album_type": "",
+   "tracks": [
+    {"name": "als Apotheker, Teil 1", "duration_ms": 900000, "track_number": 1},
+    {"name": "als Apotheker, Teil 2", "duration_ms": 850000, "track_number": 2},
+    {"name": "als Apotheker, Teil 3", "duration_ms": 800000, "track_number": 3},
+    {"name": "Lied: Benjamin, der Elefant", "duration_ms": 120000, "track_number": 4}
+   ],
+   "expect": {"include": true, "source": "by hand: the reviewed curation of 2026-06"}
+  },
+  {
+   "provider": "apple_music",
+   "id": "1840617912",
+   "title": "Die Jahresuhr (Benjamins Version) - Single",
+   "release_date": "2025-09-26",
+   "total_tracks": 1,
+   "album_type": "single",
+   "tracks": [
+    {"name": "Die Jahresuhr (Benjamins Version)", "duration_ms": 195000, "track_number": 1}
+   ],
+   "expect": {"include": false, "exclude_reason": "music_single", "min_confidence": "high", "source": "by hand: the reviewed curation of 2026-06"}
+  },
+  {
+   "provider": "apple_music",
+   "id": "1069156880",
+   "title": "Einsteiger-Collection (Benjamin Blümchen als Wetterelefant & Benjamin Blümchen rettet den Zoo)",
+   "release_date": "1977",
+   "total_tracks": 6,
+   "album_type": "",
+   "tracks": [
+    {"name": "als Wetterelefant, Teil 1 (gekürzt)", "duration_ms": 600000, "track_number": 1},
+    {"name": "als Wetterelefant, Teil 2 (gekürzt)", "duration_ms": 550000, "track_number": 2},
+    {"name": "als Wetterelefant, Teil 3 (gekürzt)", "duration_ms": 300000, "track_number": 3},
+    {"name": "rettet den Zoo, Teil 1 (gekürzt)", "duration_ms": 600000, "track_number": 4},
+    {"name": "rettet den Zoo, Teil 2 (gekürzt)", "duration_ms": 550000, "track_number": 5},
+    {"name": "rettet den Zoo, Teil 3 (gekürzt)", "duration_ms": 300000, "track_number": 6}
+   ],
+   "expect": {"include": false, "exclude_reason": "compilation", "min_confidence": "high", "source": "by hand: the reviewed curation of 2026-06"}
+  },
+  {
+   "provider": "apple_music",
+   "id": "1139284022",
+   "title": "Folge 100: Ottos neue Freundin - Teil 1",
+   "release_date": "2007-03-30",
+   "total_tracks": 52,
+   "album_type": "",
+   "tracks": [
+    {"name": "Folge 100: Ottos neue Freundin, Kapitel 1", "duration_ms": 120000, "track_number": 1}
+   ],
+   "expect": {"include": true, "min_confidence": "medium", "source": "by hand: the reviewed curation of 2026-06"}
+  }
+ ]
+}

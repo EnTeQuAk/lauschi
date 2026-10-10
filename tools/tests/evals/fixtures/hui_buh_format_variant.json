@@ -1,0 +1,59 @@
+{
+ "question": "Does the series leave out the headphone mix of an episode it already includes?",
+ "series": {
+  "id": "hui_buh_neue_welt",
+  "title": "Hui Buh (neue Welt)",
+  "content_type": "hoerspiel",
+  "episode_pattern": ["^(\\d+)/", "^Folge (\\d+):"],
+  "aliases": [],
+  "discography_span_years": 18,
+  "sibling_titles": [],
+  "ships": []
+ },
+ "decided": [],
+ "albums": [
+  {
+   "provider": "spotify",
+   "id": "6HdhtheEVHFC955BpUEEri",
+   "title": "01/Der verfluchte Geheimgang",
+   "release_date": "2008-01-18",
+   "total_tracks": 40,
+   "album_type": "album",
+   "tracks": [
+    {"name": "01 - Der verfluchte Geheimgang - Teil 01", "duration_ms": 110533, "track_number": 1},
+    {"name": "01 - Der verfluchte Geheimgang - Teil 02", "duration_ms": 112426, "track_number": 2},
+    {"name": "01 - Der verfluchte Geheimgang - Teil 03", "duration_ms": 111480, "track_number": 3}
+   ],
+   "expect": {"include": true, "min_confidence": "high", "source": "by hand: the reviewed curation of 2026-06"}
+  },
+  {
+   "provider": "spotify",
+   "id": "6xK1T3x0PgZrvpKiENf48W",
+   "title": "Folge 37: Die magische Karte",
+   "release_date": "2023-02-24",
+   "total_tracks": 29,
+   "album_type": "album",
+   "tracks": [
+    {"name": "37 - Die magische Karte - Inhaltsangabe", "duration_ms": 50813, "track_number": 1},
+    {"name": "37 - Die magische Karte - Titelmelodie", "duration_ms": 60760, "track_number": 2},
+    {"name": "37 - Die magische Karte - Teil 01", "duration_ms": 182106, "track_number": 3}
+   ],
+   "expect": {"include": true, "min_confidence": "high", "source": "by hand: the reviewed curation of 2026-06"}
+  },
+  {
+   "provider": "spotify",
+   "id": "0RleVfMyttZoqg7A0f6anm",
+   "title": "Folge 37: Die magische Karte (Kopfhörer-Hörspiel)",
+   "release_date": "2023-06-16",
+   "total_tracks": 31,
+   "album_type": "album",
+   "tracks": [
+    {"name": "37 - Die magische Karte - Inhaltsangabe", "duration_ms": 51866, "track_number": 1},
+    {"name": "37 - Die magische Karte - Kopfhörer auf! (Intro)", "duration_ms": 192333, "track_number": 2},
+    {"name": "37 - Die magische Karte - Titelmelodie", "duration_ms": 60613, "track_number": 3},
+    {"name": "37 - Die magische Karte - Teil 01", "duration_ms": 181320, "track_number": 4}
+   ],
+   "expect": {"include": false, "exclude_reason": "format_variant", "min_confidence": "high", "source": "by hand: the reviewed curation of 2026-06"}
+  }
+ ]
+}

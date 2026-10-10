@@ -10,7 +10,7 @@ decision where it does not.
 
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, ValidationError, model_validator
 from pydantic_evals import Case
@@ -34,6 +34,9 @@ class Expectation(BaseModel):
     #: the number the album must ship with, null for none at all. Left
     #: out, the number is not checked.
     episode_num: int | None = None
+    #: the least confidence the decision may come with. Left out, any
+    #: confidence passes.
+    min_confidence: Literal["high", "medium", "low"] | None = None
     #: "line index: <line> <number>" or "by hand: <why>"
     source: str = Field(min_length=1)
 
