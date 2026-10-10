@@ -866,324 +866,6 @@
    "evaluator_failures": []
   },
   {
-   "name": "das_sams_readings_not_hoerspiele [1/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 3,
-    "input_tokens": 167562,
-    "output_tokens": 23554,
-    "cache_read.input_tokens": 117216,
-    "cache_read_tokens": 117216
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 0.9523809523809523,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 1,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": false,
-     "reason": "Wrong: spotify:3DvTzkRN5lFGEcF2HJVZI7 (Ein Taucheranzug für das Sams und eine weitere Geschichte): excluded, expected include",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "episode_numbers": {
-     "name": "episode_numbers",
-     "value": true,
-     "reason": "11 number(s) as expected",
-     "source": {
-      "name": "EpisodeNumbersCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 754.827057232,
-   "total_duration": 754.83940397,
-   "source_case_name": "das_sams_readings_not_hoerspiele",
-   "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
-   "span_id": "92798bfa9b9283fc",
-   "evaluator_failures": []
-  },
-  {
-   "name": "das_sams_readings_not_hoerspiele [2/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 7,
-    "input_tokens": 417815,
-    "output_tokens": 27700,
-    "cache_read.input_tokens": 373184,
-    "cache_read_tokens": 373184
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 0.9523809523809523,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 1,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": false,
-     "reason": "Wrong: spotify:3DvTzkRN5lFGEcF2HJVZI7 (Ein Taucheranzug für das Sams und eine weitere Geschichte): excluded, expected include",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "episode_numbers": {
-     "name": "episode_numbers",
-     "value": true,
-     "reason": "11 number(s) as expected",
-     "source": {
-      "name": "EpisodeNumbersCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 631.374209986,
-   "total_duration": 631.383747235,
-   "source_case_name": "das_sams_readings_not_hoerspiele",
-   "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
-   "span_id": "a6c693facc2b82e8",
-   "evaluator_failures": []
-  },
-  {
-   "name": "das_sams_readings_not_hoerspiele [3/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 10,
-    "input_tokens": 621407,
-    "output_tokens": 23341,
-    "cache_read.input_tokens": 577888,
-    "cache_read_tokens": 577888
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 0.9523809523809523,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 1,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": false,
-     "reason": "Wrong: spotify:3DvTzkRN5lFGEcF2HJVZI7 (Ein Taucheranzug für das Sams und eine weitere Geschichte): excluded, expected include",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "episode_numbers": {
-     "name": "episode_numbers",
-     "value": true,
-     "reason": "11 number(s) as expected",
-     "source": {
-      "name": "EpisodeNumbersCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 687.380744076,
-   "total_duration": 687.390683331,
-   "source_case_name": "das_sams_readings_not_hoerspiele",
-   "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
-   "span_id": "d7a458018e39ba3e",
-   "evaluator_failures": []
-  },
-  {
    "name": "ddf_kids_mini_fall [1/3]",
    "inputs": null,
    "metadata": null,
@@ -4440,12 +4122,330 @@
    "trace_id": "01a125cf721c7fc041d18af112834697",
    "span_id": "cc5d6e107acc5fd4",
    "evaluator_failures": []
+  },
+  {
+   "name": "das_sams_readings_not_hoerspiele [1/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 2,
+    "input_tokens": 131187,
+    "output_tokens": 17906,
+    "cache_read.input_tokens": 71072,
+    "cache_read_tokens": 71072
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 0.9523809523809523,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 1,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": false,
+     "reason": "Wrong: spotify:3DvTzkRN5lFGEcF2HJVZI7 (Ein Taucheranzug für das Sams und eine weitere Geschichte): excluded, expected include",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "11 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 334.258878155,
+   "total_duration": 334.274543996,
+   "source_case_name": "das_sams_readings_not_hoerspiele",
+   "trace_id": "01a125f61dd9388e459cfba0a645bf95",
+   "span_id": "1da2738183b879e5",
+   "evaluator_failures": []
+  },
+  {
+   "name": "das_sams_readings_not_hoerspiele [2/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 2,
+    "input_tokens": 116106,
+    "output_tokens": 25788,
+    "cache_read.input_tokens": 56896,
+    "cache_read_tokens": 56896
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 0.9523809523809523,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 1,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": false,
+     "reason": "Wrong: spotify:3DvTzkRN5lFGEcF2HJVZI7 (Ein Taucheranzug für das Sams und eine weitere Geschichte): excluded, expected include",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "11 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 464.641994242,
+   "total_duration": 464.65235225,
+   "source_case_name": "das_sams_readings_not_hoerspiele",
+   "trace_id": "01a125f61dd9388e459cfba0a645bf95",
+   "span_id": "66763bad0d1123cc",
+   "evaluator_failures": []
+  },
+  {
+   "name": "das_sams_readings_not_hoerspiele [3/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 5,
+    "input_tokens": 334735,
+    "output_tokens": 23867,
+    "cache_read.input_tokens": 262368,
+    "cache_read_tokens": 262368
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "12 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 545.486964894,
+   "total_duration": 545.496900106,
+   "source_case_name": "das_sams_readings_not_hoerspiele",
+   "trace_id": "01a125f61dd9388e459cfba0a645bf95",
+   "span_id": "8178c2f137841e83",
+   "evaluator_failures": []
   }
  ],
  "failures": [],
  "analyses": [],
  "report_evaluator_failures": [],
  "experiment_metadata": null,
- "trace_id": "01a125cf721c7fc041d18af112834697",
- "span_id": "6cf0b1194565cc58"
+ "trace_id": "01a125f61dd9388e459cfba0a645bf95",
+ "span_id": "8e114f068b0a1b75"
 }
