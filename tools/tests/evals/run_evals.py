@@ -8,6 +8,8 @@ Usage:
 
 Requires the model host's API key (OLLAMA_API_KEY by default, see
 lauschi_catalog._opencode.model_host).
+A run is traced to Logfire like a CLI run, when the checkout holds a
+Logfire credential (see "Tracing agent runs" in AGENTS.md).
 Set EVAL_MODEL to override the default model (kimi-k2.6).
 Set EVAL_JUDGE_MODEL to override the LLM judge model (minimax-m2.7).
 """
@@ -21,6 +23,7 @@ from pydantic_ai.models import Model
 from pydantic_evals.evaluators import LLMJudge
 
 from lauschi_catalog._opencode import build_model, model_api_key
+from lauschi_catalog.observability import configure_observability
 
 from .cases import build_dataset
 from .task import run_batch_curation
@@ -53,6 +56,7 @@ def main() -> None:
         help="Show detailed output per case",
     )
     args = parser.parse_args()
+    configure_observability()
 
     names = args.cases.split(",") if args.cases else None
     dataset = build_dataset(names)
