@@ -171,3 +171,99 @@ async def test_an_album_the_series_ships_is_its_own_even_when_unsure() -> None:
     result = await run_batch_curation(inp, model=FunctionModel(script))
 
     assert result.albums[0].include is True
+
+
+def _decided(album_id: str, title: str, **fields: str | int | bool | None) -> dict:
+    """A row the run decided before this batch, as a curation record."""
+    return {
+        "album_id": album_id,
+        "provider": "spotify",
+        "title": title,
+        "include": True,
+        "episode_num": None,
+        "release_date": "2015-01-01",
+        **fields,
+    }
+
+
+SAM = SeriesContext(
+    id="sam", title="Feuerwehrmann Sam", episode_pattern=r"^Folge (\d+):"
+)
+
+
+async def test_what_the_run_decided_before_reaches_the_prompt() -> None:
+    script = _Script([_decide("new", episode_num=4)])
+    inp = BatchInput(
+        series=SAM,
+        albums=[_album("new", "Folge 4: Neu")],
+        decided=[
+            _decided("a", "Folge 1: Anfang", episode_num=1),
+            _decided("c", "Folge 3: Ende", episode_num=3),
+            _decided("best", "Best of", include=False, exclude_reason="compilation"),
+        ],
+    )
+
+    result = await run_batch_curation(inp, model=FunctionModel(script))
+
+    (prompt,) = script.prompts
+    assert "Progress: 2 included (episodes 1-3), 1 excluded." in prompt
+    assert "Missing episodes so far: [2]" in prompt
+    assert [d.album_id for d in result.albums] == ["new"]
+
+
+async def test_a_box_is_measured_against_the_singles_decided_before() -> None:
+    script = _Script([_decide("box", episode_num=6)])
+    inp = BatchInput(
+        series=SAM,
+        albums=[_album("box", "Folgen 6-10: Die Box")],
+        decided=[_decided("seven", "Folge 7: Allein", episode_num=7)],
+    )
+
+    await run_batch_curation(inp, model=FunctionModel(script))
+
+    assert (
+        '<episode_range first="6" last="10" also_released_alone="7"/>'
+        in script.prompts[0]
+    )
+
+
+async def test_the_answer_is_settled_together_with_what_was_decided_before() -> None:
+    """A sub-series ships a title on one provider. The model leaves the
+    same title on the other provider to the main series, and the settle
+    step claims it as the twin."""
+    script = _Script(
+        [
+            _decide(
+                "sp-geb",
+                include=False,
+                exclude_reason="sub_series_bleed",
+                confidence="high",
+            )
+        ]
+    )
+    inp = BatchInput(
+        series=SeriesContext(
+            id=SUB_SERIES.id,
+            title=SUB_SERIES.title,
+            episode_pattern=SUB_SERIES.episode_pattern,
+            split_from=SUB_SERIES.split_from,
+            main_series_title=SUB_SERIES.main_series_title,
+            ships=[("apple_music", "am-geb")],
+        ),
+        albums=[_album("sp-geb", "Folge 2: Feiert Geburtstag")],
+        decided=[
+            _decided(
+                "am-geb",
+                "Folge 2: Feiert Geburtstag",
+                provider="apple_music",
+                episode_num=2,
+            )
+        ],
+    )
+
+    result = await run_batch_curation(inp, model=FunctionModel(script))
+
+    (twin,) = result.albums
+    assert twin.album_id == "sp-geb"
+    assert twin.include is True
+    assert twin.episode_num == 2

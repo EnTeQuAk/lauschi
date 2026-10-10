@@ -5,9 +5,11 @@ prompt and the deterministic steps that follow a batch, so a case is
 scored on what the catalog would ship. Nothing here builds an agent or
 a prompt of its own.
 
-A case carries its own copy of the catalog facts the run reads
-(`SeriesContext`). The live catalog changes with every apply, and a case
-must not change with it.
+A case is one batch somewhere in a run. It carries what the run reads
+besides the batch itself: the catalog facts of the series
+(`SeriesContext`) and what the run had decided before this batch
+(`BatchInput.decided`). The live catalog changes with every apply, and
+a case must not change with it.
 """
 
 import os
@@ -17,17 +19,17 @@ from pydantic_ai.models import Model
 
 from lauschi_catalog._opencode import build_model, model_api_key
 from lauschi_catalog.catalog.curate_ops import (
+    AlbumDecision,
     BatchResult,
     CurateDeps,
     _build_batch_agent,
     _run_agent,
     _run_with_retry,
-    build_batch_prompt,
+    batch_prompt,
     settle_batch_decisions,
 )
-from lauschi_catalog.catalog.episode_range import range_facts
+from lauschi_catalog.catalog.episode_range import numbers_released_alone, range_facts
 from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
-from lauschi_catalog.catalog.prompt import format_albums_xml
 
 MODEL_NAME = os.environ.get("EVAL_MODEL", "kimi-k2.6")
 
@@ -69,29 +71,15 @@ class SeriesContext:
 
 @dataclass
 class BatchInput:
-    """One batch: the series context and the albums to decide."""
+    """One batch of a run: the series, the albums to decide, and what
+    the run had decided before."""
 
     series: SeriesContext
     albums: list[dict]
-    #: other releases on the same provider pages, as discovery rows with
-    #: "provider", "id", "name" and "release_date". They are not decided,
-    #: but an episode range fact is computed against the whole page. The
-    #: batch's own albums always count.
-    page: list[dict] = field(default_factory=list)
-    prior_summary: str = ""
-
-
-def _page_rows(inp: BatchInput) -> list[dict]:
-    own = [
-        {
-            "provider": a["provider"],
-            "id": a["id"],
-            "name": a["title"],
-            "release_date": a.get("release_date"),
-        }
-        for a in inp.albums
-    ]
-    return own + inp.page
+    #: curation records (album_id, provider, title, include, episode_num,
+    #: exclude_reason, release_date) of the albums decided before this
+    #: batch. For a sub-series these are the albums it ships.
+    decided: list[dict] = field(default_factory=list)
 
 
 async def run_batch_curation(
@@ -109,40 +97,52 @@ async def run_batch_curation(
         content_type=series.content_type,
         discography_span_years=series.discography_span_years,
     )
-    page = _page_rows(inp)
-    run_facts = range_facts(page, series.episode_pattern)
-    albums = [
-        {**a, "episode_range": run_facts[key]}
-        if (key := (a["provider"], a["id"])) in run_facts
-        else a
+    decisions = [AlbumDecision.model_validate(row) for row in inp.decided]
+    batch = [
+        {
+            "provider": a["provider"],
+            "id": a["id"],
+            "name": a["title"],
+            "release_date": a.get("release_date"),
+        }
         for a in inp.albums
     ]
-    prompt = build_batch_prompt(
+    page = batch + [
+        {
+            "provider": d.provider,
+            "id": d.album_id,
+            "name": d.title,
+            "release_date": d.release_date,
+        }
+        for d in decisions
+    ]
+    seen_details = {f"{a['provider']}:{a['id']}": a for a in inp.albums}
+    prompt = batch_prompt(
+        batch,
+        decisions,
         series_title=series.title,
         pattern=series.episode_pattern,
-        progress_text="Progress: 0 included, 0 excluded.",
-        rolling=inp.prior_summary,
-        structural_hints=[],
+        seen_details=seen_details,
+        run_facts=range_facts(
+            page, series.episode_pattern, numbers_released_alone(decisions)
+        ),
         sibling_titles=series.sibling_titles,
+        line_of=series.main_series_title,
         batch_num=1,
         n_batches=1,
-        n_albums=len(inp.albums),
-        albums_xml=format_albums_xml(albums, include_tracks=True),
-        line_of=series.main_series_title,
     )
-    seen_details = {f"{a['provider']}:{a['id']}": a for a in inp.albums}
     deps = CurateDeps(
         pattern=series.episode_pattern,
         pattern_from_catalog=series.episode_pattern is not None,
-        titles=[a["title"] for a in inp.albums],
+        titles=[a["name"] for a in page],
         seen_details=seen_details,
     )
-    deps.current_batch_ids = {(a["provider"], a["id"]) for a in inp.albums}
+    deps.current_batch_ids = {(a["provider"], a["id"]) for a in batch}
 
     result: BatchResult = await _run_with_retry(
         lambda: _run_agent(agent, prompt, deps), phase="eval batch"
     )
-    decisions = list(result.albums)
+    decisions.extend(result.albums)
     settle_batch_decisions(
         decisions,
         discovered=page,
@@ -152,4 +152,8 @@ async def run_batch_curation(
         series_names=[series.title, *series.aliases],
         seen_details=seen_details,
     )
-    return BatchResult(albums=decisions)
+    return BatchResult(
+        albums=[
+            d for d in decisions if (d.provider, d.album_id) in deps.current_batch_ids
+        ]
+    )
