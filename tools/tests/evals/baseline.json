@@ -578,324 +578,6 @@
    "evaluator_failures": []
   },
   {
-   "name": "bibi_blocksberg_short_stories [1/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 2,
-    "input_tokens": 39186,
-    "output_tokens": 11748,
-    "cache_read.input_tokens": 32704,
-    "cache_read_tokens": 32704
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 0.3333333333333333,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 12,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": false,
-     "reason": "Wrong: spotify:7HIgLk8Y8m3KQIFjPiYWQW (Kurzgeschichte - Bibi als Krankenschwester): excluded, expected include; spotify:1t8zf2fKNcPrWgHYM6Osdx (Kurzgeschichte - Bibi gibt nicht auf): excluded, expected include; spotify:1urP4nLKa3iooOSAKEfR4n (Kurzgeschichte - Der Hexen-Imbiss): excluded, expected include; spotify:6hsICirPDSiqsUWd6aPjWh (Kurzgeschichte - Der Minihexen-Geburtstag): excluded, expected include; spotify:2koBhLRLpynXYosdbh6t90 (Kurzgeschichte - Die verhexte Badeschlacht): excluded, expected include; spotify:7nXV04lqI1Tegqq8RmehA0 (Kurzgeschichte - Wer hat Angst vor Klopf-Monstern?): excluded, expected include; apple_music:1069102309 (Kurzgeschichte - Bibi als Krankenschwester - Single): excluded, expected include; apple_music:1069173664 (Kurzgeschichte - Bibi gibt nicht auf - Single): excluded, expected include; apple_music:1069132584 (Kurzgeschichte - Der Hexen-Imbiss - Single): excluded, expected include; apple_music:1069165177 (Kurzgeschichte - Der Minihexen-Geburtstag - Single): excluded, expected include; apple_music:1069183096 (Kurzgeschichte - Die verhexte Badeschlacht - Single): excluded, expected include; apple_music:1069233934 (Kurzgeschichte - Wer hat Angst vor Klopf-Monstern? - Single): excluded, expected include",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "episode_numbers": {
-     "name": "episode_numbers",
-     "value": true,
-     "reason": "2 number(s) as expected",
-     "source": {
-      "name": "EpisodeNumbersCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 285.419753452,
-   "total_duration": 285.430387425,
-   "source_case_name": "bibi_blocksberg_short_stories",
-   "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
-   "span_id": "c262d8257fe01700",
-   "evaluator_failures": []
-  },
-  {
-   "name": "bibi_blocksberg_short_stories [2/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 2,
-    "input_tokens": 44537,
-    "output_tokens": 8543,
-    "cache_read.input_tokens": 38624,
-    "cache_read_tokens": 38624
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 1.0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": true,
-     "reason": "All decisions correct",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "episode_numbers": {
-     "name": "episode_numbers",
-     "value": true,
-     "reason": "14 number(s) as expected",
-     "source": {
-      "name": "EpisodeNumbersCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 210.094828223,
-   "total_duration": 210.105437136,
-   "source_case_name": "bibi_blocksberg_short_stories",
-   "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
-   "span_id": "2920df8e720c0ff4",
-   "evaluator_failures": []
-  },
-  {
-   "name": "bibi_blocksberg_short_stories [3/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 6,
-    "input_tokens": 140980,
-    "output_tokens": 9139,
-    "cache_read.input_tokens": 131040,
-    "cache_read_tokens": 131040
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 0.3333333333333333,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 12,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": false,
-     "reason": "Wrong: spotify:7HIgLk8Y8m3KQIFjPiYWQW (Kurzgeschichte - Bibi als Krankenschwester): excluded, expected include; spotify:1t8zf2fKNcPrWgHYM6Osdx (Kurzgeschichte - Bibi gibt nicht auf): excluded, expected include; spotify:1urP4nLKa3iooOSAKEfR4n (Kurzgeschichte - Der Hexen-Imbiss): excluded, expected include; spotify:6hsICirPDSiqsUWd6aPjWh (Kurzgeschichte - Der Minihexen-Geburtstag): excluded, expected include; spotify:2koBhLRLpynXYosdbh6t90 (Kurzgeschichte - Die verhexte Badeschlacht): excluded, expected include; spotify:7nXV04lqI1Tegqq8RmehA0 (Kurzgeschichte - Wer hat Angst vor Klopf-Monstern?): excluded, expected include; apple_music:1069102309 (Kurzgeschichte - Bibi als Krankenschwester - Single): excluded, expected include; apple_music:1069173664 (Kurzgeschichte - Bibi gibt nicht auf - Single): excluded, expected include; apple_music:1069132584 (Kurzgeschichte - Der Hexen-Imbiss - Single): excluded, expected include; apple_music:1069165177 (Kurzgeschichte - Der Minihexen-Geburtstag - Single): excluded, expected include; apple_music:1069183096 (Kurzgeschichte - Die verhexte Badeschlacht - Single): excluded, expected include; apple_music:1069233934 (Kurzgeschichte - Wer hat Angst vor Klopf-Monstern? - Single): excluded, expected include",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "episode_numbers": {
-     "name": "episode_numbers",
-     "value": true,
-     "reason": "2 number(s) as expected",
-     "source": {
-      "name": "EpisodeNumbersCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 356.03137758,
-   "total_duration": 356.042163462,
-   "source_case_name": "bibi_blocksberg_short_stories",
-   "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
-   "span_id": "3152f8b90628ddb2",
-   "evaluator_failures": []
-  },
-  {
    "name": "bibi_kinofilm_vs_soundtrack [1/3]",
    "inputs": null,
    "metadata": null,
@@ -3578,294 +3260,6 @@
    "evaluator_failures": []
   },
   {
-   "name": "rolf_zuckowski_own_albums [1/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 2,
-    "input_tokens": 56652,
-    "output_tokens": 13091,
-    "cache_read.input_tokens": 50720,
-    "cache_read_tokens": 50720
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 0.7727272727272727,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 1,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 4,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": false,
-     "reason": "Wrong: spotify:4zGRevN8nf4f80OF8SX6jq (Der Spielmann - Das Beste aus 20 Jahren): excluded, expected include; spotify:3EkatvT4rP38Jvts9DdVjl (Rolfs fröhlicher Familientag): excluded, expected include; spotify:7oe96EpBKDY6iAKkjHXmCc (Bei uns in der Kita - 22 Lieder im Frühling + Sommer): excluded, expected include; spotify:4KHRvwGl5Acb0O57Fn7mWN (Gute Laune - Gute Fahrt!): excluded, expected include; apple_music:1442238036 (LeiseStärke): included, expected exclude",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": false,
-     "reason": "Wrong reasons: apple_music:1641961181: got 'kinderlieder_compilation', expected one of ['not_kids_content']; apple_music:1853816718: got 'format_variant', expected one of ['music_single']",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 263.268089287,
-   "total_duration": 263.275624633,
-   "source_case_name": "rolf_zuckowski_own_albums",
-   "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
-   "span_id": "fc2ccb05b72de49f",
-   "evaluator_failures": []
-  },
-  {
-   "name": "rolf_zuckowski_own_albums [2/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 2,
-    "input_tokens": 53486,
-    "output_tokens": 9805,
-    "cache_read.input_tokens": 48288,
-    "cache_read_tokens": 48288
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 0.7272727272727273,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 1,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 5,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": false,
-     "reason": "Wrong: spotify:4zGRevN8nf4f80OF8SX6jq (Der Spielmann - Das Beste aus 20 Jahren): excluded, expected include; spotify:3EkatvT4rP38Jvts9DdVjl (Rolfs fröhlicher Familientag): excluded, expected include; spotify:7oe96EpBKDY6iAKkjHXmCc (Bei uns in der Kita - 22 Lieder im Frühling + Sommer): excluded, expected include; spotify:4KHRvwGl5Acb0O57Fn7mWN (Gute Laune - Gute Fahrt!): excluded, expected include; apple_music:1442238036 (LeiseStärke): included, expected exclude; apple_music:1747860648 (Neue Schule - Neue Freunde): excluded, expected include",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": false,
-     "reason": "Wrong reasons: apple_music:1641961181: got 'kinderlieder_compilation', expected one of ['not_kids_content']",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 227.482131269,
-   "total_duration": 227.489720184,
-   "source_case_name": "rolf_zuckowski_own_albums",
-   "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
-   "span_id": "68af8bae7afee364",
-   "evaluator_failures": []
-  },
-  {
-   "name": "rolf_zuckowski_own_albums [3/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 2,
-    "input_tokens": 54737,
-    "output_tokens": 10775,
-    "cache_read.input_tokens": 48448,
-    "cache_read_tokens": 48448
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 0.7272727272727273,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 1,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 5,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": false,
-     "reason": "Wrong: spotify:4zGRevN8nf4f80OF8SX6jq (Der Spielmann - Das Beste aus 20 Jahren): excluded, expected include; spotify:3EkatvT4rP38Jvts9DdVjl (Rolfs fröhlicher Familientag): excluded, expected include; spotify:7oe96EpBKDY6iAKkjHXmCc (Bei uns in der Kita - 22 Lieder im Frühling + Sommer): excluded, expected include; spotify:4KHRvwGl5Acb0O57Fn7mWN (Gute Laune - Gute Fahrt!): excluded, expected include; apple_music:1442238036 (LeiseStärke): included, expected exclude; apple_music:1747860648 (Neue Schule - Neue Freunde): excluded, expected include",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": false,
-     "reason": "Wrong reasons: apple_music:1641961181: got 'kinderlieder_compilation', expected one of ['not_kids_content']",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 242.899489497,
-   "total_duration": 242.907006531,
-   "source_case_name": "rolf_zuckowski_own_albums",
-   "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
-   "span_id": "a3ca6b7a2073641a",
-   "evaluator_failures": []
-  },
-  {
    "name": "was_ist_was_doppelfolge [1/3]",
    "inputs": null,
    "metadata": null,
@@ -4758,32 +4152,300 @@
    "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
    "span_id": "c6099c0f4498d76c",
    "evaluator_failures": []
+  },
+  {
+   "name": "rolf_zuckowski_own_albums [1/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 2,
+    "input_tokens": 57831,
+    "output_tokens": 10133,
+    "cache_read.input_tokens": 44512,
+    "cache_read_tokens": 44512
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 0.6923076923076923,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 1,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 7,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": false,
+     "reason": "Wrong: spotify:4zGRevN8nf4f80OF8SX6jq (Der Spielmann - Das Beste aus 20 Jahren): excluded, expected include; spotify:3EkatvT4rP38Jvts9DdVjl (Rolfs fröhlicher Familientag): excluded, expected include; spotify:7oe96EpBKDY6iAKkjHXmCc (Bei uns in der Kita - 22 Lieder im Frühling + Sommer): excluded, expected include; spotify:4KHRvwGl5Acb0O57Fn7mWN (Gute Laune - Gute Fahrt!): excluded, expected include; apple_music:1442238036 (LeiseStärke): included, expected exclude; apple_music:1688448748 (Sommer mit Rolf Zuckowski): excluded, expected include; apple_music:1747860648 (Neue Schule - Neue Freunde): excluded, expected include; apple_music:1774754436 (Einschlaflieder mit Rolf Zuckowski): excluded, expected include",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": false,
+     "reason": "Wrong reasons: apple_music:1641961181: got 'kinderlieder_compilation', expected one of ['not_kids_content']",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 293.496777801,
+   "total_duration": 293.504363009,
+   "source_case_name": "rolf_zuckowski_own_albums",
+   "trace_id": "01a125cf721c7fc041d18af112834697",
+   "span_id": "68673b429d480a80",
+   "evaluator_failures": []
+  },
+  {
+   "name": "rolf_zuckowski_own_albums [2/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 2,
+    "input_tokens": 58594,
+    "output_tokens": 9839,
+    "cache_read.input_tokens": 22272,
+    "cache_read_tokens": 22272
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 0.6153846153846154,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 1,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 9,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": false,
+     "reason": "Wrong: spotify:4zGRevN8nf4f80OF8SX6jq (Der Spielmann - Das Beste aus 20 Jahren): excluded, expected include; spotify:3EkatvT4rP38Jvts9DdVjl (Rolfs fröhlicher Familientag): excluded, expected include; spotify:7oe96EpBKDY6iAKkjHXmCc (Bei uns in der Kita - 22 Lieder im Frühling + Sommer): excluded, expected include; spotify:4KHRvwGl5Acb0O57Fn7mWN (Gute Laune - Gute Fahrt!): excluded, expected include; spotify:4ThoiOZmkF8ZLIatJDyajl (Laterne Laufen mit Rolf Zuckowski): excluded, expected include; apple_music:1442238036 (LeiseStärke): included, expected exclude; apple_music:1688448748 (Sommer mit Rolf Zuckowski): excluded, expected include; apple_music:1747860648 (Neue Schule - Neue Freunde): excluded, expected include; apple_music:1774754436 (Einschlaflieder mit Rolf Zuckowski): excluded, expected include; apple_music:1843665485 (Laterne Laufen mit Rolf Zuckowski): excluded, expected include",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": false,
+     "reason": "Wrong reasons: apple_music:1641961181: got 'kinderlieder_compilation', expected one of ['not_kids_content']",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 291.734242206,
+   "total_duration": 291.741935955,
+   "source_case_name": "rolf_zuckowski_own_albums",
+   "trace_id": "01a125cf721c7fc041d18af112834697",
+   "span_id": "60dadf0491cc1ec5",
+   "evaluator_failures": []
+  },
+  {
+   "name": "rolf_zuckowski_own_albums [3/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 2,
+    "input_tokens": 58800,
+    "output_tokens": 9633,
+    "cache_read.input_tokens": 29504,
+    "cache_read_tokens": 29504
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 0.6923076923076923,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 1,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 7,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": false,
+     "reason": "Wrong: spotify:4zGRevN8nf4f80OF8SX6jq (Der Spielmann - Das Beste aus 20 Jahren): excluded, expected include; spotify:3EkatvT4rP38Jvts9DdVjl (Rolfs fröhlicher Familientag): excluded, expected include; spotify:7oe96EpBKDY6iAKkjHXmCc (Bei uns in der Kita - 22 Lieder im Frühling + Sommer): excluded, expected include; spotify:4KHRvwGl5Acb0O57Fn7mWN (Gute Laune - Gute Fahrt!): excluded, expected include; apple_music:1442238036 (LeiseStärke): included, expected exclude; apple_music:1688448748 (Sommer mit Rolf Zuckowski): excluded, expected include; apple_music:1747860648 (Neue Schule - Neue Freunde): excluded, expected include; apple_music:1774754436 (Einschlaflieder mit Rolf Zuckowski): excluded, expected include",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": false,
+     "reason": "Wrong reasons: apple_music:1641961181: got 'kinderlieder_compilation', expected one of ['not_kids_content']",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 243.723268606,
+   "total_duration": 243.737069957,
+   "source_case_name": "rolf_zuckowski_own_albums",
+   "trace_id": "01a125cf721c7fc041d18af112834697",
+   "span_id": "cc5d6e107acc5fd4",
+   "evaluator_failures": []
   }
  ],
  "failures": [],
- "analyses": [
-  {
-   "type": "table",
-   "title": "Albums across all cases",
-   "description": null,
-   "columns": [
-    "albums",
-    "right",
-    "wrong content",
-    "missing content"
-   ],
-   "rows": [
-    [
-     585,
-     481,
-     31,
-     73
-    ]
-   ]
-  }
- ],
+ "analyses": [],
  "report_evaluator_failures": [],
  "experiment_metadata": null,
- "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
- "span_id": "bb7c3e512a46f54f"
+ "trace_id": "01a125cf721c7fc041d18af112834697",
+ "span_id": "6cf0b1194565cc58"
 }
