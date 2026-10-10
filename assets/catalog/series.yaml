@@ -16442,23 +16442,24 @@ series:
       - id: 4rRg8Lxw09m5FsCGWid99d
         title: Im wilden Wilden Westen
         release_date: '1996-11-13'
-      - id: 4ghoOGAttLAGG5LHZ2TyJI
-        title: Zaubert Hausaufgaben
-        release_date: '1996-11-13'
       - id: 7J10fbU5ef9lYoxFMXhwqs
         title: Und das wilde Indianerabenteuer
         release_date: '1997-11-13'
-      - id: 4S9JLpOKw8B5AxduUu8U88
-        title: Und der Vampir mit dem Wackelzahn
-        release_date: '2007-03-26'
+      - id: 4IzmCaIX0eEgRb7xsQFkfv
+        title: Das Buch des Drachen
+        release_date: '2011-02-11'
     apple_music:
       artist_ids:
       - '218659264'
       albums:
-      - id: '1056436201'
+      - id: '1356624523'
+        episode: 1
+        title: '001: stellt die Schule auf den Kopf'
+        release_date: '1994-04-27'
+      - id: '1356623749'
         episode: 2
-        title: 'Folge 2: im wilden Wilden Westen'
-        release_date: '1996'
+        title: 'Folge 2: macht Zauberquatsch'
+        release_date: '1994-01-01'
       - id: '1356624929'
         episode: 3
         title: 'Folge 3: und der Zirkuszauber'
@@ -16547,24 +16548,18 @@ series:
         episode: 24
         title: 'Folge 24: Hexe Lilli auf magischer Rettungsmission'
         release_date: '2022-08-05'
-      - id: '1356623749'
-        title: 'Folge 2: macht Zauberquatsch'
-        release_date: '1994-01-01'
-      - id: '1356624523'
-        title: '001: stellt die Schule auf den Kopf'
-        release_date: '1994-04-27'
-      - id: '1056441922'
-        title: 'Folge 8: zaubert Hausaufgaben'
+      - id: '1056436201'
+        title: 'Folge 2: im wilden Wilden Westen'
         release_date: '1996'
       - id: '1056433966'
         title: 'Folge 11: und das wilde Indianerabenteuer'
         release_date: '1997'
-      - id: '1056433273'
-        title: 'Folge 18: und der Vampir mit dem Wackelzahn'
-        release_date: '2007-03-26'
+      - id: '1356622351'
+        title: Das Buch des Drachen
+        release_date: '2009-01-01'
   episode_pattern:
-  - ^(\d{3})/
-  - '^Folge (\d+):'
+  - ^(\d{3})[/:]
+  - ^Folge (\d+):(?! im wilden Wilden Westen| und das wilde Indianerabenteuer)
   series_facts:
     era_boundaries:
     - curated_by: minimax-m2.7
@@ -53566,8 +53561,8 @@ series:
   aliases:
   - Hexe Lilli Erstlesergeschichten
   episode_pattern:
-  - ^(\d{3})/
-  - '^Folge (\d+):'
+  - ^(\d{3})/.*\(Erstlesergeschichten\)
+  - '^Folge (\d+): .*\(Erstlesergeschichten\)'
   split_from: hexe_lilli
   providers:
     spotify:
@@ -53582,6 +53577,30 @@ series:
         episode: 10
         title: 'Folge 10: Hexe Lilli und der Elfenzauber (Erstlesergeschichten)'
         release_date: '2021-09-17'
+      - id: 4ghoOGAttLAGG5LHZ2TyJI
+        title: Zaubert Hausaufgaben
+        release_date: '1996-11-13'
+      - id: 4S9JLpOKw8B5AxduUu8U88
+        title: Und der Vampir mit dem Wackelzahn
+        release_date: '2007-03-26'
+      - id: 1ateqhraMBgvZdaYeMuIok
+        title: Und der kleine Eisbär Knöpfchen
+        release_date: '2012-09-21'
+      - id: 4NHm49J138o8iOADgQfLwk
+        title: Hexe Lilli und die Zaubernacht im Kindergarten
+        release_date: '2012-11-23'
+      - id: 4fAxKCklCcMxl7LAxBeGDD
+        title: Hexe Lilli und der kleine Delfin
+        release_date: '2013-06-07'
+      - id: 6K5a3qRU976BpPIEG9mZnb
+        title: Feiert Geburtstag
+        release_date: '2013-11-22'
+      - id: 23Xt15lSmNEmJVmqjOqUeQ
+        title: Hexe Lilli und das verzauberte Fußballspiel
+        release_date: '2014-05-23'
+      - id: 2qffSlb9FcXLjuAmVmxusg
+        title: Hexe Lilli und der verzauberte Goldesel
+        release_date: '2015-06-05'
       - id: 3CiZjceqtFe8yc63b4ZmsL
         title: Hilfe! Die Murze kommen! (Erstlesergeschichten)
         release_date: '2019-07-05'
@@ -53600,6 +53619,30 @@ series:
         episode: 10
         title: 'Folge 10: Hexe Lilli und der Elfenzauber (Erstlesergeschichten)'
         release_date: '2021-09-17'
+      - id: '1056441922'
+        title: 'Folge 8: zaubert Hausaufgaben'
+        release_date: '1996'
+      - id: '1056433273'
+        title: 'Folge 18: und der Vampir mit dem Wackelzahn'
+        release_date: '2007-03-26'
+      - id: '1061926033'
+        title: Hexe Lilli und der kleine Eisbär Knöpfchen
+        release_date: '2012-09-21'
+      - id: '1061923870'
+        title: Hexe Lilli und die Zaubernacht im Kindergarten
+        release_date: '2012-11-23'
+      - id: '1055052863'
+        title: Hexe Lilli und der kleine Delfin
+        release_date: '2013-06-07'
+      - id: '1055054537'
+        title: Hexe Lilli feiert Geburtstag
+        release_date: '2013-11-22'
+      - id: '1055088464'
+        title: Hexe Lilli und das verzauberte Fußballspiel
+        release_date: '2014-05-23'
+      - id: '1055082502'
+        title: Hexe Lilli und der verzauberte Goldesel
+        release_date: '2015-06-05'
       - id: '1465730970'
         title: Hilfe! Die Murze kommen! (Erstlesergeschichten)
         release_date: '2019-07-05'
@@ -53608,12 +53651,18 @@ series:
         release_date: '2020-02-07'
   series_facts:
     era_boundaries:
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-17T20:31:37.014886+00:00'
+    - label: klassik
+      release_date_range: 1996-2015
+      curated_by: minimax-m2.7
+      curated_at: '2026-10-10T12:25:12.008868+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-06-17T20:31:37.014886+00:00'
-      label: erstlesergeschichten_modern
+      audited_at: '2026-10-10T12:25:12.008868+00:00'
+    - label: erstlesergeschichten_modern
       release_date_range: 2019-2021
+      curated_by: minimax-m2.7
+      curated_at: '2026-10-10T12:25:12.008868+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-10-10T12:25:12.008868+00:00'
     known_gaps:
     - curated_by: minimax-m2.7
       curated_at: '2026-06-17T20:31:37.014886+00:00'
@@ -59706,6 +59755,9 @@ series:
       artist_ids:
       - 2IYME9b8x0ptqROxrDvAQ0
       albums:
+      - id: 7iQo6EXjMtLPorNrw2vlXW
+        title: Die Reise nach Mandolan
+        release_date: '2011-11-13'
       - id: 2UFXuzfiqd0cThQRCalzdy
         title: Hexe Lilli rettet Weihnachten - Das Hörspiel zum Kinofilm
         release_date: '2019-04-01'
@@ -59716,9 +59768,6 @@ series:
       - id: '1055056779'
         title: 'Folge 23: Die Reise nach Mandolan'
         release_date: '2007-03-31'
-      - id: '1356622351'
-        title: Das Buch des Drachen
-        release_date: '2009-01-01'
   series_facts:
     sub_series:
     - label: klassiker
