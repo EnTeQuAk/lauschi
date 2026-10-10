@@ -218,7 +218,9 @@ with its reason where it does not. To add one, run
 `mise exec -- uv run --extra ai`), pick the albums, and replace each `todo`
 the builder leaves with a decision you checked. A case states only what you
 can back: leave an album out when neither the index nor another source
-settles it.
+settles it. A hand decision the model has no fact for is not an
+expectation either. A real run carries such an album as decided and never
+asks about it, so the case keeps it among the decided rows.
 
 **Whole-series eval** (`lauschi-catalog eval`) scores complete curate and
 audit runs, produced in a scratch repo root (`LAUSCHI_REPO_ROOT=/tmp/...`),
