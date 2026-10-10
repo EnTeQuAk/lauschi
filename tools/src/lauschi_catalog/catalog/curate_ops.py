@@ -90,6 +90,7 @@ from lauschi_catalog.providers import CatalogProvider
 from lauschi_catalog.rate_limit import run_with_rate_limit_retry
 from lauschi_catalog.retry import describe_failure
 from lauschi_catalog.run import (
+    END_STRATEGY,
     run_agent,
     run_with_attempts,
     usage_delta,
@@ -1519,6 +1520,7 @@ def _build_metadata_agent(
         retries={"tools": 2, "output": 2},
         toolsets=[build_agent_tools()],
         capabilities=[build_progress_hooks()],
+        end_strategy=END_STRATEGY,
     )
 
     if content_type in ("music", "audiobook"):
@@ -1614,6 +1616,7 @@ def _build_batch_agent(
         retries={"tools": 2, "output": 2},
         toolsets=[build_agent_tools()],
         capabilities=[build_progress_hooks()],
+        end_strategy=END_STRATEGY,
     )
 
     @agent.output_validator
@@ -1698,6 +1701,7 @@ def _build_finalize_agent(
         retries={"tools": 2, "output": 2},
         toolsets=[build_agent_tools()],
         capabilities=[build_progress_hooks()],
+        end_strategy=END_STRATEGY,
     )
 
     @agent.tool

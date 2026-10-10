@@ -55,7 +55,12 @@ from lauschi_catalog.fanout import run_bounded
 from lauschi_catalog.prompts import load_curate_skill
 from lauschi_catalog.rate_limit import run_with_rate_limit_retry
 from lauschi_catalog.retry import describe_failure
-from lauschi_catalog.run import run_agent, run_with_attempts, usage_summary
+from lauschi_catalog.run import (
+    END_STRATEGY,
+    run_agent,
+    run_with_attempts,
+    usage_summary,
+)
 from lauschi_catalog.run_events import (
     OUTCOME_FAILED,
     OUTCOME_OK,
@@ -148,6 +153,7 @@ def _build_audit_agent(
         retries={"tools": 2, "output": 2},
         toolsets=[build_agent_tools()],
         capabilities=[build_progress_hooks()],
+        end_strategy=END_STRATEGY,
     )
 
     @agent.tool

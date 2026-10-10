@@ -7,7 +7,7 @@ broad -> wasted budget on auth errors and doomed replays of validation
 failures that will never pass.
 """
 
-import httpx
+import httpx2
 import openai
 import pytest
 from pydantic import ValidationError
@@ -22,13 +22,13 @@ from lauschi_catalog.retry import describe_failure, is_retryable
 @pytest.mark.parametrize(
     "make",
     [
-        lambda: httpx.ConnectError("refused"),
-        lambda: httpx.ReadTimeout("timed out"),
-        lambda: httpx.PoolTimeout("pool exhausted"),
-        lambda: httpx.RemoteProtocolError("closed without sending a response"),
-        lambda: openai.APIConnectionError(request=httpx.Request("GET", "http://x")),
+        lambda: httpx2.ConnectError("refused"),
+        lambda: httpx2.ReadTimeout("timed out"),
+        lambda: httpx2.PoolTimeout("pool exhausted"),
+        lambda: httpx2.RemoteProtocolError("closed without sending a response"),
+        lambda: openai.APIConnectionError(request=httpx2.Request("GET", "http://x")),
         lambda: openai.InternalServerError(
-            "upstream broke", response=httpx.Response(500, request=_req()), body=None
+            "upstream broke", response=httpx2.Response(500, request=_req()), body=None
         ),
         lambda: ConnectionError("refused"),
         lambda: TimeoutError("deadline"),
@@ -43,7 +43,7 @@ def test_transport_types_retry(make):  # noqa: ANN001
 
 
 def _req():
-    return httpx.Request("POST", "http://relay/v1/chat/completions")
+    return httpx2.Request("POST", "http://relay/v1/chat/completions")
 
 
 # ── HTTP status classification ──────────────────────────────────────────
@@ -71,12 +71,12 @@ def test_model_http_error_with_4xx_does_not_retry(status: int):
 
 def test_httpx_status_error_with_5xx_retries():
     try:
-        raise httpx.HTTPStatusError(
+        raise httpx2.HTTPStatusError(
             "Server error '503'",
             request=_req(),
-            response=httpx.Response(503, request=_req()),
+            response=httpx2.Response(503, request=_req()),
         )
-    except httpx.HTTPStatusError as e:
+    except httpx2.HTTPStatusError as e:
         assert is_retryable(e) is True
 
 

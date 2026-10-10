@@ -10,12 +10,18 @@ per-model configuration.
 import os
 from dataclasses import dataclass
 
+import pydantic_ai
 from pydantic_ai import InlineDefsJsonSchemaTransformer
 from pydantic_ai.models import Model
 from pydantic_ai.models.openai import OpenAIChatModel, OpenAIResponsesModel
 from pydantic_ai.profiles.openai import OpenAIJsonSchemaTransformer, OpenAIModelProfile
 from pydantic_ai.providers.openai import OpenAIProvider
 from pydantic_ai.settings import ModelSettings
+
+# The CLI and the web jobs own their output: progress and transcripts go
+# to stderr, where pydantic-ai prints a first-run banner while no
+# observability is configured.
+pydantic_ai.BANNER_ENABLED = False
 
 
 @dataclass(frozen=True)

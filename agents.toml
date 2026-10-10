@@ -41,3 +41,21 @@ source = "dart-lang/skills"
 name = "sentry"
 source = "getsentry/agent-plugin"
 path = "."
+
+# pydantic/skills is a plugin marketplace, so `add` would install whole
+# plugins. These are the three skills the catalog tooling needs, taken
+# straight from the repo so they follow upstream on every install.
+[[skills]]
+name = "building-pydantic-ai-agents"
+source = "pydantic/skills"
+path = "skills/building-pydantic-ai-agents"
+
+[[skills]]
+name = "pydantic"
+source = "pydantic/skills"
+path = "skills/pydantic"
+
+[[skills]]
+name = "logfire-evals"
+source = "pydantic/skills"
+path = "skills/logfire-evals"

@@ -15,6 +15,7 @@ from lauschi_catalog.agent_tools import build_agent_tools
 from lauschi_catalog.catalog.curate_ops import BatchResult, CurateDeps
 from lauschi_catalog.catalog.prompt import format_albums_xml
 from lauschi_catalog.prompts import load_curate_skill
+from lauschi_catalog.run import END_STRATEGY
 
 MODEL_NAME = os.environ.get("EVAL_MODEL", "kimi-k2.6")
 
@@ -49,6 +50,7 @@ def _build_eval_agent(
         model_settings=get_model_settings("curate", MODEL_NAME),
         retries={"tools": 1, "output": 2},
         toolsets=[build_agent_tools()],
+        end_strategy=END_STRATEGY,
     )
     return agent
 

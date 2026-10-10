@@ -26,7 +26,7 @@ _MAX_DELAY = 300.0
 def extract_retry_delay(exc: BaseException) -> float | None:
     """Extract server-suggested retry delay from a 429 error.
 
-    Walks the exception chain for a ModelHTTPError (or a wrapped httpx
+    Walks the exception chain for a ModelHTTPError (or a wrapped httpx2
     response) with retry_after_ms / retry_after fields. Returns delay in
     seconds, or None if no hint found.
     """

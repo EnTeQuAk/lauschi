@@ -14,6 +14,7 @@ the relay never has to follow a $ref. Same fix pydantic-ai uses
 for Meta, Amazon, Qwen, and OpenRouter providers.
 """
 
+import pydantic_ai
 import pytest
 from pydantic_ai import InlineDefsJsonSchemaTransformer
 
@@ -25,7 +26,7 @@ def test_helper_returns_chat_model_with_inline_defs_transformer():
     InlineDefsJsonSchemaTransformer, every agent talking to opencode-
     zen breaks the next time a curation hits a complex schema."""
     model = build_model("minimax-m2.5", api_key="test-key")
-    assert model.profile.json_schema_transformer is InlineDefsJsonSchemaTransformer
+    assert model.profile["json_schema_transformer"] is InlineDefsJsonSchemaTransformer
 
 
 @pytest.mark.parametrize(
@@ -164,7 +165,7 @@ def test_chat_completions_keeps_the_inline_defs_transformer():
     """The chat-completions relay cannot resolve $ref; InlineDefs is why
     build_model exists. The 276 one-shot audits run on this path."""
     model = build_model("kimi-k2.6", api_key="test-key")
-    assert model.profile.json_schema_transformer is InlineDefsJsonSchemaTransformer
+    assert model.profile["json_schema_transformer"] is InlineDefsJsonSchemaTransformer
 
 
 def test_responses_api_uses_the_strict_mode_transformer():
@@ -178,7 +179,7 @@ def test_responses_api_uses_the_strict_mode_transformer():
     from pydantic_ai.profiles.openai import OpenAIJsonSchemaTransformer
 
     model = build_model("gpt-5.6-luna", api_key="test-key")
-    assert model.profile.json_schema_transformer is OpenAIJsonSchemaTransformer
+    assert model.profile["json_schema_transformer"] is OpenAIJsonSchemaTransformer
 
 
 def test_gpt_5_6_runs_every_phase_at_low_reasoning():
@@ -203,3 +204,10 @@ def test_gpt_5_6_sends_no_sampling_parameters():
         s = get_model_settings(phase, "gpt-5.6-luna")
         assert "temperature" not in s, phase
         assert "seed" not in s, phase
+
+
+def test_the_cli_owns_its_output() -> None:
+    """pydantic-ai prints a first-run banner to stderr while no
+    observability is configured. The catalog CLI writes progress and
+    transcripts there, so importing the model module switches it off."""
+    assert pydantic_ai.BANNER_ENABLED is False

@@ -8,7 +8,7 @@ connection errors, timeouts) should replay.
 
 from typing import Iterable
 
-import httpx
+import httpx2
 import requests
 from openai import (
     APIConnectionError,
@@ -32,7 +32,7 @@ _MODEL_OWN: tuple[type[BaseException], ...] = (
 #: class *name* so a lookalike exception named "Timeout" does not get
 #: retried.
 _RETRYABLE_TYPES: tuple[type[BaseException], ...] = (
-    httpx.TransportError,  # incl. timeouts, pool exhaustion, read errors
+    httpx2.TransportError,  # incl. timeouts, pool exhaustion, read errors
     APIConnectionError,  # openai; APITimeoutError subclasses it
     APITimeoutError,
     InternalServerError,  # openai's 5xx
@@ -47,7 +47,7 @@ def _status_code(layer: BaseException) -> int | None:
     """HTTP status the layer carries, when it does."""
     if isinstance(layer, ModelHTTPError):
         return layer.status_code
-    response = getattr(layer, "response", None)  # httpx / requests errors
+    response = getattr(layer, "response", None)  # httpx2 / requests errors
     status = getattr(response, "status_code", None)
     return status if isinstance(status, int) else None
 
@@ -87,7 +87,7 @@ def is_retryable(exc: BaseException) -> bool:
        retries, usage limits) makes the whole failure non-retryable.
        Classification by string would see the episode number "503"
        inside a validation message and replay a doomed request.
-    2. Transport types (httpx/openai/requests connection errors and
+    2. Transport types (httpx2/openai/requests connection errors and
        timeouts), real 5xx/429 status codes, and provider HTML error
        pages embedded in a wrapped message are retryable.
     """

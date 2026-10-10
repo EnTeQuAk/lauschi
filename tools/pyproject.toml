@@ -10,15 +10,15 @@ dependencies = [
     "ruamel.yaml>=0.18",
     "rich>=13.7",
     "PyJWT[crypto]>=2.8",
-    "pydantic-ai-slim[openai]>=1.105.0",
+    "pydantic>=2.0",
+    "pydantic-ai-slim[openai]>=2.55.0",
     "tenacity>=9.0",
     "filelock>=3.18",
 ]
 
 [project.optional-dependencies]
 ai = [
-    "pydantic-ai>=1.105.0",
-    "pydantic>=2.0",
+    "pydantic-evals>=2.55.0",
 ]
 web = [
     "fastapi>=0.136",
@@ -31,6 +31,8 @@ web = [
 [dependency-groups]
 dev = [
     "pytest>=8.0",
+    # starlette's TestClient, which the web UI tests use
+    "httpx>=0.28",
     "ruff>=0.11",
     "basedpyright>=1.30",
     "djlint>=1.36",

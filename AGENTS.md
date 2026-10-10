@@ -564,13 +564,22 @@ npx @sentry/dotagents --project list
 npx @sentry/dotagents --project add dart-lang/skills --name dart-use-pattern-matching
 ```
 
-Remote skills (getsentry/*, dart-lang/skills, pbakaus/impeccable) are
-gitignored and fetched on install, and so is `agents.lock`, which dotagents
-now treats as generated. Local skills in `.agents/skills/` (update-changelog,
-release, code-simplifier) are committed to the repo. From the Dart and
+Remote skills (getsentry/*, dart-lang/skills, pbakaus/impeccable,
+pydantic/skills) are gitignored and fetched on install, and so is
+`agents.lock`, which dotagents now treats as generated. Local skills in
+`.agents/skills/` (update-changelog, release, code-simplifier) are committed
+to the repo. From the Dart and
 Flutter skill sets only the ones that don't contradict our conventions are
 declared: the widget-test, architecture, integration-test and mocks skills
 teach `pumpAndSettle`, ChangeNotifier MVVM, Flutter Driver and mockito.
+
+The catalog tooling's pydantic skills (`building-pydantic-ai-agents`,
+`pydantic`, `logfire-evals`) come from `pydantic/skills`. That repo is a
+plugin marketplace, so `add` would install whole plugins. `agents.toml`
+names each skill with its `path` instead, and `install` follows upstream.
+Read the skill before changing agent code: pydantic-ai moves quickly, and a
+copy pinned elsewhere on your machine teaches the API of the release it was
+installed for.
 
 Sentry's skills and its hosted MCP server come as a plugin
 (`[[plugins]]` in `agents.toml`, from `getsentry/agent-plugin`).

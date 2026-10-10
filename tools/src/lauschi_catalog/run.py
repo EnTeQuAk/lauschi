@@ -5,13 +5,17 @@ from agent_hooks.build_progress_hooks(), which agents attach via
 capabilities=[build_progress_hooks()].
 """
 
-from typing import TYPE_CHECKING
+from typing import Literal
 
 from pydantic_ai import capture_run_messages
 from pydantic_ai.usage import RunUsage, UsageLimits
 
-if TYPE_CHECKING:
-    pass
+# What happens to a function tool the model sends together with its final
+# answer. pydantic-ai's default, 'graceful', runs it. Our tools write state
+# the run reads back afterwards (the finalize agent's pattern and facts),
+# and the model never sees their reply in that case, so the first valid
+# output ends the run and the tools next to it are skipped.
+END_STRATEGY: Literal["early"] = "early"
 
 
 def usage_summary(usage: "RunUsage | dict[str, int]") -> dict[str, int]:
@@ -87,7 +91,6 @@ async def run_agent(
     deps,
     *,
     request_limit: int = 200,
-    response_tokens_limit: int | None = None,
     tally: RunUsage | None = None,
 ):
     """Run a pydantic-ai agent and return its structured output.
@@ -99,10 +102,7 @@ async def run_agent(
     result = await agent.run(
         prompt,
         deps=deps,
-        usage_limits=UsageLimits(
-            request_limit=request_limit,
-            response_tokens_limit=response_tokens_limit,
-        ),
+        usage_limits=UsageLimits(request_limit=request_limit),
     )
     if tally is not None:
         tally.incr(result.usage)

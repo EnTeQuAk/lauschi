@@ -8,7 +8,10 @@ are tested separately in test_curate_helpers.py and test_agent_hooks.py.
 import asyncio
 from typing import Any
 
+import pytest
 from pydantic_ai.capabilities.hooks import Hooks
+from pydantic_ai.messages import ModelMessage, ModelResponse, ToolCallPart
+from pydantic_ai.models.function import AgentInfo, FunctionModel
 from pydantic_ai.models.test import TestModel
 
 from lauschi_catalog.catalog.audit_ops import (
@@ -130,3 +133,47 @@ class TestRunAgent:
         deps = CurateDeps()
         output = _run(run_agent(agent, "Batch", deps, request_limit=5))
         assert isinstance(output, BatchResult)
+
+
+# ── A tool call next to the final answer is not run ───────────────────────
+
+
+@pytest.mark.parametrize(
+    "build",
+    [
+        _build_metadata_agent,
+        _build_batch_agent,
+        _build_finalize_agent,
+        _build_audit_agent,
+    ],
+)
+def test_every_agent_ends_on_its_first_valid_output(build: Any) -> None:
+    """pydantic-ai's default, 'graceful', runs function tools a model
+    sends together with its final answer. Our tools have effects the run
+    reads back afterwards, and the model never sees their reply in that
+    case, so every agent ends on its first valid output instead."""
+    assert build(TestModel()).end_strategy == "early"
+
+
+def test_a_pattern_proposed_next_to_the_final_answer_is_not_applied() -> None:
+    """The finalize agent's propose_pattern_update writes the pattern the
+    series ships with. Sent in the same response as the final result, the
+    model gets no impact report back and cannot react to its warnings."""
+
+    def respond(messages: list[ModelMessage], info: AgentInfo) -> ModelResponse:
+        return ModelResponse(
+            parts=[
+                ToolCallPart(
+                    "propose_pattern_update", {"patterns": [r"^Folge (\d+):"]}
+                ),
+                ToolCallPart(info.output_tools[0].name, {}),
+            ]
+        )
+
+    agent = _build_finalize_agent(FunctionModel(respond))
+    deps = CurateDeps(pattern=None, all_decisions=[])
+
+    _run(agent.run("finalize", deps=deps))
+
+    assert deps.pattern is None
+    assert deps.pattern_revisions == []
