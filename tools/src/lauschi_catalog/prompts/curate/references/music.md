@@ -9,30 +9,28 @@ Kinderlieder, Kinderpop, and music albums. No episode numbers, no
 |---|---|---|---|
 | Album of songs by this artist | 8-20 | ALBUM | Include |
 | EP of this artist's own songs (`album_type=ep`) | 4-8 | EP | Include |
-| "Best of", "Greatest Hits" | Variable | COMPILATION | Exclude |
+| This artist's own collection: best-of, themed, seasonal | Variable | ALBUM | Include |
 | Multi-artist compilation ("Kinderhits 2024") | Variable | COMPILATION | Exclude |
 | Karaoke, instrumental, sped-up | Variable | FORMAT_VARIANT | Exclude |
 | Hörspiel in music artist catalog | Variable | WRONG_TYPE | Exclude (`wrong_content_type`) |
 
-## Singles-first artists
+## The artist's own collections
 
-Some Kinderlieder artists release almost everything as singles and only
-package them into their own collection albums ("Sing mit mir Vol. 1",
-"Die schönsten Kinderlieder Vol. 2", "Kinderklassiker Vol. 1"). For
-these artists the collection albums ARE the catalog: **include them**.
-The compilation exclusions below exist to avoid redundancy with regular
-albums; when an artist has no regular albums, that rationale doesn't
-apply.
+A collection of this artist's own songs is an album of theirs: a best-of
+("Das Beste aus 20 Jahren"), a themed one ("Sommer mit ...",
+"Einschlaflieder mit ...", "Bei uns in der Kita"), a numbered one ("Sing
+mit mir Vol. 1"). **Include them.** A parent who looks for bedtime songs
+or a summer album by this artist wants exactly these, and songs that are
+also on another album harm nobody.
 
-How to recognize the case: the discography is dominated by 1-2 track
-singles, and the only multi-track releases are the artist's own themed
-collections. The `album_type` field helps: the artist's own primary
-releases carry `album_type=album` even when their titles sound like
-compilations (e.g. Simone Sommerland's "Die 30 besten …" series: those
-are her primary studio albums, include them).
+`album_type=compilation` on the artist's own page says how the store
+files a release, not that it is unwanted. What is left out is what is
+not this artist's album at all: other artists' compilations, singles,
+format variants, content of another type, and albums that are not for
+children.
 
-Singles stay excluded either way (`music_single`): one-track albums make
-poor listening units, and their songs are on the collection albums.
+Singles stay excluded (`music_single`): one-track albums make poor
+listening units, and their songs are on the albums.
 
 An EP is not a single. `album_type=ep` marks a short release of several
 different songs (Spotify returns these as singles, so the field is named
@@ -45,12 +43,6 @@ reason ready-made, `music_single` or `format_variant`; never leave such
 an album `unspecified`.
 
 ## Failure taxonomy
-
-### kinderlieder_compilation
-"Best of", "Greatest Hits", numbered albums where each is a compilation.
-Exclude, UNLESS the artist is singles-first and these collections are
-their only multi-track releases (see "Singles-first artists" above), or
-`album_type=album` marks them as the artist's primary releases.
 
 ### multi_artist_compilation
 Albums featuring other artists ("Kinderparty Hits", "Nick Jr.'s …").
@@ -79,29 +71,27 @@ Reasoning:
 → include=true, confidence=high
 ```
 
-**Best-of compilation** (exclude):
+**The artist's own best-of** (include):
 ```
-Title: "Rolf Zuckowski - Die schönsten Lieder"
-Tracks: 28 songs, mixed durations
+Title: "Der Spielmann - Das Beste aus 20 Jahren"
+Tracks: 32 songs, album_type=compilation
+Artist: Rolf Zuckowski
 Reasoning:
-  1. "Die schönsten Lieder" (the best songs) signals greatest hits compilation
-  2. High track count (28) further confirms compilation
-  3. Named failure pattern: kinderlieder_compilation
-→ include=false, exclude_reason=kinderlieder_compilation, confidence=high
+  1. A collection, and the store files it as one
+  2. Every song is his own, sung by him, for children
+  3. No failure-taxonomy pattern applies: a collection of the artist's
+     own songs is an album of theirs
+→ include=true, confidence=high
 ```
 
-**Singles-first artist's own collection** (include):
+**The artist's own themed collection** (include):
 ```
-Title: "Sing mit mir Vol. 1"
-Tracks: 22 songs, each 1-3 min
-Artist catalog: 71 singles, 6 "Sing mit mir" collections, no regular albums
+Title: "Einschlaflieder mit Rolf Zuckowski"
+Tracks: 18 songs, album_type=compilation
 Reasoning:
-  1. Title sounds like a compilation, but the artist has no regular albums
-  2. These collections are the artist's only multi-track releases,
-     excluding them leaves the series empty
-  3. Singles-first rule: the collection albums ARE the catalog
+  1. His own songs regrouped by a theme, bedtime
+  2. A parent looking for bedtime songs by him wants this album
 → include=true, confidence=high
-  notes: "Artist-own collection; singles-first artist, no regular albums"
 ```
 
 **Multi-artist compilation** (exclude):

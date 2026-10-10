@@ -132,6 +132,15 @@ class TestPolicyTeaching:
         hoerspiel = load_curate_skill(phase="batch", content_type="hoerspiel")
         assert "no signal on its own" in hoerspiel
 
+    def test_an_artists_own_collection_is_an_album_of_theirs(self):
+        """Decided 2026-10-10: a best-of or themed collection of the
+        artist's own songs is in. Rolf Zuckowski lost seven to nine
+        albums a run to the rule that only singles-first artists keep
+        their collections."""
+        music = load_curate_skill(phase="batch", content_type="music")
+        assert "A collection of this artist's own songs is an album of theirs" in music
+        assert "ingles-first" not in music
+
     def test_two_stories_in_one_release_are_an_episode_and_doppelfolge_is_gone(self):
         p = load_curate_skill(phase="batch", content_type="hoerspiel")
         assert "Two stories in one release is not a repackaging" in p
