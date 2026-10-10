@@ -1297,6 +1297,44 @@ class TestApplyAuditOutputCaps:
             "[owned_elsewhere]" in c and "kid" in c for c in data["review"]["concerns"]
         )
 
+    @pytest.mark.parametrize(
+        ("by_hand", "action"),
+        [
+            ({"include": True}, "exclude"),
+            ({"include": False, "exclude_reason": "duplicate"}, "include"),
+            ({"include": False, "exclude_reason": "duplicate"}, "exclude"),
+        ],
+    )
+    def test_override_on_a_decision_made_by_hand_is_ignored(
+        self, tmp_path, by_hand, action
+    ):
+        """A person who moves or excludes an album knows something the
+        auditor does not. On Lauras Stern (2026-10-10) the audit put two
+        albums back that had just been moved in by hand. The auditor's
+        disagreement is kept as a concern for that person to read."""
+        curation = self._big_curation(3)
+        (a1,) = [a for a in curation["albums"] if a["album_id"] == "a1"]
+        a1.update(by_hand, decided_by="operator", decided_at="2026-10-10T12:00:00")
+        before = dict(a1)
+        result = AuditResult(
+            approve=True,
+            overrides=[
+                AuditOverride(
+                    album_id="a1", provider="spotify", action=action, reason="x"
+                )
+            ],
+        )
+
+        status, data = self._apply(tmp_path, curation, result)
+
+        (after,) = [a for a in data["albums"] if a["album_id"] == "a1"]
+        assert {k: after.get(k) for k in before} == before
+        assert status != "escalated"
+        assert any(
+            "[decided_by_hand]" in c and "spotify:a1" in c
+            for c in data["review"]["concerns"]
+        )
+
     def test_a_known_gap_for_an_included_episode_is_refused(self, tmp_path):
         """The 2026-10-02 audit recorded 95 known gaps for episodes that
         are included on one provider ("Spotify-only; no Apple Music

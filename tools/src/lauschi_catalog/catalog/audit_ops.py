@@ -1236,6 +1236,15 @@ def apply_audit(
                 f"'{owner}' and is audited there; override ignored"
             )
             continue
+        if album.get("decided_by") == "operator":
+            # A person decided this album and knows what the auditor does
+            # not. The disagreement is theirs to read, not ours to apply.
+            unknown_concerns.append(
+                f"[decided_by_hand] {o.provider}:{o.album_id} "
+                f"({album.get('title', '')}) was decided by hand; the auditor "
+                f"would {o.action} it ({o.reason}); override ignored"
+            )
+            continue
         # Materialize into the album record: include flags are the one
         # source of truth for apply and later audit rounds. The
         # overrides list below is an audit trail only.
