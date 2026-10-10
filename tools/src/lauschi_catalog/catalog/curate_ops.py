@@ -17,6 +17,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import ClassVar, Literal
 
+import requests
 from pydantic import BaseModel, Field, field_validator, model_validator
 from pydantic_ai import Agent, ModelRetry, RunContext
 from pydantic_ai.messages import ModelMessage, ModelMessagesTypeAdapter
@@ -82,12 +83,17 @@ from lauschi_catalog.catalog.paths import (
     curation_path,
     log_dir,
 )
-from lauschi_catalog.catalog.prompt import album_to_dict, format_albums_xml
+from lauschi_catalog.catalog.prompt import (
+    album_to_dict,
+    format_albums_xml,
+    format_reference_lines,
+)
 from lauschi_catalog.catalog.reasons import carried_reason
 from lauschi_catalog.fanout import run_bounded
 from lauschi_catalog.prompts import load_curate_skill
 from lauschi_catalog.providers import CatalogProvider
 from lauschi_catalog.rate_limit import run_with_rate_limit_retry
+from lauschi_catalog.reference import ReferenceIndex
 from lauschi_catalog.retry import describe_failure
 from lauschi_catalog.run import (
     END_STRATEGY,
@@ -1807,19 +1813,48 @@ def _build_metadata_agent(
     return agent
 
 
+def shared_page_reference(brand: str) -> str:
+    """The line index's view of a brand, for a run on a shared artist page.
+
+    Whether a batch came out right hung on the model looking the brand
+    up, and it did so in one run of three. The lines are a fact the run
+    can hand over, like the sibling entries. Empty when the index is not
+    configured, does not know the brand or cannot be reached: the run
+    goes on without it.
+    """
+    index = ReferenceIndex()
+    if not index.configured:
+        return ""
+    try:
+        series = index.lines_for(brand)
+        if series is None:
+            return ""
+        return format_reference_lines(series, index.without_a_line(series))
+    except requests.RequestException:
+        return ""
+
+
 def _build_batch_agent(
     model,
     *,
     model_name: str = "",
     content_type: str = "hoerspiel",
     discography_span_years: int | None = None,
+    page_reference: str = "",
 ) -> Agent[CurateDeps, BatchResult]:
-    """Agent for processing one batch of albums."""
+    """Agent for processing one batch of albums.
+
+    ``page_reference`` is the line index's view of the brand for a series
+    on a shared page (see shared_page_reference). It goes into the
+    instructions, which stay the same for every batch of a run.
+    """
     skill_instructions = load_curate_skill(
         phase="batch",
         content_type=content_type,
         discography_span_years=discography_span_years,
     )
+    if page_reference:
+        skill_instructions = f"{skill_instructions}\n\n{page_reference}"
     agent: Agent[CurateDeps, BatchResult] = Agent(
         model,
         name="curate_batch",
@@ -2574,11 +2609,20 @@ async def _run_large(
 
     if not all_albums:
         on_progress("  All albums already decided, skipping batches.\n")
+    page_reference = ""
+    if sibling_titles or line_of:
+        page_reference = shared_page_reference(line_of or meta.title)
+        if page_reference:
+            on_progress(
+                f"  Shared page: the line index's lines for "
+                f"{line_of or meta.title!r} go into the batch instructions.\n"
+            )
     batch_agent = _build_batch_agent(
         model,
         model_name=model_name,
         content_type=content_type,
         discography_span_years=discography_span_years,
+        page_reference=page_reference,
     )
     entry_pattern = catalog_entry.episode_pattern if catalog_entry else None
     if entry_pattern and entry_pattern != meta.episode_pattern:

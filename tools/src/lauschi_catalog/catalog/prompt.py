@@ -6,6 +6,7 @@ formatter so the representation is unified across all phases.
 """
 
 from lauschi_catalog.providers import Album
+from lauschi_catalog.reference import ReferenceProduct, ReferenceSeries
 
 
 def format_album_xml(album: dict, *, include_tracks: bool = True) -> str:
@@ -149,3 +150,45 @@ def album_to_dict(album_detail: object) -> dict:
         }
 
     raise TypeError(f"Expected dict or Album, got {type(album_detail)}")
+
+
+def format_reference_lines(
+    series: ReferenceSeries, unfiled: list[ReferenceProduct]
+) -> str:
+    """What the public line index holds for a brand, as a block for the
+    instructions of a run on a shared artist page.
+
+    Titles per line with their running time, and the brand's products
+    the index files under no line. No episode numbers: they come from the
+    provider metadata.
+    """
+    parts = [
+        "## The brand's lines in the public line index",
+        "",
+        "Several catalog entries share this artist page. The index files the "
+        f"releases of {series.name!r} as listed below. A title in a line belongs "
+        "to that line. A release under `no_line` is the brand's, and the index "
+        "does not say which line: place it by its label, its running time and "
+        "the form of its title, next to the titles that are in a line. "
+        "The index lags behind new releases and lists only licensed titles, so a "
+        "title missing here proves nothing. It gives no episode numbers.",
+        "",
+    ]
+    for line in series.lines:
+        titles = [
+            f"{episode.title} ({episode.seconds // 60} min)"
+            if episode.seconds
+            else episode.title
+            for episode in line.episodes
+            if episode.title
+        ]
+        if titles:
+            parts += [f'<line name="{line.name}">', *titles, "</line>"]
+    if unfiled:
+        parts.append("<no_line>")
+        parts += [
+            f"{p.title} ({p.label}, {p.kind}, {(p.seconds or 0) // 60} min)"
+            for p in unfiled
+        ]
+        parts.append("</no_line>")
+    return "\n".join(parts)

@@ -8,6 +8,10 @@ calls them.
 
 from __future__ import annotations
 
+import pytest
+import requests
+
+from lauschi_catalog.catalog import curate_ops
 from lauschi_catalog.catalog.curate_ops import (
     AlbumDecision,
     _build_batch_summary,
@@ -18,8 +22,17 @@ from lauschi_catalog.catalog.curate_ops import (
     format_batch_albums,
 )
 from lauschi_catalog.catalog.episode_range import RangeFact
-from lauschi_catalog.catalog.prompt import format_album_xml
+from lauschi_catalog.catalog.prompt import format_album_xml, format_reference_lines
+from lauschi_catalog.reference import (
+    Fetch,
+    ReferenceEpisode,
+    ReferenceIndex,
+    ReferenceLine,
+    ReferenceProduct,
+    ReferenceSeries,
+)
 from tests.factories import decision
+from tests.test_reference_index import fake_fetch
 
 
 def _decision(
@@ -317,3 +330,127 @@ class TestBatchPrompt:
         assert '<episode_range first="6" last="10" also_released_alone="7"/>' in prompt
         assert "  - Feuerwehrmann Sam Classics" in prompt
         assert "a line split off from 'Feuerwehrmann Sam'" in prompt
+
+
+class TestReferenceLines:
+    """What the line index holds for a brand, as a block for the prompt."""
+
+    SERIES = ReferenceSeries(
+        id=1,
+        name="Hexe Lilli",
+        lines=[
+            ReferenceLine(
+                "Klassiker",
+                [
+                    ReferenceEpisode(
+                        "1", "Hexe Lilli stellt die Schule auf den Kopf", 2760
+                    ),
+                    ReferenceEpisode("2", "Hexe Lilli macht Zauberquatsch", 2460),
+                ],
+            ),
+            ReferenceLine(
+                "Erstlesergeschichten", [ReferenceEpisode("3", "Und der Vampir", 2160)]
+            ),
+            ReferenceLine("Musik", []),
+        ],
+    )
+    UNFILED = [
+        ReferenceProduct(
+            id=7,
+            title="Und der kleine Eisbär Knöpfchen",
+            author="Hexe Lilli",
+            label="EUROPA mini",
+            kind="RADIOPLAY",
+            seconds=2880,
+            categories=(),
+            brand=None,
+            line=None,
+            number=None,
+        )
+    ]
+
+    def test_lines_come_with_titles_and_running_times_never_with_numbers(self) -> None:
+        block = format_reference_lines(self.SERIES, self.UNFILED)
+
+        assert (
+            '<line name="Klassiker">\n'
+            "Hexe Lilli stellt die Schule auf den Kopf (46 min)\n"
+            "Hexe Lilli macht Zauberquatsch (41 min)\n"
+            "</line>"
+        ) in block
+        assert (
+            '<line name="Erstlesergeschichten">\nUnd der Vampir (36 min)\n</line>'
+            in block
+        )
+        assert "Musik" not in block, "a line without titles says nothing"
+
+    def test_a_title_without_a_known_running_time_stands_alone(self) -> None:
+        series = ReferenceSeries(
+            id=2,
+            name="X",
+            lines=[
+                ReferenceLine(
+                    "Hörspiele", [ReferenceEpisode("4", "Lauras Geheimnis", None)]
+                )
+            ],
+        )
+
+        assert "\nLauras Geheimnis\n</line>" in format_reference_lines(series, [])
+
+    def test_products_without_a_line_are_listed_apart(self) -> None:
+        block = format_reference_lines(self.SERIES, self.UNFILED)
+
+        assert (
+            "<no_line>\nUnd der kleine Eisbär Knöpfchen (EUROPA mini, RADIOPLAY, 48 min)\n</no_line>"
+            in block
+        )
+        assert "<no_line>" not in format_reference_lines(self.SERIES, [])
+
+    def test_the_block_says_what_it_is_good_for(self) -> None:
+        block = format_reference_lines(self.SERIES, self.UNFILED)
+
+        assert block.startswith("## The brand's lines in the public line index\n")
+        assert "proves nothing" in block
+        assert "no episode numbers" in block
+
+
+class TestSharedPageReference:
+    """The fetch around the block: a run goes on without the index."""
+
+    def _index(self, monkeypatch: pytest.MonkeyPatch, fetch: Fetch, url: str) -> None:
+        monkeypatch.setattr(
+            curate_ops,
+            "ReferenceIndex",
+            lambda: ReferenceIndex(url, fetch=fetch, use_cache=False),
+        )
+
+    def test_a_known_brand_comes_back_as_the_block(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        self._index(monkeypatch, fake_fetch, "https://example.test/api")
+
+        block = curate_ops.shared_page_reference("Kommissar Kugelblitz")
+
+        assert (
+            '<line name="Hörspiele zu den Büchern">\nDie rote Socke (61 min)\n' in block
+        )
+        assert "<no_line>\nDer grüne Schal (EUROPA mini, RADIOPLAY, 48 min)" in block
+
+    def test_an_unknown_brand_and_an_unconfigured_index_give_nothing(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        self._index(monkeypatch, fake_fetch, "https://example.test/api")
+        assert curate_ops.shared_page_reference("Conni") == ""
+
+        self._index(monkeypatch, fake_fetch, "")
+        assert curate_ops.shared_page_reference("Kommissar Kugelblitz") == ""
+
+    def test_an_index_that_cannot_be_reached_does_not_stop_the_run(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        def down(url: str, params: dict | None) -> dict:
+            raise requests.ConnectionError(url)
+
+        self._index(monkeypatch, down, "https://example.test/api")
+
+        assert curate_ops.shared_page_reference("Kommissar Kugelblitz") == ""

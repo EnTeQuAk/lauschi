@@ -29,6 +29,7 @@ from lauschi_catalog.catalog.curate_ops import (
     _run_with_retry,
     batch_prompt,
     settle_batch_decisions,
+    shared_page_reference,
 )
 from lauschi_catalog.catalog.episode_range import numbers_released_alone, range_facts
 from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
@@ -97,11 +98,16 @@ async def run_batch_curation(
     replaces the eval model in the offline tests.
     """
     series = inp.series
+    shared_page = bool(series.sibling_titles or series.main_series_title)
     agent = _build_batch_agent(
         model or build_model(MODEL_NAME, model_api_key()),
         model_name=MODEL_NAME,
         content_type=series.content_type,
         discography_span_years=series.discography_span_years,
+        # read live, like the tools: the line index is not part of a case
+        page_reference=shared_page_reference(series.main_series_title or series.title)
+        if shared_page
+        else "",
     )
     decisions = [AlbumDecision.model_validate(row) for row in inp.decided]
     batch = [

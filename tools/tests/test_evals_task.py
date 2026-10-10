@@ -11,9 +11,16 @@ import pytest
 from pydantic_ai.messages import ModelMessage, ModelResponse, ToolCallPart
 from pydantic_ai.models.function import AgentInfo, FunctionModel
 
+from tests.evals import task as task_module
 from tests.evals.task import BatchInput, SeriesContext, run_batch_curation
 
 pytestmark = pytest.mark.anyio
+
+
+@pytest.fixture(autouse=True)
+def _no_line_index(monkeypatch: pytest.MonkeyPatch) -> None:
+    """The task reads the line index live. These tests stay offline."""
+    monkeypatch.setattr(task_module, "shared_page_reference", lambda _brand: "")
 
 
 def _album(album_id: str, title: str, provider: str = "spotify") -> dict[str, object]:
@@ -49,6 +56,7 @@ class _Script:
         self.prompts: list[str] = []
 
     def __call__(self, messages: list[ModelMessage], info: AgentInfo) -> ModelResponse:
+        self.instructions = info.instructions or ""
         self.prompts.append(
             "\n".join(
                 str(part.content)
@@ -267,3 +275,41 @@ async def test_the_answer_is_settled_together_with_what_was_decided_before() -> 
     assert twin.album_id == "sp-geb"
     assert twin.include is True
     assert twin.episode_num == 2
+
+
+async def test_a_series_on_a_shared_page_is_given_the_brands_lines(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Whether the model looked the brand up decided the result, and it
+    looked in one run of three. On a shared page the lines now come with
+    the instructions, under the main series' name."""
+    asked: list[str] = []
+
+    def lines(brand: str) -> str:
+        asked.append(brand)
+        return "## The brand's lines in the public line index\n<line name=...>"
+
+    monkeypatch.setattr(task_module, "shared_page_reference", lines)
+    script = _Script([_decide("a", episode_num=2)])
+    inp = BatchInput(
+        series=SUB_SERIES, albums=[_album("a", "Folge 2: Feiert Geburtstag")]
+    )
+
+    await run_batch_curation(inp, model=FunctionModel(script))
+
+    assert asked == ["Hexe Lilli"]
+    assert "## The brand's lines in the public line index" in script.instructions
+
+
+async def test_a_series_with_a_page_of_its_own_is_not(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(
+        task_module, "shared_page_reference", lambda brand: pytest.fail(brand)
+    )
+    script = _Script([_decide("new", episode_num=4)])
+    inp = BatchInput(series=SAM, albums=[_album("new", "Folge 4: Neu")])
+
+    await run_batch_curation(inp, model=FunctionModel(script))
+
+    assert "public line index\n<line" not in script.instructions
