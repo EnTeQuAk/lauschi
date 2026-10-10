@@ -895,6 +895,86 @@ def _name_root_as_owner(
     return named
 
 
+def settle_batch_decisions(
+    decisions: list["AlbumDecision"],
+    *,
+    discovered: list[dict],
+    pattern: str | list[str] | None,
+    entry: "CatalogEntry | None",
+    series_names: list[str],
+    seen_details: dict[str, dict],
+    on_progress: Progress = _noop,
+) -> None:
+    """Bring the model's batch decisions into the state the catalog ships.
+
+    The steps are deterministic and their order matters. Identity comes
+    first, since every later step reads titles. A split-off line then
+    leaves its doubt to the root, claims the twins of what it kept, and
+    names the root on the rest. Numbers come last, from the title, the
+    track names and the twin on the other provider, so they follow the
+    albums that are still included. ``decisions`` is changed in place.
+    """
+    # Identity fields come from the provider record, never from what the
+    # model echoed back; the episode number must follow the true title.
+    restored = _restore_identity(decisions, discovered, pattern)
+    if restored:
+        on_progress(
+            f"  Restored {restored} title(s) the model echoed wrongly; episode "
+            f"numbers follow the provider's titles.\n"
+        )
+
+    line_of = _root_title(entry)
+    doubted = _leave_doubt_to_root(decisions, entry)
+    if doubted:
+        on_progress(
+            f"  {len(doubted)} unsure claim(s) left to {line_of!r}: "
+            + ", ".join(sorted({d.title for d in doubted}))
+            + "\n"
+        )
+    twins = _claim_twins(decisions, entry, series_names)
+    if twins:
+        on_progress(
+            f"  {twins} album(s) claimed as the twin of a title this line "
+            f"claims on the other provider.\n"
+        )
+    rooted = _name_root_as_owner(decisions, entry)
+    if rooted:
+        on_progress(
+            f"  {rooted} album(s) this line left to {line_of!r}, which owns "
+            f"what no line claims.\n"
+        )
+
+    # Always run deterministic episode extraction on the decided albums.
+    if pattern is None:
+        return
+    re_extracted = _reextract_episode_numbers(decisions, pattern)
+    if re_extracted:
+        on_progress(
+            f"  Deterministic extraction set {re_extracted} episode "
+            f"numbers from pattern.\n",
+        )
+    from_tracks = _derive_numbers_from_tracks(decisions, seen_details, pattern)
+    if from_tracks:
+        on_progress(
+            f"  Track names numbered {from_tracks} album(s) the title did not.\n"
+        )
+    unsupported = _drop_unsupported_numbers(decisions, seen_details, pattern)
+    if unsupported:
+        on_progress(
+            f"  Dropped {unsupported} carried episode number(s) neither the "
+            f"title nor the track names support.\n"
+        )
+    from_twins = _derive_numbers_from_twins(decisions, series_names)
+    if from_twins:
+        on_progress(f"  Twins on the other provider numbered {from_twins} album(s).\n")
+    reused = _settle_number_reuse(decisions, series_names)
+    if reused:
+        on_progress(
+            f"  {reused} reused number(s) stay with the newest story; the "
+            f"older ones keep their titles only.\n"
+        )
+
+
 def _name_catalog_owners(
     decisions: list["AlbumDecision"], owners: dict[tuple[str, str], str]
 ) -> int:
@@ -2592,76 +2672,19 @@ async def _run_large(
 
     batch_index = {(a["provider"], a["id"]): a for a in all_albums}
 
-    # Identity fields come from the provider record, never from what the
-    # model echoed back; the episode number must follow the true title.
-    restored = _restore_identity(all_decisions, all_discovered, final_pattern)
-    if restored:
-        on_progress(
-            f"  Restored {restored} title(s) the model echoed wrongly; episode "
-            f"numbers follow the provider's titles.\n"
-        )
-
-    doubted = _leave_doubt_to_root(all_decisions, catalog_entry)
-    if doubted:
-        on_progress(
-            f"  {len(doubted)} unsure claim(s) left to {line_of!r}: "
-            + ", ".join(sorted({d.title for d in doubted}))
-            + "\n"
-        )
-    twins = _claim_twins(all_decisions, catalog_entry, [meta.title, *meta.aliases])
-    if twins:
-        on_progress(
-            f"  {twins} album(s) claimed as the twin of a title this line "
-            f"claims on the other provider.\n"
-        )
-    rooted = _name_root_as_owner(all_decisions, catalog_entry)
-    if rooted:
-        on_progress(
-            f"  {rooted} album(s) this line left to {line_of!r}, which owns "
-            f"what no line claims.\n"
-        )
-
     # Undecided albums (dropped by the model or lost to a failed batch)
     # are left absent. They make the run incomplete, which blocks apply.
     # On the next run _preseed_decisions carries forward whatever was
     # decided and re-queues the rest naturally.
-
-    # Always run deterministic episode extraction on the decided albums.
-    if final_pattern is not None:
-        re_extracted = _reextract_episode_numbers(all_decisions, final_pattern)
-        if re_extracted:
-            on_progress(
-                f"  Deterministic extraction set {re_extracted} episode "
-                f"numbers from pattern.\n",
-            )
-        from_tracks = _derive_numbers_from_tracks(
-            all_decisions, shared_deps.seen_details, final_pattern
-        )
-        if from_tracks:
-            on_progress(
-                f"  Track names numbered {from_tracks} album(s) the title did not.\n"
-            )
-        unsupported = _drop_unsupported_numbers(
-            all_decisions, shared_deps.seen_details, final_pattern
-        )
-        if unsupported:
-            on_progress(
-                f"  Dropped {unsupported} carried episode number(s) neither the "
-                f"title nor the track names support.\n"
-            )
-        from_twins = _derive_numbers_from_twins(
-            all_decisions, [meta.title, *meta.aliases]
-        )
-        if from_twins:
-            on_progress(
-                f"  Twins on the other provider numbered {from_twins} album(s).\n"
-            )
-        reused = _settle_number_reuse(all_decisions, [meta.title, *meta.aliases])
-        if reused:
-            on_progress(
-                f"  {reused} reused number(s) stay with the newest story; the "
-                f"older ones keep their titles only.\n"
-            )
+    settle_batch_decisions(
+        all_decisions,
+        discovered=all_discovered,
+        pattern=final_pattern,
+        entry=catalog_entry,
+        series_names=[meta.title, *meta.aliases],
+        seen_details=shared_deps.seen_details,
+        on_progress=on_progress,
+    )
 
     # -- Finalize metadata: facts discovery + episode extraction
     t_finalize = time.monotonic()
