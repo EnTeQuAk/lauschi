@@ -151,6 +151,14 @@ class TestPolicyTeaching:
         p = load_curate_skill(phase="batch", content_type="hoerspiel")
         assert "the prompt lists the sibling entries" in p
 
+    def test_a_split_off_line_is_sure_of_its_line_not_of_a_number(self):
+        """A sub-series keeps an album only at `high`. The model marked
+        titles the line index places in the line `medium`, because the
+        pattern gave them no number, and lost them to the main series."""
+        p = load_curate_skill(phase="batch", content_type="hoerspiel")
+        assert "It says\nnothing about the number." in p
+        assert "yours with `high`, also when your pattern does not match it" in p
+
     def test_split_guidelines_teach_erstleser_films_and_one_advent_child(self):
         p = load_curate_skill(phase="finalize", content_type="hoerspiel")
         assert "Erstleser" in p
