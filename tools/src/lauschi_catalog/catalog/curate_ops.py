@@ -1570,6 +1570,12 @@ class AlbumAnswer(BaseModel):
     confidence: Literal["high", "medium", "low"] = "high"
     notes: str | None = Field(default=None, description=_NOTES_DESCRIPTION)
 
+    @field_validator("confidence", mode="before")
+    @classmethod
+    def _confidence_in_any_case(cls, value: object) -> object:
+        """The skill's confidence table writes HIGH, MEDIUM and LOW."""
+        return value.lower() if isinstance(value, str) else value
+
     @model_validator(mode="after")
     def _notes_required_when_unsure(self) -> "AlbumAnswer":
         _require_notes_when_unsure(self.confidence, self.notes)

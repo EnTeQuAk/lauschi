@@ -147,6 +147,25 @@ async def test_an_album_answered_twice_is_sent_back() -> None:
     assert "omitted" not in model.told
 
 
+async def test_confidence_in_capitals_is_read_as_it_is_meant() -> None:
+    """The prompt's confidence table writes HIGH, MEDIUM and LOW."""
+    model = _Answers(
+        {
+            "provider": "spotify",
+            "id": "a",
+            "include": True,
+            "confidence": "MEDIUM",
+            "notes": "Sonderedition without a number, three story parts",
+        }
+    )
+    agent = _build_batch_agent(FunctionModel(model), model_name="test")
+
+    result = await agent.run("batch", deps=_deps(("spotify", "a")))
+
+    assert model.requests == 1
+    assert result.output.albums[0].confidence == "medium"
+
+
 PATTERN = r"^Folge (\d+):"
 
 
