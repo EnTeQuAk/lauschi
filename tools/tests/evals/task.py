@@ -15,6 +15,8 @@ a case must not change with it.
 import os
 from dataclasses import dataclass, field
 
+from pydantic import ConfigDict
+from pydantic.dataclasses import dataclass as checked_dataclass
 from pydantic_ai.models import Model
 
 from lauschi_catalog._opencode import build_model, model_api_key
@@ -34,9 +36,13 @@ from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
 MODEL_NAME = os.environ.get("EVAL_MODEL", "kimi-k2.6")
 
 
-@dataclass(frozen=True)
+@checked_dataclass(frozen=True, config=ConfigDict(extra="forbid"))
 class SeriesContext:
-    """What series.yaml says about the series of a case."""
+    """What series.yaml says about the series of a case.
+
+    Checked on construction, so a case file with a misspelt or mistyped
+    fact is refused when it is loaded.
+    """
 
     id: str
     title: str

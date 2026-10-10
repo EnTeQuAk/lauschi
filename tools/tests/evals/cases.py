@@ -17,6 +17,7 @@ from pydantic_evals.evaluators import LLMJudge
 
 from lauschi_catalog.catalog.curate_ops import BatchResult
 
+from .case_files import load_cases
 from .evaluators import (
     ConfidenceMinimum,
     DecisionsCorrect,
@@ -1150,10 +1151,14 @@ EVAL_CASES = [
 
 
 def build_dataset(names: list[str] | None = None) -> Dataset[BatchInput, BatchResult]:
-    """Build the eval dataset, optionally filtering by case name."""
-    cases = EVAL_CASES
+    """Build the eval dataset, optionally filtering by case name.
+
+    The cases written out here come first, then the case files under
+    ``fixtures/``.
+    """
+    cases = [*EVAL_CASES, *load_cases()]
     if names:
-        cases = [c for c in EVAL_CASES if c.name in names]
+        cases = [c for c in cases if c.name in names]
     return Dataset[BatchInput, BatchResult](
         name="catalog_curation_batch",
         cases=cases,
