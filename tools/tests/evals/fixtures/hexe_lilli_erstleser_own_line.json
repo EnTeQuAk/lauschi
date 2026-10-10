@@ -314,7 +314,7 @@
     {"name": "Hexe Lilli entdeckt Amerika - Teil 16", "duration_ms": 72066, "track_number": null},
     {"name": "Hexe Lilli entdeckt Amerika - Teil 17", "duration_ms": 72226, "track_number": null}
    ],
-   "expect": {"include": true, "source": "by hand: the line index does not list it. Arena's Erstleser series, book 10 (de.wikipedia.org/wiki/Hexe_Lilli)"}
+   "expect": {"include": true, "source": "by hand: the line index has the product without a line. Arena's Erstleser series, book 10 (de.wikipedia.org/wiki/Hexe_Lilli)"}
   },
   {
    "provider": "spotify",
@@ -370,7 +370,7 @@
     {"name": "Hexe Lilli und der verrückte Ritter - Teil 17", "duration_ms": 80573, "track_number": null},
     {"name": "Hexe Lilli und der verrückte Ritter - Teil 18", "duration_ms": 82466, "track_number": null}
    ],
-   "expect": {"include": true, "source": "by hand: the line index does not list it. EUROPA's product page says it is based on two Erstleser books (play-europa.de)"}
+   "expect": {"include": true, "source": "by hand: the line index has the product without a line. EUROPA's product page says it is based on two Erstleser books (play-europa.de)"}
   },
   {
    "provider": "spotify",
@@ -426,7 +426,7 @@
     {"name": "Hexe Lilli und der Pirat in der Badewanne - Teil 17", "duration_ms": 84853, "track_number": null},
     {"name": "Hexe Lilli und der Pirat in der Badewanne - Teil 18", "duration_ms": 84493, "track_number": null}
    ],
-   "expect": {"include": true, "source": "by hand: the line index does not list it. Arena's Erstleser series, book 13 (de.wikipedia.org/wiki/Hexe_Lilli)"}
+   "expect": {"include": true, "source": "by hand: the line index has the product without a line. Arena's Erstleser series, book 13 (de.wikipedia.org/wiki/Hexe_Lilli)"}
   },
   {
    "provider": "spotify",
@@ -594,7 +594,7 @@
     {"name": "Hexe Lilli und die Gruselmonsterparty - Teil 19", "duration_ms": 92186, "track_number": null},
     {"name": "Hexe Lilli und die Gruselmonsterparty - Teil 20", "duration_ms": 92373, "track_number": null}
    ],
-   "expect": {"include": true, "source": "by hand: the line index does not list it. Arena's Erstleser series, book 14 (de.wikipedia.org/wiki/Hexe_Lilli)"}
+   "expect": {"include": true, "source": "by hand: the line index has the product without a line. Arena's Erstleser series, book 14 (de.wikipedia.org/wiki/Hexe_Lilli)"}
   },
   {
    "provider": "spotify",
@@ -891,7 +891,7 @@
     {"name": "23 - Die Reise nach Mandolan (Teil 39)", "duration_ms": 92973, "track_number": null},
     {"name": "23 - Die Reise nach Mandolan (Teil 40)", "duration_ms": 92893, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: the line index does not list it. The Hörspiel of the second cinema film (de.wikipedia.org/wiki/Hexe_Lilli)"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: the line index has the product without a line. The Hörspiel of the second cinema film (de.wikipedia.org/wiki/Hexe_Lilli)"}
   },
   {
    "provider": "apple_music",
@@ -947,7 +947,7 @@
     {"name": "Hexe Lilli entdeckt Amerika (Teil 16)", "duration_ms": 72067, "track_number": null},
     {"name": "Hexe Lilli entdeckt Amerika (Teil 17)", "duration_ms": 72227, "track_number": null}
    ],
-   "expect": {"include": true, "source": "by hand: the line index does not list it. Arena's Erstleser series, book 10 (de.wikipedia.org/wiki/Hexe_Lilli)"}
+   "expect": {"include": true, "source": "by hand: the line index has the product without a line. Arena's Erstleser series, book 10 (de.wikipedia.org/wiki/Hexe_Lilli)"}
   },
   {
    "provider": "apple_music",
@@ -1003,7 +1003,7 @@
     {"name": "Hexe Lilli und der verrückte Ritter (Teil 17)", "duration_ms": 80573, "track_number": null},
     {"name": "Hexe Lilli und der verrückte Ritter (Teil 18)", "duration_ms": 82467, "track_number": null}
    ],
-   "expect": {"include": true, "source": "by hand: the line index does not list it. EUROPA's product page says it is based on two Erstleser books (play-europa.de)"}
+   "expect": {"include": true, "source": "by hand: the line index has the product without a line. EUROPA's product page says it is based on two Erstleser books (play-europa.de)"}
   },
   {
    "provider": "apple_music",
@@ -1059,7 +1059,7 @@
     {"name": "Hexe Lilli und der Pirat in der Badewanne (Teil 17)", "duration_ms": 84853, "track_number": null},
     {"name": "Hexe Lilli und der Pirat in der Badewanne (Teil 18)", "duration_ms": 84493, "track_number": null}
    ],
-   "expect": {"include": true, "source": "by hand: the line index does not list it. Arena's Erstleser series, book 13 (de.wikipedia.org/wiki/Hexe_Lilli)"}
+   "expect": {"include": true, "source": "by hand: the line index has the product without a line. Arena's Erstleser series, book 13 (de.wikipedia.org/wiki/Hexe_Lilli)"}
   },
   {
    "provider": "apple_music",
@@ -1227,7 +1227,7 @@
     {"name": "Hexe Lilli und die Gruselmonsterparty (Teil 19)", "duration_ms": 92187, "track_number": null},
     {"name": "Hexe Lilli und die Gruselmonsterparty (Teil 20)", "duration_ms": 92373, "track_number": null}
    ],
-   "expect": {"include": true, "source": "by hand: the line index does not list it. Arena's Erstleser series, book 14 (de.wikipedia.org/wiki/Hexe_Lilli)"}
+   "expect": {"include": true, "source": "by hand: the line index has the product without a line. Arena's Erstleser series, book 14 (de.wikipedia.org/wiki/Hexe_Lilli)"}
   }
  ]
 }

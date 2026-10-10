@@ -527,7 +527,7 @@
     {"name": "Die Reise nach Mandolan - Teil 39", "duration_ms": 92973, "track_number": null},
     {"name": "Die Reise nach Mandolan - Teil 40", "duration_ms": 92893, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: the line index does not list it. The Hörspiel of the second cinema film (de.wikipedia.org/wiki/Hexe_Lilli)"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: the line index has the product without a line. The Hörspiel of the second cinema film (de.wikipedia.org/wiki/Hexe_Lilli)"}
   },
   {
    "provider": "spotify",
@@ -583,7 +583,7 @@
     {"name": "Hexe Lilli entdeckt Amerika - Teil 16", "duration_ms": 72066, "track_number": null},
     {"name": "Hexe Lilli entdeckt Amerika - Teil 17", "duration_ms": 72226, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: the line index does not list it. Arena's Erstleser series, book 10 (de.wikipedia.org/wiki/Hexe_Lilli)"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: the line index has the product without a line. Arena's Erstleser series, book 10 (de.wikipedia.org/wiki/Hexe_Lilli)"}
   },
   {
    "provider": "spotify",
@@ -1031,7 +1031,7 @@
     {"name": "Hexe Lilli entdeckt Amerika (Teil 16)", "duration_ms": 72067, "track_number": null},
     {"name": "Hexe Lilli entdeckt Amerika (Teil 17)", "duration_ms": 72227, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: the line index does not list it. Arena's Erstleser series, book 10 (de.wikipedia.org/wiki/Hexe_Lilli)"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: the line index has the product without a line. Arena's Erstleser series, book 10 (de.wikipedia.org/wiki/Hexe_Lilli)"}
   },
   {
    "provider": "apple_music",
