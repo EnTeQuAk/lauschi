@@ -120,6 +120,11 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
    the root's finalize proposes splits for it. Children of a dissolved root
    (listed in `deleted.yaml`, e.g. `astrid_lindgren_deutsch`) stay one
    family, and their page's leftovers were settled at dissolution.
+   On a page that several entries share, the batch instructions carry what
+   the line index holds for the brand: its lines with their titles and
+   running times, and its products that sit in no line. Which line a title
+   belongs to is then a fact in front of the model, not a lookup it may
+   skip. It never supplies an episode number.
    Output: `assets/catalog/curation/{series_id}.json` (committed to git).
 
 2. **Reconcile** (`reconcile`): Deterministic cross-provider consistency.
