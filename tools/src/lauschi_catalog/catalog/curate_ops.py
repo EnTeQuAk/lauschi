@@ -285,6 +285,59 @@ def build_batch_prompt(
     return prompt
 
 
+def batch_prompt(
+    batch: list[dict],
+    decisions: list["AlbumDecision"],
+    *,
+    series_title: str,
+    pattern: str | list[str] | None,
+    seen_details: dict[str, dict],
+    run_facts: Mapping[tuple[str, str], RangeFact],
+    sibling_titles: list[str],
+    line_of: str | None,
+    batch_num: int,
+    n_batches: int,
+) -> str:
+    """The prompt for one batch, with what the run has decided so far.
+
+    ``decisions`` is everything decided before this batch: the pre-seed
+    and the earlier batches. The progress line, the rolling summary and
+    the structural hints are read from it, so a later batch stays
+    consistent with the earlier ones.
+    """
+    included = [d for d in decisions if d.include]
+    episode_nums = [d.episode_num for d in included if d.episode_num is not None]
+    n_excluded = len(decisions) - len(included)
+    if episode_nums:
+        progress_text = (
+            f"Progress: {len(included)} included (episodes "
+            f"{min(episode_nums)}-{max(episode_nums)}), "
+            f"{n_excluded} excluded."
+        )
+    else:
+        progress_text = f"Progress: {len(included)} included, {n_excluded} excluded."
+
+    structural_hints: list[str] = []
+    if decisions:
+        partial = curation_from_decisions(decisions, pattern)
+        structural_hints = build_structural_hints(analyze_series(partial))
+
+    batch_albums = format_batch_albums(batch, seen_details, run_facts)
+    return build_batch_prompt(
+        series_title=series_title,
+        pattern=pattern,
+        progress_text=progress_text,
+        rolling=_build_batch_summary(decisions, pattern, batch_num),
+        structural_hints=structural_hints,
+        sibling_titles=sibling_titles,
+        line_of=line_of,
+        batch_num=batch_num,
+        n_batches=n_batches,
+        n_albums=len(batch),
+        albums_xml=format_albums_xml(batch_albums, include_tracks=True),
+    )
+
+
 def _build_batch_summary(
     decisions: list["AlbumDecision"],
     pattern: str | list[str] | None,
@@ -2501,9 +2554,6 @@ async def _run_large(
             )
     total_inc = sum(1 for d in all_decisions if d.include)
     total_exc = sum(1 for d in all_decisions if not d.include)
-    episode_nums: list[int] = [
-        d.episode_num for d in all_decisions if d.include and d.episode_num is not None
-    ]
     if all_decisions:
         on_progress(
             f"  Carried forward {len(all_decisions)} decisions from "
@@ -2554,42 +2604,17 @@ async def _run_large(
     )
 
     for batch_num, batch in enumerate(batches, 1):
-        if episode_nums:
-            progress_text = (
-                f"Progress: {total_inc} included (episodes "
-                f"{min(episode_nums)}-{max(episode_nums)}), "
-                f"{total_exc} excluded."
-            )
-        else:
-            progress_text = f"Progress: {total_inc} included, {total_exc} excluded."
-
-        rolling = _build_batch_summary(
+        prompt = batch_prompt(
+            batch,
             all_decisions,
-            shared_deps.pattern,
-            batch_num,
-        )
-
-        batch_albums = format_batch_albums(batch, shared_deps.seen_details, run_facts)
-
-        structural_hints: list[str] = []
-        if all_decisions:
-            partial = curation_from_decisions(all_decisions, shared_deps.pattern)
-            analysis = analyze_series(partial)
-            structural_hints = build_structural_hints(analysis)
-
-        albums_xml = format_albums_xml(batch_albums, include_tracks=True)
-        prompt = build_batch_prompt(
             series_title=meta.title,
             pattern=shared_deps.pattern,
-            progress_text=progress_text,
-            rolling=rolling,
-            structural_hints=structural_hints,
+            seen_details=shared_deps.seen_details,
+            run_facts=run_facts,
             sibling_titles=sibling_titles,
             line_of=line_of,
             batch_num=batch_num,
             n_batches=len(batches),
-            n_albums=len(batch),
-            albums_xml=albums_xml,
         )
 
         shared_deps.current_batch_ids = {(a["provider"], a["id"]) for a in batch}
@@ -2644,9 +2669,6 @@ async def _run_large(
         n_exc = sum(1 for a in result.albums if not a.include)
         total_inc += n_inc
         total_exc += n_exc
-        for a in result.albums:
-            if a.include and a.episode_num is not None:
-                episode_nums.append(a.episode_num)
 
         batch_elapsed = _fmt_elapsed(time.monotonic() - t_batch)
         on_progress(

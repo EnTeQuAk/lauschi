@@ -10,6 +10,8 @@ from __future__ import annotations
 
 from lauschi_catalog.catalog.curate_ops import (
     AlbumDecision,
+    _build_batch_summary,
+    batch_prompt,
     build_batch_prompt,
     build_structural_hints,
     curation_from_decisions,
@@ -248,3 +250,70 @@ class TestEpisodeRangeFact:
         xml = format_album_xml(album, include_tracks=False)
 
         assert 'also_released_alone="1, 3"' in xml
+
+
+class TestBatchPrompt:
+    """The prompt of one batch carries what the run decided before it."""
+
+    PATTERN = r"^Folge (\d+):"
+    DECIDED = [
+        decision("a", episode_num=1, title="Folge 1: Anfang"),
+        decision("c", episode_num=3, title="Folge 3: Ende"),
+        decision("best", include=False, exclude_reason="compilation", title="Best of"),
+    ]
+
+    def _prompt(
+        self,
+        decisions: list[AlbumDecision],
+        *,
+        run_facts: dict[tuple[str, str], RangeFact] | None = None,
+        line_of: str | None = None,
+    ) -> str:
+        return batch_prompt(
+            [
+                {
+                    "provider": "spotify",
+                    "id": "box",
+                    "name": "Folgen 6-10: Die Box",
+                    "release_date": "2020-01-01",
+                }
+            ],
+            decisions,
+            series_title="Feuerwehrmann Sam",
+            pattern=self.PATTERN,
+            seen_details={},
+            run_facts=run_facts or {},
+            sibling_titles=["Feuerwehrmann Sam Classics"],
+            line_of=line_of,
+            batch_num=2,
+            n_batches=3,
+        )
+
+    def test_a_first_batch_has_no_history(self) -> None:
+        prompt = self._prompt([])
+
+        assert "Progress: 0 included, 0 excluded.\n" in prompt
+        assert "Structural signals" not in prompt
+        assert "Batch 2/3 (1 albums):" in prompt
+
+    def test_progress_names_the_episode_span_decided_so_far(self) -> None:
+        prompt = self._prompt(self.DECIDED)
+
+        assert "Progress: 2 included (episodes 1-3), 1 excluded.\n" in prompt
+
+    def test_summary_and_structural_hints_come_from_the_decisions(self) -> None:
+        prompt = self._prompt(self.DECIDED)
+
+        assert _build_batch_summary(self.DECIDED, self.PATTERN, 2) in prompt
+        assert "  Missing episodes so far: [2]" in prompt
+
+    def test_a_box_carries_its_fact_and_the_series_its_siblings(self) -> None:
+        prompt = self._prompt(
+            [],
+            run_facts={("spotify", "box"): RangeFact(6, 10, (7,))},
+            line_of="Feuerwehrmann Sam",
+        )
+
+        assert '<episode_range first="6" last="10" also_released_alone="7"/>' in prompt
+        assert "  - Feuerwehrmann Sam Classics" in prompt
+        assert "a line split off from 'Feuerwehrmann Sam'" in prompt
