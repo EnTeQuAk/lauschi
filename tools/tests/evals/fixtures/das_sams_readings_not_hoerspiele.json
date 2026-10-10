@@ -9,22 +9,7 @@
   "aliases": [],
   "discography_span_years": 53,
   "sibling_titles": ["Das Sams"],
-  "ships": [
-   ["apple_music", "1448238424"],
-   ["apple_music", "1448236653"],
-   ["apple_music", "1448233599"],
-   ["spotify", "40pHFqjf9m00ckHNLHpeeS"],
-   ["spotify", "5bHodA8YdOQZIt4nuJ6TMS"],
-   ["spotify", "1GFIOHPvVDwy7vjVQUinTa"],
-   ["spotify", "0ygMkaldUnRqyDWh5NenDi"],
-   ["spotify", "0NnSr5K3FGCnKlIBLzldci"],
-   ["spotify", "4KeOh5uVjGcNx0nDKQTY4f"],
-   ["spotify", "5ghsOkrgV3X91sFPXatcGt"],
-   ["spotify", "5SsYiuXWqN0fxPKp47YTgY"],
-   ["spotify", "1JjkQ53xpIzLDRyeL7Yo5D"],
-   ["spotify", "6sUBnKxutUBRKsIK74VNi6"],
-   ["spotify", "1sLoetsPK1ZP36QVqiX4eA"]
-  ],
+  "ships": [],
   "split_from": "das_sams",
   "main_series_title": "Das Sams"
  },
