@@ -31645,16 +31645,43 @@ series:
         episode: 1
         title: 'Lauras Stern, Folge 1: Lauras Stern'
         release_date: '2018-09-28'
-      - id: 19MAP4lIjhlhgFXfDif7WO
+      - id: 15uQx2B6aTQysGMzEmO8s8
         episode: 5
         title: 'Folge 5: Laura und das Pony'
         release_date: '2020-08-28'
       - id: 13PBimCXPAbGYZKMiTUyhN
         title: Lauras Weihnachtsstern (Das Original-Hörspiel zum Weihnachtsspezial)
         release_date: '2006'
-      - id: 4WEiHmpkRvOtD2SONq1kYa
+      - id: 6psvtJwbclXJ09i1lqvzvv
+        title: Laura und die Lampioninsel
+        release_date: '2013-03-14'
+      - id: 76dSQJudJoC0lawXTwQk4A
+        title: Lauras Piratenschatz
+        release_date: '2013-08-16'
+      - id: 1fkzpHnoCGZrYS1PJ4cAKq
+        title: Laura kommt in die Schule
+        release_date: '2015-04-16'
+      - id: 5M7P7v28Q2YbxpYaXCr7dG
+        title: Laura und der andere Stern
+        release_date: '2015-10-08'
+      - id: 5DXhxgaIO0wHpQgrUksu7N
+        title: Lauras Geheimnis
+        release_date: '2015-11-12'
+      - id: 2bVCnye09reMCv0bCVq7xb
         title: 'Lauras Stern - Sonderband: Weihnachten mit Laura und ihrem Stern: Laura sucht den Weihnachtsmann / Lauras Weihnachtsstern / Die gestohlene Nase'
         release_date: '2018-09-28'
+      - id: 76YzmOSBTh3DVjYwUn1oP6
+        title: Laura hat Geburtstag - Lauras Stern 10 (Ungekürzt)
+        release_date: '2019-01-31'
+      - id: 2AwTWgWwpk1Ict64rJZ7gN
+        title: Ferien mit Laura und ihrem Stern - Lauras Ferien / Lauras erste Übernachtung / Laura und der Ferienhund
+        release_date: '2019-05-31'
+      - id: 6wHBcYH5YYlMFkR9EhZlCH
+        title: Laura und der Vorlesetag (Ungekürzt)
+        release_date: '2020-10-30'
+      - id: 4IpLGRaQM1Nn72ZwiHtlr6
+        title: Laura und die kleine Robbe
+        release_date: '2021-05-28'
     apple_music:
       artist_ids:
       - '51919817'
@@ -31670,25 +31697,57 @@ series:
       - id: '1555480474'
         title: Lauras Weihnachtsstern (Das Original-Hörspiel zum Weihnachtsspezial)
         release_date: '2006'
+      - id: '6784982910'
+        title: Laura kommt in die Schule
+        release_date: '2015-04-16'
+      - id: '6784978472'
+        title: Lauras Geheimnis
+        release_date: '2015-11-12'
+      - id: '6784647565'
+        title: 'Lauras Stern - Sonderband: Weihnachten mit Laura und ihrem Stern: Laura sucht den Weihnachtsmann / Lauras Weihnachtsstern / Die gestohlene Nase'
+        release_date: '2018-09-28'
+      - id: '6784624018'
+        title: Ferien mit Laura und ihrem Stern - Lauras Ferien / Lauras erste Übernachtung / Laura und der Ferienhund
+        release_date: '2019-05-31'
+      - id: '6784602925'
+        title: Laura und die kleine Robbe
+        release_date: '2021-05-28'
   episode_pattern:
   - '^Lauras Stern, Folge (\d+):'
   - '^Folge (\d+):'
   series_facts:
     known_gaps:
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:45:43.593281+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:45:43.593281+00:00'
-      number: 2
-      range_end: 4
-      reason: Episode number not found in available catalog across providers - genuine gap in numbering sequence
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:45:43.593281+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:45:43.593281+00:00'
-      number: 8
+    - number: 2
       range_end:
-      reason: Episode number not found in available catalog across providers - genuine gap in numbering sequence
+      reason: 'Genuine gap: episode number not found in available catalog across providers.'
+      curated_by: minimax-m2.7
+      curated_at: '2026-10-10T12:02:49.204461+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-10-10T12:02:49.204461+00:00'
+    - number: 3
+      range_end: 4
+      reason: 'Genuine gap: episode numbers not found in available catalog across providers.'
+      curated_by: minimax-m2.7
+      curated_at: '2026-10-10T12:02:49.204461+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-10-10T12:02:49.204461+00:00'
+    - number: 8
+      range_end:
+      reason: 'Genuine gap: episode number not found in available catalog across providers.'
+      curated_by: minimax-m2.7
+      curated_at: '2026-10-10T12:02:49.204461+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-10-10T12:02:49.204461+00:00'
+    sub_series:
+    - label: vorlesetag
+      album_ids:
+      - spotify:6wHBcYH5YYlMFkR9EhZlCH
+      reason: "Belongs to 'Lauras Stern - Erstleser' sub-series (Band 13), a split-off line audited separately. Production: RTL+ describes same-format 'Laura hat Geburtstag' as 'Inszenierte Lesung mit Musik
+        und Geräuschen' (Hörspiel-style cast with effects), but catalog placement is Erstleser, not main series."
+      curated_by: minimax-m2.7
+      curated_at: '2026-10-10T12:02:49.204461+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-10-10T12:02:49.204461+00:00'
 - id: dragons_die_waechter_von_berk
   title: Dragons - Die Wächter von Berk
   providers:
@@ -54178,88 +54237,6 @@ series:
       curated_at: '2026-10-03T03:07:34.548010+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-10-03T03:07:34.548010+00:00'
-  content_type: hoerspiel
-- id: lauras_stern_laura
-  title: 'Lauras Stern: Laura'
-  aliases:
-  - Lauras Stern
-  episode_pattern:
-  split_from: lauras_stern
-  providers:
-    spotify:
-      artist_ids:
-      - 0xY8w0o3cSH3gzx4G4h8qD
-      albums:
-      - id: 15uQx2B6aTQysGMzEmO8s8
-        episode: 5
-        title: 'Folge 5: Laura und das Pony'
-      - id: 6psvtJwbclXJ09i1lqvzvv
-        episode: 7
-        title: Laura und die Lampioninsel
-        release_date: '2013-03-14'
-      - id: 76dSQJudJoC0lawXTwQk4A
-        episode: 9
-        title: Lauras Piratenschatz
-        release_date: '2013-08-16'
-      - id: 1fkzpHnoCGZrYS1PJ4cAKq
-        title: Laura kommt in die Schule
-        release_date: '2015-04-16'
-      - id: 5M7P7v28Q2YbxpYaXCr7dG
-        title: Laura und der andere Stern
-        release_date: '2015-10-08'
-      - id: 5DXhxgaIO0wHpQgrUksu7N
-        title: Lauras Geheimnis
-        release_date: '2015-11-12'
-      - id: 2eqIcLw1HkIhu6EhZ9tSgv
-        title: Ferien mit Laura und ihrem Stern - Lauras Ferien / Lauras erste Übernachtung / Laura und der Ferienhund
-        release_date: '2019-05-31'
-      - id: 6wHBcYH5YYlMFkR9EhZlCH
-        title: Laura und der Vorlesetag (Ungekürzt)
-        release_date: '2020-10-30'
-      - id: 4IpLGRaQM1Nn72ZwiHtlr6
-        title: Laura und die kleine Robbe
-        release_date: '2021-05-28'
-    apple_music:
-      artist_ids:
-      - '51919817'
-      albums:
-      - id: '6784982910'
-        title: Laura kommt in die Schule
-        release_date: '2015-04-16'
-      - id: '6784978472'
-        title: Lauras Geheimnis
-        release_date: '2015-11-12'
-      - id: '6784624018'
-        title: Ferien mit Laura und ihrem Stern - Lauras Ferien / Lauras erste Übernachtung / Laura und der Ferienhund
-        release_date: '2019-05-31'
-      - id: '6784602925'
-        title: Laura und die kleine Robbe
-        release_date: '2021-05-28'
-  series_facts:
-    known_gaps:
-    - curated_by: minimax-m2.7
-      curated_at: '2026-07-24T12:48:00.200683+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-24T12:48:00.200683+00:00'
-      number: 6
-      range_end:
-      reason: Episode not discovered in catalog search. May require searching by title or checking parent series catalog.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-17T20:40:03.731516+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-17T20:40:03.731516+00:00'
-      number: 8
-      range_end:
-      reason: Episode 'Laura hat Geburtstag' (Lauras Stern 10) not discovered in current catalog search; may exist in parent series
-    sub_series:
-    - label: hoerbuch
-      album_ids:
-      - 6wHBcYH5YYlMFkR9EhZlCH
-      reason: 'Reverting: track names confirm Hörspiel format (scene chapters with story continuity), not audiobook. Original sub_series proposal was based on incorrect production-type assessment.'
-      curated_by: minimax-m2.7
-      curated_at: '2026-10-03T10:15:02.210146+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-03T10:15:02.210146+00:00'
   content_type: hoerspiel
 - id: lauras_stern_tv_serie
   title: 'Lauras Stern: Tv Serie'

@@ -60,3 +60,7 @@ deleted:
   title: Kalle Klang
   reason: 'Dropped 2026-10-04 to be curated again from scratch: Die Flohtöne and Kalle Klang shipped the same 16 albums and the curator gave all of Die Flohtöne to Kalle Klang. Re-add both together.'
   deleted_at: '2026-10-04T20:21:24+00:00'
+- id: lauras_stern_laura
+  title: 'Lauras Stern: Laura'
+  reason: 'Merged back into lauras_stern on 2026-10-10: its titles are numbers of the main Hörspiele line'
+  deleted_at: '2026-10-10T11:59:06+00:00'
