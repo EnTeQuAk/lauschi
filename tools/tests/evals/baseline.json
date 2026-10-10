@@ -3318,642 +3318,6 @@
    "evaluator_failures": []
   },
   {
-   "name": "hexe_lilli_erstleser_own_line [1/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 2,
-    "input_tokens": 47589,
-    "output_tokens": 20156,
-    "cache_read.input_tokens": 47552,
-    "cache_read_tokens": 47552
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 0.7241379310344828,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 8,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": false,
-     "reason": "Wrong: spotify:1ateqhraMBgvZdaYeMuIok (Und der kleine Eisbär Knöpfchen): excluded, expected include; spotify:4NHm49J138o8iOADgQfLwk (Hexe Lilli und die Zaubernacht im Kindergarten): excluded, expected include; spotify:4fAxKCklCcMxl7LAxBeGDD (Hexe Lilli und der kleine Delfin): excluded, expected include; spotify:2qffSlb9FcXLjuAmVmxusg (Hexe Lilli und der verzauberte Goldesel): excluded, expected include; apple_music:1061926033 (Hexe Lilli und der kleine Eisbär Knöpfchen): excluded, expected include; apple_music:1061923870 (Hexe Lilli und die Zaubernacht im Kindergarten): excluded, expected include; apple_music:1055052863 (Hexe Lilli und der kleine Delfin): excluded, expected include; apple_music:1055082502 (Hexe Lilli und der verzauberte Goldesel): excluded, expected include",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "episode_numbers": {
-     "name": "episode_numbers",
-     "value": true,
-     "reason": "6 number(s) as expected",
-     "source": {
-      "name": "EpisodeNumbersCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 2117.893091145,
-   "total_duration": 2117.902028401,
-   "source_case_name": "hexe_lilli_erstleser_own_line",
-   "trace_id": "01a127596dcafa94b539b5ef8b8bc123",
-   "span_id": "2246c7d7d02be4d8",
-   "evaluator_failures": []
-  },
-  {
-   "name": "hexe_lilli_erstleser_own_line [2/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 13,
-    "input_tokens": 835368,
-    "output_tokens": 24791,
-    "cache_read.input_tokens": 705984,
-    "cache_read_tokens": 705984
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 1.0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": true,
-     "reason": "All decisions correct",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "episode_numbers": {
-     "name": "episode_numbers",
-     "value": true,
-     "reason": "6 number(s) as expected",
-     "source": {
-      "name": "EpisodeNumbersCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 2007.581717066,
-   "total_duration": 2007.591367895,
-   "source_case_name": "hexe_lilli_erstleser_own_line",
-   "trace_id": "01a127596dcafa94b539b5ef8b8bc123",
-   "span_id": "d3465f5af14d5c0b",
-   "evaluator_failures": []
-  },
-  {
-   "name": "hexe_lilli_erstleser_own_line [3/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 1,
-    "input_tokens": 47589,
-    "output_tokens": 20737,
-    "cache_read.input_tokens": 47552,
-    "cache_read_tokens": 47552
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 0.7931034482758621,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 6,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": false,
-     "reason": "Wrong: spotify:4rRg8Lxw09m5FsCGWid99d (Im wilden Wilden Westen): included, expected exclude; spotify:7J10fbU5ef9lYoxFMXhwqs (Und das wilde Indianerabenteuer): included, expected exclude; spotify:7iQo6EXjMtLPorNrw2vlXW (Die Reise nach Mandolan): included, expected exclude; apple_music:1056436201 (Folge 2: im wilden Wilden Westen): included, expected exclude; apple_music:1056433966 (Folge 11: und das wilde Indianerabenteuer): included, expected exclude; apple_music:1055056779 (Folge 23: Die Reise nach Mandolan): included, expected exclude",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "episode_numbers": {
-     "name": "episode_numbers",
-     "value": true,
-     "reason": "6 number(s) as expected",
-     "source": {
-      "name": "EpisodeNumbersCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 523.153267019,
-   "total_duration": 523.162673295,
-   "source_case_name": "hexe_lilli_erstleser_own_line",
-   "trace_id": "01a127596dcafa94b539b5ef8b8bc123",
-   "span_id": "aeb160c11cf47c5f",
-   "evaluator_failures": []
-  },
-  {
-   "name": "hexe_lilli_main_keeps_its_line [1/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 2,
-    "input_tokens": 103330,
-    "output_tokens": 21184,
-    "cache_read.input_tokens": 72416,
-    "cache_read_tokens": 72416
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 0.8333333333333334,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 4,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": false,
-     "reason": "Wrong: spotify:4rRg8Lxw09m5FsCGWid99d (Im wilden Wilden Westen): excluded, expected include; spotify:7J10fbU5ef9lYoxFMXhwqs (Und das wilde Indianerabenteuer): excluded, expected include; apple_music:1056436201 (Folge 2: im wilden Wilden Westen): excluded, expected include; apple_music:1056433966 (Folge 11: und das wilde Indianerabenteuer): excluded, expected include",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "episode_numbers": {
-     "name": "episode_numbers",
-     "value": true,
-     "reason": "9 number(s) as expected",
-     "source": {
-      "name": "EpisodeNumbersCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 801.024112173,
-   "total_duration": 801.032530755,
-   "source_case_name": "hexe_lilli_main_keeps_its_line",
-   "trace_id": "01a127596dcafa94b539b5ef8b8bc123",
-   "span_id": "39a5f313704fc14a",
-   "evaluator_failures": []
-  },
-  {
-   "name": "hexe_lilli_main_keeps_its_line [2/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 1,
-    "input_tokens": 40974,
-    "output_tokens": 14721,
-    "cache_read.input_tokens": 40928,
-    "cache_read_tokens": 40928
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 0.75,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 2,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 4,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": false,
-     "reason": "Wrong: spotify:4rRg8Lxw09m5FsCGWid99d (Im wilden Wilden Westen): excluded, expected include; spotify:7J10fbU5ef9lYoxFMXhwqs (Und das wilde Indianerabenteuer): excluded, expected include; spotify:1ateqhraMBgvZdaYeMuIok (Und der kleine Eisbär Knöpfchen): included, expected exclude; apple_music:1056436201 (Folge 2: im wilden Wilden Westen): excluded, expected include; apple_music:1056433966 (Folge 11: und das wilde Indianerabenteuer): excluded, expected include; apple_music:1061926033 (Hexe Lilli und der kleine Eisbär Knöpfchen): included, expected exclude",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "episode_numbers": {
-     "name": "episode_numbers",
-     "value": true,
-     "reason": "9 number(s) as expected",
-     "source": {
-      "name": "EpisodeNumbersCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 306.587983629,
-   "total_duration": 306.596156052,
-   "source_case_name": "hexe_lilli_main_keeps_its_line",
-   "trace_id": "01a127596dcafa94b539b5ef8b8bc123",
-   "span_id": "a0b4a8ba65620921",
-   "evaluator_failures": []
-  },
-  {
-   "name": "hexe_lilli_main_keeps_its_line [3/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 1,
-    "input_tokens": 40974,
-    "output_tokens": 12534,
-    "cache_read.input_tokens": 40928,
-    "cache_read_tokens": 40928
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 0.8333333333333334,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 4,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": false,
-     "reason": "Wrong: spotify:4rRg8Lxw09m5FsCGWid99d (Im wilden Wilden Westen): excluded, expected include; spotify:7J10fbU5ef9lYoxFMXhwqs (Und das wilde Indianerabenteuer): excluded, expected include; apple_music:1056436201 (Folge 2: im wilden Wilden Westen): excluded, expected include; apple_music:1056433966 (Folge 11: und das wilde Indianerabenteuer): excluded, expected include",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "episode_numbers": {
-     "name": "episode_numbers",
-     "value": true,
-     "reason": "9 number(s) as expected",
-     "source": {
-      "name": "EpisodeNumbersCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 235.049076644,
-   "total_duration": 235.057706643,
-   "source_case_name": "hexe_lilli_main_keeps_its_line",
-   "trace_id": "01a127596dcafa94b539b5ef8b8bc123",
-   "span_id": "7d3e3fb22e65fac6",
-   "evaluator_failures": []
-  },
-  {
    "name": "wieso_vorlesegeschichten_takes_nothing [1/3]",
    "inputs": null,
    "metadata": null,
@@ -4528,12 +3892,650 @@
    "trace_id": "01a1278704d5c6068cf63a0c752002ed",
    "span_id": "4ad35fe81fde2e15",
    "evaluator_failures": []
+  },
+  {
+   "name": "hexe_lilli_erstleser_own_line [1/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 1,
+    "input_tokens": 37811,
+    "output_tokens": 12714,
+    "cache_read.input_tokens": 3008,
+    "cache_read_tokens": 3008
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "6 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 229.377466662,
+   "total_duration": 229.384874531,
+   "source_case_name": "hexe_lilli_erstleser_own_line",
+   "trace_id": "01a127fd8e8f644b933e121f7d8698bd",
+   "span_id": "b390f01022cc489b",
+   "evaluator_failures": []
+  },
+  {
+   "name": "hexe_lilli_erstleser_own_line [2/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 1,
+    "input_tokens": 37811,
+    "output_tokens": 10783,
+    "cache_read.input_tokens": 37760,
+    "cache_read_tokens": 37760
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 0.8095238095238095,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 4,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": false,
+     "reason": "Wrong: spotify:6K5a3qRU976BpPIEG9mZnb (Feiert Geburtstag): excluded, expected include; spotify:23Xt15lSmNEmJVmqjOqUeQ (Hexe Lilli und das verzauberte Fußballspiel): excluded, expected include; apple_music:1055054537 (Hexe Lilli feiert Geburtstag): excluded, expected include; apple_music:1055088464 (Hexe Lilli und das verzauberte Fußballspiel): excluded, expected include",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "6 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 430.367060857,
+   "total_duration": 430.37400595,
+   "source_case_name": "hexe_lilli_erstleser_own_line",
+   "trace_id": "01a127fd8e8f644b933e121f7d8698bd",
+   "span_id": "9efcfcb604a2630b",
+   "evaluator_failures": []
+  },
+  {
+   "name": "hexe_lilli_erstleser_own_line [3/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 1,
+    "input_tokens": 37811,
+    "output_tokens": 9893,
+    "cache_read.input_tokens": 3008,
+    "cache_read_tokens": 3008
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "6 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 167.505049729,
+   "total_duration": 167.518339891,
+   "source_case_name": "hexe_lilli_erstleser_own_line",
+   "trace_id": "01a127fd8e8f644b933e121f7d8698bd",
+   "span_id": "f0ec1a14d4e06baa",
+   "evaluator_failures": []
+  },
+  {
+   "name": "hexe_lilli_main_keeps_its_line [1/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 1,
+    "input_tokens": 38443,
+    "output_tokens": 19598,
+    "cache_read.input_tokens": 3008,
+    "cache_read_tokens": 3008
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 0.7272727272727273,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 1,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 5,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": false,
+     "reason": "Wrong: spotify:4rRg8Lxw09m5FsCGWid99d (Im wilden Wilden Westen): excluded, expected include; spotify:7J10fbU5ef9lYoxFMXhwqs (Und das wilde Indianerabenteuer): excluded, expected include; spotify:4S9JLpOKw8B5AxduUu8U88 (Und der Vampir mit dem Wackelzahn): included, expected exclude; spotify:4IzmCaIX0eEgRb7xsQFkfv (Das Buch des Drachen): excluded, expected include; apple_music:1056436201 (Folge 2: im wilden Wilden Westen): excluded, expected include; apple_music:1056433966 (Folge 11: und das wilde Indianerabenteuer): excluded, expected include",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "8 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 402.796171623,
+   "total_duration": 402.80384079,
+   "source_case_name": "hexe_lilli_main_keeps_its_line",
+   "trace_id": "01a127fd8e8f644b933e121f7d8698bd",
+   "span_id": "7d529af3bee84006",
+   "evaluator_failures": []
+  },
+  {
+   "name": "hexe_lilli_main_keeps_its_line [2/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 1,
+    "input_tokens": 38443,
+    "output_tokens": 8736,
+    "cache_read.input_tokens": 38400,
+    "cache_read_tokens": 38400
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 0.8181818181818182,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 4,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": false,
+     "reason": "Wrong: spotify:4rRg8Lxw09m5FsCGWid99d (Im wilden Wilden Westen): excluded, expected include; spotify:7J10fbU5ef9lYoxFMXhwqs (Und das wilde Indianerabenteuer): excluded, expected include; apple_music:1056436201 (Folge 2: im wilden Wilden Westen): excluded, expected include; apple_music:1056433966 (Folge 11: und das wilde Indianerabenteuer): excluded, expected include",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "9 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 276.694121388,
+   "total_duration": 276.702150164,
+   "source_case_name": "hexe_lilli_main_keeps_its_line",
+   "trace_id": "01a127fd8e8f644b933e121f7d8698bd",
+   "span_id": "1f82b7146b8e5f8d",
+   "evaluator_failures": []
+  },
+  {
+   "name": "hexe_lilli_main_keeps_its_line [3/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 1,
+    "input_tokens": 38443,
+    "output_tokens": 7489,
+    "cache_read.input_tokens": 9152,
+    "cache_read_tokens": 9152
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 0.7272727272727273,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 1,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 5,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": false,
+     "reason": "Wrong: spotify:4rRg8Lxw09m5FsCGWid99d (Im wilden Wilden Westen): excluded, expected include; spotify:7J10fbU5ef9lYoxFMXhwqs (Und das wilde Indianerabenteuer): excluded, expected include; spotify:4S9JLpOKw8B5AxduUu8U88 (Und der Vampir mit dem Wackelzahn): included, expected exclude; spotify:4IzmCaIX0eEgRb7xsQFkfv (Das Buch des Drachen): excluded, expected include; apple_music:1056436201 (Folge 2: im wilden Wilden Westen): excluded, expected include; apple_music:1056433966 (Folge 11: und das wilde Indianerabenteuer): excluded, expected include",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "8 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 376.611090848,
+   "total_duration": 376.61958517,
+   "source_case_name": "hexe_lilli_main_keeps_its_line",
+   "trace_id": "01a127fd8e8f644b933e121f7d8698bd",
+   "span_id": "0efad27287e89ec8",
+   "evaluator_failures": []
   }
  ],
  "failures": [],
  "analyses": [],
  "report_evaluator_failures": [],
- "experiment_metadata": null,
- "trace_id": "01a1278704d5c6068cf63a0c752002ed",
- "span_id": "c246c3cadeff452f"
+ "experiment_metadata": {
+  "model": "kimi-k2.6"
+ },
+ "trace_id": "01a127fd8e8f644b933e121f7d8698bd",
+ "span_id": "899ffb04de768f2f"
 }
