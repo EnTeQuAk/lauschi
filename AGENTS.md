@@ -109,13 +109,19 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
    skips it. A prior curation with invalid album records (e.g. an
    off-vocabulary exclude_reason) aborts the run; normalize first with
    `lauschi-catalog reconcile --all --normalize`.
-   Split-off children (`split_from`) curate their own line: their applied
-   albums arrive included, the parent's and siblings' applied albums arrive
-   excluded, and the batch only decides what is new on the shared page.
-   What nobody owns on a shared page is the family root's: only the root's
-   finalize proposes splits for it. Children of a dissolved root (listed in
-   `deleted.yaml`, e.g. `astrid_lindgren_deutsch`) stay one family, and
-   their page's leftovers were settled at dissolution.
+   Split-off children (`split_from`) curate their own line and inherit
+   nothing from the family. A child sees the whole shared page and decides
+   each album on one question, is it this line. Only its own applied
+   albums arrive included. An album that matches exactly one family
+   member's `episode_pattern` is settled by that fact before the model
+   runs. A claim needs the model's full confidence: an include below
+   `high` goes to the root, and a title the child claims on one provider
+   is claimed on the other too. The root then takes its children's claims
+   from their current curations, so `curate --all` finishes every child
+   before a root starts. What no child claims is the family root's: only
+   the root's finalize proposes splits for it. Children of a dissolved root
+   (listed in `deleted.yaml`, e.g. `astrid_lindgren_deutsch`) stay one
+   family, and their page's leftovers were settled at dissolution.
    Output: `assets/catalog/curation/{series_id}.json` (committed to git).
 
 2. **Reconcile** (`reconcile`): Deterministic cross-provider consistency.

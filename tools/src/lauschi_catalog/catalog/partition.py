@@ -88,13 +88,24 @@ def families(catalog: list[CatalogEntry]) -> dict[str, Family]:
 def catalog_album_owners(
     catalog: list[CatalogEntry], entry_id: str
 ) -> dict[tuple[str, str], str]:
-    """Which other series ships each album, keyed by (provider, album_id).
+    """Which series outside the entry's family ships each album, keyed by
+    (provider, album_id).
 
-    Shipping an album is a catalog fact, so it decides ownership on a
-    shared artist page whether or not the series are one family. Albums
-    the entry ships itself, and albums two other series both ship, have
-    no single other owner and are left out.
+    Shipping an album is a catalog fact, so it decides ownership on an
+    artist page the entry shares with an unrelated series (Astrid Lindgren
+    and Ferien auf Saltkrokan). Inside a family a member's claim comes from
+    its current curation instead: a child curates its own line without
+    inheriting anything, and the root takes its children's claims from
+    their curations. Albums the entry ships itself, and albums two other
+    series both ship, have no single other owner and are left out.
     """
+    entry = next((e for e in catalog if e.id == entry_id), None)
+    family = (
+        {m.id for m in family_of(entry, catalog).members}
+        | {entry.split_from or entry.id}
+        if entry is not None
+        else set()
+    )
     own: set[tuple[str, str]] = set()
     shippers: dict[tuple[str, str], set[str]] = {}
     for e in catalog:
@@ -103,7 +114,7 @@ def catalog_album_owners(
                 key = (provider, album["id"])
                 if e.id == entry_id:
                     own.add(key)
-                else:
+                elif e.id not in family:
                     shippers.setdefault(key, set()).add(e.id)
     return {
         key: next(iter(ids))

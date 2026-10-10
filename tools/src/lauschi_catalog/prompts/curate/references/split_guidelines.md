@@ -151,6 +151,24 @@ Hörspielserie") stays with the parent unless it has completely separate
 branding and its own distinct provider artist. Era boundaries, not
 splits, handle recording generations.
 
+## Curating a split-off line
+
+When the prompt says your series is a line split off from another
+series, you curate one line of a shared artist page. Every album on the
+page comes to you, and each one gets the same question: is it this line?
+
+- An album of your line: include it, numbered the way the line numbers.
+- Everything else, the root's episodes, another line, a release of the
+  root's that only looks like yours: exclude it as `sub_series_bleed`.
+- An album you are not sure about: exclude it as `sub_series_bleed`
+  too. The root owns whatever no line claims and decides it with the
+  inclusion bias, so nothing is lost. An album your line wrongly takes
+  is gone from the root. A claim therefore needs your full confidence:
+  an include below `high` is treated as doubt and goes to the root.
+
+For a split-off line the inclusion bias reads: in doubt, leave it to the
+root.
+
 ## The golden rule
 
 Never split in a way that turns the parent into a graveyard. The

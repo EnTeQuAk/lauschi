@@ -254,9 +254,19 @@ def build_batch_prompt(
     n_batches: int,
     n_albums: int,
     albums_xml: str,
+    line_of: str | None = None,
 ) -> str:
-    """Assemble the per-batch user prompt. Pure; snapshot-tested."""
+    """Assemble the per-batch user prompt. Pure; snapshot-tested.
+
+    ``line_of`` is the root's title when the series is a split-off line.
+    """
     prompt = f"Series: {series_title!r}\nEpisode pattern: {pattern}\n{progress_text}\n"
+    if line_of:
+        prompt += (
+            f"This series is a line split off from {line_of!r}. The artist "
+            f"page carries {line_of!r} and its other lines too (see "
+            f"'Curating a split-off line').\n"
+        )
     if rolling:
         prompt += f"{rolling}\n"
     if structural_hints:
@@ -390,10 +400,25 @@ def _inject_split_children(
     if existing_curation is None:
         existing_curation = {"albums": []}
 
-    rows = _AlbumRows(existing_curation.setdefault("albums", []))
+    claims = {child.id: _child_album_records(child) for child in children}
+    # A carried exclusion naming a child that no longer claims the album
+    # would keep it from everyone: the parent decides it again.
+    claimed = {
+        child_id: {(provider, album_id) for provider, album_id, _ in records}
+        for child_id, records in claims.items()
+    }
+    existing_curation["albums"] = [
+        a
+        for a in existing_curation.get("albums", [])
+        if a.get("include")
+        or a.get("decided_by") == "operator"
+        or (owner := bleed_owner(a.get("notes"))) not in claimed
+        or (a.get("provider"), a.get("album_id")) in claimed[owner]
+    ]
+    rows = _AlbumRows(existing_curation["albums"])
     for child in children:
         prov = album_provenance("split")
-        for provider, album_id, title in _child_album_records(child):
+        for provider, album_id, title in claims[child.id]:
             rows.claim(
                 {
                     "album_id": album_id,
@@ -412,26 +437,26 @@ def _inject_split_children(
 
 
 def _child_album_records(child) -> list[tuple[str, str, str]]:
-    """(provider, album_id, title) for a split child's albums.
+    """(provider, album_id, title) for what a split child claims.
 
-    series.yaml is the authoritative, always-present source; the
-    child's curation file is a fallback for a child that was curated
-    but not yet applied.
+    The child's current curation is its claim: children curate before
+    their root, so it holds what the child took this run, including a new
+    line album series.yaml does not ship yet, and leaves out an album the
+    child gave back. series.yaml stands in for a child with no curation
+    yet, such as one a split acceptance just created.
     """
-    records: list[tuple[str, str, str]] = []
-    for provider, cfg in child.providers.items():
-        for album in cfg.albums:
-            records.append((provider, album["id"], album.get("title", "")))
-    if records:
-        return records
     child_path = curation_path(child.id)
-    if not child_path.exists():
-        return []
-    child_data = json.loads(child_path.read_text())
+    if child_path.exists():
+        child_data = json.loads(child_path.read_text())
+        return [
+            (a.get("provider", ""), a.get("album_id", ""), a.get("title", ""))
+            for a in child_data.get("albums", [])
+            if a.get("album_id") and a.get("include")
+        ]
     return [
-        (a.get("provider", ""), a.get("album_id", ""), a.get("title", ""))
-        for a in child_data.get("albums", [])
-        if a.get("album_id") and a.get("include")
+        (provider, album["id"], album.get("title", ""))
+        for provider, cfg in child.providers.items()
+        for album in cfg.albums
     ]
 
 
@@ -557,31 +582,24 @@ def _inject_for_split_child(
     existing_curation: dict | None,
     entry: "CatalogEntry",
 ) -> dict | None:
-    """Scope a split-off child's run by the catalog's own facts.
+    """Carry a split-off child's own applied albums into its run.
 
-    A child shares its artist pages with the parent, so discovery
-    returns the whole family. Its own applied albums arrive included
-    with their numbers; the parent's and every other sibling's applied
-    albums arrive excluded as sub_series_bleed, and so does what those
-    pages rejected for a reason of their own (a duplicate of a parent
-    episode is not the child's to re-judge). Only what an owner handed
-    away as sub_series_bleed stays open. A carried exclusion of another
-    member's album gains that owner. _preseed_decisions then carries all
-    of it forward and the batch only decides what is new on the page (a
-    line's latest releases). Returns None for a series that is not a
+    A child shares its artist pages with the family and decides every
+    album on them against its own line, inheriting nothing from the
+    parent or a sibling: an inherited rejection once kept Hexe Lilli's
+    Erstleser books and Ninjago's Band 13 out of the very lines made for
+    them. Its own applied albums are its own content, so they arrive
+    included with their numbers. Returns None for a series that is not a
     split-off.
     """
     if not entry.split_from:
         return existing_curation
-    catalog = load_catalog()
     if existing_curation is None:
         existing_curation = {"albums": []}
     rows = _AlbumRows(existing_curation.setdefault("albums", []))
-    add, claim = rows.add, rows.claim
-
     prov = album_provenance("split")
     for provider, album_id, title, episode, release_date in _applied_records(entry):
-        add(
+        rows.add(
             {
                 "album_id": album_id,
                 "provider": provider,
@@ -594,59 +612,7 @@ def _inject_for_split_child(
                 **prov,
             }
         )
-    owners = list(family_of(entry, catalog).siblings_of(entry.id))
-    for owner in owners:
-        for provider, album_id, title, _episode, release_date in _applied_records(
-            owner
-        ):
-            claim(
-                {
-                    "album_id": album_id,
-                    "provider": provider,
-                    "title": title,
-                    "include": False,
-                    "exclude_reason": "sub_series_bleed",
-                    "confidence": "high",
-                    "notes": f"Belongs to '{owner.id}'",
-                    "release_date": release_date,
-                    **prov,
-                }
-            )
-        for rejected in _owner_rejects(owner.id):
-            claim(
-                {
-                    "album_id": rejected["album_id"],
-                    "provider": rejected["provider"],
-                    "title": rejected.get("title", ""),
-                    "include": False,
-                    "exclude_reason": "sub_series_bleed",
-                    "confidence": "high",
-                    "notes": (
-                        f"'{owner.id}' excluded it as "
-                        f"{rejected.get('exclude_reason') or 'unspecified'}"
-                    ),
-                    "release_date": rejected.get("release_date"),
-                    **prov,
-                }
-            )
     return existing_curation
-
-
-def _owner_rejects(owner_id: str) -> list[dict]:
-    """Albums an owner's curation excluded for a reason of its own:
-    everything but what it handed away as sub_series_bleed."""
-    path = curation_path(owner_id)
-    if not path.exists():
-        return []
-    try:
-        albums = json.loads(path.read_text()).get("albums", [])
-    except OSError, ValueError:
-        return []
-    return [
-        a
-        for a in albums
-        if not a.get("include") and a.get("exclude_reason") != "sub_series_bleed"
-    ]
 
 
 def _applied_records(
@@ -817,6 +783,116 @@ def _route_to_catalog_owners(
             )
         )
     return decided, still
+
+
+def _leave_doubt_to_root(
+    decisions: list["AlbumDecision"], entry: "CatalogEntry | None"
+) -> list["AlbumDecision"]:
+    """Turn a split child's unsure claims into bleed for the root.
+
+    A child's claim takes the album from the root, so it needs the
+    model's full confidence. Anything less is the doubt the split-off
+    line is told to leave to the root, which owns what no line claims
+    and loses nothing by keeping it. What the child already ships and
+    what an operator included are the child's own. Returns the decisions
+    it changed, for the run to list.
+    """
+    if entry is None or not entry.split_from:
+        return []
+    shipped = {
+        (provider, album_id) for provider, album_id, *_ in _applied_records(entry)
+    }
+    provenance = album_provenance("split")
+    left: list[AlbumDecision] = []
+    for d in decisions:
+        if not d.include or d.confidence == "high":
+            continue
+        if d.decided_by == "operator" or (d.provider, d.album_id) in shipped:
+            continue
+        d.include = False
+        d.exclude_reason = "sub_series_bleed"
+        d.episode_num = None
+        d.decided_by = provenance["decided_by"]
+        d.decided_at = provenance["decided_at"]
+        left.append(d)
+    return left
+
+
+def _claim_twins(
+    decisions: list["AlbumDecision"],
+    entry: "CatalogEntry | None",
+    series_names: list[str],
+) -> int:
+    """Claim for a split child the twin of every title it claims.
+
+    One batch can call a title the line's own and another batch call the
+    same title on the other provider not its line. The root would take
+    the second, and the title would ship in two series by provider. A
+    twin is the same core title with the same release date, as for
+    episode numbers. Bleed another member owns and an operator's
+    exclusion stay. Returns how many were claimed.
+    """
+    if entry is None or not entry.split_from:
+        return 0
+    claimed = {
+        (core_title(d.title, series_names), d.release_date, d.provider)
+        for d in decisions
+        if d.include
+    }
+    provenance = album_provenance("split")
+    count = 0
+    for d in decisions:
+        if d.include or d.exclude_reason != "sub_series_bleed":
+            continue
+        if d.decided_by == "operator" or bleed_owner(d.notes) is not None:
+            continue
+        title = core_title(d.title, series_names)
+        if not title or not any(
+            (t, date) == (title, d.release_date) and provider != d.provider
+            for t, date, provider in claimed
+        ):
+            continue
+        d.include = True
+        d.exclude_reason = None
+        d.notes = "The line claims this title on the other provider."
+        d.decided_by = provenance["decided_by"]
+        d.decided_at = provenance["decided_at"]
+        count += 1
+    return count
+
+
+def _root_title(entry: "CatalogEntry | None") -> str | None:
+    """The family root's title for a split-off line, else None. A
+    dissolved root has no entry left, so its id stands in."""
+    if entry is None or not entry.split_from:
+        return None
+    root = next((e for e in load_catalog() if e.id == entry.split_from), None)
+    return root.title if root is not None else entry.split_from
+
+
+def _name_root_as_owner(
+    decisions: list["AlbumDecision"], entry: "CatalogEntry | None"
+) -> int:
+    """Name the family root on what a split child called not its line.
+
+    The root owns whatever no member claims, and decides and audits it in
+    its own curation. Named, the child's audit and lint leave it there
+    instead of reviewing the shared page a second time. Only a child's
+    ownerless bleed changes; an operator's call stays. Returns how many
+    were named.
+    """
+    if entry is None or not entry.split_from:
+        return 0
+    named = 0
+    for d in decisions:
+        if d.include or d.exclude_reason != "sub_series_bleed":
+            continue
+        if d.decided_by == "operator" or bleed_owner(d.notes) is not None:
+            continue
+        owner = f"Belongs to '{entry.split_from}'"
+        d.notes = f"{owner}. {d.notes}" if d.notes else owner
+        named += 1
+    return named
 
 
 def _name_catalog_owners(
@@ -2246,6 +2322,7 @@ async def _run_large(
         on_progress(
             f"  Sibling entries on these artist pages: {', '.join(sibling_titles)}\n"
         )
+    line_of = _root_title(catalog_entry)
 
     # -- Step 2a: Pre-fetch full album details
     on_progress("  Pre-fetching album details...")
@@ -2426,6 +2503,7 @@ async def _run_large(
             rolling=rolling,
             structural_hints=structural_hints,
             sibling_titles=sibling_titles,
+            line_of=line_of,
             batch_num=batch_num,
             n_batches=len(batches),
             n_albums=len(batch),
@@ -2521,6 +2599,26 @@ async def _run_large(
         on_progress(
             f"  Restored {restored} title(s) the model echoed wrongly; episode "
             f"numbers follow the provider's titles.\n"
+        )
+
+    doubted = _leave_doubt_to_root(all_decisions, catalog_entry)
+    if doubted:
+        on_progress(
+            f"  {len(doubted)} unsure claim(s) left to {line_of!r}: "
+            + ", ".join(sorted({d.title for d in doubted}))
+            + "\n"
+        )
+    twins = _claim_twins(all_decisions, catalog_entry, [meta.title, *meta.aliases])
+    if twins:
+        on_progress(
+            f"  {twins} album(s) claimed as the twin of a title this line "
+            f"claims on the other provider.\n"
+        )
+    rooted = _name_root_as_owner(all_decisions, catalog_entry)
+    if rooted:
+        on_progress(
+            f"  {rooted} album(s) this line left to {line_of!r}, which owns "
+            f"what no line claims.\n"
         )
 
     # Undecided albums (dropped by the model or lost to a failed batch)
@@ -3271,7 +3369,7 @@ async def _curate_one(
             existing_curation = _inject_for_split_child(existing_curation, entry)
             on_progress(
                 f"  Split-off of {entry.split_from}: its own albums carried as "
-                f"included, the family's as sub_series_bleed.\n"
+                f"included, every other album judged against its line.\n"
             )
         existing_facts = _carry_facts(existing_facts, existing_curation)
         api_key = model_api_key()
@@ -3335,6 +3433,14 @@ async def _curate_one(
         return CurateOneResult(ok=False, error=msg)
 
 
+def children_first(entries: list["CatalogEntry"]) -> list["CatalogEntry"]:
+    """Split-off children ahead of everything else, each group in catalog
+    order. A root takes its children's claims from their curations."""
+    return [e for e in entries if e.split_from] + [
+        e for e in entries if not e.split_from
+    ]
+
+
 async def curate_all(
     providers: list[CatalogProvider],
     *,
@@ -3351,7 +3457,7 @@ async def curate_all(
     own curation JSON and run event, so interleaved progress is the
     only observable difference.
     """
-    entries = load_catalog()
+    entries = children_first(load_catalog())
     total = len(entries)
     result = CurateAllResult(total=total)
 
@@ -3412,7 +3518,16 @@ async def curate_all(
             result.failed += 1
             result.failed_ids.append(prepared.series_id)
 
-    await run_bounded(run_one, todo, concurrency=concurrency)
+    # Children run as a wave of their own: with two series at once, the
+    # last child would otherwise overlap its root, which reads the
+    # child's curation as its claim.
+    children = [item for item in todo if item[1].entry.split_from]
+    await run_bounded(run_one, children, concurrency=concurrency)
+    await run_bounded(
+        run_one,
+        [item for item in todo if not item[1].entry.split_from],
+        concurrency=concurrency,
+    )
 
     on_progress(
         f"\nResults: {result.succeeded} curated, "

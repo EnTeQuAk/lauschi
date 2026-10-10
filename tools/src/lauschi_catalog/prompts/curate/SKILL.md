@@ -131,7 +131,8 @@ An `episode_pattern` answers "*how do I order included albums?*", not
 
 This is a kids' audio app. The cost of a missed real episode (a child can't
 listen to it) is higher than the cost of including a borderline album.
-**When in doubt, include.**
+**When in doubt, include.** A split-off line leaves its doubts to the root
+instead (see "Curating a split-off line" in the split guidelines).
 
 Before excluding any album, you MUST name the failure-taxonomy pattern it
 matches. If you cannot name the class, include with `episode_num=None`

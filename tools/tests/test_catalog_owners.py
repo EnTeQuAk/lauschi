@@ -73,3 +73,39 @@ def test_a_carried_ownerless_exclusion_names_its_owner() -> None:
     assert bleed_owner(stray.notes) == "ferien_auf_saltkrokan"
     assert kept_in.include and not kept_in.notes
     assert bleed_owner(operator.notes) is None
+
+
+def _family_member(sid: str, split_from: str | None, *album_ids: str) -> CatalogEntry:
+    albums = [{"id": i, "title": f"Titel {i}"} for i in album_ids]
+    return CatalogEntry(
+        id=sid,
+        title=sid,
+        split_from=split_from,
+        providers={
+            "spotify": ProviderConfig(
+                artist_ids=["lilli"], album_ids=list(album_ids), albums=albums
+            )
+        },
+    )
+
+
+FAMILY = [
+    _family_member("hexe_lilli", None, "main1"),
+    _family_member("hexe_lilli_erstleser", "hexe_lilli", "erst1"),
+    _family_member("hexe_lilli_kinofilm", "hexe_lilli", "film1"),
+    _entry("wilde_huehner", "wh1"),
+]
+
+
+def test_family_members_are_no_shipping_owners_inside_the_family() -> None:
+    """Inside a family a member's claim comes from its current curation,
+    not from what series.yaml shipped at the last apply. A child curates
+    its own line without inheriting the parent's or a sibling's albums,
+    and the parent takes the children's claims from their curations.
+    A series outside the family still owns what it ships."""
+    for member in ("hexe_lilli", "hexe_lilli_erstleser"):
+        owners = catalog_album_owners(FAMILY, member)
+        assert ("spotify", "main1") not in owners
+        assert ("spotify", "erst1") not in owners
+        assert ("spotify", "film1") not in owners
+        assert owners[("spotify", "wh1")] == "wilde_huehner"

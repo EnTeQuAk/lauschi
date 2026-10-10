@@ -10,6 +10,7 @@ split the 28 Reportage items 21/7 differently (2026-09-05).
 """
 
 import json
+from pathlib import Path
 
 import pytest
 
@@ -40,6 +41,15 @@ def _child_with_yaml_albums() -> CatalogEntry:
                 albums=[{"id": "am1", "title": "Reportage: One"}],
             ),
         },
+    )
+
+
+@pytest.fixture(autouse=True)
+def _no_real_curations(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    """A child's curation is its claim, so these tests must not read the
+    repo's real curation files."""
+    monkeypatch.setattr(
+        curate_ops, "curation_path", lambda sid: tmp_path / f"{sid}.json"
     )
 
 
