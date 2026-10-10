@@ -9,6 +9,8 @@ facts (discovered by curate, audited by a second model) guide the
 checks so they don't fire false positives on documented quirks.
 """
 
+from collections.abc import Iterable
+from dataclasses import dataclass
 from datetime import date
 
 from lauschi_catalog.catalog import reasons
@@ -524,6 +526,50 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
             )
 
     return issues
+
+
+@dataclass(frozen=True)
+class UnclaimedAlbum:
+    """An album that every entry which lists it leaves to another line."""
+
+    provider: str
+    album_id: str
+    title: str
+    seen_by: tuple[str, ...]
+
+
+def unclaimed_albums(curations: Iterable[dict]) -> list[UnclaimedAlbum]:
+    """Albums no entry ships although nobody found anything wrong with them.
+
+    Every entry that lists such an album excludes it as
+    ``sub_series_bleed``, and no entry includes it. On a shared artist
+    page that happens when each side hands a title to the other. On a
+    page of its own it is a line that has no entry. No single curation
+    looks wrong, so the check needs all of them, and a person has to
+    place the album: include it, move it, or exclude it for what it is.
+    """
+    rows: dict[tuple[str, str], list[tuple[str, dict]]] = {}
+    for curation in curations:
+        for album in curation.get("albums", []):
+            key = (album["provider"], album["album_id"])
+            rows.setdefault(key, []).append((curation["id"], album))
+    return sorted(
+        (
+            UnclaimedAlbum(
+                provider=provider,
+                album_id=album_id,
+                title=seen[0][1].get("title") or album_id,
+                seen_by=tuple(sorted(series_id for series_id, _ in seen)),
+            )
+            for (provider, album_id), seen in rows.items()
+            if all(
+                not album.get("include")
+                and album.get("exclude_reason") == "sub_series_bleed"
+                for _, album in seen
+            )
+        ),
+        key=lambda a: (a.seen_by, a.title, a.provider, a.album_id),
+    )
 
 
 def _year(release_date: str) -> int:

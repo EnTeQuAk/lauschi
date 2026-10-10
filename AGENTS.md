@@ -150,7 +150,11 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
 
 4. **Lint** (`lint`): Deterministic findings over curations: episode gaps,
    duplicates, regressions against the previous curation, unaudited facts.
-   Advisory; findings are reported, not enforced.
+   Advisory; findings are reported, not enforced. It ends with the albums
+   that every entry leaves to another line: no curation includes them, and
+   every curation that lists them excludes them as `sub_series_bleed`. No
+   single curation looks wrong there, so a person places each one (include,
+   `catalog-edit move`, a new entry, or an exclusion for what it is).
 
 5. **Apply** (`apply`): Writes approved curations into `series.yaml`: album
    IDs with episode numbers, patterns, artist IDs, and audited series facts
