@@ -20,7 +20,7 @@ from lauschi_catalog.catalog.audit_ops import (
     _build_audit_agent,
 )
 from lauschi_catalog.catalog.curate_ops import (
-    BatchResult,
+    BatchAnswer,
     CurateDeps,
     FinalizeResult,
     SeriesMetadata,
@@ -99,7 +99,7 @@ class TestAgentRuns:
         agent = _build_batch_agent(TestModel(call_tools=[]))
         deps = CurateDeps()
         result = agent.run_sync("Process this batch", deps=deps)
-        assert isinstance(result.output, BatchResult)
+        assert isinstance(result.output, BatchAnswer)
 
     def test_finalize_agent_run(self) -> None:
         agent = _build_finalize_agent(TestModel(call_tools=[]))
@@ -132,7 +132,7 @@ class TestRunAgent:
         agent = _build_batch_agent(TestModel(call_tools=[]))
         deps = CurateDeps()
         output = _run(run_agent(agent, "Batch", deps, request_limit=5))
-        assert isinstance(output, BatchResult)
+        assert isinstance(output, BatchAnswer)
 
 
 # ── A tool call next to the final answer is not run ───────────────────────

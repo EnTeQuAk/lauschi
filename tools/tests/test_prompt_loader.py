@@ -5,7 +5,7 @@ from typing import get_args
 
 import pytest
 
-from lauschi_catalog.catalog.curate_ops import ExcludeReason
+from lauschi_catalog.catalog.curate_ops import AlbumAnswer, ExcludeReason
 from lauschi_catalog.prompts import ContentType, load_curate_skill
 
 
@@ -182,3 +182,16 @@ def test_every_exclusion_the_prompt_names_is_a_reason_the_output_accepts(
     }
     assert named, "the prompt names no exclusion at all"
     assert named <= set(get_args(ExcludeReason))
+
+
+@pytest.mark.parametrize("content_type", ["hoerspiel", "music", "audiobook"])
+def test_every_worked_example_ends_in_fields_the_batch_answer_has(
+    content_type: ContentType,
+) -> None:
+    """An example that ends in `episode_num=1` teaches the model a field
+    the answer does not have, and that code fills in from the title."""
+    prompt = load_curate_skill(phase="batch", content_type=content_type)
+    results = [line for line in prompt.splitlines() if re.match(r"→ .*include=", line)]
+    named = {key for line in results for key in re.findall(r"(\w+)=", line)}
+    assert results, "the prompt has no worked example"
+    assert named <= set(AlbumAnswer.model_fields)

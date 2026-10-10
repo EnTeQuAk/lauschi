@@ -55,7 +55,7 @@ mixed-type content under one series.
 
 1. **Metadata**: Extract series identity: id, title, episode_pattern,
    content_type, provider artist IDs
-2. **Batch**: For each album: include or exclude, with episode_num
+2. **Batch**: For each album: include or exclude
 3. **Finalize**: Resolve unnumbered albums, propose structural facts
    (era boundaries, gaps, sub-series)
 4. **Audit**: A second model reviews the curation against this skill
@@ -135,8 +135,8 @@ listen to it) is higher than the cost of including a borderline album.
 instead (see "Curating a split-off line" in the split guidelines).
 
 Before excluding any album, you MUST name the failure-taxonomy pattern it
-matches. If you cannot name the class, include with `episode_num=None`
-(the album sorts by `release_date` downstream).
+matches. If you cannot name the class, include it (an album without a
+number sorts by `release_date` downstream).
 
 ## Release dates in the future
 

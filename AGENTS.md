@@ -93,8 +93,10 @@ mise run catalog-curate -- "TKKG" --dry-run       # Print prompts without callin
 Each series flows through seven stages (`catalog-pipeline` runs them in order):
 
 1. **Curate** (`curate`): pydantic-ai agents classify every album on the
-   artist's provider pages as include/exclude, with an episode number for
-   includes. Per series: provider discovery (artist IDs from series.yaml,
+   artist's provider pages as include/exclude. The batch agent answers with
+   its decision per album (include, a reason, its confidence, a note), and
+   code adds title, release date and episode number from the provider
+   record. Per series: provider discovery (artist IDs from series.yaml,
    search fallback), prefetch of album details, a metadata agent, batched
    album decisions (~30 per batch), a finalize agent (episode pattern, series
    facts). The entry's `episode_pattern` in series.yaml is the run's pattern;

@@ -175,7 +175,7 @@ def test_responses_api_uses_the_strict_mode_transformer():
     false", verified live 2026-08-30). pydantic-ai's strict transformer
     emits it. It leaves $ref in place, and that is fine here: the same
     probe showed the Responses path resolves a $ref-bearing strict
-    schema for the nested BatchResult, unlike the chat relay."""
+    schema for the nested batch answer, unlike the chat relay."""
     from pydantic_ai.profiles.openai import OpenAIJsonSchemaTransformer
 
     model = build_model("gpt-5.6-luna", api_key="test-key")

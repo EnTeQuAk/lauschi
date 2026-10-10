@@ -13,8 +13,9 @@ from pydantic_evals.evaluators import EvaluationReason, EvaluatorContext
 from pydantic_evals.otel import SpanTreeRecordingError
 from pydantic_evals.reporting.analyses import TableResult
 
-from lauschi_catalog.catalog.curate_ops import AlbumDecision, BatchResult
+from lauschi_catalog.catalog.curate_ops import AlbumDecision
 from tests.evals.evaluators import CatalogOutcome, CatalogTotals, EpisodeNumbersCorrect
+from tests.evals.task import BatchResult
 from tests.factories import decision
 
 Expected = dict[tuple[str, str], dict[str, Any]]

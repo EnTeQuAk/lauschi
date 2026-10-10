@@ -76,7 +76,7 @@ Reasoning:
   1. Single artist, original songs, standard album length
   2. No failure-taxonomy pattern applies
   3. Track count (14) and durations (2-4 min each) match typical Kinderlieder album
-→ include=true, episode_num=null, confidence=high
+→ include=true, confidence=high
 ```
 
 **Best-of compilation** (exclude):
@@ -100,7 +100,7 @@ Reasoning:
   2. These collections are the artist's only multi-track releases,
      excluding them leaves the series empty
   3. Singles-first rule: the collection albums ARE the catalog
-→ include=true, episode_num=null, confidence=high
+→ include=true, confidence=high
   notes: "Artist-own collection; singles-first artist, no regular albums"
 ```
 
@@ -149,7 +149,7 @@ Reasoning:
      It's not a compilation (single artist), not a format variant (still vocals),
      not wrong content type.
   3. Inclusion bias: can't name a failure pattern, so include.
-→ include=true, episode_num=null, confidence=medium
+→ include=true, confidence=medium
   notes: "Live concert recording; not in failure taxonomy, including per inclusion bias"
 ```
 

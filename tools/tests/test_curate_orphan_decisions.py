@@ -11,49 +11,63 @@ from pathlib import Path
 
 import pytest
 
+from lauschi_catalog.agent_deps import Progress
 from lauschi_catalog.catalog.curate_ops import (
+    AlbumAnswer,
     AlbumDecision,
+    BatchAnswer,
     CuratedSeries,
-    drop_orphan_decisions,
+    decisions_from_answer,
     save_curation,
 )
-from tests.factories import decision
+from tests.factories import discovered_album
 
 
-def _decision(album_id: str, provider: str = "spotify") -> AlbumDecision:
-    return decision(album_id, provider=provider)
+def _decide(
+    batch: list[dict[str, str]],
+    *answered: tuple[str, str],
+    on_progress: Progress = lambda _message: None,
+) -> tuple[list[AlbumDecision], list[str]]:
+    """The decisions for a batch when the model answers for ``answered``."""
+    answer = BatchAnswer(
+        albums=[
+            AlbumAnswer(provider=provider, id=album_id, include=True)
+            for provider, album_id in answered
+        ]
+    )
+    return decisions_from_answer(
+        answer, batch, pattern=None, decided_by="test", on_progress=on_progress
+    )
 
 
 def test_decisions_for_ids_outside_the_batch_are_dropped_and_named() -> None:
-    batch_ids = {("spotify", "a"), ("apple_music", "b")}
-    decisions = [
-        _decision("a"),
-        _decision("b", "apple_music"),
-        _decision("ghost", "apple_music"),
-    ]
+    batch = [discovered_album("spotify", "a"), discovered_album("apple_music", "b")]
     progress: list[str] = []
-    kept, orphans = drop_orphan_decisions(
-        decisions, batch_ids, on_progress=progress.append
+    kept, orphans = _decide(
+        batch,
+        ("spotify", "a"),
+        ("apple_music", "b"),
+        ("apple_music", "ghost"),
+        on_progress=progress.append,
     )
     assert [d.album_id for d in kept] == ["a", "b"]
     assert orphans == ["apple_music:ghost"]
-    assert any("apple_music:ghost" in p and "ghost" in p for p in progress)
+    assert any("apple_music:ghost" in p for p in progress)
 
 
 def test_the_same_id_on_the_other_provider_is_still_an_orphan() -> None:
-    kept, orphans = drop_orphan_decisions(
-        [_decision("a", "apple_music")], {("spotify", "a")}
-    )
+    kept, orphans = _decide([discovered_album("spotify", "a")], ("apple_music", "a"))
     assert kept == []
     assert orphans == ["apple_music:a"]
 
 
-def test_a_clean_batch_passes_through_untouched() -> None:
-    decisions = [_decision("a"), _decision("b")]
-    kept, orphans = drop_orphan_decisions(
-        decisions, {("spotify", "a"), ("spotify", "b")}
-    )
-    assert kept == decisions
+def test_a_clean_batch_passes_through_whole() -> None:
+    batch = [discovered_album("spotify", "a"), discovered_album("spotify", "b")]
+    kept, orphans = _decide(batch, ("spotify", "a"), ("spotify", "b"))
+    assert [(d.provider, d.album_id) for d in kept] == [
+        ("spotify", "a"),
+        ("spotify", "b"),
+    ]
     assert orphans == []
 
 

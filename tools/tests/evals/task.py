@@ -15,19 +15,20 @@ a case must not change with it.
 import os
 from dataclasses import dataclass, field
 
-from pydantic import ConfigDict
+from pydantic import BaseModel, ConfigDict
 from pydantic.dataclasses import dataclass as checked_dataclass
 from pydantic_ai.models import Model
 
 from lauschi_catalog._opencode import build_model, model_api_key
 from lauschi_catalog.catalog.curate_ops import (
     AlbumDecision,
-    BatchResult,
+    BatchAnswer,
     CurateDeps,
     _build_batch_agent,
     _run_agent,
     _run_with_retry,
     batch_prompt,
+    decisions_from_answer,
     settle_batch_decisions,
     shared_page_reference,
 )
@@ -74,6 +75,12 @@ class SeriesContext:
             split_from=self.split_from,
             providers=providers,
         )
+
+
+class BatchResult(BaseModel):
+    """The decisions for one batch, as a curate run would store them."""
+
+    albums: list[AlbumDecision]
 
 
 @dataclass
@@ -151,10 +158,13 @@ async def run_batch_curation(
     )
     deps.current_batch_ids = {(a["provider"], a["id"]) for a in batch}
 
-    result: BatchResult = await _run_with_retry(
+    answer: BatchAnswer = await _run_with_retry(
         lambda: _run_agent(agent, prompt, deps), phase="eval batch"
     )
-    decisions.extend(result.albums)
+    decided, _ = decisions_from_answer(
+        answer, batch, pattern=deps.pattern, decided_by=MODEL_NAME
+    )
+    decisions.extend(decided)
     settle_batch_decisions(
         decisions,
         discovered=page,

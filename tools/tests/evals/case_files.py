@@ -15,9 +15,9 @@ from typing import Any, Literal
 from pydantic import BaseModel, ConfigDict, Field, ValidationError, model_validator
 from pydantic_evals import Case
 
-from lauschi_catalog.catalog.curate_ops import AlbumDecision, BatchResult, ExcludeReason
+from lauschi_catalog.catalog.curate_ops import AlbumDecision, ExcludeReason
 
-from .task import BatchInput, SeriesContext
+from .task import BatchInput, BatchResult, SeriesContext
 
 FIXTURES = Path(__file__).parent / "fixtures"
 

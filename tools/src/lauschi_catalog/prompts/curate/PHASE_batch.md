@@ -7,14 +7,11 @@ You receive:
 
 For each album: decide include or exclude.
 
-**Apply the episode_pattern** to each title to extract episode_num:
-- Match: set episode_num to the captured integer
-- A title that names a run of episodes ("Folgen 6-10"): the first number of the run
-- No match: set episode_num to null (still include if it's a valid episode)
-
-After the batch, code reads every number again from the title, the track
-names and the same album on the other provider, and drops a number none of
-them supports. Never take a number from anywhere else.
+**You do not number the albums.** After the batch, code reads every
+number from the title (what the episode_pattern captures, or the first
+number of a run like "Folgen 6-10"), the track names and the same album on
+the other provider, and takes none from anywhere else. A title the pattern
+does not match is still included if it is a valid episode, without a number.
 
 **Exclude with a named reason** from the failure taxonomy. The `exclude_reason`
 field is an enum; use exactly one of these values:
@@ -34,7 +31,7 @@ field is an enum; use exactly one of these values:
 | `partial_release` | Incomplete or preview release |
 | `unspecified` | Catch-all when no other category fits (prefer including instead) |
 
-If you cannot name a pattern from this list, **include** with `episode_num=None`.
+If you cannot name a pattern from this list, **include**.
 
 **Cross-provider consistency**: same include/exclude decision on both providers
 for the same title. Different track counts are expected, never a reason to exclude.
@@ -43,7 +40,9 @@ If the provided metadata for an album is insufficient to make a confident
 decision (e.g. missing track listing, unclear album type), call
 `get_album_details` to fetch the full data before deciding.
 
-**Output:** `BatchResult`, an `AlbumDecision` for EVERY album in the batch.
+**Output:** one decision for EVERY album in the batch: `provider` and `id`
+as the batch gives them, `include`, `exclude_reason` for an exclusion,
+`confidence`, and `notes`.
 
 ### Worked examples
 
@@ -56,7 +55,7 @@ Reasoning:
   1. Pattern check: "Folge 1:" matches ^Folge (\d+):, captures "1"
   2. Track shape: 26 tracks, ~50 min total, typical Hörspiel structure
   3. No failure-taxonomy pattern applies
-→ episode_num=1, include=true, confidence=high
+→ include=true, confidence=high
 ```
 
 **Clear exclude** (compilation box set):
@@ -80,7 +79,7 @@ Reasoning:
   2. episode_range: none of 6 to 10 exists on its own on this page, so this
      album is their only release, not a repackaging
   3. A run takes the number of its first episode, read from its title
-→ episode_num=6, include=true, confidence=high
+→ include=true, confidence=high
 ```
 
 **No pattern match, but valid episode** (different naming era):
@@ -95,7 +94,7 @@ Reasoning:
   4. Inclusion bias: can't name a failure pattern, so include.
   5. Confidence: medium because pattern didn't match, but duration and
      track shape fit.
-→ episode_num=null, include=true, confidence=medium
+→ include=true, confidence=medium
   notes: "No pattern match; track shape and duration suggest real episode from pre-numbering era"
 ```
 
@@ -133,6 +132,6 @@ Reasoning:
   3. Track shape: 12 tracks, 48 min, consistent with Hörspiel episode
   4. Inclusion bias: can't name a failure pattern, and track shape fits.
      A child looking for this special episode should find it.
-→ episode_num=null, include=true, confidence=low
+→ include=true, confidence=low
   notes: "Special episode ('Sonderfolge'), no episode number extractable"
 ```

@@ -13,10 +13,10 @@ from pydantic_evals import Case, Dataset
 from pydantic_evals.reporting import EvaluationReport
 from rich.console import Console
 
-from lauschi_catalog.catalog.curate_ops import BatchResult
 from tests.evals.case_files import load_cases
 from tests.evals.evaluators import CatalogOutcome, DecisionsCorrect
 from tests.evals.run_evals import SMOKE_CASES, load_report, model_requests, save_report
+from tests.evals.task import BatchResult
 from tests.factories import decision
 
 EXPECTED = {

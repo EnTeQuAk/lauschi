@@ -976,12 +976,12 @@ def settle_batch_decisions(
     ``line_of`` is the root's title for a split-off line, for the
     progress lines.
     """
-    # Identity fields come from the provider record, never from what the
-    # model echoed back; the episode number must follow the true title.
+    # Identity fields come from the provider record, also on a carried
+    # decision; the episode number must follow the true title.
     restored = _restore_identity(decisions, discovered, pattern)
     if restored:
         on_progress(
-            f"  Restored {restored} title(s) the model echoed wrongly; episode "
+            f"  Restored {restored} title(s) that were not the provider's; episode "
             f"numbers follow the provider's titles.\n"
         )
 
@@ -1114,33 +1114,57 @@ def _preseed_decisions(
     return carried, remaining
 
 
-def drop_orphan_decisions(
-    decisions: list["AlbumDecision"],
-    batch_ids: set[tuple[str, str]],
+def decisions_from_answer(
+    answer: "BatchAnswer",
+    batch: list[dict],
+    *,
+    pattern: str | list[str] | None,
+    decided_by: str,
     on_progress: Progress = _noop,
 ) -> tuple[list["AlbumDecision"], list[str]]:
-    """Keep only decisions for albums that were in the batch.
+    """Turn the model's answer for a batch into the decisions a curation stores.
+
+    The model decides, the provider record identifies: title and release
+    date come from the batch's discovery rows. An included album takes
+    the number its title carries, so the next batch's prompt can read
+    what the run has numbered so far. settle_batch_decisions later reads
+    every number again, from the track names and the twin as well.
 
     A model can answer with an id it was never given: a plausible
     provider id attached to a real title. Luna did this once on Bibi
     Blocksberg (apple_music 1143565835, "Folge 75: Die neue Lehrerin",
     an id Apple Music does not have). Such a decision is an invented
     album; kept, it would ship into series.yaml through apply and the
-    app would show a tile that cannot play. Returns the kept decisions
-    and the dropped ``provider:album_id`` keys.
+    app would show a tile that cannot play. Returns the decisions and
+    the dropped ``provider:album_id`` keys.
     """
-    kept: list[AlbumDecision] = []
+    rows = {(a["provider"], a["id"]): a for a in batch}
+    decided_at = datetime.now(UTC).isoformat()
+    decisions: list[AlbumDecision] = []
     orphans: list[str] = []
-    for d in decisions:
-        if (d.provider, d.album_id) in batch_ids:
-            kept.append(d)
+    for a in answer.albums:
+        row = rows.get((a.provider, a.id))
+        if row is None:
+            key = f"{a.provider}:{a.id}"
+            orphans.append(key)
+            on_progress(f"  Dropped decision for {key}: not an album in this batch")
             continue
-        key = f"{d.provider}:{d.album_id}"
-        orphans.append(key)
-        on_progress(
-            f"  Dropped decision for {key} ({d.title!r}): not an album in this batch"
+        decisions.append(
+            AlbumDecision(
+                album_id=a.id,
+                provider=a.provider,
+                include=a.include,
+                episode_num=title_number(pattern, row["name"]) if a.include else None,
+                title=row["name"],
+                exclude_reason=a.exclude_reason,
+                release_date=row.get("release_date") or None,
+                confidence=a.confidence,
+                notes=a.notes,
+                decided_by=decided_by,
+                decided_at=decided_at,
+            )
         )
-    return kept, orphans
+    return decisions, orphans
 
 
 def _stratified_sample(items: list, n: int) -> list:
@@ -1161,9 +1185,10 @@ def _restore_identity(
 ) -> int:
     """Put the provider's title and release date on every decision.
 
-    The model returns the right album id but echoes the title back, and
-    on a run of similar titles it slips by one (LEGO Ninjago, 2026-09:
-    18 and 14 wrong titles in two clean runs). The episode number then
+    A carried decision can hold a title that is not the provider's: a
+    model that was asked to echo titles slipped by one on a run of
+    similar ones (LEGO Ninjago, 2026-09: 18 and 14 wrong titles in two
+    clean runs), and a provider renames albums. The episode number then
     follows the wrong title, which would ship a tile that plays a
     different episode than it names. Identity comes from the discovery
     record by id; a number derived from a wrong title is re-derived from
@@ -1421,6 +1446,18 @@ ExcludeReason = Literal[
 ]
 
 
+_NOTES_DESCRIPTION = (
+    "Required when confidence != 'high'. Name the failure-"
+    "taxonomy pattern that almost matched, or describe what's "
+    "missing. Empty/None when confidence == 'high'."
+)
+
+
+def _require_notes_when_unsure(confidence: str, notes: str | None) -> None:
+    if confidence != "high" and not notes:
+        raise ValueError("confidence != 'high' requires `notes` describing why")
+
+
 class AlbumDecision(BaseModel):
     """Decision for a single album from any provider."""
 
@@ -1434,23 +1471,13 @@ class AlbumDecision(BaseModel):
     exclude_reason: ExcludeReason | None = None
     release_date: str | None = None
     confidence: Literal["high", "medium", "low"] = "high"
-    notes: str | None = Field(
-        default=None,
-        description=(
-            "Required when confidence != 'high'. Name the failure-"
-            "taxonomy pattern that almost matched, or describe what's "
-            "missing. Empty/None when confidence == 'high'."
-        ),
-    )
+    notes: str | None = Field(default=None, description=_NOTES_DESCRIPTION)
     decided_by: str = "unknown"
     decided_at: str | None = None
 
     @model_validator(mode="after")
     def _notes_required_when_unsure(self) -> "AlbumDecision":
-        if self.confidence != "high" and not self.notes:
-            raise ValueError(
-                "confidence != 'high' requires `notes` describing why",
-            )
+        _require_notes_when_unsure(self.confidence, self.notes)
         return self
 
     @model_validator(mode="after")
@@ -1504,7 +1531,7 @@ class CuratedSeries(BaseModel):
     usage: dict[str, int] = Field(default_factory=dict)
     usage_by_phase: dict[str, dict[str, int]] = Field(default_factory=dict)
     #: ``provider:album_id`` decisions the model returned for albums it
-    #: was never given; dropped, see drop_orphan_decisions
+    #: was never given; dropped, see decisions_from_answer
     orphan_ids: list[str] = Field(default_factory=list)
     # Deterministic regressions vs the previous curation (see
     # lint_ops.lint_regression). CRITICAL entries hard-gate audit
@@ -1526,10 +1553,32 @@ class CuratedSeries(BaseModel):
         return [a for a in self.included() if a.provider == provider]
 
 
-class BatchResult(BaseModel):
-    """Decisions for one batch of albums."""
+class AlbumAnswer(BaseModel):
+    """What the model decides about one album of a batch.
 
-    albums: list[AlbumDecision]
+    The album is named the way the batch shows it, ``<album provider=".."
+    id="..">``. Title, release date and episode number are not asked
+    for: the provider record and the pattern hold them (see
+    decisions_from_answer).
+    """
+
+    provider: str  # "spotify" or "apple_music"
+    id: str
+    include: bool
+    exclude_reason: ExcludeReason | None = None
+    confidence: Literal["high", "medium", "low"] = "high"
+    notes: str | None = Field(default=None, description=_NOTES_DESCRIPTION)
+
+    @model_validator(mode="after")
+    def _notes_required_when_unsure(self) -> "AlbumAnswer":
+        _require_notes_when_unsure(self.confidence, self.notes)
+        return self
+
+
+class BatchAnswer(BaseModel):
+    """The model's decisions for one batch of albums."""
+
+    albums: list[AlbumAnswer]
 
 
 class SeriesMetadata(BaseModel):
@@ -1841,7 +1890,7 @@ def _build_batch_agent(
     content_type: str = "hoerspiel",
     discography_span_years: int | None = None,
     page_reference: str = "",
-) -> Agent[CurateDeps, BatchResult]:
+) -> Agent[CurateDeps, BatchAnswer]:
     """Agent for processing one batch of albums.
 
     ``page_reference`` is the line index's view of the brand for a series
@@ -1855,10 +1904,10 @@ def _build_batch_agent(
     )
     if page_reference:
         skill_instructions = f"{skill_instructions}\n\n{page_reference}"
-    agent: Agent[CurateDeps, BatchResult] = Agent(
+    agent: Agent[CurateDeps, BatchAnswer] = Agent(
         model,
         name="curate_batch",
-        output_type=BatchResult,
+        output_type=BatchAnswer,
         instructions=skill_instructions,
         model_settings=get_model_settings("curate", model_name),
         retries={"tools": 2, "output": 2},
@@ -1869,12 +1918,12 @@ def _build_batch_agent(
 
     @agent.output_validator
     def _validate_batch_completeness(
-        ctx: RunContext[CurateDeps], result: BatchResult
-    ) -> BatchResult:
+        ctx: RunContext[CurateDeps], result: BatchAnswer
+    ) -> BatchAnswer:
         """Every album in the batch must have a decision, and no extras."""
         if not ctx.deps.current_batch_ids:
             return result
-        returned_ids = {(a.provider, a.album_id) for a in result.albums}
+        returned_ids = {(a.provider, a.id) for a in result.albums}
         batch_ids = ctx.deps.current_batch_ids
         missing = batch_ids - returned_ids
         extra = returned_ids - batch_ids
@@ -2664,7 +2713,7 @@ async def _run_large(
         shared_deps.current_batch_ids = {(a["provider"], a["id"]) for a in batch}
         t_batch = time.monotonic()
         try:
-            result: BatchResult = await run_with_attempts(
+            answer: BatchAnswer = await run_with_attempts(
                 lambda p=prompt: _run_with_retry(
                     lambda: asyncio.wait_for(
                         _run_agent(batch_agent, p, shared_deps),
@@ -2695,22 +2744,17 @@ async def _run_large(
             )
             break
 
-        result.albums, dropped = drop_orphan_decisions(
-            result.albums, shared_deps.current_batch_ids, on_progress
+        decided, dropped = decisions_from_answer(
+            answer,
+            batch,
+            pattern=shared_deps.pattern,
+            decided_by=model_name,
+            on_progress=on_progress,
         )
         orphan_ids.extend(dropped)
-        batch_index = {(a["provider"], a["id"]): a for a in batch}
-        now = datetime.now(UTC).isoformat()
-        for a in result.albums:
-            src = batch_index.get((a.provider, a.album_id))
-            if src and not a.release_date:
-                a.release_date = src.get("release_date") or None
-            if a.decided_by == "unknown":
-                a.decided_by = model_name
-                a.decided_at = now
 
-        n_inc = sum(1 for a in result.albums if a.include)
-        n_exc = sum(1 for a in result.albums if not a.include)
+        n_inc = sum(1 for d in decided if d.include)
+        n_exc = len(decided) - n_inc
         total_inc += n_inc
         total_exc += n_exc
 
@@ -2722,7 +2766,7 @@ async def _run_large(
             f"[{batch_elapsed}]",
         )
 
-        all_decisions.extend(result.albums)
+        all_decisions.extend(decided)
 
     curation_elapsed = _fmt_elapsed(time.monotonic() - t_curation)
     usage_after_batches = usage_summary(shared_deps.usage)
@@ -2737,8 +2781,6 @@ async def _run_large(
             f"  Pattern revised mid-run: {meta.episode_pattern!r} "
             f"-> {final_pattern!r}\n",
         )
-
-    batch_index = {(a["provider"], a["id"]): a for a in all_albums}
 
     # Undecided albums (dropped by the model or lost to a failed batch)
     # are left absent. They make the run incomplete, which blocks apply.

@@ -58,7 +58,7 @@ Propose a split when the films:
 Keep with parent when the "films" are just elongated TV episodes
 without distinct branding (same cover art style, same duration range),
 and when there is only one film Hörspiel: a single film stays in the
-parent with `episode_num=null` rather than becoming a one-album entry.
+parent without a number rather than becoming a one-album entry.
 
 Three different products carry the word "Kinofilm", and Bibi und Tina has
 all three on one artist page. "Das Hörspiel zum Kinofilm" is the dramatised
@@ -142,7 +142,7 @@ enough content exists for a split.
 
 Individual special episodes ("Sonderfolge: Das Geheimnis der
 Geisterinsel") belong in the parent. They are one-off releases,
-not a product line. Include them with `episode_num=null`.
+not a product line. Include them, without a number.
 
 ### Reissues and new recordings
 
@@ -230,7 +230,7 @@ Albums found: 140 numbered episodes, 1 album "Benjamin Blümchen: Der Kinofilm"
 Reasoning:
   1. No "Kinofilm" sub-branding, just the series name
   2. 50 min duration, same range as regular episodes
-  3. Keep in parent. Include with episode_num=null
+  3. Keep in parent. Include, without a number
 → No sub_series proposal
 ```
 
@@ -245,7 +245,7 @@ Reasoning:
      "adventskalender" (not three separate series)
 → If splitting: label="adventskalender", album_ids=[all 3],
   reason="Annual format, grouped as one sub-series"
-  If keeping: no proposal, include with episode_num=null
+  If keeping: no proposal, include without a number
 ```
 
 **Do NOT split** (compilation repackaging):

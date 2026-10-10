@@ -11,8 +11,6 @@ Run:
 
 from pydantic_evals import Dataset
 
-from lauschi_catalog.catalog.curate_ops import BatchResult
-
 from .case_files import load_cases
 from .evaluators import (
     CatalogOutcome,
@@ -23,7 +21,7 @@ from .evaluators import (
     ExcludeReasonsCorrect,
     NotesPresent,
 )
-from .task import BatchInput
+from .task import BatchInput, BatchResult
 
 
 def build_dataset(names: list[str] | None = None) -> Dataset[BatchInput, BatchResult]:

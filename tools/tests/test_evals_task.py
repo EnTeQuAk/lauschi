@@ -38,14 +38,7 @@ def _album(album_id: str, title: str, provider: str = "spotify") -> dict[str, ob
 def _decide(
     album_id: str, **fields: str | int | bool | None
 ) -> dict[str, str | int | bool | None]:
-    return {
-        "album_id": album_id,
-        "provider": "spotify",
-        "title": "echoed by the model",
-        "episode_num": None,
-        "include": True,
-        **fields,
-    }
+    return {"provider": "spotify", "id": album_id, "include": True, **fields}
 
 
 class _Script:
