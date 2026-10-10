@@ -42703,9 +42703,6 @@ series:
       - id: 7mHmWhkbgakknf8jMbQy9o
         title: Das Geheimnis der Oper - Das große Abenteuer Musik - Folge 3
         release_date: '1990'
-      - id: 2oZxj8dbEssIgvAbuN9tjd
-        title: Nahaufnahme
-        release_date: '1991-01-01'
       - id: 3qeiWEKBADWXGc0KvCHZoh
         title: Ein armes Tier ist das Klavier - Das große Abenteuer Musik - Folge 2
         release_date: '1992'
@@ -42754,9 +42751,6 @@ series:
       - id: 61oMmc8WpIbCTQjMfJ0WqZ
         title: Elbkinder
         release_date: '2000-01-01'
-      - id: 7wMwoa7qToshciBvIMWYoX
-        title: Kinder werden groß
-        release_date: '2000-01-01'
       - id: 0D8kfAP5rNqwaGabe1epFD
         title: Oma liebt Opapa
         release_date: '2001-01-01'
@@ -42784,9 +42778,6 @@ series:
       - id: 5hOZsxFiOXO9ZqPCKei3wf
         title: Heia - Rolfs kleine Nachtmusik
         release_date: '2004-11-01'
-      - id: 3PJGcfbcK3H3FANJGrm8nY
-        title: Hat alles seine Zeit
-        release_date: '2005-01-01'
       - id: 5LggEmMa37HjvjXWnFJ67d
         title: Orchesterspaß für Ohrenspitzer
         release_date: '2005-01-01'
@@ -42802,9 +42793,6 @@ series:
       - id: 60hOaInymmfKbZXFARP70V
         title: Rolfs Kinderfrühling
         release_date: '2007-01-01'
-      - id: 0OkVwlzwtpFmexlBkqT09H
-        title: Leben ist mehr
-        release_date: '2007-09-28'
       - id: 5lOLrv3sXBpIv6WF7rRt9x
         title: Meine Heimat - unser blauer Planet
         release_date: '2008-01-01'
@@ -42823,9 +42811,6 @@ series:
       - id: 2GmcoK6qYfjXtxXEYe4LFf
         title: Sehnsucht nach Weihnachten
         release_date: '2010-11-26'
-      - id: 55cDtS0CsN9WPskqZ321i7
-        title: Dein kleines Leben
-        release_date: '2011-01-01'
       - id: 4x5GjyI5mjuNwVTVRm5rF9
         title: In der Weihnachtsbäckerei
         release_date: '2012-01-01'
@@ -42835,9 +42820,6 @@ series:
       - id: 16IzmPeth4GOmsRk7haYQz
         title: 3 Klassiker für Kinder
         release_date: '2015-02-02'
-      - id: 2bQJ4JfE3vGqLnDALPuPgT
-        title: Einmal leben (Live / Remastered 2015)
-        release_date: '2015-11-06'
       - id: 4TOQUUWEZeQ9ZNnfFDR0M0
         title: Schule ist mehr - 14 Lieder für die Grundschulzeit
         release_date: '2016-09-23'
@@ -42860,9 +42842,6 @@ series:
       - id: '1442368843'
         title: Das Geheimnis der Oper - Das große Abenteuer Musik - Folge 3
         release_date: '1990'
-      - id: '1443658882'
-        title: Nahaufnahme
-        release_date: '1991-01-01'
       - id: '1442263441'
         title: Ein armes Tier ist das Klavier - Das große Abenteuer Musik - Folge 2
         release_date: '1992'
@@ -42887,14 +42866,8 @@ series:
       - id: '1445752625'
         title: Der kleine Tag
         release_date: '1999-01-01'
-      - id: '1442770454'
-        title: Dein kleines Leben
-        release_date: '1999-10-04'
       - id: '1442553086'
         title: Elbkinder
-        release_date: '2000-01-01'
-      - id: '1442218538'
-        title: Kinder Werden Groß
         release_date: '2000-01-01'
       - id: '1442233420'
         title: Oma Liebt Opapa
@@ -42911,21 +42884,12 @@ series:
       - id: '1442232169'
         title: Heia - Rolfs kleine Nachtmusik
         release_date: '2004-11-01'
-      - id: '1442411162'
-        title: Hat alles seine Zeit
-        release_date: '2005-01-01'
-      - id: '1644241659'
-        title: Leben ist mehr
-        release_date: '2007-09-28'
       - id: '1811631775'
         title: Mit Kindern singen - Rolfs Gitarrenschule
         release_date: '2010-01-01'
       - id: '1442368890'
         title: 3 Klassiker für Kinder
         release_date: '2015-02-02'
-      - id: '1442394744'
-        title: Einmal leben (Live / Remastered 2015)
-        release_date: '2015-11-06'
       - id: '1442645075'
         title: Rolfs neue Vogelhochzeit
         release_date: '2017-04-07'
