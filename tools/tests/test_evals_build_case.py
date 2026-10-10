@@ -144,6 +144,18 @@ class TestSeriesContext:
         assert context["main_series_title"] == "Hexe Lilli"
         assert context["sibling_titles"] == ["Hexe Lilli"]
 
+    def test_an_album_the_case_asks_about_is_not_shipped(self) -> None:
+        """A run never asks about an album the entry ships. A case that
+        asks about one treats it as new on the page, so the entry does
+        not own it yet and the doubt rule applies to it."""
+        sub = _shipping("lilli_erstleser", "Erstleser", split_from="lilli")
+
+        context = series_context(
+            sub, [sub], PAGE, "Hexe Lilli", asked={("spotify", "sp2")}
+        )
+
+        assert context["ships"] == [["apple_music", "am1"], ["spotify", "sp1"]]
+
 
 class TestDecidedRows:
     CURATION = [

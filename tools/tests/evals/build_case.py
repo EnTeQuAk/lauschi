@@ -117,8 +117,11 @@ def series_context(
     catalog: list[CatalogEntry],
     page: list[dict[str, Any]],
     main_series_title: str | None,
+    asked: frozenset[tuple[str, str]] | set[tuple[str, str]] = frozenset(),
 ) -> dict[str, Any]:
-    """The catalog facts a run reads about the series."""
+    """The catalog facts a run reads about the series. An album the case
+    asks about is left out of what the entry ships: a run never asks
+    about an album it ships, so the case treats it as new on the page."""
     years = [
         int(str(row["release_date"])[:4])
         for row in page
@@ -136,6 +139,7 @@ def series_context(
             [provider, album["id"]]
             for provider, config in sorted(entry.providers.items())
             for album in config.albums
+            if (provider, album["id"]) not in asked
         ],
     }
     if entry.split_from:
@@ -321,13 +325,12 @@ def main() -> None:
             }
             albums.append(album)
 
+    asked_keys = {(a["provider"], a["id"]) for a in albums}
     case = {
         "question": before.get("question") or args.question,
         "built_with": shlex.join(sys.argv[1:]),
-        "series": series_context(entry, catalog, page, _root_title(entry)),
-        "decided": decided_rows(
-            entry, curation, {(a["provider"], a["id"]) for a in albums}, args.reopen
-        ),
+        "series": series_context(entry, catalog, page, _root_title(entry), asked_keys),
+        "decided": decided_rows(entry, curation, asked_keys, args.reopen),
         "albums": albums,
     }
     out.parent.mkdir(exist_ok=True)
