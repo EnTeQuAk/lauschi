@@ -16559,7 +16559,7 @@ series:
         release_date: '2009-01-01'
   episode_pattern:
   - ^(\d{3})[/:]
-  - ^Folge (\d+):(?! im wilden Wilden Westen| und das wilde Indianerabenteuer)
+  - ^Folge (\d+):(?! im wilden Wilden Westen| zaubert Hausaufgaben| und das wilde Indianerabenteuer| und der Vampir mit dem Wackelzahn| Die Reise nach Mandolan)
   series_facts:
     era_boundaries:
     - curated_by: minimax-m2.7
