@@ -158,6 +158,23 @@ Escalations and lint findings are resolved by hand: `catalog-review` lists
 what needs attention, `catalog-edit` and `catalog-splits` make the changes,
 `mise run catalog-audit --force` re-checks afterwards.
 
+#### Tracing agent runs
+
+With a Logfire credential in `.logfire/` (written by `logfire init`,
+gitignored), the catalog commands send every agent run, model request and
+tool call to that project as a span, labelled with the agent that made it
+(`curate_metadata`, `curate_batch`, `curate_finalize`, `audit`). A span
+carries the prompt, the response, token usage and the host's cache hits.
+That content is catalog metadata from the provider pages, never user data.
+Without a credential nothing is sent and nobody is asked to log in.
+
+`lauschi_catalog.observability.configure_observability()` turns it on, and
+the `lauschi-catalog` console script calls it once. The credential is read
+from the checkout, so a run against a scratch `LAUSCHI_REPO_ROOT` is traced
+like any other. To keep prompts and responses out, pass
+`include_content=False` to `logfire.instrument_pydantic_ai()` there. The
+app itself reports to Sentry and sends nothing to Logfire.
+
 ## Architecture
 
 ### Core Stack
@@ -214,7 +231,7 @@ lib/
     └── tiles/               # Kid home screen, tile detail, card widgets
 
 tools/                       # lauschi-catalog CLI + web UI (Python package)
-├── pyproject.toml           # click, ruamel.yaml, pydantic-ai-slim, diskcache; extras: ai, web
+├── pyproject.toml           # click, ruamel.yaml, pydantic-ai-slim, logfire, diskcache; extras: ai, web
 ├── src/lauschi_catalog/
 │   ├── cli.py               # Click entry point
 │   ├── catalog/             # Domain ops (curate_ops, audit_ops, apply_ops, lint_ops, ...),
@@ -225,6 +242,7 @@ tools/                       # lauschi-catalog CLI + web UI (Python package)
 │   ├── eval/                # Curator/auditor eval harness (ground-truth scoring)
 │   ├── web/                 # FastAPI review UI (routes, Jinja templates, background jobs)
 │   ├── _opencode.py         # Model construction and per-model/per-phase settings
+│   ├── observability.py     # Logfire tracing of agent runs, on when .logfire/ has a credential
 │   └── search.py            # Brave Search + page fetcher for the agents' web tools
 └── tests/                   # pytest suite, offline (no provider keys, no model calls)
 ```

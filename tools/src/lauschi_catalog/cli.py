@@ -19,6 +19,7 @@ from lauschi_catalog.commands.reference import reference
 from lauschi_catalog.commands.report import report
 from lauschi_catalog.commands.review_human import review_human
 from lauschi_catalog.commands.validate import validate
+from lauschi_catalog.observability import configure_observability
 
 
 @click.group()
@@ -56,3 +57,9 @@ except ModuleNotFoundError as e:
         raise
 else:
     cli.add_command(web_cli)
+
+
+def main() -> None:
+    """The `lauschi-catalog` console script."""
+    configure_observability()
+    cli()

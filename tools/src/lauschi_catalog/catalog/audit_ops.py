@@ -140,6 +140,7 @@ def _build_audit_agent(
     profile = get_model_profile(model_name)
     agent: Agent[AuditDeps, AuditResult] = Agent(
         model,
+        name="audit",
         output_type=ToolOutput(
             AuditResult,
             name="submit_audit",

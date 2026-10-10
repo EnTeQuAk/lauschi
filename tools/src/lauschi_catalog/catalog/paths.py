@@ -11,11 +11,18 @@ from pathlib import Path
 _CATALOG_SUBDIR = Path("assets") / "catalog"
 
 
+def checkout_root() -> Path:
+    """The checkout this code runs from, whatever LAUSCHI_REPO_ROOT says.
+    Machine-local files that belong to the working copy, not to the
+    catalog data, live here (the Logfire credential)."""
+    return Path(__file__).resolve().parent.parent.parent.parent.parent
+
+
 def repo_root() -> Path:
     env = os.environ.get("LAUSCHI_REPO_ROOT")
     if env:
         return Path(env).resolve()
-    return Path(__file__).resolve().parent.parent.parent.parent.parent
+    return checkout_root()
 
 
 def series_yaml_path() -> Path:

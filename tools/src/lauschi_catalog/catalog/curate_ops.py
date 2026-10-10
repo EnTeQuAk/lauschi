@@ -1514,6 +1514,7 @@ def _build_metadata_agent(
     )
     agent: Agent[CurateDeps, SeriesMetadata] = Agent(
         model,
+        name="curate_metadata",
         output_type=SeriesMetadata,
         instructions=skill_instructions,
         model_settings=get_model_settings("curate", model_name),
@@ -1610,6 +1611,7 @@ def _build_batch_agent(
     )
     agent: Agent[CurateDeps, BatchResult] = Agent(
         model,
+        name="curate_batch",
         output_type=BatchResult,
         instructions=skill_instructions,
         model_settings=get_model_settings("curate", model_name),
@@ -1695,6 +1697,7 @@ def _build_finalize_agent(
     )
     agent: Agent[CurateDeps, FinalizeResult] = Agent(
         model,
+        name="curate_finalize",
         output_type=FinalizeResult,
         instructions=skill_instructions,
         model_settings=get_model_settings("finalize", model_name),
