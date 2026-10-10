@@ -37,6 +37,8 @@ class TileDetailScreen extends ConsumerWidget {
     final childTilesAsync = ref.watch(childTilesProvider(tileId));
     final episodesAsync = ref.watch(tileItemsProvider(tileId));
     final weiter = ref.watch(tileWeiterProvider(tileId));
+    Future<String?> readWeiter() async =>
+        (await ref.read(tileRepositoryProvider).weiterItem(tileId))?.id;
     // Grid view of the play state: no position ticks, no per-second
     // rebuilds of the episode grid.
     final playerState = ref.watch(playerGridStateProvider);
@@ -169,6 +171,7 @@ class TileDetailScreen extends ConsumerWidget {
                       return EpisodeGrid(
                         episodes: episodes,
                         weiterId: weiter?.id,
+                        readWeiter: readWeiter,
                         player: playerState,
                         showEpisodeTitles: showTitles,
                         onUnavailableTap: () => showUnavailableDialog(context),

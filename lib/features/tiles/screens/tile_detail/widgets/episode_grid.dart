@@ -1,3 +1,4 @@
+import 'dart:async' show unawaited;
 import 'dart:math' show pi, sin;
 
 import 'package:flutter/material.dart';
@@ -25,6 +26,7 @@ class EpisodeGrid extends StatefulWidget {
     required this.player,
     required this.onCardTap,
     required this.onUnavailableTap,
+    required this.readWeiter,
     super.key,
     this.showEpisodeTitles = false,
   });
@@ -33,6 +35,10 @@ class EpisodeGrid extends StatefulWidget {
 
   /// The tile's Weiter card, null when nothing is playable.
   final String? weiterId;
+
+  /// Reads the tile's stored Weiter card, for coming back to the grid
+  /// (see `_returnToWeiter`).
+  final Future<String?> Function() readWeiter;
   final PlayerGridState player;
   final void Function(db.TileItem card) onCardTap;
   final bool showEpisodeTitles;
@@ -102,27 +108,27 @@ class _EpisodeGridState extends State<EpisodeGrid>
   void didPushNext() => _weiterWhenCovered = widget.weiterId;
 
   @override
-  void didPopNext() {
-    // A covered page doesn't rebuild. It catches up with what changed
-    // meanwhile (e.g. the Weiter card moving when an episode finished)
-    // in its first frame back, so compare after that frame.
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
-      final moved = widget.weiterId != _weiterWhenCovered;
-      _weiterWhenCovered = null;
-      // Unchanged Weiter (a dialog, or a short peek into the player):
-      // the kid's view stays where they left it.
-      if (!moved) return;
-      _scrollToWeiter(animate: true);
-      _pulseController.forward(from: 0);
-    });
+  void didPopNext() => unawaited(_returnToWeiter());
+
+  /// The kid came back from a screen on top. When the Weiter card moved
+  /// meanwhile (an episode finished in the player), scroll to it and
+  /// pulse the badge, otherwise leave the view where the kid left it.
+  ///
+  /// Reads the stored Weiter instead of [EpisodeGrid.weiterId]: Riverpod
+  /// pauses a covered screen's subscriptions and only resumes them after
+  /// the route is back on top, so the widget still carries the old id.
+  Future<void> _returnToWeiter() async {
+    final covered = _weiterWhenCovered;
+    _weiterWhenCovered = null;
+    final current = await widget.readWeiter();
+    if (!mounted || current == null || current == covered) return;
+    _scrollToWeiter(current, animate: true);
+    _pulseController.forward(from: 0);
   }
 
   /// Scroll so the Weiter card sits in the upper third of the viewport.
   /// Runs after the next frame, when the grid has its layout.
-  void _scrollToWeiter({required bool animate}) {
-    final targetId = widget.weiterId;
-    if (targetId == null) return;
+  void _scrollToWeiter(String targetId, {required bool animate}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final constraints = _constraints;
       if (!mounted || constraints == null || !_scrollController.hasClients) {
@@ -155,9 +161,10 @@ class _EpisodeGridState extends State<EpisodeGrid>
 
   @override
   Widget build(BuildContext context) {
-    if (!_openedAtWeiter && widget.weiterId != null) {
+    final weiterId = widget.weiterId;
+    if (!_openedAtWeiter && weiterId != null) {
       _openedAtWeiter = true;
-      _scrollToWeiter(animate: false);
+      _scrollToWeiter(weiterId, animate: false);
     }
 
     return LayoutBuilder(

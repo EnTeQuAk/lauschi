@@ -45,12 +45,17 @@ class _Harness extends StatelessWidget {
     required this.navigatorKey,
     required this.weiter,
     required this.episodes,
+    required this.stored,
     this.onUnavailableTap,
   });
 
   final GlobalKey<NavigatorState> navigatorKey;
   final ValueNotifier<String?> weiter;
   final ValueNotifier<List<db.TileItem>> episodes;
+
+  /// The Weiter id in the database, which can be ahead of [weiter] while
+  /// the grid is covered (Riverpod pauses covered screens).
+  final ValueNotifier<String?> stored;
   final VoidCallback? onUnavailableTap;
 
   @override
@@ -73,6 +78,7 @@ class _Harness extends StatelessWidget {
                     player: _idle,
                     onCardTap: (_) {},
                     onUnavailableTap: onUnavailableTap ?? () {},
+                    readWeiter: () async => stored.value,
                   ),
             ),
           ),
@@ -86,11 +92,13 @@ void main() {
   late GlobalKey<NavigatorState> navigatorKey;
   late ValueNotifier<String?> weiter;
   late ValueNotifier<List<db.TileItem>> episodes;
+  late ValueNotifier<String?> stored;
 
   setUp(() {
     navigatorKey = GlobalKey<NavigatorState>();
     weiter = ValueNotifier('ep25');
     episodes = ValueNotifier(_episodes);
+    stored = ValueNotifier('ep25');
   });
 
   Future<void> pumpGrid(WidgetTester tester, {VoidCallback? onTap}) async {
@@ -99,6 +107,7 @@ void main() {
         navigatorKey: navigatorKey,
         weiter: weiter,
         episodes: episodes,
+        stored: stored,
         onUnavailableTap: onTap,
       ),
     );
@@ -156,6 +165,22 @@ void main() {
     await coverWithPlayer(tester);
 
     weiter.value = 'ep35';
+    stored.value = 'ep35';
+    await comeBack(tester);
+
+    expect(offset(tester), expectedOffset('ep35'));
+  });
+
+  testWidgets('coming back follows the stored Weiter, not the covered '
+      "widget's stale one (10-08: scrolled to 233 with Weiter on 234)", (
+    tester,
+  ) async {
+    await pumpGrid(tester);
+    await coverWithPlayer(tester);
+
+    // The finish moved Weiter in the database, the covered screen didn't
+    // hear about it yet.
+    stored.value = 'ep35';
     await comeBack(tester);
 
     expect(offset(tester), expectedOffset('ep35'));
@@ -168,6 +193,7 @@ void main() {
     await coverWithPlayer(tester);
 
     weiter.value = 'ep1';
+    stored.value = 'ep1';
     await comeBack(tester);
 
     expect(offset(tester), 0);
