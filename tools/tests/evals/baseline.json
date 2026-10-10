@@ -290,582 +290,6 @@
    "evaluator_failures": []
   },
   {
-   "name": "benjamin_sub_series [1/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 2,
-    "input_tokens": 26898,
-    "output_tokens": 1580,
-    "cache_read.input_tokens": 24480,
-    "cache_read_tokens": 24480
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 1.0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": true,
-     "reason": "All decisions correct",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 32.180124713,
-   "total_duration": 32.188607991,
-   "source_case_name": "benjamin_sub_series",
-   "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
-   "span_id": "33594c9314de0d13",
-   "evaluator_failures": []
-  },
-  {
-   "name": "benjamin_sub_series [2/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 2,
-    "input_tokens": 26422,
-    "output_tokens": 1609,
-    "cache_read.input_tokens": 25248,
-    "cache_read_tokens": 25248
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 1.0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": true,
-     "reason": "All decisions correct",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 50.792462306,
-   "total_duration": 50.79474623,
-   "source_case_name": "benjamin_sub_series",
-   "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
-   "span_id": "51c0ee9073203e7c",
-   "evaluator_failures": []
-  },
-  {
-   "name": "benjamin_sub_series [3/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 2,
-    "input_tokens": 27614,
-    "output_tokens": 2364,
-    "cache_read.input_tokens": 12096,
-    "cache_read_tokens": 12096
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 1.0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": true,
-     "reason": "All decisions correct",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 66.420531532,
-   "total_duration": 66.422776096,
-   "source_case_name": "benjamin_sub_series",
-   "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
-   "span_id": "8d90e01421ccb8e0",
-   "evaluator_failures": []
-  },
-  {
-   "name": "bibi_kinofilm_vs_soundtrack [1/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 2,
-    "input_tokens": 25723,
-    "output_tokens": 3842,
-    "cache_read.input_tokens": 23392,
-    "cache_read_tokens": 23392
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 1.0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": true,
-     "reason": "All decisions correct",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 151.050918841,
-   "total_duration": 151.053089105,
-   "source_case_name": "bibi_kinofilm_vs_soundtrack",
-   "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
-   "span_id": "29446e8e51c24e2e",
-   "evaluator_failures": []
-  },
-  {
-   "name": "bibi_kinofilm_vs_soundtrack [2/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 2,
-    "input_tokens": 27519,
-    "output_tokens": 2769,
-    "cache_read.input_tokens": 23424,
-    "cache_read_tokens": 23424
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 1.0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": true,
-     "reason": "All decisions correct",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 149.046141804,
-   "total_duration": 149.048319558,
-   "source_case_name": "bibi_kinofilm_vs_soundtrack",
-   "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
-   "span_id": "e5d643c65e2069f0",
-   "evaluator_failures": []
-  },
-  {
-   "name": "bibi_kinofilm_vs_soundtrack [3/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 2,
-    "input_tokens": 29345,
-    "output_tokens": 4558,
-    "cache_read.input_tokens": 27936,
-    "cache_read_tokens": 27936
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 1.0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": true,
-     "reason": "All decisions correct",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 122.108822865,
-   "total_duration": 122.111041028,
-   "source_case_name": "bibi_kinofilm_vs_soundtrack",
-   "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
-   "span_id": "350adf8e1076911f",
-   "evaluator_failures": []
-  },
-  {
    "name": "ddf_kids_mini_fall [1/3]",
    "inputs": null,
    "metadata": null,
@@ -1151,930 +575,6 @@
    "source_case_name": "ddf_kids_mini_fall",
    "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
    "span_id": "936e453ae80d28ea",
-   "evaluator_failures": []
-  },
-  {
-   "name": "feuerwehrmann_sam_boxes [1/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 2,
-    "input_tokens": 52399,
-    "output_tokens": 6326,
-    "cache_read.input_tokens": 37760,
-    "cache_read_tokens": 37760
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 1.0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": true,
-     "reason": "All decisions correct",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "episode_numbers": {
-     "name": "episode_numbers",
-     "value": true,
-     "reason": "7 number(s) as expected",
-     "source": {
-      "name": "EpisodeNumbersCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 151.972206391,
-   "total_duration": 151.979574765,
-   "source_case_name": "feuerwehrmann_sam_boxes",
-   "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
-   "span_id": "ee0734e74636fcad",
-   "evaluator_failures": []
-  },
-  {
-   "name": "feuerwehrmann_sam_boxes [2/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 2,
-    "input_tokens": 53696,
-    "output_tokens": 8013,
-    "cache_read.input_tokens": 43776,
-    "cache_read_tokens": 43776
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 1.0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": true,
-     "reason": "All decisions correct",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "episode_numbers": {
-     "name": "episode_numbers",
-     "value": true,
-     "reason": "7 number(s) as expected",
-     "source": {
-      "name": "EpisodeNumbersCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 195.794051732,
-   "total_duration": 195.801008895,
-   "source_case_name": "feuerwehrmann_sam_boxes",
-   "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
-   "span_id": "810e1e357945db6a",
-   "evaluator_failures": []
-  },
-  {
-   "name": "feuerwehrmann_sam_boxes [3/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 2,
-    "input_tokens": 54948,
-    "output_tokens": 8681,
-    "cache_read.input_tokens": 50144,
-    "cache_read_tokens": 50144
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 1.0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": true,
-     "reason": "All decisions correct",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "episode_numbers": {
-     "name": "episode_numbers",
-     "value": true,
-     "reason": "7 number(s) as expected",
-     "source": {
-      "name": "EpisodeNumbersCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 204.655286152,
-   "total_duration": 204.66279918,
-   "source_case_name": "feuerwehrmann_sam_boxes",
-   "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
-   "span_id": "7ddad84d1366f20d",
-   "evaluator_failures": []
-  },
-  {
-   "name": "hexe_lilli_erstleser_own_line [1/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 2,
-    "input_tokens": 84787,
-    "output_tokens": 7661,
-    "cache_read.input_tokens": 54112,
-    "cache_read_tokens": 54112
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 0.2727272727272727,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 16,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": false,
-     "reason": "Wrong: spotify:4ghoOGAttLAGG5LHZ2TyJI (Zaubert Hausaufgaben): excluded, expected include; spotify:4S9JLpOKw8B5AxduUu8U88 (Und der Vampir mit dem Wackelzahn): excluded, expected include; spotify:1ateqhraMBgvZdaYeMuIok (Und der kleine Eisbär Knöpfchen): excluded, expected include; spotify:4NHm49J138o8iOADgQfLwk (Hexe Lilli und die Zaubernacht im Kindergarten): excluded, expected include; spotify:4fAxKCklCcMxl7LAxBeGDD (Hexe Lilli und der kleine Delfin): excluded, expected include; spotify:6K5a3qRU976BpPIEG9mZnb (Feiert Geburtstag): excluded, expected include; spotify:23Xt15lSmNEmJVmqjOqUeQ (Hexe Lilli und das verzauberte Fußballspiel): excluded, expected include; spotify:2qffSlb9FcXLjuAmVmxusg (Hexe Lilli und der verzauberte Goldesel): excluded, expected include; apple_music:1056441922 (Folge 8: zaubert Hausaufgaben): excluded, expected include; apple_music:1056433273 (Folge 18: und der Vampir mit dem Wackelzahn): excluded, expected include; apple_music:1061926033 (Hexe Lilli und der kleine Eisbär Knöpfchen): excluded, expected include; apple_music:1061923870 (Hexe Lilli und die Zaubernacht im Kindergarten): excluded, expected include; apple_music:1055052863 (Hexe Lilli und der kleine Delfin): excluded, expected include; apple_music:1055054537 (Hexe Lilli feiert Geburtstag): excluded, expected include; apple_music:1055088464 (Hexe Lilli und das verzauberte Fußballspiel): excluded, expected include; apple_music:1055082502 (Hexe Lilli und der verzauberte Goldesel): excluded, expected include",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 189.439469196,
-   "total_duration": 189.446839185,
-   "source_case_name": "hexe_lilli_erstleser_own_line",
-   "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
-   "span_id": "a83a5eee1efe24c2",
-   "evaluator_failures": []
-  },
-  {
-   "name": "hexe_lilli_erstleser_own_line [2/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 3,
-    "input_tokens": 140896,
-    "output_tokens": 22336,
-    "cache_read.input_tokens": 136352,
-    "cache_read_tokens": 136352
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 1.0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": true,
-     "reason": "All decisions correct",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 580.536573246,
-   "total_duration": 580.544232874,
-   "source_case_name": "hexe_lilli_erstleser_own_line",
-   "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
-   "span_id": "1054a16d3ceed36d",
-   "evaluator_failures": []
-  },
-  {
-   "name": "hexe_lilli_erstleser_own_line [3/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 2,
-    "input_tokens": 91568,
-    "output_tokens": 11243,
-    "cache_read.input_tokens": 83232,
-    "cache_read_tokens": 83232
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 0.2727272727272727,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 16,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": false,
-     "reason": "Wrong: spotify:4ghoOGAttLAGG5LHZ2TyJI (Zaubert Hausaufgaben): excluded, expected include; spotify:4S9JLpOKw8B5AxduUu8U88 (Und der Vampir mit dem Wackelzahn): excluded, expected include; spotify:1ateqhraMBgvZdaYeMuIok (Und der kleine Eisbär Knöpfchen): excluded, expected include; spotify:4NHm49J138o8iOADgQfLwk (Hexe Lilli und die Zaubernacht im Kindergarten): excluded, expected include; spotify:4fAxKCklCcMxl7LAxBeGDD (Hexe Lilli und der kleine Delfin): excluded, expected include; spotify:6K5a3qRU976BpPIEG9mZnb (Feiert Geburtstag): excluded, expected include; spotify:23Xt15lSmNEmJVmqjOqUeQ (Hexe Lilli und das verzauberte Fußballspiel): excluded, expected include; spotify:2qffSlb9FcXLjuAmVmxusg (Hexe Lilli und der verzauberte Goldesel): excluded, expected include; apple_music:1056441922 (Folge 8: zaubert Hausaufgaben): excluded, expected include; apple_music:1056433273 (Folge 18: und der Vampir mit dem Wackelzahn): excluded, expected include; apple_music:1061926033 (Hexe Lilli und der kleine Eisbär Knöpfchen): excluded, expected include; apple_music:1061923870 (Hexe Lilli und die Zaubernacht im Kindergarten): excluded, expected include; apple_music:1055052863 (Hexe Lilli und der kleine Delfin): excluded, expected include; apple_music:1055054537 (Hexe Lilli feiert Geburtstag): excluded, expected include; apple_music:1055088464 (Hexe Lilli und das verzauberte Fußballspiel): excluded, expected include; apple_music:1055082502 (Hexe Lilli und der verzauberte Goldesel): excluded, expected include",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 396.240139454,
-   "total_duration": 396.247865973,
-   "source_case_name": "hexe_lilli_erstleser_own_line",
-   "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
-   "span_id": "5f52c116dadd3af4",
-   "evaluator_failures": []
-  },
-  {
-   "name": "hexe_lilli_main_keeps_its_line [1/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 2,
-    "input_tokens": 84293,
-    "output_tokens": 16769,
-    "cache_read.input_tokens": 57984,
-    "cache_read_tokens": 57984
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 0.5,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 9,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": false,
-     "reason": "Wrong: spotify:4ghoOGAttLAGG5LHZ2TyJI (Zaubert Hausaufgaben): included, expected exclude; spotify:4S9JLpOKw8B5AxduUu8U88 (Und der Vampir mit dem Wackelzahn): included, expected exclude; spotify:7iQo6EXjMtLPorNrw2vlXW (Die Reise nach Mandolan): included, expected exclude; spotify:1ateqhraMBgvZdaYeMuIok (Und der kleine Eisbär Knöpfchen): included, expected exclude; spotify:6K5a3qRU976BpPIEG9mZnb (Feiert Geburtstag): included, expected exclude; apple_music:1056441922 (Folge 8: zaubert Hausaufgaben): included, expected exclude; apple_music:1056433273 (Folge 18: und der Vampir mit dem Wackelzahn): included, expected exclude; apple_music:1061926033 (Hexe Lilli und der kleine Eisbär Knöpfchen): included, expected exclude; apple_music:1055054537 (Hexe Lilli feiert Geburtstag): included, expected exclude",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "episode_numbers": {
-     "name": "episode_numbers",
-     "value": false,
-     "reason": "apple_music:1356623749 (Folge 2: macht Zauberquatsch): ships as no number, expected 2; apple_music:1356624523 (001: stellt die Schule auf den Kopf): ships as no number, expected 1",
-     "source": {
-      "name": "EpisodeNumbersCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 387.098507985,
-   "total_duration": 387.10787643,
-   "source_case_name": "hexe_lilli_main_keeps_its_line",
-   "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
-   "span_id": "bfccd50439cca50f",
-   "evaluator_failures": []
-  },
-  {
-   "name": "hexe_lilli_main_keeps_its_line [2/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 2,
-    "input_tokens": 85521,
-    "output_tokens": 17388,
-    "cache_read.input_tokens": 65248,
-    "cache_read_tokens": 65248
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 0.5,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 9,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": false,
-     "reason": "Wrong: spotify:4ghoOGAttLAGG5LHZ2TyJI (Zaubert Hausaufgaben): included, expected exclude; spotify:4S9JLpOKw8B5AxduUu8U88 (Und der Vampir mit dem Wackelzahn): included, expected exclude; spotify:7iQo6EXjMtLPorNrw2vlXW (Die Reise nach Mandolan): included, expected exclude; spotify:1ateqhraMBgvZdaYeMuIok (Und der kleine Eisbär Knöpfchen): included, expected exclude; spotify:6K5a3qRU976BpPIEG9mZnb (Feiert Geburtstag): included, expected exclude; apple_music:1056441922 (Folge 8: zaubert Hausaufgaben): included, expected exclude; apple_music:1056433273 (Folge 18: und der Vampir mit dem Wackelzahn): included, expected exclude; apple_music:1061926033 (Hexe Lilli und der kleine Eisbär Knöpfchen): included, expected exclude; apple_music:1055054537 (Hexe Lilli feiert Geburtstag): included, expected exclude",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "episode_numbers": {
-     "name": "episode_numbers",
-     "value": false,
-     "reason": "apple_music:1356623749 (Folge 2: macht Zauberquatsch): ships as no number, expected 2; apple_music:1356624523 (001: stellt die Schule auf den Kopf): ships as no number, expected 1",
-     "source": {
-      "name": "EpisodeNumbersCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 1021.627012085,
-   "total_duration": 1021.633893828,
-   "source_case_name": "hexe_lilli_main_keeps_its_line",
-   "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
-   "span_id": "a057942ee02d4e40",
-   "evaluator_failures": []
-  },
-  {
-   "name": "hexe_lilli_main_keeps_its_line [3/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 2,
-    "input_tokens": 80239,
-    "output_tokens": 14114,
-    "cache_read.input_tokens": 44032,
-    "cache_read_tokens": 44032
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 0.5555555555555556,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 8,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": false,
-     "reason": "Wrong: spotify:4ghoOGAttLAGG5LHZ2TyJI (Zaubert Hausaufgaben): included, expected exclude; spotify:4S9JLpOKw8B5AxduUu8U88 (Und der Vampir mit dem Wackelzahn): included, expected exclude; spotify:1ateqhraMBgvZdaYeMuIok (Und der kleine Eisbär Knöpfchen): included, expected exclude; spotify:6K5a3qRU976BpPIEG9mZnb (Feiert Geburtstag): included, expected exclude; apple_music:1056441922 (Folge 8: zaubert Hausaufgaben): included, expected exclude; apple_music:1056433273 (Folge 18: und der Vampir mit dem Wackelzahn): included, expected exclude; apple_music:1061926033 (Hexe Lilli und der kleine Eisbär Knöpfchen): included, expected exclude; apple_music:1055054537 (Hexe Lilli feiert Geburtstag): included, expected exclude",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "episode_numbers": {
-     "name": "episode_numbers",
-     "value": false,
-     "reason": "apple_music:1356623749 (Folge 2: macht Zauberquatsch): ships as no number, expected 2; apple_music:1356624523 (001: stellt die Schule auf den Kopf): ships as no number, expected 1",
-     "source": {
-      "name": "EpisodeNumbersCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 373.924831741,
-   "total_duration": 373.932320729,
-   "source_case_name": "hexe_lilli_main_keeps_its_line",
-   "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
-   "span_id": "81fad92d71881337",
    "evaluator_failures": []
   },
   {
@@ -3230,294 +1730,6 @@
    "evaluator_failures": []
   },
   {
-   "name": "wieso_vorlesegeschichten_takes_nothing [1/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 4,
-    "input_tokens": 114282,
-    "output_tokens": 10603,
-    "cache_read.input_tokens": 96288,
-    "cache_read_tokens": 96288
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 1.0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": true,
-     "reason": "All decisions correct",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 486.505099994,
-   "total_duration": 486.509522196,
-   "source_case_name": "wieso_vorlesegeschichten_takes_nothing",
-   "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
-   "span_id": "30bee1efcf1388bf",
-   "evaluator_failures": []
-  },
-  {
-   "name": "wieso_vorlesegeschichten_takes_nothing [2/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 2,
-    "input_tokens": 54229,
-    "output_tokens": 7629,
-    "cache_read.input_tokens": 48608,
-    "cache_read_tokens": 48608
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 1.0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": true,
-     "reason": "All decisions correct",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 271.884551936,
-   "total_duration": 271.888891058,
-   "source_case_name": "wieso_vorlesegeschichten_takes_nothing",
-   "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
-   "span_id": "2c3dc6e3e7415b56",
-   "evaluator_failures": []
-  },
-  {
-   "name": "wieso_vorlesegeschichten_takes_nothing [3/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 2,
-    "input_tokens": 53471,
-    "output_tokens": 7087,
-    "cache_read.input_tokens": 48032,
-    "cache_read_tokens": 48032
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 1.0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": true,
-     "reason": "All decisions correct",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 213.006553058,
-   "total_duration": 213.01092859,
-   "source_case_name": "wieso_vorlesegeschichten_takes_nothing",
-   "trace_id": "01a125306034b9e6bdfe2e1c689ae86b",
-   "span_id": "6ac4106f0667e631",
-   "evaluator_failures": []
-  },
-  {
    "name": "willi_wills_wissen_whole_page [1/3]",
    "inputs": null,
    "metadata": null,
@@ -4124,6 +2336,582 @@
    "evaluator_failures": []
   },
   {
+   "name": "benjamin_sub_series [1/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 2,
+    "input_tokens": 28379,
+    "output_tokens": 2514,
+    "cache_read.input_tokens": 28256,
+    "cache_read_tokens": 28256
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 80.418190041,
+   "total_duration": 80.420507104,
+   "source_case_name": "benjamin_sub_series",
+   "trace_id": "01a12632edb98e694a24ca4de70aa2f3",
+   "span_id": "e177352c0d148c43",
+   "evaluator_failures": []
+  },
+  {
+   "name": "benjamin_sub_series [2/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 2,
+    "input_tokens": 28379,
+    "output_tokens": 2479,
+    "cache_read.input_tokens": 26528,
+    "cache_read_tokens": 26528
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 64.259673597,
+   "total_duration": 64.26832048,
+   "source_case_name": "benjamin_sub_series",
+   "trace_id": "01a12632edb98e694a24ca4de70aa2f3",
+   "span_id": "e0f59a346a159bfb",
+   "evaluator_failures": []
+  },
+  {
+   "name": "benjamin_sub_series [3/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 2,
+    "input_tokens": 27501,
+    "output_tokens": 1977,
+    "cache_read.input_tokens": 25760,
+    "cache_read_tokens": 25760
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 139.615181352,
+   "total_duration": 139.617349405,
+   "source_case_name": "benjamin_sub_series",
+   "trace_id": "01a12632edb98e694a24ca4de70aa2f3",
+   "span_id": "007dd62a15cdb679",
+   "evaluator_failures": []
+  },
+  {
+   "name": "bibi_kinofilm_vs_soundtrack [1/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 2,
+    "input_tokens": 28145,
+    "output_tokens": 2792,
+    "cache_read.input_tokens": 26784,
+    "cache_read_tokens": 26784
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 75.401831172,
+   "total_duration": 75.404012305,
+   "source_case_name": "bibi_kinofilm_vs_soundtrack",
+   "trace_id": "01a12632edb98e694a24ca4de70aa2f3",
+   "span_id": "ce41cd5ff804a606",
+   "evaluator_failures": []
+  },
+  {
+   "name": "bibi_kinofilm_vs_soundtrack [2/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 3,
+    "input_tokens": 49291,
+    "output_tokens": 4734,
+    "cache_read.input_tokens": 45600,
+    "cache_read_tokens": 45600
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 0.75,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 1,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": false,
+     "reason": "Wrong: apple_music:1851429423 (Bibi Blocksberg: Das große Hexentreffen (Das Original-Hörspiel zum Kinofilm)): excluded, expected include",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 281.674513187,
+   "total_duration": 281.6767234,
+   "source_case_name": "bibi_kinofilm_vs_soundtrack",
+   "trace_id": "01a12632edb98e694a24ca4de70aa2f3",
+   "span_id": "8a885f41c266407d",
+   "evaluator_failures": []
+  },
+  {
+   "name": "bibi_kinofilm_vs_soundtrack [3/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 2,
+    "input_tokens": 27873,
+    "output_tokens": 3102,
+    "cache_read.input_tokens": 26720,
+    "cache_read_tokens": 26720
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 81.563016309,
+   "total_duration": 81.565322662,
+   "source_case_name": "bibi_kinofilm_vs_soundtrack",
+   "trace_id": "01a12632edb98e694a24ca4de70aa2f3",
+   "span_id": "497a2db9e1e993c8",
+   "evaluator_failures": []
+  },
+  {
    "name": "das_sams_readings_not_hoerspiele [1/3]",
    "inputs": null,
    "metadata": null,
@@ -4131,10 +2919,10 @@
    "output": null,
    "metrics": {
     "requests": 2,
-    "input_tokens": 131187,
-    "output_tokens": 17906,
-    "cache_read.input_tokens": 71072,
-    "cache_read_tokens": 71072
+    "input_tokens": 125904,
+    "output_tokens": 12343,
+    "cache_read.input_tokens": 66528,
+    "cache_read_tokens": 66528
    },
    "attributes": {},
    "scores": {
@@ -4222,11 +3010,11 @@
      "evaluator_version": null
     }
    },
-   "task_duration": 334.258878155,
-   "total_duration": 334.274543996,
+   "task_duration": 298.157134179,
+   "total_duration": 298.168269272,
    "source_case_name": "das_sams_readings_not_hoerspiele",
-   "trace_id": "01a125f61dd9388e459cfba0a645bf95",
-   "span_id": "1da2738183b879e5",
+   "trace_id": "01a12632edb98e694a24ca4de70aa2f3",
+   "span_id": "1e89f6a5ae5520d3",
    "evaluator_failures": []
   },
   {
@@ -4237,116 +3025,10 @@
    "output": null,
    "metrics": {
     "requests": 2,
-    "input_tokens": 116106,
-    "output_tokens": 25788,
-    "cache_read.input_tokens": 56896,
-    "cache_read_tokens": 56896
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 0.9523809523809523,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 1,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": false,
-     "reason": "Wrong: spotify:3DvTzkRN5lFGEcF2HJVZI7 (Ein Taucheranzug für das Sams und eine weitere Geschichte): excluded, expected include",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "episode_numbers": {
-     "name": "episode_numbers",
-     "value": true,
-     "reason": "11 number(s) as expected",
-     "source": {
-      "name": "EpisodeNumbersCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 464.641994242,
-   "total_duration": 464.65235225,
-   "source_case_name": "das_sams_readings_not_hoerspiele",
-   "trace_id": "01a125f61dd9388e459cfba0a645bf95",
-   "span_id": "66763bad0d1123cc",
-   "evaluator_failures": []
-  },
-  {
-   "name": "das_sams_readings_not_hoerspiele [3/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": null,
-   "metrics": {
-    "requests": 5,
-    "input_tokens": 334735,
-    "output_tokens": 23867,
-    "cache_read.input_tokens": 262368,
-    "cache_read_tokens": 262368
+    "input_tokens": 117315,
+    "output_tokens": 19381,
+    "cache_read.input_tokens": 66528,
+    "cache_read_tokens": 66528
    },
    "attributes": {},
    "scores": {
@@ -4434,11 +3116,1329 @@
      "evaluator_version": null
     }
    },
-   "task_duration": 545.486964894,
-   "total_duration": 545.496900106,
+   "task_duration": 419.327017223,
+   "total_duration": 419.338030818,
    "source_case_name": "das_sams_readings_not_hoerspiele",
-   "trace_id": "01a125f61dd9388e459cfba0a645bf95",
-   "span_id": "8178c2f137841e83",
+   "trace_id": "01a12632edb98e694a24ca4de70aa2f3",
+   "span_id": "86fcf6af38af6d09",
+   "evaluator_failures": []
+  },
+  {
+   "name": "das_sams_readings_not_hoerspiele [3/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 2,
+    "input_tokens": 126139,
+    "output_tokens": 12492,
+    "cache_read.input_tokens": 117760,
+    "cache_read_tokens": 117760
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 0.9523809523809523,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 1,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": false,
+     "reason": "Wrong: spotify:3DvTzkRN5lFGEcF2HJVZI7 (Ein Taucheranzug für das Sams und eine weitere Geschichte): excluded, expected include",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "11 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 280.114144482,
+   "total_duration": 280.125240616,
+   "source_case_name": "das_sams_readings_not_hoerspiele",
+   "trace_id": "01a12632edb98e694a24ca4de70aa2f3",
+   "span_id": "664af3815e7ad4c8",
+   "evaluator_failures": []
+  },
+  {
+   "name": "feuerwehrmann_sam_boxes [1/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 2,
+    "input_tokens": 63209,
+    "output_tokens": 9079,
+    "cache_read.input_tokens": 44736,
+    "cache_read_tokens": 44736
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "7 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 245.306727198,
+   "total_duration": 245.314567028,
+   "source_case_name": "feuerwehrmann_sam_boxes",
+   "trace_id": "01a12632edb98e694a24ca4de70aa2f3",
+   "span_id": "97872ef7da1d95b8",
+   "evaluator_failures": []
+  },
+  {
+   "name": "feuerwehrmann_sam_boxes [2/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 2,
+    "input_tokens": 62521,
+    "output_tokens": 9274,
+    "cache_read.input_tokens": 38112,
+    "cache_read_tokens": 38112
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "7 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 233.508533318,
+   "total_duration": 233.515984282,
+   "source_case_name": "feuerwehrmann_sam_boxes",
+   "trace_id": "01a12632edb98e694a24ca4de70aa2f3",
+   "span_id": "220c014719998ca9",
+   "evaluator_failures": []
+  },
+  {
+   "name": "feuerwehrmann_sam_boxes [3/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 2,
+    "input_tokens": 59152,
+    "output_tokens": 6545,
+    "cache_read.input_tokens": 56160,
+    "cache_read_tokens": 56160
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "7 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 229.925941301,
+   "total_duration": 229.933091503,
+   "source_case_name": "feuerwehrmann_sam_boxes",
+   "trace_id": "01a12632edb98e694a24ca4de70aa2f3",
+   "span_id": "d73b5a47c5a927f0",
+   "evaluator_failures": []
+  },
+  {
+   "name": "hexe_lilli_erstleser_own_line [1/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 9,
+    "input_tokens": 465086,
+    "output_tokens": 20970,
+    "cache_read.input_tokens": 388224,
+    "cache_read_tokens": 388224
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 1525.065751969,
+   "total_duration": 1525.072733869,
+   "source_case_name": "hexe_lilli_erstleser_own_line",
+   "trace_id": "01a12632edb98e694a24ca4de70aa2f3",
+   "span_id": "633e78b711052a32",
+   "evaluator_failures": []
+  },
+  {
+   "name": "hexe_lilli_erstleser_own_line [2/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 2,
+    "input_tokens": 99740,
+    "output_tokens": 20226,
+    "cache_read.input_tokens": 50944,
+    "cache_read_tokens": 50944
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 0.6363636363636364,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 8,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": false,
+     "reason": "Wrong: spotify:1ateqhraMBgvZdaYeMuIok (Und der kleine Eisbär Knöpfchen): excluded, expected include; spotify:4NHm49J138o8iOADgQfLwk (Hexe Lilli und die Zaubernacht im Kindergarten): excluded, expected include; spotify:4fAxKCklCcMxl7LAxBeGDD (Hexe Lilli und der kleine Delfin): excluded, expected include; spotify:2qffSlb9FcXLjuAmVmxusg (Hexe Lilli und der verzauberte Goldesel): excluded, expected include; apple_music:1061926033 (Hexe Lilli und der kleine Eisbär Knöpfchen): excluded, expected include; apple_music:1061923870 (Hexe Lilli und die Zaubernacht im Kindergarten): excluded, expected include; apple_music:1055052863 (Hexe Lilli und der kleine Delfin): excluded, expected include; apple_music:1055082502 (Hexe Lilli und der verzauberte Goldesel): excluded, expected include",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 631.870086256,
+   "total_duration": 631.877785142,
+   "source_case_name": "hexe_lilli_erstleser_own_line",
+   "trace_id": "01a12632edb98e694a24ca4de70aa2f3",
+   "span_id": "fa1670770ef6978c",
+   "evaluator_failures": []
+  },
+  {
+   "name": "hexe_lilli_erstleser_own_line [3/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 13,
+    "input_tokens": 716400,
+    "output_tokens": 22644,
+    "cache_read.input_tokens": 684672,
+    "cache_read_tokens": 684672
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 639.706533583,
+   "total_duration": 639.714227688,
+   "source_case_name": "hexe_lilli_erstleser_own_line",
+   "trace_id": "01a12632edb98e694a24ca4de70aa2f3",
+   "span_id": "4e4cee4c466f3f23",
+   "evaluator_failures": []
+  },
+  {
+   "name": "hexe_lilli_main_keeps_its_line [1/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 2,
+    "input_tokens": 85950,
+    "output_tokens": 17537,
+    "cache_read.input_tokens": 81984,
+    "cache_read_tokens": 81984
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 0.8333333333333334,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 3,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": false,
+     "reason": "Wrong: spotify:7iQo6EXjMtLPorNrw2vlXW (Die Reise nach Mandolan): included, expected exclude; spotify:1ateqhraMBgvZdaYeMuIok (Und der kleine Eisbär Knöpfchen): included, expected exclude; apple_music:1061926033 (Hexe Lilli und der kleine Eisbär Knöpfchen): included, expected exclude",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": false,
+     "reason": "apple_music:1356623749 (Folge 2: macht Zauberquatsch): ships as no number, expected 2; apple_music:1356624523 (001: stellt die Schule auf den Kopf): ships as no number, expected 1",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 1266.235963597,
+   "total_duration": 1266.242744947,
+   "source_case_name": "hexe_lilli_main_keeps_its_line",
+   "trace_id": "01a12632edb98e694a24ca4de70aa2f3",
+   "span_id": "5ac644329b7003b4",
+   "evaluator_failures": []
+  },
+  {
+   "name": "hexe_lilli_main_keeps_its_line [2/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 2,
+    "input_tokens": 82749,
+    "output_tokens": 14413,
+    "cache_read.input_tokens": 79616,
+    "cache_read_tokens": 79616
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 0.8333333333333334,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 3,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": false,
+     "reason": "Wrong: spotify:7iQo6EXjMtLPorNrw2vlXW (Die Reise nach Mandolan): included, expected exclude; spotify:1ateqhraMBgvZdaYeMuIok (Und der kleine Eisbär Knöpfchen): included, expected exclude; apple_music:1061926033 (Hexe Lilli und der kleine Eisbär Knöpfchen): included, expected exclude",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": false,
+     "reason": "apple_music:1356623749 (Folge 2: macht Zauberquatsch): ships as no number, expected 2; apple_music:1356624523 (001: stellt die Schule auf den Kopf): ships as no number, expected 1",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 327.249709515,
+   "total_duration": 327.257088372,
+   "source_case_name": "hexe_lilli_main_keeps_its_line",
+   "trace_id": "01a12632edb98e694a24ca4de70aa2f3",
+   "span_id": "28e16c0d4c05912d",
+   "evaluator_failures": []
+  },
+  {
+   "name": "hexe_lilli_main_keeps_its_line [3/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 2,
+    "input_tokens": 87154,
+    "output_tokens": 16334,
+    "cache_read.input_tokens": 81184,
+    "cache_read_tokens": 81184
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 0.8333333333333334,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 3,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": false,
+     "reason": "Wrong: spotify:7iQo6EXjMtLPorNrw2vlXW (Die Reise nach Mandolan): included, expected exclude; spotify:1ateqhraMBgvZdaYeMuIok (Und der kleine Eisbär Knöpfchen): included, expected exclude; apple_music:1061926033 (Hexe Lilli und der kleine Eisbär Knöpfchen): included, expected exclude",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": false,
+     "reason": "apple_music:1356623749 (Folge 2: macht Zauberquatsch): ships as no number, expected 2; apple_music:1356624523 (001: stellt die Schule auf den Kopf): ships as no number, expected 1",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 389.241127227,
+   "total_duration": 389.248514643,
+   "source_case_name": "hexe_lilli_main_keeps_its_line",
+   "trace_id": "01a12632edb98e694a24ca4de70aa2f3",
+   "span_id": "76e7cc67e357bede",
+   "evaluator_failures": []
+  },
+  {
+   "name": "wieso_vorlesegeschichten_takes_nothing [1/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 2,
+    "input_tokens": 54043,
+    "output_tokens": 8639,
+    "cache_read.input_tokens": 23488,
+    "cache_read_tokens": 23488
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 217.610301935,
+   "total_duration": 217.614624098,
+   "source_case_name": "wieso_vorlesegeschichten_takes_nothing",
+   "trace_id": "01a12632edb98e694a24ca4de70aa2f3",
+   "span_id": "40e67cf643ebfee4",
+   "evaluator_failures": []
+  },
+  {
+   "name": "wieso_vorlesegeschichten_takes_nothing [2/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 2,
+    "input_tokens": 58256,
+    "output_tokens": 9904,
+    "cache_read.input_tokens": 34848,
+    "cache_read_tokens": 34848
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 234.00908738,
+   "total_duration": 234.013407383,
+   "source_case_name": "wieso_vorlesegeschichten_takes_nothing",
+   "trace_id": "01a12632edb98e694a24ca4de70aa2f3",
+   "span_id": "a737bbe4f2562eca",
+   "evaluator_failures": []
+  },
+  {
+   "name": "wieso_vorlesegeschichten_takes_nothing [3/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": null,
+   "metrics": {
+    "requests": 2,
+    "input_tokens": 58666,
+    "output_tokens": 9747,
+    "cache_read.input_tokens": 52192,
+    "cache_read_tokens": 52192
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 209.282307314,
+   "total_duration": 209.286714355,
+   "source_case_name": "wieso_vorlesegeschichten_takes_nothing",
+   "trace_id": "01a12632edb98e694a24ca4de70aa2f3",
+   "span_id": "090e15877d09c4eb",
    "evaluator_failures": []
   }
  ],
@@ -4446,6 +4446,6 @@
  "analyses": [],
  "report_evaluator_failures": [],
  "experiment_metadata": null,
- "trace_id": "01a125f61dd9388e459cfba0a645bf95",
- "span_id": "8e114f068b0a1b75"
+ "trace_id": "01a12632edb98e694a24ca4de70aa2f3",
+ "span_id": "ace6dedcd458bff7"
 }
