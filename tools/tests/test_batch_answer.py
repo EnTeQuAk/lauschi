@@ -126,18 +126,25 @@ async def test_an_answer_with_an_album_too_many_is_sent_back() -> None:
     assert "omitted" not in model.told
 
 
-def test_an_album_answered_twice_is_accepted_as_it_is() -> None:
-    """The check after a batch compares sets of albums, so it does not see
-    the same album twice. This pins what happens today."""
-    answer = BatchAnswer(
-        albums=[
-            AlbumAnswer(provider="spotify", id="a1", include=True),
-            AlbumAnswer(
-                provider="spotify", id="a1", include=False, exclude_reason="compilation"
-            ),
-        ]
+async def test_an_album_answered_twice_is_sent_back() -> None:
+    """Both rows would go into the curation, one including the album and
+    one excluding it."""
+    model = _Answers(
+        {"provider": "spotify", "id": "a1", "include": True},
+        {
+            "provider": "spotify",
+            "id": "a1",
+            "include": False,
+            "exclude_reason": "compilation",
+        },
     )
-    assert len(answer.albums) == 2
+    agent = _build_batch_agent(FunctionModel(model), model_name="test")
+
+    with pytest.raises(Exception, match="output retries"):
+        await agent.run("batch", deps=_deps(("spotify", "a1")))
+
+    assert "answered 1 album(s) twice: spotify:a1" in model.told
+    assert "omitted" not in model.told
 
 
 PATTERN = r"^Folge (\d+):"

@@ -10,6 +10,7 @@ import asyncio
 import json
 import re
 import time
+from collections import Counter
 from collections.abc import Iterator, Mapping, Sequence
 from contextlib import contextmanager
 from dataclasses import dataclass, field
@@ -1920,29 +1921,28 @@ def _build_batch_agent(
     def _validate_batch_completeness(
         ctx: RunContext[CurateDeps], result: BatchAnswer
     ) -> BatchAnswer:
-        """Every album in the batch must have a decision, and no extras."""
+        """Every album in the batch must have one decision, and no extras."""
         if not ctx.deps.current_batch_ids:
             return result
-        returned_ids = {(a.provider, a.id) for a in result.albums}
+        answered = Counter((a.provider, a.id) for a in result.albums)
         batch_ids = ctx.deps.current_batch_ids
-        missing = batch_ids - returned_ids
-        extra = returned_ids - batch_ids
-        if missing or extra:
-            samples_missing = [f"{p}:{aid}" for p, aid in sorted(missing)[:5]]
-            samples_extra = [f"{p}:{aid}" for p, aid in sorted(extra)[:5]]
-            parts: list[str] = []
-            if missing:
-                parts.append(
-                    f"omitted {len(missing)} album(s). Missing: "
-                    f"{', '.join(samples_missing)}"
-                    f"{'...' if len(missing) > 5 else ''}"
-                )
-            if extra:
-                parts.append(
-                    f"added {len(extra)} extra album(s). Extra: "
-                    f"{', '.join(samples_extra)}"
-                    f"{'...' if len(extra) > 5 else ''}"
-                )
+        problems = {
+            "omitted {n} album(s). Missing: {keys}": batch_ids - answered.keys(),
+            "added {n} extra album(s). Extra: {keys}": answered.keys() - batch_ids,
+            "answered {n} album(s) twice: {keys}": {
+                key for key, count in answered.items() if count > 1
+            },
+        }
+        parts = [
+            message.format(
+                n=len(keys),
+                keys=", ".join(f"{p}:{aid}" for p, aid in sorted(keys)[:5])
+                + ("..." if len(keys) > 5 else ""),
+            )
+            for message, keys in problems.items()
+            if keys
+        ]
+        if parts:
             raise ModelRetry(
                 f"Your output does not match the batch exactly. "
                 f"{'; '.join(parts)}. "
