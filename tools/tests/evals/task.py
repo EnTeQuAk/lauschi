@@ -35,7 +35,9 @@ from lauschi_catalog.catalog.curate_ops import (
 from lauschi_catalog.catalog.episode_range import numbers_released_alone, range_facts
 from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
 
-MODEL_NAME = os.environ.get("EVAL_MODEL", "kimi-k2.6")
+#: the curator the pipeline runs with, and whose saved run is the baseline
+DEFAULT_MODEL = "kimi-k2.6"
+MODEL_NAME = os.environ.get("EVAL_MODEL", DEFAULT_MODEL)
 
 
 @checked_dataclass(frozen=True, config=ConfigDict(extra="forbid"))

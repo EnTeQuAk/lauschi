@@ -15,7 +15,17 @@ from rich.console import Console
 
 from tests.evals.case_files import load_cases
 from tests.evals.evaluators import CatalogOutcome, DecisionsCorrect
-from tests.evals.run_evals import SMOKE_CASES, load_report, model_requests, save_report
+from tests.evals.run_evals import (
+    BASELINE,
+    SMOKE_CASES,
+    CaseSummary,
+    comparison_table,
+    load_report,
+    model_requests,
+    results_path,
+    save_report,
+    summarize,
+)
 from tests.evals.task import BatchResult
 from tests.factories import decision
 
@@ -63,6 +73,16 @@ def test_a_saved_report_keeps_scores_and_reasons_but_not_the_albums(
     assert "a big batch of albums" not in path.read_text()
 
 
+def test_a_saved_report_says_which_model_it_came_from(tmp_path: Path) -> None:
+    path = tmp_path / "gemma4-31b.json"
+    report = _run(ost_included=True)
+    report.experiment_metadata = {"model": "gemma4:31b"}
+
+    save_report(report, path)
+
+    assert load_report(path).experiment_metadata == {"model": "gemma4:31b"}
+
+
 def test_a_later_run_is_printed_against_the_saved_one(tmp_path: Path) -> None:
     path = tmp_path / "baseline.json"
     save_report(_run(ost_included=True), path)
@@ -105,6 +125,62 @@ def test_model_requests_are_added_up_over_the_cases() -> None:
     report.cases.append(report.cases[0])
 
     assert model_requests(report) == 6
+
+
+def test_the_curator_models_run_is_the_baseline() -> None:
+    assert results_path("kimi-k2.6") == BASELINE
+
+
+def test_another_models_run_never_goes_over_the_baseline() -> None:
+    """Every later run is printed against the baseline. A benchmark run
+    saved over it would become the yardstick for the next prompt change."""
+    assert results_path("gemma4:31b") == BASELINE.parent / "results" / "gemma4-31b.json"
+    assert results_path("mistral-large-4").parent == BASELINE.parent / "results"
+
+
+def test_a_named_run_is_kept_under_its_name_whatever_the_model() -> None:
+    """A second round of the curator model, or one setting of another."""
+    assert (
+        results_path("kimi-k2.6", "kimi-k2.6 round 2")
+        == BASELINE.parent / "results" / "kimi-k2.6-round-2.json"
+    )
+
+
+def test_a_report_is_summed_up_per_case_with_every_run() -> None:
+    report = _run(ost_included=True, names=("rolf", "sam"))
+    report.cases[0].metrics["requests"] = 2
+
+    summary = summarize(report)
+
+    assert summary["rolf"] == CaseSummary(
+        right=(0.5,),
+        wrong_content=1,
+        missing_content=0,
+        requests=2,
+        seconds=summary["rolf"].seconds,
+        failed=0,
+    )
+    assert set(summary) == {"rolf", "sam"}
+
+
+def test_saved_runs_are_put_side_by_side_per_case() -> None:
+    out = Console(file=io.StringIO(), width=200)
+
+    out.print(
+        comparison_table(
+            {
+                "kimi-k2.6": _run(ost_included=False, names=("rolf", "sam")),
+                "gemma4-31b": _run(ost_included=True, names=("rolf",)),
+            }
+        )
+    )
+
+    text = out.file.getvalue()
+    rolf = next(line for line in text.splitlines() if "rolf" in line)
+    sam = next(line for line in text.splitlines() if "sam" in line)
+    assert "kimi-k2.6" in text and "gemma4-31b" in text
+    assert "1.00" in rolf and "0.50" in rolf
+    assert "1.00" in sam and "not run" in sam
 
 
 def test_the_smoke_cases_exist() -> None:

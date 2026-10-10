@@ -199,6 +199,18 @@ mise run catalog-evals                               # all cases, compared with 
 mise run catalog-evals -- --save                     # keep this run as the baseline
 ```
 
+To try another model, set `EVAL_MODEL`. Its run is still printed against
+the baseline, which is the curator model's, and `--save` keeps it under
+`tools/tests/evals/results/<model>.json` instead of over the baseline.
+`--save-as NAME` keeps any run under a name, and `--compare` puts saved
+runs side by side:
+
+```bash
+EVAL_MODEL=gemma4:31b mise run catalog-evals -- --save
+mise run catalog-evals -- --save-as "kimi-k2.6 round 2"
+mise run catalog-evals -- --compare tests/evals/baseline.json tests/evals/results/gemma4-31b.json
+```
+
 The cases are files in `tools/tests/evals/fixtures/`. Every expectation
 names its source: the line index where it lists the title, a hand decision
 with its reason where it does not. To add one, run

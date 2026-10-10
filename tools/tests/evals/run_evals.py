@@ -6,6 +6,9 @@ Usage:
     mise run catalog-evals -- --cases feuerwehrmann_sam_boxes --repeat 1 -v
     mise run catalog-evals -- --save        # keep the run as the baseline
     mise run catalog-evals -- --cases a,b --save   # replace only a and b in it
+    EVAL_MODEL=gemma4:31b mise run catalog-evals -- --save   # results/gemma4-31b.json
+    mise run catalog-evals -- --save-as "kimi-k2.6 round 2"  # results/kimi-k2.6-round-2.json
+    mise run catalog-evals -- --compare tests/evals/baseline.json tests/evals/results/gemma4-31b.json
 
 A case calls the model and its tools for real, so two runs of one case
 can differ. Repeats show that as a spread instead of as a result. A run
@@ -15,15 +18,18 @@ Requires the model host's API key (OLLAMA_API_KEY by default, see
 lauschi_catalog._opencode.model_host).
 A run is traced to Logfire like a CLI run, when the checkout holds a
 Logfire credential (see "Tracing agent runs" in AGENTS.md).
-Set EVAL_MODEL to override the default model (kimi-k2.6).
+Set EVAL_MODEL to run the cases with another model than the curator's
+(kimi-k2.6). Such a run is saved under results/, never over the baseline,
+and is still printed against the baseline.
 """
 
 import argparse
 import asyncio
-import os
+import re
 import sys
-from collections.abc import Collection
-from dataclasses import replace
+from collections import Counter
+from collections.abc import Collection, Mapping
+from dataclasses import dataclass, replace
 from pathlib import Path
 
 from pydantic_evals.reporting import (
@@ -31,13 +37,17 @@ from pydantic_evals.reporting import (
     EvaluationReportAdapter,
     ReportCase,
 )
+from rich.console import Console
+from rich.table import Table
 
 from lauschi_catalog.observability import configure_observability
 
 from .cases import build_dataset
-from .task import run_batch_curation
+from .task import DEFAULT_MODEL, MODEL_NAME, run_batch_curation
 
 BASELINE = Path(__file__).parent / "baseline.json"
+#: saved runs that are not the baseline: other models, named rounds
+RESULTS = Path(__file__).parent / "results"
 
 #: quick cases that between them touch a sub-series, a box rule and a
 #: plain batch, for checking the setup before a full run
@@ -93,6 +103,80 @@ def load_report(path: Path) -> EvaluationReport:
     return EvaluationReportAdapter.validate_json(path.read_bytes())
 
 
+def results_path(model: str, name: str | None = None) -> Path:
+    """Where a saved run goes. The curator model's run is the baseline
+    that every later run is printed against. Another model's run, and a
+    run saved under a name, go next to it and never over it."""
+    if name is None and model == DEFAULT_MODEL:
+        return BASELINE
+    return RESULTS / f"{re.sub(r'[^A-Za-z0-9._-]+', '-', name or model)}.json"
+
+
+@dataclass(frozen=True)
+class CaseSummary:
+    """One case of a saved run: every run's share decided right, and the
+    rest added up over the runs."""
+
+    right: tuple[float, ...]
+    wrong_content: int
+    missing_content: int
+    requests: int
+    seconds: float
+    failed: int
+
+
+def summarize(report: EvaluationReport) -> dict[str, CaseSummary]:
+    """A saved run per case, in the order the cases first appear."""
+    runs: dict[str, list[ReportCase]] = {}
+    for case in report.cases:
+        runs.setdefault(_case_name(case), [])
+        runs[_case_name(case)].append(case)
+    failed = Counter(f.source_case_name or f.name for f in report.failures)
+    for name in failed:
+        runs.setdefault(name, [])
+    return {
+        name: CaseSummary(
+            right=tuple(float(c.scores["right"].value) for c in cases),
+            wrong_content=int(sum(c.scores["wrong_content"].value for c in cases)),
+            missing_content=int(sum(c.scores["missing_content"].value for c in cases)),
+            requests=int(sum(c.metrics.get("requests", 0) for c in cases)),
+            seconds=sum(c.task_duration for c in cases),
+            failed=failed[name],
+        )
+        for name, cases in runs.items()
+    }
+
+
+def comparison_table(reports: Mapping[str, EvaluationReport]) -> Table:
+    """Saved runs side by side: per case and run the share decided right,
+    then wrong content, missing content, requests, minutes and failed
+    runs added up. The first report sets the order of the cases."""
+    summaries = {label: summarize(report) for label, report in reports.items()}
+    table = Table(
+        title="Share decided right per run (wrong / missing / requests / min)"
+    )
+    table.add_column("case")
+    for label in summaries:
+        table.add_column(label)
+    for name in dict.fromkeys(name for s in summaries.values() for name in s):
+        cells: list[str] = []
+        for summary in summaries.values():
+            case = summary.get(name)
+            if case is None:
+                cells.append("not run")
+                continue
+            cell = " ".join(f"{right:.2f}" for right in case.right) or "-"
+            cell += (
+                f"  ({case.wrong_content} / {case.missing_content} / "
+                f"{case.requests} / {case.seconds / 60:.0f})"
+            )
+            if case.failed:
+                cell += f"  {case.failed} failed"
+            cells.append(cell)
+        table.add_row(name, *cells)
+    return table
+
+
 def model_requests(report: EvaluationReport) -> int:
     """Model requests of the whole run. The count per case comes from
     the tracing, so it is 0 for a run that was not traced."""
@@ -127,7 +211,20 @@ def main() -> None:
     parser.add_argument(
         "--save",
         action="store_true",
-        help=f"Save the run as the baseline ({BASELINE.name})",
+        help=f"Save the run: the baseline ({BASELINE.name}) for {DEFAULT_MODEL}, "
+        f"{RESULTS.name}/<model>.json for another model",
+    )
+    parser.add_argument(
+        "--save-as",
+        metavar="NAME",
+        help=f"Save the run as {RESULTS.name}/NAME.json, whatever the model",
+    )
+    parser.add_argument(
+        "--compare",
+        nargs="+",
+        type=Path,
+        metavar="FILE",
+        help="Print saved runs side by side and stop",
     )
     parser.add_argument(
         "-v",
@@ -136,6 +233,11 @@ def main() -> None:
         help="Show inputs, outputs and reasons per case",
     )
     args = parser.parse_args()
+    if args.compare:
+        Console().print(
+            comparison_table({path.stem: load_report(path) for path in args.compare})
+        )
+        return
     configure_observability()
 
     names = list(SMOKE_CASES) if args.smoke else None
@@ -152,7 +254,7 @@ def main() -> None:
         sys.exit(1)
 
     print(f"Running {len(dataset.cases)} eval case(s), {repeat} time(s) each...")
-    print(f"  Model: {os.environ.get('EVAL_MODEL', 'kimi-k2.6')}")
+    print(f"  Model: {MODEL_NAME}")
     print()
 
     report = asyncio.run(
@@ -160,6 +262,7 @@ def main() -> None:
             run_batch_curation,
             max_concurrency=args.max_concurrency,
             repeat=repeat,
+            metadata={"model": MODEL_NAME},
         )
     )
 
@@ -170,9 +273,11 @@ def main() -> None:
         include_reasons=args.verbose,
     )
     print(f"\nModel requests: {model_requests(report)}")
-    if args.save:
-        save_report(report, BASELINE, keep={c.name for c in build_dataset().cases})
-        print(f"Saved as the baseline: {BASELINE}")
+    if args.save or args.save_as:
+        path = results_path(MODEL_NAME, args.save_as)
+        path.parent.mkdir(exist_ok=True)
+        save_report(report, path, keep={c.name for c in build_dataset().cases})
+        print(f"Saved as {'the baseline' if path == BASELINE else 'a result'}: {path}")
     if report.failures:
         print(f"\n{len(report.failures)} case run(s) did not finish.")
         sys.exit(1)
