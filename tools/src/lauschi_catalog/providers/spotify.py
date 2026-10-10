@@ -210,7 +210,9 @@ class SpotifyProvider(CachedHttpProvider):
         def fetch():
             time.sleep(0.1)
             try:
-                return self._get(f"albums/{album_id}", market="DE")
+                return self._complete_details(
+                    self._get(f"albums/{album_id}", market="DE")
+                )
             except requests.HTTPError as e:
                 status = e.response.status_code if e.response is not None else None
                 if status == 404:
@@ -221,7 +223,23 @@ class SpotifyProvider(CachedHttpProvider):
         if data is None or _is_not_found(data) or "error" in data:
             return None
 
-        return self._album_from_details(data)
+        return self._album_from_details(self._cache_details(album_id, data))
+
+    def _complete_details(self, raw: dict) -> dict:
+        """The album entry with every track. The album endpoints embed the
+        first 50 and link the rest, and a reading can have well over 50:
+        without them the running time comes out too short."""
+        tracks = raw.get("tracks") or {}
+        url = tracks.get("next")
+        if not url:
+            return raw
+        items = list(tracks.get("items", []))
+        while url:
+            time.sleep(0.1)
+            page = self._get(url)
+            items.extend(page.get("items", []))
+            url = page.get("next")
+        return {**raw, "tracks": {**tracks, "items": items, "next": None}}
 
     def _album_from_details(self, data: dict) -> Album:
         """Full album entry with track list (album_details response)."""

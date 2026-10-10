@@ -283,6 +283,20 @@ class CachedHttpProvider(CatalogProvider):
         """Map one full album entry, tracks included (subclass mapping)."""
         raise NotImplementedError
 
+    def _complete_details(self, raw: dict) -> dict:
+        """The album entry with everything the provider holds back on the
+        first response. Returns ``raw`` itself when nothing is missing."""
+        return raw
+
+    def _cache_details(self, album_id: str, raw: dict) -> dict:
+        """Complete an album entry and keep the complete one cached."""
+        full = self._complete_details(raw)
+        if full is not raw and self._use_cache:
+            self._cache.set(
+                f"{self.detail_cache_prefix}{album_id}", full, expire=DEFAULT_TTL
+            )
+        return full
+
     def album_details_many(self, album_ids: list[str]) -> dict[str, Album]:
         """album_details for many ids, in batched requests.
 
@@ -302,7 +316,9 @@ class CachedHttpProvider(CatalogProvider):
             if hit is None:
                 missing.append(album_id)
             elif not _is_not_found(hit):
-                details[album_id] = self._album_from_details(hit)
+                details[album_id] = self._album_from_details(
+                    self._cache_details(album_id, hit)
+                )
 
         for i in range(0, len(missing), self.batch_size):
             chunk = missing[i : i + self.batch_size]
@@ -318,6 +334,8 @@ class CachedHttpProvider(CatalogProvider):
             rows = {row["id"]: row for row in self.album_rows(data) if row.get("id")}
             for album_id in chunk:
                 raw = rows.get(album_id)
+                if raw is not None:
+                    raw = self._complete_details(raw)
                 if self._use_cache:
                     self._cache.set(
                         f"{self.detail_cache_prefix}{album_id}",
