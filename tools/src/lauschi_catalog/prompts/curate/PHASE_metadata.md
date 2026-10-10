@@ -9,7 +9,7 @@ Your task: set up the series metadata. Do NOT classify individual albums.
 
 **episode_pattern rules:**
 - Regex with exactly 1 capture group per pattern. The captured group MUST be a
-digit string — `int(group)` has to succeed.
+digit string: `int(group)` has to succeed.
 - Use a list of regexes when naming conventions changed across eras (e.g.
 ["^(\\d{3})/", "^Folge (\\d+):"]). Tried in order, first match wins.
 - A series may have distinct sub-formats with their own numbering (e.g. main

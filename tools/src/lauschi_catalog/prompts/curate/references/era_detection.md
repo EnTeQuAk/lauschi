@@ -31,7 +31,7 @@ long publication histories.
 ## When NOT to propose era_boundary
 
 - Single re-release with a different prefix but same era (e.g., one
-  "Klassiker" edition among 20 standard editions) — that's a format variant,
+  "Klassiker" edition among 20 standard editions): that's a format variant,
   not an era
 - Track count differences without title convention changes (Spotify vs Apple
   Music track counts differ by provider encoding, not era)

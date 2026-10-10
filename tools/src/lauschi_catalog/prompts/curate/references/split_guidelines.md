@@ -52,7 +52,7 @@ confused.
 
 Propose a split when the films:
 - Have explicit sub-branding ("Kinofilm", distinct cover art series)
-- Are structurally different (60-90 min vs 30-50 min episodes)
+- Are structurally different (much longer than the series' episodes)
 - Would break chronological/numbered browsing in the parent
 
 Keep with parent when the "films" are just elongated TV episodes
@@ -72,7 +72,7 @@ kinofilm child.
 Examples to split: "Bibi und Tina Kinofilm" (4 theatrical releases),
 "Die drei ??? Kinofilm", "Ostwind" film Hörspiele.
 
-### 3. Music content in a Hörspiel series
+### 3. Music and other formats in a Hörspiel series
 
 Character brands (Bibi, Benjamin, Conni) often have music discographies
 alongside their Hörspiel episodes. Music albums ("Die schönsten Lieder",
@@ -81,6 +81,10 @@ tapping a Hörspiel series expect stories, not songs.
 
 Propose a split for music/vocal albums under a Hörspiel artist.
 Use content_type "music" for the split.
+
+The same goes for talk shows, meditations, guided journeys, ASMR and
+other formats that are clearly not dramatized Hörspiel episodes: a line
+of them is its own entry.
 
 ### 4. Recognizable standalone works from author umbrellas
 

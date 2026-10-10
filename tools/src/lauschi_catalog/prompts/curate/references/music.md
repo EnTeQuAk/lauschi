@@ -19,7 +19,7 @@ Kinderlieder, Kinderpop, and music albums. No episode numbers, no
 Some Kinderlieder artists release almost everything as singles and only
 package them into their own collection albums ("Sing mit mir Vol. 1",
 "Die schönsten Kinderlieder Vol. 2", "Kinderklassiker Vol. 1"). For
-these artists the collection albums ARE the catalog — **include them**.
+these artists the collection albums ARE the catalog: **include them**.
 The compilation exclusions below exist to avoid redundancy with regular
 albums; when an artist has no regular albums, that rationale doesn't
 apply.
@@ -28,7 +28,7 @@ How to recognize the case: the discography is dominated by 1-2 track
 singles, and the only multi-track releases are the artist's own themed
 collections. The `album_type` field helps: the artist's own primary
 releases carry `album_type=album` even when their titles sound like
-compilations (e.g. Simone Sommerland's "Die 30 besten …" series — those
+compilations (e.g. Simone Sommerland's "Die 30 besten …" series: those
 are her primary studio albums, include them).
 
 Singles stay excluded either way (`music_single`): one-track albums make
@@ -48,7 +48,7 @@ an album `unspecified`.
 
 ### kinderlieder_compilation
 "Best of", "Greatest Hits", numbered albums where each is a compilation.
-Exclude — UNLESS the artist is singles-first and these collections are
+Exclude, UNLESS the artist is singles-first and these collections are
 their only multi-track releases (see "Singles-first artists" above), or
 `album_type=album` marks them as the artist's primary releases.
 
@@ -97,7 +97,7 @@ Tracks: 22 songs, each 1-3 min
 Artist catalog: 71 singles, 6 "Sing mit mir" collections, no regular albums
 Reasoning:
   1. Title sounds like a compilation, but the artist has no regular albums
-  2. These collections are the artist's only multi-track releases —
+  2. These collections are the artist's only multi-track releases,
      excluding them leaves the series empty
   3. Singles-first rule: the collection albums ARE the catalog
 → include=true, episode_num=null, confidence=high
@@ -159,5 +159,5 @@ Reasoning:
 - No `era_boundaries` (artist careers are continuous; stylistic shifts aren't
   catalog eras).
 - `sub_series` rarely used (e.g., "Liederalbum" vs "Hörspiel" if the artist
-  genuinely does both — flag for split instead).
+  genuinely does both, flag for split instead).
 

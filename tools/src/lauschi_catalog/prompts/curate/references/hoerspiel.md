@@ -10,7 +10,8 @@ production signals that distinguish it from other content in the same catalog:
 
 - **Multiple voice actors** playing characters (not one narrator reading)
 - **Sound design**: foley, ambient sound, music score woven through the story
-- **Episode-length duration**: typically 30-70 minutes for one story
+- **One story per release**: anything from a seven-minute TV story to a
+  feature-length film. Length alone decides nothing
 - **Track structure**: on Spotify, 20-40 tracks (scenes/chapters within one
   episode). On Apple Music, 1-5 tracks (often one per CD side or a single file).
   Both are the same content, different packaging.
@@ -158,7 +159,7 @@ Content that belongs to a different content type entirely:
   with narrator passages IS a dramatized Hörspiel even though one
   narrator is credited. Before excluding anything titled "Hörspiel" as
   wrong_content_type, verify the production format from publisher or
-  review pages (web search), not from track names or store credits —
+  review pages (web search), not from track names or store credits,
   and if an album's notes record an operator verification, treat that
   as settled unless you have stronger new evidence.
 - **Soundtrack/score**: "Original Motion Picture Soundtrack", instrumental

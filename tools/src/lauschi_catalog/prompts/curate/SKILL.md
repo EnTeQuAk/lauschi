@@ -40,7 +40,7 @@ dramatization). These are different productions, separate `series.yaml` entries.
 | Title hints | "Lesung", "ungekürzt", "gelesen von …" | "Folge N:", "Original-Hörspiel" |
 | Track shape | Many tracks (chapters) on Spotify; few long on Apple Music | Few tracks per episode on both |
 | Track names | Sequential numbering only: "Teil 01", "Teil 02", ... "Teil 40" | Descriptive scene names: "Spuk in der Werkstatt, Teil 1" |
-| Duration | 3-12 h (whole book) | 30-70 min (one episode) |
+| Duration | Hours (a whole book) | One story, a few minutes to feature length |
 
 Example: Michael Ende's "Die unendliche Geschichte" read by Rufus Beck
 (116 tracks, one narrator) is a Hörbuch. "Die drei ??? Folge 1: Der
@@ -53,11 +53,12 @@ mixed-type content under one series.
 
 ## Phases
 
-1. **Metadata** — Extract series identity: id, title, episode_pattern,
+1. **Metadata**: Extract series identity: id, title, episode_pattern,
    content_type, provider artist IDs
-2. **Batch** — For each album: include or exclude, with episode_num
-3. **Finalize** — Resolve unnumbered albums, propose structural facts
+2. **Batch**: For each album: include or exclude, with episode_num
+3. **Finalize**: Resolve unnumbered albums, propose structural facts
    (era boundaries, gaps, sub-series)
+4. **Audit**: A second model reviews the curation against this skill
 
 Phase-specific instructions and output schemas are loaded separately.
 
@@ -65,10 +66,10 @@ Phase-specific instructions and output schemas are loaded separately.
 
 | Title shape | Track count | Duration | Action |
 |---|---|---|---|
-| Matches `episode_pattern` | Episode shape (1-5 Apple, 20-40 Spotify) | 20-60 min | Include |
+| Matches `episode_pattern` | Episode shape (1-5 Apple, 20-40 Spotify) | One story | Include |
 | Re-sells episodes that exist on their own ("Folge 1-10", "3er Box", "Jubiläumsbox") | Often high | Variable | Exclude (`compilation`) |
 | Single track, <5 min | 1 | <5 min | Exclude (`music_single` or `wrong_content_type`) |
-| "ungekürzt", "Lesung", "gelesen von" | Many tracks | 3-12 h | Exclude (`wrong_content_type`) in non-audiobook series |
+| "ungekürzt", "Lesung", "gelesen von" | Many tracks | Hours | Exclude (`wrong_content_type`) in non-audiobook series |
 | "Best of", "Greatest Hits", "Kinderparty" | Variable | Variable | Exclude (`compilation` or `multi_artist_compilation`) |
 | Instrumental, karaoke, sped-up, nightcore | Variable | Variable | Exclude (`format_variant`) |
 
@@ -85,9 +86,10 @@ Phase-specific instructions and output schemas are loaded separately.
   entry yet is still `sub_series_bleed`; the finalize phase turns your
   notes into a split proposal.
 - **Audiobook without title markers:** Not all audiobooks say "Lesung" or
-  "ungekürzt". Albums with 20+ sequential "Teil"/"Kapitel" tracks at 2-5
-  min each, no descriptive scene names, and 90+ minutes total are audiobook
-  readings. Exclude as `wrong_content_type` even without title hints.
+  "ungekürzt". Many sequential "Teil"/"Kapitel" tracks with no descriptive
+  scene names point to a reading, but track structure is a hint, never
+  proof: the type reference says what confirms it before you exclude as
+  `wrong_content_type`.
 
 ## Cross-provider consistency (critical rule)
 
@@ -163,7 +165,7 @@ Think of each piece of evidence as a vote:
 
 **Signals for inclusion:** title matches episode_pattern, track count fits
 the content type's shape (Hörspiel: 20-40 Spotify / 1-5 Apple Music),
-duration is episode-length (30-70 min), album_type is "album", the same
+the length fits one story rather than a whole book, album_type is "album", the same
 episode exists on the other provider.
 
 **Signals for exclusion:** title matches a named failure pattern (compilation,
@@ -193,6 +195,6 @@ An outside, publisher-fed index organises many brands into lines (the main Hörs
 
 - An album that sits in one of the index's lines belongs to that line. That settles sub-series membership faster than a keyword search.
 - The line names are the vocabulary for a split proposal.
-- It says nothing about episode numbers, and you do not derive any from it. Numbers come from the title or the track names.
+- It says nothing about episode numbers, and you do not derive any from it. Numbers come from the title, the track names, or the same album on the other provider.
 
 The index is not complete. It lags behind new releases by weeks and lists only what its owner licenses, so a title that is absent there proves nothing and is judged on its own.

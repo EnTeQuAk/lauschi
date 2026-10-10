@@ -1,8 +1,12 @@
 """Tests for the prompt loader."""
 
+import re
+from typing import get_args
+
 import pytest
 
-from lauschi_catalog.prompts import load_curate_skill
+from lauschi_catalog.catalog.curate_ops import ExcludeReason
+from lauschi_catalog.prompts import ContentType, load_curate_skill
 
 
 class TestLoadCurateSkill:
@@ -160,3 +164,21 @@ class TestFinalizeDoesNotNumberAlbums:
         p = load_curate_skill(phase="finalize", content_type="hoerspiel")
         assert "Episode numbers are not your job" in p
         assert "check the inline track listing" not in p
+
+
+@pytest.mark.parametrize("content_type", ["hoerspiel", "music", "audiobook"])
+def test_every_exclusion_the_prompt_names_is_a_reason_the_output_accepts(
+    content_type: ContentType,
+) -> None:
+    """The batch output only takes the ExcludeReason vocabulary, and an
+    off-vocabulary reason stored in a curation aborts the next run. A
+    reference that says "Exclude (`compilation_set`)" teaches the model a
+    value it cannot return."""
+    prompt = load_curate_skill(phase="batch", content_type=content_type)
+    named = {
+        token
+        for clause in re.findall(r"Exclude\**\s*\(([^)]*)\)", prompt)
+        for token in re.findall(r"`([a-z_]+)`", clause)
+    }
+    assert named, "the prompt names no exclusion at all"
+    assert named <= set(get_args(ExcludeReason))

@@ -45,24 +45,9 @@ Do not repeat the same search query. If a prior search already
 returned the albums for a cluster, use those album_ids directly.
 
 Propose a `sub_series` fact for each cluster not already covered by
-existing `sub_series` facts.
-
-When to split (bias toward splitting; users can group tiles later):
-
-- Distinct product lines for different ages ("Junior", "Minis",
-  "Kids", "Gute-Nacht-Geschichten" for bedtime vs daytime)
-- Film adaptations with distinct branding ("Kinofilm")
-- Music/vocal content in a Hörspiel series
-- Talk shows, meditations, guided journeys, ASMR, or other formats
-  that are clearly not dramatized Hörspiel episodes
-- Recognizable standalone works from author umbrella artists
-- Hörbuch (narrated) vs Hörspiel (dramatized) of the same title
-
-When NOT to split:
-
-- Adventskalender (group as one sub_series, not per-year)
-- Compilations/box sets (already excluded, not a product line)
-- Sonderfolgen/specials (keep in parent)
+existing `sub_series` facts. Whether a cluster is a split is decided by the
+split guidelines above. When a cluster fits them, propose it rather than
+hold back: a proposal moves nothing until a human accepts it.
 
 **Step 4: Gaps.** If the structural analysis lists gaps, check whether
 existing `known_gaps` cover them. For truly new gaps, use `web_search`

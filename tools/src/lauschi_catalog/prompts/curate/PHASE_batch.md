@@ -3,13 +3,18 @@
 You receive:
 - Series title and episode_pattern
 - Progress so far (included/excluded counts, prior episode numbers per provider)
-- A batch of albums with full metadata (XML: title, release_date, type, tracks_count, duration_min, label, artist, sample tracks)
+- A batch of albums with full metadata (XML: title, release_date, type, tracks_count, duration_min, label, artist, sample tracks, and `<episode_range>` for an album whose title names a run of episodes)
 
 For each album: decide include or exclude.
 
 **Apply the episode_pattern** to each title to extract episode_num:
 - Match: set episode_num to the captured integer
+- A title that names a run of episodes ("Folgen 6-10"): the first number of the run
 - No match: set episode_num to null (still include if it's a valid episode)
+
+After the batch, code reads every number again from the title, the track
+names and the same album on the other provider, and drops a number none of
+them supports. Never take a number from anywhere else.
 
 **Exclude with a named reason** from the failure taxonomy. The `exclude_reason`
 field is an enum; use exactly one of these values:
@@ -38,7 +43,7 @@ If the provided metadata for an album is insufficient to make a confident
 decision (e.g. missing track listing, unclear album type), call
 `get_album_details` to fetch the full data before deciding.
 
-**Output:** `BatchResult` — an `AlbumDecision` for EVERY album in the batch.
+**Output:** `BatchResult`, an `AlbumDecision` for EVERY album in the batch.
 
 ### Worked examples
 
