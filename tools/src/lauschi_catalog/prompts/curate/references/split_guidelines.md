@@ -166,6 +166,12 @@ page comes to you, and each one gets the same question: is it this line?
   is gone from the root. A claim therefore needs your full confidence:
   an include below `high` is treated as doubt and goes to the root.
 
+What your line is, you learn from the line index and the publisher, not
+from the albums you already hold. A word those share, like the line's
+name in brackets, marks its newer releases. Older releases of the same
+line often lack it, so a missing marker is no reason to leave an album
+to the root.
+
 For a split-off line the inclusion bias reads: in doubt, leave it to the
 root.
 

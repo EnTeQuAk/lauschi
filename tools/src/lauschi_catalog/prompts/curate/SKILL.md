@@ -198,4 +198,8 @@ An outside, publisher-fed index organises many brands into lines (the main Hörs
 - The line names are the vocabulary for a split proposal.
 - It says nothing about episode numbers, and you do not derive any from it. Numbers come from the title, the track names, or the same album on the other provider.
 
+The lookup also returns `products_without_a_line`: releases of the brand that the index holds and files under no line. They are the brand's, and the index does not say which line. Place each by what it shares with the titles that are in a line: the label, the running time, the form of the title.
+
+On an artist page that several catalog entries share (the prompt names sibling series, or says your series is a line split off from another), look the brand up before you decide the batch. Which line a title belongs to is a fact, and the titles alone often hide it: the older releases of a line came out before the line had its name, so they lack the word the newer titles carry.
+
 The index is not complete. It lags behind new releases by weeks and lists only what its owner licenses, so a title that is absent there proves nothing and is judged on its own.
