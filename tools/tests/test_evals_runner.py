@@ -22,6 +22,7 @@ from tests.evals.run_evals import (
     comparison_table,
     load_report,
     model_requests,
+    parse_arguments,
     results_path,
     save_report,
     summarize,
@@ -185,3 +186,9 @@ def test_saved_runs_are_put_side_by_side_per_case() -> None:
 
 def test_the_smoke_cases_exist() -> None:
     assert set(SMOKE_CASES) <= {case.name for case in load_cases()}
+
+
+def test_a_run_sends_no_more_cases_at_once_than_the_host_serves() -> None:
+    """The host's plan serves three requests at a time and queues the
+    rest. A fourth case waited 20 minutes for a slot and was refused."""
+    assert parse_arguments([]).max_concurrency == 3

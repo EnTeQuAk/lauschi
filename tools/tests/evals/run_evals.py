@@ -1,7 +1,7 @@
 """Run curation evals against the real model.
 
 Usage:
-    mise run catalog-evals                  # every case three times, four at once
+    mise run catalog-evals                  # every case three times, three at once
     mise run catalog-evals -- --smoke       # three quick cases once, to check the setup
     mise run catalog-evals -- --cases feuerwehrmann_sam_boxes --repeat 1 -v
     mise run catalog-evals -- --save        # keep the run as the baseline
@@ -28,7 +28,7 @@ import asyncio
 import re
 import sys
 from collections import Counter
-from collections.abc import Collection, Mapping
+from collections.abc import Collection, Mapping, Sequence
 from dataclasses import dataclass, replace
 from pathlib import Path
 
@@ -183,7 +183,7 @@ def model_requests(report: EvaluationReport) -> int:
     return int(sum(case.metrics.get("requests", 0) for case in report.cases))
 
 
-def main() -> None:
+def parse_arguments(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run catalog curation evals")
     parser.add_argument(
         "--cases",
@@ -205,8 +205,10 @@ def main() -> None:
     parser.add_argument(
         "--max-concurrency",
         type=int,
-        default=4,
-        help="Max concurrent eval cases (default: 4)",
+        default=3,
+        help="Max concurrent eval cases (default: 3, what the model host "
+        "serves at once: it queues a fourth request and refuses it after "
+        "20 minutes)",
     )
     parser.add_argument(
         "--save",
@@ -232,7 +234,11 @@ def main() -> None:
         action="store_true",
         help="Show inputs, outputs and reasons per case",
     )
-    args = parser.parse_args()
+    return parser.parse_args(argv)
+
+
+def main() -> None:
+    args = parse_arguments()
     if args.compare:
         Console().print(
             comparison_table({path.stem: load_report(path) for path in args.compare})
