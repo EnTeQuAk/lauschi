@@ -177,8 +177,10 @@ _OVERRIDES: dict[str, dict[str, ModelSettings]] = {
     # 570 at high, 562 and 568 at max. With ten more runs of the five
     # cases where low and high differed, low got 69 of 1,740 albums
     # wrong and high 68. A round took 2 minutes at low, 7 at high and
-    # 68 to 113 at max, so low it is. The vendor gives no sampling
-    # advice, so the pipeline's temperature 0 and seed stay.
+    # 68 to 113 at max, so low it is. The vendor advises temperature 1
+    # and top_p 0.95 (docs.z.ai/guides/vlm/glm-5.3-flash). Two rounds at
+    # low with those got 565 and 568 right, the same within the spread
+    # between rounds, so the pipeline's temperature 0 and seed stay.
     #
     # Finalize and audit take the same settings. Neither is measured,
     # and the host's default for them is the max effort the cases ruled
