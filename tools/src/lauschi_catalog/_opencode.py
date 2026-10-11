@@ -116,6 +116,8 @@ _PROFILES: dict[str, ModelProfile] = {
 }
 
 
+_PHASES = ("curate", "finalize", "audit")
+
 # Model-specific overrides. Keyed by model-name prefix; first match wins.
 # Use this to tune per-model behavior as we discover what each model
 # needs. Format: {prefix: {phase: ModelSettings(...)}}.
@@ -153,8 +155,13 @@ _OVERRIDES: dict[str, dict[str, ModelSettings]] = {
     # titles in 15 of 16 runs with it and in 9 of 16 at temperature 0,
     # and the other cases came out the same. Runs at temperature 0
     # differed from each other too, so nothing reproducible is given up.
-    "gemma4": {
-        "curate": ModelSettings(
+    #
+    # Finalize and audit take the same settings. Neither is measured,
+    # and the host's default for them is the thinking-off setting the
+    # cases ruled out for curate.
+    "gemma4": dict.fromkeys(
+        _PHASES,
+        ModelSettings(
             temperature=1.0,
             top_p=0.95,
             extra_body={"top_k": 64},
@@ -162,7 +169,7 @@ _OVERRIDES: dict[str, dict[str, ModelSettings]] = {
             max_tokens=32768,
             openai_reasoning_effort="high",
         ),
-    },
+    ),
     # GLM-5.3 always thinks. `reasoning_effort` picks low, high or max,
     # and without one the host runs max (ollama.com/library/glm-5.3-flash,
     # verified with hand requests 2026-10-11). On the eval cases the
@@ -172,14 +179,19 @@ _OVERRIDES: dict[str, dict[str, ModelSettings]] = {
     # wrong and high 68. A round took 2 minutes at low, 7 at high and
     # 68 to 113 at max, so low it is. The vendor gives no sampling
     # advice, so the pipeline's temperature 0 and seed stay.
-    "glm-5.3": {
-        "curate": ModelSettings(
+    #
+    # Finalize and audit take the same settings. Neither is measured,
+    # and the host's default for them is the max effort the cases ruled
+    # out for curate.
+    "glm-5.3": dict.fromkeys(
+        _PHASES,
+        ModelSettings(
             temperature=0.0,
             seed=42,
             max_tokens=32768,
             openai_reasoning_effort="low",
         ),
-    },
+    ),
     # GPT-5.6 Luna is a reasoning model with an explicit effort dial
     # (none/low/medium/high/xhigh/max). Verified against Zen's
     # /responses endpoint 2026-08-30: at "low" it returns

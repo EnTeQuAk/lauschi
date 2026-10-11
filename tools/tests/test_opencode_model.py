@@ -236,6 +236,17 @@ def test_glm_curates_at_low_thinking_effort() -> None:
     assert s.get("max_tokens") == 32768
 
 
+@pytest.mark.parametrize("model", ["gemma4:31b", "glm-5.3-flash"])
+def test_finalize_and_audit_take_the_measured_curate_settings(model: str) -> None:
+    """Only the curate settings of Gemma 4 and GLM-5.3 are measured.
+    Left to the host, Gemma would finalize and audit without thinking
+    and GLM at max effort, the two settings the eval cases ruled out
+    for curate."""
+    curate = get_model_settings("curate", model)
+    assert get_model_settings("finalize", model) == curate
+    assert get_model_settings("audit", model) == curate
+
+
 def test_deepseek_curates_at_the_hosts_default_thinking() -> None:
     """DeepSeek V4 Pro thinks unless `reasoning_effort` is `none`, and
     the pipeline's defaults send no effort. On the eval cases that got
