@@ -236,6 +236,20 @@ def test_glm_curates_at_low_thinking_effort() -> None:
     assert s.get("max_tokens") == 32768
 
 
+def test_deepseek_curates_at_the_hosts_default_thinking() -> None:
+    """DeepSeek V4 Pro thinks unless `reasoning_effort` is `none`, and
+    the pipeline's defaults send no effort. On the eval cases that got
+    571 of 585, 561 of 573 and 569 of 585 albums right, with 2, 0 and 3
+    albums of wrong content. With thinking off it shipped 6 of wrong
+    content, and high effort got 570 right for more than twice the
+    output tokens. So it needs no entry of its own."""
+    s = get_model_settings("curate", "deepseek-v4-pro:0813")
+    assert "openai_reasoning_effort" not in s
+    assert s.get("temperature") == 0.0
+    assert s.get("seed") == 42
+    assert s.get("max_tokens") == 32768
+
+
 def test_the_cli_owns_its_output() -> None:
     """pydantic-ai prints a first-run banner to stderr while no
     observability is configured. The catalog CLI writes progress and
