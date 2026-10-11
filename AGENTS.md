@@ -213,6 +213,11 @@ mise run catalog-evals -- --save-as "kimi-k2.6 round 2"
 mise run catalog-evals -- --compare tests/evals/baseline.json tests/evals/results/gemma4-31b.json
 ```
 
+A saved run also holds what the model answered per album: the decision,
+its reason, the confidence and the note. Search the saved runs for an album
+id to see how each model and round read it, which is where a prompt change
+starts. The model's thinking is only in the trace.
+
 The cases are files in `tools/tests/evals/fixtures/`. Every expectation
 names its source: the line index where it lists the title, a hand decision
 with its reason where it does not. To add one, run

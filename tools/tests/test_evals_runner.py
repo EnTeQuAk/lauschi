@@ -2,8 +2,8 @@
 
 A change to a prompt or a model is judged by what it does to the cases,
 so a run has to be kept and put next to a later one. The saved report
-holds the scores and the reasons, not the albums, which the case files
-hold already.
+holds the scores, the reasons and what the model answered per album,
+not the albums themselves, which the case files hold already.
 """
 
 import io
@@ -70,8 +70,26 @@ def test_a_saved_report_keeps_scores_and_reasons_but_not_the_albums(
     assert "included, expected exclude" in (
         case.assertions["decisions_correct"].reason or ""
     )
-    assert case.inputs is None and case.output is None and case.metadata is None
+    assert case.inputs is None and case.metadata is None
     assert "a big batch of albums" not in path.read_text()
+
+
+def test_a_saved_report_keeps_what_the_model_answered_per_album(
+    tmp_path: Path,
+) -> None:
+    """A score says an album went wrong. The decision with its reason,
+    confidence and note says how the model read it, which is what a
+    prompt change starts from, and the trace that also holds it expires."""
+    path = tmp_path / "baseline.json"
+
+    save_report(_run(ost_included=False), path)
+    (case,) = load_report(path).cases
+
+    answers = {album["album_id"]: album for album in case.output["albums"]}
+    assert answers["ep1"]["include"] is True
+    assert answers["ost"]["include"] is False
+    assert answers["ost"]["exclude_reason"] == "wrong_content_type"
+    assert {"confidence", "notes"} <= answers["ost"].keys()
 
 
 def test_a_saved_report_says_which_model_it_came_from(tmp_path: Path) -> None:

@@ -67,8 +67,11 @@ def save_report(
     report: EvaluationReport, path: Path, *, keep: Collection[str] = ()
 ) -> None:
     """Keep a run to compare later runs against: scores, assertions with
-    their reasons, metrics and durations per case. The albums and the
-    decisions stay out, the case files hold the albums already.
+    their reasons, metrics and durations per case, and what the model
+    answered per album (decision, reason, confidence, note). The answers
+    say how the model read an album, which is what a prompt change
+    starts from, and the trace that also holds them expires. The albums
+    stay out, the case files hold them already.
 
     A run of some cases replaces only those in a saved baseline. ``keep``
     names the cases that exist today: their saved runs stay, the runs of
@@ -88,10 +91,7 @@ def save_report(
         report,
         cases=[
             *kept,
-            *(
-                replace(case, inputs=None, metadata=None, output=None)
-                for case in report.cases
-            ),
+            *(replace(case, inputs=None, metadata=None) for case in report.cases),
         ],
         # the totals of one run say nothing about a merged baseline
         analyses=[] if kept else report.analyses,
