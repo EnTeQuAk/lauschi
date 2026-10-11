@@ -163,6 +163,23 @@ _OVERRIDES: dict[str, dict[str, ModelSettings]] = {
             openai_reasoning_effort="high",
         ),
     },
+    # GLM-5.3 always thinks. `reasoning_effort` picks low, high or max,
+    # and without one the host runs max (ollama.com/library/glm-5.3-flash,
+    # verified with hand requests 2026-10-11). On the eval cases the
+    # three got the same share right: 569 and 563 of 585 at low, 569 and
+    # 570 at high, 562 and 568 at max. With ten more runs of the five
+    # cases where low and high differed, low got 69 of 1,740 albums
+    # wrong and high 68. A round took 2 minutes at low, 7 at high and
+    # 68 to 113 at max, so low it is. The vendor gives no sampling
+    # advice, so the pipeline's temperature 0 and seed stay.
+    "glm-5.3": {
+        "curate": ModelSettings(
+            temperature=0.0,
+            seed=42,
+            max_tokens=32768,
+            openai_reasoning_effort="low",
+        ),
+    },
     # GPT-5.6 Luna is a reasoning model with an explicit effort dial
     # (none/low/medium/high/xhigh/max). Verified against Zen's
     # /responses endpoint 2026-08-30: at "low" it returns

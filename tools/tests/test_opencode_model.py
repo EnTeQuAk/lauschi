@@ -224,6 +224,18 @@ def test_gemma_curates_with_thinking_on_and_its_vendors_sampling() -> None:
     assert s.get("max_tokens") == 32768
 
 
+def test_glm_curates_at_low_thinking_effort() -> None:
+    """GLM-5.3 always thinks, at low, high or max, and the host's default
+    is max. On the eval cases the three efforts got the same share
+    right, and a round took 2 minutes at low, 7 at high and over an
+    hour at max."""
+    s = get_model_settings("curate", "glm-5.3-flash")
+    assert s.get("openai_reasoning_effort") == "low"
+    assert s.get("temperature") == 0.0
+    assert s.get("seed") == 42
+    assert s.get("max_tokens") == 32768
+
+
 def test_the_cli_owns_its_output() -> None:
     """pydantic-ai prints a first-run banner to stderr while no
     observability is configured. The catalog CLI writes progress and
