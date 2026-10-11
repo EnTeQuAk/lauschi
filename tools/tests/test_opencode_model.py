@@ -247,18 +247,26 @@ def test_finalize_and_audit_take_the_measured_curate_settings(model: str) -> Non
     assert get_model_settings("audit", model) == curate
 
 
-def test_deepseek_curates_at_the_hosts_default_thinking() -> None:
-    """DeepSeek V4 Pro thinks unless `reasoning_effort` is `none`, and
-    the pipeline's defaults send no effort. On the eval cases that got
-    571 of 585, 561 of 573 and 569 of 585 albums right, with 2, 0 and 3
-    albums of wrong content. With thinking off it shipped 6 of wrong
-    content, and high effort got 570 right for more than twice the
-    output tokens. So it needs no entry of its own."""
-    s = get_model_settings("curate", "deepseek-v4-pro:0813")
-    assert "openai_reasoning_effort" not in s
-    assert s.get("temperature") == 0.0
-    assert s.get("seed") == 42
-    assert s.get("max_tokens") == 32768
+def test_deepseek_names_its_low_thinking_effort() -> None:
+    """DeepSeek V4 Pro thinks at low, high or max, or not at all. The
+    host runs low when a request names no effort, the vendor's own API
+    high, so the effort is sent and a changed default cannot move the
+    results. On the eval cases low got 571 of 585, 561 of 573 and 569 of
+    585 albums right, with 2, 0 and 3 albums of wrong content. With
+    thinking off it shipped 6 of wrong content, and high got 570 right
+    for more than twice the output tokens."""
+    for phase in ("curate", "finalize", "audit"):
+        s = get_model_settings(phase, "deepseek-v4-pro:0813")
+        assert s.get("openai_reasoning_effort") == "low", phase
+
+
+@pytest.mark.parametrize("phase", ["curate", "finalize", "audit"])
+def test_deepseek_keeps_the_phase_defaults_besides_the_effort(phase: str) -> None:
+    """Its measured runs used the pipeline's defaults, so the entry adds
+    the effort and changes nothing else."""
+    named = dict(get_model_settings(phase, "deepseek-v4-pro:0813"))
+    assert named.pop("openai_reasoning_effort") == "low"
+    assert named == dict(get_model_settings(phase, "kimi-k2.6"))
 
 
 def test_the_cli_owns_its_output() -> None:

@@ -194,6 +194,25 @@ _OVERRIDES: dict[str, dict[str, ModelSettings]] = {
             openai_reasoning_effort="low",
         ),
     ),
+    # DeepSeek V4 Pro thinks at low, high or max, or not at all. Without
+    # an effort the host runs low (the model's entry at
+    # ollama.com/api/show, 2026-10-11) and the vendor's own API high, so
+    # the effort is named here and a changed default cannot move results
+    # and cost. Everything else is the phase default, which is what its
+    # eval rounds ran with: 571 of 585, 561 of 573 and 569 of 585 albums
+    # right without an effort, 563 of 574 with it named. With thinking
+    # off it shipped more wrong content, and high got 570 right for more
+    # than twice the output tokens.
+    #
+    # The vendor's API ignores temperature in thinking mode
+    # (api-docs.deepseek.com/api/create-chat-completion), and its rounds
+    # differ from each other, so temperature 0 and the seed buy no
+    # repeatable runs here.
+    "deepseek-v4": {
+        "curate": ModelSettings(**_DEFAULT_CURATE, openai_reasoning_effort="low"),
+        "finalize": ModelSettings(**_DEFAULT_FINALIZE, openai_reasoning_effort="low"),
+        "audit": ModelSettings(**_DEFAULT_AUDIT, openai_reasoning_effort="low"),
+    },
     # GPT-5.6 Luna is a reasoning model with an explicit effort dial
     # (none/low/medium/high/xhigh/max). Verified against Zen's
     # /responses endpoint 2026-08-30: at "low" it returns
