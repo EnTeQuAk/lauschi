@@ -140,6 +140,29 @@ _OVERRIDES: dict[str, dict[str, ModelSettings]] = {
             openai_reasoning_effort="low",
         ),
     },
+    # Gemma 4 answers without thinking unless asked to: the host's
+    # default for it is off, and `reasoning_effort` switches it on
+    # (verified with one hand request 2026-10-11, the thinking comes
+    # back in `message.reasoning`). It has no levels, any effort is on.
+    # Without thinking it shipped three Hörspiel albums in the Das Sams
+    # readings entry in every run of the eval cases.
+    #
+    # Sampling is the vendor's advice for every use of the model
+    # (ollama.com/library/gemma4), not the pipeline's temperature 0. On
+    # the eval cases a sub-series kept its hands off the main series'
+    # titles in 15 of 16 runs with it and in 9 of 16 at temperature 0,
+    # and the other cases came out the same. Runs at temperature 0
+    # differed from each other too, so nothing reproducible is given up.
+    "gemma4": {
+        "curate": ModelSettings(
+            temperature=1.0,
+            top_p=0.95,
+            extra_body={"top_k": 64},
+            seed=42,
+            max_tokens=32768,
+            openai_reasoning_effort="high",
+        ),
+    },
     # GPT-5.6 Luna is a reasoning model with an explicit effort dial
     # (none/low/medium/high/xhigh/max). Verified against Zen's
     # /responses endpoint 2026-08-30: at "low" it returns

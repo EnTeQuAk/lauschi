@@ -18,7 +18,12 @@ import pydantic_ai
 import pytest
 from pydantic_ai import InlineDefsJsonSchemaTransformer
 
-from lauschi_catalog._opencode import build_model, model_api_key, model_host
+from lauschi_catalog._opencode import (
+    build_model,
+    get_model_settings,
+    model_api_key,
+    model_host,
+)
 
 
 def test_helper_returns_chat_model_with_inline_defs_transformer():
@@ -204,6 +209,19 @@ def test_gpt_5_6_sends_no_sampling_parameters():
         s = get_model_settings(phase, "gpt-5.6-luna")
         assert "temperature" not in s, phase
         assert "seed" not in s, phase
+
+
+def test_gemma_curates_with_thinking_on_and_its_vendors_sampling() -> None:
+    """Gemma 4 answers without thinking unless asked to, and it got the
+    Das Sams case wrong in every run that way. With thinking on, the
+    vendor's sampling kept a sub-series from claiming the main series'
+    titles in 15 of 16 runs, temperature 0 in 9 of 16."""
+    s = get_model_settings("curate", "gemma4:31b")
+    assert s.get("openai_reasoning_effort") == "high"
+    assert s.get("temperature") == 1.0
+    assert s.get("top_p") == 0.95
+    assert s.get("extra_body") == {"top_k": 64}
+    assert s.get("max_tokens") == 32768
 
 
 def test_the_cli_owns_its_output() -> None:
