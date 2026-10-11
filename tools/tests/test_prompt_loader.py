@@ -168,8 +168,11 @@ class TestPolicyTeaching:
         """A sub-series keeps an album only at `high`. The model marked
         titles the line index places in the line `medium`, because the
         pattern gave them no number, and lost them to the main series."""
-        p = load_curate_skill(phase="batch", content_type="hoerspiel")
-        assert "It says\nnothing about the number." in p
+        skill = load_curate_skill(phase="batch", content_type="hoerspiel")
+        p = " ".join(skill.split())  # wording, whatever the line breaks
+        assert "nothing about the number, and nothing about what kind of release" in p
+        # two stories in one release made the model hedge on a title of its line
+        assert "is excluded for what it is" in p
         assert "yours with `high`, also when your pattern does not match it" in p
 
     def test_a_main_series_keeps_what_its_lines_saw_and_left(self):

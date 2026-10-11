@@ -173,10 +173,12 @@ line often lack it, so a missing marker is no reason to leave an album
 to the root.
 
 Your confidence answers that one question too: is it this line. It says
-nothing about the number. A title the line index lists in your line is
-yours with `high`, also when your pattern does not match it and it ships
-without a number. Keep `medium` and `low` for an album whose line you
-could not settle.
+nothing about the number, and nothing about what kind of release the
+album is. A title the line index lists in your line is yours with `high`,
+also when your pattern does not match it and it ships without a number.
+An album of your line that should not ship, a box that re-sells its
+episodes or a format variant, is excluded for what it is. Keep `medium`
+and `low` for an album whose line you could not settle.
 
 For a split-off line the inclusion bias reads: in doubt, leave it to the
 root.
