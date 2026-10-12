@@ -144,6 +144,18 @@ Individual special episodes ("Sonderfolge: Das Geheimnis der
 Geisterinsel") belong in the parent. They are one-off releases,
 not a product line. Include them, without a number.
 
+### A record label, or a title the reference index files under no line
+
+"EUROPA primo" and "EUROPA mini" are labels the publisher prints on an
+edition, and one label carries titles of several lines. A release the
+reference index holds for the brand and files under no line is in the same
+place: nothing says it is a line. Neither is a split candidate, and neither
+is `sub_series_bleed` for a line you would have to make up. An album
+excluded for a line that nobody has ships in no entry, and a parent who
+adds the series does not find it. Where it belongs to none of the lines
+above, it belongs in the parent: include it, without a number where the
+pattern gives none.
+
 ### Reissues and new recordings
 
 A new cast recording of the same series ("Pippi Langstrumpf, Die neue
@@ -195,7 +207,9 @@ passed on it, and then no entry ships it.
 The marker rules out the lines it names and nothing more. An album can
 still belong to a line that has not left it, or to a line that has no
 entry yet: then it is `sub_series_bleed`, with that line named in the
-notes. Only when every line it could belong to has left it, decide it
+notes. A line that has no entry yet is one this reference would split
+off, not a record label and not a single special. Only when every line
+it could belong to has left it, decide it
 as your own: include it, or exclude it for what it is (a compilation,
 a format variant, another type of content).
 
