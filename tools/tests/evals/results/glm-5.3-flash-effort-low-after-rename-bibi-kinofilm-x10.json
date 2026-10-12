@@ -1,0 +1,3073 @@
+{
+ "name": "run_batch_curation",
+ "cases": [
+  {
+   "name": "bibi_kinofilm_vs_soundtrack [1/10]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": {
+    "albums": [
+     {
+      "album_id": "1LueDXY6cF4HllLN8HfeqW",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Das Original Hörspiel zum Kinofilm",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2002-01-01",
+      "confidence": "high",
+      "notes": "Hörspiel zum 1. Kinofilm (66 min); matches reference index 'Filme' line ('Bibi Blocksberg', 66 min); belongs to sibling entry Bibi Blocksberg: Kinofilm",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.993984+00:00"
+     },
+     {
+      "album_id": "5MuK38H2p9v1O7mnVUMRTP",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2004-01-01",
+      "confidence": "high",
+      "notes": "Hörspiel zum 2. Kinofilm (70 min); matches reference index 'Filme' line ('Geheimnis der blauen Eulen', 70 min); belongs to sibling entry Bibi Blocksberg: Kinofilm",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.993984+00:00"
+     },
+     {
+      "album_id": "7HIgLk8Y8m3KQIFjPiYWQW",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Bibi als Krankenschwester",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2015-08-28",
+      "confidence": "high",
+      "notes": "'Kurzgeschichte' short story (10.7 min); belongs to sibling entry Bibi Blocksberg: Kurzgeschichten",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.993984+00:00"
+     },
+     {
+      "album_id": "1urP4nLKa3iooOSAKEfR4n",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Der Hexen-Imbiss",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2015-08-28",
+      "confidence": "high",
+      "notes": "'Kurzgeschichte' short story (10.9 min); belongs to sibling entry Bibi Blocksberg: Kurzgeschichten",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.993984+00:00"
+     },
+     {
+      "album_id": "1801200242",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg Titellied aus den 80ern - Single",
+      "exclude_reason": "music_single",
+      "release_date": "1980",
+      "confidence": "high",
+      "notes": "Theme song single, 1 track, 3.6 min",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.993984+00:00"
+     },
+     {
+      "album_id": "1228734010",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Das Original Hörspiel zum Kinofilm",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2002-01-01",
+      "confidence": "high",
+      "notes": "Apple Music counterpart of the 2002 Kinofilm Hörspiel; belongs to sibling entry Bibi Blocksberg: Kinofilm",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.993984+00:00"
+     },
+     {
+      "album_id": "1228748853",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2004-01-01",
+      "confidence": "high",
+      "notes": "Apple Music counterpart of the 2004 Kinofilm Hörspiel; belongs to sibling entry Bibi Blocksberg: Kinofilm",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.993984+00:00"
+     },
+     {
+      "album_id": "1144142594",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 100,
+      "title": "Folge 100: Die große Hexenparty",
+      "exclude_reason": null,
+      "release_date": "2010-01-01",
+      "confidence": "high",
+      "notes": "Main-series Folge 100, fills apple_music missing episode 100; cross-provider pair with Spotify Folge 100",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.993984+00:00"
+     },
+     {
+      "album_id": "1069102309",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Bibi als Krankenschwester - Single",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2015-08-28",
+      "confidence": "high",
+      "notes": "'Kurzgeschichte' short story; belongs to sibling entry Bibi Blocksberg: Kurzgeschichten",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.993984+00:00"
+     },
+     {
+      "album_id": "1069132584",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Der Hexen-Imbiss - Single",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2015-08-28",
+      "confidence": "high",
+      "notes": "'Kurzgeschichte' short story; belongs to sibling entry Bibi Blocksberg: Kurzgeschichten",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.993984+00:00"
+     },
+     {
+      "album_id": "1862241025",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Original Filmmusik aus dem Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2025-12-11",
+      "confidence": "high",
+      "notes": "Original Filmmusik (score) zum Kinofilm, instrumental film music, not a dramatized story",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.993984+00:00"
+     },
+     {
+      "album_id": "1851429423",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Das Original-Hörspiel zum Kinofilm)",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2025-12-12",
+      "confidence": "high",
+      "notes": "Original-Hörspiel zum Kinofilm 'Das große Hexentreffen' (78 min); matches reference index 'Filme' line; belongs to sibling entry Bibi Blocksberg: Kinofilm",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.993984+00:00"
+     },
+     {
+      "album_id": "1827953733",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Der Original-Soundtrack zum Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2025-12-12",
+      "confidence": "high",
+      "notes": "Original-Soundtrack zum Kinofilm: song album with karaoke versions, film music not a story",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.993984+00:00"
+     },
+     {
+      "album_id": "6798866356",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Die total verhexte Zeitreise (Das Original-Hörspiel zum Kinofilm)",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2026-09-25",
+      "confidence": "high",
+      "notes": "Original-Hörspiel zum Kinofilm 'Die total verhexte Zeitreise' (77 min); matches reference index 'Filme' line; belongs to sibling entry Bibi Blocksberg: Kinofilm",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.993984+00:00"
+     },
+     {
+      "album_id": "6782027563",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Die total verhexte Zeitreise (Der Original-Soundtrack zum Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2026-09-25",
+      "confidence": "high",
+      "notes": "Original-Soundtrack zum Kinofilm: song album with karaoke versions, film music not a story",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.993984+00:00"
+     }
+    ]
+   },
+   "metrics": {
+    "requests": 1,
+    "input_tokens": 31679,
+    "output_tokens": 2208,
+    "cache_read.input_tokens": 31552,
+    "cache_read_tokens": 31552
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "1 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 16.872342062,
+   "total_duration": 16.884044176,
+   "source_case_name": "bibi_kinofilm_vs_soundtrack",
+   "trace_id": "01a1311ea0290f20b17b849dff4f11e4",
+   "span_id": "472b91998d1bfa09",
+   "evaluator_failures": []
+  },
+  {
+   "name": "bibi_kinofilm_vs_soundtrack [2/10]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": {
+    "albums": [
+     {
+      "album_id": "1LueDXY6cF4HllLN8HfeqW",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": null,
+      "title": "Das Original Hörspiel zum Kinofilm",
+      "exclude_reason": null,
+      "release_date": "2002-01-01",
+      "confidence": "medium",
+      "notes": "Film-Hörspiel (2002 Kinofilm, 66 min, matches index 'Filme' line). All lines incl. Kinofilm left it, so it is decided as root content: include without episode number. Not a numbered main episode.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:54.697620+00:00"
+     },
+     {
+      "album_id": "5MuK38H2p9v1O7mnVUMRTP",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": null,
+      "title": "Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen",
+      "exclude_reason": null,
+      "release_date": "2004-01-01",
+      "confidence": "medium",
+      "notes": "Film-Hörspiel zum 2. Kinofilm (70 min, index 'Filme' line). Kinofilm entry passed on it; decided as root content, include without episode number.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:54.697620+00:00"
+     },
+     {
+      "album_id": "7HIgLk8Y8m3KQIFjPiYWQW",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Bibi als Krankenschwester",
+      "exclude_reason": null,
+      "release_date": "2015-08-28",
+      "confidence": "medium",
+      "notes": "Kurzgeschichte (10.7 min, 3 chapters). Kurzgeschichten line saw it and left it; not claimable as sub_series_bleed. Valid short dramatized story, include in root without number.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:54.697620+00:00"
+     },
+     {
+      "album_id": "1urP4nLKa3iooOSAKEfR4n",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Der Hexen-Imbiss",
+      "exclude_reason": null,
+      "release_date": "2015-08-28",
+      "confidence": "medium",
+      "notes": "Kurzgeschichte (10.9 min). Left by Kurzgeschichten line; decided as root content, include without number.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:54.697620+00:00"
+     },
+     {
+      "album_id": "1801200242",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg Titellied aus den 80ern - Single",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "1980",
+      "confidence": "high",
+      "notes": "Theme-song single (1 track, 3.6 min). Belongs to the brand's Musik line (index lists matching 2-3 min song singles); that line has no catalog entry yet, so flagged sub_series_bleed for a future music split.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:54.697620+00:00"
+     },
+     {
+      "album_id": "1228734010",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": null,
+      "title": "Das Original Hörspiel zum Kinofilm",
+      "exclude_reason": null,
+      "release_date": "2002-01-01",
+      "confidence": "medium",
+      "notes": "Apple Music packaging of the 2002 Kinofilm-Hörspiel; same content as spotify 1LueDXY6cF4HllLN8HfeqW. Include without number, consistent with Spotify decision.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:54.697620+00:00"
+     },
+     {
+      "album_id": "1228748853",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": null,
+      "title": "Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen",
+      "exclude_reason": null,
+      "release_date": "2004-01-01",
+      "confidence": "medium",
+      "notes": "Apple Music packaging of the 2. Kinofilm-Hörspiel; cross-provider pair with spotify 5MuK38H2p9v1O7mnVUMRTP. Include without number.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:54.697620+00:00"
+     },
+     {
+      "album_id": "1144142594",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 100,
+      "title": "Folge 100: Die große Hexenparty",
+      "exclude_reason": null,
+      "release_date": "2010-01-01",
+      "confidence": "high",
+      "notes": "Folge 100: Die große Hexenparty — matches ^Folge (\\d+):, 50 chapter tracks, 77 min, listed in the index Hörspiele line. Fills the apple_music gap at episode 100.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:54.697620+00:00"
+     },
+     {
+      "album_id": "1069102309",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Bibi als Krankenschwester - Single",
+      "exclude_reason": null,
+      "release_date": "2015-08-28",
+      "confidence": "medium",
+      "notes": "Apple Music packaging of 'Kurzgeschichte - Bibi als Krankenschwester'; cross-provider pair with spotify 7HIgLk8Y8m3KQIFjPiYWQW. Include without number ('- Single' suffix is store packaging, 3 chapters/10.7 min is a real story).",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:54.697620+00:00"
+     },
+     {
+      "album_id": "1069132584",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Der Hexen-Imbiss - Single",
+      "exclude_reason": null,
+      "release_date": "2015-08-28",
+      "confidence": "medium",
+      "notes": "Apple Music packaging of 'Kurzgeschichte - Der Hexen-Imbiss'; cross-provider pair with spotify 1urP4nLKa3iooOSAKEfR4n. Include without number.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:54.697620+00:00"
+     },
+     {
+      "album_id": "1862241025",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Original Filmmusik aus dem Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2025-12-11",
+      "confidence": "high",
+      "notes": "Original Filmmusik (instrumental score) — film music, not a dramatized story.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:54.697620+00:00"
+     },
+     {
+      "album_id": "1851429423",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Das Original-Hörspiel zum Kinofilm)",
+      "exclude_reason": null,
+      "release_date": "2025-12-12",
+      "confidence": "medium",
+      "notes": "Das große Hexentreffen Original-Hörspiel zum Kinofilm (78 min, index 'Filme' line). Kinofilm entry passed on it; decided as root content, include without episode number.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:54.697620+00:00"
+     },
+     {
+      "album_id": "1827953733",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Der Original-Soundtrack zum Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2025-12-12",
+      "confidence": "high",
+      "notes": "Original-Soundtrack zum Kinofilm: song album with karaoke versions — film music, not a Hörspiel story.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:54.697620+00:00"
+     },
+     {
+      "album_id": "6798866356",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Die total verhexte Zeitreise (Das Original-Hörspiel zum Kinofilm)",
+      "exclude_reason": null,
+      "release_date": "2026-09-25",
+      "confidence": "medium",
+      "notes": "Die total verhexte Zeitreise Original-Hörspiel zum Kinofilm (77 min, index 'Filme' line). Kinofilm entry passed on it; decided as root content, include without episode number.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:54.697620+00:00"
+     },
+     {
+      "album_id": "6782027563",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Die total verhexte Zeitreise (Der Original-Soundtrack zum Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2026-09-25",
+      "confidence": "high",
+      "notes": "Original-Soundtrack: song album with karaoke versions — film music, not a Hörspiel story.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:54.697620+00:00"
+     }
+    ]
+   },
+   "metrics": {
+    "requests": 1,
+    "input_tokens": 31679,
+    "output_tokens": 2896,
+    "cache_read.input_tokens": 31552,
+    "cache_read_tokens": 31552
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 0.3333333333333333,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 10,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": false,
+     "reason": "Wrong: spotify:1LueDXY6cF4HllLN8HfeqW (Das Original Hörspiel zum Kinofilm): included, expected exclude; spotify:5MuK38H2p9v1O7mnVUMRTP (Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen): included, expected exclude; spotify:7HIgLk8Y8m3KQIFjPiYWQW (Kurzgeschichte - Bibi als Krankenschwester): included, expected exclude; spotify:1urP4nLKa3iooOSAKEfR4n (Kurzgeschichte - Der Hexen-Imbiss): included, expected exclude; apple_music:1228734010 (Das Original Hörspiel zum Kinofilm): included, expected exclude; apple_music:1228748853 (Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen): included, expected exclude; apple_music:1069102309 (Kurzgeschichte - Bibi als Krankenschwester - Single): included, expected exclude; apple_music:1069132584 (Kurzgeschichte - Der Hexen-Imbiss - Single): included, expected exclude; apple_music:1851429423 (Bibi Blocksberg: Das große Hexentreffen (Das Original-Hörspiel zum Kinofilm)): included, expected exclude; apple_music:6798866356 (Bibi Blocksberg: Die total verhexte Zeitreise (Das Original-Hörspiel zum Kinofilm)): included, expected exclude",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": false,
+     "reason": "Wrong reasons: apple_music:1801200242: got 'sub_series_bleed', expected one of ['music_single']",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "1 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 21.371557679,
+   "total_duration": 21.383175354,
+   "source_case_name": "bibi_kinofilm_vs_soundtrack",
+   "trace_id": "01a1311ea0290f20b17b849dff4f11e4",
+   "span_id": "43dd1101f336e420",
+   "evaluator_failures": []
+  },
+  {
+   "name": "bibi_kinofilm_vs_soundtrack [3/10]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": {
+    "albums": [
+     {
+      "album_id": "1LueDXY6cF4HllLN8HfeqW",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Das Original Hörspiel zum Kinofilm",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2002-01-01",
+      "confidence": "high",
+      "notes": "Film-Hörspiel (2002, 66.8 min) matches index line 'Filme' ('Bibi Blocksberg', 66 min); belongs to sibling entry Bibi Blocksberg: Kinofilm, which did not see this album",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.946646+00:00"
+     },
+     {
+      "album_id": "5MuK38H2p9v1O7mnVUMRTP",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2004-01-01",
+      "confidence": "high",
+      "notes": "Film-Hörspiel zum 2. Kinofilm (70.2 min) matches index line 'Filme' ('und das Geheimnis der blauen Eulen', 70 min); belongs to Bibi Blocksberg: Kinofilm",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.946646+00:00"
+     },
+     {
+      "album_id": "7HIgLk8Y8m3KQIFjPiYWQW",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Bibi als Krankenschwester",
+      "exclude_reason": null,
+      "release_date": "2015-08-28",
+      "confidence": "medium",
+      "notes": "Left by the Kurzgeschichten line itself, so not that line's; short dramatized story (3 chapters, ~11 min), valid root content without episode number",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.946646+00:00"
+     },
+     {
+      "album_id": "1urP4nLKa3iooOSAKEfR4n",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Der Hexen-Imbiss",
+      "exclude_reason": null,
+      "release_date": "2015-08-28",
+      "confidence": "medium",
+      "notes": "Left by the Kurzgeschichten line itself; short dramatized story (3 chapters, ~11 min), valid root content without episode number",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.946646+00:00"
+     },
+     {
+      "album_id": "1801200242",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg Titellied aus den 80ern - Single",
+      "exclude_reason": "music_single",
+      "release_date": "1980",
+      "confidence": "high",
+      "notes": "Theme song single, 1 track, 3.6 min; matches index 'Musik' line",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.946646+00:00"
+     },
+     {
+      "album_id": "1228734010",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Das Original Hörspiel zum Kinofilm",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2002-01-01",
+      "confidence": "high",
+      "notes": "Apple Music edition of the 2002 film Hörspiel; belongs to Bibi Blocksberg: Kinofilm (index line 'Filme')",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.946646+00:00"
+     },
+     {
+      "album_id": "1228748853",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2004-01-01",
+      "confidence": "high",
+      "notes": "Apple Music edition of the 2004 film Hörspiel; belongs to Bibi Blocksberg: Kinofilm (index line 'Filme')",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.946646+00:00"
+     },
+     {
+      "album_id": "1144142594",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 100,
+      "title": "Folge 100: Die große Hexenparty",
+      "exclude_reason": null,
+      "release_date": "2010-01-01",
+      "confidence": "high",
+      "notes": "Main-series episode 100 (index 'Hörspiele' line: Die große Hexenparty, 77 min); fills apple_music gap at episode 100",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.946646+00:00"
+     },
+     {
+      "album_id": "1069102309",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Bibi als Krankenschwester - Single",
+      "exclude_reason": null,
+      "release_date": "2015-08-28",
+      "confidence": "medium",
+      "notes": "Cross-provider pair of spotify 7HIgLk8Y8m3KQIFjPiYWQW; left by Kurzgeschichten line, valid short story, no episode number",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.946646+00:00"
+     },
+     {
+      "album_id": "1069132584",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Der Hexen-Imbiss - Single",
+      "exclude_reason": null,
+      "release_date": "2015-08-28",
+      "confidence": "medium",
+      "notes": "Cross-provider pair of spotify 1urP4nLKa3iooOSAKEfR4n; left by Kurzgeschichten line, valid short story, no episode number",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.946646+00:00"
+     },
+     {
+      "album_id": "1862241025",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Original Filmmusik aus dem Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2025-12-11",
+      "confidence": "high",
+      "notes": "Original Filmmusik (instrumental score), not a story",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.946646+00:00"
+     },
+     {
+      "album_id": "1851429423",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Das Original-Hörspiel zum Kinofilm)",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2025-12-12",
+      "confidence": "high",
+      "notes": "Original-Hörspiel zum Kinofilm 'Das große Hexentreffen' (78 min); index line 'Filme'; belongs to Bibi Blocksberg: Kinofilm",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.946646+00:00"
+     },
+     {
+      "album_id": "1827953733",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Der Original-Soundtrack zum Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2025-12-12",
+      "confidence": "high",
+      "notes": "Original-Soundtrack zum Kinofilm: film songs + karaoke versions, not a story",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.946646+00:00"
+     },
+     {
+      "album_id": "6798866356",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Die total verhexte Zeitreise (Das Original-Hörspiel zum Kinofilm)",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2026-09-25",
+      "confidence": "high",
+      "notes": "Original-Hörspiel zum Kinofilm 'Die total verhexte Zeitreise' (77 min); index line 'Filme'; belongs to Bibi Blocksberg: Kinofilm",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.946646+00:00"
+     },
+     {
+      "album_id": "6782027563",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Die total verhexte Zeitreise (Der Original-Soundtrack zum Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2026-09-25",
+      "confidence": "high",
+      "notes": "Original-Soundtrack zum Kinofilm: film songs + karaoke versions, not a story",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.946646+00:00"
+     }
+    ]
+   },
+   "metrics": {
+    "requests": 1,
+    "input_tokens": 31679,
+    "output_tokens": 2038,
+    "cache_read.input_tokens": 31552,
+    "cache_read_tokens": 31552
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 0.7333333333333333,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 4,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": false,
+     "reason": "Wrong: spotify:7HIgLk8Y8m3KQIFjPiYWQW (Kurzgeschichte - Bibi als Krankenschwester): included, expected exclude; spotify:1urP4nLKa3iooOSAKEfR4n (Kurzgeschichte - Der Hexen-Imbiss): included, expected exclude; apple_music:1069102309 (Kurzgeschichte - Bibi als Krankenschwester - Single): included, expected exclude; apple_music:1069132584 (Kurzgeschichte - Der Hexen-Imbiss - Single): included, expected exclude",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "1 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 15.558857072,
+   "total_duration": 15.570062772,
+   "source_case_name": "bibi_kinofilm_vs_soundtrack",
+   "trace_id": "01a1311ea0290f20b17b849dff4f11e4",
+   "span_id": "ec25d3c59c0f3289",
+   "evaluator_failures": []
+  },
+  {
+   "name": "bibi_kinofilm_vs_soundtrack [4/10]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": {
+    "albums": [
+     {
+      "album_id": "1LueDXY6cF4HllLN8HfeqW",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Das Original Hörspiel zum Kinofilm",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2002-01-01",
+      "confidence": "high",
+      "notes": "Das Original Hörspiel zum Kinofilm (2002, 66.8 min) = Filme line 'Bibi Blocksberg (66 min)'; belongs to sibling entry Bibi Blocksberg: Kinofilm",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.474975+00:00"
+     },
+     {
+      "album_id": "5MuK38H2p9v1O7mnVUMRTP",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2004-01-01",
+      "confidence": "high",
+      "notes": "Hörspiel zum 2. Kinofilm (70.2 min) = Filme line 'Geheimnis der blauen Eulen (70 min)'; belongs to Bibi Blocksberg: Kinofilm",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.474975+00:00"
+     },
+     {
+      "album_id": "7HIgLk8Y8m3KQIFjPiYWQW",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Bibi als Krankenschwester",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2015-08-28",
+      "confidence": "high",
+      "notes": "'Kurzgeschichte - Bibi als Krankenschwester' (10.7 min) belongs to the sibling entry Bibi Blocksberg: Kurzgeschichten",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.474975+00:00"
+     },
+     {
+      "album_id": "1urP4nLKa3iooOSAKEfR4n",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Der Hexen-Imbiss",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2015-08-28",
+      "confidence": "high",
+      "notes": "'Kurzgeschichte - Der Hexen-Imbiss' belongs to Bibi Blocksberg: Kurzgeschichten",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.474975+00:00"
+     },
+     {
+      "album_id": "1801200242",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg Titellied aus den 80ern - Single",
+      "exclude_reason": "music_single",
+      "release_date": "1980",
+      "confidence": "high",
+      "notes": "Theme song single, 1 track, 3.6 min; belongs to the Musik line",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.474975+00:00"
+     },
+     {
+      "album_id": "1228734010",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Das Original Hörspiel zum Kinofilm",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2002-01-01",
+      "confidence": "high",
+      "notes": "Apple Music edition of the 2002 Kinofilm Hörspiel; belongs to Bibi Blocksberg: Kinofilm (cross-provider pair with spotify 1LueDXY6cF4HllLN8HfeqW)",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.474975+00:00"
+     },
+     {
+      "album_id": "1228748853",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2004-01-01",
+      "confidence": "high",
+      "notes": "Apple Music edition of the 2. Kinofilm Hörspiel; belongs to Bibi Blocksberg: Kinofilm",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.474975+00:00"
+     },
+     {
+      "album_id": "1144142594",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 100,
+      "title": "Folge 100: Die große Hexenparty",
+      "exclude_reason": null,
+      "release_date": "2010-01-01",
+      "confidence": "high",
+      "notes": "Folge 100: Die große Hexenparty — matches ^Folge (\\d+):, listed in the Hörspiele line (77 min), fills the apple_music episode-100 gap",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.474975+00:00"
+     },
+     {
+      "album_id": "1069102309",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Bibi als Krankenschwester - Single",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2015-08-28",
+      "confidence": "high",
+      "notes": "'Kurzgeschichte - Bibi als Krankenschwester - Single' belongs to Bibi Blocksberg: Kurzgeschichten",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.474975+00:00"
+     },
+     {
+      "album_id": "1069132584",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Der Hexen-Imbiss - Single",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2015-08-28",
+      "confidence": "high",
+      "notes": "'Kurzgeschichte - Der Hexen-Imbiss - Single' belongs to Bibi Blocksberg: Kurzgeschichten",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.474975+00:00"
+     },
+     {
+      "album_id": "1862241025",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Original Filmmusik aus dem Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2025-12-11",
+      "confidence": "high",
+      "notes": "Original Filmmusik (score/soundtrack), instrumental film music, not a dramatized story",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.474975+00:00"
+     },
+     {
+      "album_id": "1851429423",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Das Original-Hörspiel zum Kinofilm)",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2025-12-12",
+      "confidence": "high",
+      "notes": "Das große Hexentreffen Original-Hörspiel zum Kinofilm (78 min) = Filme line; belongs to Bibi Blocksberg: Kinofilm",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.474975+00:00"
+     },
+     {
+      "album_id": "1827953733",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Der Original-Soundtrack zum Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2025-12-12",
+      "confidence": "high",
+      "notes": "Original-Soundtrack zum Kinofilm: songs + karaoke versions, film music not a story",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.474975+00:00"
+     },
+     {
+      "album_id": "6798866356",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Die total verhexte Zeitreise (Das Original-Hörspiel zum Kinofilm)",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2026-09-25",
+      "confidence": "high",
+      "notes": "Die total verhexte Zeitreise Original-Hörspiel zum Kinofilm (77 min) = Filme line; belongs to Bibi Blocksberg: Kinofilm",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.474975+00:00"
+     },
+     {
+      "album_id": "6782027563",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Die total verhexte Zeitreise (Der Original-Soundtrack zum Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2026-09-25",
+      "confidence": "high",
+      "notes": "Original-Soundtrack zum Kinofilm: songs + karaoke versions, film music not a story",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:48.474975+00:00"
+     }
+    ]
+   },
+   "metrics": {
+    "requests": 1,
+    "input_tokens": 31679,
+    "output_tokens": 1999,
+    "cache_read.input_tokens": 31552,
+    "cache_read_tokens": 31552
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "1 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 15.024343737,
+   "total_duration": 15.036077461,
+   "source_case_name": "bibi_kinofilm_vs_soundtrack",
+   "trace_id": "01a1311ea0290f20b17b849dff4f11e4",
+   "span_id": "392b8bd56b9dae06",
+   "evaluator_failures": []
+  },
+  {
+   "name": "bibi_kinofilm_vs_soundtrack [5/10]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": {
+    "albums": [
+     {
+      "album_id": "1LueDXY6cF4HllLN8HfeqW",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Das Original Hörspiel zum Kinofilm",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2002-01-01",
+      "confidence": "high",
+      "notes": "Hörspiel zum 1. Kinofilm (2002, 66 min) — matches the reference index 'Filme' line title 'Bibi Blocksberg (66 min)'. Belongs to the Kinofilm sibling entry, not the main Hörspiel series.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.374162+00:00"
+     },
+     {
+      "album_id": "5MuK38H2p9v1O7mnVUMRTP",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2004-01-01",
+      "confidence": "high",
+      "notes": "Hörspiel zum 2. Kinofilm (70 min) — matches 'Filme' line title 'und das Geheimnis der blauen Eulen (70 min)'. Belongs to the Kinofilm sibling entry.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.374162+00:00"
+     },
+     {
+      "album_id": "7HIgLk8Y8m3KQIFjPiYWQW",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Bibi als Krankenschwester",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2015-08-28",
+      "confidence": "high",
+      "notes": "Kurzgeschichte (10 min, 3 chapters) — belongs to the Kurzgeschichten sibling line, which has its own catalog entry.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.374162+00:00"
+     },
+     {
+      "album_id": "1urP4nLKa3iooOSAKEfR4n",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Der Hexen-Imbiss",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2015-08-28",
+      "confidence": "high",
+      "notes": "Kurzgeschichte (10 min) — belongs to the Kurzgeschichten sibling line.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.374162+00:00"
+     },
+     {
+      "album_id": "1801200242",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg Titellied aus den 80ern - Single",
+      "exclude_reason": "music_single",
+      "release_date": "1980",
+      "confidence": "high",
+      "notes": "Single, 1 track, 3.6 min theme song — music, not a Hörspiel episode.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.374162+00:00"
+     },
+     {
+      "album_id": "1228734010",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Das Original Hörspiel zum Kinofilm",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2002-01-01",
+      "confidence": "high",
+      "notes": "Apple Music packaging of the 1. Kinofilm Hörspiel — belongs to the Kinofilm sibling entry (cross-provider pair with spotify 1LueDXY6cF4HllLN8HfeqW).",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.374162+00:00"
+     },
+     {
+      "album_id": "1228748853",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2004-01-01",
+      "confidence": "high",
+      "notes": "Apple Music packaging of the 2. Kinofilm Hörspiel — belongs to the Kinofilm sibling entry.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.374162+00:00"
+     },
+     {
+      "album_id": "1144142594",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 100,
+      "title": "Folge 100: Die große Hexenparty",
+      "exclude_reason": null,
+      "release_date": "2010-01-01",
+      "confidence": "high",
+      "notes": "Main-series episode 100 (Die große Hexenparty, listed in the Hörspiele reference line). Fills the apple_music gap at episode 100. Leading 'Bibi Blocksberg Lied' track is the standard title track.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.374162+00:00"
+     },
+     {
+      "album_id": "1069102309",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Bibi als Krankenschwester - Single",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2015-08-28",
+      "confidence": "high",
+      "notes": "Kurzgeschichte - Single — belongs to the Kurzgeschichten sibling line.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.374162+00:00"
+     },
+     {
+      "album_id": "1069132584",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Der Hexen-Imbiss - Single",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2015-08-28",
+      "confidence": "high",
+      "notes": "Kurzgeschichte - Single — belongs to the Kurzgeschichten sibling line.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.374162+00:00"
+     },
+     {
+      "album_id": "1862241025",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Original Filmmusik aus dem Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2025-12-11",
+      "confidence": "high",
+      "notes": "Original Filmmusik (instrumental score) — film music, not a dramatized story. The Kinofilm line passed on it; excluded as soundtrack.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.374162+00:00"
+     },
+     {
+      "album_id": "1851429423",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Das Original-Hörspiel zum Kinofilm)",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2025-12-12",
+      "confidence": "high",
+      "notes": "Das Original-Hörspiel zum Kinofilm 'Das große Hexentreffen' (78 min) — matches the 'Filme' reference line. Belongs to the Kinofilm sibling entry.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.374162+00:00"
+     },
+     {
+      "album_id": "1827953733",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Der Original-Soundtrack zum Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2025-12-12",
+      "confidence": "high",
+      "notes": "Original-Soundtrack zum Kinofilm — songs/karaoke versions, film music not a story.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.374162+00:00"
+     },
+     {
+      "album_id": "6798866356",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Die total verhexte Zeitreise (Das Original-Hörspiel zum Kinofilm)",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2026-09-25",
+      "confidence": "high",
+      "notes": "Das Original-Hörspiel zum Kinofilm 'Die total verhexte Zeitreise' (77 min) — matches the 'Filme' reference line. Belongs to the Kinofilm sibling entry.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.374162+00:00"
+     },
+     {
+      "album_id": "6782027563",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Die total verhexte Zeitreise (Der Original-Soundtrack zum Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2026-09-25",
+      "confidence": "high",
+      "notes": "Original-Soundtrack zum Kinofilm — songs plus karaoke versions, film music not a story.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.374162+00:00"
+     }
+    ]
+   },
+   "metrics": {
+    "requests": 1,
+    "input_tokens": 31679,
+    "output_tokens": 1812,
+    "cache_read.input_tokens": 31552,
+    "cache_read_tokens": 31552
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "1 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 12.875827356,
+   "total_duration": 12.887433151,
+   "source_case_name": "bibi_kinofilm_vs_soundtrack",
+   "trace_id": "01a1311ea0290f20b17b849dff4f11e4",
+   "span_id": "1277e99285413970",
+   "evaluator_failures": []
+  },
+  {
+   "name": "bibi_kinofilm_vs_soundtrack [6/10]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": {
+    "albums": [
+     {
+      "album_id": "1LueDXY6cF4HllLN8HfeqW",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Das Original Hörspiel zum Kinofilm",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2002-01-01",
+      "confidence": "high",
+      "notes": "Das Original Hörspiel zum Kinofilm (2002) belongs to the 'Bibi Blocksberg: Kinofilm' sibling entry, which exists as its own catalog entry and did not see this album (no left_by marker from it).",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.354335+00:00"
+     },
+     {
+      "album_id": "5MuK38H2p9v1O7mnVUMRTP",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2004-01-01",
+      "confidence": "high",
+      "notes": "Hörspiel zum 2. Kinofilm (Geheimnis der blauen Eulen) belongs to the 'Bibi Blocksberg: Kinofilm' sibling entry.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.354335+00:00"
+     },
+     {
+      "album_id": "7HIgLk8Y8m3KQIFjPiYWQW",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Bibi als Krankenschwester",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2015-08-28",
+      "confidence": "high",
+      "notes": "Kurzgeschichte 'Bibi als Krankenschwester' matches the 'Bibi Blocksberg: Kurzgeschichten' line (short ~10 min story format); that line has its own catalog entry and did not leave a marker here.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.354335+00:00"
+     },
+     {
+      "album_id": "1urP4nLKa3iooOSAKEfR4n",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Der Hexen-Imbiss",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2015-08-28",
+      "confidence": "high",
+      "notes": "Kurzgeschichte 'Der Hexen-Imbiss' belongs to the 'Bibi Blocksberg: Kurzgeschichten' line.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.354335+00:00"
+     },
+     {
+      "album_id": "1801200242",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg Titellied aus den 80ern - Single",
+      "exclude_reason": "music_single",
+      "release_date": "1980",
+      "confidence": "high",
+      "notes": "Single track, 3.6 min, theme song ('Titellied'), album_type=single.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.354335+00:00"
+     },
+     {
+      "album_id": "1228734010",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Das Original Hörspiel zum Kinofilm",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2002-01-01",
+      "confidence": "high",
+      "notes": "Apple Music edition of the 2002 Kinofilm Hörspiel; belongs to 'Bibi Blocksberg: Kinofilm'.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.354335+00:00"
+     },
+     {
+      "album_id": "1228748853",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2004-01-01",
+      "confidence": "high",
+      "notes": "Apple Music edition of the 2004 Kinofilm Hörspiel; belongs to 'Bibi Blocksberg: Kinofilm'.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.354335+00:00"
+     },
+     {
+      "album_id": "1144142594",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 100,
+      "title": "Folge 100: Die große Hexenparty",
+      "exclude_reason": null,
+      "release_date": "2010-01-01",
+      "confidence": "high",
+      "notes": "Folge 100: Die große Hexenparty — matches ^Folge (\\d+):, main-series episode (index lists it in the Hörspiele line, 77 min). Cross-provider pair with the Spotify Folge 100.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.354335+00:00"
+     },
+     {
+      "album_id": "1069102309",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Bibi als Krankenschwester - Single",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2015-08-28",
+      "confidence": "high",
+      "notes": "Kurzgeschichte 'Bibi als Krankenschwester' (Apple Music edition) belongs to 'Bibi Blocksberg: Kurzgeschichten'.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.354335+00:00"
+     },
+     {
+      "album_id": "1069132584",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Der Hexen-Imbiss - Single",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2015-08-28",
+      "confidence": "high",
+      "notes": "Kurzgeschichte 'Der Hexen-Imbiss' (Apple Music edition) belongs to 'Bibi Blocksberg: Kurzgeschichten'.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.354335+00:00"
+     },
+     {
+      "album_id": "1862241025",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Original Filmmusik aus dem Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2025-12-11",
+      "confidence": "high",
+      "notes": "Original Filmmusik (score) for Das große Hexentreffen — instrumental film music, not a dramatized story.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.354335+00:00"
+     },
+     {
+      "album_id": "1851429423",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Das Original-Hörspiel zum Kinofilm)",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2025-12-12",
+      "confidence": "high",
+      "notes": "Das Original-Hörspiel zum Kinofilm 'Das große Hexentreffen' (2025) belongs to the 'Bibi Blocksberg: Kinofilm' entry (index lists it in the Filme line).",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.354335+00:00"
+     },
+     {
+      "album_id": "1827953733",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Der Original-Soundtrack zum Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2025-12-12",
+      "confidence": "high",
+      "notes": "Original-Soundtrack zum Kinofilm — song album with karaoke versions; film music, not a Hörspiel story.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.354335+00:00"
+     },
+     {
+      "album_id": "6798866356",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Die total verhexte Zeitreise (Das Original-Hörspiel zum Kinofilm)",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2026-09-25",
+      "confidence": "high",
+      "notes": "Das Original-Hörspiel zum Kinofilm 'Die total verhexte Zeitreise' (2026) belongs to the 'Bibi Blocksberg: Kinofilm' entry (index lists it in the Filme line).",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.354335+00:00"
+     },
+     {
+      "album_id": "6782027563",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Die total verhexte Zeitreise (Der Original-Soundtrack zum Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2026-09-25",
+      "confidence": "high",
+      "notes": "Original-Soundtrack zum Kinofilm 'Die total verhexte Zeitreise' — song/karaoke album, film music not a story.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:49.354335+00:00"
+     }
+    ]
+   },
+   "metrics": {
+    "requests": 1,
+    "input_tokens": 31679,
+    "output_tokens": 2109,
+    "cache_read.input_tokens": 31552,
+    "cache_read_tokens": 31552
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "1 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 15.807350092,
+   "total_duration": 15.818935447,
+   "source_case_name": "bibi_kinofilm_vs_soundtrack",
+   "trace_id": "01a1311ea0290f20b17b849dff4f11e4",
+   "span_id": "049bfa5eced6671a",
+   "evaluator_failures": []
+  },
+  {
+   "name": "bibi_kinofilm_vs_soundtrack [7/10]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": {
+    "albums": [
+     {
+      "album_id": "1LueDXY6cF4HllLN8HfeqW",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Das Original Hörspiel zum Kinofilm",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2002-01-01",
+      "confidence": "high",
+      "notes": "Hörspiel zum 1. Kinofilm (2002, 66 min) matches the reference index 'Filme' line ('Bibi Blocksberg', 66 min); belongs to the Kinofilm sibling entry, which has not left it.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.323885+00:00"
+     },
+     {
+      "album_id": "5MuK38H2p9v1O7mnVUMRTP",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2004-01-01",
+      "confidence": "high",
+      "notes": "Hörspiel zum 2. Kinofilm (70 min) matches the reference index 'Filme' line ('Bibi Blocksberg und das Geheimnis der blauen Eulen', 70 min); belongs to the Kinofilm sibling entry.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.323885+00:00"
+     },
+     {
+      "album_id": "7HIgLk8Y8m3KQIFjPiYWQW",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Bibi als Krankenschwester",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2015-08-28",
+      "confidence": "high",
+      "notes": "Short 'Kurzgeschichte' release (~11 min, 3 chapters) matches the Kurzgeschichten sibling entry, which has not left it; not a main-series Folge.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.323885+00:00"
+     },
+     {
+      "album_id": "1urP4nLKa3iooOSAKEfR4n",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Der Hexen-Imbiss",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2015-08-28",
+      "confidence": "high",
+      "notes": "Short 'Kurzgeschichte' release (~11 min) belongs to the Kurzgeschichten sibling entry, which has not left it.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.323885+00:00"
+     },
+     {
+      "album_id": "1801200242",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg Titellied aus den 80ern - Single",
+      "exclude_reason": "music_single",
+      "release_date": "1980",
+      "confidence": "high",
+      "notes": "Single track, 3.6 min, theme song ('Titellied'), album_type=single; matches the Musik line of the brand.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.323885+00:00"
+     },
+     {
+      "album_id": "1228734010",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Das Original Hörspiel zum Kinofilm",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2002-01-01",
+      "confidence": "high",
+      "notes": "Apple Music version of the 2002 Kinofilm Hörspiel (66 min, Filme line); belongs to the Kinofilm sibling entry.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.323885+00:00"
+     },
+     {
+      "album_id": "1228748853",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2004-01-01",
+      "confidence": "high",
+      "notes": "Apple Music version of the 2. Kinofilm Hörspiel (70 min, Filme line); belongs to the Kinofilm sibling entry.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.323885+00:00"
+     },
+     {
+      "album_id": "1144142594",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 100,
+      "title": "Folge 100: Die große Hexenparty",
+      "exclude_reason": null,
+      "release_date": "2010-01-01",
+      "confidence": "high",
+      "notes": "Main-series Folge 100 'Die große Hexenparty' (77 min), listed in the reference index Hörspiele line; fills the apple_music gap at episode 100. Cross-provider pair with the Spotify Folge 100.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.323885+00:00"
+     },
+     {
+      "album_id": "1069102309",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Bibi als Krankenschwester - Single",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2015-08-28",
+      "confidence": "high",
+      "notes": "Apple Music packaging of the Kurzgeschichte 'Bibi als Krankenschwester'; belongs to the Kurzgeschichten sibling entry, which has not left it.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.323885+00:00"
+     },
+     {
+      "album_id": "1069132584",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Der Hexen-Imbiss - Single",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2015-08-28",
+      "confidence": "high",
+      "notes": "Apple Music packaging of the Kurzgeschichte 'Der Hexen-Imbiss'; belongs to the Kurzgeschichten sibling entry, which has not left it.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.323885+00:00"
+     },
+     {
+      "album_id": "1862241025",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Original Filmmusik aus dem Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2025-12-11",
+      "confidence": "high",
+      "notes": "Original Filmmusik (instrumental score) to the Kinofilm 'Das große Hexentreffen' — film music, not a story; per split guidelines the soundtrack is excluded, only the Hörspiel zum Kinofilm is a kinofilm child.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.323885+00:00"
+     },
+     {
+      "album_id": "1851429423",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Das Original-Hörspiel zum Kinofilm)",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2025-12-12",
+      "confidence": "high",
+      "notes": "Original-Hörspiel zum Kinofilm 'Das große Hexentreffen' (78 min) matches the reference index Filme line; belongs to the Kinofilm sibling entry, which has not left it.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.323885+00:00"
+     },
+     {
+      "album_id": "1827953733",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Der Original-Soundtrack zum Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2025-12-12",
+      "confidence": "high",
+      "notes": "Original-Soundtrack zum Kinofilm: songs plus karaoke versions — film music/format variant, not a Hörspiel story.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.323885+00:00"
+     },
+     {
+      "album_id": "6798866356",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Die total verhexte Zeitreise (Das Original-Hörspiel zum Kinofilm)",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2026-09-25",
+      "confidence": "high",
+      "notes": "Original-Hörspiel zum Kinofilm 'Die total verhexte Zeitreise' (77 min) matches the reference index Filme line; belongs to the Kinofilm sibling entry, which has not left it.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.323885+00:00"
+     },
+     {
+      "album_id": "6782027563",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Die total verhexte Zeitreise (Der Original-Soundtrack zum Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2026-09-25",
+      "confidence": "high",
+      "notes": "Original-Soundtrack zum Kinofilm: songs plus karaoke versions — film music/format variant, not a Hörspiel story.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.323885+00:00"
+     }
+    ]
+   },
+   "metrics": {
+    "requests": 1,
+    "input_tokens": 31679,
+    "output_tokens": 1799,
+    "cache_read.input_tokens": 31552,
+    "cache_read_tokens": 31552
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "1 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 12.718577508,
+   "total_duration": 12.730310901,
+   "source_case_name": "bibi_kinofilm_vs_soundtrack",
+   "trace_id": "01a1311ea0290f20b17b849dff4f11e4",
+   "span_id": "2a995a20dc74e9cd",
+   "evaluator_failures": []
+  },
+  {
+   "name": "bibi_kinofilm_vs_soundtrack [8/10]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": {
+    "albums": [
+     {
+      "album_id": "1LueDXY6cF4HllLN8HfeqW",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Das Original Hörspiel zum Kinofilm",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2002-01-01",
+      "confidence": "high",
+      "notes": "Hörspiel zum Kinofilm (2002, 66 min) belongs to the 'Bibi Blocksberg: Kinofilm' line, which exists as its own catalog entry and did not leave this album.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:47.109553+00:00"
+     },
+     {
+      "album_id": "5MuK38H2p9v1O7mnVUMRTP",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2004-01-01",
+      "confidence": "high",
+      "notes": "Hörspiel zum 2. Kinofilm belongs to the 'Bibi Blocksberg: Kinofilm' line (own entry, did not leave it).",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:47.109553+00:00"
+     },
+     {
+      "album_id": "7HIgLk8Y8m3KQIFjPiYWQW",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Bibi als Krankenschwester",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2015-08-28",
+      "confidence": "high",
+      "notes": "Kurzgeschichte belongs to the 'Bibi Blocksberg: Kurzgeschichten' line (own entry, did not leave it).",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:47.109553+00:00"
+     },
+     {
+      "album_id": "1urP4nLKa3iooOSAKEfR4n",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Der Hexen-Imbiss",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2015-08-28",
+      "confidence": "high",
+      "notes": "Kurzgeschichte belongs to the 'Bibi Blocksberg: Kurzgeschichten' line (own entry, did not leave it).",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:47.109553+00:00"
+     },
+     {
+      "album_id": "1801200242",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg Titellied aus den 80ern - Single",
+      "exclude_reason": "music_single",
+      "release_date": "1980",
+      "confidence": "high",
+      "notes": "Theme song single, 1 track, 3.6 min; left by all lines.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:47.109553+00:00"
+     },
+     {
+      "album_id": "1228734010",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Das Original Hörspiel zum Kinofilm",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2002-01-01",
+      "confidence": "high",
+      "notes": "Hörspiel zum Kinofilm (2002) belongs to the 'Bibi Blocksberg: Kinofilm' line (own entry, did not leave it).",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:47.109553+00:00"
+     },
+     {
+      "album_id": "1228748853",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2004-01-01",
+      "confidence": "high",
+      "notes": "Hörspiel zum 2. Kinofilm belongs to the 'Bibi Blocksberg: Kinofilm' line (own entry, did not leave it).",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:47.109553+00:00"
+     },
+     {
+      "album_id": "1144142594",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 100,
+      "title": "Folge 100: Die große Hexenparty",
+      "exclude_reason": null,
+      "release_date": "2010-01-01",
+      "confidence": "high",
+      "notes": "Main-series episode Folge 100: Die große Hexenparty; left by all sibling lines. Fills the apple_music gap at episode 100.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:47.109553+00:00"
+     },
+     {
+      "album_id": "1069102309",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Bibi als Krankenschwester - Single",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2015-08-28",
+      "confidence": "high",
+      "notes": "Kurzgeschichte belongs to the 'Bibi Blocksberg: Kurzgeschichten' line (own entry, did not leave it).",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:47.109553+00:00"
+     },
+     {
+      "album_id": "1069132584",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Der Hexen-Imbiss - Single",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2015-08-28",
+      "confidence": "high",
+      "notes": "Kurzgeschichte belongs to the 'Bibi Blocksberg: Kurzgeschichten' line (own entry, did not leave it).",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:47.109553+00:00"
+     },
+     {
+      "album_id": "1862241025",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Original Filmmusik aus dem Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2025-12-11",
+      "confidence": "high",
+      "notes": "Original Filmmusik (instrumental score) to the Kinofilm; left by all lines including Kinofilm. Film music, not a story.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:47.109553+00:00"
+     },
+     {
+      "album_id": "1851429423",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Das Original-Hörspiel zum Kinofilm)",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2025-12-12",
+      "confidence": "high",
+      "notes": "Das große Hexentreffen Original-Hörspiel zum Kinofilm belongs to the 'Bibi Blocksberg: Kinofilm' line (own entry, did not leave it).",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:47.109553+00:00"
+     },
+     {
+      "album_id": "1827953733",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Der Original-Soundtrack zum Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2025-12-12",
+      "confidence": "high",
+      "notes": "Original-Soundtrack zum Kinofilm (songs + karaoke versions); left by all lines including Kinofilm. Film music, not a story.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:47.109553+00:00"
+     },
+     {
+      "album_id": "6798866356",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Die total verhexte Zeitreise (Das Original-Hörspiel zum Kinofilm)",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2026-09-25",
+      "confidence": "high",
+      "notes": "Die total verhexte Zeitreise Original-Hörspiel zum Kinofilm belongs to the 'Bibi Blocksberg: Kinofilm' line (own entry, did not leave it).",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:47.109553+00:00"
+     },
+     {
+      "album_id": "6782027563",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Die total verhexte Zeitreise (Der Original-Soundtrack zum Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2026-09-25",
+      "confidence": "high",
+      "notes": "Original-Soundtrack zum Kinofilm (songs + karaoke versions); left by all lines including Kinofilm. Film music, not a story.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:47.109553+00:00"
+     }
+    ]
+   },
+   "metrics": {
+    "requests": 1,
+    "input_tokens": 31679,
+    "output_tokens": 1968,
+    "cache_read.input_tokens": 31552,
+    "cache_read_tokens": 31552
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "1 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 13.454247945,
+   "total_duration": 13.465705451,
+   "source_case_name": "bibi_kinofilm_vs_soundtrack",
+   "trace_id": "01a1311ea0290f20b17b849dff4f11e4",
+   "span_id": "0920fd028bb81ccb",
+   "evaluator_failures": []
+  },
+  {
+   "name": "bibi_kinofilm_vs_soundtrack [9/10]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": {
+    "albums": [
+     {
+      "album_id": "1LueDXY6cF4HllLN8HfeqW",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Das Original Hörspiel zum Kinofilm",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2002-01-01",
+      "confidence": "high",
+      "notes": "Hörspiel zum Kinofilm (2002, 66 min) — reference index files it in the 'Filme' line; belongs to sibling entry 'Bibi Blocksberg: Kinofilm', not seen/left by that line",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.042363+00:00"
+     },
+     {
+      "album_id": "5MuK38H2p9v1O7mnVUMRTP",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2004-01-01",
+      "confidence": "high",
+      "notes": "Hörspiel zum 2. Kinofilm (70 min) — 'Filme' line, belongs to sibling entry 'Bibi Blocksberg: Kinofilm'",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.042363+00:00"
+     },
+     {
+      "album_id": "7HIgLk8Y8m3KQIFjPiYWQW",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Bibi als Krankenschwester",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2015-08-28",
+      "confidence": "high",
+      "notes": "Kurzgeschichte (10.7 min, 3 chapters) — belongs to sibling entry 'Bibi Blocksberg: Kurzgeschichten'; Kinofilm line saw and left it, so it is not the film's either",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.042363+00:00"
+     },
+     {
+      "album_id": "1urP4nLKa3iooOSAKEfR4n",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Der Hexen-Imbiss",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2015-08-28",
+      "confidence": "high",
+      "notes": "Kurzgeschichte (10.9 min) — belongs to sibling entry 'Bibi Blocksberg: Kurzgeschichten'",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.042363+00:00"
+     },
+     {
+      "album_id": "1801200242",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg Titellied aus den 80ern - Single",
+      "exclude_reason": "music_single",
+      "release_date": "1980",
+      "confidence": "high",
+      "notes": "Single, 1 track, 3.6 min theme song — music, not a Hörspiel episode",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.042363+00:00"
+     },
+     {
+      "album_id": "1228734010",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Das Original Hörspiel zum Kinofilm",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2002-01-01",
+      "confidence": "high",
+      "notes": "Apple Music packaging of the 2002 Kinofilm Hörspiel — 'Filme' line, belongs to sibling entry 'Bibi Blocksberg: Kinofilm'",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.042363+00:00"
+     },
+     {
+      "album_id": "1228748853",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2004-01-01",
+      "confidence": "high",
+      "notes": "Apple Music packaging of the 2. Kinofilm Hörspiel — 'Filme' line, belongs to sibling entry 'Bibi Blocksberg: Kinofilm'",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.042363+00:00"
+     },
+     {
+      "album_id": "1144142594",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 100,
+      "title": "Folge 100: Die große Hexenparty",
+      "exclude_reason": null,
+      "release_date": "2010-01-01",
+      "confidence": "high",
+      "notes": "Folge 100: Die große Hexenparty — matches ^Folge (\\d+):, listed in the 'Hörspiele' line (77 min), fills the apple_music gap at episode 100",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.042363+00:00"
+     },
+     {
+      "album_id": "1069102309",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Bibi als Krankenschwester - Single",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2015-08-28",
+      "confidence": "high",
+      "notes": "Kurzgeschichte - Single — belongs to sibling entry 'Bibi Blocksberg: Kurzgeschichten'",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.042363+00:00"
+     },
+     {
+      "album_id": "1069132584",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Der Hexen-Imbiss - Single",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2015-08-28",
+      "confidence": "high",
+      "notes": "Kurzgeschichte - Single — belongs to sibling entry 'Bibi Blocksberg: Kurzgeschichten'",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.042363+00:00"
+     },
+     {
+      "album_id": "1862241025",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Original Filmmusik aus dem Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2025-12-11",
+      "confidence": "high",
+      "notes": "Original Filmmusik (instrumental score) — film music, not a story; Kinofilm line saw and left it",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.042363+00:00"
+     },
+     {
+      "album_id": "1851429423",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Das Original-Hörspiel zum Kinofilm)",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2025-12-12",
+      "confidence": "high",
+      "notes": "Das Original-Hörspiel zum Kinofilm 'Das große Hexentreffen' (78 min) — 'Filme' line, belongs to sibling entry 'Bibi Blocksberg: Kinofilm'",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.042363+00:00"
+     },
+     {
+      "album_id": "1827953733",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Der Original-Soundtrack zum Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2025-12-12",
+      "confidence": "high",
+      "notes": "Original-Soundtrack zum Kinofilm — songs + karaoke versions, film music not a story",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.042363+00:00"
+     },
+     {
+      "album_id": "6798866356",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Die total verhexte Zeitreise (Das Original-Hörspiel zum Kinofilm)",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2026-09-25",
+      "confidence": "high",
+      "notes": "Das Original-Hörspiel zum Kinofilm 'Die total verhexte Zeitreise' (77 min) — 'Filme' line, belongs to sibling entry 'Bibi Blocksberg: Kinofilm'",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.042363+00:00"
+     },
+     {
+      "album_id": "6782027563",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Die total verhexte Zeitreise (Der Original-Soundtrack zum Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2026-09-25",
+      "confidence": "high",
+      "notes": "Original-Soundtrack zum Kinofilm — songs + karaoke versions, film music not a story; Kinofilm line saw and left it",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:17:46.042363+00:00"
+     }
+    ]
+   },
+   "metrics": {
+    "requests": 1,
+    "input_tokens": 31679,
+    "output_tokens": 1850,
+    "cache_read.input_tokens": 31552,
+    "cache_read_tokens": 31552
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "1 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 12.336539976,
+   "total_duration": 12.363477812,
+   "source_case_name": "bibi_kinofilm_vs_soundtrack",
+   "trace_id": "01a1311ea0290f20b17b849dff4f11e4",
+   "span_id": "a808a12c505c9a94",
+   "evaluator_failures": []
+  },
+  {
+   "name": "bibi_kinofilm_vs_soundtrack [10/10]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": {
+    "albums": [
+     {
+      "album_id": "1LueDXY6cF4HllLN8HfeqW",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": null,
+      "title": "Das Original Hörspiel zum Kinofilm",
+      "exclude_reason": null,
+      "release_date": "2002-01-01",
+      "confidence": "high",
+      "notes": "Film-Hörspiel (2002 Kinofilm, 66 min, matches index 'Filme' line). Left by all sibling lines incl. Kinofilm, so decided as root's own: valid dramatized Hörspiel, include without episode number.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:18:01.626794+00:00"
+     },
+     {
+      "album_id": "5MuK38H2p9v1O7mnVUMRTP",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": null,
+      "title": "Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen",
+      "exclude_reason": null,
+      "release_date": "2004-01-01",
+      "confidence": "high",
+      "notes": "Hörspiel zum 2. Kinofilm (70 min). Left by Kinofilm line; valid dramatized film Hörspiel, include without episode number.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:18:01.626794+00:00"
+     },
+     {
+      "album_id": "7HIgLk8Y8m3KQIFjPiYWQW",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Bibi als Krankenschwester",
+      "exclude_reason": null,
+      "release_date": "2015-08-28",
+      "confidence": "medium",
+      "notes": "Kurzgeschichte left by the Kurzgeschichten line, so not sub_series_bleed. 3 descriptive chapters, 10.7 min, short story production; no failure pattern nameable, inclusion bias applies.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:18:01.626794+00:00"
+     },
+     {
+      "album_id": "1urP4nLKa3iooOSAKEfR4n",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Der Hexen-Imbiss",
+      "exclude_reason": null,
+      "release_date": "2015-08-28",
+      "confidence": "medium",
+      "notes": "Kurzgeschichte left by the Kurzgeschichten line; short story production, 10.9 min, no failure pattern nameable, inclusion bias applies.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:18:01.626794+00:00"
+     },
+     {
+      "album_id": "1801200242",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg Titellied aus den 80ern - Single",
+      "exclude_reason": "music_single",
+      "release_date": "1980",
+      "confidence": "high",
+      "notes": "Theme song single, 1 track, 3.6 min.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:18:01.626794+00:00"
+     },
+     {
+      "album_id": "1228734010",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": null,
+      "title": "Das Original Hörspiel zum Kinofilm",
+      "exclude_reason": null,
+      "release_date": "2002-01-01",
+      "confidence": "high",
+      "notes": "Cross-provider pair of spotify 1LueDXY6cF4HllLN8HfeqW (film 1 Hörspiel). Include without episode number.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:18:01.626794+00:00"
+     },
+     {
+      "album_id": "1228748853",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": null,
+      "title": "Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen",
+      "exclude_reason": null,
+      "release_date": "2004-01-01",
+      "confidence": "high",
+      "notes": "Cross-provider pair of spotify 5MuK38H2p9v1O7mnVUMRTP (film 2 Hörspiel). Include without episode number.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:18:01.626794+00:00"
+     },
+     {
+      "album_id": "1144142594",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 100,
+      "title": "Folge 100: Die große Hexenparty",
+      "exclude_reason": null,
+      "release_date": "2010-01-01",
+      "confidence": "high",
+      "notes": "Main-series episode, matches ^Folge (\\d+):, fills apple_music gap at episode 100. 77 min special-length episode, one story.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:18:01.626794+00:00"
+     },
+     {
+      "album_id": "1069102309",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Bibi als Krankenschwester - Single",
+      "exclude_reason": null,
+      "release_date": "2015-08-28",
+      "confidence": "medium",
+      "notes": "Cross-provider pair of spotify Kurzgeschichte 'Bibi als Krankenschwester'; '- Single' suffix is Apple packaging, 3 chapters / 10.7 min story content.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:18:01.626794+00:00"
+     },
+     {
+      "album_id": "1069132584",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": null,
+      "title": "Kurzgeschichte - Der Hexen-Imbiss - Single",
+      "exclude_reason": null,
+      "release_date": "2015-08-28",
+      "confidence": "medium",
+      "notes": "Cross-provider pair of spotify Kurzgeschichte 'Der Hexen-Imbiss'; same decision for consistency.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:18:01.626794+00:00"
+     },
+     {
+      "album_id": "1862241025",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Original Filmmusik aus dem Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2025-12-11",
+      "confidence": "high",
+      "notes": "Original Filmmusik (score), instrumental film music, not a story.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:18:01.626794+00:00"
+     },
+     {
+      "album_id": "1851429423",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Das Original-Hörspiel zum Kinofilm)",
+      "exclude_reason": null,
+      "release_date": "2025-12-12",
+      "confidence": "high",
+      "notes": "Original-Hörspiel zum Kinofilm 'Das große Hexentreffen' (78 min dramatization). Left by Kinofilm line; valid film Hörspiel, include without episode number.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:18:01.626794+00:00"
+     },
+     {
+      "album_id": "1827953733",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Das große Hexentreffen (Der Original-Soundtrack zum Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2025-12-12",
+      "confidence": "high",
+      "notes": "Original-Soundtrack: song album with karaoke versions, film music not a story.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:18:01.626794+00:00"
+     },
+     {
+      "album_id": "6798866356",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Die total verhexte Zeitreise (Das Original-Hörspiel zum Kinofilm)",
+      "exclude_reason": null,
+      "release_date": "2026-09-25",
+      "confidence": "high",
+      "notes": "Original-Hörspiel zum Kinofilm 'Die total verhexte Zeitreise' (77 min dramatization). Left by Kinofilm line; valid film Hörspiel, include without episode number.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:18:01.626794+00:00"
+     },
+     {
+      "album_id": "6782027563",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Bibi Blocksberg: Die total verhexte Zeitreise (Der Original-Soundtrack zum Kinofilm)",
+      "exclude_reason": "wrong_content_type",
+      "release_date": "2026-09-25",
+      "confidence": "high",
+      "notes": "Original-Soundtrack: song album with karaoke versions, film music not a story.",
+      "decided_by": "glm-5.3-flash",
+      "decided_at": "2026-10-12T17:18:01.626794+00:00"
+     }
+    ]
+   },
+   "metrics": {
+    "requests": 1,
+    "input_tokens": 31679,
+    "output_tokens": 2194,
+    "cache_read.input_tokens": 31552,
+    "cache_read_tokens": 31552
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 0.3333333333333333,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 10,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": false,
+     "reason": "Wrong: spotify:1LueDXY6cF4HllLN8HfeqW (Das Original Hörspiel zum Kinofilm): included, expected exclude; spotify:5MuK38H2p9v1O7mnVUMRTP (Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen): included, expected exclude; spotify:7HIgLk8Y8m3KQIFjPiYWQW (Kurzgeschichte - Bibi als Krankenschwester): included, expected exclude; spotify:1urP4nLKa3iooOSAKEfR4n (Kurzgeschichte - Der Hexen-Imbiss): included, expected exclude; apple_music:1228734010 (Das Original Hörspiel zum Kinofilm): included, expected exclude; apple_music:1228748853 (Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen): included, expected exclude; apple_music:1069102309 (Kurzgeschichte - Bibi als Krankenschwester - Single): included, expected exclude; apple_music:1069132584 (Kurzgeschichte - Der Hexen-Imbiss - Single): included, expected exclude; apple_music:1851429423 (Bibi Blocksberg: Das große Hexentreffen (Das Original-Hörspiel zum Kinofilm)): included, expected exclude; apple_music:6798866356 (Bibi Blocksberg: Die total verhexte Zeitreise (Das Original-Hörspiel zum Kinofilm)): included, expected exclude",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "1 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 15.542827129,
+   "total_duration": 15.555009258,
+   "source_case_name": "bibi_kinofilm_vs_soundtrack",
+   "trace_id": "01a1311ea0290f20b17b849dff4f11e4",
+   "span_id": "1d25771842c44026",
+   "evaluator_failures": []
+  }
+ ],
+ "failures": [],
+ "analyses": [
+  {
+   "type": "table",
+   "title": "Albums across all cases",
+   "description": null,
+   "columns": [
+    "albums",
+    "right",
+    "wrong content",
+    "missing content"
+   ],
+   "rows": [
+    [
+     150,
+     126,
+     24,
+     0
+    ]
+   ]
+  }
+ ],
+ "report_evaluator_failures": [],
+ "experiment_metadata": {
+  "model": "glm-5.3-flash"
+ },
+ "trace_id": "01a1311ea0290f20b17b849dff4f11e4",
+ "span_id": "f0650855afc8e966"
+}
