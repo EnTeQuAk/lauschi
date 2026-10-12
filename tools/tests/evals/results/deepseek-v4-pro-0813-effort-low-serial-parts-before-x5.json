@@ -1,0 +1,1746 @@
+{
+ "name": "run_batch_curation",
+ "cases": [
+  {
+   "name": "die_playmos_serial_parts [1/5]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": {
+    "albums": [
+     {
+      "album_id": "2jRhlbYDCnIzHjPxESfh8C",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Die große Ritter-Box, Folgen 2, 8, 20 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "compilation",
+      "release_date": "2010-11-01",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:56:11.628472+00:00"
+     },
+     {
+      "album_id": "6fyseNSaEESDr26ugNeQom",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": 99,
+      "title": "Folge 99: Duell zwischen den Pfosten (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-03-13",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:56:11.628472+00:00"
+     },
+     {
+      "album_id": "1S5DMXPrg8YBi1xduJVDKj",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 1 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-04-17",
+      "confidence": "high",
+      "notes": "Serialized fragment of Folge 100 (track names 'Folge 100/1'); the complete episode is the combined 'Folge 100: Der magische Ring' album.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:56:11.628472+00:00"
+     },
+     {
+      "album_id": "4gK1S7Ndg8a0VmrdwpGGx4",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 2 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-04-21",
+      "confidence": "high",
+      "notes": "Serialized fragment of Folge 100 (track names 'Folge 100/2'); the complete episode is the combined 'Folge 100: Der magische Ring' album.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:56:11.628472+00:00"
+     },
+     {
+      "album_id": "2FRl5sW6yz4MPAiDU4i8fA",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 3 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-04-24",
+      "confidence": "high",
+      "notes": "Serialized fragment of Folge 100 (track names 'Folge 100/3'); the complete episode is the combined 'Folge 100: Der magische Ring' album.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:56:11.628472+00:00"
+     },
+     {
+      "album_id": "3sjgcBSf1g0CYJCqKbialp",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 4 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-04-28",
+      "confidence": "high",
+      "notes": "Serialized fragment of Folge 100 (track names 'Folge 100/4'); the complete episode is the combined 'Folge 100: Der magische Ring' album.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:56:11.628472+00:00"
+     },
+     {
+      "album_id": "6V84i3hoZZ6N0UsOuELxpf",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 5 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-05-01",
+      "confidence": "high",
+      "notes": "Serialized fragment of Folge 100 (track names 'Folge 100/5'); the complete episode is the combined 'Folge 100: Der magische Ring' album.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:56:11.628472+00:00"
+     },
+     {
+      "album_id": "2u4ZcizMljIszOktTzSw1Q",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 6 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-05-08",
+      "confidence": "high",
+      "notes": "Serialized fragment of Folge 100 (track names 'Folge 100/6'); the complete episode is the combined 'Folge 100: Der magische Ring' album.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:56:11.628472+00:00"
+     },
+     {
+      "album_id": "3plzZW39rPn9kraHYUI69Z",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 7 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-05-15",
+      "confidence": "high",
+      "notes": "Serialized fragment of Folge 100 (track names 'Folge 100/7'); the complete episode is the combined 'Folge 100: Der magische Ring' album.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:56:11.628472+00:00"
+     },
+     {
+      "album_id": "5BCmDX81qrWAn6rSnX6w3l",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 8 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-05-22",
+      "confidence": "high",
+      "notes": "Serialized fragment of Folge 100 (track names 'Folge 100/8'); the complete episode is the combined 'Folge 100: Der magische Ring' album.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:56:11.628472+00:00"
+     },
+     {
+      "album_id": "0DeLb048gWpWg15yEbMvC0",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-05-29",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:56:11.628472+00:00"
+     },
+     {
+      "album_id": "6Q9lMWg3IRIrYy6xgFCo5B",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 9 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-05-29",
+      "confidence": "high",
+      "notes": "Serialized fragment of Folge 100 (track names 'Folge 100/9'); the complete episode is the combined 'Folge 100: Der magische Ring' album.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:56:11.628472+00:00"
+     },
+     {
+      "album_id": "45VT337qtbMKaKqAmpA3lr",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": 101,
+      "title": "Folge 101: Diebstahl im Museum (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-07-24",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:56:11.628472+00:00"
+     },
+     {
+      "album_id": "1471415249",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Die große Ritter-Box, Folgen 2, 8, 20 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "compilation",
+      "release_date": "2010-11-01",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:56:11.628472+00:00"
+     },
+     {
+      "album_id": "1881915429",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 99,
+      "title": "Folge 99: Duell zwischen den Pfosten (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-03-13",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:56:11.628472+00:00"
+     },
+     {
+      "album_id": "1886133182",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 1",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-04-17",
+      "confidence": "high",
+      "notes": "Serialized fragment of Folge 100 (track names 'Folge 100/1'); the complete episode is the combined 'Folge 100: Der magische Ring' album.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:56:11.628472+00:00"
+     },
+     {
+      "album_id": "6768373658",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring",
+      "exclude_reason": null,
+      "release_date": "2026-05-29",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:56:11.628472+00:00"
+     },
+     {
+      "album_id": "6788765675",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 101,
+      "title": "Folge 101: Diebstahl im Museum (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-07-24",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:56:11.628472+00:00"
+     }
+    ]
+   },
+   "metrics": {
+    "requests": 2,
+    "input_tokens": 73131,
+    "output_tokens": 30275,
+    "cache_read.input_tokens": 55296,
+    "cache_read_tokens": 55296
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "6 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 184.072879899,
+   "total_duration": 184.083091094,
+   "source_case_name": "die_playmos_serial_parts",
+   "trace_id": "01a1313f31d0027e9ebf0adcd7d1dd53",
+   "span_id": "8634d11d14f03b23",
+   "evaluator_failures": []
+  },
+  {
+   "name": "die_playmos_serial_parts [2/5]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": {
+    "albums": [
+     {
+      "album_id": "2jRhlbYDCnIzHjPxESfh8C",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Die große Ritter-Box, Folgen 2, 8, 20 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "compilation",
+      "release_date": "2010-11-01",
+      "confidence": "high",
+      "notes": "Box re-selling episodes 2, 8, 20 which exist on their own.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:54.109155+00:00"
+     },
+     {
+      "album_id": "6fyseNSaEESDr26ugNeQom",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": 99,
+      "title": "Folge 99: Duell zwischen den Pfosten (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-03-13",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:54.109155+00:00"
+     },
+     {
+      "album_id": "1S5DMXPrg8YBi1xduJVDKj",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 1 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-04-17",
+      "confidence": "high",
+      "notes": "Folge 100 'Der magische Ring' is a multi-part story released as 9 weekly 'Episode' parts plus one complete album (167.9 min). The complete album is the canonical episode 100; this 'Episode N' release is a serialized fragment of the same content.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:54.109155+00:00"
+     },
+     {
+      "album_id": "4gK1S7Ndg8a0VmrdwpGGx4",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 2 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-04-21",
+      "confidence": "high",
+      "notes": "Serialized fragment of Folge 100 'Der magische Ring'; complete album exists.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:54.109155+00:00"
+     },
+     {
+      "album_id": "2FRl5sW6yz4MPAiDU4i8fA",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 3 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-04-24",
+      "confidence": "high",
+      "notes": "Serialized fragment of Folge 100 'Der magische Ring'; complete album exists.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:54.109155+00:00"
+     },
+     {
+      "album_id": "3sjgcBSf1g0CYJCqKbialp",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 4 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-04-28",
+      "confidence": "high",
+      "notes": "Serialized fragment of Folge 100 'Der magische Ring'; complete album exists.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:54.109155+00:00"
+     },
+     {
+      "album_id": "6V84i3hoZZ6N0UsOuELxpf",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 5 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-05-01",
+      "confidence": "high",
+      "notes": "Serialized fragment of Folge 100 'Der magische Ring'; complete album exists.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:54.109155+00:00"
+     },
+     {
+      "album_id": "2u4ZcizMljIszOktTzSw1Q",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 6 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-05-08",
+      "confidence": "high",
+      "notes": "Serialized fragment of Folge 100 'Der magische Ring'; complete album exists.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:54.109155+00:00"
+     },
+     {
+      "album_id": "3plzZW39rPn9kraHYUI69Z",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 7 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-05-15",
+      "confidence": "high",
+      "notes": "Serialized fragment of Folge 100 'Der magische Ring'; complete album exists.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:54.109155+00:00"
+     },
+     {
+      "album_id": "5BCmDX81qrWAn6rSnX6w3l",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 8 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-05-22",
+      "confidence": "high",
+      "notes": "Serialized fragment of Folge 100 'Der magische Ring'; complete album exists.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:54.109155+00:00"
+     },
+     {
+      "album_id": "0DeLb048gWpWg15yEbMvC0",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-05-29",
+      "confidence": "high",
+      "notes": "Complete Folge 100 'Der magische Ring' (167.9 min), the canonical episode.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:54.109155+00:00"
+     },
+     {
+      "album_id": "6Q9lMWg3IRIrYy6xgFCo5B",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 9 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-05-29",
+      "confidence": "high",
+      "notes": "Serialized fragment of Folge 100 'Der magische Ring'; complete album exists.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:54.109155+00:00"
+     },
+     {
+      "album_id": "45VT337qtbMKaKqAmpA3lr",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": 101,
+      "title": "Folge 101: Diebstahl im Museum (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-07-24",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:54.109155+00:00"
+     },
+     {
+      "album_id": "1471415249",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Die große Ritter-Box, Folgen 2, 8, 20 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "compilation",
+      "release_date": "2010-11-01",
+      "confidence": "high",
+      "notes": "Box re-selling episodes 2, 8, 20 which exist on their own.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:54.109155+00:00"
+     },
+     {
+      "album_id": "1881915429",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 99,
+      "title": "Folge 99: Duell zwischen den Pfosten (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-03-13",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:54.109155+00:00"
+     },
+     {
+      "album_id": "1886133182",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 1",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-04-17",
+      "confidence": "high",
+      "notes": "Serialized fragment of Folge 100 'Der magische Ring'; complete album exists.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:54.109155+00:00"
+     },
+     {
+      "album_id": "6768373658",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring",
+      "exclude_reason": null,
+      "release_date": "2026-05-29",
+      "confidence": "high",
+      "notes": "Complete Folge 100 'Der magische Ring' (167.9 min), the canonical episode.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:54.109155+00:00"
+     },
+     {
+      "album_id": "6788765675",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 101,
+      "title": "Folge 101: Diebstahl im Museum (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-07-24",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:54.109155+00:00"
+     }
+    ]
+   },
+   "metrics": {
+    "requests": 1,
+    "input_tokens": 30654,
+    "output_tokens": 16687
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "6 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 106.402840863,
+   "total_duration": 106.412965429,
+   "source_case_name": "die_playmos_serial_parts",
+   "trace_id": "01a1313f31d0027e9ebf0adcd7d1dd53",
+   "span_id": "29304599a381ef98",
+   "evaluator_failures": []
+  },
+  {
+   "name": "die_playmos_serial_parts [3/5]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": {
+    "albums": [
+     {
+      "album_id": "2jRhlbYDCnIzHjPxESfh8C",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Die große Ritter-Box, Folgen 2, 8, 20 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "compilation",
+      "release_date": "2010-11-01",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:57.307422+00:00"
+     },
+     {
+      "album_id": "6fyseNSaEESDr26ugNeQom",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": 99,
+      "title": "Folge 99: Duell zwischen den Pfosten (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-03-13",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:57.307422+00:00"
+     },
+     {
+      "album_id": "1S5DMXPrg8YBi1xduJVDKj",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": null,
+      "title": "Folge 100: Der magische Ring - Episode 1 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-04-17",
+      "confidence": "high",
+      "notes": "Number 100 reused by the newer 'Folge 100: Der magische Ring (Das Original Playmobil Hörspiel)' (2026-05-29); this story keeps its title only.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:57.307422+00:00"
+     },
+     {
+      "album_id": "4gK1S7Ndg8a0VmrdwpGGx4",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": null,
+      "title": "Folge 100: Der magische Ring - Episode 2 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-04-21",
+      "confidence": "high",
+      "notes": "Number 100 reused by the newer 'Folge 100: Der magische Ring (Das Original Playmobil Hörspiel)' (2026-05-29); this story keeps its title only.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:57.307422+00:00"
+     },
+     {
+      "album_id": "2FRl5sW6yz4MPAiDU4i8fA",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": null,
+      "title": "Folge 100: Der magische Ring - Episode 3 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-04-24",
+      "confidence": "high",
+      "notes": "Number 100 reused by the newer 'Folge 100: Der magische Ring (Das Original Playmobil Hörspiel)' (2026-05-29); this story keeps its title only.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:57.307422+00:00"
+     },
+     {
+      "album_id": "3sjgcBSf1g0CYJCqKbialp",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": null,
+      "title": "Folge 100: Der magische Ring - Episode 4 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-04-28",
+      "confidence": "high",
+      "notes": "Number 100 reused by the newer 'Folge 100: Der magische Ring (Das Original Playmobil Hörspiel)' (2026-05-29); this story keeps its title only.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:57.307422+00:00"
+     },
+     {
+      "album_id": "6V84i3hoZZ6N0UsOuELxpf",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": null,
+      "title": "Folge 100: Der magische Ring - Episode 5 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-05-01",
+      "confidence": "high",
+      "notes": "Number 100 reused by the newer 'Folge 100: Der magische Ring (Das Original Playmobil Hörspiel)' (2026-05-29); this story keeps its title only.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:57.307422+00:00"
+     },
+     {
+      "album_id": "2u4ZcizMljIszOktTzSw1Q",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": null,
+      "title": "Folge 100: Der magische Ring - Episode 6 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-05-08",
+      "confidence": "high",
+      "notes": "Number 100 reused by the newer 'Folge 100: Der magische Ring (Das Original Playmobil Hörspiel)' (2026-05-29); this story keeps its title only.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:57.307422+00:00"
+     },
+     {
+      "album_id": "3plzZW39rPn9kraHYUI69Z",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": null,
+      "title": "Folge 100: Der magische Ring - Episode 7 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-05-15",
+      "confidence": "high",
+      "notes": "Number 100 reused by the newer 'Folge 100: Der magische Ring (Das Original Playmobil Hörspiel)' (2026-05-29); this story keeps its title only.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:57.307422+00:00"
+     },
+     {
+      "album_id": "5BCmDX81qrWAn6rSnX6w3l",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": null,
+      "title": "Folge 100: Der magische Ring - Episode 8 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-05-22",
+      "confidence": "high",
+      "notes": "Number 100 reused by the newer 'Folge 100: Der magische Ring (Das Original Playmobil Hörspiel)' (2026-05-29); this story keeps its title only.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:57.307422+00:00"
+     },
+     {
+      "album_id": "0DeLb048gWpWg15yEbMvC0",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-05-29",
+      "confidence": "high",
+      "notes": "Complete Folge 100 'Der magische Ring'; the Episode 1-9 releases are the serialized parts of the same story (one story across multiple releases, all included).",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:57.307422+00:00"
+     },
+     {
+      "album_id": "6Q9lMWg3IRIrYy6xgFCo5B",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": null,
+      "title": "Folge 100: Der magische Ring - Episode 9 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-05-29",
+      "confidence": "high",
+      "notes": "Number 100 reused by the newer 'Folge 100: Der magische Ring (Das Original Playmobil Hörspiel)' (2026-05-29); this story keeps its title only.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:57.307422+00:00"
+     },
+     {
+      "album_id": "45VT337qtbMKaKqAmpA3lr",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": 101,
+      "title": "Folge 101: Diebstahl im Museum (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-07-24",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:57.307422+00:00"
+     },
+     {
+      "album_id": "1471415249",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Die große Ritter-Box, Folgen 2, 8, 20 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "compilation",
+      "release_date": "2010-11-01",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:57.307422+00:00"
+     },
+     {
+      "album_id": "1881915429",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 99,
+      "title": "Folge 99: Duell zwischen den Pfosten (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-03-13",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:57.307422+00:00"
+     },
+     {
+      "album_id": "1886133182",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": null,
+      "title": "Folge 100: Der magische Ring - Episode 1",
+      "exclude_reason": null,
+      "release_date": "2026-04-17",
+      "confidence": "high",
+      "notes": "Number 100 reused by the newer 'Folge 100: Der magische Ring' (2026-05-29); this story keeps its title only.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:57.307422+00:00"
+     },
+     {
+      "album_id": "6768373658",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring",
+      "exclude_reason": null,
+      "release_date": "2026-05-29",
+      "confidence": "high",
+      "notes": "Complete Folge 100 'Der magische Ring'; the Episode 1-9 releases are the serialized parts of the same story (one story across multiple releases, all included).",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:57.307422+00:00"
+     },
+     {
+      "album_id": "6788765675",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 101,
+      "title": "Folge 101: Diebstahl im Museum (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-07-24",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:57.307422+00:00"
+     }
+    ]
+   },
+   "metrics": {
+    "requests": 1,
+    "input_tokens": 30654,
+    "output_tokens": 6872,
+    "cache_read.input_tokens": 30653,
+    "cache_read_tokens": 30653
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 0.4444444444444444,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 10,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": false,
+     "reason": "Wrong: spotify:1S5DMXPrg8YBi1xduJVDKj (Folge 100: Der magische Ring - Episode 1 (Das Original Playmobil Hörspiel)): included, expected exclude; spotify:4gK1S7Ndg8a0VmrdwpGGx4 (Folge 100: Der magische Ring - Episode 2 (Das Original Playmobil Hörspiel)): included, expected exclude; spotify:2FRl5sW6yz4MPAiDU4i8fA (Folge 100: Der magische Ring - Episode 3 (Das Original Playmobil Hörspiel)): included, expected exclude; spotify:3sjgcBSf1g0CYJCqKbialp (Folge 100: Der magische Ring - Episode 4 (Das Original Playmobil Hörspiel)): included, expected exclude; spotify:6V84i3hoZZ6N0UsOuELxpf (Folge 100: Der magische Ring - Episode 5 (Das Original Playmobil Hörspiel)): included, expected exclude; spotify:2u4ZcizMljIszOktTzSw1Q (Folge 100: Der magische Ring - Episode 6 (Das Original Playmobil Hörspiel)): included, expected exclude; spotify:3plzZW39rPn9kraHYUI69Z (Folge 100: Der magische Ring - Episode 7 (Das Original Playmobil Hörspiel)): included, expected exclude; spotify:5BCmDX81qrWAn6rSnX6w3l (Folge 100: Der magische Ring - Episode 8 (Das Original Playmobil Hörspiel)): included, expected exclude; spotify:6Q9lMWg3IRIrYy6xgFCo5B (Folge 100: Der magische Ring - Episode 9 (Das Original Playmobil Hörspiel)): included, expected exclude; apple_music:1886133182 (Folge 100: Der magische Ring - Episode 1): included, expected exclude",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "6 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 49.579864883,
+   "total_duration": 49.590018131,
+   "source_case_name": "die_playmos_serial_parts",
+   "trace_id": "01a1313f31d0027e9ebf0adcd7d1dd53",
+   "span_id": "f608e6db881e07e4",
+   "evaluator_failures": []
+  },
+  {
+   "name": "die_playmos_serial_parts [4/5]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": {
+    "albums": [
+     {
+      "album_id": "2jRhlbYDCnIzHjPxESfh8C",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Die große Ritter-Box, Folgen 2, 8, 20 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "compilation",
+      "release_date": "2010-11-01",
+      "confidence": "high",
+      "notes": "Box re-selling episodes 2, 8, 20 which exist on their own.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:51.807092+00:00"
+     },
+     {
+      "album_id": "6fyseNSaEESDr26ugNeQom",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": 99,
+      "title": "Folge 99: Duell zwischen den Pfosten (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-03-13",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:51.807092+00:00"
+     },
+     {
+      "album_id": "1S5DMXPrg8YBi1xduJVDKj",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 1 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-04-17",
+      "confidence": "high",
+      "notes": "Fragment 'Folge 100/1' of the complete Folge 100: Der magische Ring.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:51.807092+00:00"
+     },
+     {
+      "album_id": "4gK1S7Ndg8a0VmrdwpGGx4",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 2 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-04-21",
+      "confidence": "high",
+      "notes": "Fragment 'Folge 100/2' of the complete Folge 100.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:51.807092+00:00"
+     },
+     {
+      "album_id": "2FRl5sW6yz4MPAiDU4i8fA",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 3 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-04-24",
+      "confidence": "high",
+      "notes": "Fragment 'Folge 100/3' of the complete Folge 100.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:51.807092+00:00"
+     },
+     {
+      "album_id": "3sjgcBSf1g0CYJCqKbialp",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 4 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-04-28",
+      "confidence": "high",
+      "notes": "Fragment 'Folge 100/4' of the complete Folge 100.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:51.807092+00:00"
+     },
+     {
+      "album_id": "6V84i3hoZZ6N0UsOuELxpf",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 5 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-05-01",
+      "confidence": "high",
+      "notes": "Fragment 'Folge 100/5' of the complete Folge 100.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:51.807092+00:00"
+     },
+     {
+      "album_id": "2u4ZcizMljIszOktTzSw1Q",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 6 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-05-08",
+      "confidence": "high",
+      "notes": "Fragment 'Folge 100/6' of the complete Folge 100.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:51.807092+00:00"
+     },
+     {
+      "album_id": "3plzZW39rPn9kraHYUI69Z",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 7 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-05-15",
+      "confidence": "high",
+      "notes": "Fragment 'Folge 100/7' of the complete Folge 100.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:51.807092+00:00"
+     },
+     {
+      "album_id": "5BCmDX81qrWAn6rSnX6w3l",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 8 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-05-22",
+      "confidence": "high",
+      "notes": "Fragment 'Folge 100/8' of the complete Folge 100.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:51.807092+00:00"
+     },
+     {
+      "album_id": "0DeLb048gWpWg15yEbMvC0",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-05-29",
+      "confidence": "high",
+      "notes": "Complete Folge 100: Der magische Ring (167.9 min).",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:51.807092+00:00"
+     },
+     {
+      "album_id": "6Q9lMWg3IRIrYy6xgFCo5B",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 9 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-05-29",
+      "confidence": "high",
+      "notes": "Fragment 'Folge 100/9' of the complete Folge 100.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:51.807092+00:00"
+     },
+     {
+      "album_id": "45VT337qtbMKaKqAmpA3lr",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": 101,
+      "title": "Folge 101: Diebstahl im Museum (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-07-24",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:51.807092+00:00"
+     },
+     {
+      "album_id": "1471415249",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Die große Ritter-Box, Folgen 2, 8, 20 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "compilation",
+      "release_date": "2010-11-01",
+      "confidence": "high",
+      "notes": "Box re-selling episodes 2, 8, 20 which exist on their own.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:51.807092+00:00"
+     },
+     {
+      "album_id": "1881915429",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 99,
+      "title": "Folge 99: Duell zwischen den Pfosten (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-03-13",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:51.807092+00:00"
+     },
+     {
+      "album_id": "1886133182",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 1",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-04-17",
+      "confidence": "high",
+      "notes": "Fragment 'Folge 100/1' of the complete Folge 100: Der magische Ring.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:51.807092+00:00"
+     },
+     {
+      "album_id": "6768373658",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring",
+      "exclude_reason": null,
+      "release_date": "2026-05-29",
+      "confidence": "high",
+      "notes": "Complete Folge 100: Der magische Ring (167.9 min).",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:51.807092+00:00"
+     },
+     {
+      "album_id": "6788765675",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 101,
+      "title": "Folge 101: Diebstahl im Museum (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-07-24",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:53:51.807092+00:00"
+     }
+    ]
+   },
+   "metrics": {
+    "requests": 1,
+    "input_tokens": 30654,
+    "output_tokens": 6288,
+    "cache_read.input_tokens": 30653,
+    "cache_read_tokens": 30653
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "6 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 44.057655479,
+   "total_duration": 44.074905085,
+   "source_case_name": "die_playmos_serial_parts",
+   "trace_id": "01a1313f31d0027e9ebf0adcd7d1dd53",
+   "span_id": "6e74a62c093ef36f",
+   "evaluator_failures": []
+  },
+  {
+   "name": "die_playmos_serial_parts [5/5]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": {
+    "albums": [
+     {
+      "album_id": "2jRhlbYDCnIzHjPxESfh8C",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Die große Ritter-Box, Folgen 2, 8, 20 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "compilation",
+      "release_date": "2010-11-01",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:51.875748+00:00"
+     },
+     {
+      "album_id": "6fyseNSaEESDr26ugNeQom",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": 99,
+      "title": "Folge 99: Duell zwischen den Pfosten (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-03-13",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:51.875748+00:00"
+     },
+     {
+      "album_id": "1S5DMXPrg8YBi1xduJVDKj",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 1 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-04-17",
+      "confidence": "medium",
+      "notes": "Partial installment of Folge 100 (track names 'Folge 100/1'); the complete episode 'Folge 100: Der magische Ring' exists on both providers.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:51.875748+00:00"
+     },
+     {
+      "album_id": "4gK1S7Ndg8a0VmrdwpGGx4",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 2 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-04-21",
+      "confidence": "medium",
+      "notes": "Partial installment of Folge 100 ('Folge 100/2'); complete episode exists on both providers.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:51.875748+00:00"
+     },
+     {
+      "album_id": "2FRl5sW6yz4MPAiDU4i8fA",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 3 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-04-24",
+      "confidence": "medium",
+      "notes": "Partial installment of Folge 100 ('Folge 100/3'); complete episode exists on both providers.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:51.875748+00:00"
+     },
+     {
+      "album_id": "3sjgcBSf1g0CYJCqKbialp",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 4 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-04-28",
+      "confidence": "medium",
+      "notes": "Partial installment of Folge 100 ('Folge 100/4'); complete episode exists on both providers.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:51.875748+00:00"
+     },
+     {
+      "album_id": "6V84i3hoZZ6N0UsOuELxpf",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 5 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-05-01",
+      "confidence": "medium",
+      "notes": "Partial installment of Folge 100 ('Folge 100/5'); complete episode exists on both providers.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:51.875748+00:00"
+     },
+     {
+      "album_id": "2u4ZcizMljIszOktTzSw1Q",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 6 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-05-08",
+      "confidence": "medium",
+      "notes": "Partial installment of Folge 100 ('Folge 100/6'); complete episode exists on both providers.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:51.875748+00:00"
+     },
+     {
+      "album_id": "3plzZW39rPn9kraHYUI69Z",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 7 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-05-15",
+      "confidence": "medium",
+      "notes": "Partial installment of Folge 100 ('Folge 100/7'); complete episode exists on both providers.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:51.875748+00:00"
+     },
+     {
+      "album_id": "5BCmDX81qrWAn6rSnX6w3l",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 8 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-05-22",
+      "confidence": "medium",
+      "notes": "Partial installment of Folge 100 ('Folge 100/8'); complete episode exists on both providers.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:51.875748+00:00"
+     },
+     {
+      "album_id": "0DeLb048gWpWg15yEbMvC0",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-05-29",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:51.875748+00:00"
+     },
+     {
+      "album_id": "6Q9lMWg3IRIrYy6xgFCo5B",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 9 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-05-29",
+      "confidence": "medium",
+      "notes": "Partial installment of Folge 100 ('Folge 100/9'); complete episode exists on both providers.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:51.875748+00:00"
+     },
+     {
+      "album_id": "45VT337qtbMKaKqAmpA3lr",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": 101,
+      "title": "Folge 101: Diebstahl im Museum (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-07-24",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:51.875748+00:00"
+     },
+     {
+      "album_id": "1471415249",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Die große Ritter-Box, Folgen 2, 8, 20 (Das Original Playmobil Hörspiel)",
+      "exclude_reason": "compilation",
+      "release_date": "2010-11-01",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:51.875748+00:00"
+     },
+     {
+      "album_id": "1881915429",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 99,
+      "title": "Folge 99: Duell zwischen den Pfosten (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-03-13",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:51.875748+00:00"
+     },
+     {
+      "album_id": "1886133182",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring - Episode 1",
+      "exclude_reason": "partial_release",
+      "release_date": "2026-04-17",
+      "confidence": "medium",
+      "notes": "Partial installment of Folge 100 ('Folge 100/1'); complete episode 'Folge 100: Der magische Ring' exists on both providers.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:51.875748+00:00"
+     },
+     {
+      "album_id": "6768373658",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 100,
+      "title": "Folge 100: Der magische Ring",
+      "exclude_reason": null,
+      "release_date": "2026-05-29",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:51.875748+00:00"
+     },
+     {
+      "album_id": "6788765675",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 101,
+      "title": "Folge 101: Diebstahl im Museum (Das Original Playmobil Hörspiel)",
+      "exclude_reason": null,
+      "release_date": "2026-07-24",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-10-12T17:54:51.875748+00:00"
+     }
+    ]
+   },
+   "metrics": {
+    "requests": 2,
+    "input_tokens": 71383,
+    "output_tokens": 15620,
+    "cache_read.input_tokens": 61307,
+    "cache_read_tokens": 61307
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "6 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 104.105387243,
+   "total_duration": 104.115612561,
+   "source_case_name": "die_playmos_serial_parts",
+   "trace_id": "01a1313f31d0027e9ebf0adcd7d1dd53",
+   "span_id": "aa6f4819c728b235",
+   "evaluator_failures": []
+  }
+ ],
+ "failures": [],
+ "analyses": [
+  {
+   "type": "table",
+   "title": "Albums across all cases",
+   "description": null,
+   "columns": [
+    "albums",
+    "right",
+    "wrong content",
+    "missing content"
+   ],
+   "rows": [
+    [
+     90,
+     80,
+     10,
+     0
+    ]
+   ]
+  }
+ ],
+ "report_evaluator_failures": [],
+ "experiment_metadata": {
+  "model": "deepseek-v4-pro:0813"
+ },
+ "trace_id": "01a1313f31d0027e9ebf0adcd7d1dd53",
+ "span_id": "e5b997d2c33bbc2a"
+}
