@@ -120,6 +120,17 @@ of these and includes nearly all of them. The same holds for one story told
 across two releases ("Folge 100: Ottos neue Freundin - Teil 1" / "Teil 2"):
 two releases, one story, both included.
 
+**One episode released in parts, and then complete.** A publisher
+sometimes puts one episode out piece by piece ("Folge 100: Der magische
+Ring - Episode 1" to "Episode 9", a week apart, twenty minutes each) and
+then as one album with the whole story ("Folge 100: Der magische Ring",
+168 minutes). The complete album is the episode: include it. It is not a
+box, because its parts are not episodes of their own: they share its
+number, and none of them is a whole story. The parts are
+`partial_release`. Where the provider has no complete album, the parts are
+the only way to hear the story and stay in, like "Teil 1" and "Teil 2"
+above.
+
 The question to ask: does this release re-sell episodes that already exist
 on their own? Then it is a compilation, exclude it as `compilation`. Does
 it hold stories or topics that only exist together, under one number? Then

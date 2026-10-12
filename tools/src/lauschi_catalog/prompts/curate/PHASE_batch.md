@@ -28,7 +28,7 @@ field is an enum; use exactly one of these values:
 | `duplicate` | Same content, same provider (keep the most recent) |
 | `not_kids_content` | Adult content in a children's series |
 | `different_series` | Belongs to a completely different series |
-| `partial_release` | Incomplete or preview release |
+| `partial_release` | Incomplete or preview release, or one part of an episode whose complete album is on the provider too |
 | `unspecified` | Catch-all when no other category fits (prefer including instead) |
 
 If you cannot name a pattern from this list, **include**.
