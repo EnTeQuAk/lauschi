@@ -4,7 +4,7 @@ One JSON file per case under ``fixtures/``. It holds one batch frozen
 from the provider cache (``albums``), the series facts and the prior
 decisions the run would have (``series``, ``decided``), and for every
 album the decision it must come out with (``expect``). An expectation
-names its source: the line index where it lists the title, a hand
+names its source: the reference index where it lists the title, a hand
 decision where it does not.
 """
 
@@ -37,7 +37,7 @@ class Expectation(BaseModel):
     #: the least confidence the decision may come with. Left out, any
     #: confidence passes.
     min_confidence: Literal["high", "medium", "low"] | None = None
-    #: "line index: <line> <number>" or "by hand: <why>"
+    #: "reference index: <line> <number>" or "by hand: <why>"
     source: str = Field(min_length=1)
 
     @model_validator(mode="after")

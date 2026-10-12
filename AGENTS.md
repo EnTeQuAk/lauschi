@@ -39,7 +39,7 @@ with `LAUSCHI_MODEL_HOST=opencode`. Keys, all in `.env`
 (loaded by mise): `SPOTIFY_CLIENT_ID`/`SPOTIFY_CLIENT_SECRET` for the provider
 APIs (Apple Music uses the shared MusicKit key `android/app/AuthKey_*.p8`),
 `OLLAMA_API_KEY` (or `OPENCODE_API_KEY`) for model calls, `BRAVE_API_KEY` for the agents' web search
-tool, `REFERENCE_INDEX_URL` (optional) for the public line index behind the
+tool, `REFERENCE_INDEX_URL` (optional) for the public reference index behind the
 agents' `lookup_reference_lines` tool and `lauschi-catalog reference <title>`
 (a brand's lines and their numbered episodes; lags on new releases, so
 absence there proves nothing).
@@ -125,7 +125,7 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
    (listed in `deleted.yaml`, e.g. `astrid_lindgren_deutsch`) stay one
    family, and their page's leftovers were settled at dissolution.
    On a page that several entries share, the batch instructions carry what
-   the line index holds for the brand: its lines with their titles and
+   the reference index holds for the brand: its lines with their titles and
    running times, and its products that sit in no line. Which line a title
    belongs to is then a fact in front of the model, not a lookup it may
    skip. It never supplies an episode number.
@@ -219,7 +219,7 @@ id to see how each model and round read it, which is where a prompt change
 starts. The model's thinking is only in the trace.
 
 The cases are files in `tools/tests/evals/fixtures/`. Every expectation
-names its source: the line index where it lists the title, a hand decision
+names its source: the reference index where it lists the title, a hand decision
 with its reason where it does not. To add one, run
 `python -m tests.evals.build_case <series_id> --list` from `tools/` (with
 `mise exec -- uv run --extra ai`), pick the albums, and replace each `todo`

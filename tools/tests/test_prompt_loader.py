@@ -166,7 +166,7 @@ class TestPolicyTeaching:
 
     def test_a_split_off_line_is_sure_of_its_line_not_of_a_number(self):
         """A sub-series keeps an album only at `high`. The model marked
-        titles the line index places in the line `medium`, because the
+        titles the reference index places in the line `medium`, because the
         pattern gave them no number, and lost them to the main series."""
         skill = load_curate_skill(phase="batch", content_type="hoerspiel")
         p = " ".join(skill.split())  # wording, whatever the line breaks

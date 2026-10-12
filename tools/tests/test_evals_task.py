@@ -18,8 +18,8 @@ pytestmark = pytest.mark.anyio
 
 
 @pytest.fixture(autouse=True)
-def _no_line_index(monkeypatch: pytest.MonkeyPatch) -> None:
-    """The task reads the line index live. These tests stay offline."""
+def _no_reference_index(monkeypatch: pytest.MonkeyPatch) -> None:
+    """The task reads the reference index live. These tests stay offline."""
     monkeypatch.setattr(task_module, "shared_page_reference", lambda _brand: "")
 
 
@@ -298,7 +298,7 @@ async def test_a_series_on_a_shared_page_is_given_the_brands_lines(
 
     def lines(brand: str) -> str:
         asked.append(brand)
-        return "## The brand's lines in the public line index\n<line name=...>"
+        return "## The brand's lines in the public reference index\n<line name=...>"
 
     monkeypatch.setattr(task_module, "shared_page_reference", lines)
     script = _Script([_decide("a", episode_num=2)])
@@ -309,7 +309,7 @@ async def test_a_series_on_a_shared_page_is_given_the_brands_lines(
     await run_batch_curation(inp, model=FunctionModel(script))
 
     assert asked == ["Hexe Lilli"]
-    assert "## The brand's lines in the public line index" in script.instructions
+    assert "## The brand's lines in the public reference index" in script.instructions
 
 
 async def test_a_series_with_a_page_of_its_own_is_not(
@@ -323,4 +323,4 @@ async def test_a_series_with_a_page_of_its_own_is_not(
 
     await run_batch_curation(inp, model=FunctionModel(script))
 
-    assert "public line index\n<line" not in script.instructions
+    assert "public reference index\n<line" not in script.instructions

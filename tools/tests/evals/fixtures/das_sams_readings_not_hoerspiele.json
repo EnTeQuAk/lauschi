@@ -55,7 +55,7 @@
     {"name": "Kapitel 2.14 - Das Sams 1. Eine Woche voller Samstage. Das Hörspiel", "duration_ms": 192700, "track_number": null},
     {"name": "Kapitel 2.15 - Das Sams 1. Eine Woche voller Samstage. Das Hörspiel", "duration_ms": 232460, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "line index: Hörspiele Band 1"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "reference index: Hörspiele Band 1"}
   },
   {
    "provider": "spotify",
@@ -132,7 +132,7 @@
     {"name": "Kapitel 33.3 & Kapitel 34.1 - Das Sams 2. Am Samstag kam das Sams zurück", "duration_ms": 196366, "track_number": null},
     {"name": "Kapitel 34.2 - Das Sams 2. Am Samstag kam das Sams zurück", "duration_ms": 210533, "track_number": null}
    ],
-   "expect": {"include": true, "episode_num": 2, "source": "line index: Hörbücher Band 2"}
+   "expect": {"include": true, "episode_num": 2, "source": "reference index: Hörbücher Band 2"}
   },
   {
    "provider": "spotify",
@@ -163,7 +163,7 @@
     {"name": "Kapitel 7.2 - Das Sams 2. Am Samstag kam das Sams zurück. Das Hörspiel", "duration_ms": 197000, "track_number": null},
     {"name": "Kapitel 7.3 - Das Sams 2. Am Samstag kam das Sams zurück. Das Hörspiel", "duration_ms": 301980, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "line index: Hörspiele Band 2"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "reference index: Hörspiele Band 2"}
   },
   {
    "provider": "spotify",
@@ -193,7 +193,7 @@
     {"name": "Kapitel 2.8 - Das Sams 3. Neue Punkte für das Sams. Das Hörspiel", "duration_ms": 189700, "track_number": null},
     {"name": "Kapitel 2.9 - Das Sams 3. Neue Punkte für das Sams. Das Hörspiel", "duration_ms": 86340, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "line index: Hörspiele Band 3"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "reference index: Hörspiele Band 3"}
   },
   {
    "provider": "spotify",
@@ -309,7 +309,7 @@
    "expect": {
     "include": false,
     "exclude_reason": ["sub_series_bleed", "compilation"],
-    "source": "line index: Hörspiele Sammelband"
+    "source": "reference index: Hörspiele Sammelband"
    }
   },
   {
@@ -356,7 +356,7 @@
     {"name": "Kapitel 4.7 - Das Sams 4. Ein Sams für Martin Taschenbier. Das Hörspiel", "duration_ms": 225200, "track_number": null},
     {"name": "Kapitel 4.8 - Das Sams 4. Ein Sams für Martin Taschenbier. Das Hörspiel", "duration_ms": 240733, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "line index: Hörspiele Band 4"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "reference index: Hörspiele Band 4"}
   },
   {
    "provider": "spotify",
@@ -452,7 +452,7 @@
     {"name": "Kapitel 42.3 - Das Sams 5. Sams in Gefahr", "duration_ms": 185673, "track_number": null},
     {"name": "Kapitel 42.4 & Kapitel 43 - Das Sams 5. Sams in Gefahr", "duration_ms": 193626, "track_number": null}
    ],
-   "expect": {"include": true, "episode_num": 5, "source": "line index: Hörbücher Band 5"}
+   "expect": {"include": true, "episode_num": 5, "source": "reference index: Hörbücher Band 5"}
   },
   {
    "provider": "spotify",
@@ -474,7 +474,7 @@
     {"name": "Kapitel 2.2 - Ein Taucheranzug für das Sams und eine weitere Geschichte", "duration_ms": 206500, "track_number": null},
     {"name": "Kapitel 2.3 - Ein Taucheranzug für das Sams und eine weitere Geschichte", "duration_ms": 162820, "track_number": null}
    ],
-   "expect": {"include": true, "episode_num": null, "source": "line index: Hörbücher Einzelgeschichte"}
+   "expect": {"include": true, "episode_num": null, "source": "reference index: Hörbücher Einzelgeschichte"}
   },
   {
    "provider": "spotify",
@@ -521,7 +521,7 @@
     {"name": "Kapitel 23.2 & Kapitel 24.1 - Das Sams 8. Ein Sams zu viel", "duration_ms": 228980, "track_number": null},
     {"name": "Kapitel 24.2 - Das Sams 8. Ein Sams zu viel", "duration_ms": 286460, "track_number": null}
    ],
-   "expect": {"include": true, "episode_num": 8, "source": "line index: Hörbücher Band 8"}
+   "expect": {"include": true, "episode_num": 8, "source": "reference index: Hörbücher Band 8"}
   },
   {
    "provider": "spotify",
@@ -586,7 +586,7 @@
     {"name": "Kapitel 28.2 - Das Sams 1. Eine Woche voller Samstage", "duration_ms": 199100, "track_number": null},
     {"name": "Kapitel 28.3 & Kapitel 29 - Das Sams 1. Eine Woche voller Samstage", "duration_ms": 290440, "track_number": null}
    ],
-   "expect": {"include": true, "episode_num": 1, "source": "line index: Hörbücher Band 1"}
+   "expect": {"include": true, "episode_num": 1, "source": "reference index: Hörbücher Band 1"}
   },
   {
    "provider": "spotify",
@@ -654,7 +654,7 @@
     {"name": "Kapitel 33.2 & Kapitel 34.1 - Das Sams 9. Das Sams feiert Weihnachten", "duration_ms": 187600, "track_number": null},
     {"name": "Kapitel 34.2 & Kapitel 35 - Das Sams 9. Das Sams feiert Weihnachten", "duration_ms": 268906, "track_number": null}
    ],
-   "expect": {"include": true, "episode_num": 9, "source": "line index: Hörbücher Band 9"}
+   "expect": {"include": true, "episode_num": 9, "source": "reference index: Hörbücher Band 9"}
   },
   {
    "provider": "spotify",
@@ -729,7 +729,7 @@
     {"name": "Kapitel 32.2 - Das Sams 3. Neue Punkte für das Sams", "duration_ms": 199500, "track_number": null},
     {"name": "Kapitel 32.3 - Das Sams 3. Neue Punkte für das Sams", "duration_ms": 180006, "track_number": null}
    ],
-   "expect": {"include": true, "episode_num": 3, "source": "line index: Hörbücher Band 3"}
+   "expect": {"include": true, "episode_num": 3, "source": "reference index: Hörbücher Band 3"}
   },
   {
    "provider": "spotify",
@@ -828,7 +828,7 @@
     {"name": "Kapitel 40.2 - Das Sams 4. Ein Sams für Martin Taschenbier", "duration_ms": 187100, "track_number": null},
     {"name": "Kapitel 40.3 - Das Sams 4. Ein Sams für Martin Taschenbier", "duration_ms": 128473, "track_number": null}
    ],
-   "expect": {"include": true, "episode_num": 4, "source": "line index: Hörbücher Band 4"}
+   "expect": {"include": true, "episode_num": 4, "source": "reference index: Hörbücher Band 4"}
   },
   {
    "provider": "spotify",
@@ -921,7 +921,7 @@
     {"name": "Kapitel 37.2 & Kapitel 38.1 - Das Sams 6. Onkel Alwin und das Sams", "duration_ms": 213026, "track_number": null},
     {"name": "Kapitel 38.2 - Das Sams 6. Onkel Alwin und das Sams", "duration_ms": 270820, "track_number": null}
    ],
-   "expect": {"include": true, "episode_num": 6, "source": "line index: Hörbücher Band 6"}
+   "expect": {"include": true, "episode_num": 6, "source": "reference index: Hörbücher Band 6"}
   },
   {
    "provider": "spotify",
@@ -989,7 +989,7 @@
     {"name": "Kapitel 27.4 & Kapitel 28.1 - Das Sams 10. Das Sams und der blaue Drache", "duration_ms": 185260, "track_number": null},
     {"name": "Kapitel 28.2 - Das Sams 10. Das Sams und der blaue Drache", "duration_ms": 168719, "track_number": null}
    ],
-   "expect": {"include": true, "episode_num": 10, "source": "line index: Hörbücher Band 10"}
+   "expect": {"include": true, "episode_num": 10, "source": "reference index: Hörbücher Band 10"}
   },
   {
    "provider": "spotify",
@@ -1053,7 +1053,7 @@
     {"name": "Kapitel 39.2 & Kapitel 40.1 - Das Sams 11. Das Sams und die große Weihnachtssuche", "duration_ms": 201076, "track_number": null},
     {"name": "Kapitel 40.2 - Das Sams 11. Das Sams und die große Weihnachtssuche", "duration_ms": 216464, "track_number": null}
    ],
-   "expect": {"include": true, "episode_num": 11, "source": "line index: Hörbücher Band 11"}
+   "expect": {"include": true, "episode_num": 11, "source": "reference index: Hörbücher Band 11"}
   },
   {
    "provider": "spotify",
@@ -1104,7 +1104,7 @@
     {"name": "Kapitel 34 - Das Sams 12. Das Mini-Sams ist weg", "duration_ms": 198856, "track_number": null},
     {"name": "Kapitel 35 - Das Sams 12. Das Mini-Sams ist weg", "duration_ms": 180023, "track_number": null}
    ],
-   "expect": {"include": true, "episode_num": 12, "source": "line index: Hörbücher Band 12"}
+   "expect": {"include": true, "episode_num": 12, "source": "reference index: Hörbücher Band 12"}
   },
   {
    "provider": "apple_music",
@@ -1142,7 +1142,7 @@
     {"name": "Kapitel 21", "duration_ms": 145000, "track_number": null},
     {"name": "Kapitel 22", "duration_ms": 156980, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: the title is the reading's, the running time of 54 minutes is the Hörspiel's (line index: Hörspiele Band 2 runs 54 minutes, Hörbücher Band 2 runs 199)"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: the title is the reading's, the running time of 54 minutes is the Hörspiel's (reference index: Hörspiele Band 2 runs 54 minutes, Hörbücher Band 2 runs 199)"}
   },
   {
    "provider": "apple_music",
@@ -1174,7 +1174,7 @@
     {"name": "Kapitel 15", "duration_ms": 187500, "track_number": null},
     {"name": "Kapitel 16", "duration_ms": 276040, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: the title is the reading's, the running time of 59 minutes is the Hörspiel's (line index: Hörspiele Band 3 runs 59 minutes, Hörbücher Band 3 runs 196)"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: the title is the reading's, the running time of 59 minutes is the Hörspiel's (reference index: Hörspiele Band 3 runs 59 minutes, Hörbücher Band 3 runs 196)"}
   },
   {
    "provider": "apple_music",
@@ -1234,7 +1234,7 @@
     {"name": "Kapitel 43", "duration_ms": 218600, "track_number": null},
     {"name": "Kapitel 44", "duration_ms": 124533, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: the title is the reading's, the running time of 103 minutes is the Hörspiel's (line index: Hörspiele Band 4 runs 103 minutes, Hörbücher Band 4 runs 269)"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: the title is the reading's, the running time of 103 minutes is the Hörspiel's (reference index: Hörspiele Band 4 runs 103 minutes, Hörbücher Band 4 runs 269)"}
   },
   {
    "provider": "apple_music",
@@ -1394,7 +1394,7 @@
    "expect": {
     "include": false,
     "exclude_reason": ["sub_series_bleed", "compilation"],
-    "source": "line index: Hörspiele Sammelband"
+    "source": "reference index: Hörspiele Sammelband"
    }
   }
  ]

@@ -158,7 +158,7 @@ def album_to_dict(album_detail: object) -> dict:
 def format_reference_lines(
     series: ReferenceSeries, unfiled: list[ReferenceProduct]
 ) -> str:
-    """What the public line index holds for a brand, as a block for the
+    """What the public reference index holds for a brand, as a block for the
     instructions of a run on a shared artist page.
 
     Titles per line with their running time, and the brand's products
@@ -166,7 +166,7 @@ def format_reference_lines(
     provider metadata.
     """
     parts = [
-        "## The brand's lines in the public line index",
+        "## The brand's lines in the public reference index",
         "",
         "Several catalog entries share this artist page. The index files the "
         f"releases of {series.name!r} as listed below. A title in a line belongs "

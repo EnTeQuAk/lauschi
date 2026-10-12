@@ -497,7 +497,7 @@
     {"name": "Spuk in der Werkstatt - Teil 08", "duration_ms": 187845, "track_number": null},
     {"name": "Spuk in der Werkstatt - Teil 09", "duration_ms": 222421, "track_number": null}
    ],
-   "expect": {"include": true, "episode_num": 1, "source": "line index: Das Original aus dem Fernsehen 1"}
+   "expect": {"include": true, "episode_num": 1, "source": "reference index: Das Original aus dem Fernsehen 1"}
   },
   {
    "provider": "spotify",
@@ -553,7 +553,7 @@
     {"name": "Teil 39 - Pumuckl und das Glück", "duration_ms": 185320, "track_number": null},
     {"name": "Teil 40 - Pumuckl und das Glück", "duration_ms": 238684, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "wrong_content_type", "source": "line index: Geschichten-Hörbücher, Pumuckl - Abenteuergeschichten. A reading, not a Hörspiel"}
+   "expect": {"include": false, "exclude_reason": "wrong_content_type", "source": "reference index: Geschichten-Hörbücher, Pumuckl - Abenteuergeschichten. A reading, not a Hörspiel"}
   },
   {
    "provider": "apple_music",
@@ -588,7 +588,7 @@
    "expect": {
     "include": false,
     "exclude_reason": ["kinderlieder_compilation", "wrong_content_type"],
-    "source": "line index: Musik, Pumuckl tanzt!"
+    "source": "reference index: Musik, Pumuckl tanzt!"
    }
   },
   {
@@ -625,7 +625,7 @@
     {"name": "Koboldsgesetz - Teil 19", "duration_ms": 99780, "track_number": null},
     {"name": "Koboldsgesetz - Teil 20", "duration_ms": 98164, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "line index: Neue Geschichten vom Pumuckl 1"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "reference index: Neue Geschichten vom Pumuckl 1"}
   },
   {
    "provider": "apple_music",
@@ -769,7 +769,7 @@
     {"name": "Pumuckl geht Campen - Teil 21", "duration_ms": 103856, "track_number": null},
     {"name": "Pumuckl geht Campen - Teil 22", "duration_ms": 102611, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "compilation", "source": "by hand: the line index has no product for it. 203 minutes of episodes that ship alone, put together for the season"}
+   "expect": {"include": false, "exclude_reason": "compilation", "source": "by hand: the reference index has no product for it. 203 minutes of episodes that ship alone, put together for the season"}
   }
  ]
 }

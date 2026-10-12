@@ -190,7 +190,7 @@ Rules:
   mixed sub-series, unfamiliar catalog shape). Investigate rather than hedge.
 - When in doubt, move one level down (HIGH→MEDIUM, MEDIUM→LOW) and include.
 
-## Public line index (tool: lookup_reference_lines)
+## Public reference index (tool: lookup_reference_lines)
 
 An outside, publisher-fed index organises many brands into lines (the main Hörspiele, a Junior line, the Kinofilm Hörspiele, an Advent calendar, ...). `lookup_reference_lines(series_name)` returns a brand's lines with the titles in each. It is a guide for include and exclude, nothing else:
 

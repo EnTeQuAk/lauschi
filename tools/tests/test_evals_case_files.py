@@ -45,7 +45,7 @@ def _write(tmp_path: Path, **overrides: Any) -> Path:
                 {
                     "include": True,
                     "episode_num": 2,
-                    "source": "line index: Hörspiele 2",
+                    "source": "reference index: Hörspiele 2",
                 },
             ),
             _album(
@@ -77,7 +77,7 @@ def test_a_case_file_becomes_a_case(tmp_path: Path) -> None:
         ("spotify", "ep2"): {
             "include": True,
             "episode_num": 2,
-            "source": "line index: Hörspiele 2",
+            "source": "reference index: Hörspiele 2",
         },
         ("spotify", "ost"): {
             "include": False,

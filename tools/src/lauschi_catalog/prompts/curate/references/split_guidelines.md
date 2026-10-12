@@ -166,7 +166,7 @@ page comes to you, and each one gets the same question: is it this line?
   is gone from the root. A claim therefore needs your full confidence:
   an include below `high` is treated as doubt and goes to the root.
 
-What your line is, you learn from the line index and the publisher, not
+What your line is, you learn from the reference index and the publisher, not
 from the albums you already hold. A word those share, like the line's
 name in brackets, marks its newer releases. Older releases of the same
 line often lack it, so a missing marker is no reason to leave an album
@@ -174,7 +174,7 @@ to the root.
 
 Your confidence answers that one question too: is it this line. It says
 nothing about the number, and nothing about what kind of release the
-album is. A title the line index lists in your line is yours with `high`,
+album is. A title the reference index lists in your line is yours with `high`,
 also when your pattern does not match it and it ships without a number.
 An album of your line that should not ship, a box that re-sells its
 episodes or a format variant, is excluded for what it is. Keep `medium`

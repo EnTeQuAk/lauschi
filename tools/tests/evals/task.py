@@ -116,7 +116,7 @@ async def run_batch_curation(
         model_name=MODEL_NAME,
         content_type=series.content_type,
         discography_span_years=series.discography_span_years,
-        # read live, like the tools: the line index is not part of a case
+        # read live, like the tools: the reference index is not part of a case
         page_reference=shared_page_reference(series.main_series_title or series.title)
         if shared_page
         else "",

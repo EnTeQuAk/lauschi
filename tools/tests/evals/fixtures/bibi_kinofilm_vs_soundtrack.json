@@ -952,7 +952,7 @@
     {"name": "Kapitel 44: Hörspiel zum Kinofilm", "duration_ms": 86580, "track_number": null},
     {"name": "Kapitel 45: Hörspiel zum Kinofilm", "duration_ms": 46273, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "line index: Filme, Hörspiel zum 1. Kinofilm (66 min, like the album)"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "reference index: Filme, Hörspiel zum 1. Kinofilm (66 min, like the album)"}
   },
   {
    "provider": "spotify",
@@ -1015,7 +1015,7 @@
     {"name": "Kapitel 46: und das Geheimnis der blauen Eulen (Hörspiel zum 2. Kinofilm)", "duration_ms": 92700, "track_number": null},
     {"name": "Kapitel 47: und das Geheimnis der blauen Eulen (Hörspiel zum 2. Kinofilm)", "duration_ms": 67721, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "line index: Filme, Hörspiel zum 2. Kinofilm"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "reference index: Filme, Hörspiel zum 2. Kinofilm"}
   },
   {
    "provider": "spotify",
@@ -1034,7 +1034,7 @@
     {"name": "Bibi als Krankenschwester - Kapitel 2: Schneckenschleim und Puppentheater", "duration_ms": 221350, "track_number": null},
     {"name": "Bibi als Krankenschwester - Kapitel 3: Lachen ist gesund!", "duration_ms": 161295, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: decided with Chris on 2026-10-10, the Kurzgeschichte stories are an entry of their own. The line index has neither a line nor a product for them"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: decided with Chris on 2026-10-10, the Kurzgeschichte stories are an entry of their own. The reference index has neither a line nor a product for them"}
   },
   {
    "provider": "spotify",
@@ -1053,7 +1053,7 @@
     {"name": "Der Hexen-Imbiss - Kapitel 2: Bibi, die Jungköchin", "duration_ms": 188077, "track_number": null},
     {"name": "Der Hexen-Imbiss - Kapitel 3: Das Auge isst mit", "duration_ms": 259832, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: decided with Chris on 2026-10-10, the Kurzgeschichte stories are an entry of their own. The line index has neither a line nor a product for them"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: decided with Chris on 2026-10-10, the Kurzgeschichte stories are an entry of their own. The reference index has neither a line nor a product for them"}
   },
   {
    "provider": "apple_music",
@@ -1070,7 +1070,7 @@
    "tracks": [
     {"name": "Bibi Blocksberg Titellied aus den 80ern", "duration_ms": 218448, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "music_single", "source": "line index: Musik, Titellied aus den 1980ern"}
+   "expect": {"include": false, "exclude_reason": "music_single", "source": "reference index: Musik, Titellied aus den 1980ern"}
   },
   {
    "provider": "apple_music",
@@ -1131,7 +1131,7 @@
     {"name": "Kapitel 44: Hörspiel zum Kinofilm", "duration_ms": 86580, "track_number": null},
     {"name": "Kapitel 45: Hörspiel zum Kinofilm", "duration_ms": 46274, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "line index: Filme, Hörspiel zum 1. Kinofilm (66 min, like the album)"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "reference index: Filme, Hörspiel zum 1. Kinofilm (66 min, like the album)"}
   },
   {
    "provider": "apple_music",
@@ -1194,7 +1194,7 @@
     {"name": "Kapitel 46: und das Geheimnis der blauen Eulen (Hörspiel zum 2. Kinofilm)", "duration_ms": 92701, "track_number": null},
     {"name": "Kapitel 47: und das Geheimnis der blauen Eulen (Hörspiel zum 2. Kinofilm)", "duration_ms": 67722, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "line index: Filme, Hörspiel zum 2. Kinofilm"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "reference index: Filme, Hörspiel zum 2. Kinofilm"}
   },
   {
    "provider": "apple_music",
@@ -1260,7 +1260,7 @@
     {"name": "Kapitel 48 - Die große Hexenparty (Folge 100)", "duration_ms": 107373, "track_number": null},
     {"name": "Kapitel 49 - Die große Hexenparty (Folge 100)", "duration_ms": 51465, "track_number": null}
    ],
-   "expect": {"include": true, "episode_num": 100, "source": "line index: Hörspiele 100"}
+   "expect": {"include": true, "episode_num": 100, "source": "reference index: Hörspiele 100"}
   },
   {
    "provider": "apple_music",
@@ -1279,7 +1279,7 @@
     {"name": "Bibi als Krankenschwester - Kapitel 2: Schneckenschleim und Puppentheater", "duration_ms": 221350, "track_number": null},
     {"name": "Bibi als Krankenschwester - Kapitel 3: Lachen ist gesund!", "duration_ms": 161295, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: decided with Chris on 2026-10-10, the Kurzgeschichte stories are an entry of their own. The line index has neither a line nor a product for them"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: decided with Chris on 2026-10-10, the Kurzgeschichte stories are an entry of their own. The reference index has neither a line nor a product for them"}
   },
   {
    "provider": "apple_music",
@@ -1298,7 +1298,7 @@
     {"name": "Der Hexen-Imbiss - Kapitel 2: Bibi, die Jungköchin", "duration_ms": 188078, "track_number": null},
     {"name": "Der Hexen-Imbiss - Kapitel 3: Das Auge isst mit", "duration_ms": 259832, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: decided with Chris on 2026-10-10, the Kurzgeschichte stories are an entry of their own. The line index has neither a line nor a product for them"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: decided with Chris on 2026-10-10, the Kurzgeschichte stories are an entry of their own. The reference index has neither a line nor a product for them"}
   },
   {
    "provider": "apple_music",
@@ -1355,7 +1355,7 @@
    "expect": {
     "include": false,
     "exclude_reason": ["wrong_content_type", "sub_series_bleed"],
-    "source": "line index: Filme, Filmmusik zum 4. Kinofilm. Music, not a story"
+    "source": "reference index: Filme, Filmmusik zum 4. Kinofilm. Music, not a story"
    }
   },
   {
@@ -1424,7 +1424,7 @@
     {"name": "Kapitel 50: Das große Hexentreffen (Das Original-Hörspiel zum Kinofilm)", "duration_ms": 90465, "track_number": null},
     {"name": "Kapitel 51: Das große Hexentreffen (Das Original-Hörspiel zum Kinofilm)", "duration_ms": 61615, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "line index: Filme, Hörspiel zum 4. Kinofilm"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "reference index: Filme, Hörspiel zum 4. Kinofilm"}
   },
   {
    "provider": "apple_music",
@@ -1466,7 +1466,7 @@
    "expect": {
     "include": false,
     "exclude_reason": ["wrong_content_type", "sub_series_bleed"],
-    "source": "line index: Filme, Soundtrack zum 4. Kinofilm. Songs, not a story"
+    "source": "reference index: Filme, Soundtrack zum 4. Kinofilm. Songs, not a story"
    }
   },
   {
@@ -1534,7 +1534,7 @@
     {"name": "Kapitel 49: Die total verhexte Zeitreise (Das Original-Hörspiel zum Kinofilm)", "duration_ms": 92742, "track_number": null},
     {"name": "Kapitel 50: Die total verhexte Zeitreise (Das Original-Hörspiel zum Kinofilm)", "duration_ms": 91955, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "line index: Filme, Hörspiel zum 5. Kinofilm. Not Hörspiele 94, Die verhexte Zeitreise"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "reference index: Filme, Hörspiel zum 5. Kinofilm. Not Hörspiele 94, Die verhexte Zeitreise"}
   },
   {
    "provider": "apple_music",
@@ -1573,7 +1573,7 @@
    "expect": {
     "include": false,
     "exclude_reason": ["wrong_content_type", "sub_series_bleed"],
-    "source": "line index: Filme, Soundtrack zum 5. Kinofilm. Songs, not a story"
+    "source": "reference index: Filme, Soundtrack zum 5. Kinofilm. Songs, not a story"
    }
   }
  ]

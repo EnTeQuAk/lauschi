@@ -586,7 +586,7 @@
     {"name": "Kapitel 03: Der Rekordbär (Folge 108)", "duration_ms": 196390, "track_number": null},
     {"name": "Kapitel 04: Der Rekordbär (Folge 108)", "duration_ms": 308146, "track_number": null}
    ],
-   "expect": {"include": true, "episode_num": 104, "source": "by hand: episodes 104 to 108 are released only in this box on Spotify. The line index lists them one by one (Hörspiele zur CGI-Trickfilmserie)"}
+   "expect": {"include": true, "episode_num": 104, "source": "by hand: episodes 104 to 108 are released only in this box on Spotify. The reference index lists them one by one (Hörspiele zur CGI-Trickfilmserie)"}
   },
   {
    "provider": "spotify",
@@ -617,7 +617,7 @@
     {"name": "Kapitel 02: Tiger ist der Knaller (Folge 10)", "duration_ms": 180010, "track_number": null},
     {"name": "Kapitel 03: Tiger ist der Knaller (Folge 10)", "duration_ms": 345691, "track_number": null}
    ],
-   "expect": {"include": true, "episode_num": 6, "source": "by hand: episodes 6 to 10 are released only in this box on Spotify. The line index lists them one by one (Hörspiele zur CGI-Trickfilmserie)"}
+   "expect": {"include": true, "episode_num": 6, "source": "by hand: episodes 6 to 10 are released only in this box on Spotify. The reference index lists them one by one (Hörspiele zur CGI-Trickfilmserie)"}
   },
   {
    "provider": "apple_music",
@@ -638,7 +638,7 @@
     {"name": "Normans Arche (Folge 30)", "duration_ms": 704503, "track_number": null},
     {"name": "Mikes Rakete (Folge 31)", "duration_ms": 709000, "track_number": null}
    ],
-   "expect": {"include": true, "episode_num": 27, "source": "by hand: episodes 27 to 31 are released only in this box on Apple Music. The line index lists them one by one (Hörspiele zur CGI-Trickfilmserie)"}
+   "expect": {"include": true, "episode_num": 27, "source": "by hand: episodes 27 to 31 are released only in this box on Apple Music. The reference index lists them one by one (Hörspiele zur CGI-Trickfilmserie)"}
   },
   {
    "provider": "apple_music",
@@ -704,7 +704,7 @@
     {"name": "Kapitel 09: Monster-Alarm (Folge 133)", "duration_ms": 77403, "track_number": null},
     {"name": "Kapitel 10: Monster-Alarm (Folge 133)", "duration_ms": 166215, "track_number": null}
    ],
-   "expect": {"include": true, "episode_num": 133, "source": "line index: Hörspiele zur CGI-Trickfilmserie 133"}
+   "expect": {"include": true, "episode_num": 133, "source": "reference index: Hörspiele zur CGI-Trickfilmserie 133"}
   },
   {
    "provider": "apple_music",
@@ -729,7 +729,7 @@
     {"name": "Kapitel 08: Eine zündende Werbung (Folge 143)", "duration_ms": 78000, "track_number": null},
     {"name": "Kapitel 09: Eine zündende Werbung (Folge 143)", "duration_ms": 170621, "track_number": null}
    ],
-   "expect": {"include": true, "episode_num": 143, "source": "line index: Hörspiele zur CGI-Trickfilmserie 143"}
+   "expect": {"include": true, "episode_num": 143, "source": "reference index: Hörspiele zur CGI-Trickfilmserie 143"}
   },
   {
    "provider": "apple_music",
@@ -770,7 +770,7 @@
     {"name": "Kapitel 04: Der Rekordbär (Folge 108)", "duration_ms": 196392, "track_number": null},
     {"name": "Kapitel 05: Der Rekordbär (Folge 108)", "duration_ms": 308146, "track_number": null}
    ],
-   "expect": {"include": true, "episode_num": 104, "source": "by hand: episodes 104 to 108 are released only in this box on Apple Music. The line index lists them one by one (Hörspiele zur CGI-Trickfilmserie)"}
+   "expect": {"include": true, "episode_num": 104, "source": "by hand: episodes 104 to 108 are released only in this box on Apple Music. The reference index lists them one by one (Hörspiele zur CGI-Trickfilmserie)"}
   },
   {
    "provider": "apple_music",
@@ -1029,7 +1029,7 @@
     {"name": "Kapitel 04: Tiger ist der Knaller (Folge 10)", "duration_ms": 131240, "track_number": null},
     {"name": "Kapitel 05: Tiger ist der Knaller (Folge 10)", "duration_ms": 204951, "track_number": null}
    ],
-   "expect": {"include": true, "episode_num": 6, "source": "by hand: episodes 6 to 10 are released only in this box on Apple Music. The line index lists them one by one (Hörspiele zur CGI-Trickfilmserie)"}
+   "expect": {"include": true, "episode_num": 6, "source": "by hand: episodes 6 to 10 are released only in this box on Apple Music. The reference index lists them one by one (Hörspiele zur CGI-Trickfilmserie)"}
   }
  ]
 }

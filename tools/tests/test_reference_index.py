@@ -1,4 +1,4 @@
-"""The public line index client, offline: matching, parsing, paging,
+"""The public reference index client, offline: matching, parsing, paging,
 and the unconfigured case."""
 
 import pytest

@@ -1,4 +1,4 @@
-"""Public line index: an outside, publisher-fed catalog of Hörspiel
+"""Public reference index: an outside, publisher-fed catalog of Hörspiel
 series, their lines and the numbering inside each line.
 
 Configured by REFERENCE_INDEX_URL, the API base URL, kept in `.env`
@@ -169,7 +169,7 @@ _MAX_PRODUCT_PAGES = 20
 
 
 class ReferenceIndex:
-    """Cached client for the public line index."""
+    """Cached client for the public reference index."""
 
     def __init__(
         self,

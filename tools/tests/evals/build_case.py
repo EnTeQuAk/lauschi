@@ -10,7 +10,7 @@ album, to pick from. The second form writes fixtures/<name>.json with the
 series facts, the prior decisions and the picked albums in full.
 
 What it cannot write is the expectation. Every album gets an ``expect``
-with a ``todo`` instead: the lines of the line index that list the title,
+with a ``todo`` instead: the lines of the reference index that list the title,
 its products without a line that match, and what the curation says today. The loader refuses the file until each
 ``todo`` is replaced by a decision and its source, by hand. The index is
 the gold standard for which line a title belongs to. Where it does not
@@ -262,7 +262,7 @@ def main() -> None:
         "--index-name",
         nargs="*",
         default=[],
-        help="the brand's name in the line index, several when brands share the page",
+        help="the brand's name in the reference index, several when brands share the page",
     )
     parser.add_argument(
         "--reopen",

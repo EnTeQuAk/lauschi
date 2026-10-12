@@ -98,7 +98,7 @@
     {"name": "Im wilden Wilden Westen - Teil 39", "duration_ms": 68786, "track_number": null},
     {"name": "Im wilden Wilden Westen - Teil 40", "duration_ms": 66813, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: the line index has the product without a line. A story of the main series in the EUROPA PRIMO edition of 2008 (hoerspielforscher.de/kartei/hoerspiel?detail=22030), decided with Chris on 2026-10-10"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: the reference index has the product without a line. A story of the main series in the EUROPA PRIMO edition of 2008 (hoerspielforscher.de/kartei/hoerspiel?detail=22030), decided with Chris on 2026-10-10"}
   },
   {
    "provider": "spotify",
@@ -154,7 +154,7 @@
     {"name": "Zaubert Hausaufgaben - Teil 39", "duration_ms": 46933, "track_number": null},
     {"name": "Zaubert Hausaufgaben - Teil 40", "duration_ms": 49880, "track_number": null}
    ],
-   "expect": {"include": true, "episode_num": null, "source": "line index: Erstlesergeschichten 1. No number: Apple Music's 8 is the old CD edition's (decided with Chris on 2026-10-10)"}
+   "expect": {"include": true, "episode_num": null, "source": "reference index: Erstlesergeschichten 1. No number: Apple Music's 8 is the old CD edition's (decided with Chris on 2026-10-10)"}
   },
   {
    "provider": "spotify",
@@ -210,7 +210,7 @@
     {"name": "Und das wilde Indianerabenteuer - Teil 39", "duration_ms": 67280, "track_number": null},
     {"name": "Und das wilde Indianerabenteuer - Teil 40", "duration_ms": 67240, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: the line index has the product without a line. A story of the main series in the EUROPA PRIMO edition of 2008 (hoerspielforscher.de/kartei/hoerspiel?detail=22030), decided with Chris on 2026-10-10"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: the reference index has the product without a line. A story of the main series in the EUROPA PRIMO edition of 2008 (hoerspielforscher.de/kartei/hoerspiel?detail=22030), decided with Chris on 2026-10-10"}
   },
   {
    "provider": "spotify",
@@ -266,7 +266,7 @@
     {"name": "Und der Vampir mit dem Wackelzahn - Teil 39", "duration_ms": 53253, "track_number": null},
     {"name": "Und der Vampir mit dem Wackelzahn - Teil 40", "duration_ms": 54600, "track_number": null}
    ],
-   "expect": {"include": true, "episode_num": null, "source": "line index: Erstlesergeschichten 3. No number: Apple Music's 18 is the old CD edition's (decided with Chris on 2026-10-10)"}
+   "expect": {"include": true, "episode_num": null, "source": "reference index: Erstlesergeschichten 3. No number: Apple Music's 18 is the old CD edition's (decided with Chris on 2026-10-10)"}
   },
   {
    "provider": "spotify",
@@ -322,7 +322,7 @@
     {"name": "Das Buch des Drachen - Teil 39", "duration_ms": 82986, "track_number": null},
     {"name": "Das Buch des Drachen - Teil 40", "duration_ms": 83800, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "line index: Klassiker Prequel"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "reference index: Klassiker Prequel"}
   },
   {
    "provider": "spotify",
@@ -378,7 +378,7 @@
     {"name": "Die Reise nach Mandolan - Teil 39", "duration_ms": 92973, "track_number": null},
     {"name": "Die Reise nach Mandolan - Teil 40", "duration_ms": 92893, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: the line index has the product without a line. The Hörspiel of the second cinema film (de.wikipedia.org/wiki/Hexe_Lilli)"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: the reference index has the product without a line. The Hörspiel of the second cinema film (de.wikipedia.org/wiki/Hexe_Lilli)"}
   },
   {
    "provider": "spotify",
@@ -434,7 +434,7 @@
     {"name": "Hexe Lilli und der verflixte Gespensterzauber - Teil 18", "duration_ms": 82413, "track_number": null},
     {"name": "Hexe Lilli und der verflixte Gespensterzauber - Teil 19", "duration_ms": 81293, "track_number": null}
    ],
-   "expect": {"include": true, "source": "line index: Erstlesergeschichten 2"}
+   "expect": {"include": true, "source": "reference index: Erstlesergeschichten 2"}
   },
   {
    "provider": "spotify",
@@ -490,7 +490,7 @@
     {"name": "Hexe Lilli und die wilden Dinos - Teil 19", "duration_ms": 80280, "track_number": null},
     {"name": "Hexe Lilli und die wilden Dinos - Teil 20", "duration_ms": 80573, "track_number": null}
    ],
-   "expect": {"include": true, "source": "line index: Erstlesergeschichten 6"}
+   "expect": {"include": true, "source": "reference index: Erstlesergeschichten 6"}
   },
   {
    "provider": "spotify",
@@ -526,7 +526,7 @@
     {"name": "Hexe Lilli rettet Weihnachten - Track 19.2 & Hexe Lilli rettet Weihnachten - Track 20.1 - Hexe Lilli rettet Weihnachten - Das Hörspiel zum Kinofilm", "duration_ms": 309153, "track_number": null},
     {"name": "Hexe Lilli rettet Weihnachten - Track 20.2 & Hexe Lilli rettet Weihnachten - Track 21 - Hexe Lilli rettet Weihnachten - Das Hörspiel zum Kinofilm", "duration_ms": 310046, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "line index: Filme 1"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "reference index: Filme 1"}
   },
   {
    "provider": "spotify",
@@ -585,7 +585,7 @@
     {"name": "Und der magische Tierzauber - Teil 20", "duration_ms": 88493, "track_number": null},
     {"name": "Und der magische Tierzauber - Outro", "duration_ms": 62733, "track_number": null}
    ],
-   "expect": {"include": true, "source": "by hand: the line index has the product without a line. The store title names the line, (Erstlesergeschichten)"}
+   "expect": {"include": true, "source": "by hand: the reference index has the product without a line. The store title names the line, (Erstlesergeschichten)"}
   },
   {
    "provider": "spotify",
@@ -644,7 +644,7 @@
     {"name": "008 - und die wilde Westernreiterin - Teil 20", "duration_ms": 95053, "track_number": null},
     {"name": "008 - und die wilde Westernreiterin - Outro", "duration_ms": 55373, "track_number": null}
    ],
-   "expect": {"include": true, "episode_num": null, "source": "line index: Erstlesergeschichten 11. No number: the store title carries none, and the index never gives one"}
+   "expect": {"include": true, "episode_num": null, "source": "reference index: Erstlesergeschichten 11. No number: the store title carries none, and the index never gives one"}
   },
   {
    "provider": "apple_music",
@@ -700,7 +700,7 @@
     {"name": "02 - im wilden Westen (Teil 39)", "duration_ms": 68787, "track_number": null},
     {"name": "02 - im wilden Westen (Teil 40)", "duration_ms": 66813, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: the line index has the product without a line. A story of the main series in the EUROPA PRIMO edition of 2008 (hoerspielforscher.de/kartei/hoerspiel?detail=22030), decided with Chris on 2026-10-10"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: the reference index has the product without a line. A story of the main series in the EUROPA PRIMO edition of 2008 (hoerspielforscher.de/kartei/hoerspiel?detail=22030), decided with Chris on 2026-10-10"}
   },
   {
    "provider": "apple_music",
@@ -756,7 +756,7 @@
     {"name": "08 - zaubert Hausaufgaben (Teil 39)", "duration_ms": 46933, "track_number": null},
     {"name": "08 - zaubert Hausaufgaben (Teil 40)", "duration_ms": 49880, "track_number": null}
    ],
-   "expect": {"include": true, "episode_num": null, "source": "line index: Erstlesergeschichten 1. No number: Apple Music's 8 is the old CD edition's (decided with Chris on 2026-10-10)"}
+   "expect": {"include": true, "episode_num": null, "source": "reference index: Erstlesergeschichten 1. No number: Apple Music's 8 is the old CD edition's (decided with Chris on 2026-10-10)"}
   },
   {
    "provider": "apple_music",
@@ -812,7 +812,7 @@
     {"name": "11 - und das wilde Indianerabenteuer (Teil 39)", "duration_ms": 67280, "track_number": null},
     {"name": "11 - und das wilde Indianerabenteuer (Teil 40)", "duration_ms": 67240, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: the line index has the product without a line. A story of the main series in the EUROPA PRIMO edition of 2008 (hoerspielforscher.de/kartei/hoerspiel?detail=22030), decided with Chris on 2026-10-10"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: the reference index has the product without a line. A story of the main series in the EUROPA PRIMO edition of 2008 (hoerspielforscher.de/kartei/hoerspiel?detail=22030), decided with Chris on 2026-10-10"}
   },
   {
    "provider": "apple_music",
@@ -868,7 +868,7 @@
     {"name": "18 - und der Vampir mit dem Wackelzahn (Teil 39)", "duration_ms": 53253, "track_number": null},
     {"name": "18 - und der Vampir mit dem Wackelzahn (Teil 40)", "duration_ms": 54600, "track_number": null}
    ],
-   "expect": {"include": true, "episode_num": null, "source": "line index: Erstlesergeschichten 3. No number: Apple Music's 18 is the old CD edition's (decided with Chris on 2026-10-10)"}
+   "expect": {"include": true, "episode_num": null, "source": "reference index: Erstlesergeschichten 3. No number: Apple Music's 18 is the old CD edition's (decided with Chris on 2026-10-10)"}
   },
   {
    "provider": "apple_music",
@@ -924,7 +924,7 @@
     {"name": "23 - Die Reise nach Mandolan (Teil 39)", "duration_ms": 92973, "track_number": null},
     {"name": "23 - Die Reise nach Mandolan (Teil 40)", "duration_ms": 92893, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: the line index has the product without a line. The Hörspiel of the second cinema film (de.wikipedia.org/wiki/Hexe_Lilli)"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "by hand: the reference index has the product without a line. The Hörspiel of the second cinema film (de.wikipedia.org/wiki/Hexe_Lilli)"}
   },
   {
    "provider": "apple_music",
@@ -980,7 +980,7 @@
     {"name": "Das Buch des Drachen (Teil 39)", "duration_ms": 82987, "track_number": null},
     {"name": "Das Buch des Drachen (Teil 40)", "duration_ms": 83800, "track_number": null}
    ],
-   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "line index: Klassiker Prequel"}
+   "expect": {"include": false, "exclude_reason": "sub_series_bleed", "source": "reference index: Klassiker Prequel"}
   },
   {
    "provider": "apple_music",
@@ -1036,7 +1036,7 @@
     {"name": "Hexe Lilli und der verflixte Gespensterzauber (Teil 18)", "duration_ms": 82413, "track_number": null},
     {"name": "Hexe Lilli und der verflixte Gespensterzauber (Teil 19)", "duration_ms": 81293, "track_number": null}
    ],
-   "expect": {"include": true, "source": "line index: Erstlesergeschichten 2"}
+   "expect": {"include": true, "source": "reference index: Erstlesergeschichten 2"}
   },
   {
    "provider": "apple_music",
@@ -1092,7 +1092,7 @@
     {"name": "Hexe Lilli und die wilden Dinos (Teil 19)", "duration_ms": 80280, "track_number": null},
     {"name": "Hexe Lilli und die wilden Dinos (Teil 20)", "duration_ms": 80573, "track_number": null}
    ],
-   "expect": {"include": true, "source": "line index: Erstlesergeschichten 6"}
+   "expect": {"include": true, "source": "reference index: Erstlesergeschichten 6"}
   },
   {
    "provider": "apple_music",
@@ -1151,7 +1151,7 @@
     {"name": "Und der magische Tierzauber (Teil 20)", "duration_ms": 88493, "track_number": null},
     {"name": "Und der magische Tierzauber (Outro)", "duration_ms": 62733, "track_number": null}
    ],
-   "expect": {"include": true, "source": "by hand: the line index has the product without a line. The store title names the line, (Erstlesergeschichten)"}
+   "expect": {"include": true, "source": "by hand: the reference index has the product without a line. The store title names the line, (Erstlesergeschichten)"}
   },
   {
    "provider": "apple_music",
@@ -1210,7 +1210,7 @@
     {"name": "008 - und die wilde Westernreiterin (Teil 20)", "duration_ms": 95053, "track_number": null},
     {"name": "008 - und die wilde Westernreiterin (Outro)", "duration_ms": 55373, "track_number": null}
    ],
-   "expect": {"include": true, "episode_num": null, "source": "line index: Erstlesergeschichten 11. No number: the store title carries none, and the index never gives one"}
+   "expect": {"include": true, "episode_num": null, "source": "reference index: Erstlesergeschichten 11. No number: the store title carries none, and the index never gives one"}
   }
  ]
 }

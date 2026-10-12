@@ -93,7 +93,7 @@ def build_agent_tools() -> FunctionToolset[AgentDeps]:
 
     @ts.tool
     def lookup_reference_lines(ctx: RunContext[AgentDeps], series_name: str) -> dict:
-        """Look a brand up in the public line index: its lines, each with
+        """Look a brand up in the public reference index: its lines, each with
         the episode titles that belong to it.
 
         Use it to place an album in a line and for the names of a
@@ -116,7 +116,7 @@ def build_agent_tools() -> FunctionToolset[AgentDeps]:
         index = ctx.deps.reference
         if not index.configured:
             return {
-                "error": "The public line index is not configured (REFERENCE_INDEX_URL)."
+                "error": "The public reference index is not configured (REFERENCE_INDEX_URL)."
             }
         found = index.lines_for(series_name)
         if found is None:

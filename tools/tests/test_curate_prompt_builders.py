@@ -333,7 +333,7 @@ class TestBatchPrompt:
 
 
 class TestReferenceLines:
-    """What the line index holds for a brand, as a block for the prompt."""
+    """What the reference index holds for a brand, as a block for the prompt."""
 
     SERIES = ReferenceSeries(
         id=1,
@@ -409,7 +409,7 @@ class TestReferenceLines:
     def test_the_block_says_what_it_is_good_for(self) -> None:
         block = format_reference_lines(self.SERIES, self.UNFILED)
 
-        assert block.startswith("## The brand's lines in the public line index\n")
+        assert block.startswith("## The brand's lines in the public reference index\n")
         assert "proves nothing" in block
         assert "no episode numbers" in block
 

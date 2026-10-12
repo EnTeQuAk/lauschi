@@ -1,4 +1,4 @@
-"""Look a series up in the public line index."""
+"""Look a series up in the public reference index."""
 
 import click
 from rich import box
@@ -14,7 +14,7 @@ console = Console()
 @click.argument("query")
 @click.option("--all", "show_all", is_flag=True, help="Show every matching series")
 def reference(query: str, show_all: bool):
-    """Show how the public line index organises a series: its lines and
+    """Show how the public reference index organises a series: its lines and
     their numbered episodes, and the products it files under no line."""
     index = ReferenceIndex()
     if not index.configured:

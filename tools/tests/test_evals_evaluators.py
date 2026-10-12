@@ -43,12 +43,12 @@ EXPECTED: Expected = {
     _key("ep1"): {
         "include": True,
         "episode_num": 1,
-        "source": "line index: Hörspiele 1",
+        "source": "reference index: Hörspiele 1",
     },
     _key("ep2"): {
         "include": True,
         "episode_num": 2,
-        "source": "line index: Hörspiele 2",
+        "source": "reference index: Hörspiele 2",
     },
     _key("special"): {"include": True, "episode_num": None, "source": "by hand"},
     _key("ost"): {"include": False, "source": "by hand"},

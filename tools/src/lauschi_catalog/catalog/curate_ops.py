@@ -1918,7 +1918,7 @@ def _build_metadata_agent(
 
 
 def shared_page_reference(brand: str) -> str:
-    """The line index's view of a brand, for a run on a shared artist page.
+    """The reference index's view of a brand, for a run on a shared artist page.
 
     Whether a batch came out right hung on the model looking the brand
     up, and it did so in one run of three. The lines are a fact the run
@@ -1948,7 +1948,7 @@ def _build_batch_agent(
 ) -> Agent[CurateDeps, BatchAnswer]:
     """Agent for processing one batch of albums.
 
-    ``page_reference`` is the line index's view of the brand for a series
+    ``page_reference`` is the reference index's view of the brand for a series
     on a shared page (see shared_page_reference). It goes into the
     instructions, which stay the same for every batch of a run.
     """
@@ -2720,7 +2720,7 @@ async def _run_large(
         page_reference = shared_page_reference(line_of or meta.title)
         if page_reference:
             on_progress(
-                f"  Shared page: the line index's lines for "
+                f"  Shared page: the reference index's lines for "
                 f"{line_of or meta.title!r} go into the batch instructions.\n"
             )
     batch_agent = _build_batch_agent(
