@@ -107,7 +107,8 @@ def test_the_main_series_reads_which_lines_curated_before_it() -> None:
     assert (
         "These lines of the series curated this page before you and took "
         "their albums:\n  - Hexe Lilli: Erstleser\n"
-        "An album marked `<left_by>` was seen by that line and not taken "
+        "An album marked `<left_by>` was seen by that line and not taken. "
+        "`<not_left_by>` names the lines it can still belong to, or `none` "
         "(see 'Curating a series that has split-off lines').\n"
     ) in prompt
     assert prompt.index("<left_by>") < prompt.index("Batch 1/1")
@@ -117,12 +118,11 @@ def test_a_series_without_curated_lines_reads_nothing_about_them() -> None:
     assert "left_by" not in _prompt([])
 
 
-def test_an_album_carries_the_lines_that_left_it() -> None:
-    """One marker per line, and none on an album no line has left: a new
-    release, or one a line took or found unwanted in its own line."""
-    prompt = batch_prompt(
+def _batch(left_by_lines: dict[str, set[tuple[str, str]]]) -> str:
+    return batch_prompt(
         [
             discovered_album("spotify", "west", "Im wilden Wilden Westen"),
+            discovered_album("spotify", "mandolan", "Die Reise nach Mandolan"),
             discovered_album("spotify", "new", "Hexe Lilli und der Mondstein"),
         ],
         [],
@@ -132,18 +132,50 @@ def test_an_album_carries_the_lines_that_left_it() -> None:
         run_facts={},
         sibling_titles=[],
         line_of=None,
-        left_by_lines={
-            "Hexe Lilli: Erstleser": {("spotify", "west")},
-            "Hexe Lilli (Kinofilm)": {("spotify", "west")},
-        },
+        left_by_lines=left_by_lines,
         batch_num=1,
         n_batches=1,
     )
 
-    west, new = prompt.split("<album ")[1:]
+
+def test_an_album_carries_the_lines_that_left_it_and_those_that_did_not() -> None:
+    """Every line that curated the page is named on every album, as one
+    that left it or one that did not. Which line an album can still
+    belong to is then written down, and no name has to be missed."""
+    prompt = _batch(
+        {
+            "Hexe Lilli: Erstleser": {("spotify", "west"), ("spotify", "mandolan")},
+            "Hexe Lilli (Kinofilm)": {("spotify", "west")},
+        }
+    )
+
+    west, mandolan, new = prompt.split("<album ")[1:]
     assert (
         "  <left_by>Hexe Lilli (Kinofilm)</left_by>\n"
         "  <left_by>Hexe Lilli: Erstleser</left_by>\n"
+        "  <not_left_by>none</not_left_by>\n"
     ) in west
-    assert "left_by" not in new
+    assert (
+        "  <left_by>Hexe Lilli: Erstleser</left_by>\n"
+        "  <not_left_by>Hexe Lilli (Kinofilm)</not_left_by>\n"
+    ) in mandolan
+    assert "<left_by>" not in new
+    assert (
+        "  <not_left_by>Hexe Lilli (Kinofilm)</not_left_by>\n"
+        "  <not_left_by>Hexe Lilli: Erstleser</not_left_by>\n"
+    ) in new
     assert "  - Hexe Lilli (Kinofilm)\n  - Hexe Lilli: Erstleser\n" in prompt
+
+
+def test_a_line_that_left_nothing_is_still_named_on_every_album() -> None:
+    """A line whose curation excludes none of these albums as another
+    line's has curated the page all the same."""
+    prompt = _batch({"Hexe Lilli (Kinofilm)": set()})
+
+    for album in prompt.split("<album ")[1:]:
+        assert "  <not_left_by>Hexe Lilli (Kinofilm)</not_left_by>\n" in album
+        assert "<left_by>" not in album
+
+
+def test_albums_of_a_series_without_curated_lines_carry_no_marker() -> None:
+    assert "left_by" not in _batch({})

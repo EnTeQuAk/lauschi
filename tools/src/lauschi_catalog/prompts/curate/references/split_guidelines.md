@@ -199,19 +199,23 @@ root.
 
 When the prompt lists lines that curated this page before you, those
 lines have taken their albums, and what they took is not in your batch.
-An album marked `<left_by>` with a line's name was seen by that line and
-not taken. An album a line saw and left is not that line's. Calling it
-`sub_series_bleed` for that line hands it back to an entry that already
-passed on it, and then no entry ships it.
+Every album that is in your batch names each of those lines once.
 
-The marker rules out the lines it names and nothing more. An album can
-still belong to a line that has not left it, or to a line that has no
-entry yet: then it is `sub_series_bleed`, with that line named in the
-notes. A line that has no entry yet is one this reference would split
-off, not a record label and not a single special. Only when every line
-it could belong to has left it, decide it
-as your own: include it, or exclude it for what it is (a compilation,
-a format variant, another type of content).
+`<left_by>` names a line that saw the album and did not take it. The
+album is not that line's. Calling it `sub_series_bleed` for that line
+hands it back to an entry that already passed on it, and then no entry
+ships it.
+
+`<not_left_by>` names a line that has not passed on the album, so it can
+still be that line's. Ask whether it is: if so, it is `sub_series_bleed`
+with that line named in the notes, and if not, it is yours to decide.
+
+`<not_left_by>none</not_left_by>` says every line passed on the album.
+Decide it as your own: include it, or exclude it for what it is (a
+compilation, a format variant, another type of content). It is
+`sub_series_bleed` only for a line that has no entry yet, named in the
+notes: one this reference would split off, not a record label and not a
+single special.
 
 ## The golden rule
 

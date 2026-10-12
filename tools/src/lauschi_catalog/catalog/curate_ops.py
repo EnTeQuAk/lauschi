@@ -219,8 +219,10 @@ def format_batch_albums(
     Full details where the prefetch has them; explicit fallback keys
     (the same shape prompt.album_to_dict emits) where it does not. An
     album that holds a run of episodes carries its fact from
-    ``run_facts`` as ``episode_range``, and one that split-off lines of
-    the series saw and left carries their titles as ``left_by``.
+    ``run_facts`` as ``episode_range``. In a series with split-off lines
+    every album names each line that curated the page: as ``left_by``
+    when the line saw the album and left it, as ``not_left_by`` when it
+    did not.
     """
     albums: list[dict] = []
     for a in batch:
@@ -248,13 +250,12 @@ def format_batch_albums(
         fact = (run_facts or {}).get((a["provider"], a["id"]))
         if fact is not None:
             album["episode_range"] = fact
-        left_by = sorted(
-            title
-            for title, left in (left_by_lines or {}).items()
-            if (a["provider"], a["id"]) in left
-        )
-        if left_by:
-            album["left_by"] = left_by
+        if left_by_lines:
+            key = (a["provider"], a["id"])
+            left_by = sorted(t for t, left in left_by_lines.items() if key in left)
+            if left_by:
+                album["left_by"] = left_by
+            album["not_left_by"] = sorted(set(left_by_lines) - set(left_by))
     return albums
 
 
@@ -277,7 +278,8 @@ def build_batch_prompt(
 
     ``line_of`` is the root's title when the series is a split-off line.
     ``lines`` is for a series that has split-off lines: the titles of the
-    lines that curated the page, which the albums' ``<left_by>`` name.
+    lines that curated the page, which the albums' ``<left_by>`` and
+    ``<not_left_by>`` name.
     """
     prompt = f"Series: {series_title!r}\nEpisode pattern: {pattern}\n{progress_text}\n"
     if line_of:
@@ -305,7 +307,8 @@ def build_batch_prompt(
             "These lines of the series curated this page before you and took "
             "their albums:\n"
             + "".join(f"  - {title}\n" for title in lines)
-            + "An album marked `<left_by>` was seen by that line and not taken "
+            + "An album marked `<left_by>` was seen by that line and not taken. "
+            "`<not_left_by>` names the lines it can still belong to, or `none` "
             "(see 'Curating a series that has split-off lines').\n\n"
         )
     prompt += f"\nBatch {batch_num}/{n_batches} ({n_albums} albums):\n\n{albums_xml}"

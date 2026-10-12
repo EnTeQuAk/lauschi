@@ -21,9 +21,11 @@ def format_album_xml(album: dict, *, include_tracks: bool = True) -> str:
             provider, id, title, episode_num, release_date,
             album_type, total_tracks, duration_min, label, artist,
             tracks (list of {name, duration_ms, track_number}), and
-            optionally episode_range (a RangeFact for a run of episodes)
-            and left_by (titles of the split-off lines that saw the
-            album and did not take it).
+            optionally episode_range (a RangeFact for a run of episodes),
+            left_by (titles of the split-off lines that saw the album
+            and did not take it) and not_left_by (titles of the lines
+            that curated the page and did not leave it; an empty list
+            when every line left it).
         include_tracks: whether to inline the track listing.
 
     Returns:
@@ -68,6 +70,11 @@ def format_album_xml(album: dict, *, include_tracks: bool = True) -> str:
             f'also_released_alone="{alone}"/>'
         )
     lines += [f"  <left_by>{title}</left_by>" for title in album.get("left_by", [])]
+    if "not_left_by" in album:
+        lines += [
+            f"  <not_left_by>{title}</not_left_by>"
+            for title in album["not_left_by"] or ["none"]
+        ]
 
     tracks = album.get("tracks", [])
     if include_tracks and tracks:

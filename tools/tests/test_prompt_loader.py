@@ -179,9 +179,16 @@ class TestPolicyTeaching:
         """The main series called such an album the sub-series', and it
         shipped in neither entry."""
         p = load_curate_skill(phase="batch", content_type="hoerspiel")
-        assert "An album a line saw and left is not that line's." in p
+        assert "The\nalbum is not that line's." in p
         # one line passing on a film Hörspiel does not make it the main series'
-        assert "The marker rules out the lines it names and nothing more." in p
+        assert (
+            "`<not_left_by>` names a line that has not passed on the album, so it can\n"
+            "still be that line's."
+        ) in p
+        assert (
+            "`<not_left_by>none</not_left_by>` says every line passed on the album."
+            in p
+        )
 
     def test_split_guidelines_teach_erstleser_films_and_one_advent_child(self):
         p = load_curate_skill(phase="finalize", content_type="hoerspiel")
