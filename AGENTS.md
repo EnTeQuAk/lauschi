@@ -105,7 +105,11 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
    pattern. The entry's `episode_pattern` in series.yaml is the run's pattern;
    the agents propose one only where there is none and may extend a catalog
    pattern, not narrow it. Episode numbers come from the title pattern, the
-   track names, or the same album on the other provider; nothing else. Re-curation is incremental: `--force` re-enters a series but
+   track names, or the same album on the other provider; nothing else. The
+   steps that compare titles (duplicates, the same title on the other
+   provider) strip the series' name from them first: the entry's title and
+   its aliases in series.yaml, never the aliases a run proposes.
+   Re-curation is incremental: `--force` re-enters a series but
    carries prior decisions forward as a pre-seed the model may override, so
    a decided album is not re-asked. Albums the model does not decide stay
    absent from the curation; the run is then marked incomplete and apply

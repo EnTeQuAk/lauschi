@@ -9,10 +9,12 @@ between them the numbered one is kept.
 """
 
 from lauschi_catalog.catalog.curate_ops import (
+    SeriesMetadata,
+    _series_names,
     _settle_same_provider_duplicates,
     core_title,
 )
-from tests.factories import decision
+from tests.factories import decision, entry
 
 NAMES = ["Wieso? Weshalb? Warum?", "WWW"]
 
@@ -71,3 +73,42 @@ def test_without_series_names_numbered_behaviour_is_unchanged():
     )
     out = {d.album_id: d for d in _settle_same_provider_duplicates([old, new], [])}
     assert out["new"].include is True and out["old"].include is False
+
+
+def test_the_names_of_a_catalog_entry_are_its_title_and_aliases():
+    line = entry("www", "Wieso? Weshalb? Warum?", aliases=["WWW"])
+    meta = SeriesMetadata(id="www", title="Wieso? Weshalb? Warum?", aliases=["Wissen"])
+
+    assert _series_names(meta, line) == ["Wieso? Weshalb? Warum?", "WWW"]
+
+
+def test_a_series_the_catalog_does_not_hold_is_named_by_its_title_alone():
+    meta = SeriesMetadata(id="tintenwelt", title="Tintenwelt", aliases=["Tintenherz"])
+
+    assert _series_names(meta, None) == ["Tintenwelt"]
+
+
+def test_an_alias_the_run_proposes_does_not_make_two_albums_one():
+    """The metadata agent named the three books as aliases of Tintenwelt,
+    and album titles as aliases of Giraffenaffen. Stripped of those, the
+    albums had one title left between them, and the settle kept the newest
+    as the only release: Tintenherz and Tintentod went out as duplicates of
+    Tintenblut, Giraffenaffen 1 to 9 as duplicates of Giraffenaffen 10."""
+    line = entry("tintenwelt", "Tintenwelt")
+    meta = SeriesMetadata(
+        id="tintenwelt",
+        title="Tintenwelt",
+        aliases=["Tintenherz", "Tintenblut", "Tintentod"],
+    )
+    herz = decision(
+        "herz", title="Tintenherz - Das Hörspiel", release_date="2013-08-01"
+    )
+    blut = decision(
+        "blut", title="Tintenblut - Das Hörspiel", release_date="2014-07-21"
+    )
+
+    settled = _settle_same_provider_duplicates(
+        [herz, blut], [], series_names=_series_names(meta, line)
+    )
+
+    assert all(d.include for d in settled)

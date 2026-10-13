@@ -1844,6 +1844,18 @@ def _name_as_catalog(
     meta.title = entry.title
 
 
+def _series_names(meta: "SeriesMetadata", entry: "CatalogEntry | None") -> list[str]:
+    """The names `core_title` strips from the album titles of a run.
+
+    They are the catalog's: the title, and the aliases of the entry where
+    there is one. The aliases the metadata agent proposes in this run are
+    not among them. An agent that lists a work or an album as an alias
+    ("Tintenherz" for Tintenwelt) takes away what tells two albums apart,
+    and the duplicate settle then keeps one of them.
+    """
+    return [meta.title, *(entry.aliases if entry else [])]
+
+
 def _pattern_for_run(
     entry_pattern: str | list[str] | None, proposed: str | list[str] | None
 ) -> str | list[str] | None:
@@ -2991,7 +3003,7 @@ async def _run_large(
         pattern=final_pattern,
         entry=catalog_entry,
         line_of=line_of,
-        series_names=[meta.title, *meta.aliases],
+        series_names=_series_names(meta, catalog_entry),
         seen_details=shared_deps.seen_details,
         on_progress=on_progress,
     )
@@ -3196,7 +3208,7 @@ async def _run_large(
     eras = merged_facts.era_boundaries if merged_facts else []
     before = sum(1 for d in all_decisions if d.include)
     all_decisions = _settle_same_provider_duplicates(
-        all_decisions, eras, series_names=[meta.title, *meta.aliases]
+        all_decisions, eras, series_names=_series_names(meta, catalog_entry)
     )
     total_inc = sum(1 for d in all_decisions if d.include)
     total_exc = len(all_decisions) - total_inc
