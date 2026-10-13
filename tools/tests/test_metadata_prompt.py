@@ -19,6 +19,7 @@ from pydantic_ai.models.test import TestModel
 from lauschi_catalog.catalog import curate_ops
 from lauschi_catalog.catalog.curate_ops import (
     CurateDeps,
+    CuratedSeries,
     DiscoveryResult,
     SeriesFacts,
     SeriesMetadata,
@@ -246,3 +247,23 @@ async def test_the_batches_name_the_series_as_the_catalog_does(
     )
 
     assert batch["series_title"] == "Hexe Lilli: Erstlesergeschichten"
+
+
+@pytest.mark.anyio
+async def test_a_catalog_id_the_agent_could_not_write_survives_the_run(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Catalog ids like `5_geschwister` start with a digit, which the
+    agent's own id may not. Taking the catalog id at the metadata step
+    failed the whole run on the result's validation, so the run keeps the
+    agent's id until `lock_series_id` replaces it."""
+    line = entry("5_geschwister_adventskalender", "5 Geschwister: Adventskalender")
+    meta = SeriesMetadata(id="fuenf_geschwister", title="5 Geschwister")
+
+    curate_ops._title_as_catalog(meta, line, lambda _line: None)
+
+    assert meta.title == "5 Geschwister: Adventskalender"
+    assert meta.id == "fuenf_geschwister"
+    assert (
+        CuratedSeries(id=meta.id, title=meta.title, albums=[]).id == "fuenf_geschwister"
+    )
