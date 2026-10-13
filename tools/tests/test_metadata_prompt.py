@@ -27,6 +27,7 @@ from lauschi_catalog.catalog.curate_ops import (
     SeriesMetadata,
     build_metadata_prompt,
 )
+from lauschi_catalog.prompts import load_curate_skill
 from tests.factories import discovered_album, entry
 
 SAMPLE = "  - Folge 1: Hexe Lilli zaubert | 12 tracks | 2010-01-01"
@@ -309,6 +310,30 @@ async def test_the_batches_name_the_series_as_the_catalog_does(
     )
 
     assert batch["series_title"] == "Hexe Lilli: Erstlesergeschichten"
+
+
+@pytest.mark.anyio
+async def test_the_prompt_names_the_tool_the_metadata_goes_into() -> None:
+    """The prompt asked for a `SeriesMetadata` and named no tool. GLM-5.3
+    wrote one out as markdown text first in 58 of 288 series, which cost
+    each of those runs a retry."""
+    offered: list[str] = []
+
+    def answer(_messages: list[ModelMessage], info: AgentInfo) -> ModelResponse:
+        offered.append(info.output_tools[0].name)
+        return ModelResponse(
+            parts=[ToolCallPart(info.output_tools[0].name, {"id": "x", "title": "X"})]
+        )
+
+    agent = curate_ops._build_metadata_agent(
+        FunctionModel(answer), content_type="music"
+    )
+    await agent.run("Series: 'X'", deps=CurateDeps(providers=[], titles=[]))
+
+    assert offered == ["submit_metadata"]
+    assert "call `submit_metadata`" in load_curate_skill(
+        phase="metadata", content_type="music"
+    )
 
 
 def test_a_run_takes_id_and_title_from_the_catalog() -> None:

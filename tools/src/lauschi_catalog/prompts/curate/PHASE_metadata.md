@@ -66,8 +66,9 @@ Worked example:
 For music and audiobook series, episode_pattern is always None and no pattern
 tools are registered. Set up the metadata directly.
 
-**Output:** `SeriesMetadata` (id, title, aliases, episode_pattern, age_note,
-curator_notes). Where the prompt gives the catalog id, return it as `id`
+**Output:** call `submit_metadata` with id, title, aliases, episode_pattern,
+age_note and curator_notes. The call is your answer, and text you write
+next to it is not read. Where the prompt gives the catalog id, return it as `id`
 unchanged. For a series the catalog does not hold, write the id in
 snake_case: lower-case letters, digits and underscores, as in
 `die_drei_fragezeichen`.

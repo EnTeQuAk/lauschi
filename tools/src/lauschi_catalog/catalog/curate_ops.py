@@ -20,7 +20,7 @@ from typing import ClassVar, Literal
 
 import requests
 from pydantic import BaseModel, Field, field_validator, model_validator
-from pydantic_ai import Agent, ModelRetry, RunContext
+from pydantic_ai import Agent, ModelRetry, RunContext, ToolOutput
 from pydantic_ai.messages import ModelMessage, ModelMessagesTypeAdapter
 from pydantic_ai.usage import RunUsage
 
@@ -1931,7 +1931,12 @@ def _build_metadata_agent(
     agent: Agent[CurateDeps, SeriesMetadata] = Agent(
         model,
         name="curate_metadata",
-        output_type=SeriesMetadata,
+        # The phase prompt names this tool.
+        output_type=ToolOutput(
+            SeriesMetadata,
+            name="submit_metadata",
+            description="Hand in the series metadata. This call is the answer.",
+        ),
         instructions=skill_instructions,
         model_settings=get_model_settings("curate", model_name),
         retries={"tools": 2, "output": 2},
