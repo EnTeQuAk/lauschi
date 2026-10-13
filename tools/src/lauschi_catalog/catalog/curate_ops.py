@@ -132,14 +132,21 @@ _DOUBLE_ESCAPED_SHORTCUT = re.compile(r"\\\\[dDwWsShHbB]")
 def _validate_episode_pattern(v: str | list[str] | None) -> str | list[str] | None:
     """Validate an episode_pattern before it can reach the catalog.
 
-    Requires a capture group, and refuses double-escaped shortcuts: they
-    compile but match a literal backslash, so they silently never fire.
+    Requires a pattern that compiles and has a capture group, and refuses
+    double-escaped shortcuts: they compile but match a literal backslash,
+    so they silently never fire.
     """
     if v is None:
         return None
     patterns = [v] if isinstance(v, str) else v
     for p in patterns:
-        c = re.compile(p)
+        try:
+            c = re.compile(p)
+        except re.error as e:
+            # A ValueError goes back to the agent as a retry, re.error
+            # would end the run.
+            msg = f"Pattern {p!r}: not a valid regular expression ({e})"
+            raise ValueError(msg) from e
         if c.groups < 1:
             msg = f"Pattern {p!r}: needs at least 1 capture group"
             raise ValueError(msg)

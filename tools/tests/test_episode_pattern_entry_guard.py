@@ -49,3 +49,10 @@ def test_rejects_a_double_escaped_shortcut_inside_a_list():
 def test_rejects_every_double_escaped_class(shortcut):
     with pytest.raises(ValueError, match="double-escaped"):
         _validate_episode_pattern(f"^x (\\\\{shortcut}+):")
+
+
+def test_rejects_a_pattern_that_does_not_compile():
+    """`re.compile` raises `re.error`, which a pydantic validator does not
+    turn into a retry: the run of the whole series died on it."""
+    with pytest.raises(ValueError, match="not a valid regular expression"):
+        _validate_episode_pattern(r"^.*PROFIWISSEN, Folge (\d+))$")
