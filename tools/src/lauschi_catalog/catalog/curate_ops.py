@@ -1791,6 +1791,24 @@ def _pattern_coverage_report(
     )
 
 
+def _name_as_catalog(
+    meta: "SeriesMetadata", entry: "CatalogEntry", on_progress: Progress
+) -> None:
+    """Give the run of a catalog entry the entry's id and title.
+
+    Both are catalog facts, like its pattern. The title is what every
+    batch is asked about, so an agent that names a split-off line after
+    its root turns the line into the root for the rest of the run.
+    """
+    if (meta.id, meta.title) != (entry.id, entry.title):
+        on_progress(
+            f"  Kept the catalog's id and title, {entry.id!r} and {entry.title!r} "
+            f"(the agent proposed {meta.id!r} and {meta.title!r}).\n"
+        )
+    meta.id = entry.id
+    meta.title = entry.title
+
+
 def _pattern_for_run(
     entry_pattern: str | list[str] | None, proposed: str | list[str] | None
 ) -> str | list[str] | None:
@@ -2728,6 +2746,9 @@ async def _run_large(
         phase="metadata",
         on_progress=on_progress,
     )
+
+    if catalog_entry is not None:
+        _name_as_catalog(meta, catalog_entry, on_progress)
 
     # Discovery artist IDs are the ground truth. The metadata model no
     # longer has access to provider_artist_ids so it cannot override

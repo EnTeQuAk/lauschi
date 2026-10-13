@@ -127,13 +127,22 @@ def test_the_facts_come_before_the_sample() -> None:
     assert order == sorted(order)
 
 
-@pytest.mark.anyio
-@pytest.mark.parametrize(
-    ("content_type", "has_pattern_tool"), [("hoerspiel", True), ("audiobook", False)]
-)
-async def test_a_run_tells_the_agent_what_the_catalog_holds(
-    monkeypatch: pytest.MonkeyPatch, content_type: str, has_pattern_tool: bool
-) -> None:
+class Stop(Exception):
+    """Ends a run at the point a test looks at."""
+
+
+async def _run_the_line(
+    monkeypatch: pytest.MonkeyPatch,
+    *,
+    content_type: str = "hoerspiel",
+    answers: dict[str, object] | None = None,
+    stop_at: str = "_preseed_decisions",
+) -> tuple[list[str], list[dict[str, object]]]:
+    """Run the Erstleser line of a shared Hexe Lilli page up to ``stop_at``.
+
+    Returns the prompts the metadata agent got, and the keyword arguments
+    ``stop_at`` was called with.
+    """
     main = entry("hexe_lilli", "Hexe Lilli", spotify=["a1"])
     line = entry(
         "hexe_lilli_erstleser",
@@ -151,7 +160,7 @@ async def test_a_run_tells_the_agent_what_the_catalog_holds(
             all_albums=[
                 discovered_album("spotify", "s1", "Folge 1: Geburtstag")
                 | {"total_tracks": 9},
-                discovered_album("spotify", "s2", "Folge 1: Hexe Lilli zaubert")
+                discovered_album("spotify", "s2", "Hexe Lilli zaubert")
                 | {"total_tracks": 12},
             ],
             artist_ids={"spotify": ["a1"]},
@@ -171,7 +180,7 @@ async def test_a_run_tells_the_agent_what_the_catalog_holds(
             parts=[
                 ToolCallPart(
                     info.output_tools[0].name,
-                    {"id": "hexe_lilli_erstleser", "title": line.title},
+                    {"id": line.id, "title": line.title} | (answers or {}),
                 )
             ]
         )
@@ -183,15 +192,13 @@ async def test_a_run_tells_the_agent_what_the_catalog_holds(
             FunctionModel(answer), output_type=SeriesMetadata
         ),
     )
+    stopped_with: list[dict[str, object]] = []
 
-    class Stop(Exception):
-        pass
-
-    def stop(*_a: object, **_k: object) -> None:
+    def stop(*_a: object, **kwargs: object) -> None:
+        stopped_with.append(kwargs)
         raise Stop
 
-    # the batches are not what this test is about
-    monkeypatch.setattr(curate_ops, "_preseed_decisions", stop)
+    monkeypatch.setattr(curate_ops, stop_at, stop)
     with pytest.raises(Stop):
         await curate_ops._run_large(
             line.title,
@@ -203,13 +210,39 @@ async def test_a_run_tells_the_agent_what_the_catalog_holds(
             series_id=line.id,
             content_type=content_type,
         )
+    return asked, stopped_with
 
-    (prompt,) = asked
+
+@pytest.mark.anyio
+@pytest.mark.parametrize(
+    ("content_type", "has_pattern_tool"), [("hoerspiel", True), ("audiobook", False)]
+)
+async def test_a_run_tells_the_agent_what_the_catalog_holds(
+    monkeypatch: pytest.MonkeyPatch, content_type: str, has_pattern_tool: bool
+) -> None:
+    (prompt,), _ = await _run_the_line(monkeypatch, content_type=content_type)
+
     assert "This series is a line split off from 'Hexe Lilli'.\n" in prompt
     assert "also carry these catalog entries: 'Hexe Lilli'.\n" in prompt
     assert (
         "The catalog ships 1 title in this series today:\n  - Folge 1: Geburtstag\n"
     ) in prompt
-    assert "  - Folge 1: Hexe Lilli zaubert | " in prompt
+    assert "  - Hexe Lilli zaubert | " in prompt
     # a pattern to check is only named to a run that can check one
     assert ("Check it first:\n  ^Folge (\\d+):\n" in prompt) is has_pattern_tool
+
+
+@pytest.mark.anyio
+async def test_the_batches_name_the_series_as_the_catalog_does(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """GLM-5.3 answered the Sternchen line of Sternenschweif with the title
+    "Sternenschweif". The batches were then asked about a series of that
+    name, and the line took 142 episodes of the main series."""
+    _, (batch,) = await _run_the_line(
+        monkeypatch,
+        answers={"id": "hexe_lilli", "title": "Hexe Lilli"},
+        stop_at="batch_prompt",
+    )
+
+    assert batch["series_title"] == "Hexe Lilli: Erstlesergeschichten"
