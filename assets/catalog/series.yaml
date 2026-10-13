@@ -12941,10 +12941,14 @@ series:
         episode: 44
         title: 'Folge 44: Der verfluchte Reiterhof'
         release_date: '2026-08-14'
+      - id: '6803078149'
+        episode: 45
+        title: 'Folge: 45: Ein täuschender Tausch'
+        release_date: '2026-10-09'
       - id: '1734654620'
         title: Die Fußball-Lüge
         release_date: '2024-06-07'
-  episode_pattern: '^Folge (\d+):'
+  episode_pattern: '^Folge:? (\d+):'
   series_facts:
     sub_series:
     - label: Specials
@@ -55323,8 +55327,6 @@ series:
 - id: tkkg_junior_adventskalender
   title: 'TKKG Junior: Adventskalender'
   aliases: []
-  episode_pattern:
-  - '^Folge: (\d+):'
   split_from: tkkg_junior
   providers:
     spotify:
@@ -55341,16 +55343,13 @@ series:
       artist_ids:
       - '1400668275'
       albums:
-      - id: '6803078149'
-        episode: 45
-        title: 'Folge: 45: Ein täuschender Tausch'
-        release_date: '2026-10-09'
       - id: '1685193736'
         title: Adventskalender - Der widerliche Weihnachtswichtel
         release_date: '2022-11-25'
       - id: '1777047904'
         title: Adventskalender (Eine schöne Bescherung)
         release_date: '2024-11-29'
+  content_type: hoerspiel
 - id: wendy_kinofilm
   title: 'Wendy: Kinofilm'
   aliases:
