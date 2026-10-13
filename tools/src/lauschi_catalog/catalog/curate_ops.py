@@ -129,6 +129,10 @@ def album_provenance(source: str) -> dict[str, str]:
 #: downstream (see docs/catalog-episode-numbers.md).
 _DOUBLE_ESCAPED_SHORTCUT = re.compile(r"\\\\[dDwWsShHbB]")
 
+#: How "no pattern" arrives as a string. The prompts write
+#: `episode_pattern=None`, and a model answering in JSON may send the word.
+_NO_PATTERN_SPELLINGS = frozenset({"", "none", "null"})
+
 
 def _validate_episode_pattern(v: str | list[str] | None) -> str | list[str] | None:
     """Validate an episode_pattern before it can reach the catalog.
@@ -138,6 +142,8 @@ def _validate_episode_pattern(v: str | list[str] | None) -> str | list[str] | No
     so they silently never fire.
     """
     if v is None:
+        return None
+    if isinstance(v, str) and v.strip().lower() in _NO_PATTERN_SPELLINGS:
         return None
     patterns = [v] if isinstance(v, str) else v
     for p in patterns:

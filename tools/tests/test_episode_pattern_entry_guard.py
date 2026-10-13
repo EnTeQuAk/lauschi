@@ -56,3 +56,11 @@ def test_rejects_a_pattern_that_does_not_compile():
     turn into a retry: the run of the whole series died on it."""
     with pytest.raises(ValueError, match="not a valid regular expression"):
         _validate_episode_pattern(r"^.*PROFIWISSEN, Folge (\d+))$")
+
+
+@pytest.mark.parametrize("spelled", ["None", "none", "null", "", " None "])
+def test_reads_a_spelled_out_none_as_no_pattern(spelled):
+    """The prompts write `episode_pattern=None`, and a model that answers
+    in JSON may send that word as a string. GLM-5.3 did in 13 of 288
+    series, and each refusal cost the run a retry."""
+    assert _validate_episode_pattern(spelled) is None
