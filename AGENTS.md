@@ -139,6 +139,12 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
    running times, and its products that sit in no line. Which line a title
    belongs to is then a fact in front of the model, not a lookup it may
    skip. It never supplies an episode number.
+   A line without an entry is still left to that line, and finalize
+   proposes the entry. What a main series ships of such a line stays
+   included all the same, marked `decided_by: awaits_split`, until a
+   person accepts the split: `catalog-splits` then moves it into the new
+   entry as that entry's own. What the series does not ship yet waits for
+   the split.
    Output: `assets/catalog/curation/{series_id}.json` (committed to git).
 
 2. **Reconcile** (`reconcile`): Deterministic cross-provider consistency.
@@ -157,7 +163,9 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
    updates. Escalates instead of approving when it declines approval, a
    regression flag fired, or its overrides flip more than 5% of the
    reviewed albums. Naming the reason of an album that is already
-   excluded is not a flip.
+   excluded is not a flip. An album that awaits its split is not excluded
+   as `sub_series_bleed`: the auditor is told why it is there, and such an
+   override becomes a concern.
    Escalated overrides are recorded, not applied.
 
 4. **Lint** (`lint`): Deterministic findings over curations: episode gaps,

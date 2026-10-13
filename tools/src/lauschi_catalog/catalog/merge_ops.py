@@ -13,7 +13,7 @@ from lauschi_catalog.catalog.curate_ops import album_provenance
 from lauschi_catalog.catalog.episode_range import title_number
 from lauschi_catalog.catalog.io import safe_write_json
 from lauschi_catalog.catalog.loader import load_catalog
-from lauschi_catalog.catalog.partition import family_of
+from lauschi_catalog.catalog.partition import AWAITS_SPLIT, family_of
 from lauschi_catalog.catalog.series_ops import add_series_entry, remove_series_from_yaml
 
 
@@ -308,6 +308,12 @@ def accept_split(
         for a in line
         if a.get("include", True) or a.get("exclude_reason") != "sub_series_bleed"
     ]
+    # What the parent shipped of the line until now is the child's own
+    # from here on, and no longer waits for anything.
+    for a in moved:
+        if a.get("decided_by") == AWAITS_SPLIT:
+            a["notes"] = f"Shipped in '{series_id}' until this line got its entry."
+            a.update(album_provenance("split"))
 
     now = datetime.now(UTC).isoformat()
 

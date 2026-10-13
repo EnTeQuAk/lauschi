@@ -99,3 +99,27 @@ def test_a_split_childs_leftovers_are_its_roots_to_propose():
     assert _split_candidates([stray], child) == ([], {})
     assert _split_candidates([stray], entry("wieso_weshalb_warum"))[0] == ["E"]
     assert _split_candidates([stray], None)[0] == ["E"]
+
+
+def test_what_a_main_series_kept_is_still_a_split_candidate():
+    """The album stays in the main series only until its line has an
+    entry, so finalize has to see it to propose that entry."""
+    from lauschi_catalog.catalog.curate_ops import _split_candidates
+    from lauschi_catalog.catalog.partition import AWAITS_SPLIT
+    from tests.factories import decision, entry
+
+    kept = decision("k", title="Endlich Ferien 1", notes="Endlich Ferien line")
+    kept.decided_by = AWAITS_SPLIT
+    left = decision(
+        "l", include=False, exclude_reason="sub_series_bleed", title="Endlich Ferien 9"
+    )
+    own = decision("o", title="Folge 1")
+
+    titles, records = _split_candidates([kept, left, own], entry("schule"))
+
+    assert titles == ["Endlich Ferien 1", "Endlich Ferien 9"]
+    assert records == {
+        "Endlich Ferien 1": [("spotify", "k")],
+        "Endlich Ferien 9": [("spotify", "l")],
+    }
+    assert _split_candidates([kept], entry("ferien", split_from="schule")) == ([], {})

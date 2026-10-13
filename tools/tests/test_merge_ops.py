@@ -8,6 +8,7 @@ from ruamel.yaml import YAML
 
 from lauschi_catalog.catalog import merge_ops
 from lauschi_catalog.catalog.merge_ops import normalize_album_ids
+from lauschi_catalog.catalog.partition import AWAITS_SPLIT
 
 yaml = YAML()
 yaml.preserve_quotes = True
@@ -195,6 +196,36 @@ class TestSplitOps:
         parent = json.loads(path.read_text())
         assert [a["album_id"] for a in child["albums"]] == ["a3"]
         assert "a4" not in {a["album_id"] for a in parent["albums"]}
+
+    def test_an_album_that_awaited_the_split_arrives_as_the_new_entrys_own(
+        self, split_env
+    ):
+        """A main series keeps what it ships of a line without an entry,
+        marked as waiting for the split. Accepted, the album is the new
+        entry's own, and the mark would tell its audit that it still
+        waits."""
+        path = split_env["curation_dir"] / "parent.json"
+        data = json.loads(path.read_text())
+        for a in data["albums"]:
+            if a["album_id"] == "a3":
+                a.update(
+                    include=True,
+                    decided_by=AWAITS_SPLIT,
+                    decided_at="2026-10-13T10:00:00+00:00",
+                    notes="Stays in this series until its line has an entry. Spinoff",
+                )
+        path.write_text(json.dumps(data))
+
+        merge_ops.accept_split("parent", 0)
+
+        child = json.loads(
+            (split_env["curation_dir"] / "parent_spinoff.json").read_text()
+        )
+        (a3,) = child["albums"]
+        assert a3["include"] is True
+        assert a3["decided_by"] == "split"
+        assert a3["decided_at"] != "2026-10-13T10:00:00+00:00"
+        assert a3["notes"] == "Shipped in 'parent' until this line got its entry."
 
     def test_a_line_the_parent_excluded_entirely_still_splits(self, split_env):
         """The usual proposal: finalize proposes a split from bleed the

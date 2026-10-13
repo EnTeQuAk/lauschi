@@ -74,6 +74,7 @@ from lauschi_catalog.catalog.matcher import (
 )
 from lauschi_catalog.catalog.models import CatalogEntry
 from lauschi_catalog.catalog.partition import (
+    AWAITS_SPLIT,
     bleed_owner,
     catalog_album_owners,
     family_of,
@@ -115,6 +116,11 @@ from lauschi_catalog.run_events import (
 _DEFAULT_MODEL = "kimi-k2.6"
 
 _BATCH_SIZE = 30
+
+
+#: Leads the note of an album `_keep_shipped_bleed` kept, before what the
+#: model wrote about its line.
+_AWAITS_SPLIT_NOTE = "Stays in this series until its line has an entry."
 
 
 def album_provenance(source: str) -> dict[str, str]:
@@ -517,13 +523,15 @@ class _AlbumRows:
     def claim(self, record: dict) -> None:
         """Add an album another series owns. A carried exclusion that
         names no owner (it predates the family being known) takes the
-        owner's record; an inclusion or an operator's call stays."""
+        owner's record, and so does an album that stayed only until its
+        line had an entry; any other inclusion or an operator's call
+        stays."""
         i = self._index.get((record["provider"], record["album_id"]))
         if i is None:
             self.add(record)
             return
         carried = self.albums[i]
-        if (
+        if carried.get("decided_by") != AWAITS_SPLIT and (
             carried.get("include")
             or carried.get("decided_by") == "operator"
             or bleed_owner(carried.get("notes")) is not None
@@ -1077,6 +1085,42 @@ def _name_root_as_owner(
     return named
 
 
+def _keep_shipped_bleed(
+    decisions: list["AlbumDecision"], entry: "CatalogEntry | None"
+) -> list["AlbumDecision"]:
+    """Keep in a main series what it ships of a line without an entry.
+
+    The model leaves such an album to its line, and finalize proposes the
+    entry for it. Until a person accepts that split the album would ship
+    nowhere, so it stays where parents find it today. What the series
+    does not ship yet waits for the split. A sub-series leaves its bleed
+    to the main series, and bleed another entry owns or an operator
+    excluded stays out. Returns the decisions it changed, for the run to
+    list.
+    """
+    if entry is None or entry.split_from:
+        return []
+    shipped = {
+        (provider, album_id) for provider, album_id, *_ in _applied_records(entry)
+    }
+    provenance = album_provenance(AWAITS_SPLIT)
+    kept: list[AlbumDecision] = []
+    for d in decisions:
+        if d.include or d.exclude_reason != "sub_series_bleed":
+            continue
+        if d.decided_by == "operator" or bleed_owner(d.notes) is not None:
+            continue
+        if (d.provider, d.album_id) not in shipped:
+            continue
+        d.include = True
+        d.exclude_reason = None
+        d.notes = f"{_AWAITS_SPLIT_NOTE} {d.notes}" if d.notes else _AWAITS_SPLIT_NOTE
+        d.decided_by = provenance["decided_by"]
+        d.decided_at = provenance["decided_at"]
+        kept.append(d)
+    return kept
+
+
 def settle_batch_decisions(
     decisions: list["AlbumDecision"],
     *,
@@ -1093,9 +1137,10 @@ def settle_batch_decisions(
     The steps are deterministic and their order matters. Identity comes
     first, since every later step reads titles. A split-off line then
     leaves its doubt to the root, claims the twins of what it kept, and
-    names the root on the rest. Numbers come last, from the title, the
-    track names and the twin on the other provider, so they follow the
-    albums that are still included. ``decisions`` is changed in place.
+    names the root on the rest. A main series keeps what it ships of a
+    line without an entry. Numbers come last, from the title, the track
+    names and the twin on the other provider, so they follow the albums
+    that are still included. ``decisions`` is changed in place.
     ``line_of`` is the root's title for a split-off line, for the
     progress lines.
     """
@@ -1126,6 +1171,14 @@ def settle_batch_decisions(
         on_progress(
             f"  {rooted} album(s) this line left to {line_of!r}, which owns "
             f"what no line claims.\n"
+        )
+    kept = _keep_shipped_bleed(decisions, entry)
+    if kept:
+        on_progress(
+            f"  {len(kept)} shipped album(s) of a line without an entry stay "
+            "until the split is accepted: "
+            + ", ".join(sorted({d.title for d in kept}))
+            + "\n"
         )
 
     # Always run deterministic episode extraction on the decided albums.
@@ -1337,13 +1390,18 @@ def _restore_identity(
 def _ownerless_bleed(
     decisions: list["AlbumDecision"],
 ) -> tuple[list[str], dict[str, list[tuple[str, str]]]]:
-    """Titles and provider:id pairs of the bleed nobody owns yet."""
+    """Titles and provider:id pairs of the bleed nobody owns yet.
+
+    That is what a run left to a line without an entry, and what a main
+    series ships of such a line and keeps until the split.
+    """
     titles: list[str] = []
     records: dict[str, list[tuple[str, str]]] = {}
     for d in decisions:
-        if d.include or d.exclude_reason != "sub_series_bleed":
-            continue
-        if bleed_owner(d.notes) is not None:
+        if d.include:
+            if d.decided_by != AWAITS_SPLIT:
+                continue
+        elif d.exclude_reason != "sub_series_bleed" or bleed_owner(d.notes) is not None:
             continue
         if d.title not in records:
             titles.append(d.title)

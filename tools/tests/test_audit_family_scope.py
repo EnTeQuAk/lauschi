@@ -11,6 +11,7 @@ audit is for.
 """
 
 from lauschi_catalog.catalog.audit_ops import audit_route, build_prompt, plan_chunks
+from lauschi_catalog.catalog.partition import AWAITS_SPLIT
 
 
 def _row(album_id: str, *, include: bool, notes: str = "", reason: str = "") -> dict:
@@ -98,3 +99,32 @@ def test_a_parent_is_told_which_lines_were_split_off() -> None:
 def test_a_series_without_children_gets_no_family_note() -> None:
     standalone = {"id": "s", "title": "S", "albums": [_row("own1", include=True)]}
     assert "split off" not in build_prompt(standalone, []).lower()
+
+
+def test_the_auditor_is_told_which_albums_await_their_split() -> None:
+    """A main series keeps what it ships of a line without an entry. The
+    auditor sees an included album whose note names another line, and
+    without a word about it would take the album out."""
+    kept = _row(
+        "ferien",
+        include=True,
+        notes="Stays in this series until its line has an entry. Endlich Ferien line",
+    )
+    kept["decided_by"] = AWAITS_SPLIT
+    main = {
+        "id": "die_schule_der_magischen_tiere",
+        "title": "Die Schule der magischen Tiere",
+        "albums": [_row("own1", include=True), kept],
+    }
+
+    prompt = build_prompt(main, [])
+
+    assert "1 included album awaits its split" in prompt
+    assert "Do not exclude" in prompt
+    (line,) = [ln for ln in prompt.splitlines() if "[spotify:ferien]" in ln]
+    assert "[awaits split]" in line and "Endlich Ferien line" in line
+
+
+def test_a_series_without_such_albums_gets_no_note_about_them() -> None:
+    standalone = {"id": "s", "title": "S", "albums": [_row("own1", include=True)]}
+    assert "awaits" not in build_prompt(standalone, [])

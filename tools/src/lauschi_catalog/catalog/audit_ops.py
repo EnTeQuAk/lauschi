@@ -48,7 +48,7 @@ from lauschi_catalog.catalog.lint_ops import (
     lint_curation,
 )
 from lauschi_catalog.catalog.loader import load_catalog
-from lauschi_catalog.catalog.partition import bleed_owner
+from lauschi_catalog.catalog.partition import AWAITS_SPLIT, bleed_owner
 from lauschi_catalog.catalog.paths import curation_path, log_dir
 from lauschi_catalog.catalog.reconcile import normalize_exclude_reason
 from lauschi_catalog.fanout import run_bounded
@@ -275,6 +275,21 @@ def _header_lines(curation: dict) -> list[str]:
             f"{', '.join(children)}. Each is audited in its own curation, so "
             "its albums and gaps are not missing here."
         )
+    awaiting = sum(
+        1
+        for a in curation.get("albums", [])
+        if a.get("include") and a.get("decided_by") == AWAITS_SPLIT
+    )
+    if awaiting:
+        albums = "album awaits its" if awaiting == 1 else "albums await their"
+        lines.append(
+            f"Note: {awaiting} included {albums} split, marked "
+            "[awaits split]. The curator read each as a line "
+            "the catalog has no entry for. This series ships them today, and "
+            "they stay in it until a person accepts the split. Do not exclude "
+            "one as sub_series_bleed. Any other finding on them is yours to "
+            "make."
+        )
     return lines
 
 
@@ -285,9 +300,11 @@ def _included_line(a: dict) -> str:
     rel_str = f" ({rel})" if rel else ""
     conf = a.get("confidence", "high")
     conf_tag = f" [{conf}]" if conf != "high" else ""
+    awaits = a.get("decided_by") == AWAITS_SPLIT
+    awaits_tag = " [awaits split]" if awaits else ""
     notes = a.get("notes", "")
-    notes_str = f" -- notes: {notes}" if notes and conf != "high" else ""
-    return f"  [{a.get('provider', '?')}:{a['album_id']}] {ep_str}{a['title']}{rel_str}{conf_tag}{notes_str}"
+    notes_str = f" -- notes: {notes}" if notes and (conf != "high" or awaits) else ""
+    return f"  [{a.get('provider', '?')}:{a['album_id']}] {ep_str}{a['title']}{rel_str}{conf_tag}{awaits_tag}{notes_str}"
 
 
 def _excluded_line(a: dict) -> str:
@@ -1243,6 +1260,21 @@ def apply_audit(
                 f"[decided_by_hand] {o.provider}:{o.album_id} "
                 f"({album.get('title', '')}) was decided by hand; the auditor "
                 f"would {o.action} it ({o.reason}); override ignored"
+            )
+            continue
+        if (
+            album.get("include")
+            and album.get("decided_by") == AWAITS_SPLIT
+            and o.action == "exclude"
+            and normalize_exclude_reason(o.reason) == "sub_series_bleed"
+        ):
+            # The main series ships it and its line has no entry yet, so
+            # leaving it to that line would take it out of the catalog.
+            unknown_concerns.append(
+                f"[awaits_split] {o.provider}:{o.album_id} "
+                f"({album.get('title', '')}) stays in this series until its "
+                f"line has an entry; the auditor would leave it to that line "
+                f"({o.reason}); override ignored"
             )
             continue
         # Materialize into the album record: include flags are the one

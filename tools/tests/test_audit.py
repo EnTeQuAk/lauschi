@@ -24,6 +24,7 @@ from lauschi_catalog.catalog.facts import (
     KnownGapProposal,
     fact_provenance,
 )
+from lauschi_catalog.catalog.partition import AWAITS_SPLIT
 
 # ── Fixtures ─────────────────────────────────────────────────────────────
 
@@ -1333,6 +1334,42 @@ class TestApplyAuditOutputCaps:
         assert any(
             "[decided_by_hand]" in c and "spotify:a1" in c
             for c in data["review"]["concerns"]
+        )
+
+    @pytest.mark.parametrize(
+        ("reason", "stays"),
+        [
+            ("sub_series_bleed: Endlich Ferien is its own line", True),
+            ("compilation of episodes 1-3", False),
+        ],
+    )
+    def test_an_album_that_awaits_its_split_is_not_excluded_as_bleed(
+        self, tmp_path, reason, stays
+    ):
+        """A main series keeps what it ships of a line without an entry
+        until a person accepts the split. The auditor reads the same line
+        the curator read, and its override would take the album out of the
+        catalog. Any other reason is an ordinary finding."""
+        curation = self._big_curation(3)
+        (a1,) = [a for a in curation["albums"] if a["album_id"] == "a1"]
+        a1.update(decided_by=AWAITS_SPLIT, notes="Stays in this series until ...")
+        result = AuditResult(
+            approve=True,
+            overrides=[
+                AuditOverride(
+                    album_id="a1", provider="spotify", action="exclude", reason=reason
+                )
+            ],
+        )
+
+        _, data = self._apply(tmp_path, curation, result)
+
+        (after,) = [a for a in data["albums"] if a["album_id"] == "a1"]
+        assert after["include"] is stays
+        assert (after["decided_by"] == AWAITS_SPLIT) is stays
+        assert stays is any(
+            "[awaits_split]" in c and "spotify:a1" in c
+            for c in data["review"].get("concerns", [])
         )
 
     def test_a_known_gap_for_an_included_episode_is_refused(self, tmp_path):

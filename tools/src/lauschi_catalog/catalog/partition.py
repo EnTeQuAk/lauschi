@@ -58,6 +58,12 @@ _OWNER_NOTE = re.compile(
 )
 
 
+#: ``decided_by`` of an album a main series ships and a run would leave
+#: to a line the catalog has no entry for. It stays in the main series
+#: until a person accepts the split.
+AWAITS_SPLIT = "awaits_split"
+
+
 def bleed_owner(notes: str | None) -> str | None:
     """The family member a bleed record already belongs to, read from the
     note the injection and routing steps leave on it. None for bleed the

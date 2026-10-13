@@ -16,6 +16,7 @@ import pytest
 
 from lauschi_catalog.catalog import curate_ops
 from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
+from lauschi_catalog.catalog.partition import AWAITS_SPLIT
 
 
 def _parent() -> CatalogEntry:
@@ -87,6 +88,32 @@ def test_injection_does_not_duplicate_an_already_present_album(
     sp1 = [a for a in result["albums"] if a["album_id"] == "sp1"]
     assert len(sp1) == 1
     assert sp1[0]["include"] is True  # the existing decision is not overwritten
+
+
+def test_an_album_that_awaited_its_split_goes_to_the_line_that_claims_it(
+    monkeypatch: pytest.MonkeyPatch,
+):
+    """The main series keeps such an album only until its line has an
+    entry. Kept on as an ordinary inclusion, it would ship in both."""
+    monkeypatch.setattr(
+        curate_ops, "load_catalog", lambda: [_parent(), _child_with_yaml_albums()]
+    )
+    existing = {
+        "albums": [
+            {
+                "provider": "spotify",
+                "album_id": "sp1",
+                "include": True,
+                "title": "Reportage: One",
+                "decided_by": AWAITS_SPLIT,
+                "notes": "Stays in this series until its line has an entry.",
+            }
+        ]
+    }
+    result = curate_ops._inject_split_children(existing, "kira_kolumna")
+    (sp1,) = [a for a in result["albums"] if a["album_id"] == "sp1"]
+    assert sp1["include"] is False
+    assert curate_ops.bleed_owner(sp1["notes"]) == "kira_kolumna_reportage"
 
 
 def test_no_children_leaves_the_curation_untouched(monkeypatch: pytest.MonkeyPatch):
