@@ -251,11 +251,6 @@ def apply_one(
                 ]
                 updated = True
 
-    aliases = data.get("aliases")
-    if aliases and aliases != yaml_series.get("aliases"):
-        yaml_series["aliases"] = aliases
-        updated = True
-
     facts = data.get("series_facts")
     if facts:
         confirmed = filter_confirmed_facts(facts)

@@ -1723,7 +1723,16 @@ class SeriesMetadata(BaseModel):
         examples=["die_drei_fragezeichen", "5_geschwister"],
     )
     title: str
-    aliases: list[str] = Field(default_factory=list)
+    aliases: list[str] = Field(
+        default_factory=list,
+        description=(
+            "Other names parents search this series by: a short form, "
+            "another spelling, the original title. Never the title of one "
+            "album, book or episode. They count only for a series the "
+            "catalog does not hold. A catalog entry keeps its own."
+        ),
+        examples=[["Die drei Fragezeichen", "DDF"]],
+    )
     episode_pattern: str | list[str] | None = Field(
         default=None,
         description=_EPISODE_PATTERN_DESCRIPTION,
@@ -1828,12 +1837,13 @@ def _pattern_coverage_report(
 def _name_as_catalog(
     meta: "SeriesMetadata", entry: "CatalogEntry", on_progress: Progress
 ) -> None:
-    """Give the run of a catalog entry the entry's id and title.
+    """Give the run of a catalog entry the entry's id, title and aliases.
 
-    Both are catalog facts, like the pattern. The title is what every
+    They are catalog facts, like the pattern. The title is what every
     batch is asked about: an agent that names a split-off line after its
     root turns the line into the root for the rest of the run. The id is
-    what the run files its cover cache and failure dumps under.
+    what the run files its cover cache and failure dumps under. The
+    aliases are what parents search by, and a person keeps them.
     """
     if (meta.id, meta.title) != (entry.id, entry.title):
         on_progress(
@@ -1842,6 +1852,7 @@ def _name_as_catalog(
         )
     meta.id = entry.id
     meta.title = entry.title
+    meta.aliases = list(entry.aliases)
 
 
 def _series_names(meta: "SeriesMetadata", entry: "CatalogEntry | None") -> list[str]:

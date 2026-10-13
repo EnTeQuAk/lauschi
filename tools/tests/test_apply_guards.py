@@ -215,6 +215,29 @@ class TestEmptyCuration:
         assert len(yaml_data["series"][0]["providers"]["spotify"]["albums"]) == 10
 
 
+class TestAliases:
+    """Title and aliases are what a parent searches the catalog by, and
+    they are the catalog's. A run's model listed album titles as aliases
+    ("Tintenherz" for Tintenwelt), and apply wrote its list over the
+    entry's with every run."""
+
+    def test_apply_keeps_the_aliases_of_the_entry(self):
+        entry = _yaml_entry(albums=2)
+        entry["aliases"] = ["Das S"]
+        yaml_data = {"series": [entry]}
+
+        assert apply_one("s", _approved_curation(2), yaml_data) is True
+
+        assert yaml_data["series"][0]["aliases"] == ["Das S"]
+
+    def test_apply_gives_no_aliases_to_an_entry_without_any(self):
+        yaml_data = {"series": [_yaml_entry(albums=2)]}
+
+        assert apply_one("s", _approved_curation(2), yaml_data) is True
+
+        assert "aliases" not in yaml_data["series"][0]
+
+
 class TestLossGuardSignature:
     def test_the_loss_guard_threshold_is_exact(self):
         """The guard threshold is unchanged: a >50% drop trips. 10 -> 5

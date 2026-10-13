@@ -350,6 +350,27 @@ def test_a_run_takes_id_and_title_from_the_catalog() -> None:
     assert CuratedSeries(id=meta.id, title=meta.title, albums=[]).id == meta.id
 
 
+@pytest.mark.parametrize(
+    "catalog_aliases",
+    [
+        pytest.param(["Tintenwelt-Trilogie"], id="an entry with aliases"),
+        pytest.param([], id="an entry without"),
+    ],
+)
+def test_a_run_takes_its_aliases_from_the_catalog(catalog_aliases: list[str]) -> None:
+    """They are what a parent searches by, and a person keeps them. The
+    agent listed the three books as aliases of Tintenwelt, and the
+    curation file handed that list to apply."""
+    line = entry("tintenwelt", "Tintenwelt", aliases=list(catalog_aliases))
+    meta = SeriesMetadata(
+        id="tintenwelt", title="Tintenwelt", aliases=["Tintenherz", "Tintenblut"]
+    )
+
+    curate_ops._name_as_catalog(meta, line, lambda _line: None)
+
+    assert meta.aliases == catalog_aliases
+
+
 @pytest.mark.anyio
 @pytest.mark.parametrize("catalog_id", ["5_geschwister", "100_wolf", "3berlin"])
 async def test_a_catalog_id_that_starts_with_a_digit_is_a_valid_answer(

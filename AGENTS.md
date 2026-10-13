@@ -108,7 +108,10 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
    track names, or the same album on the other provider; nothing else. The
    steps that compare titles (duplicates, the same title on the other
    provider) strip the series' name from them first: the entry's title and
-   its aliases in series.yaml, never the aliases a run proposes.
+   its aliases in series.yaml, never the aliases a run proposes. Id, title
+   and aliases of an entry are the catalog's: a run takes them from
+   series.yaml, and the metadata agent's proposal counts only for a series
+   the catalog does not hold.
    Re-curation is incremental: `--force` re-enters a series but
    carries prior decisions forward as a pre-seed the model may override, so
    a decided album is not re-asked. Albums the model does not decide stay
@@ -167,7 +170,8 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
 
 5. **Apply** (`apply`): Writes approved curations into `series.yaml`: album
    IDs with episode numbers, patterns, artist IDs, and audited series facts
-   only. Refuses curations that are incomplete, escalated, stale (curated
+   only. Title and aliases stay as they are, you edit them in the web UI.
+   Refuses curations that are incomplete, escalated, stale (curated
    after the last audit), or whose album loss crosses a guard threshold.
    `--force` overrides.
 
