@@ -49,9 +49,11 @@ _ONE_SHOT_MAX = _AUDIT_PROFILE.one_shot_max_tokens
 # are counted rather than listed (audit_ops._audit_scope), so a family
 # page alone no longer pushes a parent or child past the boundary.
 # wieso_weshalb_warum left on 2026-10-01 once its 181 Junior and
-# Erstleser rows named their owners.
+# Erstleser rows named their owners. spongebob_schwammkopf joined on
+# 2026-10-13 with its single stories: 736 rows, approved in 14 chunks.
 _CHUNKED_SERIES = {
     "paw_patrol",
+    "spongebob_schwammkopf",
     "stephen_janetzko",
 }
 
@@ -130,7 +132,7 @@ def _real_curations() -> dict[str, dict]:
 
 
 def test_catalog_routing_matches_the_measured_boundary():
-    """Pin the threshold against the real catalog: exactly the four series
+    """Pin the threshold against the real catalog: exactly the series
     measured past the boundary route chunked, and the largest series shown
     to pass in one shot still routes one-shot."""
     curations = _real_curations()
