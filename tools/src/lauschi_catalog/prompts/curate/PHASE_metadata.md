@@ -3,9 +3,18 @@
 You receive:
 - Series name
 - Provider list with artist IDs
-- Sample albums (title | total_tracks | release_date)
+- What the catalog holds for the series, where it has an entry: the series
+  it was split off from, the other catalog entries on its artist pages, the
+  titles it ships today, its episode_pattern
+- Sample albums (title | total_tracks | release_date), drawn from the whole
+  artist page
 
 Your task: set up the series metadata. Do NOT classify individual albums.
+
+On an artist page that several catalog entries share, the sample holds
+their albums too, and often more of theirs than of this series. That is
+expected. The metadata is for this series alone, and the titles it ships
+today show which albums are its own.
 
 **episode_pattern rules:**
 - Regex with exactly 1 capture group per pattern. The captured group MUST be a
@@ -21,8 +30,11 @@ pattern causes those albums to be excluded as unmatched.
 
 **Workflow (hoerspiel only):**
 
-Step 1: Infer candidate patterns from the sample titles. Look for common
-formats like `^Folge (\d+):`, `^(\d{3})/`, `^Teil (\d+):`, etc.
+Step 1: Where the prompt gives the catalog's episode_pattern, that is your
+candidate. Otherwise infer candidates from the series' own titles (the
+titles it ships today, or the sample for a series that ships nothing yet).
+Look for common formats like `^Folge (\d+):`, `^(\d{3})/`, `^Teil (\d+):`,
+etc.
 
 Step 2: Call `check_pattern_coverage` immediately with your candidates.
 The tool tests against the series' own titles: the albums it already

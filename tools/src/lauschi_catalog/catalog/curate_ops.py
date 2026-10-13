@@ -266,6 +266,59 @@ def format_batch_albums(
     return albums
 
 
+#: Shipped titles the metadata prompt lists before it samples them.
+_METADATA_SHIPPED_TITLES = 15
+
+
+def build_metadata_prompt(
+    *,
+    query: str,
+    provider_list: str,
+    sample_lines: str,
+    line_of: str | None = None,
+    sibling_titles: Sequence[str] = (),
+    shipped_titles: Sequence[str] = (),
+    pattern: str | list[str] | None = None,
+) -> str:
+    """Assemble the metadata agent's user prompt. Pure.
+
+    The sample is drawn from the whole artist page. Where the catalog has
+    an entry for the series, the prompt states what it holds: the root a
+    split-off line came from (``line_of``), the other entries on the
+    page, the titles the series ships and its pattern. Without them a
+    line of a shared page cannot tell its own albums from the root's.
+    """
+    prompt = f"Series: {query!r}\nProviders: {provider_list}\n"
+    if line_of:
+        prompt += f"This series is a line split off from {line_of!r}.\n"
+    if sibling_titles:
+        prompt += (
+            "Its artist pages also carry these catalog entries: "
+            f"{', '.join(repr(t) for t in sibling_titles)}.\n"
+            "The sample albums are drawn from the whole page, so many of them "
+            "belong to those entries and not to this series.\n"
+        )
+    own = list(dict.fromkeys(shipped_titles))
+    if own:
+        shown = spread_sample(own, _METADATA_SHIPPED_TITLES)
+        among = ", among them" if len(shown) < len(own) else ""
+        titles = "title" if len(own) == 1 else "titles"
+        prompt += (
+            f"The catalog ships {len(own)} {titles} in this series today{among}:\n"
+            + "".join(f"  - {t}\n" for t in shown)
+        )
+    if pattern:
+        # One regex per line as it is typed: a printed list doubles every
+        # backslash.
+        patterns = [pattern] if isinstance(pattern, str) else pattern
+        prompt += (
+            "The catalog holds an episode_pattern for this series, and the run "
+            "numbers its albums with it. Check it first:\n"
+            + "".join(f"  {p}\n" for p in patterns)
+        )
+    return f"{prompt}Sample albums (title | tracks | release_date):\n{sample_lines}"
+
+
 def build_batch_prompt(
     *,
     series_title: str,
@@ -2653,15 +2706,23 @@ async def _run_large(
         f"  - {a['name']} | {a['total_tracks']} tracks | {a.get('release_date') or '?'}"
         for a in sample_albums
     )
+    metadata_prompt = build_metadata_prompt(
+        query=query,
+        provider_list=provider_list,
+        sample_lines=sample_lines,
+        line_of=line_of,
+        sibling_titles=sibling_titles,
+        shipped_titles=shipped_titles(catalog_entry),
+        # only a Hörspiel run has the tool to check a pattern with
+        pattern=(
+            catalog_entry.episode_pattern
+            if catalog_entry and content_type == "hoerspiel"
+            else None
+        ),
+    )
     meta = await _run_with_retry(
         lambda: asyncio.wait_for(
-            _run_agent(
-                metadata_agent,
-                f"Series: {query!r}\nProviders: {provider_list}\n"
-                f"Sample albums (title | tracks | release_date):\n"
-                f"{sample_lines}",
-                deps=meta_deps,
-            ),
+            _run_agent(metadata_agent, metadata_prompt, deps=meta_deps),
             timeout=timeout,
         ),
         phase="metadata",
@@ -3313,12 +3374,14 @@ def coverage_titles(entry: "CatalogEntry | None", discovered: list[str]) -> list
     nothing yet has no own line to go by and is measured against every
     discovered title.
     """
-    shipped = (
-        [a.get("title", "") for cfg in entry.providers.values() for a in cfg.albums]
-        if entry is not None
-        else []
-    )
-    return shipped or discovered
+    return shipped_titles(entry) or discovered
+
+
+def shipped_titles(entry: "CatalogEntry | None") -> list[str]:
+    """The titles of the albums a catalog entry ships, on every provider."""
+    if entry is None:
+        return []
+    return [a.get("title", "") for cfg in entry.providers.values() for a in cfg.albums]
 
 
 def metadata_problem(

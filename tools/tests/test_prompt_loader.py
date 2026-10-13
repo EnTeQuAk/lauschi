@@ -30,6 +30,13 @@ class TestLoadCurateSkill:
         p = load_curate_skill(phase="finalize")
         assert "## Phase: Finalize" in p
 
+    def test_metadata_phase_says_whose_albums_the_sample_holds(self):
+        """A line of a shared page took the main series' episodes in the
+        sample for a contradiction and reasoned its budget away."""
+        p = load_curate_skill(phase="metadata")
+        assert "the sample holds\ntheir albums too" in p
+        assert "the titles it ships\ntoday show which albums are its own" in p
+
     def test_loads_content_type_reference(self):
         p = load_curate_skill(phase="batch", content_type="hoerspiel")
         assert "cross_provider_pair" in p
