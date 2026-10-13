@@ -1,6 +1,7 @@
 """Library functions for catalog validation.
 
-L1  SYNTAX      required fields, regex compiles, unique IDs
+L1  SYNTAX      required fields, regex compiles, unique IDs, no pattern
+                line left over from a split
 L5  ARTIST      full discography via artist ID (per provider)
 
 Pure business logic with no console output.
@@ -15,6 +16,7 @@ import requests
 from lauschi_catalog.catalog.loader import load_catalog
 from lauschi_catalog.catalog.matcher import extract_episode
 from lauschi_catalog.catalog.models import CatalogEntry
+from lauschi_catalog.catalog.partition import families
 from lauschi_catalog.fanout import map_providers
 from lauschi_catalog.providers import Album, CatalogProvider
 from lauschi_catalog.run_events import OUTCOME_OK, RunEvent, record_event
@@ -129,6 +131,56 @@ def validate_l1(entries: list[CatalogEntry]) -> list[str]:
                 f"Album {provider}:{album_id} ships in "
                 f"{len(series_ids)} series: {', '.join(sorted(series_ids))}"
             )
+    issues.extend(_leftover_pattern_issues(entries))
+    return issues
+
+
+def _shipped_titles(entry: CatalogEntry) -> list[str]:
+    return [
+        album["title"]
+        for cfg in entry.providers.values()
+        for album in cfg.albums
+        if album.get("title")
+    ]
+
+
+def _leftover_pattern_issues(entries: list[CatalogEntry]) -> list[str]:
+    """Pattern lines that number a family member's titles and none of the
+    entry's own.
+
+    A split leaves them behind: the new entry starts with a copy of the
+    main series' pattern, and the main series keeps the lines of the titles
+    it gave away. A curation run reads the pattern as a fact about the
+    entry, so such a line says that another line's titles belong here.
+    """
+    issues: list[str] = []
+    titles = {e.id: _shipped_titles(e) for e in entries}
+    for family in families(entries).values():
+        for member in family.members:
+            own = titles[member.id]
+            if not own or not member.episode_pattern:
+                continue
+            patterns = (
+                [member.episode_pattern]
+                if isinstance(member.episode_pattern, str)
+                else member.episode_pattern
+            )
+            for p in patterns:
+                if any(extract_episode(p, t) is not None for t in own):
+                    continue
+                fits = {
+                    other.id: sum(
+                        extract_episode(p, t) is not None for t in titles[other.id]
+                    )
+                    for other in family.siblings_of(member.id)
+                }
+                best = max(fits, key=lambda sid: fits[sid], default=None)
+                if best is None or not fits[best]:
+                    continue
+                issues.append(
+                    f"{member.id}: pattern {p!r} numbers 0/{len(own)} of its "
+                    f"own titles and {fits[best]}/{len(titles[best])} of {best}"
+                )
     return issues
 
 

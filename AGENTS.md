@@ -172,8 +172,9 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
    `--force` overrides.
 
 6. **Validate** (`validate`): Checks series.yaml against live provider APIs.
-   L1 offline (structure, regex compiles, unique IDs) and L5 (artist
-   discography match rate).
+   L1 offline (structure, regex compiles, unique IDs, no pattern line that
+   numbers another family member's titles and none of the entry's own) and
+   L5 (artist discography match rate).
 
 7. **Drift** (`drift`): Re-checks every shipped album against its live
    provider record and reports gone or changed albums.

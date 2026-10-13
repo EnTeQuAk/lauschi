@@ -6,6 +6,8 @@ missing (Coco, Encanto, Eule findet den Beat), so the album check must
 fall back to a direct album lookup before declaring an ID gone.
 """
 
+import pytest
+
 from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
 from lauschi_catalog.catalog.validate_ops import validate_l1, validate_l5
 from lauschi_catalog.providers import Album
@@ -248,6 +250,135 @@ def test_l1_flags_other_double_escaped_classes():
             episode_pattern=f"^Folge (\\\\{shortcut}+):",
         )
         assert len(validate_l1([entry])) == 1, shortcut
+
+
+# ── L1: a pattern line left over from a split ─────────────────────────────
+#
+# At a split the new entry starts with a copy of the main series' pattern,
+# and the main series keeps the lines of the titles it gave away. Such a
+# line numbers nothing the entry ships, and it tells the curation run that
+# another line's titles fit this one: was_ist_was_archiv carried '^(\d+):'
+# and took about a hundred numbered main titles in every run.
+
+
+def _line(
+    sid: str,
+    pattern: str | list[str] | None,
+    titles: list[str],
+    *,
+    split_from: str | None = None,
+) -> CatalogEntry:
+    return CatalogEntry(
+        id=sid,
+        title=sid,
+        episode_pattern=pattern,
+        split_from=split_from,
+        providers={
+            "spotify": ProviderConfig(
+                album_ids=[f"{sid}-{i}" for i in range(len(titles))],
+                albums=[
+                    {"id": f"{sid}-{i}", "title": title}
+                    for i, title in enumerate(titles)
+                ],
+                has_albums=True,
+            )
+        },
+    )
+
+
+def test_l1_flags_a_sub_series_pattern_that_only_numbers_the_main_series():
+    issues = validate_l1(
+        [
+            _line("was_ist_was", r"^(\d+):", ["1: Dinosaurier", "2: Vulkane"]),
+            _line(
+                "was_ist_was_archiv",
+                r"^(\d+):",
+                ["Die Erde / Das Wetter", "Pferde / Hunde"],
+                split_from="was_ist_was",
+            ),
+        ]
+    )
+    assert issues == [
+        r"was_ist_was_archiv: pattern '^(\\d+):' numbers 0/2 of its own titles "
+        "and 2/2 of was_ist_was"
+    ]
+
+
+def test_l1_flags_a_main_series_line_left_from_a_sub_series():
+    issues = validate_l1(
+        [
+            _line(
+                "petronella",
+                [r"^Folge (\d+):", r"^Erstleser Teil (\d+):"],
+                ["Folge 1: Verhext"],
+            ),
+            _line(
+                "petronella_erstleser",
+                r"^Erstleser Teil (\d+):",
+                ["Erstleser Teil 1: Zaubertricks"],
+                split_from="petronella",
+            ),
+        ]
+    )
+    assert len(issues) == 1
+    assert issues[0].startswith("petronella: pattern '^Erstleser Teil")
+    assert issues[0].endswith("and 1/1 of petronella_erstleser")
+
+
+def test_l1_names_the_family_member_the_line_fits_best():
+    issues = validate_l1(
+        [
+            _line("main", r"^Folge (\d+):", ["Folge 1: A", "Folge 2: B"]),
+            _line("films", r"^Folge (\d+):", ["Der Film"], split_from="main"),
+            _line("specials", None, ["Folge 3: C"], split_from="main"),
+        ]
+    )
+    assert issues == [
+        r"films: pattern '^Folge (\\d+):' numbers 0/1 of its own titles "
+        "and 2/2 of main"
+    ]
+
+
+@pytest.mark.parametrize(
+    "entries",
+    [
+        pytest.param(
+            [
+                _line("main", r"^Folge (\d+):", ["Folge 1: A"]),
+                _line(
+                    "kids",
+                    r"^Folge (\d+):",
+                    ["Folge 1: Kids", "Sonderfolge"],
+                    split_from="main",
+                ),
+            ],
+            id="a line both entries use",
+        ),
+        pytest.param(
+            [
+                _line("main", r"^Folge (\d+):", ["Folge 1: A"]),
+                _line("films", r"^Teil (\d+):", ["Der Film"], split_from="main"),
+            ],
+            id="a line that fits nobody yet",
+        ),
+        pytest.param(
+            [
+                _line("main", r"^Folge (\d+):", ["Folge 1: A"]),
+                _line("other", r"^Folge (\d+):", ["Ein Lied"]),
+            ],
+            id="two entries that are no family",
+        ),
+        pytest.param(
+            [
+                _line("main", r"^Folge (\d+):", ["Folge 1: A"]),
+                _line("films", r"^Folge (\d+):", [], split_from="main"),
+            ],
+            id="an entry that ships nothing yet",
+        ),
+    ],
+)
+def test_l1_leaves_other_pattern_lines_alone(entries: list[CatalogEntry]):
+    assert validate_l1(entries) == []
 
 
 # ── CLI exit codes ───────────────────────────────────────────────────────
