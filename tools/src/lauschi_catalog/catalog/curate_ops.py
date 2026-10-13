@@ -1777,11 +1777,26 @@ class PatternCoverageReport(BaseModel):
 
 
 class FinalizeResult(BaseModel):
-    """Output of the metadata-finalization agent.
+    """The call that closes the finalize phase.
 
     Facts and pattern changes arrive through the tools; episode numbers
-    come from titles and track names in code, never from this result.
+    come from titles and track names in code, never from this result. It
+    carries only what the agent wants the run log to keep.
     """
+
+    notes: str = Field(
+        default="",
+        description=(
+            "For the run log: batch decisions that look inconsistent, lint "
+            "findings the facts explain. May be empty."
+        ),
+    )
+
+
+def _finalize_notes_line(closing: FinalizeResult) -> str:
+    """The run log's line for the notes finalize closed with, if any."""
+    notes = closing.notes.strip()
+    return f"  Finalize notes: {notes}\n" if notes else ""
 
 
 def _pattern_coverage_report(
@@ -2157,7 +2172,15 @@ def _build_finalize_agent(
     agent: Agent[CurateDeps, FinalizeResult] = Agent(
         model,
         name="curate_finalize",
-        output_type=FinalizeResult,
+        # The phase prompt names this tool.
+        output_type=ToolOutput(
+            FinalizeResult,
+            name="finish_finalize",
+            description=(
+                "Close the finalize phase. Facts and pattern changes have "
+                "gone through their tools."
+            ),
+        ),
         instructions=skill_instructions,
         model_settings=get_model_settings("finalize", model_name),
         retries={"tools": 2, "output": 2},
@@ -3100,7 +3123,7 @@ async def _run_large(
                 usage=shared_deps.usage,
             )
             try:
-                await run_with_attempts(
+                closing = await run_with_attempts(
                     lambda: _run_with_retry(
                         lambda: asyncio.wait_for(
                             _run_agent(
@@ -3120,6 +3143,8 @@ async def _run_large(
                         meta.id, "finalize", finalize_prompt, messages, exc
                     ),
                 )
+                if line := _finalize_notes_line(closing):
+                    on_progress(line)
                 # Pattern updates are side effects of the
                 # propose_pattern_update tool; the output field is gone.
                 if finalize_deps.pattern != shared_deps.pattern:

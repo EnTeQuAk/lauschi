@@ -5,11 +5,11 @@ Your job: resolve the specific items the user prompt lists. Nothing more.
 
 ## Scope
 
-You can propose `episode_updates` and `series_facts` (era_boundaries,
-known_gaps, sub_series). You CANNOT change include/exclude decisions
-from the batch phase. If you notice batch-phase inconsistencies (some
-albums of the same type included, others excluded), note them in your
-response but do not investigate further.
+You can propose `series_facts` (era_boundaries, known_gaps, sub_series)
+and a pattern update. You CANNOT change include/exclude decisions from the
+batch phase. If you notice batch-phase inconsistencies (some albums of the
+same type included, others excluded), put them in the `notes` of your
+closing call but do not investigate further.
 
 ## Workflow
 
@@ -56,7 +56,8 @@ analysis shows no gaps, skip this step entirely.
 
 **Step 5 (last): Lint.** Call `lint_current_curation` once. If findings
 are explained by existing facts (era-based duplicates, known sub-series),
-document them in your response rather than investigating further.
+document them in the `notes` of your closing call rather than
+investigating further.
 
 ## Scope control
 
@@ -74,8 +75,8 @@ document them in your response rather than investigating further.
 1. **Tools (side effects)**: `propose_series_facts` for era_boundaries,
    known_gaps, sub_series. `propose_pattern_update` for pattern changes.
 
-2. **Return value**: `FinalizeResult` with `episode_updates` (album_id ->
-   episode_num). Pattern updates happen through the tool only.
+2. **Closing call**: `finish_finalize` ends the phase. Its `notes` go
+   into the run log. Pattern updates happen through the tool only.
 
 ## Pattern updates
 
@@ -89,4 +90,6 @@ conventions into one broad regex. Each regex must be `^`-anchored.
 confirming gap reasons or sub-series boundaries, not for mapping the
 catalog.
 
-**Output:** `FinalizeResult` with episode_updates.
+**Output:** when the work items are done, call `finish_finalize`. Your
+facts and pattern changes have gone through their tools, so the call
+carries only `notes`, and text you write next to it is not read.
