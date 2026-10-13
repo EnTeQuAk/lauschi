@@ -3,9 +3,9 @@
 You receive:
 - Series name
 - Provider list with artist IDs
-- What the catalog holds for the series, where it has an entry: the series
-  it was split off from, the other catalog entries on its artist pages, the
-  titles it ships today, its episode_pattern
+- What the catalog holds for the series, where it has an entry: its id, the
+  series it was split off from, the other catalog entries on its artist
+  pages, the titles it ships today, its episode_pattern
 - Sample albums (title | total_tracks | release_date), drawn from the whole
   artist page
 
@@ -67,7 +67,10 @@ For music and audiobook series, episode_pattern is always None and no pattern
 tools are registered. Set up the metadata directly.
 
 **Output:** `SeriesMetadata` (id, title, aliases, episode_pattern, age_note,
-curator_notes).
+curator_notes). Where the prompt gives the catalog id, return it as `id`
+unchanged. For a series the catalog does not hold, write the id in
+snake_case: lower-case letters, digits and underscores, as in
+`die_drei_fragezeichen`.
 
 Note: `provider_artist_ids` are discovered deterministically before this
 phase and are not part of the model's output. They cannot be overridden

@@ -100,8 +100,8 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
    search fallback), prefetch of album details, a metadata agent, batched
    album decisions (~30 per batch), a finalize agent (episode pattern, series
    facts). The metadata agent samples the whole artist page, so its prompt
-   states what the catalog holds for the series: the series it was split
-   from, the other entries on the page, the titles it ships and its
+   states what the catalog holds for the series: its id, the series it was
+   split from, the other entries on the page, the titles it ships and its
    pattern. The entry's `episode_pattern` in series.yaml is the run's pattern;
    the agents propose one only where there is none and may extend a catalog
    pattern, not narrow it. Episode numbers come from the title pattern, the

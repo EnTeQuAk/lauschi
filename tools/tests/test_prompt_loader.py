@@ -37,6 +37,15 @@ class TestLoadCurateSkill:
         assert "the sample holds\ntheir albums too" in p
         assert "the titles it ships\ntoday show which albums are its own" in p
 
+    def test_metadata_phase_says_how_the_id_is_written(self):
+        """Both benchmark models wrote the id with hyphens in most series,
+        and the refusal cost every such run one of its two retries."""
+        p = load_curate_skill(phase="metadata")
+        assert (
+            "Where the prompt gives the catalog id, return it as `id`\nunchanged" in p
+        )
+        assert "snake_case: lower-case letters, digits and underscores" in p
+
     def test_loads_content_type_reference(self):
         p = load_curate_skill(phase="batch", content_type="hoerspiel")
         assert "cross_provider_pair" in p

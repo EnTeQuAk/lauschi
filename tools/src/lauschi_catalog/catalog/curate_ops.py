@@ -90,6 +90,7 @@ from lauschi_catalog.catalog.prompt import (
     format_reference_lines,
 )
 from lauschi_catalog.catalog.reasons import carried_reason
+from lauschi_catalog.catalog.series_ops import SERIES_ID_PATTERN
 from lauschi_catalog.fanout import run_bounded
 from lauschi_catalog.prompts import load_curate_skill
 from lauschi_catalog.providers import CatalogProvider
@@ -275,6 +276,7 @@ def build_metadata_prompt(
     query: str,
     provider_list: str,
     sample_lines: str,
+    series_id: str | None = None,
     line_of: str | None = None,
     sibling_titles: Sequence[str] = (),
     shipped_titles: Sequence[str] = (),
@@ -289,6 +291,8 @@ def build_metadata_prompt(
     line of a shared page cannot tell its own albums from the root's.
     """
     prompt = f"Series: {query!r}\nProviders: {provider_list}\n"
+    if series_id:
+        prompt += f"Its catalog id is `{series_id}`. Return it as `id`.\n"
     if line_of:
         prompt += f"This series is a line split off from {line_of!r}.\n"
     if sibling_titles:
@@ -1623,7 +1627,7 @@ _EPISODE_PATTERN_EXAMPLES = [
 class CuratedSeries(BaseModel):
     """Complete curation result for a series or music artist."""
 
-    id: str = Field(pattern=r"^[a-z][a-z0-9_]*$")
+    id: str = Field(pattern=rf"^{SERIES_ID_PATTERN}$")
     title: str
     aliases: list[str] = Field(default_factory=list)
     episode_pattern: str | list[str] | None = Field(
@@ -1703,7 +1707,15 @@ class BatchAnswer(BaseModel):
 class SeriesMetadata(BaseModel):
     """Metadata extracted in the first phase (no album decisions)."""
 
-    id: str = Field(pattern=r"^[a-z][a-z0-9_]*$")
+    id: str = Field(
+        pattern=rf"^{SERIES_ID_PATTERN}$",
+        description=(
+            "The catalog id where the prompt gives one. For a series the "
+            "catalog does not hold: snake_case ASCII, lower-case letters, "
+            "digits and underscores."
+        ),
+        examples=["die_drei_fragezeichen", "5_geschwister"],
+    )
     title: str
     aliases: list[str] = Field(default_factory=list)
     episode_pattern: str | list[str] | None = Field(
@@ -1792,22 +1804,22 @@ def _pattern_coverage_report(
     )
 
 
-def _title_as_catalog(
+def _name_as_catalog(
     meta: "SeriesMetadata", entry: "CatalogEntry", on_progress: Progress
 ) -> None:
-    """Give the run of a catalog entry the entry's title.
+    """Give the run of a catalog entry the entry's id and title.
 
-    It is a catalog fact, like the pattern, and it is what every batch is
-    asked about: an agent that names a split-off line after its root
-    turns the line into the root for the rest of the run. The id stays
-    the agent's until `lock_series_id`, because a catalog id may start
-    with a digit and the run's models refuse one.
+    Both are catalog facts, like the pattern. The title is what every
+    batch is asked about: an agent that names a split-off line after its
+    root turns the line into the root for the rest of the run. The id is
+    what the run files its cover cache and failure dumps under.
     """
-    if meta.title != entry.title:
+    if (meta.id, meta.title) != (entry.id, entry.title):
         on_progress(
-            f"  Kept the catalog's title {entry.title!r} "
-            f"(the agent proposed {meta.title!r}).\n"
+            f"  Kept the catalog's id and title {entry.id!r}, {entry.title!r} "
+            f"(the agent proposed {meta.id!r}, {meta.title!r}).\n"
         )
+    meta.id = entry.id
     meta.title = entry.title
 
 
@@ -2736,6 +2748,7 @@ async def _run_large(
         query=query,
         provider_list=provider_list,
         sample_lines=sample_lines,
+        series_id=catalog_entry.id if catalog_entry else None,
         line_of=line_of,
         sibling_titles=sibling_titles,
         shipped_titles=shipped_titles(catalog_entry),
@@ -2751,7 +2764,7 @@ async def _run_large(
     )
 
     if catalog_entry is not None:
-        _title_as_catalog(meta, catalog_entry, on_progress)
+        _name_as_catalog(meta, catalog_entry, on_progress)
 
     # Discovery artist IDs are the ground truth. The metadata model no
     # longer has access to provider_artist_ids so it cannot override
