@@ -6,6 +6,7 @@ import pytest
 from ruamel.yaml import YAML
 
 from lauschi_catalog.catalog import series_ops
+from lauschi_catalog.catalog.apply_ops import apply_curations
 
 yaml = YAML()
 yaml.preserve_quotes = True
@@ -102,6 +103,66 @@ class TestEditSeries:
         data = yaml.load(catalog_env["series_yaml"])
         entry = next(e for e in data["series"] if e["id"] == "bibi_blocksberg")
         assert entry["content_type"] == "music"
+
+    @pytest.mark.parametrize(
+        ("changes", "key", "expected"),
+        [
+            pytest.param(
+                series_ops.SeriesChanges(episode_pattern=r"^Folge (\d+):"),
+                "episode_pattern",
+                r"^Folge (\d+):",
+                id="another pattern",
+            ),
+            pytest.param(
+                series_ops.SeriesChanges(episode_pattern=[]),
+                "episode_pattern",
+                None,
+                id="no pattern",
+            ),
+            pytest.param(
+                series_ops.SeriesChanges(content_type="music"),
+                "content_type",
+                "music",
+                id="another content type",
+            ),
+        ],
+    )
+    def test_an_edit_survives_the_next_apply(self, catalog_env, changes, key, expected):
+        """apply writes a curation's pattern and content type into
+        series.yaml. An edit that reached series.yaml alone was written
+        over with the next apply, by the curation's older value."""
+        data = yaml.load(catalog_env["series_yaml"])
+        entry = next(e for e in data["series"] if e["id"] == "bibi_blocksberg")
+        entry["episode_pattern"] = r"^(\d+)/"
+        entry["providers"] = {"spotify": {"artist_ids": ["a"]}}
+        yaml.dump(data, catalog_env["series_yaml"])
+        (catalog_env["curation_dir"] / "bibi_blocksberg.json").write_text(
+            json.dumps(
+                {
+                    "id": "bibi_blocksberg",
+                    "title": "Bibi Blocksberg",
+                    "episode_pattern": r"^(\d+)/",
+                    "content_type": "hoerspiel",
+                    "albums": [
+                        {
+                            "album_id": "a1",
+                            "provider": "spotify",
+                            "include": True,
+                            "title": "1/Hexen gibt es doch",
+                            "episode_num": 1,
+                        }
+                    ],
+                }
+            )
+        )
+
+        assert series_ops.edit_series("bibi_blocksberg", changes).ok
+        applied = apply_curations("bibi_blocksberg", allow_unreviewed=True)
+
+        assert applied.applied == 1
+        data = yaml.load(catalog_env["series_yaml"])
+        entry = next(e for e in data["series"] if e["id"] == "bibi_blocksberg")
+        assert entry.get(key) == expected
 
 
 class TestDeleteSeries:

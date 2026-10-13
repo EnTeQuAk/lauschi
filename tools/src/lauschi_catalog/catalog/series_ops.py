@@ -128,12 +128,24 @@ def edit_series(series_id: str, changes: SeriesChanges) -> EditResult:
     new_id = changes.id
     if new_id and new_id != series_id:
         old_curation = paths.curation_path(series_id)
-        new_curation = paths.curation_path(new_id)
         if old_curation.exists():
-            old_curation.rename(new_curation)
-            curation = json.loads(new_curation.read_text())
-            curation["id"] = new_id
-            safe_write_json(new_curation, curation)
+            old_curation.rename(paths.curation_path(new_id))
+
+    # apply writes the pattern and the content type from the curation into
+    # series.yaml and refuses a curation whose id is not its file's, so the
+    # curation has to hold what was edited here.
+    edited: dict[str, str | list[str] | None] = {}
+    if new_id is not None:
+        edited["id"] = new_id
+    if changes.episode_pattern is not None:
+        edited["episode_pattern"] = changes.episode_pattern or None
+    if changes.content_type is not None:
+        edited["content_type"] = changes.content_type
+    curation_path = paths.curation_path(new_id or series_id)
+    if edited and curation_path.exists():
+        curation = json.loads(curation_path.read_text())
+        curation.update(edited)
+        safe_write_json(curation_path, curation)
 
     return EditResult(ok=True, series_id=new_id or series_id)
 

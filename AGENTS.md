@@ -179,6 +179,9 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
 5. **Apply** (`apply`): Writes approved curations into `series.yaml`: album
    IDs with episode numbers, patterns, artist IDs, and audited series facts
    only. Title and aliases stay as they are, you edit them in the web UI.
+   A pattern or content type edited there is saved in the curation as
+   well, so apply does not write the older one back. An edit to
+   series.yaml by hand needs the same change in the curation.
    Refuses curations that are incomplete, escalated, stale (curated
    after the last audit), or whose album loss crosses a guard threshold.
    `--force` overrides.
