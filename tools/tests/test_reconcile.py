@@ -64,6 +64,26 @@ class TestReconcileCrossProvider:
         assert result.flipped == 1
         assert albums[0]["include"] is True
 
+    def test_an_operators_exclusion_is_not_flipped(self):
+        """A person excluded the album knowing the other provider's. A box
+        can be a story's only release on one store and not on the other
+        (SpongeBob Schwammkopf, Folge 11, 2026-10)."""
+        albums = [
+            _album("sp1", "Folge 11", "spotify", True),
+            album_record(
+                "am1",
+                provider="apple_music",
+                include=False,
+                title="Folge 11",
+                exclude_reason="compilation",
+                decided_by="operator",
+            ),
+        ]
+        result = reconcile_cross_provider(albums)
+        assert result.flipped == 0
+        assert albums[1]["include"] is False
+        assert albums[1]["exclude_reason"] == "compilation"
+
     def test_sub_series_bleed_is_left_for_lint(self):
         """Reconcile only fixes. A structural mismatch is reported by
         lint's [title_counterpart], which the audit and review read."""

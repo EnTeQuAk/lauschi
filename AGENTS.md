@@ -151,7 +151,8 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
    A title included on one provider but excluded on the other under a
    whitelisted content reason (compilation, wrong_content_type, ...)
    auto-flips to include. Other reasons like `sub_series_bleed` stay as
-   they are, and lint reports the pair. No AI.
+   they are, and lint reports the pair. An exclusion a person made with
+   `catalog-edit` stays as well. No AI.
 
 3. **Audit** (`audit`): The second model reviews one curation: sub-series
    bleed, episode gaps, duplicates, pattern problems, split proposals.

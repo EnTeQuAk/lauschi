@@ -145,6 +145,7 @@ def reconcile_cross_provider(albums: list[dict]) -> ReconcileResult:
       reason on one provider + included on the other: flip to include.
       Same content can't be a different type on a different provider.
     - A flip that would ship an included episode twice is left alone.
+    - An exclusion a person made is left alone.
     - Every other reason (sub_series_bleed, music_single, ...) is left as
       it is, since either side may be the wrong one, and lint's
       [title_counterpart] reports the pair.
@@ -179,7 +180,7 @@ def reconcile_cross_provider(albums: list[dict]) -> ReconcileResult:
             excluded_side = sp
 
         for album in excluded_side:
-            if album.get("include"):
+            if album.get("include") or album.get("decided_by") == "operator":
                 continue
             reason = normalized_reason(album)
             original_title = album.get("title", title)
