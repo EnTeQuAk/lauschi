@@ -19,6 +19,7 @@ from lauschi_catalog.catalog.paths import (
     curation_path as _curation_path,
 )
 from lauschi_catalog.catalog.series_ops import (
+    SERIES_ID_PATTERN,
     SeriesChanges,
     delete_series,
     edit_series,
@@ -105,6 +106,7 @@ templates = Jinja2Templates(
     directory=str(TEMPLATES_DIR), context_processors=[flash_context]
 )
 templates.env.globals["zip"] = zip  # type: ignore[reportArgumentType]
+templates.env.globals["SERIES_ID_PATTERN"] = SERIES_ID_PATTERN
 
 
 def album_url(provider: str, album_id: str) -> str:
