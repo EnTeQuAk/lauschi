@@ -52315,6 +52315,7 @@ series:
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:12:36.741577+00:00'
       range_end: 15
+  content_type: hoerspiel
 - id: bambi_disney_film
   title: 'Bambi: Disney Film'
   aliases:
@@ -53340,6 +53341,7 @@ series:
       - id: '1594162214'
         title: Adventskalender - Fünf Freunde und das Abenteuer im Wald
         release_date: '2021-12-01'
+  content_type: hoerspiel
 - id: fuenf_freunde_kinofilm
   title: 'Fünf Freunde: Kinofilm'
   aliases: []
@@ -53658,6 +53660,7 @@ series:
       range_end:
       reason: This series contains standalone Kinofilm adaptations rather than numbered episodes. 'Das Schlossgespenst' (2022) and 'Das Hexenschloss' (2022) are two separate cinema film tie-ins, not 
         episodes 1 and 2 of a numbered series.
+  content_type: hoerspiel
 - id: janosch_kinofilm
   title: 'Janosch: Kinofilm'
   aliases:
@@ -54643,6 +54646,7 @@ series:
       curated_at: '2026-10-03T03:16:08.798529+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-10-03T03:16:08.798529+00:00'
+  content_type: hoerspiel
 - id: mia_and_me_buch
   title: 'Mia and Me: Buch'
   aliases:
@@ -55290,6 +55294,7 @@ series:
       - id: '1193158413'
         title: 'Das Original-Hörspiel zum Kinofilm 2: Das Schrottkomplott'
         release_date: '2017-01-20'
+  content_type: hoerspiel
 - id: sternenschweif_sternchen
   title: 'Sternenschweif Sternchen'
   aliases:
@@ -60123,6 +60128,7 @@ series:
       - id: '6795416010'
         title: 'Kurzhörspiele - Bibi erzählt:  Internatsgeschichten'
         release_date: '2026-09-04'
+  content_type: hoerspiel
 - id: was_ist_was_archiv
   title: 'WAS IST WAS: Archiv'
   aliases:
@@ -60171,6 +60177,7 @@ series:
       curated_at: '2026-10-03T04:54:22.528555+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-10-03T04:54:22.528555+00:00'
+  content_type: hoerspiel
 - id: h2o_ploetzlich_meerjungfrau_staffel_3
   title: H2O - Plötzlich Meerjungfrau! Staffel 3
   aliases:
