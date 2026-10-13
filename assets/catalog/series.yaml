@@ -21498,7 +21498,6 @@ series:
         release_date: '2026-02-13'
   episode_pattern:
   - '^Folge (\d+):'
-  - ^LEGO City:? Folge (\d+):?
   series_facts:
     era_boundaries:
     - curated_by: minimax-m2.7
@@ -28677,7 +28676,6 @@ series:
   episode_pattern:
   - ^(\d+)/
   - '^Klassiker, Folge (\d+):'
-  - '^Folge (\d+):'
   - '^.*\(Biene Maja, Folge (\d+)\)(?: - EP)?$'
   aliases:
   - Biene Maja
@@ -28930,7 +28928,6 @@ series:
         title: 'Folge 8: Zaubertricks und Maulwurfshügel'
         release_date: '2026-02-27'
   episode_pattern:
-  - '^Erstleser Teil (\d+):'
   - '^Folge (\d+):'
   - '^Die Hörspielreihe, Teil (\d+):'
   - '^Teil (\d+):'
@@ -32217,9 +32214,6 @@ series:
         title: 'Folge 46: Mimo, der Rächer'
         release_date: '2009-05-01'
   episode_pattern:
-  - '^Der neue Superheld - Folge (\d+):'
-  - '^Der neue Superheld \(Folge (\d+):'
-  - '^Der neue Superheld, Folge (\d+):'
   - '^Folge (\d+):'
   - ^Folge (\d+) -
   aliases:
@@ -32232,12 +32226,6 @@ series:
       audited_at: '2026-06-10T18:47:58.618797+00:00'
       label: klassik
       release_date_range: 2009-2009
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:47:58.618797+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:47:58.618797+00:00'
-      label: der_neue_superheld
-      release_date_range: 2019-2026
     known_gaps:
     - curated_by: minimax-m2.7
       curated_at: '2026-06-10T18:47:58.618797+00:00'
@@ -38128,8 +38116,6 @@ series:
         release_date: '2023-05-19'
   episode_pattern:
   - '^Folge (\d+):'
-  - ^Tintenwelt (\d+)\.
-  - ^Drachenreiter (\d+)
   - '^Die Wilden Hühner, Folge (\d+):'
   series_facts:
     known_gaps:
@@ -45569,7 +45555,6 @@ series:
         release_date: '2018-11-16'
   episode_pattern:
   - '^Folge (\d+):'
-  - ^Folge (\d+)$
   aliases:
   - Topo Tip
   series_facts:
@@ -52208,7 +52193,6 @@ series:
   title: '5 Geschwister: Adventskalender'
   aliases:
   - 5G
-  episode_pattern: '^(\d+):'
   split_from: 5_geschwister
   providers:
     spotify:
@@ -53336,9 +53320,6 @@ series:
   title: 'Fünf Freunde: Adventskalender'
   aliases:
   - Fünf Freunde Hörspiel
-  episode_pattern:
-  - ^(\d{2,3})/
-  - '^Folge (\d+):'
   split_from: fuenf_freunde
   providers:
     spotify:
@@ -53643,9 +53624,6 @@ series:
   title: 'Hui Buh neue Welt: Kinofilm'
   aliases:
   - HUI BUH neue Welt
-  episode_pattern:
-  - '^Folge (\d+):'
-  - ^(\d{2,3})/
   split_from: hui_buh_neue_welt
   providers:
     spotify:
@@ -54627,7 +54605,6 @@ series:
 - id: mein_lotta_leben_film_hoerspiel
   title: 'Mein Lotta-Leben: Film Hoerspiel'
   aliases: []
-  episode_pattern: ^.*\(Band (\d+)\).*$
   split_from: mein_lotta_leben
   providers:
     spotify:
@@ -55287,9 +55264,6 @@ series:
 - id: ritter_rost_kinofilm
   title: 'Ritter Rost: Kinofilm'
   aliases: []
-  episode_pattern:
-  - '^Folge (\d+):'
-  - ^(\d{2})/
   split_from: ritter_rost
   providers:
     spotify:
@@ -55350,7 +55324,6 @@ series:
   title: 'TKKG Junior: Adventskalender'
   aliases: []
   episode_pattern:
-  - '^Folge (\d+):'
   - '^Folge: (\d+):'
   split_from: tkkg_junior
   providers:
@@ -57193,7 +57166,6 @@ series:
   episode_pattern:
   - '^Erstleser Teil (\d+):'
   - ^.*\bTeil (\d+)
-  - '^Folge (\d+):'
   split_from: petronella_apfelmus
   providers:
     spotify:
@@ -57347,10 +57319,8 @@ series:
   aliases:
   - Ritter Rost
   episode_pattern:
-  - '^Folge (\d+):'
   - '^Hörspiel zur TV-Serie Folge (\d+):'
   - ^Hörspiel zur TV-Serie (\d+)/
-  - ^(\d+)/
   split_from: ritter_rost
   providers:
     spotify:
@@ -60012,8 +59982,6 @@ series:
   title: 'Bibi Blocksberg: Bibi erzählt'
   aliases:
   - 'Bibi Blocksberg: Bibi erzählt'
-  episode_pattern:
-  - '^Folge (\d+): '
   split_from: bibi_blocksberg
   providers:
     spotify:
@@ -60160,8 +60128,6 @@ series:
   title: 'WAS IST WAS: Archiv'
   aliases:
   - Was ist was
-  episode_pattern:
-  - '^(\d+):'
   split_from: was_ist_was
   providers:
     spotify:
