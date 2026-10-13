@@ -42348,9 +42348,6 @@ series:
       - id: 0Sx8KMui45Dw0T5Bui2djX
         title: Hörchi & Kucki - Das Album
         release_date: '2025-07-11'
-      - id: 1vXgIw97qLseWgzpbf9eyh
-        title: Der Kakadu spielt Posaune
-        release_date: '2025-08-08'
       - id: 1iTfZ5Yl4xsTT5Yu1pUayo
         title: Der Partykapitän
         release_date: '2025-08-22'
@@ -42618,9 +42615,6 @@ series:
       - id: '1822785771'
         title: Hörchi & Kucki - Das Album
         release_date: '2025-07-11'
-      - id: '1829694554'
-        title: Der Kakadu spielt Posaune - Single
-        release_date: '2025-08-08'
       - id: '1831284068'
         title: Der Partykapitän - EP
         release_date: '2025-08-22'
@@ -43818,18 +43812,9 @@ series:
       - id: 21iU8QtgINaMWyCLZGX9Mq
         title: Boom Schakkalakka
         release_date: '2022-08-26'
-      - id: 4OnFkDmo8HQDoUxaL2zqHe
-        title: Auf die Plätzchen, Fertig, Los
-        release_date: '2023-10-20'
-      - id: 5zWifkkpJ1HuwGAQHCSy91
-        title: Alle Jahre wieder
-        release_date: '2023-11-17'
       - id: 6ILvPb488BXvahK3GFY8Nf
         title: Lasst uns frech und munter sein EP
         release_date: '2023-11-24'
-      - id: 2SPBFhvp3BPG0Rv4kSDDxn
-        title: Konfetti
-        release_date: '2024-02-02'
       - id: 44jiQSihbgpZvWbnRgndTe
         title: Mein Hobby ist Ferien
         release_date: '2024-03-08'
@@ -43879,9 +43864,6 @@ series:
       - id: '1717753114'
         title: Lasst uns frech und munter sein - EP
         release_date: '2023-11-24'
-      - id: '1727350390'
-        title: Konfetti - Single
-        release_date: '2024-02-02'
       - id: '1722461465'
         title: Die tollsten Tage mit DIKKA
         release_date: '2024-05-17'
@@ -46160,9 +46142,6 @@ series:
       - id: 0wLvHZNHXf35ysGUMmlGaz
         title: Giraffenaffen Winterlieder
         release_date: '2023-12-22'
-      - id: 0tjFugr3lvDchnY359nQhb
-        title: Wenn ich groß bin
-        release_date: '2024-09-27'
       - id: 20hBTS92YHvo2a1ctaNO4K
         title: Giraffenaffen 9 - Weltreise
         release_date: '2024-10-18'
@@ -46312,39 +46291,6 @@ series:
       - id: 0Z0p71rVSs8B0bY99nwT0H
         title: Tierisch gute Kinderlieder!
         release_date: '2023-07-14'
-      - id: 2jYg6uNvuUBHXDgh72inN8
-        title: Das Kutschen-Lied (So unendlich frei)
-        release_date: '2024-03-08'
-      - id: 1q3sKMsQetadXOjwI6Ftrr
-        title: Mäusetanz (Olé, olé)
-        release_date: '2024-03-22'
-      - id: 6iwzsJXjaz6MkoGVJEVVUN
-        title: Von den Schultern bis zum Zeh
-        release_date: '2024-04-19'
-      - id: 0KmgwcAOoY8UdtPqkkerSR
-        title: Die Sonne scheint heut heller
-        release_date: '2024-04-26'
-      - id: 7FlRK4AZhlUFFB3mB3sE6G
-        title: Großer Spaß
-        release_date: '2024-05-10'
-      - id: 334pLnqgKIaCxeBMZM0pOR
-        title: Das Verstecklied
-        release_date: '2024-05-24'
-      - id: 0mQ5FF7bKlp0YJlOtktjTQ
-        title: Ich sehe was, was Du nicht siehst
-        release_date: '2024-05-31'
-      - id: 7FyNuaw1Afg1HRZEdqqeec
-        title: Der Vogel-Song
-        release_date: '2024-07-12'
-      - id: 1CMyjEmi0BC2KUuuxVQ43N
-        title: Der Stau-Song
-        release_date: '2024-08-09'
-      - id: 0GbHWW55RZCni8Q6fE84tf
-        title: Kloalabär
-        release_date: '2024-10-11'
-      - id: 7rCR6y3fgyyGhaemHstC84
-        title: Billy Betonmischer (Drehen und mischen)
-        release_date: '2024-10-18'
       - id: 4HTTK7caZ60GYVN8DWRajq
         title: Tierischer Spaß
         release_date: '2025-05-30'
@@ -46364,36 +46310,6 @@ series:
       - id: '1692782326'
         title: Tierisch gute Kinderlieder!
         release_date: '2023-07-14'
-      - id: '1734277864'
-        title: Das Kutschen-Lied (So unendlich frei) - Single
-        release_date: '2024-03-08'
-      - id: '1735356624'
-        title: Mäusetanz (Olé, olé) - Single
-        release_date: '2024-03-22'
-      - id: '1740984741'
-        title: Von den Schultern bis zum Zeh - Single
-        release_date: '2024-04-19'
-      - id: '1744019459'
-        title: Großer Spaß - Single
-        release_date: '2024-05-10'
-      - id: '1747558039'
-        title: Das Verstecklied - Single
-        release_date: '2024-05-24'
-      - id: '1747971525'
-        title: Ich sehe was, was Du nicht siehst - Single
-        release_date: '2024-05-31'
-      - id: '1741583233'
-        title: Der Vogel-Song - Single
-        release_date: '2024-07-12'
-      - id: '1760530148'
-        title: Der Stau-Song - Single
-        release_date: '2024-08-09'
-      - id: '1770280359'
-        title: Kloalabär - Single
-        release_date: '2024-10-11'
-      - id: '1770612971'
-        title: Billy Betonmischer (Drehen und mischen) - Single
-        release_date: '2024-10-18'
       - id: '1814003289'
         title: Tierischer Spaß
         release_date: '2025-05-30'
@@ -46431,9 +46347,6 @@ series:
       - id: 1wCfuMxe4Tk9oGRkuBZ2Wn
         title: Augen Ohren Nase
         release_date: '2006-08-23'
-      - id: 7Ak8K7bFVZUkG6B8zpNPJW
-        title: Gott ist überall
-        release_date: '2006-08-23'
       - id: 2Iw7dITYv8iz4FbSijOtbk
         title: Lieder und Geschichten von den kleinen Indianern
         release_date: '2006-08-23'
@@ -46448,9 +46361,6 @@ series:
         release_date: '2006-08-23'
       - id: 3wLDgHVTv5ua5RxybeZiTK
         title: Der Winter ist da
-        release_date: '2006-09-19'
-      - id: 3CajCu3WHaza2cnb63qfOS
-        title: Der joggende Elefant
         release_date: '2006-09-19'
       - id: 1yXO4nHl4lRZeKBnEI7B69
         title: Es tanzt der Bär
@@ -46470,15 +46380,6 @@ series:
       - id: 3PhXk69WdHYt0WiN5Lp10X
         title: Zünd die erste Kerze an
         release_date: '2006-09-19'
-      - id: 5XznXbqZf0toCAejrWp7oq
-        title: Like warm winter sun
-        release_date: '2006-10-20'
-      - id: 2vixaNwk7kIwkrc2mmGxWj
-        title: Gott ist die Liebe
-        release_date: '2006-11-09'
-      - id: 2P2CxJ1WMC4PawlLlf4WXe
-        title: Kulumbubu der Ausserirdische (Alle Mixe UFO Ostern Weihnacht total)
-        release_date: '2006-11-10'
       - id: 3GlEYW8A7lke4oej9go3I3
         title: Brenn, Laterne
         release_date: '2008-01-30'
@@ -46524,9 +46425,6 @@ series:
       - id: 53db3eBpaApUgZ0g5oirJ4
         title: Winterzeit in Schule und zu Hause
         release_date: '2008-12-01'
-      - id: 3g6iW7jzxIntgP8CdhCTXM
-        title: Zwölf Kinder hat das Jahr
-        release_date: '2008-12-30'
       - id: 7JQXHOAmblWn0NINUZVtid
         title: Meine Mama ist die Beste!
         release_date: '2009-02-02'
@@ -46569,9 +46467,6 @@ series:
       - id: 7A0E6gFjAZU8ljxXQoPAtD
         title: Niko-, Niko-, Nikolaus
         release_date: '2010-02-02'
-      - id: 4KgQAb2aPoC6EpIjnev9Gh
-        title: Was zu Ostern geschah
-        release_date: '2010-02-12'
       - id: 6OpyvErdbho5ZTh8rojkgQ
         title: Kleine Engel
         release_date: '2010-05-28'
@@ -46581,15 +46476,6 @@ series:
       - id: 0fAXGe5aWS9rXCLJKJasd7
         title: Turndrache Lotti
         release_date: '2010-10-03'
-      - id: 0tyqkd7dAFNI83yFnYLCGX
-        title: Zünd die erste Kerze an
-        release_date: '2010-11-13'
-      - id: 44b0KnBUCyq7Y8vqVWa9I2
-        title: Der Sonnenkäferreigen
-        release_date: '2010-11-20'
-      - id: 1xSs0B7ijScLEe9Z3CBtPe
-        title: Bi-Ba-Badewanne
-        release_date: '2010-11-23'
       - id: 0cgPJyo1Dkqs9DnTq46TIY
         title: Stark wie ein Baum - Frühling, Natur, Ostern, Walpurgisnacht, Muttertag
         release_date: '2010-12-16'
@@ -46613,9 +46499,6 @@ series:
         release_date: '2013-02-01'
       - id: 1gbTo3rwEyez2Z94Xkot3p
         title: Kinderlieder Für Den Stuhlkreis - Xxl-Version Mit Allen Liedern
-        release_date: '2013-02-01'
-      - id: 4b7aXRjjFneuQIpUOpPmPb
-        title: Kinderlieder Für Den Stuhlkreis - Zusätzliche Lieder Und Playbacks
         release_date: '2013-02-01'
       - id: 5u3bq7by23fDaxsHQkyvnk
         title: An meiner Schule ist es schön - für besseres Lernen
@@ -46845,9 +46728,6 @@ series:
       - id: 1isCo1ljMZKa7L63B4rUsn
         title: Frühlingslieder Kinderlieder
         release_date: '2021-03-19'
-      - id: 4D5aHSsebM53Ohc9O9xY9X
-        title: Spiel mal mit dem Becher und zwar ganz genau im Takt (Becher-Song)
-        release_date: '2021-04-22'
       - id: 6c8t8LZ24I326jhOqq64xW
         title: Ein Männlein steht im Walde - Neue und alte Kinderlieder
         release_date: '2021-05-08'
@@ -46863,9 +46743,6 @@ series:
       - id: 4I9FlWr1hXPVsXp8f6CAuO
         title: Kinderlieder - German Children's Songs & Nursery Rhymes - Kids Songs, Vol. 2
         release_date: '2021-08-01'
-      - id: 7MN4eZpfsqnfv2cCb8JxVQ
-        title: Und jetzt geht's los! (Wir singen und bewegen uns)
-        release_date: '2021-08-12'
       - id: 1OPgBswcIhiZ2z5IYp2xji
         title: 5 Volkslieder
         release_date: '2021-08-19'
@@ -46932,27 +46809,12 @@ series:
       - id: 0veMuISz1yxPBBQzjwH4Id
         title: Martin, Martin, Martinsmann - 25 Herbstlieder und Laternenlieder zu St. Martin
         release_date: '2022-09-11'
-      - id: 4h8tMLsF4ebE5I8uB0nQn8
-        title: Eine Muh, eine Mäh, eine Täterätätä (Der Weihnachtsmann kommt)
-        release_date: '2022-11-18'
-      - id: 64z9c67mXGfFjQoJKqRdR9
-        title: Winterlied - Weihnachten im Märchenwald
-        release_date: '2022-11-23'
       - id: 13KVOGVOGaFbBmo6gIC0B0
         title: Heute ist ein guter Tag
         release_date: '2022-12-20'
-      - id: 7yBJOamhaxp8VvED8PXgmw
-        title: Zwei kleine Fische - Das fröhliche Kinderlied für Babys & Kleinkinder
-        release_date: '2023-01-01'
       - id: 6MOiCCreEkv99jlEm7uI5u
         title: Kinderlieder - 20 fröhliche Kinderlieder mit Gitarre
         release_date: '2023-01-10'
-      - id: 2SjSphzitXUkKd5JSx7CDx
-        title: Hallo liebes Christkind (Die Wunschsterne)
-        release_date: '2023-02-20'
-      - id: 3175kfiZeYi96D4pDSsFl6
-        title: Ihr seid meine Sonne
-        release_date: '2023-02-21'
       - id: 5oCFn1d4sc1rmMS0ycy4iD
         title: Hund, Katze, Maus - Kinderlieder für Babys und Kleinkinder
         release_date: '2023-03-07'
@@ -46965,60 +46827,9 @@ series:
       - id: 2ZykXdSUXwOJgLIrkKhmBY
         title: Die Giraffe und der Wolf (GFK-Lied)
         release_date: '2023-05-19'
-      - id: 6ATzERlIEbLecEi3M72oso
-        title: Marienkäferlein
-        release_date: '2023-05-26'
-      - id: 5CATqR0bHHopHHpes5iNGK
-        title: Erdbeer-Song (Erdbeer'n, Erdbeer'n lieb ich sehr)
-        release_date: '2023-06-01'
-      - id: 3wNBKQA9PJRdtKN0mFRHn2
-        title: Erntelied - Obst und Gemüse (Pick a bale of cotton)
-        release_date: '2023-06-08'
-      - id: 7sZRyqHAua3e4dYyPm0AGA
-        title: Tra ri ra, der Sommer, der ist da
-        release_date: '2023-06-20'
-      - id: 5nicZR2S4qoqGCF23ae7rs
-        title: Das Sommerfest Lied
-        release_date: '2023-07-01'
-      - id: 7x0t04spNvSBCH0XvNZzqJ
-        title: Hey, die Sonne lacht mir zu
-        release_date: '2023-07-14'
-      - id: 3SStbSA98MYPj2yUqEq0n6
-        title: Die Flüsse, sie fließen (The river is flowing)
-        release_date: '2023-07-26'
-      - id: 2GtnJLWnfo2xl0GkjcSOLP
-        title: Tiny mini mouse - Kleine Mi Ma Maus
-        release_date: '2023-08-04'
-      - id: 3SbFcVwVCr9SIMNNG80oyP
-        title: Minicik farecik - Kleine Mi Ma Maus
-        release_date: '2023-08-11'
-      - id: 5nW24R1U9ZokVuDTCLDSds
-        title: Topolino mio - Kleine Mi Ma Maus
-        release_date: '2023-08-18'
-      - id: 3z15sdnPJw9cpk7StTzxrX
-        title: Lieve kleine muis - Kleine Mi Ma Maus
-        release_date: '2023-08-25'
-      - id: 70zBRcy6zYVqciwK7yDhHf
-        title: Pequeño raton - Kleine Mi Ma Maus
-        release_date: '2023-09-01'
-      - id: 1OxJ7zfJCcWL3KexOC5NVH
-        title: Herbst, du bist da
-        release_date: '2023-09-02'
-      - id: 1UKtvvIUSSYVlaaTU1abKt
-        title: Der Wind - Kleines Windlied
-        release_date: '2023-09-15'
       - id: 3c5Pqr9czibwLn1dhTqaK2
         title: Schau, der Herbst ist da & Der Blättertanz
         release_date: '2023-09-24'
-      - id: 4FlcFrr5ONzL26vK04OQDA
-        title: Laterne, Laterne, leuchte durch die Nacht
-        release_date: '2023-10-06'
-      - id: 1rdaF7ppns4a1ebTYxupqW
-        title: Ich liebe alle Sterne (Laternenlied)
-        release_date: '2023-10-13'
-      - id: 2DipdLTVG67ctbiYmzJYcm
-        title: Tri-Tra-Trommelzeit (Das Trommellied)
-        release_date: '2023-10-24'
       - id: 1LpNhvmudupnOSnVL73JMp
         title: Das Tücherlied (Einkaufslied mit Farben)
         release_date: '2024-06-28'
@@ -47032,18 +46843,12 @@ series:
       artist_ids:
       - '182493885'
       albums:
-      - id: '375804931'
-        title: Gott Ist Überall
-        release_date: '2006-08-23'
       - id: '375805923'
         title: Ritter Kunibert
         release_date: '2006-08-23'
       - id: '1536003110'
         title: Seeräuber Wackelzahn
         release_date: '2006-08-23'
-      - id: '375813512'
-        title: Der Joggende Elefant
-        release_date: '2006-09-19'
       - id: '375811044'
         title: Der Winter Ist Da
         release_date: '2006-09-19'
@@ -47065,15 +46870,6 @@ series:
       - id: '375813486'
         title: Zünd Die Erste Kerze An
         release_date: '2006-09-19'
-      - id: '375816356'
-        title: Like Warm Winter Sun
-        release_date: '2006-10-20'
-      - id: '375818290'
-        title: Gott Ist Die Liebe
-        release_date: '2006-11-09'
-      - id: '376204031'
-        title: Kulumbubu Der Ausserirdische (Alle Mixe UFO Ostern Weihnacht Total)
-        release_date: '2006-11-10'
       - id: '272153123'
         title: Es schneit, es schneit, es schneit - EP
         release_date: '2007-12-20'
@@ -47119,9 +46915,6 @@ series:
       - id: '358741592'
         title: Winterzeit in Schule und zu Hause
         release_date: '2008-12-01'
-      - id: '375897250'
-        title: Zwölf Kinder Hat Das Jahr
-        release_date: '2008-12-30'
       - id: '306981789'
         title: Der Osterhase kommt! - Lieder zu Ostern - EP
         release_date: '2009-02-02'
@@ -47167,9 +46960,6 @@ series:
       - id: '375896991'
         title: Niko-, Niko-, Nikolaus
         release_date: '2010-02-02'
-      - id: '375897068'
-        title: Was Zu Ostern Geschah
-        release_date: '2010-02-12'
       - id: '375570773'
         title: Kleine Engel
         release_date: '2010-05-28'
@@ -47179,15 +46969,6 @@ series:
       - id: '396433257'
         title: Turndrache Lotti
         release_date: '2010-10-03'
-      - id: '404381753'
-        title: Zünd die erste Kerze an
-        release_date: '2010-11-13'
-      - id: '405847520'
-        title: Der Sonnenkäferreigen
-        release_date: '2010-11-20'
-      - id: '1540925382'
-        title: Bi-Ba-Badewanne
-        release_date: '2010-11-23'
       - id: '1537156785'
         title: Stark wie ein Baum - Frühling, Natur, Ostern, Walpurgisnacht, Muttertag
         release_date: '2010-12-16'
@@ -47214,9 +46995,6 @@ series:
         release_date: '2013-02-01'
       - id: '596243502'
         title: Kinderlieder Für Den Stuhlkreis - Xxl-Version Mit Allen Liedern
-        release_date: '2013-02-01'
-      - id: '596050116'
-        title: Kinderlieder Für Den Stuhlkreis - Zusätzliche Lieder Und Playbacks
         release_date: '2013-02-01'
       - id: '601295094'
         title: An meiner Schule ist es schön - für besseres Lernen
@@ -47440,9 +47218,6 @@ series:
       - id: '1559590531'
         title: Frühlingslieder Kinderlieder
         release_date: '2021-03-19'
-      - id: '1564282488'
-        title: Spiel mal mit dem Becher und zwar ganz genau im Takt (Becher-Song)
-        release_date: '2021-04-22'
       - id: '1566877082'
         title: Ein Männlein steht im Walde - Neue und alte Kinderlieder
         release_date: '2021-05-08'
@@ -47458,9 +47233,6 @@ series:
       - id: '1579027322'
         title: Kinderlieder - German Children's Songs & Nursery Rhymes - Kids Songs, Vol. 2
         release_date: '2021-08-01'
-      - id: '1580897027'
-        title: Und jetzt geht's los! (Wir singen und bewegen uns)
-        release_date: '2021-08-12'
       - id: '1581774782'
         title: 5 Volkslieder - EP
         release_date: '2021-08-19'
@@ -47527,27 +47299,12 @@ series:
       - id: '1643135581'
         title: Martin, Martin, Martinsmann - 25 Herbstlieder und Laternenlieder zu St. Martin
         release_date: '2022-09-11'
-      - id: '1654140814'
-        title: Eine Muh, eine Mäh, eine Täterätätä (Der Weihnachtsmann kommt) - Single
-        release_date: '2022-11-18'
-      - id: '1655137783'
-        title: Winterlied - Weihnachten im Märchenwald - Single
-        release_date: '2022-11-23'
       - id: '1659636355'
         title: Heute ist ein guter Tag
         release_date: '2022-12-20'
-      - id: '1656441850'
-        title: Zwei kleine Fische - Das fröhliche Kinderlied für Babys & Kleinkinder - Single
-        release_date: '2023-01-01'
       - id: '1664199875'
         title: Kinderlieder - 20 fröhliche Kinderlieder mit Gitarre
         release_date: '2023-01-10'
-      - id: '1671586949'
-        title: Hallo liebes Christkind (Die Wunschsterne) - Single
-        release_date: '2023-02-20'
-      - id: '1671595514'
-        title: Ihr seid meine Sonne - Single
-        release_date: '2023-02-21'
       - id: '1674863680'
         title: Hund, Katze, Maus - Kinderlieder für Babys und Kleinkinder
         release_date: '2023-03-07'
@@ -47563,60 +47320,9 @@ series:
       - id: '1685982824'
         title: Die Giraffe und der Wolf (GFK-Lied) - EP
         release_date: '2023-05-19'
-      - id: '1687175055'
-        title: Marienkäferlein - Single
-        release_date: '2023-05-26'
-      - id: '1690141751'
-        title: Erdbeer-Song (Erdbeer'n, Erdbeer'n lieb ich sehr) - Single
-        release_date: '2023-06-01'
-      - id: '1690673343'
-        title: Erntelied - Obst und Gemüse (Pick a bale of cotton) - Single
-        release_date: '2023-06-08'
-      - id: '1692740235'
-        title: Tra ri ra, der Sommer, der ist da - Single
-        release_date: '2023-06-20'
-      - id: '1694294681'
-        title: Das Sommerfest Lied - Single
-        release_date: '2023-07-01'
-      - id: '1694303436'
-        title: Hey, die Sonne lacht mir zu - Single
-        release_date: '2023-07-14'
-      - id: '1698306685'
-        title: Die Flüsse, sie fließen (The river is flowing) - Single
-        release_date: '2023-07-26'
-      - id: '1699009042'
-        title: Tiny mini mouse - Kleine Mi Ma Maus - Single
-        release_date: '2023-08-04'
-      - id: '1699186337'
-        title: Minicik farecik - Kleine Mi Ma Maus - Single
-        release_date: '2023-08-11'
-      - id: '1699192644'
-        title: Topolino mio - Kleine Mi Ma Maus - Single
-        release_date: '2023-08-18'
-      - id: '1699194647'
-        title: Lieve kleine muis - Kleine Mi Ma Maus - Single
-        release_date: '2023-08-25'
-      - id: '1701121748'
-        title: Pequeño raton - Kleine Mi Ma Maus - Single
-        release_date: '2023-09-01'
-      - id: '1704140421'
-        title: Herbst, du bist da - Single
-        release_date: '2023-09-02'
-      - id: '1705865669'
-        title: Der Wind - Kleines Windlied - Single
-        release_date: '2023-09-15'
       - id: '1707006152'
         title: Schau, der Herbst ist da & Der Blättertanz
         release_date: '2023-09-24'
-      - id: '1707010214'
-        title: Laterne, Laterne, leuchte durch die Nacht - Single
-        release_date: '2023-10-06'
-      - id: '1709519653'
-        title: Ich liebe alle Sterne (Laternenlied) - Single
-        release_date: '2023-10-13'
-      - id: '1712300680'
-        title: Tri-Tra-Trommelzeit (Das Trommellied) - Single
-        release_date: '2023-10-24'
       - id: '1747897930'
         title: Das Tücherlied (Einkaufslied mit Farben) - EP
         release_date: '2024-06-28'
@@ -47626,63 +47332,18 @@ series:
       - id: '1778032789'
         title: Wir machen heute Nussmusik - 4 neue Weihnachtslieder für Kinder - EP
         release_date: '2024-11-29'
-      - id: '1814339288'
-        title: Das Jahr sagt allen Guten Tag - Single
-        release_date: '2025-05-23'
-      - id: '1814091676'
-        title: Erdbeerlied (feat. Toni Geiling) - Single
-        release_date: '2025-05-30'
-      - id: '1815536963'
-        title: Das bunte Meer - Single
-        release_date: '2025-06-06'
-      - id: '1820983663'
-        title: Glühwürmchen-Tanz (feat. Toni Geiling) - Single
-        release_date: '2025-06-27'
-      - id: '1826521485'
-        title: Der junge Schiffer - Single
-        release_date: '2025-07-18'
       - id: '1826990840'
         title: Wir begrüßen die Jahreszeiten (feat. Toni Geiling) - EP
         release_date: '2025-07-25'
-      - id: '1825391451'
-        title: Hallo Schule - Single
-        release_date: '2025-08-01'
-      - id: '1830315737'
-        title: Herbst, du hast schöne Farben - Single
-        release_date: '2025-09-05'
-      - id: '1841371875'
-        title: Kleines Lichtlein - die Lichterreise (Taler, Taler, du musst wandern) [Lichterversion] [feat. Toni Geiling] - Single
-        release_date: '2025-09-26'
       - id: '1841379208'
         title: Laterne, du leuchtest wie die Sterne - EP
         release_date: '2025-10-03'
-      - id: '1849113112'
-        title: Wenn die erste Kerze brennt (Bruder Jakob) [Adventsversion] [feat. Toni Geiling] - Single
-        release_date: '2025-10-31'
       - id: '1853807142'
         title: Wichtellied & Advent-Rap - EP
         release_date: '2025-11-21'
-      - id: '1857602708'
-        title: Nikolaus, Nikolaus (Hänschen klein) [Nikolausversion] [feat. Toni Geiling] - Single
-        release_date: '2025-11-28'
-      - id: '1857904150'
-        title: Tatütata-Lied (feat. Toni Geiling) - Single
-        release_date: '2025-12-26'
-      - id: '1856670148'
-        title: Wir sind Astronauten - Single
-        release_date: '2025-12-30'
       - id: '1862793196'
         title: Komm, sing mir nach durchs ganze Jahr
         release_date: '2026-01-09'
-      - id: '1868343959'
-        title: Dschungelparty (Im Dschungel steigt 'ne Party) - Single
-        release_date: '2026-01-23'
-      - id: '1876911060'
-        title: Das Jahr geht auf die Reise - Single
-        release_date: '2026-01-30'
-      - id: '1894165658'
-        title: Der traurige Bär Bjarne - Single
-        release_date: '2026-02-20'
   content_type: music
   series_facts:
     era_boundaries:
@@ -47886,9 +47547,6 @@ series:
       - id: 3W7puU7nFlO0ZtbxMjf8lk
         title: Sommer-Hits zum Tanzen
         release_date: '2026-07-10'
-      - id: 1T0vCNOg0xC2d4zD7bLtQd
-        title: Mach den Schnabi
-        release_date: '2026-08-07'
       - id: 42zPJ8lPSAdN9qDIwtRioE
         title: Kinderlieder - Klassiker zum Mitsingen
         release_date: '2026-09-18'
@@ -48059,9 +47717,6 @@ series:
       - id: '6773728734'
         title: Sommer-Hits zum Tanzen
         release_date: '2026-07-10'
-      - id: '6793056960'
-        title: Mach den Schnabi - Single
-        release_date: '2026-08-07'
       - id: '6802592744'
         title: Kinderlieder - Klassiker zum Mitsingen - EP
         release_date: '2026-09-18'
@@ -49772,9 +49427,6 @@ series:
       - id: 77A7jHEXzkqMcH9tbIpkVd
         title: 'Alle lieben Kinderlieder: Mutmacher'
         release_date: '2026-03-20'
-      - id: 4nNNikk0p3iPUO9vHkB56y
-        title: Wo ist Teddy?
-        release_date: '2026-04-17'
       - id: 1YD7jcjr20VzoeoSt8EzfI
         title: 'Alle lieben Kinderlieder: Spielen'
         release_date: '2026-07-24'
@@ -49824,12 +49476,6 @@ series:
       - id: '1884671050'
         title: 'Alle lieben Kinderlieder: Mutmacher'
         release_date: '2026-03-20'
-      - id: '1893042865'
-        title: Wo ist Teddy? - Single
-        release_date: '2026-04-17'
-      - id: '6776814624'
-        title: Der Maulwurf kocht (Chaos in der Küche) - Single
-        release_date: '2026-06-19'
       - id: '6791228937'
         title: 'Alle lieben Kinderlieder: Spielen - EP'
         release_date: '2026-07-24'
@@ -49892,26 +49538,14 @@ series:
         title: Singen und Bewegen - Das Liederalbum
       - id: 2lGjBsdc5bJCQfEBXPE3lB
         title: Von Monsterstreiks und Kissenschlachten. Kinderlieder
-      - id: 5SKQvA0Tgq5dXHPVLIW1iH
-        title: Happy Christmas - Für Dich Und Alle Welt
-      - id: 11umq9TNFtGYN9IMft97Vz
-        title: Happy Christmas - Para Todos por Igual
-      - id: 0IZwlUg8IR46h7VFufZNHl
-        title: Happy Christmas - Pour Toi, Pour Nous, Pour Vous (Version Française)
-      - id: 1WMinXW1SoQcCcjcI5dzuS
-        title: Happy Christmas - To You and Everyone
       - id: 3kTg3tVI09SKqffmCoCPOz
         title: Summ, Summ, Summ! - Die beliebtesten Schlaflieder Vol. 2
-      - id: 1jfBbWXFrZ8fKsPfl01ZtV
-        title: Schön, dass du hier bist
       - id: 30USqal63wYX00fR7mUzGF
         title: Tanzen und springen
       - id: 3nftnFUhYkshVO8VIvoWy1
         title: Unsere Stadt spricht alle Sprachen
       - id: 0GUaZAZebsTIb4TMN4Pgtv
         title: Summ, Summ, Summ! - Die beliebtesten Schlaflieder, Vol. 3
-      - id: 7FpzmPcNIwl0zMUl742zRR
-        title: Wenn ich den See seh'
       - id: 6rsevZUG4O9MfQwOaGjbMR
         title: Mit der Bahn
       - id: 50WF24IiHnkwS6hgbBZQIH
@@ -49920,12 +49554,6 @@ series:
         title: Hier auf dem Bauernhof
       - id: 2BUZL15xU7czyTTC1weXKT
         title: Summ, Summ, Summ! - Die beliebtesten Urlaubslieder
-      - id: 6Xwl0Icb4ZnxV2bLiX9Tu5
-        title: Hermann, das Leben ist schön
-      - id: 5wblU9JMPbXzwUEqaqNdf8
-        title: Du da oben (Original-Version)
-      - id: 6dXgjpl5CmPuPY7fxRat0Y
-        title: So sein wie ich bin
       - id: 3Wj0D8aR3bdygqWpZLGtLW
         title: Wiedersehen
       - id: 1Pp40Mngeiv80yr9qnG4py
@@ -49934,8 +49562,6 @@ series:
         title: Privatverhext
       - id: 0NmrxmPhd1FQQujuHAAh5I
         title: Summ, Summ, Summ! - Die beliebtesten Freundschaftslieder, Vol. 2
-      - id: 0WpzySmE1iv8ZrWXsgR4Qg
-        title: Schulfrei
       - id: 1T3vhVfaBqTtM5AooReHMw
         title: Ritter Rüdiger
       - id: 7senFonnIDQgispdySW745
@@ -49944,14 +49570,10 @@ series:
         title: Cowgummi
       - id: 3ISqsMurUjDW5K7wDbQz62
         title: Summ, Summ, Summ! - Die beliebtesten Wissenslieder
-      - id: 3OuQSOwCSOnScbkeTFLgTt
-        title: Das bist du
       - id: 7MZDk0Uq7Wj1sjfnRMKj9y
         title: Ich lieb' die Weihnachtszeit
       - id: 52iNynDl0MewHssFZky8yX
         title: Summ, Summ, Summ! - Die beliebtesten Weihnachtslieder, Vol. 2
-      - id: 54ZqTnBushKF4CS0BZQJB2
-        title: Mein kleines Monster
       - id: 0rifRhVw2qr77OcqVJ868h
         title: Irgendwas geht immer
       - id: 1bxLaYAYsl37P5btSxLagw
@@ -49984,20 +49606,10 @@ series:
         title: Singen und Bewegen - Das Liederalbum
       - id: '1618630826'
         title: Von Monsterstreiks und Kissenschlachten. Kinderlieder
-      - id: '1654152842'
-        title: Happy Christmas - Für Dich Und Alle Welt - Single
-      - id: '1654152840'
-        title: Happy Christmas - Para Todos por Igual - Single
-      - id: '1654161065'
-        title: Happy Christmas - Pour Toi, Pour Nous, Pour Vous (Version Française) - Single
-      - id: '1654156119'
-        title: Happy Christmas - To You and Everyone - Single
       - id: '1675269340'
         title: Summ, Summ, Summ! - Die beliebtesten Schlaflieder Vol. 2
       - id: '1737197800'
         title: Summ, Summ, Summ! - Die beliebtesten Schlaflieder, Vol. 3
-      - id: '1754510777'
-        title: Wenn ich den See seh' - Single
       - id: '1755412517'
         title: Mit der Bahn - EP
       - id: '1755413615'
@@ -50006,12 +49618,6 @@ series:
         title: Hier auf dem Bauernhof
       - id: '1768661353'
         title: Summ, Summ, Summ! - Die beliebtesten Urlaubslieder
-      - id: '1791120682'
-        title: Hermann, das Leben ist schön - Single
-      - id: '1793746517'
-        title: Du da oben (Original-Version) - Single
-      - id: '1795669515'
-        title: So sein wie ich bin - Single
       - id: '1797591368'
         title: Wiedersehen - EP
       - id: '1799973671'
@@ -50020,8 +49626,6 @@ series:
         title: Privatverhext
       - id: '1801434068'
         title: Summ, Summ, Summ! - Die beliebtesten Freundschaftslieder, Vol. 2
-      - id: '1820480806'
-        title: Schulfrei - Single
       - id: '1820372931'
         title: Ritter Rüdiger - EP
       - id: '1820374360'
@@ -50030,14 +49634,10 @@ series:
         title: Cowgummi
       - id: '1820377844'
         title: Summ, Summ, Summ! - Die beliebtesten Wissenslieder
-      - id: '1849624626'
-        title: Das bist du - Single
       - id: '1849624858'
         title: Ich lieb' die Weihnachtszeit - EP
       - id: '1852788689'
         title: Summ, Summ, Summ! - Die beliebtesten Weihnachtslieder, Vol. 2
-      - id: '1890187565'
-        title: Mein kleines Monster - Single
       - id: '1890194896'
         title: Irgendwas geht immer - EP
       - id: '1890438534'
@@ -50161,9 +49761,6 @@ series:
       - id: 7F4nJB7NVYAVgskJpFIxor
         title: Meine Lieblingskinderlieder über schöne Sachen
         release_date: '2025-02-14'
-      - id: 36BvQlAZIUZTqROIp2Vy4a
-        title: Achtsamkeitslied
-        release_date: '2025-06-13'
       - id: 5J1lOSF1nfCzUjFaIK2rf3
         title: Meine Lieblingskinderlieder zum Englischlernen
         release_date: '2025-06-27'
@@ -50182,12 +49779,6 @@ series:
       - id: 39yHZyVhxG76KxyXTYSD15
         title: Meine Lieblingskinderlieder für den Frühling und Ostern
         release_date: '2026-03-27'
-      - id: 1uH6hQXOatmpnk3CWFCcdh
-        title: Perfekt, so wie du bist
-        release_date: '2026-04-10'
-      - id: 4pBomtHujOeKEATfSOZ5IN
-        title: Mutiger Maikäfer
-        release_date: '2026-05-15'
       - id: 3JZSCUCnTP23bbiZqudr9q
         title: Meine Lieblingskinderlieder für den Sommer
         release_date: '2026-07-03'
@@ -50309,9 +49900,6 @@ series:
       - id: '1794319505'
         title: Meine Lieblingskinderlieder über schöne Sachen
         release_date: '2025-02-14'
-      - id: '1818579341'
-        title: Achtsamkeitslied - Single
-        release_date: '2025-06-13'
       - id: '1819134231'
         title: Meine Lieblingskinderlieder zum Englischlernen
         release_date: '2025-06-27'
@@ -50330,12 +49918,6 @@ series:
       - id: '1888165913'
         title: Meine Lieblingskinderlieder für den Frühling und Ostern
         release_date: '2026-03-27'
-      - id: '1889949200'
-        title: Perfekt, so wie du bist - Single
-        release_date: '2026-04-10'
-      - id: '6767598471'
-        title: Mutiger Maikäfer - Single
-        release_date: '2026-05-15'
       - id: '6785650151'
         title: Meine Lieblingskinderlieder für den Sommer
         release_date: '2026-07-03'
@@ -50437,9 +50019,6 @@ series:
       - id: 59ixrjPBh0IwOSGA2QzKce
         title: Zwischen Fantasie & Wirklichkeit
         release_date: '2025-10-03'
-      - id: 0CXz9LHyI8HPmuchLS16NE
-        title: Musik ist überall
-        release_date: '2026-03-13'
     apple_music:
       artist_ids:
       - '1685254479'
@@ -50537,9 +50116,6 @@ series:
       - id: '1683300044'
         title: Meine Mütze und Ich
         release_date: '2023-06-16'
-      - id: '1741944172'
-        title: MyMo Song - Single
-        release_date: '2024-04-26'
       - id: '1879479054'
         title: Frechdachs
         release_date: '2026-03-20'
@@ -50551,9 +50127,6 @@ series:
       artist_ids:
       - 13x0bektBEknCM276OqYMn
       albums:
-      - id: 5g3qs3zxJqzfMRwdWooTX7
-        title: Sommerferien
-        release_date: '2018-06-01'
       - id: 7KCR2lzKwmV3smPMhRO3j6
         title: Sommerferien - EP
         release_date: '2018-07-06'
@@ -50776,9 +50349,6 @@ series:
       - id: 2VPmFH07yrnBPglP5CsOCH
         title: BibelHits – Teil 4
         release_date: '2003-02-01'
-      - id: 4ucl3mJGNMs43zQa0yjJC4
-        title: Ich schenk dir einen Sonnenstrah
-        release_date: '2003-09-01'
       - id: 7yPa8KX3jDYXgrTRWoxDVM
         title: Auf einmal ist uns der Himmel ganz nah
         release_date: '2004-08-02'
@@ -51022,9 +50592,6 @@ series:
       - id: 3ulnVtU8rZetw5dRIbc6Ht
         title: Gott, wir müssen reden!
         release_date: '2022-05-27'
-      - id: 3CO0HEYkxfK8SU5Au466oS
-        title: Gott, wir müssen reden! (Playback Version)
-        release_date: '2022-05-27'
       - id: 5G8SLTdk6fgu5D8GnQdXWV
         title: Weihnachten unterm Sternenzelt – Die Lieder zum Konzert
         release_date: '2024-10-01'
@@ -51104,9 +50671,6 @@ series:
       - id: '1614817314'
         title: BibelHits – Teil 4
         release_date: '2003-02-01'
-      - id: '1671551752'
-        title: Ich schenk dir einen Sonnenstrah - EP
-        release_date: '2003-09-01'
       - id: '1884285700'
         title: Auf einmal ist uns der Himmel ganz nah
         release_date: '2004-08-02'
@@ -51493,12 +51057,6 @@ series:
       artist_ids:
       - 7BWj0quGHpkdSx9HZnD3CN
       albums:
-      - id: 1qRvntDNn7NhQfDOuzLGPh
-        title: 1, 2, 3 (Schlaf gleich ein...)
-        release_date: '2025-05-30'
-      - id: 2b039q1o5DWArFUXYIAQ7Y
-        title: Sommerferien
-        release_date: '2025-06-20'
       - id: 3XMoSywNV9ZN5CVN4cTIv3
         title: Filzstifte
         release_date: '2025-08-15'
@@ -51514,9 +51072,6 @@ series:
       - id: 17jfw9QXPkejBV1GPZtomE
         title: Winter Wunderland
         release_date: '2025-12-05'
-      - id: 2f6Y3ur4j6sXkF4iP439Le
-        title: Happy Birthday
-        release_date: '2026-06-12'
       - id: 2hQpSeGthEazRSj8NN9rxS
         title: Ena Kinderlieder
         release_date: '2026-09-04'
@@ -51524,12 +51079,6 @@ series:
       artist_ids:
       - '1815219984'
       albums:
-      - id: '1814290423'
-        title: 1, 2, 3 (Schlaf gleich ein...) - Single
-        release_date: '2025-05-30'
-      - id: '1819713104'
-        title: Sommerferien - Single
-        release_date: '2025-06-20'
       - id: '1831322128'
         title: Filzstifte - Single
         release_date: '2025-08-15'
@@ -51545,9 +51094,6 @@ series:
       - id: '1858525710'
         title: Winter Wunderland - Single
         release_date: '2025-12-05'
-      - id: '6774278953'
-        title: Happy Birthday - Single
-        release_date: '2026-06-12'
       - id: '6783736245'
         title: Ena Kinderlieder
         release_date: '2026-09-04'
@@ -51559,26 +51105,10 @@ series:
       artist_ids:
       - 6RZP8NdBwAbrDZnYpdJVcH
       albums:
-      - id: 2Qc36KCE97LSualjWTfnVg
-        title: Pizza mit Alles
       - id: 1qeC46YljMqrPYpc7oFHB4
         title: Für Alle!
-      - id: 6rPCfVQWC1DpMlI3xOQP0z
-        title: Freunde finden / Devenir Amis
-      - id: 7CcfzLooAnoqZEWhUEhrD0
-        title: Für Alle! (Mitsing-Version)
       - id: 5IBnYAEVzZqYFQ2QZHqYEh
         title: Eine große Überraschung
-      - id: 34Jh1lTXZcsHxQUaiXGr99
-        title: Ferien / Vacanza
-      - id: 49IayuYvM9eJq44a89xpPu
-        title: Pyjamaparty
-      - id: 6Ho4EyNABNw6dvCmCxtwBc
-        title: Macht's gut!
-      - id: 53ksn6YRW73GsJcBvuf9q0
-        title: Wir gehen raus
-      - id: 0PQJsSMXdykDypMK7EAzzu
-        title: Allergrößter Wunsch
       - id: 7I4TNaj0XZa6zO8khlSzpb
         title: Komm spielen!
       - id: 29uDtVqPzAP4LzyJbkSomY
@@ -51587,26 +51117,10 @@ series:
       artist_ids:
       - '1703558817'
       albums:
-      - id: '1703558815'
-        title: Pizza mit Alles - Single
       - id: '1712642902'
         title: Für Alle!
-      - id: '1737181375'
-        title: Freunde finden / Devenir Amis - Single
-      - id: '1756331664'
-        title: Für Alle! (Mitsing-Version)
       - id: '1797538373'
         title: Eine große Überraschung
-      - id: '1812418072'
-        title: Ferien / Vacanza - Single
-      - id: '1818342417'
-        title: Pyjamaparty - Single
-      - id: '1823241404'
-        title: Macht's gut! - Single
-      - id: '1831472506'
-        title: Wir gehen raus - Single
-      - id: '1850748338'
-        title: Allergrößter Wunsch - EP
       - id: '1835413540'
         title: Komm spielen!
       - id: '1882369442'
