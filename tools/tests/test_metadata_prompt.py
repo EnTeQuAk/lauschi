@@ -12,6 +12,7 @@ starts.
 
 import pytest
 from pydantic_ai import Agent
+from pydantic_ai.exceptions import UnexpectedModelBehavior
 from pydantic_ai.messages import ModelMessage, ModelResponse, ToolCallPart
 from pydantic_ai.models.function import AgentInfo, FunctionModel
 from pydantic_ai.models.test import TestModel
@@ -94,13 +95,14 @@ def test_a_long_series_shows_titles_spread_over_what_it_ships() -> None:
     assert int(listed[-1].split()[2].rstrip(":")) > 180
 
 
-def test_the_catalog_pattern_is_printed_as_the_regex_to_type() -> None:
-    """A list printed by Python doubles every backslash, and the agent
-    types the pattern back into `check_pattern_coverage`."""
+def test_the_catalog_pattern_is_stated_as_settled() -> None:
+    """A list printed by Python doubles every backslash, so each regex
+    is printed as it is typed."""
     prompt = _prompt(pattern=[r"^(\d{3})/", r"^Folge (\d+):"])
     assert (
-        "The catalog holds an episode_pattern for this series, and the run "
-        "numbers its albums with it. Check it first:\n"
+        "The catalog holds an episode_pattern for this series. The run numbers "
+        "its albums with it whatever you return, so leave episode_pattern "
+        "empty and skip the pattern check:\n"
         "  ^(\\d{3})/\n"
         "  ^Folge (\\d+):\n"
     ) in prompt
@@ -108,7 +110,7 @@ def test_the_catalog_pattern_is_printed_as_the_regex_to_type() -> None:
 
 
 def test_a_single_catalog_pattern_is_printed_the_same_way() -> None:
-    assert "Check it first:\n  ^Folge (\\d+):\n" in _prompt(pattern=r"^Folge (\d+):")
+    assert "the pattern check:\n  ^Folge (\\d+):\n" in _prompt(pattern=r"^Folge (\d+):")
 
 
 def test_the_facts_come_before_the_sample() -> None:
@@ -135,7 +137,6 @@ class Stop(Exception):
 async def _run_the_line(
     monkeypatch: pytest.MonkeyPatch,
     *,
-    content_type: str = "hoerspiel",
     answers: dict[str, object] | None = None,
     stop_at: str = "_preseed_decisions",
 ) -> tuple[list[str], list[dict[str, object]]]:
@@ -209,28 +210,79 @@ async def _run_the_line(
             timeout=60,
             existing_facts=SeriesFacts(),
             series_id=line.id,
-            content_type=content_type,
         )
     return asked, stopped_with
 
 
 @pytest.mark.anyio
-@pytest.mark.parametrize(
-    ("content_type", "has_pattern_tool"), [("hoerspiel", True), ("audiobook", False)]
-)
 async def test_a_run_tells_the_agent_what_the_catalog_holds(
-    monkeypatch: pytest.MonkeyPatch, content_type: str, has_pattern_tool: bool
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    (prompt,), _ = await _run_the_line(monkeypatch, content_type=content_type)
+    (prompt,), _ = await _run_the_line(monkeypatch)
 
     assert "This series is a line split off from 'Hexe Lilli'.\n" in prompt
     assert "also carry these catalog entries: 'Hexe Lilli'.\n" in prompt
     assert (
         "The catalog ships 1 title in this series today:\n  - Folge 1: Geburtstag\n"
     ) in prompt
+    assert "the pattern check:\n  ^Folge (\\d+):\n" in prompt
     assert "  - Hexe Lilli zaubert | " in prompt
-    # a pattern to check is only named to a run that can check one
-    assert ("Check it first:\n  ^Folge (\\d+):\n" in prompt) is has_pattern_tool
+
+
+@pytest.mark.anyio
+async def test_a_series_with_a_catalog_pattern_is_not_asked_for_one() -> None:
+    """The run keeps the catalog's pattern, so a proposal is thrown away.
+    Checking it anyway cost GLM-5.3 the Erstleser line of Hexe Lilli: the
+    catalog's pattern numbers 3 of its 17 titles, the agent returned it as
+    told, and the check refused it three times."""
+    catalog_pattern = r"^Folge (\d+): .*\(Erstlesergeschichten\)"
+
+    def answer(_messages: list[ModelMessage], info: AgentInfo) -> ModelResponse:
+        return ModelResponse(
+            parts=[
+                ToolCallPart(
+                    info.output_tools[0].name,
+                    {
+                        "id": "hexe_lilli_erstleser",
+                        "title": "Hexe Lilli: Erstlesergeschichten",
+                        "episode_pattern": catalog_pattern,
+                    },
+                )
+            ]
+        )
+
+    agent = curate_ops._build_metadata_agent(FunctionModel(answer))
+    deps = CurateDeps(
+        providers=[],
+        titles=["Feiert Geburtstag", "Zaubert Hausaufgaben"],
+        coverage_titles=["Feiert Geburtstag", "Zaubert Hausaufgaben"],
+        pattern=catalog_pattern,
+    )
+
+    result = await agent.run("Series: 'Hexe Lilli: Erstlesergeschichten'", deps=deps)
+
+    assert result.output.title == "Hexe Lilli: Erstlesergeschichten"
+
+
+@pytest.mark.anyio
+async def test_a_series_without_a_catalog_pattern_still_has_its_proposal_checked() -> (
+    None
+):
+    def answer(_messages: list[ModelMessage], info: AgentInfo) -> ModelResponse:
+        return ModelResponse(
+            parts=[
+                ToolCallPart(
+                    info.output_tools[0].name,
+                    {"id": "x", "title": "X", "episode_pattern": r"^Folge (\d+):"},
+                )
+            ]
+        )
+
+    agent = curate_ops._build_metadata_agent(FunctionModel(answer))
+    deps = CurateDeps(providers=[], titles=["Feiert Geburtstag"])
+
+    with pytest.raises(UnexpectedModelBehavior):
+        await agent.run("Series: 'X'", deps=deps)
 
 
 @pytest.mark.anyio

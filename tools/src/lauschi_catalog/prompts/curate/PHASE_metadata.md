@@ -30,11 +30,13 @@ pattern causes those albums to be excluded as unmatched.
 
 **Workflow (hoerspiel only):**
 
-Step 1: Where the prompt gives the catalog's episode_pattern, that is your
-candidate. Otherwise infer candidates from the series' own titles (the
-titles it ships today, or the sample for a series that ships nothing yet).
-Look for common formats like `^Folge (\d+):`, `^(\d{3})/`, `^Teil (\d+):`,
-etc.
+Where the prompt gives the catalog's episode_pattern, the pattern is
+settled: the run numbers the albums with it. Leave `episode_pattern` empty
+and skip the steps below.
+
+Step 1: Infer candidate patterns from the series' own titles (the titles it
+ships today, or the sample for a series that ships nothing yet). Look for
+common formats like `^Folge (\d+):`, `^(\d{3})/`, `^Teil (\d+):`, etc.
 
 Step 2: Call `check_pattern_coverage` immediately with your candidates.
 The tool tests against the series' own titles: the albums it already

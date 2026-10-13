@@ -312,8 +312,9 @@ def build_metadata_prompt(
         # backslash.
         patterns = [pattern] if isinstance(pattern, str) else pattern
         prompt += (
-            "The catalog holds an episode_pattern for this series, and the run "
-            "numbers its albums with it. Check it first:\n"
+            "The catalog holds an episode_pattern for this series. The run numbers "
+            "its albums with it whatever you return, so leave episode_pattern "
+            "empty and skip the pattern check:\n"
             + "".join(f"  {p}\n" for p in patterns)
         )
     return f"{prompt}Sample albums (title | tracks | release_date):\n{sample_lines}"
@@ -1935,6 +1936,10 @@ def _build_metadata_agent(
         ctx: RunContext[CurateDeps], meta: SeriesMetadata
     ) -> SeriesMetadata:
         """Post-output validation: the pattern was tested and fits."""
+        if ctx.deps.pattern:
+            # The run keeps the catalog's pattern, so a proposal is not used
+            # and there is nothing to hold it to.
+            return meta
         titles = ctx.deps.coverage_titles or ctx.deps.titles
         problem = metadata_problem(
             meta.episode_pattern, titles, checks=ctx.deps._pattern_check_count
@@ -2715,10 +2720,12 @@ async def _run_large(
         content_type=content_type,
         discography_span_years=discography_span_years,
     )
+    entry_pattern = catalog_entry.episode_pattern if catalog_entry else None
     meta_deps = CurateDeps(
         providers=providers,
         titles=all_titles,
         coverage_titles=coverage_titles(catalog_entry, all_titles),
+        pattern=entry_pattern,
         on_progress=on_progress,
     )
     sample_lines = "\n".join(
@@ -2732,12 +2739,7 @@ async def _run_large(
         line_of=line_of,
         sibling_titles=sibling_titles,
         shipped_titles=shipped_titles(catalog_entry),
-        # only a Hörspiel run has the tool to check a pattern with
-        pattern=(
-            catalog_entry.episode_pattern
-            if catalog_entry and content_type == "hoerspiel"
-            else None
-        ),
+        pattern=entry_pattern,
     )
     meta = await _run_with_retry(
         lambda: asyncio.wait_for(
@@ -2823,7 +2825,6 @@ async def _run_large(
         discography_span_years=discography_span_years,
         page_reference=page_reference,
     )
-    entry_pattern = catalog_entry.episode_pattern if catalog_entry else None
     if entry_pattern and entry_pattern != meta.episode_pattern:
         on_progress(
             f"  Pattern from series.yaml: {entry_pattern!r} "
