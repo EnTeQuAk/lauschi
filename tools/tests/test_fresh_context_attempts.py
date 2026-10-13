@@ -50,6 +50,22 @@ class TestRunWithAttempts:
             )
         assert calls["n"] == 3
 
+    def test_the_final_attempt_does_not_announce_another(self) -> None:
+        """A finalize runs once. Its one failure was logged with "Retrying
+        from a fresh context", and nothing was retried."""
+        call, _ = _flaky(99)
+        progress: list[str] = []
+        with pytest.raises(RuntimeError):
+            asyncio.run(
+                run_with_attempts(
+                    call, attempts=2, label="x", on_progress=progress.append
+                )
+            )
+        assert progress == [
+            "    x attempt 1/2 failed: RuntimeError: boom 1. Retrying from a fresh context.",
+            "    x attempt 2/2 failed: RuntimeError: boom 2.",
+        ]
+
     def test_a_clean_call_runs_once(self) -> None:
         call, calls = _flaky(0)
         assert (

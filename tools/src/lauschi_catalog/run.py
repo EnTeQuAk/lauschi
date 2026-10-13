@@ -74,9 +74,10 @@ async def run_with_attempts(
             try:
                 return await make_call()
             except Exception as exc:
+                again = " Retrying from a fresh context." if attempt < attempts else ""
                 on_progress(
                     f"    {label} attempt {attempt}/{attempts} failed: "
-                    f"{type(exc).__name__}: {exc}. Retrying from a fresh context."
+                    f"{type(exc).__name__}: {exc}.{again}"
                 )
                 if on_failure is not None:
                     on_failure(attempt, exc, list(messages))
