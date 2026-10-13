@@ -53,6 +53,33 @@ def test_an_unnumbered_twin_of_a_numbered_episode_is_a_duplicate():
     assert out["old"].include is False and out["old"].exclude_reason == "duplicate"
 
 
+def test_a_re_release_with_a_zero_padded_number_is_a_duplicate():
+    """SpongeBob's stories come out again since 2026 as "Folge 001: ...",
+    next to the "Folge 1: ..." of 2020. The padding made them two titles,
+    and both shipped, the older one without its number."""
+    old = decision(
+        "old",
+        provider="apple_music",
+        title="Folge 1: Aushilfe gesucht (Das Original-Hörspiel zur TV-Serie) - EP",
+        release_date="2020-04-03",
+    )
+    new = decision(
+        "new",
+        provider="apple_music",
+        title="Folge 001: Aushilfe gesucht (Das Original-Hörspiel zur TV-Serie) - EP",
+        episode_num=1,
+        release_date="2026-07-03",
+    )
+    out = {
+        d.album_id: d
+        for d in _settle_same_provider_duplicates(
+            [old, new], [], series_names=["SpongeBob Schwammkopf"]
+        )
+    }
+    assert out["new"].include is True
+    assert out["old"].include is False and out["old"].exclude_reason == "duplicate"
+
+
 def test_two_different_episodes_sharing_a_core_title_are_both_kept():
     a = decision("a", title="Folge 28: Das innere Gleichgewicht", episode_num=28)
     b = decision("b", title="Folge 29: Das innere Gleichgewicht", episode_num=29)

@@ -33,7 +33,8 @@ def normalize_title(title: str) -> str:
 
     Casefolds and strips the ' - EP' / ' - Single' suffixes that Apple
     Music decorates with but Spotify does not, so the same release
-    under both providers compares equal.
+    under both providers compares equal. A number's leading zeros go
+    too: "Folge 001" is the "Folge 1" of an earlier release.
 
     Used by duplicate detection (lint) and cross-provider reconciliation.
     Deliberately weaker than drift_ops's title fold, which also strips
@@ -43,7 +44,7 @@ def normalize_title(title: str) -> str:
     t = " ".join(title.casefold().split())
     for suffix in (" - ep", " - single"):
         t = t.removesuffix(suffix)
-    return t
+    return re.sub(r"\b0+(?=\d)", "", t)
 
 
 def title_shape(title: str) -> str:
