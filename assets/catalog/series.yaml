@@ -7069,6 +7069,18 @@ series:
         episode: 451
         title: 'Folge 451: Air Rescue - Luftrettung für Danny X (Das Original-Hörspiel zur TV-Serie)'
         release_date: '2026-09-18'
+      - id: 0GYdjg31Mg8ltDOW9fN4Km
+        episode: 452
+        title: 'Folge 452: Air Rescue - Die Luftakrobatik-Show (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2026-09-25'
+      - id: 7xh2Xcu3ZbaMj8gnsuEcOr
+        episode: 453
+        title: 'Folge 453: Air Rescue - Die Rettung der Flugshow (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2026-10-02'
+      - id: 1AVBOSWipD45gJz7uQ8111
+        episode: 454
+        title: 'Folge 454: Air Rescue - Die Luftretter stoppen die Magnet-Drohne (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2026-10-09'
       - id: 6hCVDuhHEAxO4ycLH9PGYh
         title: Die Super-Hunde (Das Special)
         release_date: '2020-11-27'
@@ -8915,6 +8927,18 @@ series:
         episode: 451
         title: 'Folge 451: Air Rescue - Luftrettung für Danny X (Das Original-Hörspiel zur TV-Serie)'
         release_date: '2026-09-18'
+      - id: '6810760021'
+        episode: 452
+        title: 'Folge 452: Air Rescue - Die Luftakrobatik-Show (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2026-09-25'
+      - id: '6813016508'
+        episode: 453
+        title: 'Folge 453: Air Rescue - Die Rettung der Flugshow (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2026-10-02'
+      - id: '6813090575'
+        episode: 454
+        title: 'Folge 454: Air Rescue - Die Luftretter stoppen die Magnet-Drohne (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2026-10-09'
       - id: '1764585350'
         title: Die Super-Hunde (Das Special)
         release_date: '2020-11-27'
