@@ -14345,6 +14345,9 @@ series:
       - id: 5zSoqEwv8EVNCLRPItj9RS
         title: Dein Körper - voller Leben!
         release_date: '2026-06-26'
+      - id: 7BwfO4QRRmLhbcNQHQWV9w
+        title: Vulkane - Vorsicht, heiß!
+        release_date: '2026-09-25'
     apple_music:
       artist_ids:
       - '13496563'
@@ -14636,6 +14639,9 @@ series:
       - id: '6778373301'
         title: Dein Körper - voller Leben!
         release_date: '2026-06-26'
+      - id: '6808599180'
+        title: Vulkane - Vorsicht, heiß!
+        release_date: '2026-09-25'
   episode_pattern: '^(\d+): '
   aliases:
   - Was ist was
@@ -14712,7 +14718,11 @@ series:
       range_end:
       reason: Not available in Spotify or Apple Music catalogs
     sub_series:
-    - label: was_ist_was_junior
+    - curated_by: minimax-m2.7
+      curated_at: '2026-10-02T21:57:39.386691+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T06:41:30.480515+00:00'
+      label: was_ist_was_junior
       album_ids:
       - '1825810857'
       - '1825811391'
@@ -14727,10 +14737,6 @@ series:
       - '6791481468'
       - 7GcEkwSOcuNxFDaN7fFqXX
       reason: Short-format preschool product line (11-18 min), 1.5-3 min uniform tracks, different artist credit 'WAS IST WAS Meine Welt & Was ist Was', distinct from main series Hörspiele.
-      curated_by: minimax-m2.7
-      curated_at: '2026-10-02T21:57:39.386691+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-02T21:57:39.386691+00:00'
 - id: pettersson_und_findus
   title: Pettersson und Findus
   providers:
@@ -15327,6 +15333,10 @@ series:
         episode: 101
         title: 'Folge 101: Diebstahl im Museum (Das Original Playmobil Hörspiel)'
         release_date: '2026-07-24'
+      - id: 3jnzXeDB1zuQecxU6RTGzJ
+        episode: 102
+        title: 'Folge 102: Befreit den König der Löwenritter! (Das Original Playmobil Hörspiel)'
+        release_date: '2026-09-18'
       - id: 5u62PMBevTK3R7Pujt7f47
         title: Das Versteck in der Goldmine
         release_date: '2015'
@@ -16732,7 +16742,11 @@ series:
   - 'Miraculous: Geschichten von Ladybug und Cat Noir'
   series_facts:
     sub_series:
-    - label: Filme
+    - curated_by: minimax-m2.7
+      curated_at: '2026-10-02T22:06:33.706158+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T06:38:55.241202+00:00'
+      label: Filme
       album_ids:
       - 0SXKn1DvrpmJ3dSCXZ4xrN
       - '1694892522'
@@ -16742,10 +16756,6 @@ series:
       - 5MJ9qn5btULJONQNS2c5eb
       reason: "The film audio plays (Der Film German, The Movie English, Le Film French) are distinct releases of the 2023 feature film. They are correctly included here but belong to a 'Filme' (Films)
         sub-series. The reference lines confirm 'Miraculous: Ladybug & Cat Noir' as a 'Filme' line."
-      curated_by: minimax-m2.7
-      curated_at: '2026-10-02T22:06:33.706158+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-02T22:06:33.706158+00:00'
 - id: hanni_und_nanni
   title: Hanni und Nanni
   providers:
@@ -20476,14 +20486,14 @@ series:
       range_end:
       reason: "Platform-specific gap: Episode 28 exists on Apple Music but not on Spotify. Not an error—Spotify simply hasn't added this release yet."
     sub_series:
-    - label: kira_kolumna_real_talk
+    - curated_by: minimax-m2.7
+      curated_at: '2026-10-04T07:17:39.291817+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T06:32:37.266401+00:00'
+      label: kira_kolumna_real_talk
       album_ids:
       - apple_music:6817054948
       reason: Talk-show format episodes with distinct 'Real Talk' branding, different from the main dramatized fiction episodes.
-      curated_by: minimax-m2.7
-      curated_at: '2026-10-04T07:17:39.291817+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-04T07:17:39.291817+00:00'
 - id: h2o_ploetzlich_meerjungfrau
   title: H2O - Plötzlich Meerjungfrau!
   providers:
@@ -20709,18 +20719,18 @@ series:
   - H2O - Plötzlich Meerjungfrau
   series_facts:
     era_boundaries:
-    - label: original
+    - curated_by: minimax-m2.7
+      curated_at: '2026-10-02T22:21:35.061099+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T06:28:53.477699+00:00'
+      label: original
       release_date_range: 2009-2014
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-10-02T22:21:35.061099+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-10-02T22:21:35.061099+00:00'
-    - label: staffel_3
+      label: staffel_3
       release_date_range: 2025-2026
-      curated_by: minimax-m2.7
-      curated_at: '2026-10-02T22:21:35.061099+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-02T22:21:35.061099+00:00'
     known_gaps:
     - curated_by: minimax-m2.7
       curated_at: '2026-06-10T18:24:01.400012+00:00'
@@ -20749,6 +20759,14 @@ series:
         episode: 3
         title: 'Teil 3: Der Steinerne Spiegel'
         release_date: '2008-02-28'
+      - id: 1HBSqiyZ0QaSG7I2iJ1Yf3
+        episode: 4
+        title: 'Teil 4: Lauras Zauberritt'
+        release_date: '2008-02-28'
+      - id: 1ovUOgSvAjx1zoz7evH7cc
+        episode: 5
+        title: 'Teil 5: Sternenschweifs Geheimnis'
+        release_date: '2008-10-15'
       - id: 0RkIrxojNhnosFGpI2VCmD
         episode: 6
         title: 'Teil 6: Freunde im Zauberreich'
@@ -21033,12 +21051,10 @@ series:
         episode: 76
         title: 'Teil 76: Das Feenpony'
         release_date: '2026-03-19'
-      - id: 1HBSqiyZ0QaSG7I2iJ1Yf3
-        title: 'Teil 4: Lauras Zauberritt'
-        release_date: '2008-02-28'
-      - id: 1ovUOgSvAjx1zoz7evH7cc
-        title: 'Teil 5: Sternenschweifs Geheimnis'
-        release_date: '2008-10-15'
+      - id: 3wrLX31sToMkWsiQzWZUTE
+        episode: 77
+        title: 'Teil 77: Geheimnis des Mondes'
+        release_date: '2026-09-21'
       - id: 54XJBYewykN366ddwf54yo
         title: Einhornmärchen
         release_date: '2018-09-13'
@@ -21350,6 +21366,10 @@ series:
         episode: 76
         title: 'Teil 76: Das Feenpony'
         release_date: '2026-03-19'
+      - id: '6805519265'
+        episode: 77
+        title: 'Teil 77: Geheimnis des Mondes'
+        release_date: '2026-09-21'
   episode_pattern:
   - '^Teil (\d+):'
   - '^Band (\d+):'
@@ -21358,18 +21378,18 @@ series:
   - Sternenschweif – Laura und ihr Zauberpony
   series_facts:
     era_boundaries:
-    - label: original
+    - curated_by: minimax-m2.7
+      curated_at: '2026-10-02T22:20:58.274223+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T06:38:46.709630+00:00'
+      label: original
       release_date_range: 2007-2016
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-10-02T22:20:58.274223+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-10-02T22:20:58.274223+00:00'
-    - label: reboot
+      label: reboot
       release_date_range: 2026-
-      curated_by: minimax-m2.7
-      curated_at: '2026-10-02T22:20:58.274223+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-02T22:20:58.274223+00:00'
 - id: mia_and_me
   title: Mia and Me
   providers:
@@ -26176,8 +26196,8 @@ series:
       release_date_range: 1998-2010
     - curated_by: minimax-m2.7
       curated_at: '2026-05-31T16:21:52.014541+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:21:52.014541+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T06:34:05.318433+00:00'
       label: tv_serie
       release_date_range: 2016-2018
     - curated_by: minimax-m2.7
@@ -26187,14 +26207,14 @@ series:
       label: neu
       release_date_range: 2019-
     known_gaps:
-    - number: 18
-      range_end:
-      reason: Limited Hörspiele catalog release — only episodes 1-17 produced. The TV series had 52 episodes total (26 per season), but only the first 17 episodes received Hörspiele releases under the
-        KIKA TV-Serie brand.
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-10-02T22:44:16.121990+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-10-02T22:44:16.121990+00:00'
+      number: 18
+      range_end:
+      reason: Limited Hörspiele catalog release — only episodes 1-17 produced. The TV series had 52 episodes total (26 per season), but only the first 17 episodes received Hörspiele releases under the
+        KIKA TV-Serie brand.
   aliases:
   - Der Kleine Rabe Socke
   - Kleiner Rabe Socke
@@ -30845,10 +30865,6 @@ series:
         episode: 43
         title: '43: Der tasmanische Schatz'
         release_date: '2024-08-16'
-      - id: 0GLYVwdBPom9Lea8h9VvRp
-        episode: 44
-        title: Gefährlich rieselt der Schnee
-        release_date: '2024-09-13'
       - id: 184qx6wssBodcro3DkMVuC
         episode: 45
         title: '45: Schmutziges Feuer'
@@ -30886,6 +30902,9 @@ series:
       - id: 0GLBbIANjLK4coMS9Tvtnv
         title: Der letzte Schrei
         release_date: '2024-08-16'
+      - id: 0GLYVwdBPom9Lea8h9VvRp
+        title: Gefährlich rieselt der Schnee
+        release_date: '2024-09-13'
     apple_music:
       artist_ids:
       - '1487787107'
@@ -40073,6 +40092,10 @@ series:
         episode: 1
         title: Folge 1 - Die rote Socke
         release_date: '2011-03-01'
+      - id: 3rJJBDxGmMcQeTVQVDxq6O
+        episode: 2
+        title: Folge 2 - Die orangefarbene Maske
+        release_date: '2011-03-01'
       - id: 18RmT3WdLAXXHZCrfpjbju
         episode: 3
         title: Folge 3 - Der gelbe Juwelenkoffer
@@ -40132,9 +40155,6 @@ series:
       - id: 1dP1knLDuLvDaLdPwtHBXm
         episode: 17
         title: Folge 17 - KK fischt im Internet
-        release_date: '2011-03-01'
-      - id: 3rJJBDxGmMcQeTVQVDxq6O
-        title: Folge 2 - Die orangefarbene Maske
         release_date: '2011-03-01'
       - id: 07lAvUvijAgZqYuG5k9Ra0
         title: Kugelblitz als Weihnachtsmann
@@ -43421,9 +43441,6 @@ series:
       - id: 0z6ZOVxP4s6H2oBMqBxSfQ
         title: Die 30 besten Kinderlieder zum Singen und Spielen
         release_date: '2021-10-15'
-      - id: 2sH8UBpEHCVDrvKFPlqiqA
-        title: Die 30 besten Schlaflieder ohne Gesang
-        release_date: '2021-10-15'
       - id: 23KHjmL6osusO3rRl96t4l
         title: Die 30 besten Kinderlieder zum Entspannen (30 beruhigende, fantasievolle Lieder)
         release_date: '2021-11-26'
@@ -43517,6 +43534,9 @@ series:
       - id: 0FmAvSmg2GZdfy6AbKsEwC
         title: Zähneputzen
         release_date: '2026-06-19'
+      - id: 2RO6rWeWEPkSqhzXOds9Sb
+        title: Tina, die Riesen-Giraffe
+        release_date: '2026-08-14'
     apple_music:
       artist_ids:
       - '397732566'
@@ -43688,9 +43708,6 @@ series:
       - id: '1596126093'
         title: Die 30 besten Kinderlieder zum Singen und Spielen
         release_date: '2021-10-15'
-      - id: '1596120555'
-        title: Die 30 besten Schlaflieder ohne Gesang
-        release_date: '2021-10-15'
       - id: '1596751218'
         title: Die 30 besten Kinderlieder zum Entspannen (30 beruhigende, fantasievolle Lieder)
         release_date: '2021-11-26'
@@ -43796,6 +43813,9 @@ series:
       - id: '6812369407'
         title: Fliege hoch zum Regenbogen - EP
         release_date: '2026-09-25'
+      - id: '6820575425'
+        title: Weißt du schon, wie alt du bist - EP
+        release_date: '2026-10-09'
   content_type: music
   aliases:
   - Simone Sommerland
@@ -44585,9 +44605,6 @@ series:
       - id: 1baVvUSMWNbrNsoeE9FEty
         title: Eine kleine Livemusik - EP
         release_date: '2023-12-15'
-      - id: 5kbuiHQim7ZJBshFq7iVGn
-        title: Die Kinder spielen verrückt
-        release_date: '2026-04-24'
       - id: 7rhXqnfugjWLVzbigSoDWG
         title: Die Kinder spielen verrückt
         release_date: '2026-05-07'
@@ -44718,6 +44735,10 @@ series:
         episode: 16
         title: '16: Land unter!'
         release_date: '2025-10-03'
+      - id: 3IT1gweTeKUngCRCr8sFmu
+        episode: 17
+        title: '17: Hoch hinaus!'
+        release_date: '2026-10-02'
       - id: 5AVlKonmf9X6D2IRJJrbpU
         title: 'Die Schule der magischen Tiere - Hörspiele: Witze!'
         release_date: '2019'
@@ -44836,6 +44857,10 @@ series:
         episode: 16
         title: '16: Land unter!'
         release_date: '2025-10-03'
+      - id: '6815560061'
+        episode: 17
+        title: '17: Hoch hinaus!'
+        release_date: '2026-10-02'
       - id: '1686139756'
         title: 'Endlich Ferien 1: Rabbat und Ida'
         release_date: '2019-05-17'
@@ -44882,22 +44907,26 @@ series:
   - Die Schule der magischen Tiere - Hörspiele
   series_facts:
     known_gaps:
-    - number: 17
+    - curated_by: minimax-m2.7
+      curated_at: '2026-10-01T05:35:54.484526+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-10-01T05:35:54.484526+00:00'
+      number: 17
       range_end:
       reason: Main series paused after episode 16 (Dec 2025). Episode 17 not yet published.
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-10-01T05:35:54.484526+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-01T05:35:54.484526+00:00'
-    - number: 18
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T06:28:01.506822+00:00'
+      number: 18
       range_end:
       reason: Main series paused after episode 16 (Dec 2025). Episode 18 not yet published.
-      curated_by: minimax-m2.7
+    sub_series:
+    - curated_by: minimax-m2.7
       curated_at: '2026-10-01T05:35:54.484526+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-10-01T05:35:54.484526+00:00'
-    sub_series:
-    - label: endlich_ferien
+      label: endlich_ferien
       album_ids:
       - apple_music:1686139756
       - apple_music:1686140413
@@ -44918,11 +44947,11 @@ series:
       - spotify:6y5OBVbcnhU6BbEXCX9XoA
       - spotify:7qRSZOL23yGru3xymVdZJH
       reason: Sub-series of holiday stories with own numbering (1-9). Not part of main series episode count. Both Karussell Hörspiele (included) and Silberfisch audiobooks (excluded) versions exist.
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-10-01T05:35:54.484526+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-10-01T05:35:54.484526+00:00'
-    - label: film_tie_in
+      label: film_tie_in
       album_ids:
       - apple_music:1642750282
       - apple_music:1769665977
@@ -44933,20 +44962,16 @@ series:
       - spotify:7bB2Qm2ldjkV4UCgZSx6Id
       reason: Film adaptation Hörspiele, not part of main series episode numbering. Film 1 (2021), Film 2 (2022), Film 3 (2024), Film 4 (2025). Each has a corresponding Silberfisch audiobook version 
         (excluded) and score/soundtrack album (excluded).
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-10-01T05:35:54.484526+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-10-01T05:35:54.484526+00:00'
-    - label: specials
+      label: specials
       album_ids:
       - apple_music:1686073562
       - spotify:5AVlKonmf9X6D2IRJJrbpU
       - spotify:6w6QEuBt1MHOuxC2N7QN2s
       reason: "Special Hörsppiele: 'Witze!' joke collection (2019) and 'Eingeschneit! Ein Winterabenteuer' winter special (2020). No main-series episode number."
-      curated_by: minimax-m2.7
-      curated_at: '2026-10-01T05:35:54.484526+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-01T05:35:54.484526+00:00'
 - id: dikka
   title: DIKKA
   providers:
@@ -48806,6 +48831,9 @@ series:
       - id: 42zPJ8lPSAdN9qDIwtRioE
         title: Kinderlieder - Klassiker zum Mitsingen
         release_date: '2026-09-18'
+      - id: 5u9S0v34MtmVGAJk7I7Jlh
+        title: Partyhits für Karneval und Kinderfeste
+        release_date: '2026-10-02'
     apple_music:
       artist_ids:
       - '961585712'
@@ -48976,6 +49004,9 @@ series:
       - id: '6802592744'
         title: Kinderlieder - Klassiker zum Mitsingen - EP
         release_date: '2026-09-18'
+      - id: '6812772029'
+        title: Partyhits für Karneval und Kinderfeste
+        release_date: '2026-10-02'
   content_type: music
   aliases:
   - Kinderlieder Gang
@@ -53320,107 +53351,200 @@ series:
       artist_ids:
       - 6k51vTPqkkOG4SpZwtZS1s
       albums:
+      - id: 1BWCIktK5rCq52WW8mdowr
+        episode: 1
+        title: Adventskalender Tag 1 - Gefährlich rieselt der Schnee
+        release_date: '2023-12-01'
+      - id: 674EXmLtqAtzR5COcIpe1F
+        episode: 2
+        title: Adventskalender Tag 2 - Gefährlich rieselt der Schnee
+        release_date: '2023-12-02'
+      - id: 7cm9cCsYb400TfEIYJc5s3
+        episode: 3
+        title: Adventskalender Tag 3 - Gefährlich rieselt der Schnee
+        release_date: '2023-12-03'
+      - id: 2pk4lx6dvWSynFOSkCwvgT
+        episode: 4
+        title: Adventskalender Tag 4 - Gefährlich rieselt der Schnee
+        release_date: '2023-12-04'
+      - id: 7lQpPDRMP7aXNkiaAkDBVv
+        episode: 5
+        title: Adventskalender Tag 5 - Gefährlich rieselt der Schnee
+        release_date: '2023-12-05'
+      - id: 5R6XWgntgd1mYjQUbpW9uv
+        episode: 6
+        title: Adventskalender Tag 6 - Gefährlich rieselt der Schnee
+        release_date: '2023-12-06'
+      - id: 2GBcmkzGwM2YBPbaN6ZfRh
+        episode: 7
+        title: Adventskalender Tag 7 - Gefährlich rieselt der Schnee
+        release_date: '2023-12-07'
+      - id: 1YHOifsY6LEYlX2J4B5m4c
+        episode: 8
+        title: Adventskalender Tag 8 - Gefährlich rieselt der Schnee
+        release_date: '2023-12-08'
+      - id: 3ANRZdoLW5mBdkfG75sOIs
+        episode: 9
+        title: Adventskalender Tag 9 - Gefährlich rieselt der Schnee
+        release_date: '2023-12-09'
+      - id: 5sC5V6YjrdxD46tcLVnjE5
+        episode: 10
+        title: Adventskalender Tag 10 - Gefährlich rieselt der Schnee
+        release_date: '2023-12-10'
+      - id: 4IASsJDCPZTfJwO27sO3Iy
+        episode: 11
+        title: Adventskalender Tag 11 - Gefährlich rieselt der Schnee
+        release_date: '2023-12-11'
+      - id: 62OLof2Op6ESIP1uLfkGa0
+        episode: 12
+        title: Adventskalender Tag 12 - Gefährlich rieselt der Schnee
+        release_date: '2023-12-12'
+      - id: 1EscjkKbyAo4NYbf90ixYG
+        episode: 13
+        title: Adventskalender Tag 13 - Gefährlich rieselt der Schnee
+        release_date: '2023-12-13'
+      - id: 2d0WPbN4RMBqhcBzSbPDkd
+        episode: 14
+        title: Adventskalender Tag 14 - Gefährlich rieselt der Schnee
+        release_date: '2023-12-14'
+      - id: 5mdZbt4vmtzQzo2lKMgYQ4
+        episode: 15
+        title: Adventskalender Tag 15 - Gefährlich rieselt der Schnee
+        release_date: '2023-12-15'
       - id: 0itjeKvfolNCsyC6ijojO3
+        episode: 16
         title: Adventskalender Tag 16 - Gefährlich rieselt der Schnee
+        release_date: '2023-12-16'
       - id: 0G8mI5ypPOJ0yQYevcaBpd
+        episode: 17
         title: Adventskalender Tag 17 - Gefährlich rieselt der Schnee
+        release_date: '2023-12-17'
       - id: 2LXqbUF9hJvfu6czCBCjhR
+        episode: 18
         title: Adventskalender Tag 18 - Gefährlich rieselt der Schnee
+        release_date: '2023-12-18'
       - id: 3IPVM58dYp1mCewkVvSpYR
+        episode: 19
         title: Adventskalender Tag 19 - Gefährlich rieselt der Schnee
+        release_date: '2023-12-19'
       - id: 0vj1sriSgobSS5wMuHMPe3
+        episode: 20
         title: Adventskalender Tag 20 - Gefährlich rieselt der Schnee
+        release_date: '2023-12-20'
       - id: 5NkvlPcXXqjwsLwog9wc9Y
+        episode: 21
         title: Adventskalender Tag 21 - Gefährlich rieselt der Schnee
+        release_date: '2023-12-21'
       - id: 4alR3SUYdJYdntgO3D4KcY
+        episode: 22
         title: Adventskalender Tag 22 - Gefährlich rieselt der Schnee
+        release_date: '2023-12-22'
       - id: 09FrU6vuKgmbjJ8HZSuTB0
+        episode: 23
         title: Adventskalender Tag 23 - Gefährlich rieselt der Schnee
+        release_date: '2023-12-23'
       - id: 3n3UEDzrXoyJlomWioM8gA
+        episode: 24
         title: Adventskalender Tag 24 - Gefährlich rieselt der Schnee
-      - id: 4l4pf9JgOg4M9troLqOoCs
-        title: Nachricht eines Fremden
-        release_date: '2026-02-13'
-      - id: 6erqym9G4q35OVX4ihzw5L
-        title: Geheime Botschaft
-        release_date: '2026-02-20'
-      - id: 1YGp021WiphhKGeCLnws4A
-        title: Besuch zu später Stunde
-        release_date: '2026-02-27'
+        release_date: '2023-12-24'
     apple_music:
       artist_ids:
       - '1487787107'
       albums:
       - id: '1713305670'
+        episode: 1
         title: Adventskalender Tag 1 - Gefährlich rieselt der Schnee - Single
         release_date: '2023-12-01'
       - id: '1713304989'
+        episode: 2
         title: Adventskalender Tag 2 - Gefährlich rieselt der Schnee - Single
         release_date: '2023-12-02'
       - id: '1713305394'
+        episode: 3
         title: Adventskalender Tag 3 - Gefährlich rieselt der Schnee - Single
         release_date: '2023-12-03'
       - id: '1713305292'
+        episode: 4
         title: Adventskalender Tag 4 - Gefährlich rieselt der Schnee - Single
         release_date: '2023-12-04'
       - id: '1713305124'
+        episode: 5
         title: Adventskalender Tag 5 - Gefährlich rieselt der Schnee - Single
         release_date: '2023-12-05'
       - id: '1713305192'
+        episode: 6
         title: Adventskalender Tag 6 - Gefährlich rieselt der Schnee - Single
         release_date: '2023-12-06'
       - id: '1713305521'
+        episode: 7
         title: Adventskalender Tag 7 - Gefährlich rieselt der Schnee - Single
         release_date: '2023-12-07'
       - id: '1713305379'
+        episode: 8
         title: Adventskalender Tag 8 - Gefährlich rieselt der Schnee - Single
         release_date: '2023-12-08'
       - id: '1713304960'
+        episode: 9
         title: Adventskalender Tag 9 - Gefährlich rieselt der Schnee - Single
         release_date: '2023-12-09'
       - id: '1713305335'
+        episode: 10
         title: Adventskalender Tag 10 - Gefährlich rieselt der Schnee - Single
         release_date: '2023-12-10'
       - id: '1713305226'
+        episode: 11
         title: Adventskalender Tag 11 - Gefährlich rieselt der Schnee - Single
         release_date: '2023-12-11'
       - id: '1713305231'
+        episode: 12
         title: Adventskalender Tag 12 - Gefährlich rieselt der Schnee - Single
         release_date: '2023-12-12'
       - id: '1713305363'
+        episode: 13
         title: Adventskalender Tag 13 - Gefährlich rieselt der Schnee - Single
         release_date: '2023-12-13'
       - id: '1713305393'
+        episode: 14
         title: Adventskalender Tag 14 - Gefährlich rieselt der Schnee - Single
         release_date: '2023-12-14'
       - id: '1713306053'
+        episode: 15
         title: Adventskalender Tag 15 - Gefährlich rieselt der Schnee - Single
         release_date: '2023-12-15'
       - id: '1713305280'
+        episode: 16
         title: Adventskalender Tag 16 - Gefährlich rieselt der Schnee - Single
         release_date: '2023-12-16'
       - id: '1713305298'
+        episode: 17
         title: Adventskalender Tag 17 - Gefährlich rieselt der Schnee - Single
         release_date: '2023-12-17'
       - id: '1713304883'
+        episode: 18
         title: Adventskalender Tag 18 - Gefährlich rieselt der Schnee - Single
         release_date: '2023-12-18'
       - id: '1713304859'
+        episode: 19
         title: Adventskalender Tag 19 - Gefährlich rieselt der Schnee - Single
         release_date: '2023-12-19'
       - id: '1713304628'
+        episode: 20
         title: Adventskalender Tag 20 - Gefährlich rieselt der Schnee - Single
         release_date: '2023-12-20'
       - id: '1713304911'
+        episode: 21
         title: Adventskalender Tag 21 - Gefährlich rieselt der Schnee - Single
         release_date: '2023-12-21'
       - id: '1713305004'
+        episode: 22
         title: Adventskalender Tag 22 - Gefährlich rieselt der Schnee - Single
         release_date: '2023-12-22'
       - id: '1713304930'
+        episode: 23
         title: Adventskalender Tag 23 - Gefährlich rieselt der Schnee - Single
         release_date: '2023-12-23'
       - id: '1713305334'
+        episode: 24
         title: Adventskalender Tag 24 - Gefährlich rieselt der Schnee - Single
         release_date: '2023-12-24'
   series_facts:
@@ -53432,7 +53556,7 @@ series:
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:12:36.741577+00:00'
       range_end: 15
-  content_type: hoerspiel
+  episode_pattern: ^Adventskalender Tag (\d+)
 - id: bambi_disney_film
   title: 'Bambi: Disney Film'
   aliases:
@@ -55553,12 +55677,16 @@ series:
       albums:
       - id: 41kMb9JFlL86sy4dWzmZ1r
         title: Lernland - Wir bleiben gesund!
+        release_date: '2025-01-31'
       - id: 5ZOt9xY0T7vU2azsA776MO
         title: Lernland - Große, bunte Welt
+        release_date: '2025-02-28'
       - id: 0zO1LmmiglbIObqbWq205h
         title: Lernland - Unsere Umwelt und Natur
+        release_date: '2025-03-28'
       - id: 6887KyFpui5wQei7j9DwRK
         title: Lernland - Das kleine 1 X 1
+        release_date: '2025-10-24'
     apple_music:
       artist_ids:
       - '1035655315'
@@ -58135,71 +58263,92 @@ series:
   aliases:
   - Die Olchi-Detektive
   episode_pattern:
-  content_type: hoerspiel
+  - ^Olchi-Detektive (\d+)\.
+  - '^Folge (\d+):'
   split_from: die_olchis
   providers:
     spotify:
       artist_ids:
       - 32Aa42Dbmqm4GKsv3wUSMb
       albums:
-      - id: 7vZFM4jIZCg4RQLMjH2DV6
-        title: Olchi-Detektive 13. Die große Flut
-        release_date: '2014-01-01'
-      - id: 3YbQasSAfcPeE3Cv3I3IjN
-        title: Olchi-Detektive 14. Ufo in Sicht!
-        release_date: '2014-01-01'
       - id: 1uzRxeC1NHplN1rNKO61M7
+        episode: 1
         title: Olchi-Detektive 1. Jagd auf die Gully-Gangster
         release_date: '2014-01-06'
       - id: 17SSDMYscSNsBvwZubonNw
+        episode: 2
         title: Olchi-Detektive 2. Rote Karte für Halunken
         release_date: '2014-01-06'
       - id: 5oappd2T1kRdFZCMwgqmsq
+        episode: 3
         title: Olchi-Detektive 3. Löwenalarm
         release_date: '2014-01-06'
       - id: 4A8np03Bcme3bv4V05hL4I
+        episode: 4
         title: Olchi-Detektive 4. Im Einsatz der Königin
         release_date: '2014-01-06'
       - id: 2WViA4GvDY25YYrQYb9PsR
+        episode: 5
         title: Olchi-Detektive 5. Die Monsterschwäne vom Hyde Park
         release_date: '2014-03-25'
       - id: 2ycRWGy7XTuhIzWP5MZOqi
+        episode: 6
         title: Olchi-Detektive 6. Gefangen im Auge von London
         release_date: '2014-03-25'
-      - id: 7spqt81kgEvTbcuNxoOFtt
-        title: Olchi-Detektive 11. Achtung, Bankräuber!
-        release_date: '2014-06-01'
-      - id: 4dC3YA59SWJCZu21BVncN8
-        title: Olchi-Detektive 10. Das Erbe der Piraten
-        release_date: '2014-07-21'
       - id: 7JTcsA8FRdAQ5HJaEfWs9Y
+        episode: 7
         title: Olchi-Detektive 7. Das Geheimnis der Löcherwände
         release_date: '2014-07-21'
       - id: 2ExQJI91WZd1av8in4zrJ7
+        episode: 8
         title: Olchi-Detektive 8. Das Mikado-Komplott
         release_date: '2014-07-21'
       - id: 3NdLxPIyulnZtmOaNDrDXi
+        episode: 9
         title: Olchi-Detektive 9. Horrorspuk und Geisterspucke
         release_date: '2014-07-21'
+      - id: 4dC3YA59SWJCZu21BVncN8
+        episode: 10
+        title: Olchi-Detektive 10. Das Erbe der Piraten
+        release_date: '2014-07-21'
+      - id: 7spqt81kgEvTbcuNxoOFtt
+        episode: 11
+        title: Olchi-Detektive 11. Achtung, Bankräuber!
+        release_date: '2014-06-01'
       - id: 7ockICf82zAaT9lUzcICh7
+        episode: 12
         title: Olchi-Detektive 12. Eine brandheiße Spur
         release_date: '2015-01-20'
+      - id: 7vZFM4jIZCg4RQLMjH2DV6
+        episode: 13
+        title: Olchi-Detektive 13. Die große Flut
+        release_date: '2014-01-01'
+      - id: 3YbQasSAfcPeE3Cv3I3IjN
+        episode: 14
+        title: Olchi-Detektive 14. Ufo in Sicht!
+        release_date: '2014-01-01'
       - id: 1ut0uHARGd6rd2u1sTkKuY
+        episode: 15
         title: Olchi-Detektive 15. Angriff der Gangster-Haie
         release_date: '2015-01-20'
       - id: 2XG2Yc35xnduSiBllza82G
+        episode: 16
         title: Olchi-Detektive 16. Gefährliche Träume
         release_date: '2015-02-01'
       - id: 2ghoETMh7cEiaSgZtlJbf6
+        episode: 17
         title: Olchi-Detektive 17. Die Ritter der Popelrunde
         release_date: '2015-03-20'
       - id: 543QMwmSdrQv29i8A4Qhi2
+        episode: 18
         title: Olchi-Detektive 18. Eine rabenschwarze Drohung
         release_date: '2015-05-08'
       - id: 045r5GB8FForUsSjex24gQ
+        episode: 19
         title: Olchi-Detektive 19. Himmel, Furz und Wolkenbruch!
         release_date: '2015-05-08'
       - id: 1OuRd7ktC70ELun2PIh3bA
+        episode: 20
         title: Olchi-Detektive 20. Der Gangster-Tunnel
         release_date: '2015-07-17'
     apple_music:
@@ -58207,21 +58356,27 @@ series:
       - '556813799'
       albums:
       - id: '1573471733'
+        episode: 4
         title: Olchi-Detektive 4. Im Einsatz der Königin
         release_date: '2014-01-06'
       - id: '1573473627'
+        episode: 9
         title: Olchi-Detektive 9. Horrorspuk und Geisterspucke
         release_date: '2014-07-21'
       - id: '1573479673'
+        episode: 12
         title: Olchi-Detektive 12. Eine brandheiße Spur
         release_date: '2015-01-20'
       - id: '1573466838'
+        episode: 15
         title: Olchi-Detektive 15. Angriff der Gangster-Haie
         release_date: '2015-01-20'
       - id: '1573466375'
+        episode: 19
         title: 'Folge 19: Himmel, Furz und Wolkenbruch!'
         release_date: '2015-05-08'
       - id: '1573466837'
+        episode: 20
         title: 'Folge 20: Der Gangster-Tunnel'
         release_date: '2015-07-17'
   series_facts:
@@ -59750,6 +59905,10 @@ series:
         episode: 41
         title: 'Der neue Superheld - Folge 41: Attacke der Pyrophagen'
         release_date: '2026-08-07'
+      - id: 0ahJcVBb93GWPkmo8jmMtx
+        episode: 42
+        title: 'Der neue Superheld - Folge 42: Die Domäne der Nacht'
+        release_date: '2026-10-02'
       - id: 67OKkeS5g4d2v7K6TxXuCo
         title: 'Der neue Superheld - Spezialfolge: Sturm über Shamazaar - Teil 1'
         release_date: '2024-03-01'
@@ -59928,6 +60087,10 @@ series:
         episode: 42
         title: 'Der neue Superheld - Folge 42: Die Domäne der Nacht'
         release_date: '2026-10-02'
+      - id: '6817054596'
+        episode: 43
+        title: 'Der neue Superheld - Folge 43: Verrat des Dunkelfürsten'
+        release_date: '2026-11-20'
       - id: '1733489952'
         title: 'Der neue Superheld - Spezialfolge: Sturm über Shamazaar - Teil 1'
         release_date: '2024-03-01'
