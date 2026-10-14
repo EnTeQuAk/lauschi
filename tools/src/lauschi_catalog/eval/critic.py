@@ -2,9 +2,9 @@
 
 The critic's judgment is its overrides: ``action: include|exclude``
 per album in ``review.overrides``. The pipeline materializes them into
-the album flags only when the audit approves, so an escalating critic
-leaves the flags alone and the proposals are the only trace of what
-it saw. Both are judged the same way, against the truth:
+the album flags only when asked to and the audit approves, otherwise the
+proposals are the only trace of what it saw. Both are judged the same
+way, against the truth:
 
 - a *mistake* is an album where the curator disagreed with the truth;
 - *fixed* mistakes are the ones the critic proposed to flip to the truth;

@@ -72,6 +72,34 @@ def audit_is_stale(curation: dict) -> bool:
     return curated > audited
 
 
+def open_flags(curation: dict) -> list[dict]:
+    """The latest audit's overrides that a person still has to look at.
+
+    An audit that does not apply its overrides records them in
+    ``review.overrides``, which keeps every round's entries. A flag is
+    open while it comes from the latest audit, the album is not yet what
+    the auditor wanted, and nobody has decided the album by hand
+    (``catalog-edit`` makes it the operator's, and the audit leaves an
+    operator's album alone).
+    """
+    review = review_block(curation)
+    if review.get("status") != "approved":
+        return []
+    albums = {(a.get("provider"), a["album_id"]): a for a in curation.get("albums", [])}
+    flags: list[dict] = []
+    for o in review.get("overrides") or []:
+        album = albums.get((o.get("provider"), o.get("album_id")))
+        if (
+            album is None
+            or o.get("audited_at") != review.get("audited_at")
+            or bool(album.get("include")) == (o.get("action") == "include")
+            or album.get("decided_by") == "operator"
+        ):
+            continue
+        flags.append({**o, "title": album.get("title", "")})
+    return flags
+
+
 def apply_is_unsafe(curation: dict) -> str | None:
     """Return a human-readable reason if this curation can't be safely
     applied to series.yaml, or ``None`` if it's safe.

@@ -16,9 +16,9 @@ from lauschi_catalog.catalog.episode_range import covered_episodes
 def effective_albums(curation: dict) -> list[dict]:
     """Return included albums.
 
-    Album include flags are the single source of truth: audit overrides
-    materialize into them at audit time (``review.overrides`` is a
-    trail, not an active filter).
+    Album include flags are the single source of truth: an audit run with
+    ``apply_overrides`` materializes its overrides into them, and
+    ``review.overrides`` is a trail, not an active filter.
     """
     return [a for a in curation.get("albums", []) if a.get("include")]
 

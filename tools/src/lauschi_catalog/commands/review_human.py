@@ -10,7 +10,7 @@ from rich.console import Console
 from rich.table import Table
 
 from lauschi_catalog.catalog.io import iter_curations
-from lauschi_catalog.catalog.lifecycle import CurationState
+from lauschi_catalog.catalog.lifecycle import CurationState, open_flags
 
 console = Console()
 
@@ -24,7 +24,7 @@ def _load_all() -> list[dict]:
     "--status",
     "-s",
     multiple=True,
-    help="Filter by status (escalated, approved, curated)",
+    help="Filter by status (escalated, flagged, approved, curated)",
 )
 @click.option(
     "--detail",
@@ -36,8 +36,9 @@ def review_human(status: tuple[str, ...], detail: bool):
     """List series that need human attention.
 
     After a pipeline run, some series are escalated (audit found
-    incoherent output) or flagged (audit approved but disagreed with
-    some facts). This command shows them with the next action to take.
+    incoherent output) or flagged (audit approved but would include or
+    exclude some albums differently). This command shows them with the
+    next action to take.
 
     Examples: catalog-review-human (all), -s escalated, -s flagged, -d
     """
@@ -46,7 +47,11 @@ def review_human(status: tuple[str, ...], detail: bool):
         console.print("[dim]No curation files found.[/dim]")
         return
 
-    want = set(s.lower() for s in status) if status else {"escalated", "curated"}
+    want = (
+        set(s.lower() for s in status)
+        if status
+        else {"escalated", "flagged", "curated"}
+    )
 
     need_attention: list[dict] = []
     for d in all_data:
@@ -54,13 +59,16 @@ def review_human(status: tuple[str, ...], detail: bool):
         title = d.get("title", sid)
         state = CurationState.from_curation(d)
         review = dict(d.get("review") or {})
+        flags = open_flags(d)
+        shown = "flagged" if flags else state.status
 
-        if not want or state.status in want:
+        if not want or shown in want:
             need_attention.append(
                 {
                     "id": sid,
                     "title": title,
-                    "status": state.status,
+                    "status": shown,
+                    "flags": flags,
                     "raw_status": review.get("status", "curated"),
                     "review": review,
                     "facts": d.get("series_facts"),
@@ -83,6 +91,7 @@ def review_human(status: tuple[str, ...], detail: bool):
         need_attention,
         key=lambda x: (
             x["status"] != "escalated",
+            x["status"] != "flagged",
             x["title"],
         ),
     ):
@@ -96,6 +105,12 @@ def review_human(status: tuple[str, ...], detail: bool):
                 f"  then: mise run catalog-audit -- {sid} --force"
             )
             style = "red"
+        elif st == "flagged":
+            action = (
+                f"{len(item['flags'])} flag(s): decide each with\n"
+                f"  mise run catalog-edit -- include|exclude {sid} <album_id> -p <provider>"
+            )
+            style = "yellow"
         elif st == "curated":
             action = f"mise run catalog-audit -- {sid}"
             style = "dim"
@@ -110,6 +125,13 @@ def review_human(status: tuple[str, ...], detail: bool):
         )
 
         if detail:
+            for f in item["flags"]:
+                table.add_row(
+                    "",
+                    f"  [yellow]{f['action']}[/yellow] {f['title']}\n"
+                    f"  [dim]{f['provider']}:{f['album_id']}: {f['reason']}[/dim]",
+                    "",
+                )
             concerns = item["review"].get("concerns", [])
             if concerns:
                 for c in concerns[:3]:

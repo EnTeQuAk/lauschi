@@ -29,6 +29,12 @@ console = Console()
 @click.option("--force", is_flag=True, help="Re-audit even if already done")
 @click.option("--dry-run", is_flag=True, help="Print, don't save")
 @click.option(
+    "--apply-overrides",
+    is_flag=True,
+    help="Let an approving audit flip albums. Without it the overrides are "
+    "flags that catalog-review lists for a person.",
+)
+@click.option(
     "--concurrency",
     "-c",
     default=1,
@@ -41,6 +47,7 @@ def audit(
     timeout: int,
     force: bool,
     dry_run: bool,
+    apply_overrides: bool,
     concurrency: int,
 ) -> None:
     """Run 4-eye audit on curated series."""
@@ -77,6 +84,7 @@ def audit(
             providers=prov_result.providers,
             on_progress=lambda msg: console.print(msg, markup=False),
             concurrency=concurrency,
+            apply_overrides=apply_overrides,
         )
     )
     if summary.failed:

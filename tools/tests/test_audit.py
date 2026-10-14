@@ -303,6 +303,7 @@ class TestApplyAuditStatus:
                 "test_series",
                 result,
                 model_name="test-model",
+                apply_overrides=True,
             )
         finally:
             monkeypatch.undo()
@@ -751,6 +752,7 @@ class TestApplyAuditHardGate:
                 "test_series",
                 result,
                 model_name="test-model",
+                apply_overrides=True,
             )
         finally:
             monkeypatch.undo()
@@ -775,7 +777,8 @@ class TestApplyAuditHardGate:
 
 
 class TestApplyAuditMaterialization:
-    """Overrides materialize into album include flags at audit time.
+    """With ``apply_overrides``, overrides materialize into album include
+    flags at audit time (without it they are flags, test_audit_flags.py).
 
     The overrides list is an audit trail, not an active filter. Before
     materialization, stale overrides from superseded audit rounds
@@ -792,7 +795,9 @@ class TestApplyAuditMaterialization:
         monkeypatch = pytest.MonkeyPatch()
         monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
         try:
-            apply_audit("test_series", result, model_name="test-model")
+            apply_audit(
+                "test_series", result, model_name="test-model", apply_overrides=True
+            )
         finally:
             monkeypatch.undo()
         return json.loads(path.read_text())
@@ -1091,7 +1096,9 @@ class TestApplyAuditOutputCaps:
         mp = pytest.MonkeyPatch()
         mp.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
         try:
-            action = apply_audit(curation["id"], result, model_name="critic")
+            action = apply_audit(
+                curation["id"], result, model_name="critic", apply_overrides=True
+            )
         finally:
             mp.undo()
         return action, json.loads(path.read_text())

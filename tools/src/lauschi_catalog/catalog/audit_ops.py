@@ -1193,8 +1193,17 @@ def apply_audit(
     dry_run: bool = False,
     on_progress: Progress = _noop,
     usage: dict[str, int] | None = None,
+    apply_overrides: bool = False,
 ) -> str:
-    """Store audit result. Returns 'approved', 'escalated', or 'overridden'.
+    """Store audit result. Returns 'approved', 'flagged', 'overridden' or
+    'escalated'.
+
+    The overrides of an approving audit are flags for a person: recorded
+    in ``review.overrides`` and as concerns, while every album keeps the
+    curator's decision (``lifecycle.open_flags`` lists them). With
+    ``apply_overrides`` they flip the albums instead. gemma4:31b's
+    overrides went against the reviewed catalog about two to one in the
+    whole-catalog runs of 2026-10, so a person decides.
 
     ``usage`` (requests / input_tokens / output_tokens) is recorded in
     the review block next to who audited and when.
@@ -1241,6 +1250,8 @@ def apply_audit(
 
     albums_by_key = {(a.get("provider"), a["album_id"]): a for a in albums}
     unknown_concerns: list[str] = []
+    flag_concerns: list[str] = []
+    flipping = {(o.provider, o.album_id) for o in flips}
     existing_overrides = {o["album_id"]: o for o in review.get("overrides", [])}
     for o in result.overrides:
         album = albums_by_key.get((o.provider, o.album_id))
@@ -1286,6 +1297,13 @@ def apply_audit(
         # overrides list below is an audit trail only.
         if escalated:
             pass
+        elif not apply_overrides:
+            if (o.provider, o.album_id) in flipping:
+                flag_concerns.append(
+                    f"[flag] {o.provider}:{o.album_id} "
+                    f"({album.get('title', '')}): the auditor would "
+                    f"{o.action} it ({o.reason})"
+                )
         elif o.action == "exclude":
             album["include"] = False
             # The auditor explains in free text, and the album carries the
@@ -1294,7 +1312,7 @@ def apply_audit(
         else:
             album["include"] = True
             album["exclude_reason"] = ""
-        if not escalated:
+        if not escalated and apply_overrides:
             album["decided_by"] = model_name
             album["decided_at"] = now
         existing_overrides[o.album_id] = {
@@ -1345,7 +1363,10 @@ def apply_audit(
             on_progress(f"  {c}")
         review["status"] = "escalated"
         action = "escalated"
-    elif result.overrides or result.fact_updates:
+    elif flag_concerns:
+        review["status"] = "approved"
+        action = "flagged"
+    elif (apply_overrides and result.overrides) or result.fact_updates:
         review["status"] = "approved"
         action = "overridden"
     else:
@@ -1357,7 +1378,11 @@ def apply_audit(
     if usage is not None:
         review["usage"] = usage
     review["concerns"] = (
-        result.concerns + gate_concerns + cap_concerns + unknown_concerns
+        result.concerns
+        + gate_concerns
+        + cap_concerns
+        + flag_concerns
+        + unknown_concerns
     )
 
     if not dry_run:
@@ -1390,6 +1415,7 @@ class AuditAllResult:
     """Summary of auditing multiple series."""
 
     approved: int = 0
+    flagged: int = 0
     escalated: int = 0
     overridden: int = 0
     failed: list[str] = field(default_factory=list)
@@ -1405,6 +1431,7 @@ async def audit_series(
     providers: list | None = None,
     on_progress: Progress = _noop,
     concurrency: int = 1,
+    apply_overrides: bool = False,
 ) -> AuditAllResult:
     """Audit one or more series. Returns summary counts.
 
@@ -1449,6 +1476,7 @@ async def audit_series(
                 dry_run=dry_run,
                 on_progress=on_progress,
                 usage=usage_summary(usage),
+                apply_overrides=apply_overrides,
             )
             record_event(
                 RunEvent(
@@ -1488,6 +1516,8 @@ async def audit_series(
             continue
         if action == "approved":
             summary.approved += 1
+        elif action == "flagged":
+            summary.flagged += 1
         elif action == "escalated":
             summary.escalated += 1
         else:
@@ -1495,6 +1525,7 @@ async def audit_series(
 
     on_progress(
         f"\nDone: {summary.approved} approved, "
+        f"{summary.flagged} flagged, "
         f"{summary.overridden} overridden, "
         f"{summary.escalated} escalated, "
         f"{len(summary.failed)} failed"

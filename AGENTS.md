@@ -169,7 +169,11 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
    excluded is not a flip. An album that awaits its split is not excluded
    as `sub_series_bleed`: the auditor is told why it is there, and such an
    override becomes a concern.
-   Escalated overrides are recorded, not applied.
+   Overrides are recorded, not applied: each one that would flip an album
+   is a flag, and the series counts as flagged in `catalog-review` until a
+   person decides those albums with `catalog-edit` (an approved series is
+   still applied with the curator's decisions). `audit --apply-overrides`
+   lets an approving audit flip the albums itself.
 
 4. **Lint** (`lint`): Deterministic findings over curations: episode gaps,
    duplicates, regressions against the previous curation, unaudited facts.
@@ -197,7 +201,7 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
 7. **Drift** (`drift`): Re-checks every shipped album against its live
    provider record and reports gone or changed albums.
 
-Escalations and lint findings are resolved by hand: `catalog-review` lists
+Escalations, flags and lint findings are resolved by hand: `catalog-review` lists
 what needs attention, `catalog-edit` and `catalog-splits` make the changes,
 `mise run catalog-audit --force` re-checks afterwards. An album that sits in
 the wrong entry of a family moves with
