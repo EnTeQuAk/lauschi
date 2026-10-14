@@ -386,7 +386,7 @@ re-added), `.cache/{provider}/` (7-day provider API cache, gitignored),
 `logs/catalog/` (pipeline run logs, gitignored).
 
 Validated by `lauschi-catalog validate` (tools/ package). Today: 288 series
-(128 of them split-off children), 7,464 curated Spotify and 7,117 Apple Music
+(128 of them split-off children), 7,470 curated Spotify and 7,124 Apple Music
 albums.
 
 ## Environment Variables
