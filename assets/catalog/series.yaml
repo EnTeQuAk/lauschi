@@ -26437,6 +26437,10 @@ series:
         episode: 1
         title: 'Folge 1: Neue Freunde (Das Original-Hörspiel zur TV-Serie)'
         release_date: '2018-03-23'
+      - id: '1355691711'
+        episode: 2
+        title: 'Folge 2: Die rätselhafte Karte / Der Konkurrenzkampf (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2018-05-18'
       - id: '1434409926'
         episode: 2
         title: 'Folge 2: Ein Pferd für Turo / Überraschung! (Das Original-Hörspiel zur TV-Serie)'
@@ -36901,35 +36905,35 @@ series:
   - ^0*(\d+)/
   series_facts:
     era_boundaries:
-    - label: classic
+    - curated_by: minimax-m2.7
+      curated_at: '2026-10-02T23:45:02.561217+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T05:20:27.850900+00:00'
+      label: classic
       release_date_range: 2020-2023
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-10-02T23:45:02.561217+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-02T23:45:02.561217+00:00'
-    - label: continuation
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T05:20:27.850900+00:00'
+      label: continuation
       release_date_range: 2023-
-      curated_by: minimax-m2.7
+    known_gaps:
+    - curated_by: minimax-m2.7
       curated_at: '2026-10-02T23:45:02.561217+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-10-02T23:45:02.561217+00:00'
-    known_gaps:
-    - number: 32
+      number: 32
       range_end: 43
       reason: Episodes 32-43 not released under this artist ID; episodes 44-46 belong to the Der kleine Hui Buh crossover series
-      curated_by: minimax-m2.7
-      curated_at: '2026-10-02T23:45:02.561217+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-02T23:45:02.561217+00:00'
     sub_series:
-    - label: der_kleine_hui_buh
+    - curated_by: minimax-m2.7
+      curated_at: '2026-10-02T23:45:02.561217+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T05:20:27.850900+00:00'
+      label: der_kleine_hui_buh
       album_ids:
       - apple_music:1856157442
       reason: Dual-artist release 'Der kleine Hui Buh & Hedda Hex'; episode 44 of the Der kleine Hui Buh series, not a Hedda Hex episode. Confirmed by RTL+, data-load.me, and mora.jp listings.
-      curated_by: minimax-m2.7
-      curated_at: '2026-10-02T23:45:02.561217+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-02T23:45:02.561217+00:00'
 - id: 100_wolf
   title: 100% Wolf
   providers:
@@ -44937,15 +44941,18 @@ series:
       - id: 5B1NvoguoTzfsgBkAktnrn
         title: BOAH ist das krass
         release_date: '2025-06-13'
-      - id: 1bYD4jUtb3YPDKG8U3fEVk
-        title: Musikunterricht mit Eule findet den Beat
-        release_date: '2025-08-15'
-      - id: 4e6wJ6A5hWoTeDm5ZUmtdA
-        title: Sommerlieder mit Eule
-        release_date: '2025-08-15'
       - id: 1L0Ze9NOsgxd6UXttCQaoo
         title: Feliz na wie geht's
         release_date: '2025-11-28'
+      - id: 6UEP6Q1MtM1nDElrYWuH3I
+        title: Winterliche Weihnachten mit DIKKA
+        release_date: '2025-12-05'
+      - id: 2376FRfm7mIGFbxxZJbPub
+        title: DIKKA Sommer Hits
+        release_date: '2026-04-24'
+      - id: 08BDvl5coaPv0RxnIMQrms
+        title: DIKKA Party Hits
+        release_date: '2026-09-18'
     apple_music:
       artist_ids:
       - '1044990457'
@@ -44965,16 +44972,16 @@ series:
       - id: '1820429601'
         title: BOAH ist das krass
         release_date: '2025-06-13'
+      - id: '1858007812'
+        title: Winterliche Weihnachten mit DIKKA
+        release_date: '2025-12-05'
+      - id: '1891402011'
+        title: DIKKA Sommer Hits
+        release_date: '2026-04-24'
+      - id: '6809821077'
+        title: DIKKA Party Hits
+        release_date: '2026-09-18'
   content_type: music
-  series_facts:
-    known_gaps:
-    - number: 1
-      reason: REISE (2025-02-07) and several other 2024-2025 single/EP releases are Spotify-only with no Apple Music counterparts found. Possible platform distribution gap rather than missing 
-        episodes.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T19:08:07.672056+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T19:08:07.672056+00:00'
 - id: meine_freundin_conni
   title: Meine Freundin Conni
   providers:
@@ -45022,15 +45029,9 @@ series:
         episode: 10
         title: '10: Conni im Advent / Conni fährt Schlittschuh / Conni lässt Drachen steigen / Conni und der fiese Schnupfen (Vier Hörspiele zur TV-Serie)'
         release_date: '2015-11-27'
-      - id: 4Lb4xi9uAhIIx12OP6tFQb
-        title: 'Connis Lieblingswitze: Lachen, bis die Streifen wackeln (Meine Freundin Conni - ab 6)'
-        release_date: '2014-07-22'
       - id: 2hYa0yhcMJKFKulcR4tbHM
         title: Geheimnis um Kater Mau - Hörspiel zum Kinofilm
         release_date: '2020-07-03'
-      - id: 77Pk8wTrRgF2O1K3YLqyMW
-        title: Conni macht Mut in Zeiten von Corona (Meine Freundin Conni - ab 3) [Eine Conni-Geschichte mit kindgerechtem Sachwissen rund um das Thema Corona]
-        release_date: '2021-04-20'
       - id: 1zolzNeYGPnCplOlMxrryR
         title: Abenteuer mit Kranich Klaus - Hörspiel zum Kinofilm
         release_date: '2026-05-15'
@@ -49038,6 +49039,9 @@ series:
       - id: 3UV82hjayq4uRGUkBbV8ti
         title: Kommt ein Vogel geflogen. - Beliebte Kinderlieder zum Mitsingen, Spielen und Tanzen
         release_date: '2012-03-06'
+      - id: 5cH2iiLekaToiIoyeJOq5n
+        title: Die 100 schönsten Lieder von Fredrik Vahle
+        release_date: '2012-05-01'
       - id: 2RyFc2NFkGlJ2k6uSM9uvY
         title: Auf der Mauer, auf der Lauer ...
         release_date: '2013-07-16'
@@ -49129,6 +49133,9 @@ series:
       - id: '1368449765'
         title: Singen - das geht so!
         release_date: '2011-06-15'
+      - id: '1622352588'
+        title: Die 100 schönsten Lieder von Fredrik Vahle
+        release_date: '2012-05-01'
       - id: '1615570248'
         title: Durch den Wald
         release_date: '2014-12-15'
@@ -49927,6 +49934,10 @@ series:
         episode: 25
         title: 'Folge 25: Was kommt da gefahren?'
         release_date: '2025-04-25'
+      - id: 4L1pZ5ZS8wIdHp7C2304XI
+        episode: 26
+        title: 'Folge 26: Auf Schatzsuche'
+        release_date: '2026-10-02'
     apple_music:
       artist_ids:
       - '269723263'
@@ -50023,6 +50034,10 @@ series:
         episode: 25
         title: 'Folge 25: Was kommt da gefahren?'
         release_date: '2025-04-25'
+      - id: '6817511410'
+        episode: 26
+        title: 'Folge 26: Auf Schatzsuche'
+        release_date: '2026-10-02'
   episode_pattern:
   - '^Folge (\d+):'
   - ^(\d+)/
@@ -51212,7 +51227,7 @@ series:
         title: Meine Mütze und Ich
         release_date: '2023-06-16'
       - id: '1879479054'
-        title: Frechdachs
+        title: Lieblingsfarbe Bunt
         release_date: '2026-03-20'
   content_type: music
 - id: nilsen
@@ -51231,6 +51246,9 @@ series:
       - id: 0CekvRDpww3MewgsJrsPRt
         title: Das gelbe Album
         release_date: '2021-02-26'
+      - id: 4v9CvFWe9LG9z8AY1es4bX
+        title: Nilsens Party Hits für Kinder
+        release_date: '2023-09-01'
       - id: 2Z2z9wh6ndhQ8Fu5apaR9M
         title: Cowboy - EP
         release_date: '2023-09-15'
@@ -51262,6 +51280,9 @@ series:
       - id: '1542959782'
         title: Das gelbe Album
         release_date: '2021-02-26'
+      - id: '1702928362'
+        title: Nilsens Party Hits für Kinder
+        release_date: '2023-09-01'
       - id: '1703985814'
         title: Cowboy - EP
         release_date: '2023-09-15'
@@ -52278,6 +52299,9 @@ series:
       - id: 4zgMfrkQMZLDXAp6TI8yxT
         title: Geburtstagskonzert für die Prinzessin (Barockmusik für Kinder von Bach, Händel, Purcell u.a.)
         release_date: '2014-02-21'
+      - id: 3UV19eFAwqKAFFvXmfBxTv
+        title: Mit Ketchup und Pommes Frites (Blues, Rock, Boogie, Rag, Jazz und Gospel)
+        release_date: '2014-07-24'
       - id: 6sU6QEXVaPwLsAhPWoF8Qa
         title: Bombo, Poncho und Gitarre
         release_date: '2015-01-23'
@@ -52287,15 +52311,27 @@ series:
       - id: 29XeJ5uLiSfBaeUcdgtPJP
         title: Filipp Frosch und das Geheimnis des Wassers (Ein musikalisches Entdeckungs-Hörspiel rund um den Wasserkreislauf)
         release_date: '2017-01-13'
+      - id: 30eBUKcRSmVqjZ3TClUBHZ
+        title: Blockflöten-Hits für Kinder
+        release_date: '2018-03-09'
       - id: 67NL1tkbLIvN94ZomzM2aT
         title: Beethoven für Kinder. Königsfloh und Tastenzauber
         release_date: '2018-08-31'
       - id: 0d8qzl3Wfcar25Qd6nONWj
         title: Tina und das Orchester (Ein Hörspiel, in dem die Instrumente zeigen, was sie können - Jedes für sich und alle gemeinsam)
         release_date: '2019-03-22'
+      - id: 4aBQbIZC6NDSRWwMPYmTJh
+        title: Gitarren-Hits für Kinder
+        release_date: '2019-10-18'
       - id: 6yDAaTh5Kg1RqzlydHC1Vu
         title: Das Zookonzert (Eine sinfonische Geschichte für Kinder)
         release_date: '2019-10-25'
+      - id: 7f47KkD0MqbBPGC4Gb7haV
+        title: Das große Weihnachtskonzert für die ganze Familie
+        release_date: '2019-10-25'
+      - id: 5A9zzLtOMRkfKKI96ZZsTS
+        title: Beethoven-Hits für Kinder
+        release_date: '2020-01-24'
       - id: 5gZDK32arcpIz5bVMLpp1s
         title: Bach für Kinder. Mit Gesang und Himmelsklang
         release_date: '2020-08-21'
@@ -52318,9 +52354,75 @@ series:
       - id: '1865197278'
         title: Peter und der Wolf
         release_date: '2001-03-01'
+      - id: '1865284772'
+        title: Klezmer für Kinder (Ein Konzert zum Mitsingen, Mittanzen und Mitfeiern)
+        release_date: '2011'
+      - id: '1865281599'
+        title: Die Bremer Stadtmusikanten (Das Märchen der Brüder Grimm mit Musik von Erke Duit)
+        release_date: '2012'
+      - id: '1867735373'
+        title: Die Moldau. Friedrich Smetana für Kinder.
+        release_date: '2012'
+      - id: '1867001824'
+        title: Die vier Jahreszeiten (Vivaldi für Kinder)
+        release_date: '2013-03-01'
+      - id: '1865896066'
+        title: Der Karneval der Tiere
+        release_date: '2013-07-16'
+      - id: '1865560819'
+        title: Geburtstagskonzert für die Prinzessin (Barockmusik für Kinder von Bach, Händel, Purcell u.a.)
+        release_date: '2014-02-21'
+      - id: '1865557709'
+        title: Mit Ketchup und Pommes Frites (Blues, Rock, Boogie, Rag, Jazz und Gospel)
+        release_date: '2014-07-24'
+      - id: '1865217224'
+        title: Bombo, Poncho und Gitarre
+        release_date: '2015-01-23'
+      - id: '1865238515'
+        title: Zauberklang und Blechsalat (Ein Konzert für Kinder über die Familie der Blechblasinstrumente)
+        release_date: '2016-04-22'
+      - id: '1865203154'
+        title: Hänsel und Gretel (Nach der Oper von Engelbert Humperdinck)
+        release_date: '2016-09-23'
+      - id: '1865206267'
+        title: Filipp Frosch und das Geheimnis des Wassers (Ein musikalisches Entdeckungs-Hörspiel rund um den Wasserkreislauf)
+        release_date: '2017-01-13'
+      - id: '1865212497'
+        title: Joseph Haydn für Kinder
+        release_date: '2017-06-09'
+      - id: '1865233597'
+        title: Das bunte Kamel (Eine musikalische Reise durch den Orient)
+        release_date: '2018-02-09'
+      - id: '1865527003'
+        title: Blockflöten-Hits für Kinder
+        release_date: '2018-03-09'
       - id: '1867734519'
         title: Beethoven für Kinder. Königsfloh und Tastenzauber
         release_date: '2018-08-31'
+      - id: '1865524907'
+        title: Tina und das Orchester (Ein Hörspiel, in dem die Instrumente zeigen, was sie können - Jedes für sich und alle gemeinsam)
+        release_date: '2019-03-22'
+      - id: '1865280016'
+        title: Gitarren-Hits für Kinder
+        release_date: '2019-10-18'
+      - id: '1865198367'
+        title: Das Zookonzert (Eine sinfonische Geschichte für Kinder)
+        release_date: '2019-10-25'
+      - id: '1865198047'
+        title: Das große Weihnachtskonzert für die ganze Familie
+        release_date: '2019-10-25'
+      - id: '1865198140'
+        title: Beethoven-Hits für Kinder
+        release_date: '2020-01-24'
+      - id: '1865285215'
+        title: Bach für Kinder. Mit Gesang und Himmelsklang
+        release_date: '2020-08-21'
+      - id: '1867484248'
+        title: Dornröschen. Ballett von Peter Iljitsch Tschaikowski
+        release_date: '2021-10-20'
+      - id: '1865192667'
+        title: Klassik für kleine Ohren. Von Bach bis Mozart
+        release_date: '2022-09-21'
       - id: '1870573999'
         title: Walzerschritt und Polkahit. Johann Strauß für Kinder
         release_date: '2024-10-09'
@@ -52330,89 +52432,89 @@ series:
   content_type: hoerspiel
   series_facts:
     era_boundaries:
-    - label: hoerspiel_jumbo_era
+    - curated_by: minimax-m2.7
+      curated_at: '2026-07-02T08:33:19.924677+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T05:20:23.971244+00:00'
+      label: hoerspiel_jumbo_era
       release_date_range: 2001-2021
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T08:33:19.924677+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T08:33:19.924677+00:00'
-    - label: kapitel_format
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T05:20:23.971244+00:00'
+      label: kapitel_format
       release_date_range: 2025-
-      curated_by: minimax-m2.7
-      curated_at: '2026-07-02T08:33:19.924677+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-02T08:33:19.924677+00:00'
     known_gaps:
-    - number: 1
-      range_end:
-      reason: Series uses standalone titles - no numbered episodes to gap
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T10:13:55.576495+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T10:13:55.576495+00:00'
-    - number: 2
+      number: 1
       range_end:
       reason: Series uses standalone titles - no numbered episodes to gap
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T10:13:55.576495+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T10:13:55.576495+00:00'
-    - number: 3
+      number: 2
       range_end:
       reason: Series uses standalone titles - no numbered episodes to gap
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T10:13:55.576495+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T10:13:55.576495+00:00'
-    - number: 4
+      number: 3
       range_end:
       reason: Series uses standalone titles - no numbered episodes to gap
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T10:13:55.576495+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T10:13:55.576495+00:00'
-    - number: 5
+      number: 4
       range_end:
       reason: Series uses standalone titles - no numbered episodes to gap
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T10:13:55.576495+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T10:13:55.576495+00:00'
-    - number: 6
+      number: 5
       range_end:
       reason: Series uses standalone titles - no numbered episodes to gap
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T10:13:55.576495+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T10:13:55.576495+00:00'
-    - number: 7
+      number: 6
       range_end:
       reason: Series uses standalone titles - no numbered episodes to gap
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T10:13:55.576495+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T10:13:55.576495+00:00'
-    - number: 8
+      number: 7
       range_end:
       reason: Series uses standalone titles - no numbered episodes to gap
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T10:13:55.576495+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T10:13:55.576495+00:00'
-    - number: 9
+      number: 8
       range_end:
       reason: Series uses standalone titles - no numbered episodes to gap
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T10:13:55.576495+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T10:13:55.576495+00:00'
-    - number: 10
+      number: 9
       range_end:
       reason: Series uses standalone titles - no numbered episodes to gap
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T10:13:55.576495+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T10:13:55.576495+00:00'
+      number: 10
+      range_end:
+      reason: Series uses standalone titles - no numbered episodes to gap
 - id: mira_und_das_fliegende_haus
   title: Mira und das fliegende Haus
   providers:
