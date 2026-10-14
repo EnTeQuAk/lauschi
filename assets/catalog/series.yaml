@@ -25840,16 +25840,6 @@ series:
       number: 70
       range_end:
       reason: Missing from catalog - not found on Spotify or Apple Music
-    sub_series:
-    - label: vorlesegeschichten
-      album_ids:
-      - apple_music:1863377557
-      - spotify:4DFhn7Qyd0Tw8TK0jHPCCE
-      reason: Appears to be a reading-only format (single narrator, minimal sound design) rather than dramatized Hörspiel. Released under 'Wieso? Weshalb? Warum?' brand on same artist as main series.
-      curated_by: minimax-m2.7
-      curated_at: '2026-10-02T22:41:29.660164+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-02T22:41:29.660164+00:00'
   aliases:
   - WWW
 - id: otfried_preussler
@@ -41165,10 +41155,10 @@ series:
         episode: 35
         title: Im Streichelzoo (Wieso? Weshalb? Warum? JUNIOR, Folge 35)
         release_date: '2010-02-25'
-      - id: '6774245811'
+      - id: '6808201119'
         episode: 36
-        title: Sehen, riechen, hören (Wieso? Weshalb? Warum? junior, Folge 36)
-        release_date: '2026-07-01'
+        title: Tiere im Winter (Wieso? Weshalb? Warum? junior, Folge 36)
+        release_date: '2026-10-01'
       - id: '1863411355'
         episode: 38
         title: Der Bagger (Wieso? Weshalb? Warum? JUNIOR, Folge 38)
@@ -41318,6 +41308,9 @@ series:
       - id: '1863400606'
         title: Was machen wir im Winter? (Wieso? Weshalb? Warum? JUNIOR, Folge 58)
         release_date: '2016-09-23'
+      - id: '6774245811'
+        title: Sehen, riechen, hören (Wieso? Weshalb? Warum? junior, Folge 36)
+        release_date: '2026-07-01'
     spotify:
       artist_ids:
       - 0LoeUAhyTnta8Vk7HBzBsP
@@ -41434,10 +41427,10 @@ series:
         episode: 35
         title: Im Streichelzoo (Wieso? Weshalb? Warum? JUNIOR, Folge 35)
         release_date: '2010-02-25'
-      - id: 2OUyQ3ZXYxFhKcGcATawr6
+      - id: 1ag0v2dkBkHWtSqkD5UMis
         episode: 36
-        title: Sehen, riechen, hören (Wieso? Weshalb? Warum? junior, Folge 36)
-        release_date: '2026-07-01'
+        title: Tiere im Winter (Wieso? Weshalb? Warum? junior, Folge 36)
+        release_date: '2026-10-01'
       - id: 4I2ewHD1HR4Y3iKL87w1pC
         episode: 38
         title: Der Bagger (Wieso? Weshalb? Warum? JUNIOR, Folge 38)
@@ -41583,6 +41576,9 @@ series:
       - id: 6HohXs3FQ5ajfsmJPokMD3
         title: Was machen wir im Winter? (Wieso? Weshalb? Warum? JUNIOR, Folge 58)
         release_date: '2016-09-23'
+      - id: 2OUyQ3ZXYxFhKcGcATawr6
+        title: Sehen, riechen, hören (Wieso? Weshalb? Warum? junior, Folge 36)
+        release_date: '2026-07-01'
   episode_pattern: ^.*\(Wieso\? Weshalb\? Warum\? [jJ][uU][nN][iI][oO][rR], Folge (\d+)\)$
   aliases:
   - Wieso? Weshalb? Warum? JUNIOR
@@ -43203,6 +43199,9 @@ series:
       - id: '1577225954'
         title: Getrennt auf heißer Spur! (Hörspiel-Special)
         release_date: '2021-08-06'
+      - id: '6815811084'
+        title: Die geheimnisvolle Statue / Der Hundedieb (Hörspiele zur TV-Serie)
+        release_date: '2026-10-30'
   episode_pattern: '^Folge (\d+):'
   aliases:
   - Bibi & Tina
@@ -53824,8 +53823,13 @@ series:
       albums:
       - id: 5XuDFAJL94LuYW7JNXyFji
         title: Die falschen Weihnachtsmänner (Der Adventskalender zum Hören)
+        release_date: '2013-11-08'
       - id: 3XWLPwAl1wDl8vkL5BFzhi
         title: 'Adventskalender: Nick, der Schlittenhund'
+        release_date: '2022-12-24'
+      - id: 2kGZbKWqDZmJHyxIbU9p6O
+        title: Die Schmugglerpferde / Das Schlossfest (Hörspiele zur TV-Serie)
+        release_date: '2026-09-25'
     apple_music:
       artist_ids:
       - '220152697'
@@ -53840,19 +53844,6 @@ series:
         title: Die Schmugglerpferde / Das Schlossfest (Hörspiele zur TV-Serie)
         release_date: '2026-09-25'
   content_type: hoerspiel
-  series_facts:
-    sub_series:
-    - label: specials
-      album_ids:
-      - apple_music:6790411017
-      - spotify:17mtkNCWhxF2EMmLwmQ4Ed
-      reason: Hörspiel-Special 'Hella in Falkenstein' excluded from Adventskalender as sub_series_bleed; standard special episode of the main Bibi und Tina series, not an Advent calendar product (no 
-        24-day structure, non-Christmas release in September). Both Spotify (21 Kapitel, ~3 min each) and Apple Music (38 Kapitel, ~1.5 min each) are the same story but different chapterizations — 
-        both belong to the parent series.
-      curated_by: minimax-m2.7
-      curated_at: '2026-10-03T02:38:40.127584+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-03T02:38:40.127584+00:00'
 - id: bibi_und_tina_kinofilm
   title: 'Bibi und Tina: Kinofilm'
   aliases:
@@ -53866,14 +53857,19 @@ series:
       albums:
       - id: 0vFYfQ9UHDvz4zTCKOpgcj
         title: Das Original-Hörspiel zum Kinofilm
+        release_date: '2014-02-28'
       - id: 5OSFsoLPncImonKock2PV6
         title: Das Original-Hörspiel zum Kinofilm 2 - VOLL VERHEXT!
-      - id: 5iqHly0XyqTCRQ3jxgpwyH
-        title: 'Hörspiel 4. Kinofilm: Tohuwabohu total'
-      - id: 6LQB8YBw8bDbjR71XTvBbU
-        title: 'Hörspiel 5. Kinofilm: Einfach Anders'
+        release_date: '2014-12-19'
       - id: 06S9djunj3rBIjT80otbup
         title: Hörspiel zum 3. Kinofilm - Mädchen gegen Jungs
+        release_date: '2016-01-15'
+      - id: 5iqHly0XyqTCRQ3jxgpwyH
+        title: 'Hörspiel 4. Kinofilm: Tohuwabohu total'
+        release_date: '2017-02-24'
+      - id: 6LQB8YBw8bDbjR71XTvBbU
+        title: 'Hörspiel 5. Kinofilm: Einfach Anders'
+        release_date: '2022-07-22'
       - id: 17mtkNCWhxF2EMmLwmQ4Ed
         title: Hella in Falkenstein (Hörspiel-Special)
         release_date: '2026-09-11'
@@ -62162,15 +62158,79 @@ series:
         title: Umweltschutz (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 26)
         release_date: '2020-03-13'
   series_facts:
+    known_gaps:
+    - curated_by: curate
+      curated_at: '2026-09-06T08:54:17.018554+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T07:54:03.013329+00:00'
+      number: 7
+      range_end:
+      reason: Missing from ProfiWissen discography
+    - curated_by: curate
+      curated_at: '2026-09-06T08:54:17.018554+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T07:54:03.013329+00:00'
+      number: 8
+      range_end:
+      reason: Missing from ProfiWissen discography
+    - curated_by: curate
+      curated_at: '2026-09-06T08:54:17.018554+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T07:54:03.013329+00:00'
+      number: 11
+      range_end:
+      reason: Missing from ProfiWissen discography
+    - curated_by: curate
+      curated_at: '2026-09-06T08:54:17.018554+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T07:54:03.013329+00:00'
+      number: 14
+      range_end:
+      reason: Missing from ProfiWissen discography
+    - curated_by: curate
+      curated_at: '2026-09-06T08:54:17.018554+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T07:54:03.013329+00:00'
+      number: 16
+      range_end:
+      reason: Missing from ProfiWissen discography
+    - curated_by: curate
+      curated_at: '2026-09-06T08:54:17.018554+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T07:54:03.013329+00:00'
+      number: 18
+      range_end:
+      reason: Missing from ProfiWissen discography
+    - curated_by: curate
+      curated_at: '2026-09-06T08:54:17.018554+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T07:54:03.013329+00:00'
+      number: 20
+      range_end:
+      reason: Missing from ProfiWissen discography
+    - curated_by: curate
+      curated_at: '2026-09-06T08:54:17.018554+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T07:54:03.013329+00:00'
+      number: 22
+      range_end:
+      reason: Missing from ProfiWissen discography
+    - curated_by: curate
+      curated_at: '2026-09-06T08:54:17.018554+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T07:54:03.013329+00:00'
+      number: 23
+      range_end:
+      reason: Missing from ProfiWissen discography
     sub_series:
-    - label: folge3_tiere
-      album_ids:
-      - spotify:5D4NrvYikj5UxytXBFAcyZ
-      reason: Apple Music Episode 3 is Tiere (2011-03-23), Spotify Episode 3 is Autos (2015-08-21). These are two different productions sharing episode number 3, suggesting a re-recording/reboot.
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-10-03T04:55:51.621619+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-10-03T04:55:51.621619+00:00'
+      label: folge3_tiere
+      album_ids:
+      - spotify:5D4NrvYikj5UxytXBFAcyZ
+      reason: Apple Music Episode 3 is Tiere (2011-03-23), Spotify Episode 3 is Autos (2015-08-21). These are two different productions sharing episode number 3, suggesting a re-recording/reboot.
 - id: wieso_weshalb_warum_vorlesegeschichten
   title: Wieso? Weshalb? Warum? Meine Vorlesegeschichten
   aliases:
