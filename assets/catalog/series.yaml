@@ -50347,9 +50347,15 @@ series:
       - id: 51ZGuINw1z1aZLc8lNXRdK
         title: 'Unsere schönsten Kinderlieder: Jahreszeiten & Träumen'
         release_date: '2012-10-19'
+      - id: 3ChbcK9kvUfGOeSDgNydYF
+        title: Best Of Kinderdisco, Vol. 4 - Air Berlin
+        release_date: '2013-01-01'
       - id: 5YpQt7EOXVcEK8BHA78Ui9
         title: Calimigo Urlaubs-Hits, Vol. 1
         release_date: '2013-01-01'
+      - id: 6RJEG0tQTbIpOAuaXSlhLJ
+        title: Die 60 besten Kinderlieder, Vol. 2 - Partylieder
+        release_date: '2014-01-24'
       - id: 4LuJWNAVo0VDIbNp1670od
         title: Unsere schönsten Geburtstags- und Mitmach-Lieder
         release_date: '2014-06-06'
@@ -50377,6 +50383,9 @@ series:
       - id: 5qTVFIYz7F71Hd43x2Blxo
         title: Unsere schönsten Lieder zum Englisch lernen
         release_date: '2015-07-31'
+      - id: 5lWg5rMkrnFKrALacjqAWi
+        title: Die 60 besten Kinderlieder, Vol. 4 - Lernlieder
+        release_date: '2015-09-04'
       - id: 7uIV43y3ZTLWNarirBFVf1
         title: Unsere schönsten Kinderdisco-Lieder, Vol. 3
         release_date: '2016-04-01'
@@ -50410,6 +50419,9 @@ series:
       - id: 7bE3UMfuAtc3zQGkERxmrW
         title: Unsere schönsten Tier- und Bauernhof-Lieder
         release_date: '2022-08-12'
+      - id: 3ik5KYFNGZkL8vqgVec9Ri
+        title: Calimigo Discohits Vol. 1
+        release_date: '2024-03-15'
       - id: 1UYvgGf0P0yStDTWmFpSKH
         title: Calimigo Discohits Vol. 2
         release_date: '2024-03-15'
@@ -50467,6 +50479,15 @@ series:
       - id: 67IjEGd4njugtfYvff4Yli
         title: Minidisco & Kinderdisko
         release_date: '2026-07-24'
+      - id: 6bZusTV8MTljqGkzMJpnmJ
+        title: Calimigo Kids Party Vol. 1
+        release_date: '2026-07-31'
+      - id: 76G0NMtCP8GutcflGiNw65
+        title: Calimigo Kids Party Vol. 2
+        release_date: '2026-08-14'
+      - id: 6F72sYmy0RCrJzjLPshLdO
+        title: Kinderlieder Halloween
+        release_date: '2026-09-11'
     apple_music:
       artist_ids:
       - '458242103'
@@ -50537,9 +50558,15 @@ series:
       - id: '1753229046'
         title: alltours - alltourini Kinderhits Vol. 2
         release_date: '2013'
+      - id: '1521472509'
+        title: Best Of Kinderdisco, Vol. 4 - Air Berlin
+        release_date: '2013-01-01'
       - id: '1750443973'
         title: Calimigo Urlaubs-Hits, Vol. 1
         release_date: '2013-01-01'
+      - id: '1520635273'
+        title: Die 60 besten Kinderlieder, Vol. 2 - Partylieder
+        release_date: '2014-01-24'
       - id: '1520384474'
         title: Unsere schönsten Geburtstags- und Mitmach-Lieder
         release_date: '2014-06-06'
@@ -50567,6 +50594,9 @@ series:
       - id: '1520590036'
         title: Unsere schönsten Lieder zum Englisch lernen
         release_date: '2015-07-31'
+      - id: '1453153851'
+        title: Die 60 besten Kinderlieder (zum Lernen)
+        release_date: '2015-09-04'
       - id: '1521049091'
         title: Unsere schönsten Kinderdisco-Lieder, Vol. 3
         release_date: '2016-04-01'
@@ -50648,6 +50678,15 @@ series:
       - id: '6786922257'
         title: Minidisco & Kinderdisko
         release_date: '2026-07-24'
+      - id: '6789365631'
+        title: Calimigo Kids Party Vol. 1
+        release_date: '2026-07-31'
+      - id: '6794153282'
+        title: Calimigo Kids Party Vol. 2
+        release_date: '2026-08-14'
+      - id: '6803997715'
+        title: Kinderlieder Halloween
+        release_date: '2026-09-11'
   content_type: music
   aliases:
   - Calimigo
@@ -51212,9 +51251,21 @@ series:
       - id: '1710726493'
         title: Meine Lieblingskinderlieder für die Weihnachtszeit
         release_date: '2023-10-27'
+      - id: '1727611637'
+        title: Best of Karnevals- und Faschingslieder
+        release_date: '2024-01-26'
+      - id: '1731183520'
+        title: Best of Frühlingslieder
+        release_date: '2024-02-16'
+      - id: '1732255338'
+        title: Best of Geburtstags- und Partylieder
+        release_date: '2024-02-23'
       - id: '1732437045'
         title: Meine Lieblingskinderlieder für die Osterzeit
         release_date: '2024-03-08'
+      - id: '1734867814'
+        title: Best of Tierlieder
+        release_date: '2024-03-22'
       - id: '1738269503'
         title: Meine Lieblingskinderlieder über Jahreszeiten und das Wetter
         release_date: '2024-04-12'
@@ -51224,24 +51275,45 @@ series:
       - id: '1748838230'
         title: Meine Lieblingskinderlieder für den Urlaub
         release_date: '2024-06-07'
+      - id: '1752845113'
+        title: Best of Bewegungs- und Spiellieder
+        release_date: '2024-06-21'
+      - id: '1754186647'
+        title: Best of Sommerlieder
+        release_date: '2024-07-05'
       - id: '1756547797'
         title: Meine Lieblingskinderlieder für die Schule
         release_date: '2024-07-19'
+      - id: '1759443807'
+        title: Best of Mitsinglieder
+        release_date: '2024-08-02'
       - id: '1761573762'
         title: Meine Lieblingskinderlieder zum Einschlafen
         release_date: '2024-08-16'
+      - id: '1764520513'
+        title: Best of Kindergartenlieder
+        release_date: '2024-08-30'
       - id: '1768789578'
         title: Meine Lieblingskinderlieder für Halloween
         release_date: '2024-09-27'
+      - id: '1770536529'
+        title: Best of Herbstlieder
+        release_date: '2024-10-04'
       - id: '1770536323'
         title: Meine Lieblingskinderlieder zum Laternelaufen
         release_date: '2024-10-04'
+      - id: '1768080643'
+        title: Best of Schlaflieder
+        release_date: '2024-10-11'
       - id: '1774307067'
         title: Meine Lieblingskinderlieder für den Winter
         release_date: '2024-10-18'
       - id: '1774766135'
         title: Meine Lieblingskinderlieder für Weihnachten
         release_date: '2024-10-25'
+      - id: '1777824739'
+        title: Best of Weihnachts- und Winterlieder
+        release_date: '2024-11-01'
       - id: '1770049346'
         title: Meine Lieblingskinderlieder für die Silvesterparty
         release_date: '2024-11-15'
