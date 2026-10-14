@@ -2618,6 +2618,10 @@ series:
         episode: 103
         title: 'Folge 103: SOS im Bike-Park'
         release_date: '2026-07-03'
+      - id: 0BaUryQ0pJ2OOYrMkDsHRS
+        episode: 104
+        title: 'Folge 104: Teuflische Küche'
+        release_date: '2026-10-02'
     apple_music:
       artist_ids:
       - '305761269'
@@ -3043,6 +3047,21 @@ series:
   - '^Folge (\d+):'
   aliases:
   - Die drei Fragezeichen Kids
+  series_facts:
+    sub_series:
+    - curated_by: curate
+      curated_at: '2026-10-14T07:19:42.718056+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T07:21:05.611504+00:00'
+      label: specials
+      album_ids:
+      - apple_music:6812740796
+      - apple_music:6812741465
+      - apple_music:6812742082
+      - spotify:4EgSF2O9VeTa03j1DcTw2q
+      - spotify:5Te6J9bK2wLKyka6akzSui
+      - spotify:7nqiSIHngZ2NgRihDGO6O0
+      reason: Bilingual German/English special editions (Specials line in the reference index), distinct from the numbered Hörspiel episodes
 - id: bibi_blocksberg
   title: Bibi Blocksberg
   providers:
@@ -4818,6 +4837,10 @@ series:
         episode: 99
         title: 'Folge 99: Spuk auf dem Campingplatz'
         release_date: '2026-07-31'
+      - id: 1dWJSlUvnwSPpsRC23BR1z
+        episode: 100
+        title: 'Folge 100: Detektivinnen in Gefahr'
+        release_date: '2026-09-25'
       - id: 3s2ROvBMTI2rwW8RHkCsRg
         title: Das Original Hörspiel zum Kinofilm
         release_date: '2019-07-26'
@@ -5024,6 +5047,10 @@ series:
         episode: 49
         title: 'Folge 49: Skandal auf dem Laufsteg'
         release_date: '2017-05-19'
+      - id: '1233618766'
+        episode: 50
+        title: 'Folge 50: Freundinnen in Gefahr'
+        release_date: '2017-07-28'
       - id: '1258076510'
         episode: 51
         title: 'Folge 51: Krimi-Dinner'
@@ -13107,39 +13134,10 @@ series:
         episode: 112
         title: 'Folge 112: Gemeinsam stark!'
         release_date: '2026-07-31'
-      - id: 4xrCJyGPtrZO4CFCAGYyVL
-        title: EM-Wissen 01 - Die Geschichte der EM - Teil 1! (1960 - 1988)
-        release_date: '2021-06-05'
-      - id: 0CCzcdyi1y6d5xcNytC8it
-        title: EM-Wissen 02 - Die Geschichte der EM - Teil 2! (1992 - 2016)
-        release_date: '2021-06-06'
-      - id: 2K0MtpwfBc8QwODAxXQLbe
-        title: EM-Wissen 03 - Der Henri Delaunay Pokal!
-        release_date: '2021-06-07'
-      - id: 2dpOLqCm0FODnqMWcM5LoC
-        title: EM-Wissen 04 - Regelwerk und Neuerungen!
-        release_date: '2021-06-08'
-      - id: 6tA8PxoNRheUcURTAvK9Qk
-        title: EM-Wissen 05 - Rekorde und Legenden!
-        release_date: '2021-06-09'
-      - id: 1CK5OkoDEjYUVTwy1vJXdz
-        title: EM-Wissen 06 - Technische Hilfsmittel und Ausrüstung!
-        release_date: '2021-06-10'
-      - id: 0Earlnp1hudWRpWZtchZQ3
-        title: EM-Wissen 07 - Trainer, Schiedsrichter und Kapitäne!
-        release_date: '2021-06-11'
-      - id: 3AobuV6r3DyKL8qsgmdgGi
-        title: 'Wissen zur EM 2024 - Folge 2: Überraschungen der EM-Geschichte'
-        release_date: '2024-06-08'
-      - id: 2wAAqBryuhdVqva5HnPAUL
-        title: 'Wissen zur EM 2024 - Folge 3: Das Eigentor'
-        release_date: '2024-06-09'
-      - id: 7fCZW8vbTTkQ3rjeyVpZJW
-        title: 'Wissen zur EM 2024 - Folge 4: Regeländerungen und Kurioses'
-        release_date: '2024-06-10'
-      - id: 34hIb66KUmsVPXg9fDtudi
-        title: 'Wissen zur EM 2024 - Folge 5: Favoriten und Geheimtipps'
-        release_date: '2024-06-11'
+      - id: 0sVGXTWo1pbvA1nsvfcF9D
+        episode: 113
+        title: 'Folge 113: Natürlich die Besten!'
+        release_date: '2026-10-09'
     apple_music:
       artist_ids:
       - '374902873'
@@ -13596,67 +13594,9 @@ series:
         episode: 113
         title: 'Folge 113: Natürlich die Besten!'
         release_date: '2026-10-09'
-      - id: '1567874902'
-        title: EM-Wissen 01 - Die Geschichte der EM - Teil 1! (1960 - 1988)
-        release_date: '2021-06-05'
-      - id: '1567875851'
-        title: EM-Wissen 02 - Die Geschichte der EM - Teil 2! (1992 - 2016)
-        release_date: '2021-06-06'
-      - id: '1567876030'
-        title: EM-Wissen 03 - Der Henri Delaunay Pokal!
-        release_date: '2021-06-07'
-      - id: '1567876579'
-        title: EM-Wissen 04 - Regelwerk und Neuerungen!
-        release_date: '2021-06-08'
-      - id: '1567880262'
-        title: EM-Wissen 05 - Rekorde und Legenden!
-        release_date: '2021-06-09'
-      - id: '1567877413'
-        title: EM-Wissen 06 - Technische Hilfsmittel und Ausrüstung!
-        release_date: '2021-06-10'
-      - id: '1567878139'
-        title: EM-Wissen 07 - Trainer, Schiedsrichter und Kapitäne!
-        release_date: '2021-06-11'
-      - id: '1742936063'
-        title: 'Wissen zur EM 2024 - Folge 2: Überraschungen der EM-Geschichte - EP'
-        release_date: '2024-06-08'
-      - id: '1742936478'
-        title: 'Wissen zur EM 2024 - Folge 3: Das Eigentor - EP'
-        release_date: '2024-06-09'
-      - id: '1742936475'
-        title: 'Wissen zur EM 2024 - Folge 4: Regeländerungen und Kurioses - EP'
-        release_date: '2024-06-10'
-      - id: '1747717081'
-        title: 'Wissen zur EM 2024 - Folge 5: Favoriten und Geheimtipps - EP'
-        release_date: '2024-06-11'
   episode_pattern:
   - '^Folge (\d+):'
   - ^(\d+)/
-  series_facts:
-    sub_series:
-    - label: wm_2026_wissen
-      album_ids:
-      - 0H9MmXeVMvLfJQxKs1J3He
-      - '1895824530'
-      - '1895824566'
-      - '1895824573'
-      - '1895824719'
-      - '1895824805'
-      - '1895824903'
-      - '1895824959'
-      - 1oZ7RPYaQbcgsAPLEmrDam
-      - 2i6zGEQnU38K17AwSzDFIT
-      - 52sn2HThyrEt68LGFL7GWR
-      - 5W4tlw4vl299dYy96js4HR
-      - 5r3CXpPJL7wys3UN9TZZfM
-      - '6764538118'
-      - 7xvbYf1lSCfkbo5IvBxLwl
-      reason: World Cup 2026 knowledge specials - distinct educational product line about the 2026 FIFA World Cup, separate from the main Teufelskicker story episodes. All 16 albums (8 per provider) 
-        systematically excluded as sub_series_bleed.
-      curated_by: minimax-m2.7
-      curated_at: '2026-10-02T21:54:57.613607+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-02T21:54:57.613607+00:00'
   aliases:
   - Die Teufelskicker
 - id: tkkg_junior
@@ -25952,6 +25892,9 @@ series:
       - id: 3vW62UcuXbB0YBjBPFgZZI
         title: Das kleine Gespenst
         release_date: '2013'
+      - id: 6E8efEhJJbpa8nlDxOMSxa
+        title: Krabat - Das Hörspiel
+        release_date: '2016'
       - id: 1JxVVfB7HVaFuwkHMIsItF
         title: Fette Beute (Wilde Geschichten von Räubern und Banditen)
         release_date: '2017-08-31'
@@ -25995,6 +25938,9 @@ series:
       - id: '1685880726'
         title: Die kleine Hexe
         release_date: '2008-01-01'
+      - id: '6814387520'
+        title: Krabat - Das Hörspiel
+        release_date: '2021-09-23'
   content_type: hoerspiel
   aliases:
   - Otfried Preussler
@@ -39270,16 +39216,33 @@ series:
   - '^Folge (\d+):'
   - '^Die Wilden Hühner, Folge (\d+):'
   series_facts:
+    era_boundaries:
+    - curated_by: curate
+      curated_at: '2026-09-21T23:25:53.869885+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T07:10:00.378944+00:00'
+      label: jumbo
+      release_date_range: 1998-2003
+    - curated_by: curate
+      curated_at: '2026-09-21T23:25:53.869885+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T07:10:00.378944+00:00'
+      label: neu
+      release_date_range: 2022-2023
     known_gaps:
     - curated_by: minimax-m2.7
       curated_at: '2026-07-24T07:40:16.987539+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-07-24T07:40:16.987539+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T07:10:00.378944+00:00'
       number: 4
       range_end:
       reason: 'REMOVED - Episode 4 exists on both providers (Folge 4: Und das Glück der Erde, 2023). The previous audit incorrectly claimed it was unavailable.'
     sub_series:
-    - label: cornelia_funke_hoerbuch
+    - curated_by: minimax-m2.7
+      curated_at: '2026-10-02T23:59:01.334657+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-10-02T23:59:01.334657+00:00'
+      label: cornelia_funke_hoerbuch
       album_ids:
       - spotify:0YWKYup2Axls1NMofRdQ6M
       - spotify:1m0gUz7ge6rYs3w0pFgzl3
@@ -39288,36 +39251,19 @@ series:
       - spotify:4FwoYwy88mcywyrFoMMJX0
       - spotify:7qlHTVKawlCzCKFD4LoZpr
       reason: Hörbuch (read-aloud) albums by Cornelia Funke on the shared artist page. Correctly excluded as wrong_content_type. Belongs to the family's root-level Cornelia Funke reading catalog.
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-10-02T23:59:01.334657+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-10-02T23:59:01.334657+00:00'
-    - label: die_wilden_huehner_hits
+      label: die_wilden_huehner_hits
       album_ids:
       - apple_music:1614865498
       reason: Song compilation album from the Die Wilden Hühner film adaptation. Correctly excluded as kinderlieder_compilation.
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-10-02T23:59:01.334657+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-10-02T23:59:01.334657+00:00'
-    - label: drachenreiter
-      album_ids:
-      - apple_music:1584839304
-      - apple_music:1588723671
-      reason: Standalone Cornelia Funke literary property (Dragon Rider series). Distinct product line from Die Wilden Hühner.
-      curated_by: minimax-m2.7
-      curated_at: '2026-10-02T23:59:01.334657+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-02T23:59:01.334657+00:00'
-    - label: haende_weg_von_mississippi
-      album_ids:
-      - spotify:1N4dJPL91PEjiEfQ8pN8Gw
-      reason: Standalone Cornelia Funke book adapted into a separate film. Not part of the Die Wilden Hühner numbered episode series.
-      curated_by: minimax-m2.7
-      curated_at: '2026-10-02T23:59:01.334657+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-02T23:59:01.334657+00:00'
-    - label: tintenwelt
+      label: tintenwelt
       album_ids:
       - apple_music:1567461028
       - apple_music:1567472501
@@ -39326,10 +39272,6 @@ series:
       - apple_music:1681081834
       - spotify:6UgGZWC4UrOAeLFRaH0NJ8
       reason: Standalone Cornelia Funke literary property (Inkheart trilogy). Includes the Die Wilden Hühner-audited album spotify:6UgGZWC4UrOAeLFRaH0NJ8 (Die Farbe der Rache).
-      curated_by: minimax-m2.7
-      curated_at: '2026-10-02T23:59:01.334657+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-02T23:59:01.334657+00:00'
   aliases:
   - Die wilden Hühner
 - id: ferien_auf_saltkrokan
@@ -46326,6 +46268,14 @@ series:
         episode: 4
         title: 'Folge 04: Die Schatzsuche - EP'
         release_date: '2025-03-14'
+      - id: '1801168349'
+        episode: 5
+        title: 'Folge 05: Jungs sind besser als Mädchen! - EP'
+        release_date: '2025-03-14'
+      - id: '1801167341'
+        episode: 6
+        title: 'Folge 06: Das gehört mir! - EP'
+        release_date: '2025-03-14'
       - id: '1801211237'
         episode: 7
         title: 'Folge 07: Ich will gewinnen!'
@@ -46342,6 +46292,10 @@ series:
         episode: 10
         title: 'Folge 10: Babysitter? Nein Danke! - EP'
         release_date: '2025-03-14'
+      - id: '1801167770'
+        episode: 11
+        title: 'Folge 11: Ich will ein Haustier! - EP'
+        release_date: '2025-03-14'
       - id: '1801166544'
         episode: 12
         title: 'Folge 12: Das war keine Absicht! - EP'
@@ -46349,6 +46303,10 @@ series:
       - id: '1801165249'
         episode: 13
         title: 'Folge 13: Beste Freunde - EP'
+        release_date: '2025-03-14'
+      - id: '1801169240'
+        episode: 14
+        title: 'Folge 14: Bitte lächeln! - EP'
         release_date: '2025-03-14'
       - id: '1801167767'
         episode: 15
@@ -46714,16 +46672,23 @@ series:
   aliases:
   - Topo Tip
   series_facts:
+    era_boundaries:
+    - curated_by: curate
+      curated_at: '2026-09-21T02:54:55.800012+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T07:14:25.662204+00:00'
+      label: reissue_2025
+      release_date_range: 2025-
     sub_series:
-    - label: adventskalender
+    - curated_by: minimax-m2.7
+      curated_at: '2026-10-03T10:25:10.157888+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-10-03T10:25:10.157888+00:00'
+      label: adventskalender
       album_ids:
       - apple_music:1441548071
       reason: 'Seasonal advent calendar format: 24 daily story tracks (Tag 1–24), intro/outro songs, distinct from regular episodic Hörspiele. Correctly included on Apple Music per content type. Sub-series
         label aligns with Spotify exclusion (spotify:58HtWkUXDoPmLJgyTf5Cv7).'
-      curated_by: minimax-m2.7
-      curated_at: '2026-10-03T10:25:10.157888+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-03T10:25:10.157888+00:00'
 - id: hurra_kinderlieder
   title: Hurra Kinderlieder
   providers:
@@ -47637,6 +47602,9 @@ series:
       - id: 1XSxfpGxPePcuIk61VX1Qc
         title: Ritter Kunibert
         release_date: '2006-08-23'
+      - id: 33ybL3IJcVkKNFbzyElOPe
+        title: Seeräuber Wackelzahn
+        release_date: '2006-08-23'
       - id: 0AOGm0xYIAdYNLSPPqFrnX
         title: Wir warten und warten - Lieder für den Advent
         release_date: '2006-08-23'
@@ -47661,6 +47629,15 @@ series:
       - id: 3PhXk69WdHYt0WiN5Lp10X
         title: Zünd die erste Kerze an
         release_date: '2006-09-19'
+      - id: 1MMxpxVwSfyRjUysXGyv35
+        title: Danke Gott - Viele schöne neue religiöse Kinderlieder
+        release_date: '2007-07-01'
+      - id: 3WLx817tCe1Z9Fa9pvd7WG
+        title: Winterzeit im Kindergarten - wunderschöne neue Lieder
+        release_date: '2007-09-01'
+      - id: 46i6EKdM2NW0xqhPtbalAe
+        title: Es schneit, es schneit, es schneit!
+        release_date: '2007-12-20'
       - id: 3GlEYW8A7lke4oej9go3I3
         title: Brenn, Laterne
         release_date: '2008-01-30'
@@ -47679,6 +47656,9 @@ series:
       - id: 4w9wsGBgZwrCk658jTv1bN
         title: 'Krabbel-Hits für Krabbel-Kids: Sonnenlieder'
         release_date: '2008-02-19'
+      - id: 5Ev0q9QSuI3G0b7aNCekOB
+        title: Indianer-Lieder für Kinder
+        release_date: '2008-04-01'
       - id: 2WvgbtJ1mam92803FqC6A4
         title: 'Krabbel-Hits für Krabbel-Kids: Kleiner Löwe, kleiner Tiger'
         release_date: '2008-04-01'
@@ -47706,6 +47686,12 @@ series:
       - id: 53db3eBpaApUgZ0g5oirJ4
         title: Winterzeit in Schule und zu Hause
         release_date: '2008-12-01'
+      - id: 1AbqAY5YcCMn0FGErQK8x8
+        title: In unserm Kindergarten - Spiel- und Tanzlieder
+        release_date: '2009-01-01'
+      - id: 1St4uuNlAoe6iubCxhUFSL
+        title: Der Osterhase kommt - Lieder zu Ostern
+        release_date: '2009-02-02'
       - id: 7JQXHOAmblWn0NINUZVtid
         title: Meine Mama ist die Beste!
         release_date: '2009-02-02'
@@ -47736,6 +47722,9 @@ series:
       - id: 4N8iNhUXDJtrLBMfeshJsS
         title: Kerzen-Lieder im Advent
         release_date: '2009-11-11'
+      - id: 6uudShZszfKGL60gpYPMic
+        title: Und wieder brennt die Kerze - Viele schöne Lieder für die ganze Adventszeit
+        release_date: '2009-11-11'
       - id: 02TbFmBQERmfpaUw1hKaOe
         title: Weihnachts-Lieder für die Heilige Nacht
         release_date: '2009-11-11'
@@ -47745,9 +47734,15 @@ series:
       - id: 6JhdnGRb4iODRJ45WeRGwp
         title: Wenn es schneit, wenn es schneit! - noch mehr Schnee-Lieder (garantiert weihnachts-frei!)
         release_date: '2009-12-20'
+      - id: 2ccJjqJTw5SGWiulPTmVsi
+        title: Winter-Lieder (Winter - Weihnacht - Fasching)
+        release_date: '2009-12-20'
       - id: 7A0E6gFjAZU8ljxXQoPAtD
         title: Niko-, Niko-, Nikolaus
         release_date: '2010-02-02'
+      - id: 1y4Md4m0B06KEMrKmEtha1
+        title: Blubb blubb blubb macht der Fisch (Meine 15 schönsten Lieder für die Kleinsten)
+        release_date: '2010-02-10'
       - id: 6OpyvErdbho5ZTh8rojkgQ
         title: Kleine Engel
         release_date: '2010-05-28'
@@ -47793,6 +47788,21 @@ series:
       - id: 5n2qYpblR5v5eNp4Qu5yg6
         title: '24 Lieblingslieder für Krabbelkinder: Zum Mitsingen, Zuhören und Bewegen'
         release_date: '2013-09-01'
+      - id: 57l5jZTnB4AANkxugz2HOy
+        title: 'Best of neue Kinderlieder: 50 Winterlieder & Weihnachtslieder'
+        release_date: '2013-10-01'
+      - id: 7MKvnwbDKccbwqSoO8TCj8
+        title: Best of Neue Kinderlieder - 20 Laterne Nikolaus Advent
+        release_date: '2013-10-03'
+      - id: 37UZmfhwNG4ihMHHMN3f2n
+        title: Best of Neue Kinderlieder - 20 Neujahr Schnee Karneval
+        release_date: '2013-10-03'
+      - id: 2bUZg7bJQm3oAP0OYQ3yPM
+        title: 'Best of neue Kinderlieder: 50 Kinderlieder für das ganze Jahr'
+        release_date: '2013-10-06'
+      - id: 6YmDhDRuFoFfHhBaDC7xPG
+        title: 'Best of neue Kinderlieder: 20 Frühling Ostern Muttertag'
+        release_date: '2013-11-01'
       - id: 7Mn5ZQU46kZsQBotcmgiuw
         title: Weiße Flocken überall (Winterlieder aus dem Kindergarten)
         release_date: '2013-12-06'
@@ -47835,6 +47845,9 @@ series:
       - id: 0JiG2U9VT4uo9oLUCdvktW
         title: Deutsche Kinderlieder - Simple Kids Songs - German Children's Songs & Nursery Rhymes
         release_date: '2015-04-27'
+      - id: 5eLSkEPRwpj7eKRgOrRBVb
+        title: Neue Deutsche Kinderlieder - 20 New German Children's Favourite Songs & Nursery Rhymes for Kids (To Learn on Guitar)
+        release_date: '2015-05-01'
       - id: 24PuWuCA2uREpb7GPD9Doc
         title: Der Seebär und andere Lieder
         release_date: '2015-06-16'
@@ -47883,6 +47896,9 @@ series:
       - id: 2o35kHlgh3Tnhy6LjGhEWs
         title: Der Sommer ist da - 20 schönste Kinderlieder im Sommer
         release_date: '2017-06-16'
+      - id: 7erUTJEt8ji25M5bqF0shi
+        title: 'Die Herbstzeit ist da: 20 schönste Kinderlieder im Herbst'
+        release_date: '2017-08-10'
       - id: 7CDX2vDXS5f9DMhssOgpTG
         title: 'Der Winter ist da: 20 schönste Kinderlieder im Winter'
         release_date: '2017-10-01'
@@ -48102,6 +48118,9 @@ series:
       - id: 7oKzMh5l642U0ZSkyIwNRT
         title: Kleine Begrüßungsliedchen
         release_date: '2023-04-28'
+      - id: 5O25J8WsUKV286EkhWTm7K
+        title: Auge, Auge, Nase, Mund (Alles hat einen Namen)
+        release_date: '2023-05-05'
       - id: 5UZIRt3cYfuygFvJ1KM5x1
         title: Kleine Mi Ma Maus
         release_date: '2023-05-12'
@@ -48114,12 +48133,33 @@ series:
       - id: 1LpNhvmudupnOSnVL73JMp
         title: Das Tücherlied (Einkaufslied mit Farben)
         release_date: '2024-06-28'
+      - id: 7akNEF7Z80xhwPJaTirTwS
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Kids Songs, Vol. 3
+        release_date: '2024-08-06'
       - id: 0Oeps4k15t2ASPfqy6HEyV
         title: Wir machen heute Nussmusik - 4 neue Weihnachtslieder für Kinder
         release_date: '2024-11-29'
+      - id: 6EievRa0SS5cm2iu448C6M
+        title: Kuschelige Kuschel-Lieder
+        release_date: '2025-01-01'
+      - id: 0TFoVIgqbkcEQzyITb47FV
+        title: 'Best of neue Kinderlieder: Die 30 beliebtesten Kinderlieder'
+        release_date: '2025-03-27'
+      - id: 23lrdQLYXJdrxGqhfRE15N
+        title: Wir begrüßen die Jahreszeiten
+        release_date: '2025-07-25'
+      - id: 1xf8Gr8anhZAm0f8rriMxX
+        title: Laterne, du leuchtest wie die Sterne
+        release_date: '2025-10-03'
+      - id: 3sRvPQIGbpXxZBD9ftVhAh
+        title: Wichtellied & Advent-Rap
+        release_date: '2025-11-21'
       - id: 2BFhaG1cKl2bMDkeX4WitC
         title: Komm, sing mir nach durchs ganze Jahr
         release_date: '2026-01-09'
+      - id: 489fyTWXoJ0VNOOgEizr4d
+        title: Herbstzeit, du bist wunderschön
+        release_date: '2026-09-25'
     apple_music:
       artist_ids:
       - '182493885'
@@ -48151,6 +48191,12 @@ series:
       - id: '375813486'
         title: Zünd Die Erste Kerze An
         release_date: '2006-09-19'
+      - id: '6775433416'
+        title: Danke Gott - Viele schöne neue religiöse Kinderlieder
+        release_date: '2007-07-01'
+      - id: '6773393908'
+        title: Winterzeit im Kindergarten - wunderschöne neue Lieder
+        release_date: '2007-09-01'
       - id: '272153123'
         title: Es schneit, es schneit, es schneit - EP
         release_date: '2007-12-20'
@@ -48169,6 +48215,9 @@ series:
       - id: '279202704'
         title: 'Krabbel-Hits für Krabbel-Kids: Häng Dich an, häng dich an'
         release_date: '2008-02-19'
+      - id: '6778485636'
+        title: Indianer-Lieder für Kinder
+        release_date: '2008-04-01'
       - id: '375892818'
         title: 'Krabbel-Hits Für Krabbel-Kids: Kleiner Löwe, Kleiner Tiger'
         release_date: '2008-04-01'
@@ -48196,6 +48245,9 @@ series:
       - id: '358741592'
         title: Winterzeit in Schule und zu Hause
         release_date: '2008-12-01'
+      - id: '6775537396'
+        title: In unserm Kindergarten - Spiel- und Tanzlieder
+        release_date: '2009-01-01'
       - id: '306981789'
         title: Der Osterhase kommt! - Lieder zu Ostern - EP
         release_date: '2009-02-02'
@@ -48229,6 +48281,9 @@ series:
       - id: '375897654'
         title: Kerzen-Lieder Im Advent
         release_date: '2009-11-11'
+      - id: '6778447271'
+        title: Und wieder brennt die Kerze - Viele schöne Lieder für die ganze Adventszeit
+        release_date: '2009-11-11'
       - id: '375897225'
         title: Weihnachts-Lieder Für Die Heilige Nacht
         release_date: '2009-11-11'
@@ -48241,6 +48296,9 @@ series:
       - id: '375896991'
         title: Niko-, Niko-, Nikolaus
         release_date: '2010-02-02'
+      - id: '1895631673'
+        title: Blubb blubb blubb macht der Fisch (Meine 15 schönsten Lieder für die Kleinsten)
+        release_date: '2010-02-10'
       - id: '375570773'
         title: Kleine Engel
         release_date: '2010-05-28'
@@ -48613,6 +48671,9 @@ series:
       - id: '1778032789'
         title: Wir machen heute Nussmusik - 4 neue Weihnachtslieder für Kinder - EP
         release_date: '2024-11-29'
+      - id: '6786002531'
+        title: Kuschelige Kuschel-Lieder
+        release_date: '2025-01-01'
       - id: '1826990840'
         title: Wir begrüßen die Jahreszeiten (feat. Toni Geiling) - EP
         release_date: '2025-07-25'
@@ -48625,6 +48686,9 @@ series:
       - id: '1862793196'
         title: Komm, sing mir nach durchs ganze Jahr
         release_date: '2026-01-09'
+      - id: '6808282748'
+        title: Herbstzeit, du bist wunderschön
+        release_date: '2026-09-25'
   content_type: music
   series_facts:
     era_boundaries:
@@ -52008,6 +52072,12 @@ series:
       - id: 50D4yn3399JRmr2jTxuQDB
         title: Hallo & Tschüss Musicals zum Anfang und Ende der Grundschulzeit
         release_date: '2009-05-25'
+      - id: 3sua28ilsMuPVoGPlWuRsq
+        title: Meine 24 schönsten Weihnachtslieder
+        release_date: '2010-01-01'
+      - id: 0mp4ghkBj93qT153RhwnLa
+        title: Meine schönsten Kinderlieder
+        release_date: '2010-01-01'
       - id: 0jT8WXpD7Krwo5oEDL6InH
         title: Elefantenlieder für kleine Mäuse
         release_date: '2010-04-16'
@@ -52086,6 +52156,9 @@ series:
       - id: 4MAWpJNvegVyoq20YI98k1
         title: Winter
         release_date: '2014-11-14'
+      - id: 5gsT3Ukd9k6ts1zftadkuC
+        title: Meine Jahreszeiten-Hits
+        release_date: '2015-01-01'
       - id: 3fTGprO4L94W2WVwySQ6h1
         title: Pirates of the Sea
         release_date: '2015-01-08'
@@ -52182,6 +52255,9 @@ series:
       - id: 0jgc4hHkBdS4GWtc4nIjcT
         title: Meine Lieder – Mein Leben – Farewell-Gala-Konzert (Live)
         release_date: '2025-05-24'
+      - id: 1I7K9ONW6zvyn1jiVjKuei
+        title: Meine schönsten Kinderlieder
+        release_date: '2025-12-05'
       - id: 4UuaTvIxIKYflL6w5hX4Vx
         title: Die Liebe bleibt – Ein Minimusical zur Osterzeit
         release_date: '2026-02-06'
@@ -52330,6 +52406,12 @@ series:
       - id: '1884261482'
         title: Hallo & Tschüss Musicals zum Anfang und Ende der Grundschulzeit
         release_date: '2009-05-25'
+      - id: '1442613911'
+        title: Meine 24 schönsten Weihnachtslieder
+        release_date: '2010-01-01'
+      - id: '1442410345'
+        title: Meine schönsten Kinderlieder
+        release_date: '2010-01-01'
       - id: '1731811816'
         title: Elefantenlieder für kleine Mäuse
         release_date: '2010-04-16'
@@ -52408,6 +52490,9 @@ series:
       - id: '1442295640'
         title: Winter
         release_date: '2014-11-14'
+      - id: '1453151964'
+        title: Meine Jahreszeiten-Hits
+        release_date: '2015-01-01'
       - id: '1708863722'
         title: Pirates of the Sea
         release_date: '2015-01-08'
@@ -52507,6 +52592,9 @@ series:
       - id: '6766229091'
         title: Meine Lieder – Mein Leben – Farewell-Gala-Konzert (Live)
         release_date: '2025-05-24'
+      - id: '1853614843'
+        title: Meine schönsten Kinderlieder
+        release_date: '2025-12-05'
       - id: '1885492927'
         title: Die Liebe bleibt – Ein Minimusical zur Osterzeit
         release_date: '2026-02-06'
@@ -53896,14 +53984,19 @@ series:
       albums:
       - id: 5X3up0Wo8zzker74Yp8sGc
         title: Conni im Ferienlager (Abenteuerspaß mit Conni)
+        release_date: '2025-01-17'
       - id: 5xvFAhcAmSz5HI0mLN5Czb
         title: Conni und der Segelausflug (Abenteuerspaß mit Conni)
+        release_date: '2025-03-14'
       - id: 3L5aTC0QByzt577gJOQ2Vu
         title: Conni und das Filmprojekt (Abenteuerspaß mit Conni)
+        release_date: '2025-04-25'
       - id: 4237MIZ5g9WgpccGcUZsJR
         title: Conni und die Stecken-Ponys (Abenteuerspaß mit Conni)
+        release_date: '2025-08-15'
       - id: 0H3sXCjdkcvfNunYzorniX
         title: Conni im Weltall-Camp (Abenteuerspaß mit Conni)
+        release_date: '2026-05-01'
     apple_music:
       artist_ids:
       - '14433691'
@@ -55690,21 +55783,34 @@ series:
         title: 'Folge 27: Hochspannung im Motorrad-Sattel'
         release_date: '2021-11-05'
   series_facts:
+    era_boundaries:
+    - curated_by: curate
+      curated_at: '2026-09-21T07:38:22.901545+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T07:07:47.030312+00:00'
+      label: 2019_klassik
+      release_date_range: 2019-2019
+    - curated_by: curate
+      curated_at: '2026-09-21T07:38:22.901545+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T07:07:47.030312+00:00'
+      label: 2020_2021_neuauflage
+      release_date_range: 2020-2021
     known_gaps:
-    - number: 3
-      range_end:
-      reason: 'Spotify catalog gap: episode exists on Apple Music but not on Spotify'
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-10-03T03:12:44.084963+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-10-03T03:12:44.084963+00:00'
-    - number: 5
+      number: 3
       range_end:
       reason: 'Spotify catalog gap: episode exists on Apple Music but not on Spotify'
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-10-03T03:12:44.084963+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-10-03T03:12:44.084963+00:00'
+      number: 5
+      range_end:
+      reason: 'Spotify catalog gap: episode exists on Apple Music but not on Spotify'
 - id: lichterkinder_lernland
   title: 'Lichterkinder: Lernland'
   aliases:
@@ -56226,33 +56332,43 @@ series:
       - id: 2TsDWy0PLSFuatYx5XBgk6
         episode: 1
         title: 001/Gute-Nacht-Geschichten Folge 1+2 - Die verzauberten Seerosen/Die goldene Perle
+        release_date: '2019-03-08'
       - id: 2mh0PBRCJtDNKKa7CJsRWv
         episode: 3
         title: 002/Gute-Nacht-Geschichten Folge 3+4 - Tanz der Einhörner/Das verlorene Ei
+        release_date: '2019-05-31'
       - id: 2PgSaJ7MbnMrEQLwHmnVNk
         episode: 5
         title: 003/Gute-Nacht-Geschichten Folge 5+6 - Das liebe Gespenst/Rosinchens Lächeln
+        release_date: '2019-08-23'
       - id: 4HsZMXmPWh2jsr4ykFbKQY
         episode: 7
         title: 004/Gute-Nacht-Geschichten Folge 7+8 - Das Eisballett/Die goldene Brücke
+        release_date: '2019-11-29'
       - id: 0OTSfglUsVhlvbNKedHpzZ
         episode: 9
         title: 005/Gute-Nacht-Geschichten Folge 9+10 - Das Bunte-Punkte-Fieber/Der Schrumpfzauber
+        release_date: '2020-02-07'
       - id: 7MnVBiXp6c3qagFgjHTHvE
         episode: 11
         title: 006/Gute-Nacht-Geschichten Folge 11+12 - Die glitzernden Steine/Die Wunschfrüchte
+        release_date: '2020-05-01'
       - id: 2369mWFODN1JyhO01kWXlW
         episode: 13
         title: 007/Gute-Nacht-Geschichten Folge 13+14 - Der Traum der Hexe Alba/Das Lied der Delfine
+        release_date: '2020-07-24'
       - id: 44U1ys8TklWml8UhtDQJre
         episode: 15
         title: 008/Gute-Nacht-Geschichten Folge 15+16 - In der Sternenbäckerei/Das Zirkuswunder
+        release_date: '2020-10-16'
       - id: 3tGpNAkUdb8klG1Xp3Q769
         episode: 17
         title: 009/Gute-Nacht-Geschichten Folge 17+18 - Das Schmetterlingsballett/Der fliegende Teppich
+        release_date: '2021-02-05'
       - id: 4J7VLI47aJNd2vQEdbfdDO
         episode: 19
         title: 'Folge 10: Gute-Nacht-Geschichten Folge 19+20 - Jule und das Einhorn / Schatzsuche im Dschungel'
+        release_date: '2021-06-25'
     apple_music:
       artist_ids:
       - '130216498'
@@ -56265,10 +56381,6 @@ series:
         episode: 3
         title: Gute-Nacht-Geschichten Folge 3+4 - Tanz der Einhörner/Das verlorene Ei
         release_date: '2019-05-31'
-      - id: '1474808673'
-        episode: 5
-        title: 'Gute-Nacht-Geschichten (Folge 3): Das liebe Gespenst / Rosinchens Lächeln'
-        release_date: '2019-08-23'
       - id: '1487805330'
         episode: 7
         title: "Folgen 7+8: Das Eisballett/Die goldene Brücke (Gute-'Nacht-Geschichten)"
@@ -56297,6 +56409,9 @@ series:
         episode: 19
         title: 'Folge 19+20: Jule und das Einhorn/Schatzsuche im Dschungel (Gute-Nacht-Geschichten)'
         release_date: '2021-06-25'
+      - id: '1474808673'
+        title: 'Gute-Nacht-Geschichten (Folge 3): Das liebe Gespenst / Rosinchens Lächeln'
+        release_date: '2019-08-23'
   series_facts:
     known_gaps:
     - curated_by: minimax-m2.7
@@ -56373,13 +56488,12 @@ series:
       artist_ids:
       - 78iNrogmY4Ru7d7PLtwD4b
       albums:
-      - id: 2cZrWzKe4U716qJWDXUsaz
-        title: Das kleine Einhorn (Original Hörspiel zum Kinofilm)
       - id: 2QiEpgmt8VrYg3GlcV4Sl5
         title: Prinzessin Lillifee (Original Hörspiel zum Kinofilm)
-      - id: 3GI2BdTgbQs4LnFSym3ji5
-        title: Prinzessin Lillifee
-        release_date: '2006-03-01'
+        release_date: '2009-03-26'
+      - id: 2cZrWzKe4U716qJWDXUsaz
+        title: Das kleine Einhorn (Original Hörspiel zum Kinofilm)
+        release_date: '2011-08-30'
     apple_music:
       artist_ids:
       - '130216498'
@@ -56454,22 +56568,31 @@ series:
       - id: 1SW5OuXPjqEL9Rr5ss19iQ
         episode: 1
         title: 'Mein zauberhaftes Tierhotel: Folge 1+2'
+        release_date: '2023-06-23'
       - id: 6cKFwdiGTdfdFhoeXczK0N
         episode: 3
         title: 'Mein zauberhaftes Tierhotel: Folge 3+4'
+        release_date: '2023-09-22'
       - id: 3XMG0CL51WoTeQlqJ9XClA
         episode: 5
         title: 'Mein zauberhaftes Tierhotel: Folge 5+6'
+        release_date: '2024-02-16'
       - id: 7ErywAfIpgxcATLch1ibCI
         episode: 7
         title: 'Mein zauberhaftes Tierhotel: Folge 7+8'
+        release_date: '2024-08-16'
       - id: 3brWJZfRWLek5yBSoB4Ob8
         episode: 9
         title: 'Mein zauberhaftes Tierhotel: Folge 9+10'
+        release_date: '2025-07-18'
     apple_music:
       artist_ids:
       - '130216498'
       albums:
+      - id: '1689762573'
+        episode: 1
+        title: 'Folge 1 + 2: Mein zauberhaftes Tierhotel'
+        release_date: '2023-06-23'
       - id: '1703988083'
         episode: 3
         title: 'Mein zauberhaftes Tierhotel: Folge 3+4'
@@ -56486,9 +56609,6 @@ series:
         episode: 9
         title: 'Mein zauberhaftes Tierhotel: Folge 9+10'
         release_date: '2025-07-18'
-      - id: '1689762573'
-        title: 'Folge 1 + 2: Mein zauberhaftes Tierhotel'
-        release_date: '2023-06-23'
 - id: pumuckl_weihnachten
   title: 'Pumuckl: Weihnachten'
   aliases:
@@ -56553,23 +56673,30 @@ series:
         title: '06: Weihnachten Folge - Pumuckl und die Schatulle (Das Original aus dem Fernsehen)'
         release_date: '2008-02-08'
   series_facts:
+    era_boundaries:
+    - curated_by: curate
+      curated_at: '2026-09-21T08:38:41.851943+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T07:21:56.026106+00:00'
+      label: weihnachten
+      release_date_range: 2008-2008
     known_gaps:
-    - number: 2
+    - curated_by: minimax-m2.7
+      curated_at: '2026-10-03T03:27:06.184682+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-10-03T03:27:06.184682+00:00'
+      number: 2
       range_end: 3
       reason: This known_gap was inherited from the parent series (pumuckl) and incorrectly describes episodes from that series' numbering. All 6 Weihnachten episodes (including episodes 2 and 3) are 
         present in both Apple Music and Spotify catalogs.
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-10-03T03:27:06.184682+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-10-03T03:27:06.184682+00:00'
-    - number: 5
+      number: 5
       range_end:
       reason: This known_gap was inherited from the parent series (pumuckl) and incorrectly describes an episode from that series' numbering. Weihnachten episode 5 is present in both Apple Music 
         (1685888292) and Spotify (0t5XbGvxjnnQz1FWhFt7go).
-      curated_by: minimax-m2.7
-      curated_at: '2026-10-03T03:27:06.184682+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-03T03:27:06.184682+00:00'
 - id: ritter_rost_kinofilm
   title: 'Ritter Rost: Kinofilm'
   aliases: []
@@ -58233,40 +58360,48 @@ series:
   - Die drei ??? Kids Mini-Fälle
   - Mini-Fälle
   episode_pattern:
-  content_type: hoerspiel
+  - \(Mini-Fall (\d+)\)
+  - '^Folge (\d+): Mini-Fall'
   split_from: die_drei_fragezeichen_kids
   providers:
     spotify:
       artist_ids:
       - 0vLsqW05dyLvjuKKftAEGA
       albums:
+      - id: 2SW10jAJqdxfbJZCW6hlEF
+        episode: 3
+        title: Mini-Fall/Die Piratenbande (Mini-Fall 03)
+        release_date: '2024-01-12'
+      - id: 0qybrewjst6zJBOrdBghc2
+        episode: 4
+        title: Mini-Fall/Achtung, Dinos! (Mini-Fall 04)
+        release_date: '2024-07-26'
+      - id: 7DA8OgWsVgCSM5ayHEOQHo
+        episode: 5
+        title: Mini-Fall/Alarm, die Ritter kommen! (Mini-Fall 05)
+        release_date: '2024-11-15'
+      - id: 1q9psu1dvUemN0x8tFnwhr
+        episode: 6
+        title: Mini-Fall/Der Monsterschrecker Monsterschreck (Mini-Fall 06)
+        release_date: '2025-02-14'
+      - id: 74usgzfUNYeiXgAe3CKrr7
+        episode: 7
+        title: Mini-Fall/Hilfe, Geisterzug (Mini-Fall 07)
+        release_date: '2025-06-13'
+      - id: 45Wfn7ndkXnhQrH9dWHjf9
+        episode: 8
+        title: Mini-Fall/Ungeheuer in Sicht (Mini-Fall 08)
+        release_date: '2026-04-24'
+      - id: 3KeWRLEh75d4CHMkxZB7ZG
+        episode: 9
+        title: Mini-Fall/Der unsichtbare Dieb (Mini-Fall 09)
+        release_date: '2026-08-21'
       - id: 1IrBxq3kgqabhcp6xfIezB
         title: Mini-Fall/Vorsicht, Zaubertinte!
         release_date: '2023-04-28'
       - id: 2AeYE1PVAulFFJlfp6GYZL
         title: Mini-Fall/Die Räuberjagd
         release_date: '2023-06-23'
-      - id: 2SW10jAJqdxfbJZCW6hlEF
-        title: Mini-Fall/Die Piratenbande (Mini-Fall 03)
-        release_date: '2024-01-12'
-      - id: 0qybrewjst6zJBOrdBghc2
-        title: Mini-Fall/Achtung, Dinos! (Mini-Fall 04)
-        release_date: '2024-07-26'
-      - id: 7DA8OgWsVgCSM5ayHEOQHo
-        title: Mini-Fall/Alarm, die Ritter kommen! (Mini-Fall 05)
-        release_date: '2024-11-15'
-      - id: 1q9psu1dvUemN0x8tFnwhr
-        title: Mini-Fall/Der Monsterschrecker Monsterschreck (Mini-Fall 06)
-        release_date: '2025-02-14'
-      - id: 74usgzfUNYeiXgAe3CKrr7
-        title: Mini-Fall/Hilfe, Geisterzug (Mini-Fall 07)
-        release_date: '2025-06-13'
-      - id: 45Wfn7ndkXnhQrH9dWHjf9
-        title: Mini-Fall/Ungeheuer in Sicht (Mini-Fall 08)
-        release_date: '2026-04-24'
-      - id: 3KeWRLEh75d4CHMkxZB7ZG
-        title: Mini-Fall/Der unsichtbare Dieb (Mini-Fall 09)
-        release_date: '2026-08-21'
     apple_music:
       artist_ids:
       - '305761269'
@@ -58279,6 +58414,22 @@ series:
         episode: 3
         title: 'Folge 3: Mini-Fall/Die Piratenbande'
         release_date: '2024-01-12'
+      - id: '1790622238'
+        episode: 6
+        title: Mini-Fall/Der Monsterschreck (Mini-Fall 06)
+        release_date: '2025-02-14'
+      - id: '1815464807'
+        episode: 7
+        title: Mini-Fall/Hilfe, Geisterzug (Mini-Fall 07)
+        release_date: '2025-06-13'
+      - id: '1891320197'
+        episode: 8
+        title: Mini-Fall/Ungeheuer in Sicht (Mini-Fall 08)
+        release_date: '2026-04-24'
+      - id: '6794305304'
+        episode: 9
+        title: Mini-Fall/Der unsichtbare Dieb (Mini-Fall 09)
+        release_date: '2026-08-21'
       - id: '1752882153'
         title: Mini-Fall/Vorsicht, Zaubertinte!
         release_date: '2023-04-28'
@@ -58288,18 +58439,6 @@ series:
       - id: '1774712902'
         title: Mini-Fall/Alarm, die Ritter kommen!
         release_date: '2024-11-15'
-      - id: '1790622238'
-        title: Mini-Fall/Der Monsterschreck (Mini-Fall 06)
-        release_date: '2025-02-14'
-      - id: '1815464807'
-        title: Mini-Fall/Hilfe, Geisterzug (Mini-Fall 07)
-        release_date: '2025-06-13'
-      - id: '1891320197'
-        title: Mini-Fall/Ungeheuer in Sicht (Mini-Fall 08)
-        release_date: '2026-04-24'
-      - id: '6794305304'
-        title: Mini-Fall/Der unsichtbare Dieb (Mini-Fall 09)
-        release_date: '2026-08-21'
 - id: olchi_detektive
   title: Olchi-Detektive
   aliases:
@@ -58942,13 +59081,92 @@ series:
   title: 'Teufelskicker: Wissen'
   aliases: []
   episode_pattern:
-  content_type: hoerspiel
+  - ^Frauen-WM-Wissen (\d+)
+  - ^WM 2026-Wissen (\d+)
+  - ^EM-Wissen (\d+)
+  - ^Wissen zur EM 2024 - Folge (\d+)
   split_from: teufelskicker
   providers:
     spotify:
       artist_ids:
       - 752p3IcSA76CVOvqoGcFWH
       albums:
+      - id: 4xrCJyGPtrZO4CFCAGYyVL
+        episode: 1
+        title: EM-Wissen 01 - Die Geschichte der EM - Teil 1! (1960 - 1988)
+        release_date: '2021-06-05'
+      - id: 1oZ7RPYaQbcgsAPLEmrDam
+        episode: 1
+        title: WM 2026-Wissen 01 - Unsere Mannschaft
+        release_date: '2026-06-04'
+      - id: 0CCzcdyi1y6d5xcNytC8it
+        episode: 2
+        title: EM-Wissen 02 - Die Geschichte der EM - Teil 2! (1992 - 2016)
+        release_date: '2021-06-06'
+      - id: 3AobuV6r3DyKL8qsgmdgGi
+        episode: 2
+        title: 'Wissen zur EM 2024 - Folge 2: Überraschungen der EM-Geschichte'
+        release_date: '2024-06-08'
+      - id: 5r3CXpPJL7wys3UN9TZZfM
+        episode: 2
+        title: WM 2026-Wissen 02 - Teilnehmer & Favoriten
+        release_date: '2026-06-04'
+      - id: 2K0MtpwfBc8QwODAxXQLbe
+        episode: 3
+        title: EM-Wissen 03 - Der Henri Delaunay Pokal!
+        release_date: '2021-06-07'
+      - id: 2wAAqBryuhdVqva5HnPAUL
+        episode: 3
+        title: 'Wissen zur EM 2024 - Folge 3: Das Eigentor'
+        release_date: '2024-06-09'
+      - id: 0H9MmXeVMvLfJQxKs1J3He
+        episode: 3
+        title: 'WM 2026-Wissen 03 - Die Gastgeber: USA'
+        release_date: '2026-06-04'
+      - id: 2dpOLqCm0FODnqMWcM5LoC
+        episode: 4
+        title: EM-Wissen 04 - Regelwerk und Neuerungen!
+        release_date: '2021-06-08'
+      - id: 7fCZW8vbTTkQ3rjeyVpZJW
+        episode: 4
+        title: 'Wissen zur EM 2024 - Folge 4: Regeländerungen und Kurioses'
+        release_date: '2024-06-10'
+      - id: 5W4tlw4vl299dYy96js4HR
+        episode: 4
+        title: 'WM 2026-Wissen 04 - Die Gastgeber: Kanada'
+        release_date: '2026-06-04'
+      - id: 6tA8PxoNRheUcURTAvK9Qk
+        episode: 5
+        title: EM-Wissen 05 - Rekorde und Legenden!
+        release_date: '2021-06-09'
+      - id: 34hIb66KUmsVPXg9fDtudi
+        episode: 5
+        title: 'Wissen zur EM 2024 - Folge 5: Favoriten und Geheimtipps'
+        release_date: '2024-06-11'
+      - id: 52sn2HThyrEt68LGFL7GWR
+        episode: 5
+        title: 'WM 2026-Wissen 05 - Die Gastgeber: Mexiko'
+        release_date: '2026-06-04'
+      - id: 1CK5OkoDEjYUVTwy1vJXdz
+        episode: 6
+        title: EM-Wissen 06 - Technische Hilfsmittel und Ausrüstung!
+        release_date: '2021-06-10'
+      - id: 7xvbYf1lSCfkbo5IvBxLwl
+        episode: 6
+        title: WM 2026-Wissen 06 - Die Maskottchen
+        release_date: '2026-06-04'
+      - id: 0Earlnp1hudWRpWZtchZQ3
+        episode: 7
+        title: EM-Wissen 07 - Trainer, Schiedsrichter und Kapitäne!
+        release_date: '2021-06-11'
+      - id: 2kpfA48D9kbljOOep80y1M
+        episode: 7
+        title: WM 2026-Wissen 07 - Neue Regeln und Richtlinien
+        release_date: '2026-06-04'
+      - id: 2i6zGEQnU38K17AwSzDFIT
+        episode: 8
+        title: WM 2026-Wissen 08 - Schiedsrichter-Special
+        release_date: '2026-06-04'
       - id: 036GNQLwnsQjeNvTSiw3u6
         title: 'WM-Wissen: Rote Karte!'
         release_date: '2018-06-15'
@@ -58997,34 +59215,86 @@ series:
       - id: 3VjRGwNViaZnjdhOs3tC8S
         title: 'Wissen zur EM 2024 - Folge 1: Die EM-Stadien und ihre Namen'
         release_date: '2024-06-07'
-      - id: 1oZ7RPYaQbcgsAPLEmrDam
-        title: WM 2026-Wissen 01 - Unsere Mannschaft
-        release_date: '2026-06-04'
-      - id: 5r3CXpPJL7wys3UN9TZZfM
-        title: WM 2026-Wissen 02 - Teilnehmer & Favoriten
-        release_date: '2026-06-04'
-      - id: 0H9MmXeVMvLfJQxKs1J3He
-        title: 'WM 2026-Wissen 03 - Die Gastgeber: USA'
-        release_date: '2026-06-04'
-      - id: 5W4tlw4vl299dYy96js4HR
-        title: 'WM 2026-Wissen 04 - Die Gastgeber: Kanada'
-        release_date: '2026-06-04'
-      - id: 52sn2HThyrEt68LGFL7GWR
-        title: 'WM 2026-Wissen 05 - Die Gastgeber: Mexiko'
-        release_date: '2026-06-04'
-      - id: 7xvbYf1lSCfkbo5IvBxLwl
-        title: WM 2026-Wissen 06 - Die Maskottchen
-        release_date: '2026-06-04'
-      - id: 2kpfA48D9kbljOOep80y1M
-        title: WM 2026-Wissen 07 - Neue Regeln und Richtlinien
-        release_date: '2026-06-04'
-      - id: 2i6zGEQnU38K17AwSzDFIT
-        title: WM 2026-Wissen 08 - Schiedsrichter-Special
-        release_date: '2026-06-04'
     apple_music:
       artist_ids:
       - '374902873'
       albums:
+      - id: '1567874902'
+        episode: 1
+        title: EM-Wissen 01 - Die Geschichte der EM - Teil 1! (1960 - 1988)
+        release_date: '2021-06-05'
+      - id: '6764538118'
+        episode: 1
+        title: WM 2026-Wissen 01 - Unsere Mannschaft
+        release_date: '2026-06-04'
+      - id: '1567875851'
+        episode: 2
+        title: EM-Wissen 02 - Die Geschichte der EM - Teil 2! (1992 - 2016)
+        release_date: '2021-06-06'
+      - id: '1742936063'
+        episode: 2
+        title: 'Wissen zur EM 2024 - Folge 2: Überraschungen der EM-Geschichte - EP'
+        release_date: '2024-06-08'
+      - id: '1895824566'
+        episode: 2
+        title: WM 2026-Wissen 02 -Teilnehmer & Favoriten
+        release_date: '2026-06-04'
+      - id: '1567876030'
+        episode: 3
+        title: EM-Wissen 03 - Der Henri Delaunay Pokal!
+        release_date: '2021-06-07'
+      - id: '1742936478'
+        episode: 3
+        title: 'Wissen zur EM 2024 - Folge 3: Das Eigentor - EP'
+        release_date: '2024-06-09'
+      - id: '1895824719'
+        episode: 3
+        title: 'WM 2026-Wissen 03 - Die Gastgeber: USA'
+        release_date: '2026-06-04'
+      - id: '1567876579'
+        episode: 4
+        title: EM-Wissen 04 - Regelwerk und Neuerungen!
+        release_date: '2021-06-08'
+      - id: '1742936475'
+        episode: 4
+        title: 'Wissen zur EM 2024 - Folge 4: Regeländerungen und Kurioses - EP'
+        release_date: '2024-06-10'
+      - id: '1895824530'
+        episode: 4
+        title: 'WM 2026-Wissen 04 - Die Gastgeber: Kanada'
+        release_date: '2026-06-04'
+      - id: '1567880262'
+        episode: 5
+        title: EM-Wissen 05 - Rekorde und Legenden!
+        release_date: '2021-06-09'
+      - id: '1747717081'
+        episode: 5
+        title: 'Wissen zur EM 2024 - Folge 5: Favoriten und Geheimtipps - EP'
+        release_date: '2024-06-11'
+      - id: '1895824573'
+        episode: 5
+        title: 'WM 2026-Wissen 05 - Die Gastgeber: Mexiko'
+        release_date: '2026-06-04'
+      - id: '1567877413'
+        episode: 6
+        title: EM-Wissen 06 - Technische Hilfsmittel und Ausrüstung!
+        release_date: '2021-06-10'
+      - id: '1895824805'
+        episode: 6
+        title: WM 2026-Wissen 06 - Die Maskottchen
+        release_date: '2026-06-04'
+      - id: '1567878139'
+        episode: 7
+        title: EM-Wissen 07 - Trainer, Schiedsrichter und Kapitäne!
+        release_date: '2021-06-11'
+      - id: '1895824903'
+        episode: 7
+        title: WM 2026-Wissen 07 - Neue Regeln und Richtlinien
+        release_date: '2026-06-04'
+      - id: '1895824959'
+        episode: 8
+        title: WM 2026-Wissen 08 - Schiedsrichter-Special
+        release_date: '2026-06-04'
       - id: '1398251896'
         title: 'WM-Wissen: Abseits!'
         release_date: '2018-06-01'
@@ -59073,30 +59343,6 @@ series:
       - id: '1742934510'
         title: 'Wissen zur EM 2024 - Folge 1:  Die EM-Stadien und ihre Namen - EP'
         release_date: '2024-06-07'
-      - id: '6764538118'
-        title: WM 2026-Wissen 01 - Unsere Mannschaft
-        release_date: '2026-06-04'
-      - id: '1895824566'
-        title: WM 2026-Wissen 02 -Teilnehmer & Favoriten
-        release_date: '2026-06-04'
-      - id: '1895824719'
-        title: 'WM 2026-Wissen 03 - Die Gastgeber: USA'
-        release_date: '2026-06-04'
-      - id: '1895824530'
-        title: 'WM 2026-Wissen 04 - Die Gastgeber: Kanada'
-        release_date: '2026-06-04'
-      - id: '1895824573'
-        title: 'WM 2026-Wissen 05 - Die Gastgeber: Mexiko'
-        release_date: '2026-06-04'
-      - id: '1895824805'
-        title: WM 2026-Wissen 06 - Die Maskottchen
-        release_date: '2026-06-04'
-      - id: '1895824903'
-        title: WM 2026-Wissen 07 - Neue Regeln und Richtlinien
-        release_date: '2026-06-04'
-      - id: '1895824959'
-        title: WM 2026-Wissen 08 - Schiedsrichter-Special
-        release_date: '2026-06-04'
   series_facts:
     sub_series:
     - label: EM 2024-Wissen
@@ -60921,12 +61167,6 @@ series:
         episode: 22
         title: 'Folge 22: Leo wird Baggerfahrer'
         release_date: '2026-04-03'
-      - id: 7L433w3xQNwWu1QlBI7bok
-        title: 'Folge 12: verläuft sich'
-        release_date: '2019-10-11'
-      - id: 51kkgolN7koCKUZs00pdO1
-        title: 'Folge 12: Verläuft sich & Auf Tour'
-        release_date: '2019-10-18'
     apple_music:
       artist_ids:
       - '263499755'
@@ -60935,9 +61175,17 @@ series:
         episode: 1
         title: Folge 1
         release_date: '2007'
+      - id: '1038084918'
+        episode: 2
+        title: Folge 2
+        release_date: '2007'
       - id: '1038096044'
         episode: 3
         title: Folge 3
+        release_date: '2007'
+      - id: '1038181251'
+        episode: 4
+        title: Folge 4
         release_date: '2007'
       - id: '1038173238'
         episode: 5
@@ -60955,10 +61203,26 @@ series:
         episode: 8
         title: Folge 8
         release_date: '2007-09-07'
+      - id: '1340438225'
+        episode: 9
+        title: Folge 9
+        release_date: '2018-02-09'
+      - id: '1340422826'
+        episode: 10
+        title: Folge 10
+        release_date: '2018-02-09'
       - id: '1475767678'
         episode: 11
         title: Folge 11
         release_date: '2019-09-06'
+      - id: '1481234515'
+        episode: 12
+        title: Folge 12
+        release_date: '2019-10-25'
+      - id: '1503065305'
+        episode: 13
+        title: 'Folge 13: Lässt sich nicht ärgern'
+        release_date: '2020-04-03'
       - id: '1534328975'
         episode: 14
         title: Folge 14
@@ -60995,24 +61259,24 @@ series:
         episode: 22
         title: 'Folge 22: Leo wird Baggerfahrer'
         release_date: '2026-04-03'
-      - id: '1038084918'
-        title: Folge 2
-        release_date: '2007'
-      - id: '1038181251'
-        title: Folge 4
-        release_date: '2007'
-      - id: '1340422826'
-        title: Folge 10
-        release_date: '2018-02-09'
-      - id: '1340438225'
-        title: Folge 9
-        release_date: '2018-02-09'
-      - id: '1481234515'
-        title: Folge 12
-        release_date: '2019-10-25'
-      - id: '1503065305'
-        title: 'Folge 13: Lässt sich nicht ärgern'
-        release_date: '2020-04-03'
+      - id: '6812363720'
+        episode: 23
+        title: 'Folge 23: Mit Teddy in der Eisenbahn'
+        release_date: '2026-10-23'
+  series_facts:
+    era_boundaries:
+    - curated_by: curate
+      curated_at: '2026-09-21T15:53:12.466066+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T07:14:01.661395+00:00'
+      label: klassik
+      release_date_range: 2007-2018
+    - curated_by: curate
+      curated_at: '2026-09-21T15:53:12.466066+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T07:14:01.661395+00:00'
+      label: neuauflage
+      release_date_range: 2019-
 - id: hexe_lilli_kinofilm
   title: Hexe Lilli (Kinofilm)
   aliases: []
