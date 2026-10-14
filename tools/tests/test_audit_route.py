@@ -21,6 +21,7 @@ from lauschi_catalog.catalog import paths
 from lauschi_catalog.catalog.audit_ops import (
     _CHUNK_FRAMING_TOKENS,
     _CHUNK_TARGET_TOKENS,
+    _DEFAULT_MODEL,
     AuditFactUpdate,
     AuditOverride,
     AuditResult,
@@ -36,9 +37,11 @@ from lauschi_catalog.catalog.audit_ops import (
 )
 from lauschi_catalog.catalog.lint_ops import lint_curation
 
-# The one-shot boundary is a model-profile constant. The audit model is
-# minimax-m2.7, whose profile was probed at 14,000 tokens.
-_AUDIT_PROFILE = get_model_profile("minimax-m2.7")
+# The one-shot boundary is a model-profile constant, probed at 14,000
+# tokens on minimax-m2.7. gemma4:31b runs on the default profile with the
+# same boundary and audited all 288 series twice without a failure
+# (2026-10-13).
+_AUDIT_PROFILE = get_model_profile(_DEFAULT_MODEL)
 _ONE_SHOT_MAX = _AUDIT_PROFILE.one_shot_max_tokens
 
 # Measured 2026-09-29 against the live catalog: the only series whose

@@ -113,7 +113,10 @@ from lauschi_catalog.run_events import (
     record_event,
 )
 
-_DEFAULT_MODEL = "kimi-k2.6"
+# Chosen 2026-10-14 over kimi-k2.6, GLM-5.3 Flash, Gemma 4 and Mistral Large 4
+# on the eval cases and two whole-catalog runs. Its settings live in
+# `_opencode._OVERRIDES["deepseek-v4"]`.
+_DEFAULT_MODEL = "deepseek-v4-pro:0813"
 
 _BATCH_SIZE = 30
 

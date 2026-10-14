@@ -14,6 +14,8 @@ the relay never has to follow a $ref. Same fix pydantic-ai uses
 for Meta, Amazon, Qwen, and OpenRouter providers.
 """
 
+import re
+
 import pydantic_ai
 import pytest
 from pydantic_ai import InlineDefsJsonSchemaTransformer
@@ -24,6 +26,7 @@ from lauschi_catalog._opencode import (
     model_api_key,
     model_host,
 )
+from lauschi_catalog.catalog import audit_ops, curate_ops
 
 
 def test_helper_returns_chat_model_with_inline_defs_transformer():
@@ -274,3 +277,17 @@ def test_the_cli_owns_its_output() -> None:
     observability is configured. The catalog CLI writes progress and
     transcripts there, so importing the model module switches it off."""
     assert pydantic_ai.BANNER_ENABLED is False
+
+
+def test_the_curator_and_the_auditor_come_from_different_model_families() -> None:
+    """The audit is a second pair of eyes only when another family's model
+    reads the curation. DeepSeek curates and Gemma audits since 2026-10-14,
+    after the eval cases and two whole-catalog runs."""
+    family = re.compile(r"[a-z]+")
+    curator = curate_ops._DEFAULT_MODEL
+    auditor = audit_ops._DEFAULT_MODEL
+    assert (curator, auditor) == ("deepseek-v4-pro:0813", "gemma4:31b")
+    assert family.match(curator).group() != family.match(auditor).group()
+    # Both run with the settings their rounds were measured at.
+    assert get_model_settings("curate", curator).get("openai_reasoning_effort") == "low"
+    assert get_model_settings("audit", auditor).get("openai_reasoning_effort") == "high"

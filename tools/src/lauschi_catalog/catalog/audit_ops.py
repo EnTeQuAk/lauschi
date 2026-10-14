@@ -69,7 +69,11 @@ from lauschi_catalog.run_events import (
     record_event,
 )
 
-_DEFAULT_MODEL = "minimax-m2.7"
+# Another family than the curator, so the audit is a second pair of eyes.
+# Chosen 2026-10-14: as auditor of two whole-catalog runs its escalations
+# caught the big slips in 30 minutes per run, where minimax-m2.7 took
+# about 40 for a twelve-series sample and excluded real episodes.
+_DEFAULT_MODEL = "gemma4:31b"
 
 AuditRoute = Literal["one_shot", "chunked"]
 

@@ -44,10 +44,12 @@ agents' `lookup_reference_lines` tool and `lauschi-catalog reference <title>`
 (a brand's lines and their numbered episodes; lags on new releases, so
 absence there proves nothing).
 
-Default models: `kimi-k2.6` curates, `minimax-m2.7` audits. The 4-eye
-principle requires two different model families. Curate and audit pin
-temperature 0 and seed 42 for reproducibility, finalize too.
-Per-model and per-phase overrides live in `_opencode.py` (`get_model_settings`).
+Default models: `deepseek-v4-pro:0813` curates, `gemma4:31b` audits. The
+4-eye principle requires two different model families. The phases default
+to temperature 0 and seed 42, and each model's measured settings (DeepSeek
+at low thinking effort, Gemma with thinking on and its vendor's sampling)
+live in `_opencode.py` (`get_model_settings`). Two runs of a series can
+still differ, since neither model repeats itself at those settings.
 
 **Full pipeline** (runs autonomously, takes hours for the full catalog; a
 failing stage does not stop the later ones, so check the log and
