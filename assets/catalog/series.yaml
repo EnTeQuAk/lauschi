@@ -47211,6 +47211,9 @@ series:
       - id: '1441657175'
         title: Best Of!
         release_date: '2019-01-04'
+      - id: '1484894644'
+        title: Weckt den Weihnachtsmann
+        release_date: '2019-11-08'
       - id: '1535797969'
         title: Best Of! Vol. 2
         release_date: '2020-11-13'
@@ -50736,6 +50739,9 @@ series:
       - id: 77A7jHEXzkqMcH9tbIpkVd
         title: 'Alle lieben Kinderlieder: Mutmacher'
         release_date: '2026-03-20'
+      - id: 4FktVHC3otIVOWNuHagNDs
+        title: 'Alle lieben Libatiba: Best of'
+        release_date: '2026-05-08'
       - id: 1YD7jcjr20VzoeoSt8EzfI
         title: 'Alle lieben Kinderlieder: Spielen'
         release_date: '2026-07-24'
@@ -50785,6 +50791,9 @@ series:
       - id: '1884671050'
         title: 'Alle lieben Kinderlieder: Mutmacher'
         release_date: '2026-03-20'
+      - id: '6766514499'
+        title: 'Alle lieben Libatiba: Best of'
+        release_date: '2026-05-08'
       - id: '6791228937'
         title: 'Alle lieben Kinderlieder: Spielen - EP'
         release_date: '2026-07-24'
@@ -50826,9 +50835,18 @@ series:
       - id: 6SUd6078b9X0fPlQuXi8nE
         title: Big Bobby Car - Das Original-Liederalbum
         release_date: '2012-02-03'
+      - id: 2QsRd5HesfRfpxcUW2BISr
+        title: Summ, Summ, Summ! - Die beliebtesten Kindergartenlieder
+        release_date: '2012-09-28'
       - id: 6alaUHQkEXlwqoL6kJAjKm
         title: Von Farbenfeen und Stinkesocken
         release_date: '2013-11-01'
+      - id: 6eDDX5gAtuCrsBtRIHpR4q
+        title: Summ, Summ, Summ! - Die beliebtesten Weihnachtslieder
+        release_date: '2013-11-15'
+      - id: 6O6pb3uC4hFYMwFPiBkck3
+        title: 'Summ, Summ, Summ!: Die beliebtesten Spiel- und Bewegungslieder'
+        release_date: '2014-05-23'
       - id: 3R2ipwgqxdZkIUlvmGLbge
         title: Summ, Summ, Summ! - Die beliebtesten Schlaflieder
         release_date: '2014-10-24'
@@ -50853,6 +50871,9 @@ series:
       - id: 21nyObBKjiIUtVXYmA4tVk
         title: Frederick und seine Mäusefreunde - Das Liederalbum zu den Büchern
         release_date: '2020-05-29'
+      - id: 6zaIi89MZCZeZHpl7lojle
+        title: Summ, Summ, Summ! - Best Of
+        release_date: '2020-07-31'
       - id: 7r855N0wTZTFxyiFntXUsz
         title: Lauras Stern - Das Liederalbum zum Kinofilm
         release_date: '2020-11-13'
@@ -50932,12 +50953,21 @@ series:
       - id: '497692097'
         title: Big Bobby Car - Das Original-Liederalbum
         release_date: '2012-02-03'
+      - id: '1679830825'
+        title: Summ, Summ, Summ! - Die beliebtesten Kindergartenlieder
+        release_date: '2012-09-28'
       - id: '732822191'
         title: Von Farbenfeen und Stinkesocken
         release_date: '2013-11-01'
+      - id: '1484828818'
+        title: Summ, Summ, Summ! Die beliebtesten Weihnachtslieder
+        release_date: '2013-11-15'
       - id: '1530811829'
         title: Summ, Summ, Summ! Die beliebtesten Partylieder (inkl. Instrumentalversionen aller Titel)
         release_date: '2014-01-31'
+      - id: '1530921670'
+        title: 'Summ, Summ, Summ!: Die beliebtesten Spiel- und Bewegungslieder'
+        release_date: '2014-05-23'
       - id: '929750080'
         title: Summ, summ, summ! (Die beliebtesten Schlaflieder)
         release_date: '2014-10-24'
@@ -50959,6 +50989,9 @@ series:
       - id: '1512984030'
         title: Frederick und seine Mäusefreunde - Das Liederalbum zu den Büchern
         release_date: '2020-05-29'
+      - id: '1520401342'
+        title: Summ, Summ, Summ! - Best Of
+        release_date: '2020-07-31'
       - id: '1534901921'
         title: Das Liederalbum zum neuen Kinofilm (Music Inspired By the Film)
         release_date: '2020-11-13'
@@ -51536,6 +51569,15 @@ series:
       - id: 6vSRPCkAhubRtCVxCR30R5
         title: Meine Mütze und Ich
         release_date: '2023-06-16'
+      - id: 7vRfpRJpKagmJMkp9zPXwF
+        title: Unsere acht Planeten (Dein Sonnensystem)
+        release_date: '2025-10-03'
+      - id: 0i1ZVdhvZswHbdYgtzJAkQ
+        title: Es gibt Nudeln
+        release_date: '2025-11-14'
+      - id: 2j06RpfUXMOjMv9TJaYusk
+        title: Wir machen Party
+        release_date: '2026-01-09'
       - id: 0QuEWKrCi53NtuCzRpvpyR
         title: Lieblingsfarbe Bunt
         release_date: '2026-03-20'
@@ -51564,6 +51606,15 @@ series:
       - id: '1683300044'
         title: Meine Mütze und Ich
         release_date: '2023-06-16'
+      - id: '1829428662'
+        title: Unsere acht Planeten (Dein Sonnensystem) - EP
+        release_date: '2025-10-03'
+      - id: '1849439119'
+        title: Es gibt Nudeln - EP
+        release_date: '2025-11-14'
+      - id: '1860326577'
+        title: Wir machen Party - EP
+        release_date: '2026-01-09'
       - id: '1879479054'
         title: Lieblingsfarbe Bunt
         release_date: '2026-03-20'
