@@ -39376,6 +39376,10 @@ series:
         episode: 17
         title: 'Folge 17: Schmutzige Geschäfte/Die Marmeladen-Erpressung'
         release_date: '2026-08-14'
+      - id: 5V2G72F2l8MI4nqB03etn9
+        episode: 18
+        title: 'Folge 18: Gefangen im Geheimgang/Raub im Kino'
+        release_date: '2026-10-09'
     apple_music:
       artist_ids:
       - '1710728106'
@@ -39448,6 +39452,10 @@ series:
         episode: 17
         title: 'Folge 17: Schmutzige Geschäfte/Die Marmeladen-Erpressung'
         release_date: '2026-08-14'
+      - id: '6788311127'
+        episode: 18
+        title: 'Folge 18: Gefangen im Geheimgang/Raub im Kino'
+        release_date: '2026-10-09'
   episode_pattern: '^Folge (\d+):'
 - id: gespensterjaeger
   title: Gespensterjäger
@@ -52197,24 +52205,38 @@ series:
       albums:
       - id: 1qeC46YljMqrPYpc7oFHB4
         title: Für Alle!
+        release_date: '2023-11-17'
       - id: 5IBnYAEVzZqYFQ2QZHqYEh
         title: Eine große Überraschung
+        release_date: '2025-03-21'
       - id: 7I4TNaj0XZa6zO8khlSzpb
         title: Komm spielen!
+        release_date: '2025-11-21'
       - id: 29uDtVqPzAP4LzyJbkSomY
         title: Zum Einschlafen
+        release_date: '2026-03-13'
+      - id: 4X5LaxbDWc6x1fXX4NshgV
+        title: Ihre größten Hits (bis jetzt)
+        release_date: '2026-05-08'
     apple_music:
       artist_ids:
       - '1703558817'
       albums:
       - id: '1712642902'
         title: Für Alle!
+        release_date: '2023-11-17'
       - id: '1797538373'
         title: Eine große Überraschung
+        release_date: '2025-03-21'
       - id: '1835413540'
         title: Komm spielen!
+        release_date: '2025-11-21'
       - id: '1882369442'
         title: Zum Einschlafen
+        release_date: '2026-03-13'
+      - id: '1887885881'
+        title: Ihre größten Hits (bis jetzt)
+        release_date: '2026-05-08'
   content_type: music
 - id: marko_simsa
   title: Marko Simsa
