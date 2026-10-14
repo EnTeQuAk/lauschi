@@ -44603,6 +44603,9 @@ series:
       - id: 5Lvy6ZClAUg6UcDKkLaUU4
         title: Das Weihnachtsalbum
         release_date: '2020-11-13'
+      - id: 3zfA8TCG5oQo5Qx3PWYPEy
+        title: Hits! Hits! Hits!
+        release_date: '2022-04-08'
       - id: 0xho893g9OpvQB3U4if2xG
         title: Weihnachtslieder für Kinder
         release_date: '2022-11-18'
@@ -44612,6 +44615,21 @@ series:
       - id: 1baVvUSMWNbrNsoeE9FEty
         title: Eine kleine Livemusik - EP
         release_date: '2023-12-15'
+      - id: 5ddyjbSZe6YH1adiCRiaNJ
+        title: Lustige Lieder
+        release_date: '2024-05-24'
+      - id: 7rZL6o9XXDPjzsughSN35E
+        title: Hits für Schulkinder
+        release_date: '2024-08-23'
+      - id: 4jiR3MBCU3uz33T7L5olWk
+        title: Hits für den Kindergeburtstag
+        release_date: '2024-09-20'
+      - id: 432whneUEeGiBAUJCDiiwR
+        title: Kita Hits
+        release_date: '2024-10-25'
+      - id: 7htiVyr3RIiMT6H6JTJo9X
+        title: Weihnachtslieder
+        release_date: '2024-11-22'
       - id: 7rhXqnfugjWLVzbigSoDWG
         title: Die Kinder spielen verrückt
         release_date: '2026-05-07'
@@ -44637,6 +44655,9 @@ series:
       - id: '1533940754'
         title: Das Weihnachtsalbum
         release_date: '2020-11-13'
+      - id: '1614794901'
+        title: Hits! Hits! Hits!
+        release_date: '2022-04-08'
       - id: '1653026195'
         title: Weihnachtslieder für Kinder - EP
         release_date: '2022-11-18'
@@ -44646,6 +44667,24 @@ series:
       - id: '1719273950'
         title: Eine kleine Livemusik - EP (Live)
         release_date: '2023-12-15'
+      - id: '1745156876'
+        title: Lustige Lieder
+        release_date: '2024-05-24'
+      - id: '1755666332'
+        title: Familienzeit
+        release_date: '2024-07-26'
+      - id: '1760652774'
+        title: Hits für Schulkinder
+        release_date: '2024-08-23'
+      - id: '1765631437'
+        title: Hits für den Kindergeburtstag
+        release_date: '2024-09-20'
+      - id: '1774532173'
+        title: Kita Hits
+        release_date: '2024-10-25'
+      - id: '1779133784'
+        title: Weihnachtslieder
+        release_date: '2024-11-22'
       - id: '1882694880'
         title: Die Kinder spielen verrückt
         release_date: '2026-05-07'
