@@ -687,7 +687,14 @@ def core_title(title: str, series_names: list[str]) -> str:
                 break
         if t.startswith(name):
             t = t[len(name) :].lstrip(" :-–")
-    return " ".join(t.split())
+    core = " ".join(t.split())
+    # What is left outside parentheses names the episode. When nothing is,
+    # the stripping took that part too: Sing's alias is its second film's
+    # title, and both films came down to "(das original-hörspiel zum
+    # kinofilm)". The whole title is what tells such albums apart.
+    if not re.sub(r"\([^)]*\)?", "", core).strip(" :-–"):
+        return normalize_title(title)
+    return core
 
 
 def _settle_same_provider_duplicates(

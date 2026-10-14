@@ -139,3 +139,25 @@ def test_an_alias_the_run_proposes_does_not_make_two_albums_one():
     )
 
     assert all(d.include for d in settled)
+
+
+def test_two_films_whose_titles_leave_only_decoration_are_both_kept():
+    """Sing's alias is its second film's title. Stripped of "Sing" and of
+    "Sing - Die Show deines Lebens", both Hörspiele left the same
+    "(Das Original-Hörspiel zum Kinofilm)", and the first film went out
+    as a duplicate of the second (2026-10-14). What is left outside the
+    parentheses names the episode, and here nothing is."""
+    names = ["Sing", "Sing - Die Show deines Lebens"]
+    first = decision(
+        "first",
+        title="Sing (Das Original-Hörspiel zum Kinofilm)",
+        release_date="2021-12-03",
+    )
+    second = decision(
+        "second",
+        title="Sing - Die Show deines Lebens (Das Original-Hörspiel zum Kinofilm)",
+        release_date="2022-02-18",
+    )
+    out = _settle_same_provider_duplicates([first, second], [], series_names=names)
+    assert [d.include for d in out] == [True, True]
+    assert core_title(first.title, names) == "sing (das original-hörspiel zum kinofilm)"
