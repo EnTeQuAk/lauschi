@@ -13,6 +13,7 @@ from pydantic_evals import Case, Dataset
 from pydantic_evals.reporting import EvaluationReport
 from rich.console import Console
 
+from lauschi_catalog.catalog import curate_ops
 from tests.evals.case_files import load_cases
 from tests.evals.evaluators import CatalogOutcome, DecisionsCorrect
 from tests.evals.run_evals import (
@@ -27,7 +28,7 @@ from tests.evals.run_evals import (
     save_report,
     summarize,
 )
-from tests.evals.task import BatchResult
+from tests.evals.task import DEFAULT_MODEL, BatchResult
 from tests.factories import decision
 
 EXPECTED = {
@@ -147,7 +148,11 @@ def test_model_requests_are_added_up_over_the_cases() -> None:
 
 
 def test_the_curator_models_run_is_the_baseline() -> None:
-    assert results_path("kimi-k2.6") == BASELINE
+    """The baseline is the pipeline's curator, so a prompt change is
+    printed against the model that curates the catalog."""
+    assert DEFAULT_MODEL == curate_ops._DEFAULT_MODEL
+    assert results_path(curate_ops._DEFAULT_MODEL) == BASELINE
+    assert results_path("kimi-k2.6") == BASELINE.parent / "results" / "kimi-k2.6.json"
 
 
 def test_another_models_run_never_goes_over_the_baseline() -> None:

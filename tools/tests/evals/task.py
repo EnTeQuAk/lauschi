@@ -21,6 +21,7 @@ from pydantic_ai.models import Model
 
 from lauschi_catalog._opencode import build_model, model_api_key
 from lauschi_catalog.catalog.curate_ops import (
+    _DEFAULT_MODEL,
     AlbumDecision,
     BatchAnswer,
     CurateDeps,
@@ -36,7 +37,7 @@ from lauschi_catalog.catalog.episode_range import numbers_released_alone, range_
 from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
 
 #: the curator the pipeline runs with, and whose saved run is the baseline
-DEFAULT_MODEL = "kimi-k2.6"
+DEFAULT_MODEL = _DEFAULT_MODEL
 MODEL_NAME = os.environ.get("EVAL_MODEL", DEFAULT_MODEL)
 
 

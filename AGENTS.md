@@ -239,8 +239,8 @@ runs side by side:
 
 ```bash
 EVAL_MODEL=gemma4:31b mise run catalog-evals -- --save
-mise run catalog-evals -- --save-as "kimi-k2.6 round 2"
-mise run catalog-evals -- --compare tests/evals/baseline.json tests/evals/results/gemma4-31b.json
+mise run catalog-evals -- --save-as "round 2"
+mise run catalog-evals -- --compare tests/evals/baseline.json tests/evals/results/kimi-k2.6.json
 ```
 
 A saved run also holds what the model answered per album: the decision,

@@ -7,8 +7,8 @@ Usage:
     mise run catalog-evals -- --save        # keep the run as the baseline
     mise run catalog-evals -- --cases a,b --save   # replace only a and b in it
     EVAL_MODEL=gemma4:31b mise run catalog-evals -- --save   # results/gemma4-31b.json
-    mise run catalog-evals -- --save-as "kimi-k2.6 round 2"  # results/kimi-k2.6-round-2.json
-    mise run catalog-evals -- --compare tests/evals/baseline.json tests/evals/results/gemma4-31b.json
+    mise run catalog-evals -- --save-as "round 2"   # results/round-2.json
+    mise run catalog-evals -- --compare tests/evals/baseline.json tests/evals/results/kimi-k2.6.json
 
 A case calls the model and its tools for real, so two runs of one case
 can differ. Repeats show that as a spread instead of as a result. A run
@@ -19,7 +19,7 @@ lauschi_catalog._opencode.model_host).
 A run is traced to Logfire like a CLI run, when the checkout holds a
 Logfire credential (see "Tracing agent runs" in AGENTS.md).
 Set EVAL_MODEL to run the cases with another model than the curator's
-(kimi-k2.6). Such a run is saved under results/, never over the baseline,
+(curate_ops._DEFAULT_MODEL). Such a run is saved under results/, never over the baseline,
 and is still printed against the baseline.
 """
 
