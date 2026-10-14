@@ -3725,6 +3725,10 @@ series:
         episode: 165
         title: 'Folge 165: Die doppelte Klassenfahrt'
         release_date: '2026-08-14'
+      - id: 1YqGMeqoMg0eeTNYvFjOQx
+        episode: 166
+        title: 'Folge 166: Das verhexte Labyrinth'
+        release_date: '2026-10-09'
       - id: 4tjQJ8CEeQu8E8cf23aNnj
         title: Der verhexte Weihnachtsmarkt [Der Adventskalender zum Hören]
         release_date: '2012-11-16'
@@ -4394,6 +4398,10 @@ series:
         episode: 166
         title: 'Folge 166: Das verhexte Labyrinth'
         release_date: '2026-10-09'
+      - id: '6817103385'
+        episode: 167
+        title: 'Folge 167: Das Winterhexenfest'
+        release_date: '2026-11-13'
       - id: '1069121458'
         title: Der verhexte Weihnachtsmarkt (Der Adventskalender zum Hören)
         release_date: '2012-11-16'
@@ -61478,6 +61486,9 @@ series:
       - id: 1BsPIjY5OGVilHg51ZURXI
         title: 'Bibi Blocksberg: Das große Hexentreffen (Das Original-Hörspiel zum Kinofilm)'
         release_date: '2025-12-12'
+      - id: 6Kezsng0VqIm0M8RXN9O8R
+        title: 'Bibi Blocksberg: Die total verhexte Zeitreise (Das Original-Hörspiel zum Kinofilm)'
+        release_date: '2026-09-25'
     apple_music:
       artist_ids:
       - '41480004'
@@ -61543,6 +61554,18 @@ series:
         episode: 7
         title: 'Kampf um Kartoffelbrei (Special) - Teil 7: Mutige Junghexen'
         release_date: '2025-07-11'
+      - id: 7CDNI7CgMnR438Rrg8l2Dq
+        episode: 8
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 8: Mania greift ein'
+        release_date: '2025-08-08'
+      - id: 2vS11F2lZ3gt85jebic2q6
+        episode: 9
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 9: Karla in Gefahr'
+        release_date: '2025-09-12'
+      - id: 2m337lLnqHXhZZOCusT4ZX
+        episode: 10
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 10: Die verhexte Fledermaus'
+        release_date: '2025-10-17'
     apple_music:
       artist_ids:
       - '41480004'
@@ -61676,6 +61699,9 @@ series:
       - id: 7HaemL752TozKMqkQ0OGqi
         title: 'Kurzhörspiele - Bibi erzählt: Neustadtgeschichten'
         release_date: '2026-03-06'
+      - id: 4pJk9KXJPxIQsb8iEVm1tn
+        title: 'Kurzhörspiele - Bibi erzählt: Internatsgeschichten'
+        release_date: '2026-09-04'
     apple_music:
       artist_ids:
       - '41480004'
