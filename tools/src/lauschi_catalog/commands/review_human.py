@@ -7,6 +7,7 @@ with actionable commands.
 import click
 from rich import box
 from rich.console import Console
+from rich.markup import escape
 from rich.table import Table
 
 from lauschi_catalog.catalog.io import iter_curations
@@ -133,6 +134,10 @@ def review_human(status: tuple[str, ...], detail: bool):
                     "",
                 )
             concerns = item["review"].get("concerns", [])
+            for c in concerns:
+                if isinstance(c, str) and c.startswith("[fact_flag]"):
+                    table.add_row("", f"  [yellow]{escape(c)}[/yellow]", "")
+            concerns = [c for c in concerns if not str(c).startswith("[fact_flag]")]
             if concerns:
                 for c in concerns[:3]:
                     reason = c if isinstance(c, str) else c.get("reason", "")

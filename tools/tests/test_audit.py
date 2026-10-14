@@ -645,7 +645,9 @@ class TestApplyAuditMultipleFactUpdates:
                 approve=True,
                 fact_updates=fact_updates,
             )
-            apply_audit("test_series", result, model_name="test-model")
+            apply_audit(
+                "test_series", result, model_name="test-model", apply_overrides=True
+            )
         finally:
             monkeypatch.undo()
 

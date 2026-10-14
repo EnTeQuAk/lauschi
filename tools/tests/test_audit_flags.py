@@ -13,7 +13,13 @@ from pathlib import Path
 import pytest
 from click.testing import CliRunner
 
-from lauschi_catalog.catalog.audit_ops import AuditOverride, AuditResult, apply_audit
+from lauschi_catalog.catalog.audit_ops import (
+    AuditFactUpdate,
+    AuditOverride,
+    AuditResult,
+    apply_audit,
+)
+from lauschi_catalog.catalog.facts import EraBoundaryProposal
 from lauschi_catalog.catalog.lifecycle import open_flags
 from lauschi_catalog.commands.review_human import review_human
 
@@ -155,3 +161,120 @@ def test_review_lists_a_flagged_series_with_its_flags(root: Path) -> None:
     assert "flagged" in out.output
     assert "Folge 1: Der Anfang" in out.output
     assert "a reading" in out.output
+
+
+# ── series facts: the same rule ─────────────────────────────────────────
+
+
+def _with_facts(root: Path, facts: dict) -> None:
+    data = _curation()
+    data["series_facts"] = facts
+    (root / "assets/catalog/curation/s.json").write_text(json.dumps(data))
+
+
+_ERA = {"label": "klassik", "release_date_range": "1996-2015", "curated_by": "curator"}
+
+
+def test_restating_the_curators_fact_confirms_it(root: Path) -> None:
+    _with_facts(root, {"era_boundaries": [dict(_ERA)]})
+    update = AuditFactUpdate(
+        era_boundaries=[
+            EraBoundaryProposal(label="klassik", release_date_range="1996-2015")
+        ]
+    )
+    action = apply_audit(
+        "s", AuditResult(approve=True, fact_updates=[update]), model_name="critic"
+    )
+    era = _read(root)["series_facts"]["era_boundaries"][0]
+    assert action == "overridden"
+    assert era["audited_by"] == "critic"
+    assert era["curated_by"] == "curator"
+
+
+def test_a_fact_the_auditor_adds_is_a_flag(root: Path) -> None:
+    """Gemma gave Bullerbü two eras of its own on 2026-10-14 and stamped
+    them audited by itself."""
+    _with_facts(root, {"era_boundaries": []})
+    update = AuditFactUpdate(
+        era_boundaries=[
+            EraBoundaryProposal(label="klassiker", release_date_range="1949-1950")
+        ]
+    )
+    action = apply_audit(
+        "s", AuditResult(approve=True, fact_updates=[update]), model_name="critic"
+    )
+    data = _read(root)
+    assert action == "flagged"
+    assert data["series_facts"]["era_boundaries"] == []
+    assert any(
+        c.startswith("[fact_flag]") and "klassiker" in c
+        for c in data["review"]["concerns"]
+    )
+
+
+def test_a_changed_fact_is_a_flag_and_stays_as_it_was(root: Path) -> None:
+    _with_facts(root, {"era_boundaries": [dict(_ERA)]})
+    update = AuditFactUpdate(
+        era_boundaries=[
+            EraBoundaryProposal(label="klassik", release_date_range="1996-2019")
+        ]
+    )
+    apply_audit(
+        "s", AuditResult(approve=True, fact_updates=[update]), model_name="critic"
+    )
+    data = _read(root)
+    assert data["series_facts"]["era_boundaries"] == [_ERA]
+    assert any(
+        "[fact_flag]" in c and "1996-2019" in c for c in data["review"]["concerns"]
+    )
+
+
+def test_a_replace_that_drops_facts_is_a_flag(root: Path) -> None:
+    """Gemma's replace wiped two audited eras and two known gaps of Hexe
+    Lilli's Erstlesergeschichten on 2026-10-14."""
+    gap = {"number": 7, "reason": "starts at 8", "curated_by": "curator"}
+    _with_facts(root, {"era_boundaries": [dict(_ERA)], "known_gaps": [dict(gap)]})
+    action = apply_audit(
+        "s",
+        AuditResult(approve=True, fact_updates=[AuditFactUpdate(mode="replace")]),
+        model_name="critic",
+    )
+    data = _read(root)
+    assert action == "flagged"
+    assert data["series_facts"]["era_boundaries"] == [_ERA]
+    assert data["series_facts"]["known_gaps"] == [gap]
+    concerns = [c for c in data["review"]["concerns"] if c.startswith("[fact_flag]")]
+    assert len(concerns) == 2
+
+
+def test_apply_overrides_lets_the_auditor_write_facts(root: Path) -> None:
+    _with_facts(root, {"era_boundaries": []})
+    update = AuditFactUpdate(
+        era_boundaries=[
+            EraBoundaryProposal(label="klassiker", release_date_range="1949-1950")
+        ]
+    )
+    apply_audit(
+        "s",
+        AuditResult(approve=True, fact_updates=[update]),
+        model_name="critic",
+        apply_overrides=True,
+    )
+    eras = _read(root)["series_facts"]["era_boundaries"]
+    assert [e["label"] for e in eras] == ["klassiker"]
+
+
+def test_review_lists_every_fact_flag(root: Path) -> None:
+    _with_facts(root, {"era_boundaries": []})
+    eras = [
+        EraBoundaryProposal(label=f"era{i}", release_date_range=f"{1990 + i}-")
+        for i in range(4)
+    ]
+    apply_audit(
+        "s",
+        AuditResult(approve=True, fact_updates=[AuditFactUpdate(era_boundaries=eras)]),
+        model_name="critic",
+    )
+    out = CliRunner().invoke(review_human, ["-d", "-s", "approved"], terminal_width=200)
+    assert out.exit_code == 0, out.output
+    assert all(f"era{i}" in out.output for i in range(4))

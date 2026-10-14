@@ -172,8 +172,11 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
    Overrides are recorded, not applied: each one that would flip an album
    is a flag, and the series counts as flagged in `catalog-review` until a
    person decides those albums with `catalog-edit` (an approved series is
-   still applied with the curator's decisions). `audit --apply-overrides`
-   lets an approving audit flip the albums itself.
+   still applied with the curator's decisions). Facts work the same way:
+   a fact the audit restates as the curator wrote it is confirmed, and one
+   it would add, change or remove is a `[fact_flag]` concern.
+   `audit --apply-overrides` lets an approving audit flip the albums and
+   write the facts itself.
 
 4. **Lint** (`lint`): Deterministic findings over curations: episode gaps,
    duplicates, regressions against the previous curation, unaudited facts.

@@ -1133,6 +1133,66 @@ _FACT_IDENTITY_KEY: dict[str, str] = {
 }
 
 
+#: What a fact says besides its identity. A restatement that matches these
+#: confirms the curator's fact; free-text reasons are left out.
+_FACT_CONTENT: dict[str, str] = {
+    "era_boundaries": "release_date_range",
+    "known_gaps": "range_end",
+    "sub_series": "album_ids",
+}
+
+
+def _same_fact_content(key: str, held: dict, proposed: dict) -> bool:
+    field_name = _FACT_CONTENT[key]
+    if key == "sub_series":
+        return set(held.get(field_name) or []) == set(proposed.get(field_name) or [])
+    return held.get(field_name) == proposed.get(field_name)
+
+
+def _confirm_or_flag_facts(
+    series_facts: dict, update: AuditFactUpdate, *, by: str, at: str
+) -> list[str]:
+    """Confirm the curator's facts the auditor restates, flag the rest.
+
+    A restated fact with the same content gets the auditor's stamp, which
+    is the second pair of eyes apply waits for. A fact the auditor would
+    add, change, or (in replace mode) remove leaves the facts as they are
+    and comes back as a ``[fact_flag]`` concern for a person.
+    """
+    flags: list[str] = []
+    for key, items in [
+        ("era_boundaries", update.era_boundaries),
+        ("known_gaps", update.known_gaps),
+        ("sub_series", update.sub_series),
+    ]:
+        id_field = _FACT_IDENTITY_KEY[key]
+        held = {e.get(id_field): e for e in series_facts.get(key, [])}
+        named: set[object] = set()
+        for item in items:
+            ident = getattr(item, id_field)
+            named.add(ident)
+            proposed = item.model_dump()
+            current = held.get(ident)
+            if current is not None and _same_fact_content(key, current, proposed):
+                current["audited_by"] = by
+                current["audited_at"] = at
+                continue
+            verb = "add" if current is None else "change"
+            detail = ", ".join(
+                f"{k}={v}" for k, v in proposed.items() if k != id_field and v
+            )
+            flags.append(
+                f"[fact_flag] the auditor would {verb} {key} {ident}: {detail}"
+            )
+        if update.mode == "replace":
+            flags.extend(
+                f"[fact_flag] the auditor would remove {key} {ident}"
+                for ident in held
+                if ident not in named
+            )
+    return flags
+
+
 def _merge_facts(
     series_facts: dict,
     update: AuditFactUpdate,
@@ -1200,8 +1260,10 @@ def apply_audit(
 
     The overrides of an approving audit are flags for a person: recorded
     in ``review.overrides`` and as concerns, while every album keeps the
-    curator's decision (``lifecycle.open_flags`` lists them). With
-    ``apply_overrides`` they flip the albums instead. gemma4:31b's
+    curator's decision (``lifecycle.open_flags`` lists them). Fact updates
+    follow the same rule: one that restates a curator's fact confirms it,
+    any other is a ``[fact_flag]`` concern. With ``apply_overrides`` they
+    flip the albums and write the facts instead. gemma4:31b's
     overrides went against the reviewed catalog about two to one in the
     whole-catalog runs of 2026-10, so a person decides.
 
@@ -1339,6 +1401,11 @@ def apply_audit(
             update, included_eps, series_facts.get("era_boundaries") or []
         )
         unknown_concerns.extend(refused)
+        if not apply_overrides:
+            flag_concerns.extend(
+                _confirm_or_flag_facts(series_facts, update, by=model_name, at=now)
+            )
+            continue
         if update.mode == "replace":
             series_facts["era_boundaries"] = [
                 {**e.model_dump(), **prov} for e in update.era_boundaries
