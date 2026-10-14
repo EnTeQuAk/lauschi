@@ -278,3 +278,29 @@ def test_review_lists_every_fact_flag(root: Path) -> None:
     out = CliRunner().invoke(review_human, ["-d", "-s", "approved"], terminal_width=200)
     assert out.exit_code == 0, out.output
     assert all(f"era{i}" in out.output for i in range(4))
+
+
+def test_ignored_overrides_do_not_count_toward_the_volume_rule(root: Path) -> None:
+    """Honigkuchenpferde escalated on 8 flips that were all on albums
+    decided by hand, which the audit ignores anyway (2026-10-14)."""
+    data = _curation()
+    data["albums"] = [
+        {
+            "album_id": f"a{i}",
+            "provider": "spotify",
+            "include": False,
+            "title": f"Lied {i} - Single",
+            "exclude_reason": "music_single",
+            "decided_by": "operator",
+        }
+        for i in range(1, 21)
+    ]
+    (root / "assets/catalog/curation/s.json").write_text(json.dumps(data))
+    overrides = [_override(f"a{i}", "include") for i in range(1, 9)]
+    action = apply_audit(
+        "s", AuditResult(approve=True, overrides=overrides), model_name="critic"
+    )
+    concerns = _read(root)["review"]["concerns"]
+    assert action == "approved"
+    assert not any("[override-volume]" in c for c in concerns)
+    assert sum("[decided_by_hand]" in c for c in concerns) == 8

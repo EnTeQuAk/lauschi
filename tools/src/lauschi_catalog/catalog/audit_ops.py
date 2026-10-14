@@ -1245,6 +1245,47 @@ def _drop_included_gaps(
     return update.model_copy(update={"known_gaps": kept}), refused
 
 
+def _ignored_override(
+    o: AuditOverride, album: dict | None, series_id: str | None
+) -> str | None:
+    """Why the audit leaves this override alone, as a concern, or None
+    when it is one to flag or apply."""
+    if album is None:
+        return (
+            f"[unknown_album_id] {o.provider}:{o.album_id} is not an album "
+            f"in this curation; override ignored"
+        )
+    owner = None if album.get("include") else bleed_owner(album.get("notes"))
+    if owner is not None and owner != series_id:
+        return (
+            f"[owned_elsewhere] {o.provider}:{o.album_id} belongs to "
+            f"'{owner}' and is audited there; override ignored"
+        )
+    if album.get("decided_by") == "operator":
+        # A person decided this album and knows what the auditor does
+        # not. The disagreement is theirs to read, not ours to apply.
+        return (
+            f"[decided_by_hand] {o.provider}:{o.album_id} "
+            f"({album.get('title', '')}) was decided by hand; the auditor "
+            f"would {o.action} it ({o.reason}); override ignored"
+        )
+    if (
+        album.get("include")
+        and album.get("decided_by") == AWAITS_SPLIT
+        and o.action == "exclude"
+        and normalize_exclude_reason(o.reason) == "sub_series_bleed"
+    ):
+        # The main series ships it and its line has no entry yet, so
+        # leaving it to that line would take it out of the catalog.
+        return (
+            f"[awaits_split] {o.provider}:{o.album_id} "
+            f"({album.get('title', '')}) stays in this series until its "
+            f"line has an entry; the auditor would leave it to that line "
+            f"({o.reason}); override ignored"
+        )
+    return None
+
+
 def apply_audit(
     series_id: str,
     result: AuditResult,
@@ -1290,15 +1331,16 @@ def apply_audit(
     albums = data.get("albums", [])
     reviewed = _audit_scope(data)[0].get("albums", [])
     override_cap = max(5, len(reviewed) // 20)
-    included = {
-        (a.get("provider"), a["album_id"]): bool(a.get("include")) for a in albums
-    }
+    albums_by_key = {(a.get("provider"), a["album_id"]): a for a in albums}
     # Only a flip changes what ships; naming the reason of an album that
-    # is already excluded does not.
+    # is already excluded does not, and neither does an override the
+    # audit ignores.
     flips = [
         o
         for o in result.overrides
-        if included.get((o.provider, o.album_id)) != (o.action == "include")
+        if (album := albums_by_key.get((o.provider, o.album_id))) is not None
+        and _ignored_override(o, album, data.get("id")) is None
+        and bool(album.get("include")) != (o.action == "include")
     ]
     cap_concerns: list[str] = []
     if len(flips) > override_cap:
@@ -1310,50 +1352,17 @@ def apply_audit(
 
     escalated = bool(hard_flags) or not result.approve or bool(cap_concerns)
 
-    albums_by_key = {(a.get("provider"), a["album_id"]): a for a in albums}
     unknown_concerns: list[str] = []
     flag_concerns: list[str] = []
     flipping = {(o.provider, o.album_id) for o in flips}
     existing_overrides = {o["album_id"]: o for o in review.get("overrides", [])}
     for o in result.overrides:
         album = albums_by_key.get((o.provider, o.album_id))
-        if album is None:
-            unknown_concerns.append(
-                f"[unknown_album_id] {o.provider}:{o.album_id} is not an album "
-                f"in this curation; override ignored"
-            )
+        ignored = _ignored_override(o, album, data.get("id"))
+        if ignored is not None:
+            unknown_concerns.append(ignored)
             continue
-        owner = None if album.get("include") else bleed_owner(album.get("notes"))
-        if owner is not None and owner != data.get("id"):
-            unknown_concerns.append(
-                f"[owned_elsewhere] {o.provider}:{o.album_id} belongs to "
-                f"'{owner}' and is audited there; override ignored"
-            )
-            continue
-        if album.get("decided_by") == "operator":
-            # A person decided this album and knows what the auditor does
-            # not. The disagreement is theirs to read, not ours to apply.
-            unknown_concerns.append(
-                f"[decided_by_hand] {o.provider}:{o.album_id} "
-                f"({album.get('title', '')}) was decided by hand; the auditor "
-                f"would {o.action} it ({o.reason}); override ignored"
-            )
-            continue
-        if (
-            album.get("include")
-            and album.get("decided_by") == AWAITS_SPLIT
-            and o.action == "exclude"
-            and normalize_exclude_reason(o.reason) == "sub_series_bleed"
-        ):
-            # The main series ships it and its line has no entry yet, so
-            # leaving it to that line would take it out of the catalog.
-            unknown_concerns.append(
-                f"[awaits_split] {o.provider}:{o.album_id} "
-                f"({album.get('title', '')}) stays in this series until its "
-                f"line has an entry; the auditor would leave it to that line "
-                f"({o.reason}); override ignored"
-            )
-            continue
+        assert album is not None  # an unknown album is always ignored
         # Materialize into the album record: include flags are the one
         # source of truth for apply and later audit rounds. The
         # overrides list below is an audit trail only.
