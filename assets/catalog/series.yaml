@@ -48693,6 +48693,12 @@ series:
       - id: 4KrsaPtaYEdoMvrqJLslsS
         title: Kinderlieder - Sommerparty
         release_date: '2016-06-24'
+      - id: 3zYjTYJOcPb1REXVoEegk5
+        title: Kinderlieder - Die Besten
+        release_date: '2016-08-19'
+      - id: 7blceOFdYZCKEWhC3cSLlC
+        title: Kinderlieder - Die Schönsten
+        release_date: '2016-08-19'
       - id: 2G5ptVbobAH1TyIQnblFQu
         title: Kinderlieder - Geburtstag & Party
         release_date: '2016-08-19'
@@ -48866,6 +48872,12 @@ series:
       - id: '1087930488'
         title: Kinderlieder - Klatschspiele (Vol. 1)
         release_date: '2016-03-11'
+      - id: '1137118587'
+        title: Kinderlieder - Die Besten
+        release_date: '2016-08-19'
+      - id: '1137117313'
+        title: Kinderlieder - Die Schönsten
+        release_date: '2016-08-19'
       - id: '1137118571'
         title: Kinderlieder - Geburtstag & Party
         release_date: '2016-08-19'
@@ -49462,6 +49474,9 @@ series:
       artist_ids:
       - 4UiTe5uwHKDUddmV8yQeY4
       albums:
+      - id: 3fj3whyFwifzwvnWEEtYht
+        title: 40 schönste Advents- und Weihnachtslieder
+        release_date: '2015'
       - id: 2lnspdEh0BymoOv5NsOWMe
         title: Lieder Fieber
         release_date: '2015'
@@ -49606,6 +49621,9 @@ series:
       - id: 1gGxM8Hy5yywiKO0j3swm5
         title: Schaurig-schönes Halloween
         release_date: '2016'
+      - id: 3jqYoRN8vfoXyzeYIvb1tA
+        title: Seine schönsten Weihnachtslieder - Klassik
+        release_date: '2016'
       - id: 4TB2FQjV5oCBNPHpOm5GQf
         title: Si-Sa-Singemaus
         release_date: '2016'
@@ -49693,6 +49711,9 @@ series:
       - id: 6MzL89ca73D4SrbUMo9je5
         title: Singemaus & Affenbande
         release_date: '2021-03-05'
+      - id: 3dKHj4s0qrDUe19MBZer05
+        title: 40 schönste Kinderlieder
+        release_date: '2021-10-22'
       - id: 3tHn5ZoeDvQhAnyl8I67C8
         title: Der Stern von Bethlehem
         release_date: '2021-11-19'
@@ -49732,6 +49753,9 @@ series:
       - id: 0bGHbdwZwaphnFhYEHZDPV
         title: Meine schönsten Advents- und Weihnachtslieder - Akustisch
         release_date: '2024-10-25'
+      - id: 1q5oiAC5Pa6Af9TtEia7If
+        title: Meine schönsten Schlaflieder für Kinder
+        release_date: '2025-03-28'
       - id: 04Cp7dE8pnlkFvsfWDXBop
         title: Die schönsten traditionellen Weihnachtslieder
         release_date: '2025-10-24'
@@ -49741,6 +49765,9 @@ series:
       - id: 5oTtQF1XCXAnqenj6yXmrF
         title: Komm und Tanz - Die Kinderlieder-Sommerparty
         release_date: '2026-06-26'
+      - id: 44042X43sblf5BFtE1kUSB
+        title: Guten Tag, es ist so schön! Meine beliebtesten Spiel- und Bewegungslieder
+        release_date: '2026-10-02'
     apple_music:
       artist_ids:
       - '42264666'
@@ -49853,6 +49880,9 @@ series:
       - id: '1125982966'
         title: Learning English by Singing
         release_date: '2016-07-01'
+      - id: '1150456702'
+        title: 40 schönste Advents- und Weihnachtslieder
+        release_date: '2016-09-23'
       - id: '1134930422'
         title: Der Weihnachtsstern
         release_date: '2016-09-23'
@@ -49873,6 +49903,9 @@ series:
         release_date: '2016-09-23'
       - id: '1134461585'
         title: Meine WeihnachtsZauberwelt
+        release_date: '2016-09-23'
+      - id: '1151828950'
+        title: Seine schönsten Weihnachtslieder
         release_date: '2016-09-23'
       - id: '1134469811'
         title: Singen und Bewegen in der Weihnachtszeit
@@ -49976,6 +50009,9 @@ series:
       - id: '1554303971'
         title: Singemaus & Affenbande
         release_date: '2021-03-05'
+      - id: '1589045982'
+        title: 40 schönste Kinderlieder
+        release_date: '2021-10-22'
       - id: '1592089363'
         title: Der Stern von Bethlehem
         release_date: '2021-11-19'
@@ -50015,6 +50051,9 @@ series:
       - id: '1773409676'
         title: Meine schönsten Advents- und Weihnachtslieder - Akustisch
         release_date: '2024-10-25'
+      - id: '1801532247'
+        title: Meine schönsten Schlaflieder für Kinder
+        release_date: '2025-03-28'
       - id: '1843572780'
         title: Die schönsten traditionellen Weihnachtslieder
         release_date: '2025-10-24'
@@ -50024,6 +50063,9 @@ series:
       - id: '6775467097'
         title: Komm und Tanz - Die Kinderlieder-Sommerparty
         release_date: '2026-06-26'
+      - id: '6807755533'
+        title: Guten Tag, es ist so schön! Meine beliebtesten Spiel- und Bewegungslieder
+        release_date: '2026-10-02'
   content_type: music
 - id: unser_sandmaennchen
   title: Unser Sandmännchen
