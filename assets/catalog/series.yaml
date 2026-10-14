@@ -13842,6 +13842,10 @@ series:
         episode: 44
         title: 'Folge 44: Der verfluchte Reiterhof'
         release_date: '2026-08-14'
+      - id: 7k6RfUKvlzvsi6oPa1fvM8
+        episode: 45
+        title: 'Folge: 45: Ein täuschender Tausch'
+        release_date: '2026-10-09'
       - id: 2NOjKvA3XxO7J3TauLYxUK
         title: Die Fußball-Lüge
         release_date: '2024-06-07'
@@ -25173,6 +25177,10 @@ series:
         episode: 48
         title: 'Folge 48: Fish & Fun!'
         release_date: '2026-08-28'
+      - id: '6819738318'
+        episode: 49
+        title: 'Folge 49: All Together Now!'
+        release_date: '2026-10-16'
       - id: '1542185449'
         title: 'Kurz-Hörspiel: Nikolas - Drei süße Pinguine'
         release_date: '2020-12-11'
@@ -27688,6 +27696,10 @@ series:
         episode: 50
         title: 'Folge 50: Fall 99: Das zitternde Licht/Fall 100: Die verchipsten Detektivlinge'
         release_date: '2026-07-24'
+      - id: 5pAfxntxAdKwtP3cdIHUSt
+        episode: 51
+        title: 'Folge 51: Fall 101: Die Kuh mit dem Schuh/Fall 102: Der verpfützte Keller'
+        release_date: '2026-09-25'
     apple_music:
       artist_ids:
       - '1183824980'
@@ -27820,6 +27832,10 @@ series:
         episode: 50
         title: 'Folge 50: Fall 99: Das zitternde Licht/Fall 100: Die verchipsten Detektivlinge'
         release_date: '2026-07-24'
+      - id: '6793508785'
+        episode: 51
+        title: 'Folge 51: Fall 101: Die Kuh mit dem Schuh/Fall 102: Der verpfützte Keller'
+        release_date: '2026-09-25'
       - id: '1183824754'
         title: 'Fall 1: Der Skandal im Hof / Fall 2: Die Spur des Riesen'
         release_date: '2017-02-03'
@@ -29983,6 +29999,10 @@ series:
         episode: 8
         title: 'Folge 8: Zaubertricks und Maulwurfshügel'
         release_date: '2020'
+      - id: 5zyzOYjyFGdv1g9O3J2pK1
+        episode: 9
+        title: 'Teil 9: Eismagie und wilde Wichte'
+        release_date: '2021'
     apple_music:
       artist_ids:
       - '1451309462'
@@ -30019,6 +30039,10 @@ series:
         episode: 8
         title: 'Folge 8: Zaubertricks und Maulwurfshügel'
         release_date: '2026-02-27'
+      - id: '6808286548'
+        episode: 9
+        title: 'Teil 9: Eismagie und wilde Wichte'
+        release_date: '2026-09-28'
   episode_pattern:
   - '^Folge (\d+):'
   - '^Die Hörspielreihe, Teil (\d+):'
@@ -30031,61 +30055,35 @@ series:
   - Petronella Applewitch
   series_facts:
     known_gaps:
-    - number: 9
+    - curated_by: minimax-m2.7
+      curated_at: '2026-10-02T23:04:41.093145+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-10-02T23:04:41.093145+00:00'
+      number: 9
       range_end:
       reason: 'Eismagie und wilde Wichte: listed in the reference Hörspiele line but no Hörspiel album found on Spotify or Apple Music. Exists only as a Gekürzt Hörbuch (not this series). Verify whether
         an unannounced Hörspiel release exists.'
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-10-02T23:04:41.093145+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-02T23:04:41.093145+00:00'
-    - number: 10
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T06:03:49.195486+00:00'
+      number: 10
       range_end:
       reason: 'Burggespenst und Hexensümpfe: exists only as an ungekürzt Hörbuch, not a Hörspiel on streaming.'
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-10-02T23:04:41.093145+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-02T23:04:41.093145+00:00'
-    - number: 11
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T06:03:49.195486+00:00'
+      number: 11
       range_end:
       reason: 'Zauberei und Eulenschrei: exists only as a Hörbuch, not a Hörspiel on streaming.'
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-10-02T23:04:41.093145+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-02T23:04:41.093145+00:00'
-    - number: 12
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T06:03:49.195486+00:00'
+      number: 12
       range_end:
       reason: 'Hexenschuss und Zaubernuss: exists only as a Hörbuch, not a Hörspiel on streaming.'
-      curated_by: minimax-m2.7
-      curated_at: '2026-10-02T23:04:41.093145+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-02T23:04:41.093145+00:00'
-    sub_series:
-    - label: erstleser
-      album_ids:
-      - 36d6mGGCWsgQS4kWT2OYzy
-      reason: "Belongs to 'Petronella Apfelmus: Erstleser' sub-series. Title 'Erstleser Teil 4: Spargelzahn zieht um' matches that brand's own numbering and content type."
-      curated_by: minimax-m2.7
-      curated_at: '2026-10-02T23:04:41.093145+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-02T23:04:41.093145+00:00'
-    - label: tv_serie
-      album_ids:
-      - 1BQHeapK9Nwpd7BCStPjr4
-      - 3zZg0p70EJVRdz5m1oObmh
-      - 409prZSokH92U4Cqs990Js
-      - 503rE3Am9I0dapuGpezkBQ
-      - 5cJPVZr3WB94wvkIsBxLyL
-      - 6nyZHxP7bORHaqtWLlISVX
-      - 750DACR9FAa2hcjwNSdQ39
-      - 7DDsjdPOECsczrU9eUecBG
-      - 7gLUfeeARIDx3x8UhLkIfx
-      reason: "Belongs to 'Petronella Apfelmus: TV-Serie' (Hörspiele zur TV-Serie line). 9 albums from this line appear under the main artist page with titles 'Teil N: Story/Story/Story (Hörspiele zur TV-Serie)'.
-        Split off into petronella_apfelmus_tv_serie per series note."
-      curated_by: minimax-m2.7
-      curated_at: '2026-10-02T23:04:41.093145+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-02T23:04:41.093145+00:00'
 - id: kaept_n_sharky
   title: Käpt'n Sharky
   providers:
@@ -34473,6 +34471,22 @@ series:
       artist_ids:
       - 067JFynbVjValoI6RPUi4Y
       albums:
+      - id: 5pTaw8KIDvCMNueUgtboBv
+        episode: 1
+        title: 'Folgen 1-3: Kleine ganz groß (Die Original-Hörspiele zur TV-Serie)'
+        release_date: '2023'
+      - id: 40nsNsNx6UYRUMgdTm3DZf
+        episode: 4
+        title: 'Folgen 4-6: Hundechaos (Die Original-Hörspiele zur TV-Serie)'
+        release_date: '2023'
+      - id: 7Lq4SL08Dhf89IMKrHoN8v
+        episode: 7
+        title: 'Folgen 7-9: Mission verlorener Ring (Die Original-Hörspiele zur TV-Serie)'
+        release_date: '2023'
+      - id: 4DhMWN7Ef3fTfS2bjS1dc0
+        episode: 10
+        title: 'Folgen 10-12: Die Welt verbessern (Die Original-Hörspiele zur TV-Serie)'
+        release_date: '2023'
       - id: 2H8T7puoUSHuPFtcrazRns
         episode: 13
         title: 'Folge 13: Eine unvergessliche Nacht - Teil 1 (Das Original-Hörspiel zur TV-Serie)'
@@ -34737,13 +34751,26 @@ series:
         episode: 78
         title: 'Folge 78: Abenteuer beim Drachen-sitting - Teil 2'
         release_date: '2025-10-03'
-      - id: 5pTaw8KIDvCMNueUgtboBv
-        title: 'Folgen 1-3: Kleine ganz groß (Die Original-Hörspiele zur TV-Serie)'
-        release_date: '2023'
     apple_music:
       artist_ids:
       - '420648529'
       albums:
+      - id: '6772226696'
+        episode: 1
+        title: 'Folgen 1-3: Kleine ganz groß (Die Original-Hörspiele zur TV-Serie)'
+        release_date: '2026-05-29'
+      - id: '6772219562'
+        episode: 4
+        title: 'Folgen 4-6: Hundechaos (Die Original-Hörspiele zur TV-Serie)'
+        release_date: '2026-05-29'
+      - id: '6772221330'
+        episode: 7
+        title: 'Folgen 7-9: Mission verlorener Ring (Die Original-Hörspiele zur TV-Serie)'
+        release_date: '2026-05-29'
+      - id: '6772226873'
+        episode: 10
+        title: 'Folgen 10-12: Die Welt verbessern (Die Original-Hörspiele zur TV-Serie)'
+        release_date: '2026-05-29'
       - id: '6772177585'
         episode: 13
         title: 'Folge 13: Eine unvergessliche Nacht - Teil 1 (Das Original-Hörspiel zur TV-Serie)'
@@ -34800,6 +34827,10 @@ series:
         episode: 26
         title: 'Folge 26: Die Macht des Medaillons - Teil 2 (Das Original-Hörspiel zur TV-Serie)'
         release_date: '2026-05-29'
+      - id: '6772186862'
+        episode: 27
+        title: 'Folgen 27-30: Die Königin von Halloween (Die Original-Hörspiele zur TV-Serie)'
+        release_date: '2026-05-29'
       - id: '6772183193'
         episode: 28
         title: 'Folge 28: Hilfe, ich habe mein Haus geschrumpft (Das Original-Hörspiel zur TV-Serie)'
@@ -34811,6 +34842,10 @@ series:
       - id: '6772183809'
         episode: 30
         title: 'Folge 30: Kerpow-Katastrophe (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2026-05-29'
+      - id: '6772187209'
+        episode: 31
+        title: 'Folgen 31-34: Pollys Weihnachtsüberraschung (Die Original-Hörspiele zur TV-Serie)'
         release_date: '2026-05-29'
       - id: '6772185897'
         episode: 32
@@ -34824,6 +34859,10 @@ series:
         episode: 34
         title: 'Folge 34: Eine fischige Geschichte (Das Original-Hörspiel zur TV-Serie)'
         release_date: '2026-05-29'
+      - id: '6772192203'
+        episode: 35
+        title: 'Folgen 35-38: Oma und der Koffertausch (Die Original-Hörspiele zur TV-Serie)'
+        release_date: '2026-05-29'
       - id: '6772187031'
         episode: 36
         title: 'Folge 36: Neuer Spuk im alten Haus (Das Original-Hörspiel zur TV-Serie)'
@@ -34836,6 +34875,10 @@ series:
         episode: 38
         title: 'Folge 38: Die Jagd nach dem Taxi (Das Original-Hörspiel zur TV-Serie)'
         release_date: '2026-05-29'
+      - id: '6772191869'
+        episode: 39
+        title: 'Folgen 39-42: Riesenbabys (Die Original-Hörspiele zur TV-Serie)'
+        release_date: '2026-05-29'
       - id: '6772187748'
         episode: 40
         title: 'Folge 40: Großer Ärger für die kleine Lila (Das Original-Hörspiel zur TV-Serie)'
@@ -34847,6 +34890,10 @@ series:
       - id: '6772187874'
         episode: 42
         title: 'Folge 42: Ein bärenstarker Ausflug (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2026-05-29'
+      - id: '6772199956'
+        episode: 43
+        title: 'Folgen 43-47: Shanis süßer Geburtstag (Die Original-Hörspiele zur TV-Serie)'
         release_date: '2026-05-29'
       - id: '6772188684'
         episode: 44
@@ -34863,6 +34910,10 @@ series:
       - id: '6772189343'
         episode: 47
         title: 'Folge 47: Der große Betrug (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2026-05-29'
+      - id: '6772192760'
+        episode: 48
+        title: 'Folgen 48-52: Pferdegeschichten (Die Original-Hörspiele zur TV-Serie)'
         release_date: '2026-05-29'
       - id: '6772190830'
         episode: 49
@@ -34984,9 +35035,6 @@ series:
         episode: 78
         title: 'Folge 78: Abenteuer beim Drachen-sitting (Teil 2)'
         release_date: '2025-10-03'
-      - id: '6772226696'
-        title: 'Folgen 1-3: Kleine ganz groß (Die Original-Hörspiele zur TV-Serie)'
-        release_date: '2026-05-29'
   episode_pattern: '^Folge (\d+):'
   series_facts:
     known_gaps:
@@ -35185,16 +35233,6 @@ series:
       audited_at: '2026-07-05T08:07:29.498498+00:00'
       label: staffel_2
       release_date_range: 2022-2025
-    sub_series:
-    - label: woodwalkers_and_friends
-      album_ids:
-      - apple_music:6782848651
-      - spotify:72ISiKxo7pMHPjF3BRAWFV
-      reason: Distinct spin-off brand 'Woodwalkers & Friends' with separate product line; correctly excluded from main Woodwalkers series
-      curated_by: minimax-m2.7
-      curated_at: '2026-10-02T23:36:58.794173+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-02T23:36:58.794173+00:00'
   aliases:
   - Woodwalkers Hörspiel
 - id: cars
@@ -40515,6 +40553,10 @@ series:
         episode: 18
         title: 'Episode 18: Das entführte Schlauto (Das Original-Hörspiel zur TV-Serie)'
         release_date: '2026-02-27'
+      - id: 0RDmdebhKGlfu5XY6BLHDy
+        episode: 19
+        title: 'Episode 19: Der magische Schlüssel (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2026-10-09'
     apple_music:
       artist_ids:
       - '13429372'
@@ -40591,29 +40633,33 @@ series:
         episode: 18
         title: 'Episode 18: Das entführte Schlauto (Das Original-Hörspiel zur TV-Serie)'
         release_date: '2026-02-27'
+      - id: '6814976678'
+        episode: 19
+        title: 'Episode 19: Der magische Schlüssel (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2026-10-09'
   episode_pattern: '^Episode (\d+):'
   aliases:
   - Löwenzahn CLASSICS
   series_facts:
     era_boundaries:
-    - label: reboot
+    - curated_by: minimax-m2.7
+      curated_at: '2026-05-31T16:32:54.052449+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T05:58:10.217506+00:00'
+      label: reboot
       release_date_range: 2021-2024
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-05-31T16:32:54.052449+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-05-31T16:32:54.052449+00:00'
-    - label: classics
+      label: classics
       release_date_range: 2023-2023
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-05-31T16:32:54.052449+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:32:54.052449+00:00'
-    - label: continuation
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T05:58:10.217506+00:00'
+      label: continuation
       release_date_range: 2025-
-      curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:32:54.052449+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:32:54.052449+00:00'
 - id: nils_holgersson
   title: Nils Holgersson
   providers:
@@ -40990,6 +41036,9 @@ series:
         release_date: '2003-10-06'
       - id: '1439101988'
         title: Tabaluga (Das Original-Hörspiel zum Kinofilm)
+        release_date: '2018-11-09'
+      - id: '1439620689'
+        title: 'Tabaluga: Ungekürzte Version (Das Original-Hörspiel zum Film)'
         release_date: '2018-11-09'
   episode_pattern:
   - ^(\d+)/
@@ -46672,9 +46721,15 @@ series:
       - id: 1xLfnIetpT2sCxwgPXeVwc
         title: Kinderlieder Sommerhits
         release_date: '2026-06-26'
+      - id: 5bXBKzFzHtoQ9nXjrtHj2D
+        title: Kinderlieder Kindergeburtstag
+        release_date: '2026-07-31'
       - id: 5rKfeodCUrBSjXmrbsFbz2
         title: Hacki Backi Kinderlieder Zähneputzen
         release_date: '2026-08-28'
+      - id: 6aL54B1SbFDPkl1yDuJFSh
+        title: KITA Hits - Kinderlieder für den Kindergarten
+        release_date: '2026-09-25'
     apple_music:
       artist_ids:
       - '1432797144'
@@ -46685,18 +46740,42 @@ series:
       - id: '1527673339'
         title: Hurra Kinderlieder 2
         release_date: '2020-08-28'
+      - id: '1673865109'
+        title: Mitmachlieder - Hurra Kinderlieder zum Spielen
+        release_date: '2023-03-08'
+      - id: '1674684431'
+        title: Tierlieder - Hurra Kinderlieder Tiere
+        release_date: '2023-03-14'
+      - id: '1676144068'
+        title: Kinderdisco - Hurra Kinderlieder Party
+        release_date: '2023-03-21'
       - id: '1686593750'
         title: Hurra Kinderlieder 3
         release_date: '2023-05-26'
+      - id: '1698217069'
+        title: Spiellieder Hurra Kinderlieder
+        release_date: '2023-08-04'
+      - id: '1702098076'
+        title: Lernlieder Hurra Kinderlieder
+        release_date: '2023-09-01'
+      - id: '1782117321'
+        title: Hurra Kinderlieder Weihnachten
+        release_date: '2024-12-06'
       - id: '1895854268'
         title: Gute Laune Kinderparty
         release_date: '2026-05-08'
       - id: '6780958737'
         title: Kinderlieder Sommerhits
         release_date: '2026-06-26'
+      - id: '6790514307'
+        title: Kinderlieder Kindergeburtstag
+        release_date: '2026-07-31'
       - id: '6802329611'
         title: Hacki Backi Kinderlieder Zähneputzen
         release_date: '2026-08-28'
+      - id: '6813014863'
+        title: KITA Hits - Kinderlieder für den Kindergarten
+        release_date: '2026-09-25'
   content_type: music
   series_facts:
     known_gaps:
@@ -46708,16 +46787,20 @@ series:
       range_end:
       reason: No album titled 'Hurra Kinderlieder 4' found across Spotify or Apple Music; numbered sequence jumps from 3 (2023) with no successor as of 2026-05-29 data snapshot.
     sub_series:
-    - label: Hacki Backi Zähneputzen
+    - curated_by: minimax-m2.7
+      curated_at: '2026-10-03T09:54:46.239767+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T06:02:38.570960+00:00'
+      label: Hacki Backi Zähneputzen
       album_ids:
       - 5rKfeodCUrBSjXmrbsFbz2
       - '6802329611'
       reason: 'Hacki Backi sub-series: Zähneputzen (brushing) focused music album with 12 tracks. The longer Hacki Backi - Das Musik-Hörspiel (35 tracks) is a format variant excluded separately.'
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-10-03T09:54:46.239767+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-03T09:54:46.239767+00:00'
-    - label: Hauptalben
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T06:02:38.570960+00:00'
+      label: Hauptalben
       album_ids:
       - '1432797141'
       - '1527673339'
@@ -46726,21 +46809,17 @@ series:
       - 4fCHEnxwC4DS5YishS2pcW
       - 4n0pHmPfqGjnYUjmUdWZU0
       reason: 'Numbered core releases: Hurra Kinderlieder 1, 2, 3. These form the primary numbered album series.'
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-10-03T09:54:46.239767+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-10-03T09:54:46.239767+00:00'
-    - label: Themenalben
+      label: Themenalben
       album_ids:
       - '1895854268'
       - 1xLfnIetpT2sCxwgPXeVwc
       - 5PYlqWXnevZKOGTP2x9Bn0
       - '6780958737'
       reason: Gute Laune Kinderparty and Kinderlieder Sommerhits are artist-produced thematic albums (party, summer). Both are album_type=album with original tracklists and pass inclusion criteria.
-      curated_by: minimax-m2.7
-      curated_at: '2026-10-03T09:54:46.239767+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-03T09:54:46.239767+00:00'
   aliases:
   - Hacki Backi
 - id: heavysaurus
@@ -46876,6 +46955,9 @@ series:
       - id: 6MC3GBNto0QTQmHuHNAjQd
         title: Turnen macht Spaß
         release_date: '2002-01-01'
+      - id: 6nud5wQAgOSW1dNAWWiNpK
+        title: Volker Rosin - Liederbox Vol. 1
+        release_date: '2002-01-01'
       - id: 630ipLhnfKB792fsCuVUrT
         title: Hejo Weihnachtsmann
         release_date: '2003'
@@ -46918,6 +47000,9 @@ series:
       - id: 2I1nnVpaVCWiFJ3cG5rdUu
         title: Dezember Disco - Die Weihnachtsparty zum Tanzen und Träumen
         release_date: '2008-01-01'
+      - id: 25j8WsyGPIFV6ISE2Ssgts
+        title: Komm lass uns tanzen - Das Beste aus der Kinderdisco
+        release_date: '2009-01-01'
       - id: 6k3LaJlVHocXcqrdV6aiHX
         title: Minidisco International
         release_date: '2010-01-01'
@@ -46947,7 +47032,7 @@ series:
         release_date: '2015-01-01'
       - id: 5I1xV9wDPzDHUyN4GwlnH2
         title: Der blaue Hund will tanzen
-        release_date: '2015-04-06'
+        release_date: '2015-04-10'
       - id: 6haEyE4IHRrzdi0eerSkWl
         title: Volle Kraft voraus
         release_date: '2016-03-18'
@@ -46969,6 +47054,9 @@ series:
       - id: 7keVRV96wJ9iL1vOEzlcJu
         title: Après Ski Hits für Kids
         release_date: '2026-01-30'
+      - id: 4Y87cRYgG27Se6NpATsICX
+        title: Tanzalarm! Die Kinderdisco - Kinderparty mit Volker Rosin
+        release_date: '2026-10-09'
     apple_music:
       artist_ids:
       - '13431944'
@@ -47081,6 +47169,9 @@ series:
       - id: '1442555764'
         title: Dezember Disco - Die Weihnachtsparty zum Tanzen und Träumen
         release_date: '2008-01-01'
+      - id: '1442245210'
+        title: Komm lass uns tanzen - Das Beste aus der Kinderdisco
+        release_date: '2009-01-01'
       - id: '1442610442'
         title: Minidisco International
         release_date: '2010-01-01'
@@ -47099,27 +47190,72 @@ series:
       - id: '1442501158'
         title: Kunterbunte Jahreszeiten
         release_date: '2013-01-01'
+      - id: '1442217353'
+        title: Volker Rosin - Liederbox, Vol. 2
+        release_date: '2014-01-01'
+      - id: '1442764996'
+        title: Volker Rosin - Tanz mit mir! Seine schönsten Hits
+        release_date: '2014-01-03'
       - id: '1443560772'
         title: Der blaue Hund will tanzen
-        release_date: '2015-04-06'
+        release_date: '2015-04-10'
+      - id: '1442380910'
+        title: KiKA Tanzalarm! Das Beste von Volker Rosin
+        release_date: '2015-09-25'
       - id: '1443881215'
         title: Volle Kraft voraus
         release_date: '2016-03-18'
       - id: '1442670679'
         title: Tanzfieber!
         release_date: '2017-09-01'
+      - id: '1441657175'
+        title: Best Of!
+        release_date: '2019-01-04'
+      - id: '1535797969'
+        title: Best Of! Vol. 2
+        release_date: '2020-11-13'
+      - id: '1588740321'
+        title: Lasst uns Freunde sein! - Meine schönsten Freundschaftslieder und Duette
+        release_date: '2021-10-29'
+      - id: '1631875850'
+        title: Kinderdisco Sommerparty mit Volker Rosin
+        release_date: '2022-07-01'
+      - id: '1667958934'
+        title: Kinderfasching & Karneval Kinderdisco mit Volker Rosin
+        release_date: '2023-02-08'
+      - id: '1675173762'
+        title: Frühling & Ostern Kinderdisco mit Volker Rosin
+        release_date: '2023-03-03'
       - id: '1688642947'
         title: Das Disco Krokodil - Die Sommer-Edition
         release_date: '2023-06-02'
       - id: '1703828565'
         title: Herbst Kinderdisco mit Volker Rosin
         release_date: '2023-09-08'
+      - id: '1712382585'
+        title: Weihnachten mit Volker Rosin 2023
+        release_date: '2023-10-27'
       - id: '1739630419'
         title: Tierische Kinderdisco
         release_date: '2024-05-03'
+      - id: '1760393756'
+        title: Kindergeburtstag mit Volker Rosin
+        release_date: '2024-08-16'
+      - id: '1797827534'
+        title: Kinderdisco beim Autofahren mit Volker Rosin
+        release_date: '2025-02-23'
+      - id: '1797826101'
+        title: Weihnachten Kinderdisco mit Volker Rosin
+        release_date: '2025-02-28'
+      - id: '1826868439'
+        title: Lollipop - Meine besten Oldies und Coverversionen für Kinder
+        release_date: '2025-07-16'
       - id: '1871561550'
         title: Après Ski Hits für Kids
         release_date: '2026-01-30'
+      - id: '6818256178'
+        title: Tanzalarm! Die Kinderdisco - Kinderparty mit Volker Rosin
+        release_date: '2026-10-09'
   content_type: music
   series_facts:
     sub_series:
@@ -48926,6 +49062,9 @@ series:
       - id: '775109027'
         title: 'Polonäse: Neue Kinderlieder zum ankommen, bewegen, mitmachen, ausruhen und Tschüs sagen'
         release_date: '2013-12-12'
+      - id: '908736543'
+        title: Sankt Martin ritt durch Schnee und Wind - Die 25 schönsten Laternenlieder
+        release_date: '2014-08-15'
       - id: '947839260'
         title: Piepmatzlieder - 25 frische Singhits für fröhliche Kinder zum Schaukeln, Trippeln, Stampfen & Zappeln
         release_date: '2014-12-12'
@@ -50647,142 +50786,220 @@ series:
       albums:
       - id: 6SUd6078b9X0fPlQuXi8nE
         title: Big Bobby Car - Das Original-Liederalbum
+        release_date: '2012-02-03'
       - id: 6alaUHQkEXlwqoL6kJAjKm
         title: Von Farbenfeen und Stinkesocken
+        release_date: '2013-11-01'
       - id: 3R2ipwgqxdZkIUlvmGLbge
         title: Summ, Summ, Summ! - Die beliebtesten Schlaflieder
+        release_date: '2014-10-24'
       - id: 2ZEidqc9nE0UgHOE5KVtSs
         title: Nicht von schlechten Eltern
+        release_date: '2016-09-30'
       - id: 50UNy8GaxFNCH08gVVmsH4
         title: Nicht von schlechten Eltern 2
+        release_date: '2018-06-15'
       - id: 2kFx1qphLPx7LVBH0tZEwG
         title: Wenn der helle Mond - Lieder zum Kuscheln & Einschlafen
+        release_date: '2019-03-01'
+      - id: 1dcmcplcx9WW6zFcIRHoJi
+        title: Summ, Summ, Summ! - Die beliebtesten Partylieder (inkl. Karaoke- und Instrumentalversionen aller Titel)
+        release_date: '2019-08-23'
       - id: 31OSfM0b4gc984ZdQUri8S
         title: Summ, Summ, Summ! - Die beliebtesten Freundschaftslieder
+        release_date: '2020-01-31'
+      - id: 3cCHcl1mHw688ZrkT4buVo
+        title: Summ, Summ, Summ! - Die beliebtesten Tierlieder
+        release_date: '2020-03-27'
       - id: 21nyObBKjiIUtVXYmA4tVk
         title: Frederick und seine Mäusefreunde - Das Liederalbum zu den Büchern
+        release_date: '2020-05-29'
       - id: 7r855N0wTZTFxyiFntXUsz
         title: Lauras Stern - Das Liederalbum zum Kinofilm
+        release_date: '2020-11-13'
       - id: 4DnjceACsPXQRwf8wjgMHH
         title: Oh, wie schön ist Panama - Das Original-Liederalbum
+        release_date: '2021-03-05'
+      - id: 28psAvSAP7JlI6mGLLVX9V
+        title: Summ, Summ, Summ! - Die beliebtesten Freundschaftslieder (Mitsing- und Instrumental-Versionen)
+        release_date: '2021-04-03'
       - id: 6ii4F1GUDmCpKQKkd1OsXA
         title: Singen und Bewegen - Das Liederalbum
+        release_date: '2022-04-01'
       - id: 2lGjBsdc5bJCQfEBXPE3lB
         title: Von Monsterstreiks und Kissenschlachten. Kinderlieder
+        release_date: '2022-05-13'
       - id: 3kTg3tVI09SKqffmCoCPOz
         title: Summ, Summ, Summ! - Die beliebtesten Schlaflieder Vol. 2
-      - id: 30USqal63wYX00fR7mUzGF
-        title: Tanzen und springen
+        release_date: '2023-05-19'
       - id: 3nftnFUhYkshVO8VIvoWy1
         title: Unsere Stadt spricht alle Sprachen
+        release_date: '2023-11-17'
       - id: 0GUaZAZebsTIb4TMN4Pgtv
         title: Summ, Summ, Summ! - Die beliebtesten Schlaflieder, Vol. 3
+        release_date: '2024-05-17'
       - id: 6rsevZUG4O9MfQwOaGjbMR
         title: Mit der Bahn
+        release_date: '2024-08-02'
       - id: 50WF24IiHnkwS6hgbBZQIH
         title: Auf Balkonien
+        release_date: '2024-08-23'
       - id: 69taNaM1ThRnHOhGdZW94S
         title: Hier auf dem Bauernhof
+        release_date: '2024-09-13'
       - id: 2BUZL15xU7czyTTC1weXKT
         title: Summ, Summ, Summ! - Die beliebtesten Urlaubslieder
+        release_date: '2024-10-04'
       - id: 3Wj0D8aR3bdygqWpZLGtLW
         title: Wiedersehen
+        release_date: '2025-03-21'
       - id: 1Pp40Mngeiv80yr9qnG4py
         title: Pyjama Party
+        release_date: '2025-04-11'
       - id: 5gxh1whHX9qykSJb6dTcle
         title: Privatverhext
+        release_date: '2025-05-02'
       - id: 0NmrxmPhd1FQQujuHAAh5I
         title: Summ, Summ, Summ! - Die beliebtesten Freundschaftslieder, Vol. 2
+        release_date: '2025-05-02'
       - id: 1T3vhVfaBqTtM5AooReHMw
         title: Ritter Rüdiger
+        release_date: '2025-07-25'
       - id: 7senFonnIDQgispdySW745
         title: Wofür brauch ich das nochmal?
+        release_date: '2025-08-15'
       - id: 01vOXgyRgMauZ26W0KNsRH
         title: Cowgummi
+        release_date: '2025-09-05'
       - id: 3ISqsMurUjDW5K7wDbQz62
         title: Summ, Summ, Summ! - Die beliebtesten Wissenslieder
+        release_date: '2025-09-05'
       - id: 7MZDk0Uq7Wj1sjfnRMKj9y
         title: Ich lieb' die Weihnachtszeit
+        release_date: '2025-11-28'
       - id: 52iNynDl0MewHssFZky8yX
         title: Summ, Summ, Summ! - Die beliebtesten Weihnachtslieder, Vol. 2
+        release_date: '2025-12-05'
       - id: 0rifRhVw2qr77OcqVJ868h
         title: Irgendwas geht immer
+        release_date: '2026-05-08'
       - id: 1bxLaYAYsl37P5btSxLagw
         title: Summ, Summ, Summ - Die beliebtesten Mutmachlieder für starke & selbstbewusste Kinder
+        release_date: '2026-05-29'
     apple_music:
       artist_ids:
       - '457751335'
       albums:
       - id: '497692097'
         title: Big Bobby Car - Das Original-Liederalbum
+        release_date: '2012-02-03'
       - id: '732822191'
         title: Von Farbenfeen und Stinkesocken
+        release_date: '2013-11-01'
+      - id: '1530811829'
+        title: Summ, Summ, Summ! Die beliebtesten Partylieder (inkl. Instrumentalversionen aller Titel)
+        release_date: '2014-01-31'
       - id: '929750080'
         title: Summ, summ, summ! (Die beliebtesten Schlaflieder)
+        release_date: '2014-10-24'
       - id: '1442530157'
         title: Nicht von schlechten Eltern
+        release_date: '2016-09-30'
       - id: '1382175058'
         title: Nicht von schlechten Eltern 2
+        release_date: '2018-06-15'
       - id: '1856942624'
         title: Wenn der helle Mond - Lieder zum Kuscheln & Einschlafen
+        release_date: '2019-03-01'
       - id: '1739553778'
         title: Summ, Summ, Summ! - Die beliebtesten Freundschaftslieder
+        release_date: '2020-01-31'
+      - id: '1499671144'
+        title: Summ, Summ, Summ! - Die beliebtesten Tierlieder
+        release_date: '2020-03-27'
       - id: '1512984030'
         title: Frederick und seine Mäusefreunde - Das Liederalbum zu den Büchern
+        release_date: '2020-05-29'
       - id: '1534901921'
         title: Das Liederalbum zum neuen Kinofilm (Music Inspired By the Film)
+        release_date: '2020-11-13'
       - id: '1552028678'
         title: Oh, wie schön ist Panama - Das Original-Liederalbum
+        release_date: '2021-03-05'
+      - id: '1739554663'
+        title: Summ, Summ, Summ! - Die beliebtesten Freundschaftslieder (Mitsing- und Instrumental-Versionen)
+        release_date: '2021-04-03'
       - id: '1612119706'
         title: Singen und Bewegen - Das Liederalbum
+        release_date: '2022-04-01'
       - id: '1618630826'
         title: Von Monsterstreiks und Kissenschlachten. Kinderlieder
+        release_date: '2022-05-13'
       - id: '1675269340'
         title: Summ, Summ, Summ! - Die beliebtesten Schlaflieder Vol. 2
+        release_date: '2023-05-19'
       - id: '1737197800'
         title: Summ, Summ, Summ! - Die beliebtesten Schlaflieder, Vol. 3
+        release_date: '2024-05-17'
       - id: '1755412517'
         title: Mit der Bahn - EP
+        release_date: '2024-08-02'
       - id: '1755413615'
         title: Auf Balkonien - EP
+        release_date: '2024-08-23'
       - id: '1755419977'
         title: Hier auf dem Bauernhof
+        release_date: '2024-09-13'
       - id: '1768661353'
         title: Summ, Summ, Summ! - Die beliebtesten Urlaubslieder
+        release_date: '2024-10-04'
       - id: '1797591368'
         title: Wiedersehen - EP
+        release_date: '2025-03-21'
       - id: '1799973671'
         title: Pyjama Party - EP
+        release_date: '2025-04-11'
       - id: '1800161357'
         title: Privatverhext
+        release_date: '2025-05-02'
       - id: '1801434068'
         title: Summ, Summ, Summ! - Die beliebtesten Freundschaftslieder, Vol. 2
+        release_date: '2025-05-02'
       - id: '1820372931'
         title: Ritter Rüdiger - EP
+        release_date: '2025-07-25'
       - id: '1820374360'
         title: Wofür brauch ich das nochmal? - EP
+        release_date: '2025-08-15'
       - id: '1820481263'
         title: Cowgummi
+        release_date: '2025-09-05'
       - id: '1820377844'
         title: Summ, Summ, Summ! - Die beliebtesten Wissenslieder
+        release_date: '2025-09-05'
       - id: '1849624858'
         title: Ich lieb' die Weihnachtszeit - EP
+        release_date: '2025-11-28'
       - id: '1852788689'
         title: Summ, Summ, Summ! - Die beliebtesten Weihnachtslieder, Vol. 2
+        release_date: '2025-12-05'
       - id: '1890194896'
         title: Irgendwas geht immer - EP
+        release_date: '2026-05-08'
       - id: '1890438534'
         title: Summ, Summ, Summ - Die beliebtesten Mutmachlieder für starke & selbstbewusste Kinder
+        release_date: '2026-05-29'
   content_type: music
   series_facts:
     known_gaps:
-    - number: 1
-      reason: Traditional folk album series ('Die beliebtesten Schlaflieder' 2013-2014) overlaps with original 3Berlin releases; both are distinct content types but share branding. Consider if gaps 
-        reflect genuine missing episodes or content-type boundary ambiguity.
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-10T19:26:17.711808+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T19:26:17.711808+00:00'
+      number: 1
+      range_end:
+      reason: Traditional folk album series ('Die beliebtesten Schlaflieder' 2013-2014) overlaps with original 3Berlin releases; both are distinct content types but share branding. Consider if gaps 
+        reflect genuine missing episodes or content-type boundary ambiguity.
 - id: liedertiger
   title: LiederTiger
   providers:
@@ -55287,45 +55504,59 @@ series:
       - id: 3N5CbahYQ5qK2TAFg6KXWM
         episode: 1
         title: 'Löwenzahn CLASSICS mit Peter Lustig, Folge 01: Peter und der Tanz der Vampire (Das Original Hörspiel zur TV-Serie)'
+        release_date: '2023-05-05'
       - id: 1ip1jv0F4yc6pSLaNhMqdB
         episode: 2
         title: 'Löwenzahn CLASSICS mit Peter Lustig, Folge 02: Peter und der Müllwichtel (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2023-05-19'
       - id: 6Zb8gnLDF54v6StxWFvHft
         episode: 3
         title: "Löwenzahn CLASSICS mit Peter Lustig, Folge 03: Peter kauft 'ne Eisenbahn (Das Original-Hörspiel zur TV-Serie)"
+        release_date: '2023-06-02'
       - id: 7IRNGg0uop1vW8IkNDD44J
         episode: 4
         title: 'Löwenzahn CLASSICS mit Peter Lustig, Folge 04: Der Schatz der alten Römer (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2023-06-16'
       - id: 2bneBzGrch4nsyfc7ksXgn
         episode: 5
         title: 'Löwenzahn CLASSICS mit Peter Lustig, Folge 05: Peter und die Wunderlampe (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2023-06-30'
       - id: 5E8xDbQMUOh6Imi9E8XktW
         episode: 6
         title: 'Löwenzahn CLASSICS mit Peter Lustig, Folge 06: Peter und das Biest vom Bärensee (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2023-07-14'
       - id: 1TjAlLPhQX8GXy2q1SG6hs
         episode: 7
         title: 'Löwenzahn CLASSICS mit Peter Lustig, Folge 07: Peter und das Heulen der Wölfe (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2023-07-28'
       - id: 05Sngq3UX7WZRrqiZduut5
         episode: 8
         title: 'Löwenzahn CLASSICS mit Peter Lustig, Folge 08: Peter jagt den Dieb von Bärstadt (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2023-08-11'
       - id: 2vlCznueqZebgaAEqpYaAd
         episode: 9
         title: 'Löwenzahn CLASSICS mit Peter Lustig, Folge 09: Peter stürmt die Berggipfel (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2023-08-25'
       - id: 0zc0kqB4o3oXGwYBX1HSaD
         episode: 10
         title: 'Löwenzahn CLASSICS mit Peter Lustig, Folge 10: Peter spielt den Wetterfrosch (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2023-09-08'
       - id: 4CG6cUoxLhe4cvNn4NgzQZ
         episode: 11
         title: 'Löwenzahn CLASSICS mit Peter Lustig, Folge 11: Reise ins Abenteuer - Teil 1 (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2023-09-22'
       - id: 1628LG4tGMNiyVtvYKN0nA
         episode: 12
         title: 'Löwenzahn CLASSICS mit Peter Lustig, Folge 12: Reise ins Abenteuer - Teil 2 (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2023-10-06'
       - id: 1ziY9K7tSTZvASsQ7xWze1
         episode: 13
         title: "Löwenzahn CLASSICS mit Peter Lustig, Folge 13: Peter will 'ne Minikuh (Das Original-Hörspiel zur TV-Serie)"
+        release_date: '2023-10-20'
       - id: 19VqJKWcLjycds5IUqARM7
         episode: 14
         title: 'Löwenzahn CLASSICS mit Peter Lustig, Folge 14: Peter geht zur Feuerwehr (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2023-11-03'
     apple_music:
       artist_ids:
       - '13429372'
@@ -58340,22 +58571,14 @@ series:
         release_date: '2026-02-27'
   series_facts:
     sub_series:
-    - label: woodwalkers
-      album_ids:
-      - apple_music:6782848651
-      reason: Album explicitly belongs to Woodwalkers & Friends sub-series, distinct catalog entry under sibling franchise.
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-10-03T04:19:09.820629+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-10-03T04:19:09.820629+00:00'
-    - label: woodwalkers_music
+      label: woodwalkers_music
       album_ids:
       - spotify:066gsXUYr19OIlXuo9OSrk
       reason: Album is the Woodwalkers franchise song (Woodwalkers Song), distinct content type (music single), not Seawalkers.
-      curated_by: minimax-m2.7
-      curated_at: '2026-10-03T04:19:09.820629+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-03T04:19:09.820629+00:00'
 - id: woodwalkers_friends
   title: Woodwalkers & Friends
   aliases: []
@@ -58370,6 +58593,9 @@ series:
       - id: 72ISiKxo7pMHPjF3BRAWFV
         title: Woodwalkers & Friends. Katzige Gefährten - Das Hörspiel
         release_date: '2026-07-03'
+      - id: 2Y2ecWgZIEyabUvw1bMKDa
+        title: Woodwalkers & Friends. Zwölf Geheimnisse - Das Hörspiel
+        release_date: '2026-10-02'
     apple_music:
       artist_ids:
       - '1635376952'
@@ -58377,6 +58603,9 @@ series:
       - id: '6782848651'
         title: Woodwalkers & Friends. Katzige Gefährten - Das Hörspiel
         release_date: '2026-07-03'
+      - id: '6807740813'
+        title: Woodwalkers & Friends. Zwölf Geheimnisse - Das Hörspiel
+        release_date: '2026-10-02'
   series_facts:
     sub_series:
     - label: friends
