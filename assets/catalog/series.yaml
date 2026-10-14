@@ -47593,25 +47593,76 @@ series:
       artist_ids:
       - 0FaGQhzs7L0uIuUdjolB1n
       albums:
+      - id: 4gDvWioaiyrWrSmAWxLf6t
+        title: Sing mit mir Kinderlieder
+        release_date: '2015-08-06'
+      - id: 4lTsgSv1tV6npPi0p7rTdN
+        title: Sing mit mir Kinderlieder 2
+        release_date: '2016-12-09'
+      - id: 2Z1IZ5uLBTXFTrW4E38fsU
+        title: Sing mit mir Kinderlieder 3
+        release_date: '2017-10-20'
+      - id: 5SgiKSIJZIr6nhEoYNEIIY
+        title: Sing mit mir Kinderlieder 4
+        release_date: '2018-10-20'
+      - id: 5QBZjM8j374zr3irDKFtRZ
+        title: Sing mit mir Spiel- und Bewegungslieder
+        release_date: '2019-06-07'
+      - id: 3LiYJfLx7zzzOxWNDjGeY7
+        title: Sing mit mir Weihnachtslieder
+        release_date: '2019-10-25'
+      - id: 0RmtSJKviMJgFQnfbkuXJb
+        title: Sing Kinderlieder (Die 40 beliebtesten Kinderlieder zum Mitsingen)
+        release_date: '2020-02-07'
       - id: 7HFVqjUlQmIJ9C5zipdf2X
         title: Papa Müsli, Vol. 1
         release_date: '2022-05-06'
-      - id: 2KDpfZkxaijQvyNclFDzUz
-        title: Mutausbruch
-        release_date: '2022-09-16'
       - id: 0Z0p71rVSs8B0bY99nwT0H
         title: Tierisch gute Kinderlieder!
         release_date: '2023-07-14'
+      - id: 545vw5QOT10xxtw1UFa6X9
+        title: Sing mit mir - Die schönsten Herbstlieder
+        release_date: '2023-09-15'
+      - id: 3typ4tyA4ZNRVmYTVuAGaf
+        title: Sing mit mir - Faschings- und Partylieder
+        release_date: '2024-01-19'
+      - id: 2NJgYqFGrg01D8dE4sIDdm
+        title: Sing mit mir Schlaflieder
+        release_date: '2025-04-04'
       - id: 4HTTK7caZ60GYVN8DWRajq
         title: Tierischer Spaß
         release_date: '2025-05-30'
       - id: 3bRpZtxTVTH5Jnc7tzEqGR
         title: Weihnachten mit Kalle Klang
         release_date: '2025-11-28'
+      - id: 7G0NtavEtvJAORJDm0nrvH
+        title: Kita-Spaß mit Kalle Klang
+        release_date: '2026-05-01'
+      - id: 3XaOlGmhFphaoeuBYtL3y1
+        title: In den Herbst mit Kalle Klang 2
+        release_date: '2026-09-04'
     apple_music:
       artist_ids:
       - '1505131248'
       albums:
+      - id: '1689827401'
+        title: Sing mit mir Kinderlieder
+        release_date: '2015-08-06'
+      - id: '1689827731'
+        title: Sing mit mir Kinderlieder 2
+        release_date: '2016-12-09'
+      - id: '1689826770'
+        title: Sing mit mir Kinderlieder 3
+        release_date: '2017-10-20'
+      - id: '1689819242'
+        title: Sing mit mir Spiel- und Bewegungslieder
+        release_date: '2019-06-07'
+      - id: '1689809725'
+        title: Sing mit mir Weihnachtslieder
+        release_date: '2019-10-25'
+      - id: '1689841821'
+        title: Sing Kinderlieder (Die 40 beliebtesten Kinderlieder zum Mitsingen)
+        release_date: '2020-02-07'
       - id: '1689808684'
         title: Papa Müsli, Vol. 1
         release_date: '2022-05-06'
@@ -47621,33 +47672,81 @@ series:
       - id: '1692782326'
         title: Tierisch gute Kinderlieder!
         release_date: '2023-07-14'
+      - id: '1705219429'
+        title: Sing mit mir - Die schönsten Herbstlieder
+        release_date: '2023-09-15'
+      - id: '1725179362'
+        title: Sing mit mir - Faschings- und Partylieder
+        release_date: '2024-01-19'
+      - id: '1801200583'
+        title: Sing mit mir Schlaflieder
+        release_date: '2025-04-04'
       - id: '1814003289'
         title: Tierischer Spaß
         release_date: '2025-05-30'
       - id: '1853868014'
         title: Weihnachten mit Kalle Klang - EP
         release_date: '2025-11-28'
+      - id: '1893021123'
+        title: Kita-Spaß mit Kalle Klang
+        release_date: '2026-05-01'
+      - id: '6802296855'
+        title: In den Herbst mit Kalle Klang 2
+        release_date: '2026-09-04'
   content_type: music
   series_facts:
     era_boundaries:
-    - label: klassi k
+    - curated_by: minimax-m2.7
+      curated_at: '2026-06-10T19:17:23.832068+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T19:17:23.832068+00:00'
+      label: klassi k
       release_date_range: 2015-2019
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-10T19:17:23.832068+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T19:17:23.832068+00:00'
-    - label: themed albums
+      label: themed albums
       release_date_range: 2020-2023
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-10T19:17:23.832068+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T19:17:23.832068+00:00'
-    - label: single expansion
+      label: single expansion
       release_date_range: 2024-2026
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T19:17:23.832068+00:00'
+    sub_series:
+    - curated_by: minimax-m2.7
+      curated_at: '2026-10-03T11:20:44.948329+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-06-10T19:17:23.832068+00:00'
+      audited_at: '2026-10-03T11:20:44.948329+00:00'
+      label: Sing mit mir
+      album_ids:
+      - '1689809725'
+      - '1689819242'
+      - '1689826468'
+      - '1689826770'
+      - '1689827401'
+      - '1689827731'
+      - '1707902453'
+      - '1725179362'
+      - '1770291827'
+      - '1801200583'
+      - '1893021123'
+      - '1894866614'
+      - 2NJgYqFGrg01D8dE4sIDdm
+      - 2Z1IZ5uLBTXFTrW4E38fsU
+      - 3LiYJfLx7zzzOxWNDjGeY7
+      - 3typ4tyA4ZNRVmYTVuAGaf
+      - 4gDvWioaiyrWrSmAWxLf6t
+      - 4lTsgSv1tV6npPi0p7rTdN
+      - 5BDc72tBZX8TmB0DvfEQcq
+      - 5QBZjM8j374zr3irDKFtRZ
+      - 5SgiKSIJZIr6nhEoYNEIIY
+      - 6pSxTURrEwQjlB9gAD6lRG
+      - 7G0NtavEtvJAORJDm0nrvH
+      - 7iLFUsQ7bwJCDenijWW3qI
+      reason: "Themed multi-track album series; the index groups all 'Sing mit mir' titles under Singles. Spotify and Apple Music releases of the same album carry different artist metadata (Spotify: Sing
+        Kinderlieder, Apple Music: Kalle Klang, Die Flohtöne & Sing Kinderlieder) but identical track listings."
 - id: stephen_janetzko
   title: Stephen Janetzko
   providers:
