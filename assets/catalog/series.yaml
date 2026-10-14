@@ -38465,6 +38465,10 @@ series:
         episode: 170
         title: 'Folge 170: in Australien'
         release_date: '2026-05-22'
+      - id: 7Cz8plrKTpy71VTf086NPN
+        episode: 171
+        title: 'Folge 171: als Kleingärtner'
+        release_date: '2026-08-07'
       - id: 4jUPMhSzcyxhWPGS1Z3SKL
         episode: 172
         title: 'Folge 172: als Kapitän'
@@ -39180,6 +39184,36 @@ series:
       number: 74
       range_end:
       reason: Episode 74 'singt Weihnachtslieder' exists in both catalogs as a Christmas songs album, not a narrative Hörspiel. The actual narrative episode 74 does not exist in catalogs.
+    sub_series:
+    - curated_by: curate
+      curated_at: '2026-09-21T00:25:47.033156+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T08:02:44.200955+00:00'
+      label: lernhoerspiele
+      album_ids:
+      - apple_music:1069147252
+      - apple_music:6807597134
+      reason: Educational audio plays including language learning and knowledge discovery series, non-narrative format distinct from main Hörspiel episodes
+    - curated_by: curate
+      curated_at: '2026-09-21T19:46:53.835175+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T08:02:44.200955+00:00'
+      label: music
+      album_ids:
+      - spotify:1RuEM4ttfEhpZwBZC8YxtH
+      reason: Song album (Liederalbum) from the Find's raus spin-off, music content rather than narrative Hörspiel
+    - curated_by: curate
+      curated_at: '2026-09-21T19:46:53.835175+00:00'
+      audited_by: gemma4:31b
+      audited_at: '2026-10-14T08:02:44.200955+00:00'
+      label: tv_series_hoerspiele
+      album_ids:
+      - apple_music:6786907225
+      - apple_music:6794742872
+      - apple_music:6807597541
+      - spotify:0NPwHLmOebRIlC9JoqDiDc
+      - spotify:0gD0zoTkQ5NHGtUuOyPqtz
+      reason: Hörspiele zur TV-Serie, distinct product line based on the television series rather than the main audio-play canon
   aliases:
   - Benjamin Blümchen Hörspiel
 - id: die_wilden_huehner
@@ -57847,8 +57881,7 @@ series:
 - id: benjamin_bluemchen_minis
   title: 'Benjamin Blümchen: Minis'
   aliases: []
-  episode_pattern:
-  content_type: hoerspiel
+  episode_pattern: '^Benjamin Minis - Folge (\d+):'
   split_from: benjamin_bluemchen
   providers:
     spotify:
@@ -57856,27 +57889,35 @@ series:
       - 1l6d0RIxTL3JytlLGvWzYe
       albums:
       - id: 3PnaYpicNEwuo4Gv2SJ5N8
+        episode: 1
         title: 'Benjamin Minis - Folge 1: Hallo, Lea!'
         release_date: '2020-09-04'
       - id: 7AhVdEAC0mQspr8a3crPHk
+        episode: 2
         title: 'Benjamin Minis - Folge 2: Keine Angst im Dunkeln'
         release_date: '2020-09-04'
       - id: 4QCzgi6ctPLnBzbpXm02BT
+        episode: 3
         title: 'Benjamin Minis - Folge 3: Das erste Fahrrad'
         release_date: '2021-01-22'
       - id: 0MN49nhoq9kCwtW8y4jEMV
+        episode: 4
         title: 'Benjamin Minis - Folge 4: Geburtstag im Zoo'
         release_date: '2022-03-04'
       - id: 72zDeiWHQEPFyFNlTqDEJi
+        episode: 5
         title: 'Benjamin Minis - Folge 5: Endlich Schnee!'
         release_date: '2024-01-19'
       - id: 5ymm9RXqHRg6SxYgM2Cc3A
+        episode: 6
         title: 'Benjamin Minis - Folge 6: Eine verrückte Zahnputzgeschichte'
         release_date: '2024-08-23'
       - id: 373A10PBGMIleibQAAtKUO
+        episode: 7
         title: 'Benjamin Minis - Folge 7: Müllalarm im Zoo'
         release_date: '2025-07-04'
       - id: 4X62W6cvPja2b2bx6yFpSO
+        episode: 8
         title: 'Benjamin Minis - Folge 8: Ein Osterei im Sommer'
         release_date: '2026-03-06'
     apple_music:
@@ -57884,27 +57925,35 @@ series:
       - '215716521'
       albums:
       - id: '1525766721'
+        episode: 1
         title: 'Benjamin Minis - Folge 1: Hallo, Lea!'
         release_date: '2020-09-04'
       - id: '1527469485'
+        episode: 2
         title: 'Benjamin Minis - Folge 2: Keine Angst im Dunkeln'
         release_date: '2020-09-04'
       - id: '1548517341'
+        episode: 3
         title: 'Benjamin Minis - Folge 3: Das erste Fahrrad'
         release_date: '2021-01-22'
       - id: '1608387565'
+        episode: 4
         title: 'Benjamin Minis - Folge 4: Geburtstag im Zoo'
         release_date: '2022-03-04'
       - id: '1719798401'
+        episode: 5
         title: 'Benjamin Minis - Folge 5: Endlich Schnee!'
         release_date: '2024-01-19'
       - id: '1757991520'
+        episode: 6
         title: 'Benjamin Minis - Folge 6: Eine verrückte Zahnputzgeschichte'
         release_date: '2024-08-23'
       - id: '1816058031'
+        episode: 7
         title: 'Benjamin Minis - Folge 7: Müllalarm im Zoo'
         release_date: '2025-07-04'
       - id: '1873046534'
+        episode: 8
         title: 'Benjamin Minis - Folge 8: Ein Osterei im Sommer'
         release_date: '2026-03-06'
   series_facts:
@@ -57985,6 +58034,9 @@ series:
       - id: 41CbYGVf8P9q22coeXy1jI
         title: "Find's raus mit Benjamin - Folge 15: Insekten"
         release_date: '2026-04-17'
+      - id: 4usJcXbS6QtP808yzkgvws
+        title: "Find's raus mit Benjamin - Folge 16: Schifffahrt"
+        release_date: '2026-10-09'
     apple_music:
       artist_ids:
       - '215716521'
@@ -58034,6 +58086,9 @@ series:
       - id: '1878736130'
         title: "Find's raus mit Benjamin - Folge 15: Insekten"
         release_date: '2026-04-17'
+      - id: '6807597134'
+        title: "Find's raus mit Benjamin - Folge 16: Schifffahrt"
+        release_date: '2026-10-09'
   series_facts:
     sub_series:
     - label: music
@@ -58065,259 +58120,327 @@ series:
   - Benjamin Blümchen Gute-Nacht-Geschichten
   - Gute-Nacht-Geschichten
   - Gute Nacht Geschichten
-  episode_pattern:
-  content_type: hoerspiel
+  episode_pattern: '^(?:Benjamin Blümchen )?Gute[- ]Nacht[- ]Geschichten - Folge (\d+):'
   split_from: benjamin_bluemchen
   providers:
     spotify:
       artist_ids:
       - 1l6d0RIxTL3JytlLGvWzYe
       albums:
-      - id: 7g5j2uYgt2iKbCnOoaNbLB
-        title: 'Gute Nacht Geschichten - Folge 8: Die kleine freche Sternschnuppe'
-        release_date: '2007-01-01'
-      - id: 2snOPoNgGcybL52ymByZF7
-        title: 'Benjamin Blümchen Gute-Nacht-Geschichten - Folge 6: 24 Weihnachts-Geschichten'
-        release_date: '2007-06-08'
-      - id: 3X3VYRdhraDuIIYp1OGNeM
-        title: 'Gute-Nacht-Geschichten - Folge 25: Der verschwundene Stern'
-        release_date: '2007-06-09'
-      - id: 0CpO06kRKI1Bmxaq1tdODi
-        title: 'Gute-Nacht-Geschichten - Folge 10: Das Schoko-Fest beim Tortenkönig'
-        release_date: '2007-09-03'
       - id: 3U00CUyWGu4Aav1I4kEMRm
+        episode: 1
         title: 'Gute-Nacht-Geschichten - Folge 1: Wo ist Winnie Waschbär?'
         release_date: '2007-09-03'
       - id: 0y7BgWCMzJfHpdFDKuQxb4
+        episode: 2
         title: 'Gute-Nacht-Geschichten - Folge 2: Die Rauschemuschel'
         release_date: '2007-09-03'
       - id: 4rKGBbiC5kNqgzXCwNQUSu
+        episode: 3
         title: 'Gute-Nacht-Geschichten - Folge 3: Wüstenfüchse fliegen nicht'
         release_date: '2007-09-03'
       - id: 12HAZnjCSumqoi7VNw1Srz
+        episode: 4
         title: 'Gute-Nacht-Geschichten - Folge 4: Benjamin und die Glühwürmchen'
         release_date: '2007-09-03'
       - id: 7qDYRuMu9XgqaaMt0bxUAG
+        episode: 5
         title: 'Gute-Nacht-Geschichten - Folge 5: Kuscheln mit dem Osterhasen'
         release_date: '2007-09-03'
+      - id: 2snOPoNgGcybL52ymByZF7
+        episode: 6
+        title: 'Benjamin Blümchen Gute-Nacht-Geschichten - Folge 6: 24 Weihnachts-Geschichten'
+        release_date: '2007-06-08'
       - id: 4vl7h8Wkqj8JYHpacb7Y9v
+        episode: 7
         title: 'Gute-Nacht-Geschichten - Folge 7: A,B,C-Geschichten / 1,2,3-Geschichten'
         release_date: '2007-09-03'
+      - id: 7g5j2uYgt2iKbCnOoaNbLB
+        episode: 8
+        title: 'Gute Nacht Geschichten - Folge 8: Die kleine freche Sternschnuppe'
+        release_date: '2007-01-01'
       - id: 6wsUgHGmV2M61ooQpM5StQ
+        episode: 9
         title: 'Gute-Nacht-Geschichten - Folge 9: Fußballspaß im Zoo'
         release_date: '2007-09-03'
+      - id: 0CpO06kRKI1Bmxaq1tdODi
+        episode: 10
+        title: 'Gute-Nacht-Geschichten - Folge 10: Das Schoko-Fest beim Tortenkönig'
+        release_date: '2007-09-03'
       - id: 43Gr4JRHBiPEYZD4B5rAH8
+        episode: 11
         title: 'Gute Nacht Geschichten - Folge 11: Badespaß im Zoo'
         release_date: '2008-01-01'
       - id: 47v1qzw9NhmSxoxnc1y2YZ
+        episode: 12
         title: 'Gute-Nacht-Geschichten - Folge 12: Frühling, Sommer, Herbst und Winter'
         release_date: '2009-09-04'
       - id: 30f4zKTJOXMSyynihrW8E5
+        episode: 13
         title: 'Gute Nacht Geschichten - Folge 13: Die Traumfee-Königin Karolila'
         release_date: '2010-01-01'
       - id: 7I7qLmUxgIcljxBOzb0YlE
+        episode: 14
         title: 'Gute-Nacht-Geschichten - Folge 14: Im Traumland'
         release_date: '2011-09-02'
       - id: 58sCMP2uMJZUCYtyqI5ZN2
+        episode: 15
         title: 'Gute-Nacht-Geschichten - Folge 15: Die Märchennacht im Zoo'
         release_date: '2012-03-09'
       - id: 5erZoyJ22F2XI13RydIXmk
+        episode: 16
         title: 'Gute-Nacht-Geschichten - Folge 16: Meine liebsten Kuscheltiere'
         release_date: '2012-09-07'
       - id: 5hfoUCzelAJ8TEeheK4v58
+        episode: 17
         title: 'Gute Nacht Geschichten - Folge 17: Mondgeschichten'
         release_date: '2013-01-01'
       - id: 2VZdKhtpBNHZOlFKwNijDo
+        episode: 18
         title: 'Gute-Nacht-Geschichten - Folge 18: Die Pyjama-Party'
         release_date: '2013-11-08'
       - id: 1ZjAixYm8T5nH3eYC4KXDn
+        episode: 19
         title: 'Gute-Nacht-Geschichten - Folge 19: Tiere der Nacht'
         release_date: '2014-09-05'
       - id: 2xx69IjNiel4mrcn7EI2IW
+        episode: 20
         title: 'Gute-Nacht-Geschichten - Folge 20: Das schnarchende Krokodil'
         release_date: '2014-11-07'
       - id: 4Mw3LGGUNoS8UqxLGQyVz4
+        episode: 21
         title: 'Gute-Nacht-Geschichten - Folge 21: Das fliegende Bett'
         release_date: '2015-09-04'
       - id: 2jBNdNjnkWyWhqYCdw44FW
+        episode: 22
         title: 'Gute-Nacht-Geschichten - Folge 22: Gute Nacht im Zoo'
         release_date: '2015-11-06'
       - id: 6u9Vz8ky2X27v8m2KBe2f9
+        episode: 23
         title: 'Gute-Nacht-Geschichten - Folge 23: Kleine Helden'
         release_date: '2016-09-09'
       - id: 2W3XvoHpwNONqyRBTgzj2X
+        episode: 24
         title: 'Gute-Nacht-Geschichten - Folge 24: Der Traumwichtel'
         release_date: '2016-11-11'
+      - id: 3X3VYRdhraDuIIYp1OGNeM
+        episode: 25
+        title: 'Gute-Nacht-Geschichten - Folge 25: Der verschwundene Stern'
+        release_date: '2007-06-09'
       - id: 3CUqrbDq54UZ1J0mHGznle
+        episode: 26
         title: 'Gute Nacht Geschichten - Folge 26: Im Schneckentempo'
         release_date: '2017-10-13'
       - id: 27upXzmCmVNjJsMRmD7bOv
+        episode: 27
         title: 'Gute Nacht Geschichten - Folge 27: Krümel, der freche Hamster'
         release_date: '2018-01-26'
       - id: 2r1WsIxAgbenRBDW5Ok16y
+        episode: 28
         title: 'Gute Nacht Geschichten - Folge 28: Der Winterschlaf-Teddy'
         release_date: '2018-10-26'
       - id: 2fb6qUSV8TUQoW8G50da7P
+        episode: 29
         title: 'Gute-Nacht-Geschichten - Folge 29: Im Kindergarten'
         release_date: '2019-06-14'
       - id: 0Hk61KJfCPFrCuq2CsRKal
+        episode: 30
         title: 'Gute-Nacht-Geschichten - Folge 30: Viele kleine Schäfchenwolken'
         release_date: '2019-10-25'
       - id: 7rn6tf64uofISHlWtOksU1
+        episode: 31
         title: 'Gute-Nacht-Geschichten - Folge 31: Alle meine Tierkinder'
         release_date: '2020-11-06'
       - id: 1XEgnkoYMJWVdgXLHyxtiR
+        episode: 32
         title: 'Gute-Nacht-Geschichten - Folge 32: Der Herbst ist da'
         release_date: '2021-09-10'
       - id: 2fiFlD2ujQz6E4s52D60sC
+        episode: 33
         title: 'Gute-Nacht-Geschichten - Folge 33: Im Reisefieber'
         release_date: '2022-07-08'
       - id: 4fmih7v3hLOwJk0Wmmav2R
+        episode: 34
         title: 'Gute-Nacht-Geschichten - Folge 34: Hilfe, ich kann nicht schlafen!'
         release_date: '2023-07-07'
       - id: 0nitnuUS2XZxyT82P5Zq4s
+        episode: 35
         title: 'Gute-Nacht-Geschichten - Folge 35: Der mutige Löwe'
         release_date: '2024-11-08'
       - id: 22IyszbjSWQ9PHD7UEjalx
+        episode: 36
         title: 'Gute-Nacht-Geschichten - Folge 36: Die Zoomärchenstunde'
         release_date: '2025-10-31'
       - id: 7473i7iDDz5kC3BLsgEdXc
+        episode: 37
         title: 'Gute-Nacht-Geschichten - Folge 37: Der Funkenregenbogen'
         release_date: '2026-06-19'
     apple_music:
       artist_ids:
       - '215716521'
       albums:
-      - id: '1287160158'
-        title: 'Gute Nacht Geschichten - Folge 8: Die kleine freche Sternschnuppe'
-        release_date: '2007-01-01'
-      - id: '1038159013'
-        title: 'Benjamin Blümchen Gute-Nacht-Geschichten - Folge 6: 24 Weihnachts-Geschichten'
-        release_date: '2007-06-08'
-      - id: '1458126368'
-        title: 'Gute Nacht Geschichten - Folge 25: Der verschwundene Stern'
-        release_date: '2007-06-09'
-      - id: '1458122758'
-        title: 'Gute Nacht Geschichten - Folge 10: Das Schoko-Fest beim Tortenkönig'
-        release_date: '2007-09-03'
       - id: '1458352781'
+        episode: 1
         title: 'Gute-Nacht-Geschichten - Folge 1: Wo ist Winnie Waschbär?'
         release_date: '2007-09-03'
       - id: '1458353140'
+        episode: 2
         title: 'Gute-Nacht-Geschichten - Folge 2: Die Rauschemuschel'
         release_date: '2007-09-03'
       - id: '1458352461'
+        episode: 3
         title: 'Gute-Nacht-Geschichten - Folge 3: Wüstenfüchse fliegen nicht'
         release_date: '2007-09-03'
       - id: '1458353358'
+        episode: 4
         title: 'Gute-Nacht-Geschichten - Folge 4: Benjamin und die Glühwürmchen'
         release_date: '2007-09-03'
       - id: '1458351842'
+        episode: 5
         title: 'Gute-Nacht-Geschichten - Folge 5: Kuscheln mit dem Osterhasen'
         release_date: '2007-09-03'
+      - id: '1038159013'
+        episode: 6
+        title: 'Benjamin Blümchen Gute-Nacht-Geschichten - Folge 6: 24 Weihnachts-Geschichten'
+        release_date: '2007-06-08'
       - id: '1458751755'
+        episode: 7
         title: 'Gute-Nacht-Geschichten - Folge 7: A,B,C-Geschichten / 1,2,3-Geschichten'
         release_date: '2007-09-03'
+      - id: '1287160158'
+        episode: 8
+        title: 'Gute Nacht Geschichten - Folge 8: Die kleine freche Sternschnuppe'
+        release_date: '2007-01-01'
       - id: '1458351833'
+        episode: 9
         title: 'Gute-Nacht-Geschichten - Folge 9: Fußballspaß im Zoo'
         release_date: '2007-09-03'
+      - id: '1458122758'
+        episode: 10
+        title: 'Gute Nacht Geschichten - Folge 10: Das Schoko-Fest beim Tortenkönig'
+        release_date: '2007-09-03'
       - id: '1287160617'
+        episode: 11
         title: 'Gute Nacht Geschichten - Folge 11: Badespaß im Zoo'
         release_date: '2008-01-01'
       - id: '1458355969'
+        episode: 12
         title: 'Gute-Nacht-Geschichten - Folge 12: Frühling, Sommer, Herbst und Winter'
         release_date: '2009-09-04'
-      - id: '1287204519'
-        title: 'Gute Nacht Geschichten - Folge 13: Die Traumfee-Königin Karolila'
-        release_date: '2010-01-01'
       - id: '1069063539'
+        episode: 13
         title: 'Benjamin Blümchen Gute-Nacht-Geschichten - Folge 13: Die Traumfeekönigin Karolila'
         release_date: '2010-09-10'
       - id: '1458122474'
+        episode: 14
         title: 'Gute Nacht Geschichten - Folge 14: Im Traumland'
         release_date: '2011-09-02'
       - id: '1458376002'
+        episode: 15
         title: 'Gute-Nacht-Geschichten - Folge 15: Die Märchennacht im Zoo'
         release_date: '2012-03-09'
       - id: '1458376501'
+        episode: 16
         title: 'Gute-Nacht-Geschichten - Folge 16: Meine liebsten Kuscheltiere'
         release_date: '2012-09-07'
       - id: '1287159375'
+        episode: 17
         title: 'Gute Nacht Geschichten - Folge 17: Mondgeschichten'
         release_date: '2013-01-01'
       - id: '1458123123'
+        episode: 18
         title: 'Gute-Nacht-Geschichten - Folge 18: Die Pyjama-Party'
         release_date: '2013-11-08'
       - id: '1458350733'
+        episode: 19
         title: 'Gute-Nacht-Geschichten - Folge 19: Tiere der Nacht'
         release_date: '2014-09-05'
       - id: '1458350988'
+        episode: 20
         title: 'Gute-Nacht-Geschichten - Folge 20: Das schnarchende Krokodil'
         release_date: '2014-11-07'
       - id: '1458351055'
+        episode: 21
         title: 'Gute-Nacht-Geschichten - Folge 21: Das fliegende Bett'
         release_date: '2015-09-04'
       - id: '1458351777'
+        episode: 22
         title: 'Gute-Nacht-Geschichten - Folge 22: Gute Nacht im Zoo'
         release_date: '2015-11-06'
       - id: '1458355650'
+        episode: 23
         title: 'Gute-Nacht-Geschichten - Folge 23: Kleine Helden'
         release_date: '2016-09-09'
       - id: '1458349480'
+        episode: 24
         title: 'Gute-Nacht-Geschichten - Folge 24: Der Traumwichtel'
         release_date: '2016-11-11'
+      - id: '1458126368'
+        episode: 25
+        title: 'Gute Nacht Geschichten - Folge 25: Der verschwundene Stern'
+        release_date: '2007-06-09'
       - id: '1293269857'
+        episode: 26
         title: 'Gute Nacht Geschichten - Folge 26: Im Schneckentempo'
         release_date: '2017-10-13'
       - id: '1333181294'
+        episode: 27
         title: 'Gute Nacht Geschichten - Folge 27: Krümel, der freche Hamster'
         release_date: '2018-01-26'
       - id: '1439332340'
+        episode: 28
         title: 'Gute Nacht Geschichten - Folge 28: Der Winterschlaf-Teddy'
         release_date: '2018-10-26'
       - id: '1465950082'
+        episode: 29
         title: 'Gute-Nacht-Geschichten - Folge 29: Im Kindergarten'
         release_date: '2019-06-14'
       - id: '1536986439'
+        episode: 31
         title: 'Gute-Nacht-Geschichten - Folge 31: Alle meine Tierkinder'
         release_date: '2020-11-06'
       - id: '1581446133'
+        episode: 32
         title: 'Gute-Nacht-Geschichten - Folge 32: Der Herbst ist da'
         release_date: '2021-09-10'
       - id: '1631517975'
+        episode: 33
         title: 'Gute-Nacht-Geschichten - Folge 33: Im Reisefieber'
         release_date: '2022-07-08'
       - id: '1692770508'
+        episode: 34
         title: 'Gute-Nacht-Geschichten - Folge 34: Hilfe, ich kann nicht schlafen!'
         release_date: '2023-07-07'
       - id: '1772761022'
+        episode: 35
         title: 'Gute-Nacht-Geschichten - Folge 35:  Der mutige Löwe'
         release_date: '2024-11-08'
       - id: '1843651398'
+        episode: 36
         title: 'Gute-Nacht-Geschichten - Folge 36: Die Zoomärchenstunde'
         release_date: '2025-10-31'
       - id: '6770476376'
+        episode: 37
         title: 'Gute-Nacht-Geschichten - Folge 37: Der Funkenregenbogen'
         release_date: '2026-06-19'
+      - id: '1287204519'
+        title: 'Gute Nacht Geschichten - Folge 13: Die Traumfee-Königin Karolila'
+        release_date: '2010-01-01'
   series_facts:
     sub_series:
-    - label: adventskalender
-      album_ids:
-      - spotify:6omdBXnJMvLS2c9rAIHLfN
-      reason: Annual Christmas calendar product with daily audio chapters, distinct format from regular episodic releases
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-10-03T04:08:47.913695+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-10-03T04:08:47.913695+00:00'
-    - label: music
+      label: music
       album_ids:
       - spotify:1RuEM4ttfEhpZwBZC8YxtH
       reason: "Liederalbum: song compilation under the Find's raus brand, different listening experience from educational Hörspiele"
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-10-03T04:08:47.913695+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-10-03T04:08:47.913695+00:00'
-    - label: tv_series
+      label: tv_series
       album_ids:
       - apple_music:6786907225
       - apple_music:6794742872
@@ -58325,10 +58448,6 @@ series:
       - spotify:0NPwHLmOebRIlC9JoqDiDc
       - spotify:0gD0zoTkQ5NHGtUuOyPqtz
       reason: Hörspiele zur TV-Serie, distinct CGI-animated product line with its own reference index entry and separate branding from the original Hörspiele
-      curated_by: minimax-m2.7
-      curated_at: '2026-10-03T04:08:47.913695+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-03T04:08:47.913695+00:00'
 - id: benjamin_bluemchen_tv_serie
   title: 'Benjamin Blümchen: TV-Serie'
   aliases:
@@ -58350,6 +58469,9 @@ series:
       - id: 06WqykBOQJpIF1VqwavWWh
         title: Benjamin und die Tiere (Hörspiele zur TV-Serie)
         release_date: '2026-05-08'
+      - id: 2hNZ0NTKbTJEhkY49z7eic
+        title: Abenteuergeschichten mit Benjamin (Hörspiele zur TV-Serie)
+        release_date: '2026-10-02'
     apple_music:
       artist_ids:
       - '215716521'
@@ -58360,6 +58482,9 @@ series:
       - id: '1892392106'
         title: Benjamin und die Tiere (Hörspiele zur TV-Serie)
         release_date: '2026-05-08'
+      - id: '6807597541'
+        title: Abenteuergeschichten mit Benjamin (Hörspiele zur TV-Serie)
+        release_date: '2026-10-02'
   series_facts:
     sub_series:
     - label: adventskalender
