@@ -24,7 +24,9 @@ has one of its own.
 import difflib
 import re
 import unicodedata
-from dataclasses import dataclass
+from collections.abc import Callable
+from dataclasses import dataclass, field
+from datetime import date, timedelta
 from pathlib import Path
 from typing import Literal, TypedDict
 
@@ -251,3 +253,173 @@ def map_catalog(
         for each in own:
             mapping.update(_map_family(each, index, overrides))
     return mapping
+
+
+#: "Die Piraten - Teil 2" as a track is a piece of the story, not its second part
+_TRACK_PART = re.compile(r"\s*[-–]\s*(teil|part|kapitel|track)\s*\d+.*$", re.IGNORECASE)
+#: the index lags behind the stores by weeks, so a newer album is set aside
+_INDEX_LAG = timedelta(weeks=8)
+
+
+@dataclass(frozen=True)
+class IndexEpisode:
+    line: str
+    number: int | None
+    title: str
+
+
+@dataclass(frozen=True)
+class ShippedAlbum:
+    """One release as the entry ships it, the stores' twins taken as one."""
+
+    number: int | None
+    title: str
+    providers: tuple[str, ...]
+    release_date: str | None
+
+
+@dataclass(frozen=True)
+class Pair:
+    index: IndexEpisode
+    ours: ShippedAlbum
+
+
+@dataclass
+class EntryMatch:
+    """What a deterministic comparison of an entry with its index lines
+    settles, and the two lists it leaves open."""
+
+    matched: int = 0
+    #: index stories bundled into an album that matched another story
+    bundled: int = 0
+    #: index stories found among the track names of a shipped album
+    in_tracks: int = 0
+    number_differs: list[Pair] = field(default_factory=list)
+    #: the same number on both sides, a different story
+    title_differs: list[Pair] = field(default_factory=list)
+    #: matched, and we ship it without the number the index gives
+    unnumbered: list[Pair] = field(default_factory=list)
+    open_index: list[IndexEpisode] = field(default_factory=list)
+    open_ours: list[ShippedAlbum] = field(default_factory=list)
+    #: numbered above the index lines or released lately: the index cannot know them yet
+    newer: list[ShippedAlbum] = field(default_factory=list)
+
+
+def _number(value: str | None) -> int | None:
+    return int(value) if value is not None and value.isdigit() else None
+
+
+def shipped_albums(entry: CatalogEntry) -> list[ShippedAlbum]:
+    """The entry's albums, one per episode number or, unnumbered, per title."""
+    merged: dict[object, dict] = {}
+    for provider, cfg in entry.providers.items():
+        for album in cfg.albums:
+            number = album.get("episode")
+            title = album.get("title") or ""
+            key = number if number is not None else _name_key(title)
+            row = merged.setdefault(
+                key,
+                {
+                    "number": number,
+                    "title": title,
+                    "providers": [],
+                    "release_date": album.get("release_date"),
+                },
+            )
+            row["providers"].append(provider)
+    return [
+        ShippedAlbum(r["number"], r["title"], tuple(r["providers"]), r["release_date"])
+        for r in merged.values()
+    ]
+
+
+def match_entry(
+    entry: CatalogEntry,
+    lines: tuple[ReferenceLine, ...],
+    *,
+    today: date,
+    drop: frozenset[str] = frozenset(),
+    tracks: Callable[[], list[str]] | None = None,
+) -> EntryMatch:
+    """Pair the entry's shipped albums with the episodes of its index lines.
+
+    A story pairs under its own number first, then by title anywhere. An
+    index story that pairs with nothing may sit in an album that matched
+    another story, or among the track names, which ``tracks`` reads only
+    when it gets that far.
+    """
+    ours = shipped_albums(entry)
+    result = EntryMatch()
+    used: set[int] = set()
+    track_titles: list[str] | None = None
+    episodes = [
+        IndexEpisode(line.name, _number(ep.number), ep.title)
+        for line in lines
+        for ep in line.episodes
+    ]
+    by_number = {a.number: i for i, a in enumerate(ours) if a.number is not None}
+
+    pending: list[IndexEpisode] = []
+    for ep in episodes:
+        i = by_number.get(ep.number) if ep.number is not None else None
+        if (
+            i is not None
+            and i not in used
+            and same_story(ep.title, ours[i].title, drop)
+        ):
+            used.add(i)
+            result.matched += 1
+        else:
+            pending.append(ep)
+
+    for ep in pending:
+        i = next(
+            (
+                j
+                for j, a in enumerate(ours)
+                if j not in used and same_story(ep.title, a.title, drop)
+            ),
+            None,
+        )
+        if i is not None:
+            used.add(i)
+            album = ours[i]
+            if (
+                ep.number is not None
+                and album.number is not None
+                and ep.number != album.number
+            ):
+                result.number_differs.append(Pair(ep, album))
+                continue
+            result.matched += 1
+            if ep.number is not None and album.number is None:
+                result.unnumbered.append(Pair(ep, album))
+            continue
+        if any(same_story(ep.title, ours[j].title, drop) for j in used):
+            result.bundled += 1
+            continue
+        i = by_number.get(ep.number) if ep.number is not None else None
+        if i is not None and i not in used:
+            used.add(i)
+            result.title_differs.append(Pair(ep, ours[i]))
+            continue
+        if tracks is not None:
+            if track_titles is None:
+                track_titles = [_TRACK_PART.sub("", t) for t in tracks()]
+            if any(same_story(ep.title, t, drop) for t in track_titles):
+                result.in_tracks += 1
+                continue
+        result.open_index.append(ep)
+
+    top = max((ep.number or 0 for ep in episodes), default=0)
+    for j, album in enumerate(ours):
+        if j in used:
+            continue
+        recent = bool(album.release_date) and str(album.release_date) > str(
+            today - _INDEX_LAG
+        )
+        if recent or (album.number is not None and album.number > top):
+            result.newer.append(album)
+        else:
+            result.open_ours.append(album)
+    return result

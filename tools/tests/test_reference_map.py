@@ -1,15 +1,18 @@
 """Which reference index series and lines each catalog entry is compared
 against: by name, by the override file, and line by line inside a family."""
 
+from datetime import date
 from pathlib import Path
 
 from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
 from lauschi_catalog.catalog.reference_map import (
+    IndexEpisode,
     load_overrides,
     map_catalog,
+    match_entry,
     same_story,
 )
-from lauschi_catalog.reference import ReferenceIndex
+from lauschi_catalog.reference import ReferenceEpisode, ReferenceIndex, ReferenceLine
 
 
 def _line(name: str, *titles: str) -> dict:
@@ -198,3 +201,101 @@ def test_same_story_folds_spelling_and_keeps_parts_apart() -> None:
     assert same_story("Der Schlüssel", "Der Schluessel")
     assert not same_story("Die Party (Teil 1)", "Die Party (Teil 2)")
     assert not same_story("Der Drache", "Die Piraten")
+
+
+def _ep(line: str, number: int | None, title: str) -> IndexEpisode:
+    return IndexEpisode(line=line, number=number, title=title)
+
+
+def _lines(*episodes: IndexEpisode) -> tuple[ReferenceLine, ...]:
+    by_line: dict[str, list[ReferenceEpisode]] = {}
+    for ep in episodes:
+        number = str(ep.number) if ep.number is not None else None
+        by_line.setdefault(ep.line, []).append(ReferenceEpisode(number, ep.title, None))
+    return tuple(ReferenceLine(name, eps) for name, eps in by_line.items())
+
+
+def _shipping(*albums: tuple[str, int | None, str, str]) -> CatalogEntry:
+    """(provider, number, title, release date) per shipped album."""
+    providers: dict[str, ProviderConfig] = {}
+    for i, (provider, number, title, released) in enumerate(albums):
+        cfg = providers.setdefault(provider, ProviderConfig())
+        cfg.albums.append(
+            {"id": f"a{i}", "episode": number, "title": title, "release_date": released}
+        )
+    return CatalogEntry(id="lilli", title="Hexe Lilli", providers=providers)
+
+
+TODAY = date(2026, 10, 17)
+
+
+def test_a_story_under_its_number_matches_and_the_store_twins_are_one_album() -> None:
+    entry = _shipping(
+        ("spotify", 1, "Folge 1: Die Zauberschule", "2001-01-01"),
+        ("apple_music", 1, "Folge 1: Die Zauberschule", "2001-01-01"),
+    )
+    result = match_entry(
+        entry, _lines(_ep("Hörspiele", 1, "Die Zauberschule")), today=TODAY
+    )
+    assert result.matched == 1
+    assert result.open_index == [] and result.open_ours == []
+
+
+def test_numbers_and_titles_that_disagree_are_named() -> None:
+    entry = _shipping(
+        ("spotify", 2, "Folge 2: Die Piraten", "2001-01-01"),
+        ("spotify", 3, "Folge 3: Im Zoo", "2001-01-01"),
+    )
+    lines = _lines(
+        _ep("Hörspiele", 5, "Die Piraten"), _ep("Hörspiele", 3, "Der Drache")
+    )
+    result = match_entry(entry, lines, today=TODAY)
+    [moved] = result.number_differs
+    assert (moved.index.number, moved.ours.number) == (5, 2)
+    [renamed] = result.title_differs
+    assert (renamed.index.title, renamed.ours.title) == (
+        "Der Drache",
+        "Folge 3: Im Zoo",
+    )
+
+
+def test_an_album_that_lacks_the_index_number_still_matches() -> None:
+    entry = _shipping(("spotify", None, "Die Zauberschule", "2001-01-01"))
+    result = match_entry(
+        entry, _lines(_ep("Hörspiele", 1, "Die Zauberschule")), today=TODAY
+    )
+    assert result.matched == 1
+    assert [p.index.number for p in result.unnumbered] == [1]
+
+
+def test_stories_bundled_in_one_album_or_named_by_its_tracks_count_as_shipped() -> None:
+    entry = _shipping(
+        ("spotify", None, "Die Zauberschule und Der Drache", "2001-01-01")
+    )
+    lines = _lines(
+        _ep("Hörspiele", 1, "Die Zauberschule"),
+        _ep("Hörspiele", 2, "Der Drache"),
+        _ep("Hörspiele", 3, "Die Piraten"),
+    )
+    result = match_entry(
+        entry, lines, today=TODAY, tracks=lambda: ["Die Piraten - Teil 1"]
+    )
+    assert (result.matched, result.bundled, result.in_tracks) == (1, 1, 1)
+    assert result.open_index == []
+
+
+def test_what_neither_side_matches_is_left_open() -> None:
+    entry = _shipping(("spotify", None, "Lilli im Zirkus", "2001-01-01"))
+    result = match_entry(entry, _lines(_ep("Hörspiele", 9, "Die Piraten")), today=TODAY)
+    assert [ep.title for ep in result.open_index] == ["Die Piraten"]
+    assert [a.title for a in result.open_ours] == ["Lilli im Zirkus"]
+
+
+def test_albums_the_index_cannot_know_yet_are_set_aside() -> None:
+    entry = _shipping(
+        ("spotify", 4, "Folge 4: Lilli am Meer", "2026-09-30"),
+        ("spotify", 12, "Folge 12: Lilli im Schnee", "2015-01-01"),
+    )
+    result = match_entry(entry, _lines(_ep("Hörspiele", 3, "Der Drache")), today=TODAY)
+    assert sorted(a.number for a in result.newer) == [4, 12]
+    assert result.open_ours == []
