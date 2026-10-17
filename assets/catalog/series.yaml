@@ -45082,6 +45082,9 @@ series:
       - id: 21iU8QtgINaMWyCLZGX9Mq
         title: Boom Schakkalakka
         release_date: '2022-08-26'
+      - id: 4hK6J6iIMycjyz1tXNCpKd
+        title: 'Dikka & Freunde: Kool Savas, LEA, Nico Santos und Co'
+        release_date: '2023-07-17'
       - id: 4OnFkDmo8HQDoUxaL2zqHe
         title: Auf die Plätzchen, Fertig, Los
         release_date: '2023-10-20'
@@ -45143,6 +45146,9 @@ series:
       - id: '1599760843'
         title: Boom Schakkalakka
         release_date: '2022-08-26'
+      - id: '1695939805'
+        title: 'Dikka & Freunde: Kool Savas, LEA, Nico Santos und Co'
+        release_date: '2023-07-17'
       - id: '1717753114'
         title: Lasst uns frech und munter sein - EP
         release_date: '2023-11-24'
@@ -47555,6 +47561,9 @@ series:
       - id: 0wLvHZNHXf35ysGUMmlGaz
         title: Giraffenaffen Winterlieder
         release_date: '2023-12-22'
+      - id: 0tjFugr3lvDchnY359nQhb
+        title: Wenn ich groß bin
+        release_date: '2024-09-27'
       - id: 20hBTS92YHvo2a1ctaNO4K
         title: Giraffenaffen 9 - Weltreise
         release_date: '2024-10-18'
@@ -55287,14 +55296,20 @@ series:
       artist_ids:
       - 59bf2D81aHzl0ot28xzQbk
       albums:
-      - id: 18VhqHmxAmBFBXWY2R6DkA
-        title: Eule findet den Beat - Die Songs
       - id: 5AIne2dginz0Y4YvflooBr
         title: Eule findet den Beat - Auf Europatour - Die Songs
+      - id: 18VhqHmxAmBFBXWY2R6DkA
+        title: Eule findet den Beat - Die Songs
       - id: 3sYgFUztZnNDjfPepBdeft
         title: Eule findet den Beat - mit Gefühl - Die Songs
       - id: 4BFa9zVIU3vrF5neD4hKy6
         title: Eule findet den Beat - mit Instrumenten - Die Songs
+      - id: 1bYD4jUtb3YPDKG8U3fEVk
+        title: Musikunterricht mit Eule findet den Beat
+        release_date: '2025-08-15'
+      - id: 4e6wJ6A5hWoTeDm5ZUmtdA
+        title: Sommerlieder mit Eule
+        release_date: '2025-08-15'
     apple_music:
       artist_ids:
       - '419885903'
@@ -55311,6 +55326,12 @@ series:
       - id: '1646624029'
         title: Eule findet den Beat 4 - Die Songs
         release_date: '2022-11-11'
+      - id: '1833020770'
+        title: Musikunterricht mit Eule findet den Beat
+        release_date: '2025-08-15'
+      - id: '1833052843'
+        title: Sommerlieder mit Eule
+        release_date: '2025-08-15'
 - id: feuerwehrmann_sam_film_hoerspiele
   title: 'Feuerwehrmann Sam: Film Hoerspiele'
   aliases: []
