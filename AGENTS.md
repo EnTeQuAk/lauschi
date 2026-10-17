@@ -71,6 +71,7 @@ mise run catalog-apply        # Write approved curations into series.yaml
 mise run catalog-splits       # Manage AI-proposed series splits
 mise run catalog-validate     # Validate series.yaml against provider APIs (L1 + L5)
 mise run catalog-drift        # Check shipped albums against live provider records
+mise run catalog-qa           # Compare entries with the reference index (see "Reference index QA")
 mise run catalog-report       # Show curation statistics (included/excluded/gaps)
 mise run catalog-review       # List series needing human attention (escalated, flagged)
 mise run catalog-edit         # Manual include/exclude on curations
@@ -211,6 +212,27 @@ the wrong entry of a family moves with
 `catalog-edit move <from> <to> <provider>:<album_id>...`: the entry that
 gives it up records the new owner, the entry that takes it numbers it by its
 own pattern, and `apply` for both (the giving one first) writes series.yaml.
+
+#### Reference index QA
+
+`mise run catalog-qa` (all mapped entries, or `-- <id>...`) checks the
+catalog against the reference index, one entry at a time, and changes
+nothing: it writes `logs/catalog/qa-<time>.json` and prints a table.
+`catalog/reference_map.py` gives each entry its index series (the one
+named like its main series) and lines (each to the family member that
+ships most of it), and pairs its shipped albums with those lines' episodes
+by number, title and track names. What pairs with nothing on either side
+goes to a model (`glm-5.3-flash` by default, `-m` to change), in a run of
+its own per entry, which names every open item `same_story`,
+`should_ship`, `rightly_absent`, `out_of_place` or `unlisted`. Albums the
+index cannot know yet (numbered past its lines, out in the last eight
+weeks) and albums a person placed with `catalog-edit` are set aside
+before the model sees them.
+
+Where the names differ, a member owns a line its titles do not show, or
+the index has nothing for an entry, `assets/catalog/reference_map.yaml`
+says so (format in the module's docstring). The file is tooling data and
+does not ship with the app.
 
 #### Evaluating a change
 

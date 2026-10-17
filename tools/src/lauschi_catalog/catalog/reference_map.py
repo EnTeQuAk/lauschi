@@ -276,6 +276,8 @@ class ShippedAlbum:
     title: str
     providers: tuple[str, ...]
     release_date: str | None
+    #: (provider, album id) of each store's release
+    ids: tuple[tuple[str, str], ...] = ()
 
 
 @dataclass(frozen=True)
@@ -323,12 +325,20 @@ def shipped_albums(entry: CatalogEntry) -> list[ShippedAlbum]:
                     "number": number,
                     "title": title,
                     "providers": [],
+                    "ids": [],
                     "release_date": album.get("release_date"),
                 },
             )
             row["providers"].append(provider)
+            row["ids"].append((provider, album["id"]))
     return [
-        ShippedAlbum(r["number"], r["title"], tuple(r["providers"]), r["release_date"])
+        ShippedAlbum(
+            r["number"],
+            r["title"],
+            tuple(r["providers"]),
+            r["release_date"],
+            tuple(r["ids"]),
+        )
         for r in merged.values()
     ]
 

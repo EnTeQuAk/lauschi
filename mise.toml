@@ -96,6 +96,10 @@ run = "uv run --directory tools lauschi-catalog validate"
 description = "Check every shipped album still resolves AND still means what we recorded"
 run = "uv run --directory tools lauschi-catalog drift"
 
+[tasks.catalog-qa]
+description = "Check entries against the reference index: a script pairs, a model judges what stays open (report only)"
+run = "uv run --directory tools --extra ai lauschi-catalog qa"
+
 [tasks.catalog-validate-spotify]
 description = "Validate series.yaml against Spotify only"
 run = "uv run --directory tools lauschi-catalog validate -p spotify"
