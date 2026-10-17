@@ -30661,14 +30661,14 @@ series:
       artist_ids:
       - 6k51vTPqkkOG4SpZwtZS1s
       albums:
-      - id: 5IvJy1Du9wegfIZQpmih6q
+      - id: 1UcA02mGWEzVAtsHAYDIwT
         episode: 1
-        title: '01: Der Fahrraddieb'
-        release_date: '2026-02-20'
-      - id: 1HaIoix7fLbFif1Xbregxs
+        title: '01: Auf der Abenteuerburg'
+        release_date: '1989-01-09'
+      - id: 3PEi6aG3teyB7tm4Pan37v
         episode: 2
-        title: '02: Die geheime Hütte'
-        release_date: '2026-07-24'
+        title: '02: Lösen das Geheimnis der Abenteuerburg'
+        release_date: '1989-01-09'
       - id: 4xUkMge2gbrb3CM7HzCLhV
         episode: 3
         title: '03: Im unheimlichen Schloss'
@@ -30861,12 +30861,6 @@ series:
         episode: 51
         title: '51: Der trügerische See'
         release_date: '2026-08-14'
-      - id: 1UcA02mGWEzVAtsHAYDIwT
-        title: '01: Auf der Abenteuerburg'
-        release_date: '1989-01-09'
-      - id: 3PEi6aG3teyB7tm4Pan37v
-        title: '02: Lösen das Geheimnis der Abenteuerburg'
-        release_date: '1989-01-09'
       - id: 0GLBbIANjLK4coMS9Tvtnv
         title: Der letzte Schrei
         release_date: '2024-08-16'
@@ -30881,10 +30875,10 @@ series:
         episode: 1
         title: '01: Auf der Abenteuerburg'
         release_date: '1989-01-09'
-      - id: '6781859488'
+      - id: '1437179096'
         episode: 2
-        title: '02: Die geheime Hütte'
-        release_date: '2026-07-24'
+        title: '02: Lösen das Geheimnis der Abenteuerburg'
+        release_date: '1989-01-09'
       - id: '1437177063'
         episode: 3
         title: '03: Im unheimlichen Schloss'
@@ -31077,9 +31071,6 @@ series:
         episode: 51
         title: '51: Der trügerische See'
         release_date: '2026-08-14'
-      - id: '1437179096'
-        title: '02: Lösen das Geheimnis der Abenteuerburg'
-        release_date: '1989-01-09'
       - id: '1449571015'
         title: Verschollen in Fernost
         release_date: '2019-02-15'
@@ -31114,16 +31105,6 @@ series:
       number: 44
       range_end:
       reason: Folge 44 'Gefährlich rieselt der Schnee' exists on Spotify as an unnumbered full album (included); Apple Music has no equivalent.
-    sub_series:
-    - label: kids
-      album_ids:
-      - apple_music:1862815021
-      reason: Age-bracket spin-off for younger children (5 Geschwister Kids), distinct product line with its own numbering, confirmed by artist credit '5 Geschwister & 5 Geschwister Kids' on the 
-        excluded album.
-      curated_by: minimax-m2.7
-      curated_at: '2026-10-03T08:32:02.529043+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-10-03T08:32:02.529043+00:00'
 - id: mein_lotta_leben
   title: Mein Lotta-Leben
   providers:
@@ -62769,3 +62750,33 @@ series:
       - id: '1069059907'
         title: Kurzgeschichte - Zeltausflug mit Hindernissen - Single
         release_date: '2015-08-28'
+- id: 5_geschwister_kids
+  title: 5 Geschwister Kids
+  aliases: []
+  episode_pattern: '^(\d{2}): '
+  split_from: 5_geschwister
+  providers:
+    spotify:
+      artist_ids:
+      - 0rHGaNnaOuz9bYZj9WDrPy
+      albums:
+      - id: 5IvJy1Du9wegfIZQpmih6q
+        episode: 1
+        title: '01: Der Fahrraddieb'
+        release_date: '2026-02-20'
+      - id: 1HaIoix7fLbFif1Xbregxs
+        episode: 2
+        title: '02: Die geheime Hütte'
+        release_date: '2026-07-24'
+    apple_music:
+      artist_ids:
+      - '1862814384'
+      albums:
+      - id: '1862815021'
+        episode: 1
+        title: '01: Der Fahrraddieb'
+        release_date: '2026-02-20'
+      - id: '6781859488'
+        episode: 2
+        title: '02: Die geheime Hütte'
+        release_date: '2026-07-24'
