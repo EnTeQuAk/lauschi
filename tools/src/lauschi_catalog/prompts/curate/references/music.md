@@ -29,18 +29,13 @@ not this artist's album at all: other artists' compilations, singles,
 format variants, content of another type, and albums that are not for
 children.
 
-Singles stay excluded (`music_single`): one-track albums make poor
-listening units, and their songs are on the albums.
-
-An EP is not a single. `album_type=ep` marks a short release of several
-different songs (Spotify returns these as singles, so the field is named
-from the track count; Apple Music titles them " - EP"), and it is a small
-album of the artist's: include it. Read the track names first: one song
-in several versions (original, instrumental, karaoke, remix) is still a
-single, `music_single`, or `format_variant` for the version-only packs. A
-title the store itself marks " - Single" or "(Instrumental)" has its
-reason ready-made, `music_single` or `format_variant`; never leave such
-an album `unspecified`.
+Singles stay excluded (`music_single`): a single is one song, alone or
+with versions of it, and the song is on the artist's albums. A release
+of several different songs is a small album of the artist's, whatever
+a store or an index calls it: include it. A release made only of
+versions of one song (instrumental, karaoke, remix) is
+`format_variant`. When you leave an album out, name its reason, never
+`unspecified`.
 
 ## Failure taxonomy
 

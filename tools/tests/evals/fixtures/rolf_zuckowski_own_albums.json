@@ -1,6 +1,6 @@
 {
  "question": "Are the artist's own albums for children kept, also the themed ones and the best-of, while singles and his albums for adults are left out?",
- "built_with": "rolf_zuckowski rolf_zuckowski_own_albums --match '^Starke Kinder$|Rolfs Kinderfrühling|^Der kleine Tag$|Neue Schule|Der Spielmann|fröhlicher Familientag|Bei uns in der Kita - 22 Lieder im Frühling|Gute Laune|Europa Kinderland|Kita ist mehr|Selbstportrait|bayerische Vogelhochzeit|^Rolfs Hasengeschichte$|Urfassung|neue Vogelhochzeit|Weihnachtsbäckerei' --albums apple_music:1442238036 apple_music:1688448748 apple_music:1774754436 apple_music:1843665485 spotify:4ThoiOZmkF8ZLIatJDyajl",
+ "built_with": "rolf_zuckowski rolf_zuckowski_own_albums --match '^Starke Kinder$|Rolfs Kinderfrühling|^Der kleine Tag$|Neue Schule|Der Spielmann|fröhlicher Familientag|Bei uns in der Kita - 22 Lieder im Frühling|Gute Laune|Europa Kinderland|Kita ist mehr|Selbstportrait|bayerische Vogelhochzeit|^Rolfs Hasengeschichte$|Urfassung|neue Vogelhochzeit|Weihnachtsbäckerei|^Mein Jahr des Kindes' --albums apple_music:1442238036 apple_music:1688448748 apple_music:1774754436 apple_music:1843665485 spotify:4ThoiOZmkF8ZLIatJDyajl",
  "series": {
   "id": "rolf_zuckowski",
   "title": "Rolf Zuckowski",
@@ -129,7 +129,6 @@
   {"album_id": "1763277515", "provider": "apple_music", "title": "Kindergeburtstag mit Rolf Zuckowski", "include": false, "episode_num": null, "release_date": "2024-08-30", "exclude_reason": "kinderlieder_compilation", "notes": "Themed compilation (type=compilation, 26 tracks). Artist has many regular studio albums; this is redundant."},
   {"album_id": "1644241659", "provider": "apple_music", "title": "Leben ist mehr", "include": true, "episode_num": null, "release_date": "2007-09-28"},
   {"album_id": "1630319236", "provider": "apple_music", "title": "Little Darling - Single", "include": false, "episode_num": null, "release_date": "2022-07-01", "exclude_reason": "music_single", "notes": "Single/EP release: 2 tracks, 4.6 min total. Short duration, titled as Single."},
-  {"album_id": "1555436995", "provider": "apple_music", "title": "Mein Jahr des Kindes - Single", "include": false, "episode_num": null, "release_date": "2021-03-05", "exclude_reason": "music_single", "notes": "Single/EP release: 2 tracks, 5.9 min total."},
   {"album_id": "1442537853", "provider": "apple_music", "title": "Mein Lebensliederbuch", "include": false, "episode_num": null, "release_date": "2014-05-02", "exclude_reason": "kinderlieder_compilation", "notes": "type=compilation; artist has many regular studio albums so this collection of previously released songs is redundant"},
   {"album_id": "1620464052", "provider": "apple_music", "title": "Meine Hits und Herzenslieder", "include": false, "episode_num": null, "release_date": "2022-05-06", "exclude_reason": "kinderlieder_compilation", "notes": "'Meine Hits...' best-of compilation (type=compilation, 46 tracks). Artist has many regular studio albums; this is redundant."},
   {"album_id": "1811631775", "provider": "apple_music", "title": "Mit Kindern singen - Rolfs Gitarrenschule", "include": true, "episode_num": null, "release_date": "2010-01-01"},
@@ -1108,6 +1107,24 @@
     {"name": "In der Weihnachtsbäckerei (Arr. Schindler for Piano)", "duration_ms": 162668, "track_number": null}
    ],
    "expect": {"include": false, "exclude_reason": "music_single", "source": "by hand: one track, a piano arrangement. The reference index lists the album and one other single of the song"}
+  },
+  {
+   "provider": "apple_music",
+   "id": "1555436995",
+   "title": "Mein Jahr des Kindes - Single",
+   "episode_num": null,
+   "release_date": "2021-03-05",
+   "album_type": "album",
+   "total_tracks": 2,
+   "duration_min": 5.9,
+   "label": "",
+   "artist": "Rolf Zuckowski",
+   "image_url": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/75/0b/5e/750b5e5b-c0d4-2ab6-cfb3-854bf7e864e5/21UMGIM12901.rgb.jpg/300x300bb.jpg",
+   "tracks": [
+    {"name": "Mein Jahr des Kindes", "duration_ms": 201742, "track_number": null},
+    {"name": "Mein Weg zur Schule", "duration_ms": 152819, "track_number": null}
+   ],
+   "expect": {"include": true, "source": "by hand: two different songs of his for children make a small album, whatever the store calls it (Chris, 2026-10-17). The reference index files it under Singles"}
   }
  ]
 }

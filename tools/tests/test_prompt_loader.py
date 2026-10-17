@@ -144,11 +144,14 @@ class TestPolicyTeaching:
     """The policy decided 2026-09-05 is taught, not listed; these pins keep
     the statements that carry a decision alive until someone re-decides."""
 
-    def test_an_ep_is_included_and_is_not_a_single(self):
+    def test_several_songs_are_a_small_album_whatever_the_store_calls_it(self):
         """Decided 2026-10-03: a music artist's EP is a small album, while
-        an EP label in a Hörspiel series says nothing about the content."""
+        an EP label in a Hörspiel series says nothing about the content.
+        Decided 2026-10-17: so is a release the store titles " - Single"
+        when it holds several different songs."""
         music = load_curate_skill(phase="batch", content_type="music")
-        assert "An EP is not a single." in music
+        assert "of several different songs is a small album of the artist's" in music
+        assert "a store or an index calls it: include it" in music
         hoerspiel = load_curate_skill(phase="batch", content_type="hoerspiel")
         assert "no signal on its own" in hoerspiel
 
