@@ -165,6 +165,29 @@ def test_an_entry_with_nothing_open_runs_no_model() -> None:
     assert result.match.matched == 1
 
 
+def test_an_index_episode_another_family_ships_is_shipped_there() -> None:
+    conni = _entry("conni", "Conni", (None, "Hexe Lilli: Der Drache"))
+    prompt = qa_prompt(LILLI, MAPPING, [ERSTLESER, conni], EXCLUDED, today=TODAY)
+    assert "Der Drache" not in prompt.text.split("Albums this entry leaves out")[0]
+    assert [(e.title, owner) for e, owner in prompt.elsewhere] == [
+        ("Der Drache", "conni"),
+        ("Feiert Geburtstag", "hexe_lilli_erstleser"),
+    ]
+
+
+def test_an_open_album_shows_who_the_store_credits() -> None:
+    prompt = qa_prompt(
+        LILLI,
+        MAPPING,
+        [ERSTLESER],
+        EXCLUDED,
+        today=TODAY,
+        credits=lambda album: "Hexe Lilli" if "Zirkus" in album.title else None,
+    )
+    assert "A2 Lilli im Zirkus (spotify; credited to Hexe Lilli)" in prompt.text
+    assert "A1 Hexe Lilli und der Western-Spaß (spotify)" in prompt.text
+
+
 def test_an_album_placed_by_hand_is_not_put_to_the_model_again() -> None:
     by_hand = [
         {

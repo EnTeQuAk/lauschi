@@ -22,6 +22,7 @@ has one of its own.
 """
 
 import difflib
+import functools
 import re
 import unicodedata
 from collections.abc import Callable
@@ -66,6 +67,7 @@ _MIN_HITS = 3
 _MIN_SHARE = 0.3
 
 
+@functools.cache
 def story_words(title: str, drop: frozenset[str] = frozenset()) -> frozenset[str]:
     """The words that name a story: no brackets, numbers or filler words."""
     text = unicodedata.normalize("NFC", title).lower()
@@ -76,7 +78,8 @@ def story_words(title: str, drop: frozenset[str] = frozenset()) -> frozenset[str
     )
 
 
-def _fold(word: str) -> str:
+def fold_word(word: str) -> str:
+    """A word with umlauts spelled out and doubled letters single."""
     for plain, umlaut in (("ae", "ä"), ("oe", "ö"), ("ue", "ü"), ("ss", "ß")):
         word = word.replace(umlaut, plain)
     return re.sub(r"(.)\1+", r"\1", word)
@@ -91,16 +94,18 @@ def _part(title: str) -> str | None:
 
 def same_story(a: str, b: str, drop: frozenset[str] = frozenset()) -> bool:
     """Whether two titles name the same story: most words shared, spelling
-    variants folded, the parts of a two-parter kept apart. ``drop`` holds
-    the brand's own words, which every title of it carries."""
-    if _part(a) != _part(b):
+    variants folded, the parts of a two-parter kept apart. A title without
+    a part matches either part, since one album often holds both. ``drop``
+    holds the brand's own words, which every title of it carries."""
+    part_a, part_b = _part(a), _part(b)
+    if part_a and part_b and part_a != part_b:
         return False
     wa, wb = story_words(a, drop), story_words(b, drop)
     if not wa or not wb:
         # a title that is only the brand plus digits ("5:0 für Benjamin")
         digits_a, digits_b = re.sub(r"\D", "", a), re.sub(r"\D", "", b)
         return bool(digits_a) and digits_a in digits_b
-    fa, fb = {_fold(w) for w in wa}, {_fold(w) for w in wb}
+    fa, fb = {fold_word(w) for w in wa}, {fold_word(w) for w in wb}
     if len(fa & fb) / min(len(fa), len(fb)) >= 0.75:
         return True
     ratio = difflib.SequenceMatcher(
@@ -190,9 +195,12 @@ def _map_family(
     out: dict[str, EntryMapping] = {}
     pool: list[CatalogEntry] = []
     for member in family.members:
-        own = (
-            overrides.get(member.id, _UNSET) if member.id != family.root_id else _UNSET
-        )
+        own = overrides.get(member.id, _UNSET)
+        if member.id == family.root_id and not (
+            isinstance(own, dict) and "lines" in own
+        ):
+            # the main series' own override names the family's series
+            own = _UNSET
         if own is _UNSET:
             pool.append(member)
         elif own is None:

@@ -178,6 +178,16 @@ def test_an_override_gives_a_member_the_lines_it_names() -> None:
     assert mapping["hexe_lilli_musik"].how == "map"
 
 
+def test_an_override_with_lines_on_a_main_series_gives_it_exactly_those() -> None:
+    mapping = map_catalog(
+        [LILLI, ERSTLESER], _index(), {"hexe_lilli": {"series": 10, "lines": ["Musik"]}}
+    )
+    assert [line.name for line in mapping["hexe_lilli"].lines] == ["Musik"]
+    assert [line.name for line in mapping["hexe_lilli_erstleser"].lines] == [
+        "Erstlesergeschichten"
+    ]
+
+
 def test_overrides_read_from_the_yaml_file(tmp_path: Path) -> None:
     path = tmp_path / "reference_map.yaml"
     path.write_text(
@@ -200,6 +210,10 @@ def test_same_story_folds_spelling_and_keeps_parts_apart() -> None:
     assert same_story("Folge 3: Die Piraten", "Die Piraten")
     assert same_story("Der Schlüssel", "Der Schluessel")
     assert not same_story("Die Party (Teil 1)", "Die Party (Teil 2)")
+    # one album holding both parts of a two-parter
+    assert same_story(
+        "Die großen Schlumpfspiele (Teil 1)", "Folge 35: Die großen Schlumpfspiele"
+    )
     assert not same_story("Der Drache", "Die Piraten")
 
 

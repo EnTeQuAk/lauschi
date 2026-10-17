@@ -11,7 +11,7 @@ catalog does not change.
 
 import json
 from collections import Counter
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass, field
 from datetime import date
 from pathlib import Path
@@ -33,6 +33,7 @@ from lauschi_catalog.catalog.reference_map import (
     IndexEpisode,
     ShippedAlbum,
     brand_words,
+    fold_word,
     load_overrides,
     map_catalog,
     match_entry,
@@ -41,6 +42,7 @@ from lauschi_catalog.catalog.reference_map import (
     story_words,
 )
 from lauschi_catalog.fanout import run_bounded
+from lauschi_catalog.providers.apple_music import AppleMusicProvider
 from lauschi_catalog.providers.spotify import SpotifyProvider
 from lauschi_catalog.reference import ReferenceIndex
 from lauschi_catalog.retry import describe_failure
@@ -88,7 +90,9 @@ them with exactly one finding:
   album it leaves out for a reason the list of left-out albums names.
   Give the index ref.
 - out_of_place: the shipped album does not belong in these lines: another
-  brand, another line, or no release for children. Two albums of one
+  brand, another line, or no release for children. An album the store
+  credits to the entry's own artist is theirs, whether the index lists it
+  or not. Two albums of one
   story are a duplicate only on the same store, since the stores title
   their releases differently. Give the album ref.
 - unlisted: the shipped album fits the entry and the index just does not
@@ -212,6 +216,22 @@ def _near(title: str, open_titles: list[str], drop: frozenset[str]) -> bool:
     return False
 
 
+def _shipped_by(
+    episode: IndexEpisode, entries: Sequence[CatalogEntry], drop: frozenset[str]
+) -> str | None:
+    """The first of ``entries`` that ships the episode's story."""
+    words = {fold_word(w) for w in story_words(episode.title, drop)}
+    for other in entries:
+        for title in shipped_titles(other):
+            theirs = {fold_word(w) for w in story_words(title, drop)}
+            # the word check spares most titles the slower comparison
+            if words and not words & theirs:
+                continue
+            if same_story(episode.title, title, drop):
+                return other.id
+    return None
+
+
 def qa_prompt(
     entry: CatalogEntry,
     mapping: EntryMapping,
@@ -220,13 +240,16 @@ def qa_prompt(
     *,
     today: date,
     tracks: Callable[[], list[str]] | None = None,
+    credits: Callable[[ShippedAlbum], str | None] | None = None,
+    rest: Sequence[CatalogEntry] = (),
 ) -> QaPrompt:
     """Match the entry deterministically and phrase what stays open.
 
-    ``family`` holds the entry's other family members: an open index
-    episode one of them ships is theirs and goes to nobody's model run.
-    ``albums`` are the rows of the entry's curation: the albums it leaves
-    out, and those a person placed by hand.
+    ``family`` holds the entry's other family members and ``rest`` the
+    catalog's other entries: an open index episode one of them ships is
+    theirs and goes to nobody's model run. ``albums`` are the rows of the
+    entry's curation: the albums it leaves out, and those a person placed
+    by hand. ``credits`` names who the store credits for an open album.
     """
     assert mapping.series is not None
     drop = brand_words(mapping.series.name, entry.title, *(m.title for m in family))
@@ -235,14 +258,7 @@ def qa_prompt(
     elsewhere: list[tuple[IndexEpisode, str]] = []
     open_index: list[IndexEpisode] = []
     for episode in match.open_index:
-        owner = next(
-            (
-                m.id
-                for m in family
-                if any(same_story(episode.title, t, drop) for t in shipped_titles(m))
-            ),
-            None,
-        )
+        owner = _shipped_by(episode, [*family, *rest], drop)
         if owner is not None:
             elsewhere.append((episode, owner))
         else:
@@ -291,7 +307,9 @@ def qa_prompt(
     out.append("Shipped albums no index episode matched:")
     for ref, a in album_refs.items():
         number = f"[Folge {a.number}] " if a.number is not None else ""
-        out.append(f"{ref} {number}{a.title} ({', '.join(a.providers)})")
+        credit = credits(a) if credits is not None else None
+        stores = ", ".join(a.providers) + (f"; credited to {credit}" if credit else "")
+        out.append(f"{ref} {number}{a.title} ({stores})")
     if not album_refs:
         out.append("(none)")
     if near:
@@ -373,10 +391,21 @@ async def qa_entry(
     agent: Agent[QaPrompt, QaAnswer],
     today: date,
     tracks: Callable[[], list[str]] | None = None,
+    credits: Callable[[ShippedAlbum], str | None] | None = None,
+    rest: Sequence[CatalogEntry] = (),
 ) -> EntryQa:
     """Check one mapped entry. The model runs only when the match leaves
     something open."""
-    prompt = qa_prompt(entry, mapping, family, albums, today=today, tracks=tracks)
+    prompt = qa_prompt(
+        entry,
+        mapping,
+        family,
+        albums,
+        today=today,
+        tracks=tracks,
+        credits=credits,
+        rest=rest,
+    )
     result = EntryQa(
         entry.id, entry.title, mapping, prompt.match, prompt.elsewhere, prompt.by_hand
     )
@@ -403,6 +432,24 @@ DEFAULT_MODEL = "glm-5.3-flash"
 def _curation_albums(entry_id: str) -> list[dict]:
     path = curation_path(entry_id)
     return json.loads(path.read_text()).get("albums", []) if path.exists() else []
+
+
+def _credit_reader(
+    apple: AppleMusicProvider | None,
+) -> Callable[[ShippedAlbum], str | None] | None:
+    """Who Apple Music credits for an album. Spotify's album records come
+    without artist names here, so an album only on Spotify has no credit."""
+    if apple is None:
+        return None
+
+    def read(album: ShippedAlbum) -> str | None:
+        ids = [
+            album_id for provider, album_id in album.ids if provider == "apple_music"
+        ]
+        details = apple.album_details_many(ids[:1]) if ids else {}
+        return next((d.artists for d in details.values() if d.artists), None)
+
+    return read
 
 
 def _track_reader(
@@ -452,10 +499,17 @@ async def run_reference_qa(
     except Exception as exc:  # no Spotify credentials: match without track names
         on_progress(f"  No track names ({type(exc).__name__}: {exc})")
         spotify = None
+    try:
+        apple: AppleMusicProvider | None = AppleMusicProvider()
+    except Exception as exc:  # no MusicKit key: open albums go without credits
+        on_progress(f"  No artist credits ({type(exc).__name__}: {exc})")
+        apple = None
+    credits = _credit_reader(apple)
     day = today or date.today()
 
     async def one(entry: CatalogEntry) -> EntryQa:
         family = list(family_of(entry, catalog).siblings_of(entry.id))
+        rest = [e for e in catalog if e.id != entry.id and e not in family]
         try:
             result = await run_with_attempts(
                 lambda: qa_entry(
@@ -466,6 +520,8 @@ async def run_reference_qa(
                     agent=agent,
                     today=day,
                     tracks=_track_reader(entry, spotify),
+                    credits=credits,
+                    rest=rest,
                 ),
                 attempts=2,
                 label=entry.id,
