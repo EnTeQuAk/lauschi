@@ -45,6 +45,10 @@ def deleted_yaml_path() -> Path:
     return repo_root() / _CATALOG_SUBDIR / "deleted.yaml"
 
 
+def reference_map_path() -> Path:
+    return repo_root() / _CATALOG_SUBDIR / "reference_map.yaml"
+
+
 def cover_cache_dir() -> Path:
     return repo_root() / _CATALOG_SUBDIR / ".covers"
 
