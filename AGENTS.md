@@ -380,13 +380,13 @@ bundled into the app) with:
   album lists (provider IDs + episode numbers), written by the pipeline
 - `providers.*.artist_ids`: artist IDs for discovery and fallback matching
 
-Alongside it: `assets/catalog/curation/{id}.json` (288 committed curation
+Alongside it: `assets/catalog/curation/{id}.json` (289 committed curation
 files, the pipeline's per-series state), `deleted.yaml` (ids that must not be
 re-added), `.cache/{provider}/` (7-day provider API cache, gitignored),
 `logs/catalog/` (pipeline run logs, gitignored).
 
-Validated by `lauschi-catalog validate` (tools/ package). Today: 288 series
-(128 of them split-off children), 7,470 curated Spotify and 7,124 Apple Music
+Validated by `lauschi-catalog validate` (tools/ package). Today: 289 series
+(129 of them split-off children), 7,470 curated Spotify and 7,123 Apple Music
 albums.
 
 ## Environment Variables
