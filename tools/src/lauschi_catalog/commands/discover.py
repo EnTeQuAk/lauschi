@@ -44,6 +44,10 @@ def discover(
     ``--prune-broken`` (no QUERY), instead validates every existing
     artist_id and removes any that return 404 from its provider.
     """
+    if query and prune_broken:
+        console.print("[red]--prune-broken cannot be combined with a QUERY[/red]")
+        raise SystemExit(2)
+
     result = init_providers(provider)
     for w in result.warnings:
         console.print(f"[yellow]{w}[/yellow]")
@@ -54,9 +58,6 @@ def discover(
         raise SystemExit(1)
 
     if query:
-        if prune_broken:
-            console.print("[red]--prune-broken cannot be combined with a QUERY[/red]")
-            raise SystemExit(2)
         _cli_discover_single(query, providers, write=write)
     elif prune_broken:
         _cli_prune_broken(providers, write=write)
