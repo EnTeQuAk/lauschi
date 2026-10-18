@@ -293,8 +293,6 @@ def discover_one(
             break
 
         if updated:
-            # still inside locked_raw's window; plain atomic write (a
-            # re-entrant save_raw lock on the same path would deadlock)
             write_catalog(catalog_path(), raw)
             result.written = True
             on_progress("Updated series.json")

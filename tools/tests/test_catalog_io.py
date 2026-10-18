@@ -33,18 +33,3 @@ def test_load_raw_reads_the_catalog(tmp_path):
     io_mod.write_catalog(path, {"series": [{"id": "foo", "title": "Foo"}]})
     data = io_mod.load_raw(path)
     assert data["series"][0]["id"] == "foo"
-
-
-def test_save_raw_with_lock(tmp_path, monkeypatch):
-    """save_raw uses FileLock and atomic write."""
-    from lauschi_catalog.catalog import paths as paths_mod
-
-    catalog_file = tmp_path / "series.json"
-    io_mod.write_catalog(catalog_file, {"series": []})
-
-    monkeypatch.setattr(paths_mod, "catalog_path", lambda: catalog_file)
-    monkeypatch.setattr(paths_mod, "series_lock_path", lambda: tmp_path / ".lock")
-
-    io_mod.save_raw({"series": [{"id": "bar", "title": "Bar"}]})
-    loaded = json.loads(catalog_file.read_text())
-    assert loaded["series"][0]["id"] == "bar"

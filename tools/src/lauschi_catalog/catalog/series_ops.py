@@ -9,11 +9,9 @@ import re
 from dataclasses import dataclass
 from typing import Any
 
-from filelock import FileLock
-
 from lauschi_catalog.catalog import paths
 from lauschi_catalog.catalog.deleted import record_deletion
-from lauschi_catalog.catalog.io import load_raw, safe_write_json, write_catalog
+from lauschi_catalog.catalog.io import locked_raw, safe_write_json, write_catalog
 from lauschi_catalog.catalog.loader import load_catalog
 
 # Series ids are stable snake_case ASCII. They may start with a digit
@@ -85,11 +83,7 @@ def edit_series(series_id: str, changes: SeriesChanges) -> EditResult:
     if errors:
         return EditResult(ok=False, series_id=series_id, error="; ".join(errors))
 
-    catalog_file = paths.catalog_path()
-    lock = paths.series_lock_path()
-
-    with FileLock(str(lock)):
-        data = load_raw(catalog_file)
+    with locked_raw() as data:
         raw_entry = None
         for entry in data["series"]:
             if entry.get("id") == series_id:
@@ -123,7 +117,7 @@ def edit_series(series_id: str, changes: SeriesChanges) -> EditResult:
             elif "content_type" in raw_entry:
                 del raw_entry["content_type"]
 
-        write_catalog(catalog_file, data)
+        write_catalog(paths.catalog_path(), data)
 
     new_id = changes.id
     if new_id and new_id != series_id:
@@ -167,11 +161,7 @@ def delete_series(series_id: str, *, reason: str) -> DeleteResult:
     Records the deletion in deleted.json. Does NOT check the deletion
     log (the CLI wrapper handles --force-readd).
     """
-    catalog_file = paths.catalog_path()
-    lock = paths.series_lock_path()
-
-    with FileLock(str(lock)):
-        data = load_raw(catalog_file)
+    with locked_raw() as data:
         entries = data.get("series") or []
         target = next((e for e in entries if e.get("id") == series_id), None)
         if target is None:
@@ -179,7 +169,7 @@ def delete_series(series_id: str, *, reason: str) -> DeleteResult:
 
         title = target.get("title", series_id)
         data["series"] = [e for e in entries if e.get("id") != series_id]
-        write_catalog(catalog_file, data)
+        write_catalog(paths.catalog_path(), data)
 
     curation_file = paths.curation_path(series_id)
     curation_removed = False
@@ -222,13 +212,9 @@ def add_series_entry(entry: dict[str, Any]) -> AddResult:
             error=f"series '{sid}' already exists",
         )
 
-    catalog_file = paths.catalog_path()
-    lock = paths.series_lock_path()
-
-    with FileLock(str(lock)):
-        data = load_raw(catalog_file)
+    with locked_raw() as data:
         data.setdefault("series", []).append(entry)
-        write_catalog(catalog_file, data)
+        write_catalog(paths.catalog_path(), data)
 
     return AddResult(ok=True, series_id=sid, title=title)
 
@@ -239,16 +225,12 @@ def remove_series_entry(series_id: str) -> bool:
     Returns True if removed, False if not found. Used by merge to
     remove the source series without recording a deletion.
     """
-    catalog_file = paths.catalog_path()
-    lock = paths.series_lock_path()
-
-    with FileLock(str(lock)):
-        data = load_raw(catalog_file)
+    with locked_raw() as data:
         entries = data.get("series") or []
         before = len(entries)
         data["series"] = [e for e in entries if e.get("id") != series_id]
         if len(data["series"]) == before:
             return False
-        write_catalog(catalog_file, data)
+        write_catalog(paths.catalog_path(), data)
 
     return True

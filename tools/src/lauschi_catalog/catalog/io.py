@@ -74,20 +74,12 @@ def load_raw(path: Path | None = None) -> dict:
     return json.loads(target.read_text(encoding="utf-8"))
 
 
-def save_raw(data: object, path: Path | None = None) -> None:
-    """Write the catalog atomically with file lock."""
-    target = path if path is not None else paths.catalog_path()
-    lock = paths.series_lock_path()
-    with FileLock(str(lock)):
-        write_catalog(target, data)
-
-
 @contextmanager
-def locked_raw(path: Path | None = None):
-    """The catalog under the write lock, for load -> mutate -> save spans.
+def locked_raw(path: Path | None = None) -> Iterator[dict]:
+    """The catalog under the write lock, for load -> change -> write spans.
 
-    save_raw takes the lock only around its own write; a read-modify-
-    write without this window can drop a concurrent web edit.
+    Write it with `write_catalog` before the window closes. A read, change
+    and write outside one window can drop a concurrent web edit.
     """
     lock = paths.series_lock_path()
     with FileLock(str(lock)):

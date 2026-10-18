@@ -364,8 +364,6 @@ def apply_curations(
                 result.details.append(ApplyOneResult(sid))
 
         if result.applied > 0 and not dry_run:
-            # Still inside locked_raw's window; the plain atomic writer,
-            # save_raw's re-lock on the same path would deadlock.
             write_catalog(catalog_path(), catalog_data)
             result.written = True
             on_progress(f"Applied {result.applied} curations to series.json")

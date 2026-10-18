@@ -110,7 +110,6 @@ def update_provider_ids(
                 count += 1
 
         if count > 0:
-            # still inside locked_raw's window; plain atomic write
             io.write_catalog(catalog_path(), data)
 
     return count
