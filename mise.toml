@@ -89,7 +89,7 @@ description = "Write discovered artist IDs only for exact or substring matches"
 run = "uv run --directory tools lauschi-catalog discover --write"
 
 [tasks.catalog-validate]
-description = "Validate series.yaml against all provider APIs (L1 + L5)"
+description = "Validate series.json against all provider APIs (L1 + L5)"
 run = "uv run --directory tools lauschi-catalog validate"
 
 [tasks.catalog-drift]
@@ -101,11 +101,11 @@ description = "Check entries against the reference index: a script pairs, a mode
 run = "uv run --directory tools --extra ai lauschi-catalog qa"
 
 [tasks.catalog-validate-spotify]
-description = "Validate series.yaml against Spotify only"
+description = "Validate series.json against Spotify only"
 run = "uv run --directory tools lauschi-catalog validate -p spotify"
 
 [tasks.catalog-validate-apple]
-description = "Validate series.yaml against Apple Music only"
+description = "Validate series.json against Apple Music only"
 run = "uv run --directory tools lauschi-catalog validate -p apple_music"
 
 [tasks.catalog-curate]
@@ -157,7 +157,7 @@ description = "List series needing human attention (escalated, flagged)"
 run = "uv run --directory tools lauschi-catalog review-human -d"
 
 [tasks.catalog-apply]
-description = "Write all approved curations to series.yaml"
+description = "Write all approved curations to series.json"
 run = "uv run --directory tools lauschi-catalog apply --all"
 
 [tasks.catalog-report]

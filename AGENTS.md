@@ -62,14 +62,14 @@ mise run catalog-pipeline-one -- <id>  # Same stages for a single series
 
 **Individual steps:**
 ```bash
-mise run catalog-add          # Add a new series (seed entry in series.yaml)
+mise run catalog-add          # Add a new series (seed entry in series.json)
 mise run catalog-discover     # Find + write missing artist IDs (all providers)
 mise run catalog-curate       # AI-curate a single series
 mise run catalog-curate-all   # AI-curate all series (skips existing, --force to redo)
 mise run catalog-audit        # 4-eye audit (all, or pass a series id)
-mise run catalog-apply        # Write approved curations into series.yaml
+mise run catalog-apply        # Write approved curations into series.json
 mise run catalog-splits       # Manage AI-proposed series splits
-mise run catalog-validate     # Validate series.yaml against provider APIs (L1 + L5)
+mise run catalog-validate     # Validate series.json against provider APIs (L1 + L5)
 mise run catalog-drift        # Check shipped albums against live provider records
 mise run catalog-qa           # Compare entries with the reference index (see "Reference index QA")
 mise run catalog-report       # Show curation statistics (included/excluded/gaps)
@@ -99,21 +99,21 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
    artist's provider pages as include/exclude. The batch agent answers with
    its decision per album (include, a reason, its confidence, a note), and
    code adds title, release date and episode number from the provider
-   record. Per series: provider discovery (artist IDs from series.yaml,
+   record. Per series: provider discovery (artist IDs from series.json,
    search fallback), prefetch of album details, a metadata agent, batched
    album decisions (~30 per batch), a finalize agent (episode pattern, series
    facts). The metadata agent samples the whole artist page, so its prompt
    states what the catalog holds for the series: its id, the series it was
    split from, the other entries on the page, the titles it ships and its
-   pattern. The entry's `episode_pattern` in series.yaml is the run's pattern;
+   pattern. The entry's `episode_pattern` in series.json is the run's pattern;
    the agents propose one only where there is none and may extend a catalog
    pattern, not narrow it. Episode numbers come from the title pattern, the
    track names, or the same album on the other provider; nothing else. The
    steps that compare titles (duplicates, the same title on the other
    provider) strip the series' name from them first: the entry's title and
-   its aliases in series.yaml, never the aliases a run proposes. Id, title
+   its aliases in series.json, never the aliases a run proposes. Id, title
    and aliases of an entry are the catalog's: a run takes them from
-   series.yaml, and the metadata agent's proposal counts only for a series
+   series.json, and the metadata agent's proposal counts only for a series
    the catalog does not hold.
    Re-curation is incremental: `--force` re-enters a series but
    carries prior decisions forward as a pre-seed the model may override, so
@@ -187,17 +187,17 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
    single curation looks wrong there, so a person places each one (include,
    `catalog-edit move`, a new entry, or an exclusion for what it is).
 
-5. **Apply** (`apply`): Writes approved curations into `series.yaml`: album
+5. **Apply** (`apply`): Writes approved curations into `series.json`: album
    IDs with episode numbers and barcodes, patterns, artist IDs, and audited
    series facts only. Title and aliases stay as they are, you edit them in
    the web UI. A pattern or content type edited there is saved in the
    curation as well, so apply does not write the older one back. An edit
-   to series.yaml by hand needs the same change in the curation.
+   to series.json by hand needs the same change in the curation.
    Refuses curations that are incomplete, escalated, stale (curated
    after the last audit), or whose album loss crosses a guard threshold.
    `--force` overrides.
 
-6. **Validate** (`validate`): Checks series.yaml against live provider APIs.
+6. **Validate** (`validate`): Checks series.json against live provider APIs.
    L1 offline (structure, regex compiles, unique IDs, no pattern line that
    numbers another family member's titles and none of the entry's own) and
    L5 (artist discography match rate).
@@ -215,7 +215,7 @@ what needs attention, `catalog-edit` and `catalog-splits` make the changes,
 the wrong entry of a family moves with
 `catalog-edit move <from> <to> <provider>:<album_id>...`: the entry that
 gives it up records the new owner, the entry that takes it numbers it by its
-own pattern, and `apply` for both (the giving one first) writes series.yaml.
+own pattern, and `apply` for both (the giving one first) writes series.json.
 
 #### Reference index QA
 
@@ -334,7 +334,7 @@ Provider-agnostic catalog browse: `CatalogSource` interface implemented by
 `SpotifyCatalogSource` and `AppleMusicCatalogSource`. One `BrowseCatalogScreen`
 serves all providers.
 
-**Catalog Matching by Album ID**: The app bundles `series.yaml` and builds an
+**Catalog Matching by Album ID**: The app bundles `series.json` and builds an
 album-ID index at load: O(1) provider+album_id lookup to the owning series and
 the curated episode number. Episode numbers ship in the catalog; nothing is
 re-derived at runtime. Series discovery (e.g. when a parent searches for a
@@ -352,7 +352,7 @@ lib/
 │   ├── apple_music/         # MusicKit auth, API client
 │   ├── ard/                 # ARD Audiothek API, models, helpers
 │   ├── auth/                # PIN service
-│   ├── catalog/             # Series YAML matching, CatalogSource interface
+│   ├── catalog/             # series.json matching, CatalogSource interface
 │   ├── connectivity/        # Network state
 │   ├── database/            # Drift tables, repositories, content importer
 │   ├── nfc/                 # NFC tag pairing
@@ -374,7 +374,7 @@ tools/                       # lauschi-catalog CLI + web UI (Python package)
 ├── src/lauschi_catalog/
 │   ├── cli.py               # Click entry point
 │   ├── catalog/             # Domain ops (curate_ops, audit_ops, apply_ops, lint_ops, ...),
-│   │                        # models, YAML loader, matcher, staleness checks (lifecycle)
+│   │                        # models, catalog loader, matcher, staleness checks (lifecycle)
 │   ├── commands/            # One thin Click command per file over the catalog/ ops
 │   ├── providers/           # Spotify + Apple Music API clients (7-day diskcache)
 │   ├── prompts/curate/      # SKILL.md + PHASE_*.md + references/, composed per phase/type
@@ -397,8 +397,11 @@ Run `mise run codegen` after changing annotated classes.
 
 ### Catalog Data
 
-`assets/catalog/series.yaml` is the DACH Hörspiel series catalog (~1.6 MB,
-bundled into the app) with:
+`assets/catalog/series.json` is the DACH Hörspiel series catalog (~2.8 MB,
+bundled into the app). The tools and the web UI write it through
+`catalog.io.write_catalog`: two-space indent, and every dict or list of plain
+values (an album, a list of aliases) on one line, so a changed album is a
+one-line diff. Each entry has:
 - `id`: stable snake_case identifier
 - `title` + `aliases`: runtime series search and matching
 - `episode_pattern`: regex (one capture group) extracting episode numbers
@@ -410,6 +413,8 @@ bundled into the app) with:
   album's `barcode` (its UPC or EAN, from the provider record) names the
   release on both stores and in the reference index. The app ignores it.
 - `providers.*.artist_ids`: artist IDs for discovery and fallback matching
+- `providers.*.no_artist_page`: why a store has no artist page for the
+  series, so discover does not search one
 
 Alongside it: `assets/catalog/curation/{id}.json` (290 committed curation
 files, the pipeline's per-series state), `deleted.yaml` (ids that must not be
