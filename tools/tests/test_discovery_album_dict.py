@@ -3,6 +3,7 @@ curate batch prompt. album_type (album/single/compilation) must survive
 the conversion: it lets the batch agent tell artist-own primary albums
 from repackaged compilations, which matters for artists whose primary
 releases carry compilation-sounding titles (e.g. "Die 30 besten ...").
+The barcode survives too: curate puts it on the album's decision.
 """
 
 from lauschi_catalog.catalog.curate_ops import _discovery_album_dict
@@ -18,6 +19,7 @@ def test_carries_album_type():
         total_tracks=30,
         album_type="album",
         image_url="https://img/1.jpg",
+        barcode="4029759160373",
     )
     d = _discovery_album_dict("spotify", album)
     assert d == {
@@ -28,6 +30,7 @@ def test_carries_album_type():
         "total_tracks": 30,
         "album_type": "album",
         "image_url": "https://img/1.jpg",
+        "barcode": "4029759160373",
     }
 
 

@@ -188,8 +188,8 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
    `catalog-edit move`, a new entry, or an exclusion for what it is).
 
 5. **Apply** (`apply`): Writes approved curations into `series.yaml`: album
-   IDs with episode numbers, patterns, artist IDs, and audited series facts
-   only. Title and aliases stay as they are, you edit them in the web UI.
+   IDs with episode numbers and barcodes, patterns, artist IDs, and audited
+   series facts only. Title and aliases stay as they are, you edit them in the web UI.
    A pattern or content type edited there is saved in the curation as
    well, so apply does not write the older one back. An edit to
    series.yaml by hand needs the same change in the curation.
@@ -401,7 +401,9 @@ bundled into the app) with:
 - `series_facts`: audited era boundaries, known episode gaps, sub-series
 - `split_from`: marks a series split off from a parent entry
 - `providers.spotify.albums` / `providers.apple_music.albums`: pre-validated
-  album lists (provider IDs + episode numbers), written by the pipeline
+  album lists (provider IDs + episode numbers), written by the pipeline. An
+  album's `barcode` (its UPC or EAN, from the provider record) names the
+  release on both stores and in the reference index. The app ignores it.
 - `providers.*.artist_ids`: artist IDs for discovery and fallback matching
 
 Alongside it: `assets/catalog/curation/{id}.json` (289 committed curation

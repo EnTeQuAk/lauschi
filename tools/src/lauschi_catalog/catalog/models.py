@@ -12,7 +12,8 @@ class ProviderConfig:
 
     artist_ids: list[str] = field(default_factory=list)
     album_ids: list[str] = field(default_factory=list)
-    #: applied albums as {"id", "title"}; the authoritative membership
+    #: applied albums as {"id", "title", "episode", "release_date",
+    #: "barcode"}; the authoritative membership
     #: record for split children, present in series.yaml even when a
     #: child has no curation file in the working directory.
     albums: list[dict] = field(default_factory=list)

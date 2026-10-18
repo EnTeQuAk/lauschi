@@ -168,6 +168,10 @@ def apply_one(
             # ships included and appears on its own once the date passes.
             if a.get("release_date"):
                 entry["release_date"] = a["release_date"]
+            # Names the release on both stores and in the reference index,
+            # so a moved or wrong store id shows. The app ignores it.
+            if a.get("barcode"):
+                entry["barcode"] = a["barcode"]
             album_entries.append(entry)
         planned[prov_name] = album_entries
 
@@ -189,12 +193,15 @@ def apply_one(
                 )
                 return False
 
-    def _sig(entry: dict) -> tuple[str | None, int | None, str | None, str | None]:
+    def _sig(
+        entry: dict,
+    ) -> tuple[str | None, int | None, str | None, str | None, str | None]:
         return (
             entry.get("id"),
             entry.get("episode"),
             entry.get("title"),
             entry.get("release_date"),
+            entry.get("barcode"),
         )
 
     updated = False
@@ -215,7 +222,7 @@ def apply_one(
                 f"  {prov_name}: {len(album_entries)} albums "
                 f"({len(new_ids - existing_ids)} new, "
                 f"{len(existing_ids - new_ids)} removed, "
-                f"{max(ep_changed, 0)} episode/title changes)",
+                f"{max(ep_changed, 0)} episode, title or barcode changes)",
             )
 
     pattern = data.get("episode_pattern")

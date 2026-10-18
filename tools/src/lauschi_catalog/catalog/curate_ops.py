@@ -94,7 +94,7 @@ from lauschi_catalog.catalog.reasons import carried_reason
 from lauschi_catalog.catalog.series_ops import SERIES_ID_PATTERN
 from lauschi_catalog.fanout import run_bounded
 from lauschi_catalog.prompts import load_curate_skill
-from lauschi_catalog.providers import CatalogProvider
+from lauschi_catalog.providers import Album, CatalogProvider
 from lauschi_catalog.rate_limit import run_with_rate_limit_retry
 from lauschi_catalog.reference import ReferenceIndex
 from lauschi_catalog.retry import describe_failure
@@ -1281,6 +1281,7 @@ def _preseed_decisions(
                     notes=ea.get("notes"),
                     decided_by=ea.get("decided_by", "unknown"),
                     decided_at=ea.get("decided_at"),
+                    barcode=ea.get("barcode") or "",
                 )
             )
         except Exception as exc:
@@ -1369,7 +1370,7 @@ def _restore_identity(
     discovered: list[dict],
     pattern: str | list[str] | None,
 ) -> int:
-    """Put the provider's title and release date on every decision.
+    """Put the provider's title, release date and barcode on every decision.
 
     A carried decision can hold a title that is not the provider's: a
     model that was asked to echo titles slipped by one on a run of
@@ -1389,6 +1390,8 @@ def _restore_identity(
             continue
         if found.get("release_date") and d.release_date != found["release_date"]:
             d.release_date = found["release_date"]
+        if found.get("barcode"):
+            d.barcode = found["barcode"]
         if d.title == found["name"]:
             continue
         d.title = found["name"]
@@ -1665,6 +1668,8 @@ class AlbumDecision(BaseModel):
     notes: str | None = Field(default=None, description=_NOTES_DESCRIPTION)
     decided_by: str = "unknown"
     decided_at: str | None = None
+    #: the release's barcode from the provider record, empty while unknown
+    barcode: str = ""
 
     @model_validator(mode="after")
     def _notes_required_when_unsure(self) -> "AlbumDecision":
@@ -2600,7 +2605,17 @@ def _discovery_album_dict(provider_name: str, album) -> dict:
         "total_tracks": album.total_tracks,
         "album_type": album.album_type,
         "image_url": album.image_url,
+        "barcode": album.barcode,
     }
+
+
+def _fill_barcodes(albums: list[dict], details: dict[str, Album]) -> None:
+    """Give each discovered album the barcode of its full record, keyed
+    ``provider:id`` in ``details``. Spotify's artist page lists none."""
+    for a in albums:
+        detail = details.get(f"{a['provider']}:{a['id']}")
+        if not a.get("barcode") and detail is not None:
+            a["barcode"] = detail.barcode
 
 
 def keep_unlisted_shipped(
@@ -2827,12 +2842,15 @@ async def _run_large(
     # -- Step 2a: Pre-fetch full album details
     on_progress("  Pre-fetching album details...")
     prefetch_details: dict[str, dict] = {}
+    full_records: dict[str, Album] = {}
     for provider in providers:
         ids = [a["id"] for a in all_albums if a["provider"] == provider.name]
         if not ids:
             continue
         for album_id, detail in provider.album_details_many(ids).items():
             prefetch_details[f"{provider.name}:{album_id}"] = album_to_dict(detail)
+            full_records[f"{provider.name}:{album_id}"] = detail
+    _fill_barcodes(all_albums, full_records)
     on_progress(f"  -> {len(prefetch_details)} albums with full metadata\n")
 
     # -- Step 2: Metadata extraction

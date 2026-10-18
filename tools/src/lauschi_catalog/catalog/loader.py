@@ -61,6 +61,7 @@ def _parse_catalog(path: Path) -> list[CatalogEntry]:
                         "title": a.get("title", ""),
                         "episode": a.get("episode"),
                         "release_date": a.get("release_date"),
+                        "barcode": str(a.get("barcode") or ""),
                     }
                     for a in albums_raw
                     if a.get("id")
