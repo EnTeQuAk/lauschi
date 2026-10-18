@@ -565,7 +565,7 @@
    "total_tracks": 17,
    "duration_min": 68.3,
    "label": "Edelkids",
-   "artist": "",
+   "artist": "Feuerwehrmann Sam",
    "image_url": "https://i.scdn.co/image/ab67616d00001e022c591b0e47c61a6b7717efd4",
    "tracks": [
     {"name": "Kapitel 01: Der Weltraumzug (Folge 104)", "duration_ms": 232450, "track_number": null},
@@ -598,7 +598,7 @@
    "total_tracks": 15,
    "duration_min": 58.4,
    "label": "Edelkids",
-   "artist": "",
+   "artist": "Feuerwehrmann Sam",
    "image_url": "https://i.scdn.co/image/ab67616d00001e0219569c7dd5ac4ae3754d54c1",
    "tracks": [
     {"name": "Kapitel 01: Das Baby im Schafspelz (Folge 06)", "duration_ms": 180010, "track_number": null},

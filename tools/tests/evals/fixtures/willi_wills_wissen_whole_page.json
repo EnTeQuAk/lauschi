@@ -50,7 +50,7 @@
    "total_tracks": 20,
    "duration_min": 58.6,
    "label": "Floff",
-   "artist": "",
+   "artist": "Willi wills wissen",
    "image_url": "https://i.scdn.co/image/ab67616d00001e020097d55b36c69f56969b6d9d",
    "tracks": [
     {"name": "Kapitel 1 - Folge 1: Wie backt der Bäcker? / Wie macht man Schokolade?", "duration_ms": 37328, "track_number": null},
@@ -86,7 +86,7 @@
    "total_tracks": 21,
    "duration_min": 62.8,
    "label": "Floff",
-   "artist": "",
+   "artist": "Willi wills wissen",
    "image_url": "https://i.scdn.co/image/ab67616d00001e022e40a8e13477e72d8b4e3d3a",
    "tracks": [
     {"name": "Kapitel 1 - Folge 2: Die Tiere auf dem Bauernhof / Die Ponys auf dem Pferdehof", "duration_ms": 38110, "track_number": null},
@@ -123,7 +123,7 @@
    "total_tracks": 21,
    "duration_min": 62.6,
    "label": "Floff",
-   "artist": "",
+   "artist": "Willi wills wissen",
    "image_url": "https://i.scdn.co/image/ab67616d00001e02ebfb96d7f88f0fe65dd96ab1",
    "tracks": [
     {"name": "Kapitel 1 - Folge 3: Sicher im Verkehr", "duration_ms": 37328, "track_number": null},
@@ -160,7 +160,7 @@
    "total_tracks": 22,
    "duration_min": 69.9,
    "label": "Floff",
-   "artist": "",
+   "artist": "Willi wills wissen",
    "image_url": "https://i.scdn.co/image/ab67616d00001e02f966916127ec867266fc3835",
    "tracks": [
     {"name": "Kapitel 1 - Folge 4: Sonne, Mond und Sterne / Bei den Astronauten", "duration_ms": 192103, "track_number": null},
@@ -198,7 +198,7 @@
    "total_tracks": 24,
    "duration_min": 71.5,
    "label": "Floff",
-   "artist": "",
+   "artist": "Willi wills wissen",
    "image_url": "https://i.scdn.co/image/ab67616d00001e020de32582c481d85c6b3f42db",
    "tracks": [
     {"name": "Kapitel 1 - Folge 10: Das Wetter / Beim Förster im Wald", "duration_ms": 38006, "track_number": null},
@@ -238,7 +238,7 @@
    "total_tracks": 20,
    "duration_min": 62.0,
    "label": "Floff",
-   "artist": "",
+   "artist": "Willi wills wissen",
    "image_url": "https://i.scdn.co/image/ab67616d00001e0218deb09971eb564c2b6e73bb",
    "tracks": [
     {"name": "Kapitel 1 - Folge 11: Auf dem Flughafen / Bei der Feuerwehr", "duration_ms": 39622, "track_number": null},
@@ -274,7 +274,7 @@
    "total_tracks": 22,
    "duration_min": 67.9,
    "label": "Floff",
-   "artist": "",
+   "artist": "Willi wills wissen",
    "image_url": "https://i.scdn.co/image/ab67616d00001e0299312d9c79f572f906e6f01f",
    "tracks": [
     {"name": "Kapitel 1 - Folge 12: Wie kommen die Babys auf die Welt? / Was mein Körper alles kann", "duration_ms": 33992, "track_number": null},
@@ -312,7 +312,7 @@
    "total_tracks": 25,
    "duration_min": 74.3,
    "label": "Floff",
-   "artist": "",
+   "artist": "Willi wills wissen",
    "image_url": "https://i.scdn.co/image/ab67616d00001e02e85b38a06ca77fb6ad79faa9",
    "tracks": [
     {"name": "Kapitel 1 - Folge 5: Im Zoo unterwegs / Mit dem Zirkus unterwegs", "duration_ms": 40648, "track_number": null},
@@ -353,7 +353,7 @@
    "total_tracks": 22,
    "duration_min": 65.2,
    "label": "Floff",
-   "artist": "",
+   "artist": "Willi wills wissen",
    "image_url": "https://i.scdn.co/image/ab67616d00001e025bafcfe291dff5ecf3ccd10e",
    "tracks": [
     {"name": "Kapitel 1 - Folge 6: Bei der Polizei / Den Verbrechern auf der Spur", "duration_ms": 38771, "track_number": null},
@@ -391,7 +391,7 @@
    "total_tracks": 22,
    "duration_min": 65.7,
    "label": "Floff",
-   "artist": "",
+   "artist": "Willi wills wissen",
    "image_url": "https://i.scdn.co/image/ab67616d00001e02c745efe6068607036f23c5c7",
    "tracks": [
     {"name": "Kapitel 1 - Folge 7: Bei den Rittern / Bei den Römern", "duration_ms": 35799, "track_number": null},
@@ -429,7 +429,7 @@
    "total_tracks": 23,
    "duration_min": 67.9,
    "label": "Floff",
-   "artist": "",
+   "artist": "Willi wills wissen",
    "image_url": "https://i.scdn.co/image/ab67616d00001e021e3182da484b9e937434e976",
    "tracks": [
     {"name": "Kapitel 1 - Folge 8: Wie siehts aus im Krankenhaus? / Was macht der Zahnarzt?", "duration_ms": 34374, "track_number": null},
@@ -468,7 +468,7 @@
    "total_tracks": 22,
    "duration_min": 66.1,
    "label": "Floff",
-   "artist": "",
+   "artist": "Willi wills wissen",
    "image_url": "https://i.scdn.co/image/ab67616d00001e0206c83ce786b74fbdfb77f7a4",
    "tracks": [
     {"name": "Kapitel 1 - Folge 9: Bei den Pfadfindern / Abenteuer Schnitzeljagd", "duration_ms": 39066, "track_number": null},
@@ -506,7 +506,7 @@
    "total_tracks": 16,
    "duration_min": 51.0,
    "label": "Floff",
-   "artist": "",
+   "artist": "Willi wills wissen",
    "image_url": "https://i.scdn.co/image/ab67616d00001e0260c1a7315f21725a523aaf6d",
    "tracks": [
     {"name": "Kapitel 1 - Willi und die Wunder dieser Welt", "duration_ms": 187810, "track_number": null},
@@ -538,7 +538,7 @@
    "total_tracks": 57,
    "duration_min": 159.9,
    "label": "Floff",
-   "artist": "",
+   "artist": "Willi wills wissen",
    "image_url": "https://i.scdn.co/image/ab67616d00001e024966ff585c65d2cd0be2bee1",
    "tracks": [
     {"name": "Kapitel 1 - Sammelbox 1, Folgen 1-3", "duration_ms": 185323, "track_number": null},
@@ -604,7 +604,7 @@
    "total_tracks": 65,
    "duration_min": 156.4,
    "label": "Floff",
-   "artist": "",
+   "artist": "Willi wills wissen",
    "image_url": "https://i.scdn.co/image/ab67616d00001e02044d9add29e2ce1d0f070c2c",
    "tracks": [
     {"name": "Kapitel 1 - Folge 4: Sonne, Mond und Sterne", "duration_ms": 181018, "track_number": null},
@@ -670,7 +670,7 @@
    "total_tracks": 62,
    "duration_min": 158.6,
    "label": "Floff",
-   "artist": "",
+   "artist": "Willi wills wissen",
    "image_url": "https://i.scdn.co/image/ab67616d00001e02702fa4df4d22d1a574d6245e",
    "tracks": [
     {"name": "Kapitel 1 - Sammelbox 3, Folgen 7-9", "duration_ms": 181065, "track_number": null},
@@ -736,7 +736,7 @@
    "total_tracks": 61,
    "duration_min": 163.7,
    "label": "Floff",
-   "artist": "",
+   "artist": "Willi wills wissen",
    "image_url": "https://i.scdn.co/image/ab67616d00001e022002e231aca3668dab51ac43",
    "tracks": [
     {"name": "Kapitel 1 - Sammelbox 4, Folgen 10-12", "duration_ms": 182482, "track_number": null},
@@ -802,7 +802,7 @@
    "total_tracks": 23,
    "duration_min": 65.9,
    "label": "Floff",
-   "artist": "",
+   "artist": "Willi wills wissen",
    "image_url": "https://i.scdn.co/image/ab67616d00001e0228a2427206daf96ef61e4b84",
    "tracks": [
     {"name": "Kapitel 1 - Folge 13: Wo geht es hin, das Rohr im Klo? / So kommt der Strom in die Steckdose", "duration_ms": 46745, "track_number": null},
