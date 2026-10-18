@@ -51,6 +51,11 @@ class CatalogEntry:
     split_from: str | None = None
     providers: dict[str, ProviderConfig] = field(default_factory=dict)
 
+    def no_artist_page(self, provider: str) -> str | None:
+        """Why ``provider`` has no artist page for the series, if it has none."""
+        cfg = self.providers.get(provider)
+        return cfg.no_artist_page if cfg else None
+
     def artist_ids(self, provider: str) -> list[str]:
         """Get artist IDs for a specific provider."""
         cfg = self.providers.get(provider)

@@ -2699,9 +2699,14 @@ async def _run_discovery(
     providers: list[CatalogProvider],
     *,
     known_artist_ids: dict[str, list[str]] | None = None,
+    no_artist_page: Mapping[str, str] | None = None,
     on_progress: Progress = _noop,
 ) -> DiscoveryResult:
     """Discover albums for each configured/searched artist.
+
+    A provider in ``no_artist_page`` is not searched: the catalog says it
+    has no artist page for the series, and every artist of the name there
+    is someone else. Its shipped albums are kept by id afterwards.
 
     Returns the raw discovery albums, the chosen artist ids, any
     provider errors, and whether the run should be considered
@@ -2718,6 +2723,10 @@ async def _run_discovery(
 
     for p in providers:
         known = known_artist_ids.get(p.name) or []
+        reason = (no_artist_page or {}).get(p.name)
+        if reason and not known:
+            on_progress(f"  [{p.name}] no artist page: {reason}")
+            continue
         try:
             if known:
                 for aid in known:
@@ -2810,16 +2819,21 @@ async def _run_large(
 ) -> CuratedSeries:
     model = build_model(model_name, api_key)
 
+    catalog_entry = lookup_catalog_entry(series_id) if series_id else None
     discovery = await _run_discovery(
         query,
         providers,
         known_artist_ids=known_artist_ids,
+        no_artist_page={
+            p.name: reason
+            for p in providers
+            if catalog_entry and (reason := catalog_entry.no_artist_page(p.name))
+        },
         on_progress=on_progress,
     )
     artist_ids = discovery.artist_ids
     provider_errors = discovery.provider_errors
     incomplete = discovery.incomplete
-    catalog_entry = lookup_catalog_entry(series_id) if series_id else None
     all_albums, unchecked = keep_unlisted_shipped(
         discovery.all_albums, providers, catalog_entry, on_progress
     )

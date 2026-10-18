@@ -115,6 +115,16 @@ def validate_l1(entries: list[CatalogEntry]) -> list[str]:
                         f"JSON file writes as two)"
                     )
 
+    # A store without an artist page for the series has no artist id for it:
+    # one there is an artist of the same name, which curate would read.
+    for e in entries:
+        for provider, cfg in e.providers.items():
+            if cfg.no_artist_page and cfg.artist_ids:
+                issues.append(
+                    f"{e.id}/{provider}: artist ids {cfg.artist_ids} on a store "
+                    f"marked no_artist_page ({cfg.no_artist_page})"
+                )
+
     # Cross-series album uniqueness. The app indexes albums by
     # provider:albumId and lets the last series in file order win
     # (CatalogService._buildAlbumIndex), so a duplicated album is

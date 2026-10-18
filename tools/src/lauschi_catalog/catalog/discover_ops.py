@@ -14,7 +14,6 @@ from lauschi_catalog.catalog.loader import (
     load_catalog,
     update_provider_ids,
 )
-from lauschi_catalog.catalog.models import CatalogEntry
 from lauschi_catalog.catalog.paths import artist_image_path
 from lauschi_catalog.fanout import map_providers
 from lauschi_catalog.providers import Artist, CatalogProvider
@@ -164,11 +163,6 @@ def _save_artist_images(
         safe_write_json(path, images)
 
 
-def _has_no_artist_page(entry: CatalogEntry, provider: str) -> bool:
-    cfg = entry.providers.get(provider)
-    return bool(cfg and cfg.no_artist_page)
-
-
 def discover_one(
     query: str,
     providers: list[CatalogProvider],
@@ -270,11 +264,8 @@ def discover_one(
                 continue
             raw_providers = raw_entry.setdefault("providers", {})
             for pname, m in discoveries.items():
-                if _has_no_artist_page(entry, pname):
-                    on_progress(
-                        f"  [{pname}] not written: "
-                        f"{entry.providers[pname].no_artist_page}"
-                    )
+                if reason := entry.no_artist_page(pname):
+                    on_progress(f"  [{pname}] not written: {reason}")
                     continue
                 # Only exact/substring matches are written automatically.
                 if m.confidence not in ("exact", "substring"):
@@ -317,7 +308,7 @@ def discover_all(
         missing = [
             p
             for p in providers
-            if not entry.artist_ids(p.name) and not _has_no_artist_page(entry, p.name)
+            if not entry.artist_ids(p.name) and not entry.no_artist_page(p.name)
         ]
         if not missing:
             on_progress(f"  {entry.title}: all providers present")

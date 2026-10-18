@@ -455,3 +455,20 @@ def test_validate_cli_exits_1_on_missing_album(monkeypatch):
 class _ProvidersResult:
     providers: list = []
     warnings: list = []
+
+
+def test_l1_flags_artist_ids_on_a_store_without_an_artist_page() -> None:
+    """A store the catalog says has no artist page for the series cannot
+    have an artist id for it: one there is an artist of the same name."""
+    entry = CatalogEntry(
+        id="coco",
+        title="Coco",
+        providers={
+            "apple_music": ProviderConfig(
+                artist_ids=["43907668"],
+                no_artist_page="every artist named Coco is someone else",
+            )
+        },
+    )
+    [issue] = validate_l1([entry])
+    assert "coco/apple_music" in issue and "43907668" in issue

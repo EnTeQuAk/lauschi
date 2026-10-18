@@ -97,3 +97,25 @@ async def test_search_branch_counts_recorded() -> None:
     assert result.incomplete is False
     assert len(result.all_albums) == 1
     assert result.artist_ids == {"spotify": ["found"]}
+
+
+@pytest.mark.anyio
+async def test_a_store_without_an_artist_page_is_not_searched() -> None:
+    """Every Apple Music artist named Coco is an unrelated music act. A
+    search there picked one, and curate read its 238 singles on every run."""
+    spotify = _FakeProvider(
+        "spotify", {"coco": [Album(id="s1", name="Coco", provider="spotify")]}
+    )
+    apple = _FakeProvider("apple_music", {})
+
+    result = await _run_discovery(
+        "Coco",
+        [spotify, apple],
+        known_artist_ids={"spotify": ["coco"]},
+        no_artist_page={"apple_music": "every artist named Coco is someone else"},
+        on_progress=lambda _m: None,
+    )
+
+    assert apple.searched == []
+    assert "apple_music" not in result.artist_ids
+    assert result.incomplete is False

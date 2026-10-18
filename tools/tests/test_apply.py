@@ -452,3 +452,40 @@ def test_apply_writes_when_only_the_release_date_is_new():
     assert apply_one("s1", _curation(albums=[album]), catalog_data) is True
     saved = catalog_data["series"][0]["providers"]["spotify"]["albums"]
     assert saved[0]["release_date"] == "2001-05-05"
+
+
+def test_apply_writes_no_artist_id_to_a_store_without_an_artist_page() -> None:
+    """Coco has no artist page on Apple Music, and a search there once
+    found an unrelated act whose id apply then wrote into the catalog."""
+    catalog_data = {
+        "series": [
+            {
+                "id": "coco",
+                "title": "Coco",
+                "providers": {
+                    "spotify": {"albums": []},
+                    "apple_music": {"no_artist_page": "every Coco is someone else"},
+                },
+            }
+        ]
+    }
+    data = {
+        "id": "coco",
+        "title": "Coco",
+        "albums": [
+            {
+                "album_id": "s1",
+                "provider": "spotify",
+                "include": True,
+                "title": "Coco",
+                "episode_num": None,
+            }
+        ],
+        "provider_artist_ids": {"apple_music": ["43907668"], "spotify": ["sp"]},
+    }
+
+    apply_one("coco", data, catalog_data)
+
+    providers = catalog_data["series"][0]["providers"]
+    assert "artist_ids" not in providers["apple_music"]
+    assert providers["spotify"]["artist_ids"] == ["sp"]

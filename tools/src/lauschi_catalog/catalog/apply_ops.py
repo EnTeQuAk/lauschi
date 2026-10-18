@@ -244,6 +244,10 @@ def apply_one(
 
     prov_artist_ids = data.get("provider_artist_ids", {})
     for prov_name, aids in prov_artist_ids.items():
+        # A store without an artist page for the series keeps none: an id
+        # there is an artist of the same name, found by a search.
+        if catalog_series["providers"].get(prov_name, {}).get("no_artist_page"):
+            continue
         if aids and prov_name in catalog_series["providers"]:
             current = catalog_series["providers"][prov_name].get("artist_ids", [])
             if set(str(a) for a in aids) != set(str(a) for a in current):
