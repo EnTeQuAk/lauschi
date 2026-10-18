@@ -1,39 +1,20 @@
 """Tests for catalog.series_ops module."""
 
-import json
-
 import pytest
 
 from lauschi_catalog.catalog import series_ops
 from lauschi_catalog.catalog.apply_ops import apply_curations
 from lauschi_catalog.catalog.io import load_raw, write_catalog
+from tests.conftest import ScratchCatalog
 
 
 @pytest.fixture
-def catalog_env(monkeypatch, tmp_path):
-    """Set up a temporary catalog following the real layout."""
-    catalog = tmp_path / "assets" / "catalog"
-    curation_dir = catalog / "curation"
-    curation_dir.mkdir(parents=True)
-    series_json = catalog / "series.json"
-    deleted_log = catalog / "deleted.json"
-    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-
-    write_catalog(
-        series_json,
-        {
-            "series": [
-                {"id": "bibi_blocksberg", "title": "Bibi Blocksberg", "providers": {}},
-                {"id": "tkkg", "title": "TKKG", "providers": {}},
-            ],
-        },
+def catalog_env(scratch_catalog: ScratchCatalog) -> ScratchCatalog:
+    scratch_catalog.write_series(
+        {"id": "bibi_blocksberg", "title": "Bibi Blocksberg", "providers": {}},
+        {"id": "tkkg", "title": "TKKG", "providers": {}},
     )
-
-    return {
-        "series_json": series_json,
-        "curation_dir": curation_dir,
-        "deleted_log": deleted_log,
-    }
+    return scratch_catalog
 
 
 class TestEditSeries:
@@ -43,21 +24,19 @@ class TestEditSeries:
         assert result.ok
         assert result.series_id == "bibi_blocksberg"
 
-        data = load_raw(catalog_env["series_json"])
+        data = load_raw(catalog_env.series_json)
         entry = next(e for e in data["series"] if e["id"] == "bibi_blocksberg")
         assert entry["title"] == "Bibi Blocksberg NEU"
 
     def test_edit_id_renames(self, catalog_env):
-        # Create a curation file
-        cur = catalog_env["curation_dir"] / "bibi_blocksberg.json"
-        cur.write_text(json.dumps({"id": "bibi_blocksberg", "albums": []}))
+        cur = catalog_env.write_curation({"id": "bibi_blocksberg", "albums": []})
 
         changes = series_ops.SeriesChanges(id="bibi")
         result = series_ops.edit_series("bibi_blocksberg", changes)
         assert result.ok
         assert result.series_id == "bibi"
         assert not cur.exists()
-        assert (catalog_env["curation_dir"] / "bibi.json").exists()
+        assert (catalog_env.curation_dir / "bibi.json").exists()
 
     def test_edit_invalid_id_rejected(self, catalog_env):
         changes = series_ops.SeriesChanges(id="INVALID!")
@@ -82,7 +61,7 @@ class TestEditSeries:
         result = series_ops.edit_series("bibi_blocksberg", changes)
         assert result.ok
 
-        data = load_raw(catalog_env["series_json"])
+        data = load_raw(catalog_env.series_json)
         entry = next(e for e in data["series"] if e["id"] == "bibi_blocksberg")
         assert entry["episode_pattern"] == r"Folge\s+(\d+)"
 
@@ -97,7 +76,7 @@ class TestEditSeries:
         result = series_ops.edit_series("bibi_blocksberg", changes)
         assert result.ok
 
-        data = load_raw(catalog_env["series_json"])
+        data = load_raw(catalog_env.series_json)
         entry = next(e for e in data["series"] if e["id"] == "bibi_blocksberg")
         assert entry["content_type"] == "music"
 
@@ -128,51 +107,48 @@ class TestEditSeries:
         """apply writes a curation's pattern and content type into
         series.json. An edit that reached series.json alone was written
         over with the next apply, by the curation's older value."""
-        data = load_raw(catalog_env["series_json"])
+        data = load_raw(catalog_env.series_json)
         entry = next(e for e in data["series"] if e["id"] == "bibi_blocksberg")
         entry["episode_pattern"] = r"^(\d+)/"
         entry["providers"] = {"spotify": {"artist_ids": ["a"]}}
-        write_catalog(catalog_env["series_json"], data)
-        (catalog_env["curation_dir"] / "bibi_blocksberg.json").write_text(
-            json.dumps(
-                {
-                    "id": "bibi_blocksberg",
-                    "title": "Bibi Blocksberg",
-                    "episode_pattern": r"^(\d+)/",
-                    "content_type": "hoerspiel",
-                    "albums": [
-                        {
-                            "album_id": "a1",
-                            "provider": "spotify",
-                            "include": True,
-                            "title": "1/Hexen gibt es doch",
-                            "episode_num": 1,
-                        }
-                    ],
-                }
-            )
+        write_catalog(catalog_env.series_json, data)
+        catalog_env.write_curation(
+            {
+                "id": "bibi_blocksberg",
+                "title": "Bibi Blocksberg",
+                "episode_pattern": r"^(\d+)/",
+                "content_type": "hoerspiel",
+                "albums": [
+                    {
+                        "album_id": "a1",
+                        "provider": "spotify",
+                        "include": True,
+                        "title": "1/Hexen gibt es doch",
+                        "episode_num": 1,
+                    }
+                ],
+            }
         )
 
         assert series_ops.edit_series("bibi_blocksberg", changes).ok
         applied = apply_curations("bibi_blocksberg", allow_unreviewed=True)
 
         assert applied.applied == 1
-        data = load_raw(catalog_env["series_json"])
+        data = load_raw(catalog_env.series_json)
         entry = next(e for e in data["series"] if e["id"] == "bibi_blocksberg")
         assert entry.get(key) == expected
 
 
 class TestDeleteSeries:
     def test_delete_removes_and_logs(self, catalog_env):
-        cur = catalog_env["curation_dir"] / "bibi_blocksberg.json"
-        cur.write_text(json.dumps({"id": "bibi_blocksberg"}))
+        cur = catalog_env.write_curation({"id": "bibi_blocksberg"})
 
         result = series_ops.delete_series("bibi_blocksberg", reason="test")
         assert result.ok
         assert result.title == "Bibi Blocksberg"
         assert result.curation_removed
 
-        data = load_raw(catalog_env["series_json"])
+        data = load_raw(catalog_env.series_json)
         ids = [e["id"] for e in data["series"]]
         assert "bibi_blocksberg" not in ids
         assert not cur.exists()
@@ -190,7 +166,7 @@ class TestAddSeriesEntry:
         assert result.ok
         assert result.series_id == "benjamin_bluemchen"
 
-        data = load_raw(catalog_env["series_json"])
+        data = load_raw(catalog_env.series_json)
         ids = [e["id"] for e in data["series"]]
         assert "benjamin_bluemchen" in ids
 
@@ -209,7 +185,7 @@ class TestAddSeriesEntry:
 class TestRemoveSeriesEntry:
     def test_remove_existing(self, catalog_env):
         assert series_ops.remove_series_entry("tkkg")
-        data = load_raw(catalog_env["series_json"])
+        data = load_raw(catalog_env.series_json)
         ids = [e["id"] for e in data["series"]]
         assert "tkkg" not in ids
 

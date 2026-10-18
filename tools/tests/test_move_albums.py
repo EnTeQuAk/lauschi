@@ -7,51 +7,41 @@ takes it includes it with the number its own pattern reads from the
 title. An album must never end up in two entries, or in none.
 """
 
-import json
-from pathlib import Path
-
 import pytest
 from click.testing import CliRunner
 
 from lauschi_catalog.catalog import merge_ops
-from lauschi_catalog.catalog.io import write_catalog
 from lauschi_catalog.catalog.partition import bleed_owner
 from lauschi_catalog.commands.edit import edit
+from tests.conftest import ScratchCatalog
 from tests.factories import album_record
 
 MAIN_PATTERN = r"^Folge (\d+):"
 
 
 @pytest.fixture
-def catalog(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> Path:
+def catalog(scratch_catalog: ScratchCatalog) -> ScratchCatalog:
     """A main series, its Erstleser sub-series and an unrelated series."""
-    root = tmp_path / "assets" / "catalog"
-    (root / "curation").mkdir(parents=True)
-    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
+    root = scratch_catalog
     artists = {
         "spotify": {"artist_ids": ["lilli"]},
         "apple_music": {"artist_ids": ["am"]},
     }
-    write_catalog(
-        root / "series.json",
+    root.write_series(
         {
-            "series": [
-                {
-                    "id": "lilli",
-                    "title": "Hexe Lilli",
-                    "episode_pattern": MAIN_PATTERN,
-                    "providers": artists,
-                },
-                {
-                    "id": "lilli_erstleser",
-                    "title": "Hexe Lilli: Erstleser",
-                    "split_from": "lilli",
-                    "episode_pattern": r"^Folge (\d+): .*\(Erstleser\)",
-                    "providers": artists,
-                },
-                {"id": "other", "title": "Other", "providers": {}},
-            ]
+            "id": "lilli",
+            "title": "Hexe Lilli",
+            "episode_pattern": MAIN_PATTERN,
+            "providers": artists,
         },
+        {
+            "id": "lilli_erstleser",
+            "title": "Hexe Lilli: Erstleser",
+            "split_from": "lilli",
+            "episode_pattern": r"^Folge (\d+): .*\(Erstleser\)",
+            "providers": artists,
+        },
+        {"id": "other", "title": "Other", "providers": {}},
     )
     _write(
         root,
@@ -95,17 +85,16 @@ def catalog(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> Path:
     return root
 
 
-def _write(root: Path, series_id: str, albums: list[dict]) -> None:
-    path = root / "curation" / f"{series_id}.json"
-    path.write_text(json.dumps({"id": series_id, "title": series_id, "albums": albums}))
+def _write(root: ScratchCatalog, series_id: str, albums: list[dict]) -> None:
+    root.write_curation({"id": series_id, "title": series_id, "albums": albums})
 
 
-def _rows(root: Path, series_id: str) -> dict[tuple[str, str], dict]:
-    data = json.loads((root / "curation" / f"{series_id}.json").read_text())
+def _rows(root: ScratchCatalog, series_id: str) -> dict[tuple[str, str], dict]:
+    data = root.read_curation(series_id)
     return {(a["provider"], a["album_id"]): a for a in data["albums"]}
 
 
-def test_the_album_changes_hands_in_both_curations(catalog: Path) -> None:
+def test_the_album_changes_hands_in_both_curations(catalog: ScratchCatalog) -> None:
     result = merge_ops.move_albums(
         "lilli", "lilli_erstleser", [("apple_music", "haus")]
     )
@@ -126,7 +115,9 @@ def test_the_album_changes_hands_in_both_curations(catalog: Path) -> None:
     assert taken["decided_by"] == "operator"
 
 
-def test_the_number_is_read_with_the_new_entrys_pattern(catalog: Path) -> None:
+def test_the_number_is_read_with_the_new_entrys_pattern(
+    catalog: ScratchCatalog,
+) -> None:
     """The old edition's "Folge 8" is not a number of the Erstleser line,
     whose pattern asks for the line's marker in the title."""
     merge_ops.move_albums("lilli", "lilli_erstleser", [("apple_music", "haus")])
@@ -138,7 +129,7 @@ def test_the_number_is_read_with_the_new_entrys_pattern(catalog: Path) -> None:
 
 
 def test_an_album_both_entries_had_excluded_goes_to_the_new_owner(
-    catalog: Path,
+    catalog: ScratchCatalog,
 ) -> None:
     merge_ops.move_albums("lilli", "lilli_erstleser", [("spotify", "geb")])
 
@@ -150,7 +141,9 @@ def test_an_album_both_entries_had_excluded_goes_to_the_new_owner(
     assert bleed_owner(taken.get("notes")) is None
 
 
-def test_a_sub_series_gives_an_album_back_to_the_main_series(catalog: Path) -> None:
+def test_a_sub_series_gives_an_album_back_to_the_main_series(
+    catalog: ScratchCatalog,
+) -> None:
     result = merge_ops.move_albums(
         "lilli_erstleser", "lilli", [("spotify", "schultag")]
     )
@@ -162,7 +155,7 @@ def test_a_sub_series_gives_an_album_back_to_the_main_series(catalog: Path) -> N
     assert bleed_owner(given_up["notes"]) == "lilli"
 
 
-def test_other_albums_are_left_alone(catalog: Path) -> None:
+def test_other_albums_are_left_alone(catalog: ScratchCatalog) -> None:
     before = _rows(catalog, "lilli")[("spotify", "ep2")]
 
     merge_ops.move_albums("lilli", "lilli_erstleser", [("apple_music", "haus")])
@@ -185,7 +178,11 @@ def test_other_albums_are_left_alone(catalog: Path) -> None:
     ],
 )
 def test_a_move_that_cannot_be_right_changes_nothing(
-    catalog: Path, source: str, target: str, album: tuple[str, str], problem: str
+    catalog: ScratchCatalog,
+    source: str,
+    target: str,
+    album: tuple[str, str],
+    problem: str,
 ) -> None:
     before = {sid: _rows(catalog, sid) for sid in ("lilli", "lilli_erstleser", "other")}
 
@@ -198,7 +195,7 @@ def test_a_move_that_cannot_be_right_changes_nothing(
 
 class TestEditMove:
     def test_the_command_moves_the_albums_and_says_what_to_apply(
-        self, catalog: Path
+        self, catalog: ScratchCatalog
     ) -> None:
         result = CliRunner().invoke(
             edit,
@@ -211,7 +208,7 @@ class TestEditMove:
         assert "apply lilli_erstleser" in result.output
         assert _rows(catalog, "lilli_erstleser")[("spotify", "geb")]["include"] is True
 
-    def test_a_refused_move_fails_the_command(self, catalog: Path) -> None:
+    def test_a_refused_move_fails_the_command(self, catalog: ScratchCatalog) -> None:
         result = CliRunner().invoke(
             edit, ["move", "lilli", "other", "apple_music:haus"]
         )
@@ -219,7 +216,7 @@ class TestEditMove:
         assert result.exit_code == 1
         assert "not in one family" in result.output
 
-    def test_an_album_needs_its_provider(self, catalog: Path) -> None:
+    def test_an_album_needs_its_provider(self, catalog: ScratchCatalog) -> None:
         result = CliRunner().invoke(edit, ["move", "lilli", "lilli_erstleser", "haus"])
 
         assert result.exit_code != 0

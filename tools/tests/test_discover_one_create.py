@@ -1,8 +1,6 @@
 """Tests that discover_one routes creation through add_series and
 respects deleted.json."""
 
-from pathlib import Path
-
 import pytest
 
 from lauschi_catalog.catalog.discover_ops import (
@@ -10,8 +8,9 @@ from lauschi_catalog.catalog.discover_ops import (
     _artist_to_match,
     discover_one,
 )
-from lauschi_catalog.catalog.io import load_raw, write_catalog
+from lauschi_catalog.catalog.io import load_raw
 from lauschi_catalog.providers.base import Artist
+from tests.conftest import ScratchCatalog
 
 
 def _artist(
@@ -38,22 +37,11 @@ class _FakeProvider:
         return True
 
 
-def _patch_loader(monkeypatch, tmp_path: Path, catalog: dict | None = None) -> Path:
-    """Hermetic layout: the LAUSCHI_REPO_ROOT env var is the only patch."""
-    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-    (tmp_path / "assets" / "catalog").mkdir(parents=True)
-    catalog_file = tmp_path / "assets" / "catalog" / "series.json"
-    write_catalog(catalog_file, catalog or {"series": []})
-    (tmp_path / "assets" / "catalog" / "deleted.json").write_text('{"deleted": []}\n')
-    (tmp_path / "android").mkdir()
-    (tmp_path / ".cache").mkdir()
-
-    return catalog_file
-
-
 @pytest.mark.anyio
-async def test_discover_one_creates_series_with_sure_matches(tmp_path, monkeypatch):
-    _patch_loader(monkeypatch, tmp_path)
+async def test_discover_one_creates_series_with_sure_matches(
+    scratch_catalog: ScratchCatalog, monkeypatch: pytest.MonkeyPatch
+):
+    scratch_catalog.write_series()
 
     provider = _FakeProvider([_artist("Die Playmos")])
 
@@ -67,13 +55,15 @@ async def test_discover_one_creates_series_with_sure_matches(tmp_path, monkeypat
     assert result.created_new is True
     assert result.new_series_id == "die_playmos"
     assert result.written is True
-    catalog = load_raw(tmp_path / "assets" / "catalog" / "series.json")
+    catalog = load_raw(scratch_catalog.series_json)
     assert any(e.get("id") == "die_playmos" for e in catalog.get("series", []))
 
 
 @pytest.mark.anyio
-async def test_discover_one_skips_creation_when_only_weak_match(tmp_path, monkeypatch):
-    _patch_loader(monkeypatch, tmp_path)
+async def test_discover_one_skips_creation_when_only_weak_match(
+    scratch_catalog: ScratchCatalog, monkeypatch: pytest.MonkeyPatch
+):
+    scratch_catalog.write_series()
 
     provider = _FakeProvider([_artist("Playmobil Soundtrack", genres=["Kinder"])])
 
@@ -89,10 +79,12 @@ async def test_discover_one_skips_creation_when_only_weak_match(tmp_path, monkey
 
 
 @pytest.mark.anyio
-async def test_discover_one_refuses_deleted_series(tmp_path, monkeypatch):
+async def test_discover_one_refuses_deleted_series(
+    scratch_catalog: ScratchCatalog, monkeypatch: pytest.MonkeyPatch
+):
     """A deleted series id should not be re-created by discover --write."""
-    _patch_loader(monkeypatch, tmp_path)
-    (tmp_path / "assets" / "catalog" / "deleted.json").write_text(
+    scratch_catalog.write_series()
+    scratch_catalog.deleted_log.write_text(
         '{"deleted": [{"id": "die_playmos", "title": "Die Playmos", "reason": "test"}]}\n'
     )
 

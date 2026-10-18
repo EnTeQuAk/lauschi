@@ -7,7 +7,6 @@ and `apply` would have shipped it into the catalog.
 """
 
 import json
-from pathlib import Path
 
 import pytest
 
@@ -71,12 +70,8 @@ def test_a_clean_batch_passes_through_whole() -> None:
     assert orphans == []
 
 
-def test_orphans_are_persisted_with_the_curation(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
-    curation_dir = tmp_path / "assets" / "catalog" / "curation"
-    curation_dir.mkdir(parents=True)
-    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
+@pytest.mark.usefixtures("scratch_catalog")
+def test_orphans_are_persisted_with_the_curation() -> None:
     series = CuratedSeries(
         id="bibi_blocksberg",
         title="Bibi",

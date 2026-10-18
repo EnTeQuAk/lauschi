@@ -1,33 +1,22 @@
 """Tests for catalog.merge_ops module."""
 
-import json
 from datetime import datetime
 
 import pytest
 
 from lauschi_catalog.catalog import merge_ops
-from lauschi_catalog.catalog.io import load_raw, write_catalog
+from lauschi_catalog.catalog.io import load_raw
 from lauschi_catalog.catalog.merge_ops import normalize_album_ids
 from lauschi_catalog.catalog.partition import AWAITS_SPLIT
+from tests.conftest import ScratchCatalog
 
 
 @pytest.fixture
-def merge_env(monkeypatch, tmp_path):
+def merge_env(scratch_catalog: ScratchCatalog) -> ScratchCatalog:
     """Two series with curations, ready to merge."""
-    catalog = tmp_path / "assets" / "catalog"
-    curation_dir = catalog / "curation"
-    curation_dir.mkdir(parents=True)
-    series_json = catalog / "series.json"
-    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-
-    write_catalog(
-        series_json,
-        {
-            "series": [
-                {"id": "source", "title": "Source Series", "providers": {}},
-                {"id": "target", "title": "Target Series", "providers": {}},
-            ],
-        },
+    scratch_catalog.write_series(
+        {"id": "source", "title": "Source Series", "providers": {}},
+        {"id": "target", "title": "Target Series", "providers": {}},
     )
 
     source_curation = {
@@ -49,7 +38,7 @@ def merge_env(monkeypatch, tmp_path):
             },
         ],
     }
-    (curation_dir / "source.json").write_text(json.dumps(source_curation))
+    scratch_catalog.write_curation(source_curation)
 
     target_curation = {
         "id": "target",
@@ -64,12 +53,8 @@ def merge_env(monkeypatch, tmp_path):
             },
         ],
     }
-    (curation_dir / "target.json").write_text(json.dumps(target_curation))
-
-    return {
-        "series_json": series_json,
-        "curation_dir": curation_dir,
-    }
+    scratch_catalog.write_curation(target_curation)
+    return scratch_catalog
 
 
 class TestMergeSeries:
@@ -81,18 +66,18 @@ class TestMergeSeries:
 
     def test_merge_removes_source(self, merge_env):
         merge_ops.merge_series("source", "target")
-        data = load_raw(merge_env["series_json"])
+        data = load_raw(merge_env.series_json)
         ids = [e["id"] for e in data["series"]]
         assert "source" not in ids
         assert "target" in ids
 
     def test_merge_deletes_source_curation(self, merge_env):
         merge_ops.merge_series("source", "target")
-        assert not (merge_env["curation_dir"] / "source.json").exists()
+        assert not (merge_env.curation_dir / "source.json").exists()
 
     def test_merge_combines_provider_ids(self, merge_env):
         merge_ops.merge_series("source", "target")
-        target = json.loads((merge_env["curation_dir"] / "target.json").read_text())
+        target = merge_env.read_curation("target")
         spotify_ids = set(target["provider_artist_ids"]["spotify"])
         assert spotify_ids == {"s1", "t1"}
 
@@ -102,13 +87,13 @@ class TestMergeSeries:
         assert "different" in result.error
 
     def test_merge_missing_source_curation(self, merge_env):
-        (merge_env["curation_dir"] / "source.json").unlink()
+        (merge_env.curation_dir / "source.json").unlink()
         result = merge_ops.merge_series("source", "target")
         assert not result.ok
         assert "not found" in result.error
 
     def test_merge_creates_target_curation_if_missing(self, merge_env):
-        (merge_env["curation_dir"] / "target.json").unlink()
+        (merge_env.curation_dir / "target.json").unlink()
         result = merge_ops.merge_series("source", "target", target_title="Target")
         assert result.ok
         assert result.added == 2
@@ -140,7 +125,7 @@ class TestSplitOps:
                 ],
             },
         }
-        (merge_env["curation_dir"] / "parent.json").write_text(json.dumps(curation))
+        merge_env.write_curation(curation)
         return merge_env
 
     def test_reject_split(self, split_env):
@@ -148,7 +133,7 @@ class TestSplitOps:
         assert result.ok
         assert result.action == "rejected"
 
-        data = json.loads((split_env["curation_dir"] / "parent.json").read_text())
+        data = split_env.read_curation("parent")
         assert len(data["series_facts"]["sub_series"]) == 0
 
     def test_accept_split_creates_new_curation(self, split_env):
@@ -157,9 +142,8 @@ class TestSplitOps:
         assert result.action == "accepted"
         assert result.new_id == "parent_spinoff"
 
-        new_path = split_env["curation_dir"] / "parent_spinoff.json"
-        assert new_path.exists()
-        new_data = json.loads(new_path.read_text())
+        assert (split_env.curation_dir / "parent_spinoff.json").exists()
+        new_data = split_env.read_curation("parent_spinoff")
         assert len(new_data["albums"]) == 1
         assert new_data["albums"][0]["album_id"] == "a3"
 
@@ -171,8 +155,7 @@ class TestSplitOps:
         child that exclusion would drop the child's own episodes (Die
         Schule ermittelt 3 and 4, 2026-09-30), so the child's run decides
         them instead."""
-        path = split_env["curation_dir"] / "parent.json"
-        data = json.loads(path.read_text())
+        data = split_env.read_curation("parent")
         data["albums"].append(
             {
                 "album_id": "a4",
@@ -183,14 +166,12 @@ class TestSplitOps:
             }
         )
         data["series_facts"]["sub_series"][0]["album_ids"].append("a4")
-        path.write_text(json.dumps(data))
+        split_env.write_curation(data)
 
         merge_ops.accept_split("parent", 0)
 
-        child = json.loads(
-            (split_env["curation_dir"] / "parent_spinoff.json").read_text()
-        )
-        parent = json.loads(path.read_text())
+        child = split_env.read_curation("parent_spinoff")
+        parent = split_env.read_curation("parent")
         assert [a["album_id"] for a in child["albums"]] == ["a3"]
         assert "a4" not in {a["album_id"] for a in parent["albums"]}
 
@@ -201,8 +182,7 @@ class TestSplitOps:
         marked as waiting for the split. Accepted, the album is the new
         entry's own, and the mark would tell its audit that it still
         waits."""
-        path = split_env["curation_dir"] / "parent.json"
-        data = json.loads(path.read_text())
+        data = split_env.read_curation("parent")
         for a in data["albums"]:
             if a["album_id"] == "a3":
                 a.update(
@@ -211,13 +191,11 @@ class TestSplitOps:
                     decided_at="2026-10-13T10:00:00+00:00",
                     notes="Stays in this series until its line has an entry. Spinoff",
                 )
-        path.write_text(json.dumps(data))
+        split_env.write_curation(data)
 
         merge_ops.accept_split("parent", 0)
 
-        child = json.loads(
-            (split_env["curation_dir"] / "parent_spinoff.json").read_text()
-        )
+        child = split_env.read_curation("parent_spinoff")
         (a3,) = child["albums"]
         assert a3["include"] is True
         assert a3["decided_by"] == "split"
@@ -227,40 +205,35 @@ class TestSplitOps:
     def test_a_line_the_parent_excluded_entirely_still_splits(self, split_env):
         """The usual proposal: finalize proposes a split from bleed the
         parent excluded, so none of the line's albums is carried."""
-        path = split_env["curation_dir"] / "parent.json"
-        data = json.loads(path.read_text())
+        data = split_env.read_curation("parent")
         for a in data["albums"]:
             if a["album_id"] == "a3":
                 a.update(include=False, exclude_reason="sub_series_bleed")
-        path.write_text(json.dumps(data))
+        split_env.write_curation(data)
 
         result = merge_ops.accept_split("parent", 0)
 
         assert result.ok, result.error
-        child = json.loads(
-            (split_env["curation_dir"] / "parent_spinoff.json").read_text()
-        )
+        child = split_env.read_curation("parent_spinoff")
         assert child["albums"] == []
         assert child["split_from"] == "parent"
 
     def test_accept_split_removes_albums_from_parent(self, split_env):
         merge_ops.accept_split("parent", 0)
-        parent = json.loads((split_env["curation_dir"] / "parent.json").read_text())
+        parent = split_env.read_curation("parent")
         album_ids = [a["album_id"] for a in parent["albums"]]
         assert "a3" not in album_ids
         assert "a1" in album_ids
 
     def test_accept_split_adds_to_the_catalog_with_providers(self, split_env):
         merge_ops.accept_split("parent", 0)
-        data = load_raw(split_env["series_json"])
+        data = load_raw(split_env.series_json)
         entry = next(e for e in data["series"] if e["id"] == "parent_spinoff")
         assert entry["providers"]["spotify"]["artist_ids"] == ["p1"]
 
     def test_accept_split_is_pipeline_ready(self, split_env):
         merge_ops.accept_split("parent", 0)
-        new_data = json.loads(
-            (split_env["curation_dir"] / "parent_spinoff.json").read_text()
-        )
+        new_data = split_env.read_curation("parent_spinoff")
         assert new_data["curated_at"]
         datetime.fromisoformat(new_data["curated_at"])
         assert new_data["age_note"] == "ab 6 Jahren"
@@ -272,7 +245,7 @@ class TestSplitOps:
 
     def test_accept_split_records_split_from_in_the_catalog(self, split_env):
         merge_ops.accept_split("parent", 0)
-        data = load_raw(split_env["series_json"])
+        data = load_raw(split_env.series_json)
         entry = next(e for e in data["series"] if e["id"] == "parent_spinoff")
         assert entry["split_from"] == "parent"
 
@@ -288,15 +261,13 @@ class TestSplitOps:
 
     def test_accept_split_normalizes_prefixed_album_ids(self, split_env):
         """accept_split handles album_ids with provider: prefixes."""
-        curation = json.loads((split_env["curation_dir"] / "parent.json").read_text())
+        curation = split_env.read_curation("parent")
         curation["series_facts"]["sub_series"][0]["album_ids"] = ["spotify:a3"]
-        (split_env["curation_dir"] / "parent.json").write_text(json.dumps(curation))
+        split_env.write_curation(curation)
 
         result = merge_ops.accept_split("parent", 0)
         assert result.ok
-        new_data = json.loads(
-            (split_env["curation_dir"] / "parent_spinoff.json").read_text()
-        )
+        new_data = split_env.read_curation("parent_spinoff")
         assert len(new_data["albums"]) == 1
         assert new_data["albums"][0]["album_id"] == "a3"
 

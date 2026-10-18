@@ -7,36 +7,31 @@ was intentional. The reason is now required.
 """
 
 import json
+from pathlib import Path
 
 import pytest
 from click.testing import CliRunner
 
 from lauschi_catalog.commands import edit as edit_mod
+from tests.conftest import ScratchCatalog
 
 
 @pytest.fixture
-def curation(monkeypatch, tmp_path):
-    cur_dir = tmp_path / "assets" / "catalog" / "curation"
-    cur_dir.mkdir(parents=True)
-    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-    path = cur_dir / "test_series.json"
-    path.write_text(
-        json.dumps(
-            {
-                "id": "test_series",
-                "title": "Test Series",
-                "albums": [
-                    {
-                        "album_id": "spotify-album-1",
-                        "provider": "spotify",
-                        "include": True,
-                        "title": "Folge 1",
-                    },
-                ],
-            },
-        ),
+def curation(scratch_catalog: ScratchCatalog) -> Path:
+    return scratch_catalog.write_curation(
+        {
+            "id": "test_series",
+            "title": "Test Series",
+            "albums": [
+                {
+                    "album_id": "spotify-album-1",
+                    "provider": "spotify",
+                    "include": True,
+                    "title": "Folge 1",
+                },
+            ],
+        },
     )
-    return path
 
 
 def _read(path):

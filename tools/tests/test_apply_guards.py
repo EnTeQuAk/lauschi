@@ -10,7 +10,7 @@ from __future__ import annotations
 import json
 
 from lauschi_catalog.catalog.apply_ops import apply_one
-from lauschi_catalog.catalog.io import write_catalog
+from tests.conftest import ScratchCatalog
 
 
 def _catalog_entry(albums=10, pattern=None, artist_ids=("spotify-artist",)):
@@ -64,7 +64,6 @@ def _curation(
 
 
 def _dump(entry: dict) -> dict:
-    import json
 
     return json.loads(json.dumps(entry))
 
@@ -115,18 +114,14 @@ class TestFlags:
         assert updated is True
         assert len(catalog_data["series"][0]["providers"]["spotify"]["albums"]) == 1
 
-    def test_allowing_loss_does_not_skip_the_review_gates(self, tmp_path, monkeypatch):
+    def test_allowing_loss_does_not_skip_the_review_gates(
+        self, scratch_catalog: ScratchCatalog
+    ):
         """--allow-loss lifts the loss guard, not the review gate: an
         unaudited curation is still refused even over a heavy drop."""
         from lauschi_catalog.catalog.apply_ops import apply_curations
 
-        base = tmp_path / "assets" / "catalog"
-        (base / "curation").mkdir(parents=True)
-        write_catalog(
-            base / "series.json",
-            {"series": [{"id": "s", "title": "S", "providers": {}}]},
-        )
-        monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
+        scratch_catalog.write_series({"id": "s", "title": "S", "providers": {}})
 
         result = apply_curations(
             "s",
@@ -150,14 +145,12 @@ class TestFlags:
         assert len(catalog_data["series"][0]["providers"]["spotify"]["albums"]) == 10
 
     def test_each_gate_is_checked_even_when_the_other_flag_is_set(
-        self, tmp_path, monkeypatch
+        self, scratch_catalog: ScratchCatalog
     ):
         """--allow-unreviewed overrides the review gate; the loss guard
         still blocks the same run."""
         from lauschi_catalog.catalog.apply_ops import apply_curations
 
-        base = tmp_path / "assets" / "catalog"
-        (base / "curation").mkdir(parents=True)
         curation = {
             "id": "s",
             "title": "S",
@@ -172,10 +165,9 @@ class TestFlags:
                 for i in range(3)
             ],  # heavy drop on a 10-album catalog entry
         }
-        (base / "curation" / "s.json").write_text(json.dumps(curation))
+        scratch_catalog.write_curation(curation)
         # pre-populate the catalog entry with 10 albums so the drop trips
-        write_catalog(base / "series.json", {"series": [_catalog_entry(albums=10)]})
-        monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
+        scratch_catalog.write_series(_catalog_entry(albums=10))
 
         messages: list[str] = []
         result = apply_curations(

@@ -290,32 +290,25 @@ class TestBuildPrompt:
 
 
 class TestApplyAuditStatus:
-    def _apply(self, tmp_path, result: AuditResult) -> str:
-        curation_dir = tmp_path / "assets" / "catalog" / "curation"
-        curation_dir.mkdir(parents=True)
-        path = curation_dir / "test_series.json"
+    def _apply(self, scratch_catalog, result: AuditResult) -> str:
+        path = scratch_catalog.curation_dir / "test_series.json"
         path.write_text(json.dumps(_curation()))
-        monkeypatch = pytest.MonkeyPatch()
-        monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-        try:
-            action = apply_audit(
-                "test_series",
-                result,
-                model_name="test-model",
-                apply_overrides=True,
-            )
-        finally:
-            monkeypatch.undo()
+        action = apply_audit(
+            "test_series",
+            result,
+            model_name="test-model",
+            apply_overrides=True,
+        )
         data = json.loads(path.read_text())
         return action, data
 
-    def test_clean_approval(self, tmp_path):
+    def test_clean_approval(self, scratch_catalog):
         result = AuditResult(approve=True)
-        action, data = self._apply(tmp_path, result)
+        action, data = self._apply(scratch_catalog, result)
         assert action == "approved"
         assert data["review"]["status"] == "approved"
 
-    def test_approval_with_overrides_is_overridden(self, tmp_path):
+    def test_approval_with_overrides_is_overridden(self, scratch_catalog):
         result = AuditResult(
             approve=True,
             overrides=[
@@ -327,62 +320,55 @@ class TestApplyAuditStatus:
                 ),
             ],
         )
-        action, data = self._apply(tmp_path, result)
+        action, data = self._apply(scratch_catalog, result)
         assert action == "overridden"
         assert data["review"]["status"] == "approved"
 
-    def test_approval_with_fact_updates_is_overridden(self, tmp_path):
+    def test_approval_with_fact_updates_is_overridden(self, scratch_catalog):
         result = AuditResult(
             approve=True,
             fact_updates=[AuditFactUpdate()],
         )
-        action, data = self._apply(tmp_path, result)
+        action, data = self._apply(scratch_catalog, result)
         assert action == "overridden"
 
-    def test_disapproval_escalates(self, tmp_path):
+    def test_disapproval_escalates(self, scratch_catalog):
         result = AuditResult(approve=False, concerns=["big problem"])
-        action, data = self._apply(tmp_path, result)
+        action, data = self._apply(scratch_catalog, result)
         assert action == "escalated"
         assert data["review"]["status"] == "escalated"
 
-    def test_many_concerns_do_not_escalate_when_approved(self, tmp_path):
+    def test_many_concerns_do_not_escalate_when_approved(self, scratch_catalog):
         result = AuditResult(
             approve=True,
             concerns=[f"concern {i}" for i in range(20)],
         )
-        action, data = self._apply(tmp_path, result)
+        action, data = self._apply(scratch_catalog, result)
         assert action == "approved"
         assert len(data["review"]["concerns"]) == 20
 
-    def test_stamps_audited_by_and_at(self, tmp_path):
+    def test_stamps_audited_by_and_at(self, scratch_catalog):
         result = AuditResult(approve=True)
-        _, data = self._apply(tmp_path, result)
+        _, data = self._apply(scratch_catalog, result)
         assert data["review"]["audited_by"] == "test-model"
         assert data["review"]["audited_at"]
 
-    def test_persists_concerns(self, tmp_path):
+    def test_persists_concerns(self, scratch_catalog):
         result = AuditResult(
             approve=True,
             concerns=["minor issue"],
         )
-        _, data = self._apply(tmp_path, result)
+        _, data = self._apply(scratch_catalog, result)
         assert data["review"]["concerns"] == ["minor issue"]
 
-    def test_null_review_block_does_not_crash(self, tmp_path):
-        curation_dir = tmp_path / "assets" / "catalog" / "curation"
-        curation_dir.mkdir(parents=True)
-        path = curation_dir / "test_series.json"
+    def test_null_review_block_does_not_crash(self, scratch_catalog):
+        path = scratch_catalog.curation_dir / "test_series.json"
         path.write_text(json.dumps(_curation(review=None)))
-        monkeypatch = pytest.MonkeyPatch()
-        monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-        try:
-            action = apply_audit(
-                "test_series",
-                AuditResult(approve=True),
-                model_name="test-model",
-            )
-        finally:
-            monkeypatch.undo()
+        action = apply_audit(
+            "test_series",
+            AuditResult(approve=True),
+            model_name="test-model",
+        )
         assert action == "approved"
         data = json.loads(path.read_text())
         assert data["review"]["status"] == "approved"
@@ -392,29 +378,22 @@ class TestApplyAuditStatus:
 
 
 class TestApplyAuditOverrides:
-    def test_override_stamps_audited_by(self, tmp_path):
-        curation_dir = tmp_path / "assets" / "catalog" / "curation"
-        curation_dir.mkdir(parents=True)
-        path = curation_dir / "test_series.json"
+    def test_override_stamps_audited_by(self, scratch_catalog):
+        path = scratch_catalog.curation_dir / "test_series.json"
         path.write_text(json.dumps(_curation()))
 
-        monkeypatch = pytest.MonkeyPatch()
-        monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-        try:
-            result = AuditResult(
-                approve=True,
-                overrides=[
-                    AuditOverride(
-                        album_id="a2",
-                        provider="spotify",
-                        action="include",
-                        reason="real episode",
-                    ),
-                ],
-            )
-            apply_audit("test_series", result, model_name="test-model")
-        finally:
-            monkeypatch.undo()
+        result = AuditResult(
+            approve=True,
+            overrides=[
+                AuditOverride(
+                    album_id="a2",
+                    provider="spotify",
+                    action="include",
+                    reason="real episode",
+                ),
+            ],
+        )
+        apply_audit("test_series", result, model_name="test-model")
 
         data = json.loads(path.read_text())
         overrides = data["review"]["overrides"]
@@ -422,7 +401,7 @@ class TestApplyAuditOverrides:
         assert overrides[0]["audited_by"] == "test-model"
         assert overrides[0]["action"] == "include"
 
-    def test_override_merges_with_existing(self, tmp_path):
+    def test_override_merges_with_existing(self, scratch_catalog):
         c = _curation()
         c["review"] = {
             "overrides": [
@@ -436,28 +415,21 @@ class TestApplyAuditOverrides:
                 },
             ],
         }
-        curation_dir = tmp_path / "assets" / "catalog" / "curation"
-        curation_dir.mkdir(parents=True)
-        path = curation_dir / "test_series.json"
+        path = scratch_catalog.curation_dir / "test_series.json"
         path.write_text(json.dumps(c))
 
-        monkeypatch = pytest.MonkeyPatch()
-        monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-        try:
-            result = AuditResult(
-                approve=True,
-                overrides=[
-                    AuditOverride(
-                        album_id="a2",
-                        provider="spotify",
-                        action="include",
-                        reason="new override",
-                    ),
-                ],
-            )
-            apply_audit("test_series", result, model_name="test-model")
-        finally:
-            monkeypatch.undo()
+        result = AuditResult(
+            approve=True,
+            overrides=[
+                AuditOverride(
+                    album_id="a2",
+                    provider="spotify",
+                    action="include",
+                    reason="new override",
+                ),
+            ],
+        )
+        apply_audit("test_series", result, model_name="test-model")
 
         data = json.loads(path.read_text())
         overrides = {o["album_id"]: o for o in data["review"]["overrides"]}
@@ -465,45 +437,38 @@ class TestApplyAuditOverrides:
         assert "a2" in overrides
         assert overrides["a2"]["reason"] == "new override"
 
-    def test_override_with_fake_album_id_is_skipped(self, tmp_path):
+    def test_override_with_fake_album_id_is_skipped(self, scratch_catalog):
         """The agent sometimes invents descriptive album_ids instead of
         using the real ones from the prompt. The bad override is dropped
         from the album flags and recorded as a concern so the human sees
         that the critic aimed at a nonexistent album."""
-        curation_dir = tmp_path / "assets" / "catalog" / "curation"
-        curation_dir.mkdir(parents=True)
-        path = curation_dir / "test_series.json"
+        path = scratch_catalog.curation_dir / "test_series.json"
         path.write_text(json.dumps(_curation()))
 
-        monkeypatch = pytest.MonkeyPatch()
-        monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
         warnings = []
-        try:
-            result = AuditResult(
-                approve=True,
-                overrides=[
-                    AuditOverride(
-                        album_id="Ep 121: Folge 121: Der neue Schulgarten",
-                        provider="spotify",
-                        action="exclude",
-                        reason="duplicate",
-                    ),
-                    AuditOverride(
-                        album_id="a2",
-                        provider="spotify",
-                        action="include",
-                        reason="real episode",
-                    ),
-                ],
-            )
-            apply_audit(
-                "test_series",
-                result,
-                model_name="test-model",
-                on_progress=warnings.append,
-            )
-        finally:
-            monkeypatch.undo()
+        result = AuditResult(
+            approve=True,
+            overrides=[
+                AuditOverride(
+                    album_id="Ep 121: Folge 121: Der neue Schulgarten",
+                    provider="spotify",
+                    action="exclude",
+                    reason="duplicate",
+                ),
+                AuditOverride(
+                    album_id="a2",
+                    provider="spotify",
+                    action="include",
+                    reason="real episode",
+                ),
+            ],
+        )
+        apply_audit(
+            "test_series",
+            result,
+            model_name="test-model",
+            on_progress=warnings.append,
+        )
 
         data = json.loads(path.read_text())
         overrides = data["review"]["overrides"]
@@ -627,28 +592,21 @@ class TestMergeFacts:
 
 
 class TestApplyAuditMultipleFactUpdates:
-    def _apply_with_facts(self, tmp_path, fact_updates):
-        curation_dir = tmp_path / "assets" / "catalog" / "curation"
-        curation_dir.mkdir(parents=True)
-        path = curation_dir / "test_series.json"
+    def _apply_with_facts(self, scratch_catalog, fact_updates):
+        path = scratch_catalog.curation_dir / "test_series.json"
         path.write_text(json.dumps(_curation()))
 
-        monkeypatch = pytest.MonkeyPatch()
-        monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-        try:
-            result = AuditResult(
-                approve=True,
-                fact_updates=fact_updates,
-            )
-            apply_audit(
-                "test_series", result, model_name="test-model", apply_overrides=True
-            )
-        finally:
-            monkeypatch.undo()
+        result = AuditResult(
+            approve=True,
+            fact_updates=fact_updates,
+        )
+        apply_audit(
+            "test_series", result, model_name="test-model", apply_overrides=True
+        )
 
         return json.loads(path.read_text())
 
-    def test_all_fact_updates_applied_not_just_last(self, tmp_path):
+    def test_all_fact_updates_applied_not_just_last(self, scratch_catalog):
         updates = [
             AuditFactUpdate(
                 era_boundaries=[
@@ -659,14 +617,14 @@ class TestApplyAuditMultipleFactUpdates:
                 known_gaps=[KnownGapProposal(number=13, reason="legal dispute")],
             ),
         ]
-        data = self._apply_with_facts(tmp_path, updates)
+        data = self._apply_with_facts(scratch_catalog, updates)
         facts = data["series_facts"]
         assert len(facts["era_boundaries"]) == 1
         assert facts["era_boundaries"][0]["label"] == "klassik"
         assert len(facts["known_gaps"]) == 1
         assert facts["known_gaps"][0]["number"] == 13
 
-    def test_replace_then_merge_applies_both(self, tmp_path):
+    def test_replace_then_merge_applies_both(self, scratch_catalog):
         updates = [
             AuditFactUpdate(
                 mode="replace",
@@ -683,7 +641,7 @@ class TestApplyAuditMultipleFactUpdates:
                 ],
             ),
         ]
-        data = self._apply_with_facts(tmp_path, updates)
+        data = self._apply_with_facts(scratch_catalog, updates)
         labels = {e["label"] for e in data["series_facts"]["era_boundaries"]}
         assert labels == {"original", "modern"}
 
@@ -692,34 +650,28 @@ class TestApplyAuditMultipleFactUpdates:
 
 
 class TestDryRun:
-    def test_dry_run_does_not_write(self, tmp_path):
-        path = tmp_path / "assets" / "catalog" / "curation" / "test_series.json"
-        path.parent.mkdir(parents=True)
+    def test_dry_run_does_not_write(self, scratch_catalog):
+        path = scratch_catalog.curation_dir / "test_series.json"
         original = _curation()
         path.write_text(json.dumps(original))
 
-        monkeypatch = pytest.MonkeyPatch()
-        monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-        try:
-            result = AuditResult(
-                approve=True,
-                overrides=[
-                    AuditOverride(
-                        album_id="a2",
-                        provider="spotify",
-                        action="include",
-                        reason="test",
-                    ),
-                ],
-            )
-            apply_audit(
-                "test_series",
-                result,
-                model_name="test-model",
-                dry_run=True,
-            )
-        finally:
-            monkeypatch.undo()
+        result = AuditResult(
+            approve=True,
+            overrides=[
+                AuditOverride(
+                    album_id="a2",
+                    provider="spotify",
+                    action="include",
+                    reason="test",
+                ),
+            ],
+        )
+        apply_audit(
+            "test_series",
+            result,
+            model_name="test-model",
+            dry_run=True,
+        )
 
         data = json.loads(path.read_text())
         assert "review" not in data
@@ -734,37 +686,31 @@ class TestApplyAuditHardGate:
     escalation no matter what the model concluded. mama_sandy showed
     an auditor approving a curation that emptied an entire artist."""
 
-    def _apply(self, tmp_path, result: AuditResult, flags: list[str]):
-        path = tmp_path / "assets" / "catalog" / "curation" / "test_series.json"
-        path.parent.mkdir(parents=True)
+    def _apply(self, scratch_catalog, result: AuditResult, flags: list[str]):
+        path = scratch_catalog.curation_dir / "test_series.json"
         curation = _curation()
         curation["regression_flags"] = flags
         path.write_text(json.dumps(curation))
 
-        monkeypatch = pytest.MonkeyPatch()
-        monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-        try:
-            action = apply_audit(
-                "test_series",
-                result,
-                model_name="test-model",
-                apply_overrides=True,
-            )
-        finally:
-            monkeypatch.undo()
+        action = apply_audit(
+            "test_series",
+            result,
+            model_name="test-model",
+            apply_overrides=True,
+        )
         data = json.loads(path.read_text())
         return action, data
 
-    def test_critical_regression_escalates_despite_approval(self, tmp_path):
+    def test_critical_regression_escalates_despite_approval(self, scratch_catalog):
         flags = ["CRITICAL: Include collapse: 0 included (previous curation had 8)"]
-        action, data = self._apply(tmp_path, AuditResult(approve=True), flags)
+        action, data = self._apply(scratch_catalog, AuditResult(approve=True), flags)
         assert action == "escalated"
         assert data["review"]["status"] == "escalated"
         assert any("hard-gate" in c for c in data["review"]["concerns"])
 
-    def test_non_critical_flags_do_not_gate(self, tmp_path):
+    def test_non_critical_flags_do_not_gate(self, scratch_catalog):
         flags = ["Included count looks different but within tolerance"]
-        action, data = self._apply(tmp_path, AuditResult(approve=True), flags)
+        action, data = self._apply(scratch_catalog, AuditResult(approve=True), flags)
         assert action == "approved"
 
 
@@ -781,23 +727,16 @@ class TestApplyAuditMaterialization:
     next audit explicitly contradicted) while apply ignored overrides
     entirely and shipped 183 audit-rejected albums."""
 
-    def _run(self, tmp_path, curation, result):
-        curation_dir = tmp_path / "assets" / "catalog" / "curation"
-        curation_dir.mkdir(parents=True)
-        path = curation_dir / "test_series.json"
+    def _run(self, scratch_catalog, curation, result):
+        path = scratch_catalog.curation_dir / "test_series.json"
         path.write_text(json.dumps(curation))
 
-        monkeypatch = pytest.MonkeyPatch()
-        monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-        try:
-            apply_audit(
-                "test_series", result, model_name="test-model", apply_overrides=True
-            )
-        finally:
-            monkeypatch.undo()
+        apply_audit(
+            "test_series", result, model_name="test-model", apply_overrides=True
+        )
         return json.loads(path.read_text())
 
-    def test_exclude_override_flips_album_include_flag(self, tmp_path):
+    def test_exclude_override_flips_album_include_flag(self, scratch_catalog):
         result = AuditResult(
             approve=True,
             overrides=[
@@ -809,14 +748,14 @@ class TestApplyAuditMaterialization:
                 ),
             ],
         )
-        data = self._run(tmp_path, _curation(), result)
+        data = self._run(scratch_catalog, _curation(), result)
         albums = {a["album_id"]: a for a in data["albums"]}
         assert albums["a1"]["include"] is False
         assert albums["a1"]["exclude_reason"] == "compilation_as_episode"
         # Trail entry still recorded.
         assert data["review"]["overrides"][0]["album_id"] == "a1"
 
-    def test_include_override_flips_album_include_flag(self, tmp_path):
+    def test_include_override_flips_album_include_flag(self, scratch_catalog):
         result = AuditResult(
             approve=True,
             overrides=[
@@ -828,12 +767,12 @@ class TestApplyAuditMaterialization:
                 ),
             ],
         )
-        data = self._run(tmp_path, _curation(), result)
+        data = self._run(scratch_catalog, _curation(), result)
         albums = {a["album_id"]: a for a in data["albums"]}
         assert albums["a2"]["include"] is True
         assert albums["a2"].get("exclude_reason", "") == ""
 
-    def test_unknown_album_id_not_materialized(self, tmp_path):
+    def test_unknown_album_id_not_materialized(self, scratch_catalog):
         result = AuditResult(
             approve=True,
             overrides=[
@@ -845,12 +784,12 @@ class TestApplyAuditMaterialization:
                 ),
             ],
         )
-        data = self._run(tmp_path, _curation(), result)
+        data = self._run(scratch_catalog, _curation(), result)
         albums = {a["album_id"]: a for a in data["albums"]}
         assert albums["a1"]["include"] is True
         assert not data["review"].get("overrides")
 
-    def test_escalated_run_does_not_materialize_overrides(self, tmp_path):
+    def test_escalated_run_does_not_materialize_overrides(self, scratch_catalog):
         """An escalated verdict means a human decides; the model's
         excludes are recorded in the trail but must not touch album
         state (Mira lost 7 albums to a policy disagreement before the
@@ -867,7 +806,7 @@ class TestApplyAuditMaterialization:
                 ),
             ],
         )
-        data = self._run(tmp_path, _curation(), result)
+        data = self._run(scratch_catalog, _curation(), result)
         albums = {a["album_id"]: a for a in data["albums"]}
         assert albums["a1"]["include"] is True
         assert data["review"]["status"] == "escalated"
@@ -886,28 +825,22 @@ class TestApplyAuditDryRun:
     targets, not just counts.
     """
 
-    def _dry_run(self, tmp_path, result: AuditResult) -> tuple[list[str], dict]:
-        path = tmp_path / "assets" / "catalog" / "curation" / "test_series.json"
-        path.parent.mkdir(parents=True)
+    def _dry_run(self, scratch_catalog, result: AuditResult) -> tuple[list[str], dict]:
+        path = scratch_catalog.curation_dir / "test_series.json"
         original = _curation()
         path.write_text(json.dumps(original))
 
         lines: list[str] = []
-        monkeypatch = pytest.MonkeyPatch()
-        monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-        try:
-            apply_audit(
-                "test_series",
-                result,
-                model_name="test-model",
-                dry_run=True,
-                on_progress=lines.append,
-            )
-        finally:
-            monkeypatch.undo()
+        apply_audit(
+            "test_series",
+            result,
+            model_name="test-model",
+            dry_run=True,
+            on_progress=lines.append,
+        )
         return lines, json.loads(path.read_text())
 
-    def test_itemizes_override_targets(self, tmp_path):
+    def test_itemizes_override_targets(self, scratch_catalog):
         result = AuditResult(
             approve=True,
             overrides=[
@@ -919,10 +852,10 @@ class TestApplyAuditDryRun:
                 ),
             ],
         )
-        lines, _ = self._dry_run(tmp_path, result)
+        lines, _ = self._dry_run(scratch_catalog, result)
         assert any("include spotify:a2: real episode" in line for line in lines)
 
-    def test_itemizes_fact_update_summary(self, tmp_path):
+    def test_itemizes_fact_update_summary(self, scratch_catalog):
         result = AuditResult(
             approve=True,
             fact_updates=[
@@ -932,15 +865,15 @@ class TestApplyAuditDryRun:
                 ),
             ],
         )
-        lines, _ = self._dry_run(tmp_path, result)
+        lines, _ = self._dry_run(scratch_catalog, result)
         assert any("mode=replace" in line and "gaps=1" in line for line in lines)
 
-    def test_itemizes_concerns(self, tmp_path):
+    def test_itemizes_concerns(self, scratch_catalog):
         result = AuditResult(approve=True, concerns=["known_gap for 27 is wrong"])
-        lines, _ = self._dry_run(tmp_path, result)
+        lines, _ = self._dry_run(scratch_catalog, result)
         assert any("known_gap for 27 is wrong" in line for line in lines)
 
-    def test_dry_run_writes_nothing(self, tmp_path):
+    def test_dry_run_writes_nothing(self, scratch_catalog):
         result = AuditResult(
             approve=True,
             overrides=[
@@ -952,7 +885,7 @@ class TestApplyAuditDryRun:
                 ),
             ],
         )
-        _, data = self._dry_run(tmp_path, result)
+        _, data = self._dry_run(scratch_catalog, result)
         assert data == _curation()
 
 
@@ -1083,19 +1016,12 @@ class TestApplyAuditOutputCaps:
     direction on a split series escalate instead of auto-applying, and
     an escalated run touches neither album flags nor facts."""
 
-    def _apply(self, tmp_path, curation, result):
-        curation_dir = tmp_path / "assets" / "catalog" / "curation"
-        curation_dir.mkdir(parents=True)
-        path = curation_dir / f"{curation['id']}.json"
+    def _apply(self, scratch_catalog, curation, result):
+        path = scratch_catalog.curation_dir / f"{curation['id']}.json"
         path.write_text(json.dumps(curation))
-        mp = pytest.MonkeyPatch()
-        mp.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-        try:
-            action = apply_audit(
-                curation["id"], result, model_name="critic", apply_overrides=True
-            )
-        finally:
-            mp.undo()
+        action = apply_audit(
+            curation["id"], result, model_name="critic", apply_overrides=True
+        )
         return action, json.loads(path.read_text())
 
     def _big_curation(self, n: int) -> dict:
@@ -1112,7 +1038,7 @@ class TestApplyAuditOutputCaps:
         ]
         return {"id": "big", "title": "Big", "albums": albums}
 
-    def test_override_volume_over_five_percent_escalates(self, tmp_path):
+    def test_override_volume_over_five_percent_escalates(self, scratch_catalog):
         curation = self._big_curation(100)  # cap = max(5, 5) = 5
         overrides = [
             AuditOverride(
@@ -1124,7 +1050,7 @@ class TestApplyAuditOutputCaps:
             for i in range(1, 8)  # 7 > 5
         ]
         action, data = self._apply(
-            tmp_path, curation, AuditResult(approve=True, overrides=overrides)
+            scratch_catalog, curation, AuditResult(approve=True, overrides=overrides)
         )
         assert action == "escalated"
         assert data["review"]["status"] == "escalated"
@@ -1132,7 +1058,9 @@ class TestApplyAuditOutputCaps:
         assert all(a["include"] for a in data["albums"][:7])
         assert any("override-volume" in c for c in data["review"]["concerns"])
 
-    def test_naming_reasons_on_excluded_albums_is_not_override_volume(self, tmp_path):
+    def test_naming_reasons_on_excluded_albums_is_not_override_volume(
+        self, scratch_catalog
+    ):
         """Die Schule escalated on 12 overrides that only named the reason
         of albums already excluded without one (2026-09-30). The cap is
         there to stop a critic flipping decisions en masse, so only
@@ -1150,13 +1078,13 @@ class TestApplyAuditOutputCaps:
             for i in range(1, 13)
         ]
         action, data = self._apply(
-            tmp_path, curation, AuditResult(approve=True, overrides=overrides)
+            scratch_catalog, curation, AuditResult(approve=True, overrides=overrides)
         )
         assert action == "overridden"
         assert data["albums"][0]["exclude_reason"] == "wrong_content_type"
         assert not any("override-volume" in c for c in data["review"]["concerns"])
 
-    def test_flips_still_count_toward_the_cap(self, tmp_path):
+    def test_flips_still_count_toward_the_cap(self, scratch_catalog):
         curation = self._big_curation(100)
         for a in curation["albums"][:12]:
             a.update(include=False, exclude_reason="unspecified")
@@ -1175,11 +1103,11 @@ class TestApplyAuditOutputCaps:
             for i in range(20, 26)  # 6 real flips > cap of 5
         ]
         action, _ = self._apply(
-            tmp_path, curation, AuditResult(approve=True, overrides=overrides)
+            scratch_catalog, curation, AuditResult(approve=True, overrides=overrides)
         )
         assert action == "escalated"
 
-    def test_a_handful_of_overrides_still_applies(self, tmp_path):
+    def test_a_handful_of_overrides_still_applies(self, scratch_catalog):
         curation = self._big_curation(100)
         overrides = [
             AuditOverride(
@@ -1191,12 +1119,14 @@ class TestApplyAuditOutputCaps:
             for i in range(1, 4)  # 3 <= 5
         ]
         action, data = self._apply(
-            tmp_path, curation, AuditResult(approve=True, overrides=overrides)
+            scratch_catalog, curation, AuditResult(approve=True, overrides=overrides)
         )
         assert action == "overridden"
         assert data["albums"][0]["include"] is False
 
-    def test_an_exclude_override_writes_the_reason_key_not_the_text(self, tmp_path):
+    def test_an_exclude_override_writes_the_reason_key_not_the_text(
+        self, scratch_catalog
+    ):
         """The auditor wrote "duplicate: the 12-track Pommesgabel is a
         strict subset of ..." into exclude_reason, and the next curate of
         Heavysaurus aborted on the off-vocabulary record (2026-10-03).
@@ -1211,12 +1141,12 @@ class TestApplyAuditOutputCaps:
                 )
             ],
         )
-        action, data = self._apply(tmp_path, curation, result)
+        action, data = self._apply(scratch_catalog, curation, result)
         assert action == "overridden"
         assert data["albums"][0]["exclude_reason"] == "duplicate"
         assert data["review"]["overrides"][0]["reason"] == text
 
-    def test_a_split_child_including_its_own_album_applies(self, tmp_path):
+    def test_a_split_child_including_its_own_album_applies(self, scratch_catalog):
         """Split children curate their own line, so an include override
         there is an ordinary flip: counted by the cap, applied when the
         audit approves. Rows another series owns are refused separately."""
@@ -1231,11 +1161,11 @@ class TestApplyAuditOutputCaps:
                 )
             ],
         )
-        action, data = self._apply(tmp_path, curation, result)
+        action, data = self._apply(scratch_catalog, curation, result)
         assert action == "overridden"
         assert data["albums"][0]["include"] is True
 
-    def test_exclude_override_on_a_split_series_still_applies(self, tmp_path):
+    def test_exclude_override_on_a_split_series_still_applies(self, scratch_catalog):
         curation = self._big_curation(10)
         curation["split_from"] = "parent"
         result = AuditResult(
@@ -1249,7 +1179,7 @@ class TestApplyAuditOutputCaps:
                 )
             ],
         )
-        action, data = self._apply(tmp_path, curation, result)
+        action, data = self._apply(scratch_catalog, curation, result)
         assert action == "overridden"
         assert data["albums"][0]["include"] is False
 
@@ -1267,7 +1197,7 @@ class TestApplyAuditOutputCaps:
         ]
         return curation
 
-    def test_override_cap_counts_only_the_rows_the_audit_reviews(self, tmp_path):
+    def test_override_cap_counts_only_the_rows_the_audit_reviews(self, scratch_catalog):
         """Rows another family member owns are not in the prompt, so they
         must not raise the cap: 6 overrides on 6 reviewed albums is all of
         them, however many family rows the page carries."""
@@ -1279,11 +1209,11 @@ class TestApplyAuditOutputCaps:
             for i in range(1, 7)
         ]
         action, _ = self._apply(
-            tmp_path, curation, AuditResult(approve=True, overrides=overrides)
+            scratch_catalog, curation, AuditResult(approve=True, overrides=overrides)
         )
         assert action == "escalated"
 
-    def test_override_on_a_row_another_member_owns_is_ignored(self, tmp_path):
+    def test_override_on_a_row_another_member_owns_is_ignored(self, scratch_catalog):
         curation = self._with_family_rows(self._big_curation(3), 1, "kid")
         result = AuditResult(
             approve=True,
@@ -1293,7 +1223,7 @@ class TestApplyAuditOutputCaps:
                 )
             ],
         )
-        _, data = self._apply(tmp_path, curation, result)
+        _, data = self._apply(scratch_catalog, curation, result)
         (f0,) = [a for a in data["albums"] if a["album_id"] == "f0"]
         assert f0["include"] is False
         assert any(
@@ -1309,7 +1239,7 @@ class TestApplyAuditOutputCaps:
         ],
     )
     def test_override_on_a_decision_made_by_hand_is_ignored(
-        self, tmp_path, by_hand, action
+        self, scratch_catalog, by_hand, action
     ):
         """A person who moves or excludes an album knows something the
         auditor does not. On Lauras Stern (2026-10-10) the audit put two
@@ -1328,7 +1258,7 @@ class TestApplyAuditOutputCaps:
             ],
         )
 
-        status, data = self._apply(tmp_path, curation, result)
+        status, data = self._apply(scratch_catalog, curation, result)
 
         (after,) = [a for a in data["albums"] if a["album_id"] == "a1"]
         assert {k: after.get(k) for k in before} == before
@@ -1346,7 +1276,7 @@ class TestApplyAuditOutputCaps:
         ],
     )
     def test_an_album_that_awaits_its_split_is_not_excluded_as_bleed(
-        self, tmp_path, reason, stays
+        self, scratch_catalog, reason, stays
     ):
         """A main series keeps what it ships of a line without an entry
         until a person accepts the split. The auditor reads the same line
@@ -1364,7 +1294,7 @@ class TestApplyAuditOutputCaps:
             ],
         )
 
-        _, data = self._apply(tmp_path, curation, result)
+        _, data = self._apply(scratch_catalog, curation, result)
 
         (after,) = [a for a in data["albums"] if a["album_id"] == "a1"]
         assert after["include"] is stays
@@ -1374,7 +1304,7 @@ class TestApplyAuditOutputCaps:
             for c in data["review"].get("concerns", [])
         )
 
-    def test_a_known_gap_for_an_included_episode_is_refused(self, tmp_path):
+    def test_a_known_gap_for_an_included_episode_is_refused(self, scratch_catalog):
         """The 2026-10-02 audit recorded 95 known gaps for episodes that
         are included on one provider ("Spotify-only; no Apple Music
         entry"). A known gap means the episode does not exist, so an
@@ -1391,7 +1321,7 @@ class TestApplyAuditOutputCaps:
                 )
             ],
         )
-        action, data = self._apply(tmp_path, curation, result)
+        action, data = self._apply(scratch_catalog, curation, result)
         assert action == "overridden"
         gaps = [g["number"] for g in data["series_facts"]["known_gaps"]]
         assert gaps == [9]
@@ -1400,7 +1330,9 @@ class TestApplyAuditOutputCaps:
         )
 
     @pytest.mark.parametrize("approve", [True, False])
-    def test_the_review_keeps_the_auditors_own_verdict(self, tmp_path, approve: bool):
+    def test_the_review_keeps_the_auditors_own_verdict(
+        self, scratch_catalog, approve: bool
+    ):
         """An escalation can come from the auditor declining or from a
         gate; the review says which (67 escalations on 2026-10-02 could
         not be told apart)."""
@@ -1412,12 +1344,12 @@ class TestApplyAuditOutputCaps:
             for i in range(1, 8)
         ]
         _, data = self._apply(
-            tmp_path, curation, AuditResult(approve=approve, overrides=overrides)
+            scratch_catalog, curation, AuditResult(approve=approve, overrides=overrides)
         )
         assert data["review"]["status"] == "escalated"
         assert data["review"]["auditor_approved"] is approve
 
-    def test_unknown_album_id_becomes_a_concern(self, tmp_path):
+    def test_unknown_album_id_becomes_a_concern(self, scratch_catalog):
         curation = self._big_curation(3)
         result = AuditResult(
             approve=True,
@@ -1427,13 +1359,13 @@ class TestApplyAuditOutputCaps:
                 )
             ],
         )
-        _, data = self._apply(tmp_path, curation, result)
+        _, data = self._apply(scratch_catalog, curation, result)
         assert any(
             "[unknown_album_id]" in c and "ghost" in c
             for c in data["review"]["concerns"]
         )
 
-    def test_wrong_provider_on_a_real_id_is_unknown(self, tmp_path):
+    def test_wrong_provider_on_a_real_id_is_unknown(self, scratch_catalog):
         curation = self._big_curation(3)
         result = AuditResult(
             approve=True,
@@ -1443,11 +1375,11 @@ class TestApplyAuditOutputCaps:
                 )
             ],
         )
-        _, data = self._apply(tmp_path, curation, result)
+        _, data = self._apply(scratch_catalog, curation, result)
         assert data["albums"][0]["include"] is True  # spotify a1 untouched
         assert any("[unknown_album_id]" in c for c in data["review"]["concerns"])
 
-    def test_escalated_run_writes_no_facts(self, tmp_path):
+    def test_escalated_run_writes_no_facts(self, scratch_catalog):
         curation = self._big_curation(3)
         result = AuditResult(
             approve=False,  # forces escalation
@@ -1458,7 +1390,7 @@ class TestApplyAuditOutputCaps:
                 )
             ],
         )
-        _, data = self._apply(tmp_path, curation, result)
+        _, data = self._apply(scratch_catalog, curation, result)
         assert data["review"]["status"] == "escalated"
         assert not data.get("series_facts", {}).get("known_gaps")
 

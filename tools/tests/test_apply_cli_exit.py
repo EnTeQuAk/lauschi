@@ -8,12 +8,14 @@ filename is refused (it would apply into someone else's catalog entry).
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 import pytest
 from click.testing import CliRunner
 
 from lauschi_catalog.catalog import apply_ops
 from lauschi_catalog.commands.apply import apply
+from tests.conftest import ScratchCatalog
 
 
 def _curation(sid: str) -> dict:
@@ -30,16 +32,11 @@ def _curation(sid: str) -> dict:
 
 
 @pytest.fixture
-def scratch(tmp_path, monkeypatch):
-    catalog = tmp_path / "assets" / "catalog"
-    (catalog / "curation").mkdir(parents=True)
-    (catalog / "series.json").write_text(
-        json.dumps(
-            {"series": [{"id": "s1", "title": "S1"}, {"id": "s2", "title": "S2"}]}
-        )
+def scratch(scratch_catalog: ScratchCatalog) -> Path:
+    scratch_catalog.write_series(
+        {"id": "s1", "title": "S1"}, {"id": "s2", "title": "S2"}
     )
-    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-    return catalog / "curation"
+    return scratch_catalog.curation_dir
 
 
 def test_apply_all_exits_zero_when_nothing_blocked(scratch, monkeypatch):

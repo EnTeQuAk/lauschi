@@ -8,7 +8,6 @@ moved the release to. A record without a barcode gets the live one.
 """
 
 import json
-from pathlib import Path
 
 import pytest
 
@@ -21,6 +20,7 @@ from lauschi_catalog.catalog.drift_ops import (
 from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
 from lauschi_catalog.catalog.paths import curation_path
 from lauschi_catalog.providers.base import Album, AlbumBatch, Artist, CatalogProvider
+from tests.conftest import ScratchCatalog
 
 FOLGE = r"^Folge (\d+):"
 
@@ -91,15 +91,12 @@ class _Store(CatalogProvider):
 
 
 @pytest.fixture
-def lilli(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> CatalogEntry:
-    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
+def lilli(scratch_catalog: ScratchCatalog) -> CatalogEntry:
     records = [
         ("old", "Folge 1: Die Zauberschule", "4001504265595"),
         ("a2", "Folge 2: Der Drache", ""),
     ]
-    path = curation_path("hexe_lilli")
-    path.parent.mkdir(parents=True)
-    path.write_text(
+    curation_path("hexe_lilli").write_text(
         json.dumps(
             {
                 "id": "hexe_lilli",

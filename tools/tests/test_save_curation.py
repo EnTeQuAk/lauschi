@@ -18,14 +18,12 @@ from lauschi_catalog.catalog.curate_ops import (
     CuratedSeries,
     save_curation,
 )
+from tests.conftest import ScratchCatalog
 
 
 @pytest.fixture
-def curation_dir(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
-    d = tmp_path / "assets" / "catalog" / "curation"
-    d.mkdir(parents=True)
-    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-    return d
+def curation_dir(scratch_catalog: ScratchCatalog) -> Path:
+    return scratch_catalog.curation_dir
 
 
 def _series(

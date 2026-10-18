@@ -1,6 +1,5 @@
 import asyncio
 import json
-from pathlib import Path
 
 import pytest
 from pydantic_ai import Agent
@@ -39,12 +38,8 @@ def test_usage_summary_is_the_three_numbers_a_cost_needs() -> None:
     }
 
 
-def test_save_curation_persists_who_curated_and_what_it_cost(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
-    curation_dir = tmp_path / "assets" / "catalog" / "curation"
-    curation_dir.mkdir(parents=True)
-    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
+@pytest.mark.usefixtures("scratch_catalog")
+def test_save_curation_persists_who_curated_and_what_it_cost() -> None:
     series = CuratedSeries(
         id="kira_kolumna",
         title="Kira Kolumna",

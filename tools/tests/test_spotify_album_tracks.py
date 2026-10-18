@@ -9,7 +9,6 @@ same title.
 See https://developer.spotify.com/documentation/web-api/reference/get-an-album
 """
 
-from pathlib import Path
 from unittest.mock import MagicMock
 
 import pytest
@@ -108,12 +107,12 @@ def test_an_album_of_up_to_fifty_tracks_needs_one_request(spotify: _Spotify) -> 
     assert spotify.asked == ["https://api.spotify.com/v1/albums/short"]
 
 
+@pytest.mark.usefixtures("scratch_catalog")
 def test_a_cut_album_in_the_cache_is_completed_once(
-    spotify: _Spotify, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    spotify: _Spotify,
 ) -> None:
     """The cache holds albums fetched with the first 50 tracks only. They
     are completed when read, and the complete album is what stays cached."""
-    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
     provider = SpotifyProvider()
     provider._cache.set("album:long", _album("long", 83))
 

@@ -1,6 +1,55 @@
 """Shared test fixtures for the lauschi-catalog test suite."""
 
+import json
+from dataclasses import dataclass
+from pathlib import Path
 from typing import Any
+
+import pytest
+
+from lauschi_catalog.catalog import paths
+from lauschi_catalog.catalog.io import write_catalog
+
+
+@dataclass(frozen=True)
+class ScratchCatalog:
+    """A checkout in ``tmp_path`` that every catalog path resolves into.
+
+    It starts with an empty curation directory and no series.json, so a
+    test writes only the files it is about.
+    """
+
+    root: Path
+    series_json: Path
+    curation_dir: Path
+    deleted_log: Path
+
+    def write_series(self, *entries: dict[str, Any]) -> None:
+        """Write series.json holding ``entries``."""
+        write_catalog(self.series_json, {"series": list(entries)})
+
+    def write_curation(self, data: dict[str, Any]) -> Path:
+        """Write a curation file, named by its ``id``."""
+        path = self.curation_dir / f"{data['id']}.json"
+        path.write_text(json.dumps(data))
+        return path
+
+    def read_curation(self, series_id: str) -> dict[str, Any]:
+        return json.loads((self.curation_dir / f"{series_id}.json").read_text())
+
+
+@pytest.fixture
+def scratch_catalog(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> ScratchCatalog:
+    """Point ``LAUSCHI_REPO_ROOT`` at ``tmp_path``, so nothing a test writes
+    reaches the checkout's catalog."""
+    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
+    paths.curation_dir().mkdir(parents=True)
+    return ScratchCatalog(
+        root=tmp_path,
+        series_json=paths.catalog_path(),
+        curation_dir=paths.curation_dir(),
+        deleted_log=paths.deleted_log_path(),
+    )
 
 
 def make_album(

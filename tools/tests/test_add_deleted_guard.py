@@ -11,20 +11,15 @@ from click.testing import CliRunner
 
 from lauschi_catalog.catalog import add_ops as add_ops_mod
 from lauschi_catalog.catalog import deleted as deleted_mod
-from lauschi_catalog.catalog.io import load_raw, write_catalog
+from lauschi_catalog.catalog.io import load_raw
 from lauschi_catalog.commands import add as add_mod
+from tests.conftest import ScratchCatalog
 
 
 @pytest.fixture
-def env(monkeypatch, tmp_path):
+def env(scratch_catalog: ScratchCatalog, monkeypatch: pytest.MonkeyPatch):
     """Fresh catalog + empty deletion log + neutered providers."""
-    catalog = tmp_path / "assets" / "catalog"
-    catalog.mkdir(parents=True)
-    series_json = catalog / "series.json"
-    deleted_log = catalog / "deleted.json"
-    write_catalog(series_json, {"series": []})
-
-    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
+    scratch_catalog.write_series()
     # add() constructs real providers when keys are present (mise loads
     # the developer .env), and it imports the classes by name, so the
     # stubs below must land on add's own binding and the keys must be
@@ -37,7 +32,7 @@ def env(monkeypatch, tmp_path):
         "tom_turbo",
         "Tom Turbo",
         "No streaming presence",
-        path=deleted_log,
+        path=scratch_catalog.deleted_log,
     )
 
     # Skip provider calls — add() asks confirmation when none are found,
@@ -51,7 +46,7 @@ def env(monkeypatch, tmp_path):
             raise FileNotFoundError
 
     monkeypatch.setattr(add_ops_mod, "load_catalog", lambda: [])
-    return {"series_json": series_json, "deleted_log": deleted_log}
+    return scratch_catalog
 
 
 def test_add_refuses_to_readd_deleted_id(env, monkeypatch):
@@ -106,11 +101,11 @@ def test_add_with_force_readd_clears_log_entry(env, monkeypatch, tmp_path):
     assert result.exit_code == 0, result.output
 
     # The deletion log no longer contains tom_turbo.
-    assert deleted_mod.is_deleted("tom_turbo", env["deleted_log"]) is None
+    assert deleted_mod.is_deleted("tom_turbo", env.deleted_log) is None
 
     # The new entry landed in the test catalog, not the real repo one.
     # add_series_entry resolves the file via paths.catalog_path()
     # at call time; an unpatched paths module silently appends a
     # tom_turbo stub to the real series.json on every test run.
-    data = load_raw(env["series_json"])
+    data = load_raw(env.series_json)
     assert any(e["id"] == "tom_turbo" for e in data["series"])

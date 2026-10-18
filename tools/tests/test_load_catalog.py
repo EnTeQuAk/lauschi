@@ -11,6 +11,7 @@ import pytest
 from lauschi_catalog.catalog import loader
 from lauschi_catalog.catalog.io import write_catalog
 from lauschi_catalog.catalog.series_ops import add_series_entry
+from tests.conftest import ScratchCatalog
 
 
 def _write(path: Path, ids: list[str]) -> None:
@@ -26,11 +27,8 @@ def _write(path: Path, ids: list[str]) -> None:
 
 
 @pytest.fixture
-def catalog_file(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
-    catalog = tmp_path / "assets" / "catalog"
-    catalog.mkdir(parents=True)
-    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-    return catalog / "series.json"
+def catalog_file(scratch_catalog: ScratchCatalog) -> Path:
+    return scratch_catalog.series_json
 
 
 def test_mutating_a_returned_entry_does_not_leak_into_the_next_load(

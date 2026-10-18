@@ -8,47 +8,31 @@ pin both ends of the contract:
   - add refuses to re-introduce a deleted id without --force-readd
 """
 
-import json
 from pathlib import Path
 
 import pytest
 from click.testing import CliRunner
 
 from lauschi_catalog.catalog import deleted as deleted_mod
-from lauschi_catalog.catalog.io import load_raw, write_catalog
+from lauschi_catalog.catalog.io import load_raw
 from lauschi_catalog.commands import delete as delete_mod
+from tests.conftest import ScratchCatalog
 
 
 @pytest.fixture
-def fake_catalog(monkeypatch, tmp_path):
-    """A pristine catalog in tmp_path with one series and one curation."""
-    catalog = tmp_path / "assets" / "catalog"
-    curation_dir = catalog / "curation"
-    curation_dir.mkdir(parents=True)
-    series_json = catalog / "series.json"
-    deleted_log = catalog / "deleted.json"
-    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-
-    data = {
-        "series": [
-            {
-                "id": "tom_turbo",
-                "title": "Tom Turbo",
-                "providers": {"spotify": {"artist_ids": ["fake"]}},
-            },
-        ],
-    }
-    write_catalog(series_json, data)
-
-    (curation_dir / "tom_turbo.json").write_text(
-        json.dumps({"id": "tom_turbo", "title": "Tom Turbo", "albums": []}),
+def fake_catalog(scratch_catalog: ScratchCatalog) -> ScratchCatalog:
+    """A pristine catalog with one series and one curation."""
+    scratch_catalog.write_series(
+        {
+            "id": "tom_turbo",
+            "title": "Tom Turbo",
+            "providers": {"spotify": {"artist_ids": ["fake"]}},
+        }
     )
-
-    return {
-        "series_json": series_json,
-        "curation_dir": curation_dir,
-        "deleted_log": deleted_log,
-    }
+    scratch_catalog.write_curation(
+        {"id": "tom_turbo", "title": "Tom Turbo", "albums": []}
+    )
+    return scratch_catalog
 
 
 def _series_ids(path: Path) -> list[str]:
@@ -65,11 +49,11 @@ def test_delete_removes_entry_and_curation_and_logs(fake_catalog):
     assert result.exit_code == 0, result.output
 
     # series.json entry gone.
-    assert _series_ids(fake_catalog["series_json"]) == []
+    assert _series_ids(fake_catalog.series_json) == []
     # curation file gone.
-    assert not (fake_catalog["curation_dir"] / "tom_turbo.json").exists()
+    assert not (fake_catalog.curation_dir / "tom_turbo.json").exists()
     # deleted.json records the deletion with the reason.
-    log = deleted_mod.load_deleted(fake_catalog["deleted_log"])
+    log = deleted_mod.load_deleted(fake_catalog.deleted_log)
     assert len(log) == 1
     entry = log[0]
     assert entry["id"] == "tom_turbo"
@@ -106,11 +90,11 @@ def test_delete_dry_run_does_not_touch_files(fake_catalog):
     )
     assert result.exit_code == 0
     # Entry still present.
-    assert _series_ids(fake_catalog["series_json"]) == ["tom_turbo"]
+    assert _series_ids(fake_catalog.series_json) == ["tom_turbo"]
     # Curation still present.
-    assert (fake_catalog["curation_dir"] / "tom_turbo.json").exists()
+    assert (fake_catalog.curation_dir / "tom_turbo.json").exists()
     # Log was NOT created.
-    assert not fake_catalog["deleted_log"].exists()
+    assert not fake_catalog.deleted_log.exists()
 
 
 def test_delete_is_idempotent_on_log(fake_catalog):
@@ -125,24 +109,21 @@ def test_delete_is_idempotent_on_log(fake_catalog):
     assert result.exit_code == 0
     # Manually add the entry back to series.json (simulating an
     # operator who reconsidered without running add).
-    write_catalog(
-        fake_catalog["series_json"],
-        {"series": [{"id": "tom_turbo", "title": "Tom Turbo"}]},
-    )
+    fake_catalog.write_series({"id": "tom_turbo", "title": "Tom Turbo"})
     # Delete again with a different reason.
     result = runner.invoke(
         delete_mod.delete,
         ["tom_turbo", "--reason", "second reason"],
     )
     assert result.exit_code == 0
-    log = deleted_mod.load_deleted(fake_catalog["deleted_log"])
+    log = deleted_mod.load_deleted(fake_catalog.deleted_log)
     assert len(log) == 1
     assert log[0]["reason"] == "second reason"
 
 
 def test_deleted_module_helpers(fake_catalog):
     """Direct unit-test of the helper module, independent of CLI."""
-    path = fake_catalog["deleted_log"]
+    path = fake_catalog.deleted_log
     assert deleted_mod.load_deleted(path) == []
     assert deleted_mod.is_deleted("anything", path) is None
 

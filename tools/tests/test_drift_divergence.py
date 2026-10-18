@@ -12,6 +12,9 @@ import pytest
 
 from lauschi_catalog.catalog import drift_ops
 from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
+from lauschi_catalog.catalog.paths import curation_path
+
+pytestmark = pytest.mark.usefixtures("scratch_catalog")
 
 
 def _entry(provider_albums: list[str]) -> CatalogEntry:
@@ -24,27 +27,15 @@ def _entry(provider_albums: list[str]) -> CatalogEntry:
     )
 
 
-@pytest.fixture
-def scratch_root(tmp_path, monkeypatch):
-    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-    curation_dir = tmp_path / "assets" / "catalog" / "curation"
-    curation_dir.mkdir(parents=True)
-    return curation_dir
-
-
 def _write_curation(series_id: str, included_ids: list[str]) -> None:
-    from lauschi_catalog.catalog.paths import curation_path
-
     albums = [
         {"album_id": aid, "provider": "spotify", "include": True, "title": f"T {aid}"}
         for aid in included_ids
     ]
-    path = curation_path(series_id)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps({"id": series_id, "albums": albums}))
+    curation_path(series_id).write_text(json.dumps({"id": series_id, "albums": albums}))
 
 
-def test_names_catalog_albums_missing_from_curation(scratch_root):
+def test_names_catalog_albums_missing_from_curation():
     _write_curation("s1", ["a1"])
     entry = _entry(["a1", "a2", "a3"])
 
@@ -55,7 +46,7 @@ def test_names_catalog_albums_missing_from_curation(scratch_root):
     assert not any("a1" in m for m in drift), drift
 
 
-def test_names_curation_albums_missing_from_the_catalog(scratch_root):
+def test_names_curation_albums_missing_from_the_catalog():
     _write_curation("s1", ["a1", "a9"])
     entry = _entry(["a1"])
 
@@ -65,14 +56,14 @@ def test_names_curation_albums_missing_from_the_catalog(scratch_root):
     assert not any("a1" in m for m in drift), drift
 
 
-def test_no_findings_when_catalog_and_curation_agree(scratch_root):
+def test_no_findings_when_catalog_and_curation_agree():
     _write_curation("s1", ["a1", "a2"])
     entry = _entry(["a1", "a2"])
 
     assert drift_ops.configured_vs_curation(entry, "spotify") == []
 
 
-def test_no_findings_when_the_catalog_configures_nothing(scratch_root):
+def test_no_findings_when_the_catalog_configures_nothing():
     """A series that relies on artist-ID matching rather than configured
     album lists has nothing to compare against."""
     _write_curation("s1", ["a1"])
@@ -80,7 +71,7 @@ def test_no_findings_when_the_catalog_configures_nothing(scratch_root):
     assert drift_ops.configured_vs_curation(_entry([]), "spotify") == []
 
 
-def test_zero_curation_records_with_catalog_albums_still_diverges(scratch_root):
+def test_zero_curation_records_with_catalog_albums_still_diverges():
     """The old unresolved-series signal, preserved as a divergence entry."""
     entry = _entry(["a1"])
 

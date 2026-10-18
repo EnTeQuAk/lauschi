@@ -15,8 +15,9 @@ pinned against cases that actually shipped rather than invented ones:
 """
 
 import json as _json
-import os
 from datetime import date
+
+import pytest
 
 from lauschi_catalog.catalog.drift_ops import (
     DriftSeverity,
@@ -24,6 +25,7 @@ from lauschi_catalog.catalog.drift_ops import (
     normalize_title,
     title_similarity,
 )
+from tests.conftest import ScratchCatalog
 
 FOLGE = r"^Folge (\d+):"
 
@@ -297,34 +299,25 @@ def test_matching_episode_rescues_a_typo_fix():
 # ── a corrupt curation must not read as "no drift" ────────────────────────
 
 
-def test_corrupt_curation_raises_instead_of_reporting_no_drift(tmp_path):
+def test_corrupt_curation_raises_instead_of_reporting_no_drift(
+    scratch_catalog: ScratchCatalog,
+):
     """A verification tool that hides its own blind spots is worse than
     none: silently skipping an unreadable series would report it as clean."""
-    import pytest
-
     from lauschi_catalog.catalog import drift_ops
 
-    bad = tmp_path / "assets" / "catalog" / "curation" / "broken_series.json"
-    bad.parent.mkdir(parents=True)
-    bad.write_text("{not valid json")
-    os.environ["LAUSCHI_REPO_ROOT"] = str(tmp_path)
-    try:
-        with pytest.raises(_json.JSONDecodeError):
-            drift_ops.stored_album_records("broken_series", "spotify")
-    finally:
-        del os.environ["LAUSCHI_REPO_ROOT"]
+    (scratch_catalog.curation_dir / "broken_series.json").write_text("{not valid json")
+    with pytest.raises(_json.JSONDecodeError):
+        drift_ops.stored_album_records("broken_series", "spotify")
 
 
-def test_missing_curation_is_not_an_error(tmp_path):
+@pytest.mark.usefixtures("scratch_catalog")
+def test_missing_curation_is_not_an_error():
     """Absent is different from corrupt: a series with no curation file is
     reported via unresolved_series, not a crash."""
     from lauschi_catalog.catalog import drift_ops
 
-    os.environ["LAUSCHI_REPO_ROOT"] = str(tmp_path)
-    try:
-        assert drift_ops.stored_album_records("nope", "spotify") == []
-    finally:
-        del os.environ["LAUSCHI_REPO_ROOT"]
+    assert drift_ops.stored_album_records("nope", "spotify") == []
 
 
 def test_unresolved_id_with_a_future_release_date_is_pending_not_gone():

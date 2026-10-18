@@ -6,14 +6,12 @@ says "the main series'", the album ships in neither, and no single
 curation looks wrong. Only the catalog as a whole shows it.
 """
 
-import json
-from pathlib import Path
-
 import pytest
 from click.testing import CliRunner
 
 from lauschi_catalog.catalog.lint_ops import UnclaimedAlbum, unclaimed_albums
 from lauschi_catalog.commands.lint import lint
+from tests.conftest import ScratchCatalog
 from tests.factories import album_record, curation
 
 
@@ -97,17 +95,14 @@ def test_the_same_id_on_two_providers_is_two_albums() -> None:
 
 
 @pytest.fixture
-def catalog(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> Path:
-    root = tmp_path / "assets" / "catalog" / "curation"
-    root.mkdir(parents=True)
-    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
+def catalog(scratch_catalog: ScratchCatalog) -> ScratchCatalog:
     for data in (MAIN, ERSTLESER, PAW):
-        (root / f"{data['id']}.json").write_text(json.dumps(data))
-    return root
+        scratch_catalog.write_curation(data)
+    return scratch_catalog
 
 
 def test_lint_all_lists_the_unclaimed_albums_by_the_entries_that_saw_them(
-    catalog: Path,
+    catalog: ScratchCatalog,
 ) -> None:
     result = CliRunner().invoke(lint, ["--all"])
 
@@ -118,7 +113,9 @@ def test_lint_all_lists_the_unclaimed_albums_by_the_entries_that_saw_them(
     assert "Dino-Check 01 (apple_music:dino)" in result.output
 
 
-def test_lint_of_one_series_lists_only_what_that_series_saw(catalog: Path) -> None:
+def test_lint_of_one_series_lists_only_what_that_series_saw(
+    catalog: ScratchCatalog,
+) -> None:
     result = CliRunner().invoke(lint, ["lilli_erstleser"])
 
     assert result.exit_code == 0, result.output
@@ -127,12 +124,12 @@ def test_lint_of_one_series_lists_only_what_that_series_saw(catalog: Path) -> No
 
 
 def test_lint_says_nothing_about_unclaimed_albums_when_there_are_none(
-    catalog: Path,
+    catalog: ScratchCatalog,
 ) -> None:
-    (catalog / "lilli.json").unlink()
-    (catalog / "paw.json").unlink()
-    (catalog / "lilli_erstleser.json").write_text(
-        json.dumps(curation(series_id="lilli_erstleser", albums=[album_record("geb")]))
+    (catalog.curation_dir / "lilli.json").unlink()
+    (catalog.curation_dir / "paw.json").unlink()
+    catalog.write_curation(
+        curation(series_id="lilli_erstleser", albums=[album_record("geb")])
     )
 
     result = CliRunner().invoke(lint, ["--all"])

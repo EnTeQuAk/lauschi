@@ -13,6 +13,7 @@ failing on fake data.
 
 import asyncio
 import json
+from types import ModuleType
 
 import pytest
 
@@ -36,6 +37,7 @@ from lauschi_catalog.catalog.audit_ops import (
     prompt_size,
 )
 from lauschi_catalog.catalog.lint_ops import lint_curation
+from tests.conftest import ScratchCatalog
 
 # The one-shot boundary is a model-profile constant, probed at 14,000
 # tokens on minimax-m2.7. gemma4:31b runs on the default profile with the
@@ -514,20 +516,27 @@ def test_merge_of_nothing_does_not_approve():
 # ── audit_one: the one-shot path is untouched by the dispatch ────────
 
 
-def test_one_shot_series_runs_exactly_todays_prompt_once(monkeypatch, tmp_path):
-    """276 series route one-shot. For them audit_one must call the model
-    exactly once with exactly build_prompt's text: the dispatch is a
-    no-op on the path the size boundary was probed against."""
+def _offline_audit(
+    monkeypatch: pytest.MonkeyPatch, scratch: ScratchCatalog, c: dict
+) -> ModuleType:
+    """audit_ops with curation ``c`` on disk and no model behind it."""
     import lauschi_catalog.catalog.audit_ops as m
 
-    c = _curation(20)
-    curation_dir = tmp_path / "assets" / "catalog" / "curation"
-    curation_dir.mkdir(parents=True)
-    (curation_dir / "s.json").write_text(json.dumps(c))
-    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
+    scratch.write_curation(c)
     monkeypatch.setenv("OLLAMA_API_KEY", "test")
     monkeypatch.setattr(m, "build_model", lambda *a, **k: object())
     monkeypatch.setattr(m, "_build_audit_agent", lambda *a, **k: object())
+    return m
+
+
+def test_one_shot_series_runs_exactly_todays_prompt_once(
+    monkeypatch: pytest.MonkeyPatch, scratch_catalog: ScratchCatalog
+):
+    """276 series route one-shot. For them audit_one must call the model
+    exactly once with exactly build_prompt's text: the dispatch is a
+    no-op on the path the size boundary was probed against."""
+    c = _curation(20)
+    m = _offline_audit(monkeypatch, scratch_catalog, c)
     calls: list[str] = []
 
     async def fake_run(prepared, prompt, **kw):
@@ -540,26 +549,23 @@ def test_one_shot_series_runs_exactly_todays_prompt_once(monkeypatch, tmp_path):
     assert calls == [build_prompt(c, lint_curation(c))]
 
 
-def _chunked_setup(monkeypatch, tmp_path):
-    import lauschi_catalog.catalog.audit_ops as m
-
+def _chunked_setup(
+    monkeypatch: pytest.MonkeyPatch, scratch: ScratchCatalog
+) -> tuple[ModuleType, dict, list[str]]:
+    # size, not album count, decides the route: pad titles so the prompt is
+    # past the one-shot boundary, and assert that precondition explicitly
     c = {"id": "s", "title": "S", "albums": _numbered(700)}
     for a in c["albums"]:
         a["title"] += " " + "x" * 40
     lint = lint_curation(c)
     assert audit_route(c, lint) == "chunked"
-    curation_dir = tmp_path / "assets" / "catalog" / "curation"
-    curation_dir.mkdir(parents=True)
-    (curation_dir / "s.json").write_text(json.dumps(c))
-    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-    monkeypatch.setenv("OLLAMA_API_KEY", "test")
-    monkeypatch.setattr(m, "build_model", lambda *a, **k: object())
-    monkeypatch.setattr(m, "_build_audit_agent", lambda *a, **k: object())
-    return m, c, lint
+    return _offline_audit(monkeypatch, scratch, c), c, lint
 
 
-def test_a_chunk_that_fails_once_is_retried_from_a_fresh_context(monkeypatch, tmp_path):
-    m, c, lint = _chunked_setup(monkeypatch, tmp_path)
+def test_a_chunk_that_fails_once_is_retried_from_a_fresh_context(
+    monkeypatch, scratch_catalog
+):
+    m, c, lint = _chunked_setup(monkeypatch, scratch_catalog)
     calls: list[str] = []
     progress: list[str] = []
 
@@ -578,9 +584,9 @@ def test_a_chunk_that_fails_once_is_retried_from_a_fresh_context(monkeypatch, tm
 
 
 def test_a_chunk_that_keeps_failing_fails_the_series_after_three_attempts(
-    monkeypatch, tmp_path
+    monkeypatch, scratch_catalog
 ):
-    m, _, _ = _chunked_setup(monkeypatch, tmp_path)
+    m, _, _ = _chunked_setup(monkeypatch, scratch_catalog)
     calls: list[str] = []
 
     async def broken_run(prepared, prompt, **kw):
@@ -593,8 +599,8 @@ def test_a_chunk_that_keeps_failing_fails_the_series_after_three_attempts(
     assert len(calls) == 3
 
 
-def test_only_the_chunk_holding_an_album_may_override_it(monkeypatch, tmp_path):
-    m, c, lint = _chunked_setup(monkeypatch, tmp_path)
+def test_only_the_chunk_holding_an_album_may_override_it(monkeypatch, scratch_catalog):
+    m, c, lint = _chunked_setup(monkeypatch, scratch_catalog)
     target = c["albums"][0]
 
     async def overreaching_run(prepared, prompt, **kw):
@@ -618,23 +624,10 @@ def test_only_the_chunk_holding_an_album_may_override_it(monkeypatch, tmp_path):
     assert sum("[out_of_chunk]" in x for x in result.concerns) == n_chunks - 1
 
 
-def test_chunked_series_runs_one_prompt_per_chunk_and_merges(monkeypatch, tmp_path):
-    import lauschi_catalog.catalog.audit_ops as m
-
-    # size, not album count, decides the route: pad titles so the prompt is
-    # past the one-shot boundary, and assert that precondition explicitly
-    c = {"id": "s", "title": "S", "albums": _numbered(700)}
-    for a in c["albums"]:
-        a["title"] += " " + "x" * 40
-    lint = lint_curation(c)
-    assert audit_route(c, lint) == "chunked"
-    curation_dir = tmp_path / "assets" / "catalog" / "curation"
-    curation_dir.mkdir(parents=True)
-    (curation_dir / "s.json").write_text(json.dumps(c))
-    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-    monkeypatch.setenv("OLLAMA_API_KEY", "test")
-    monkeypatch.setattr(m, "build_model", lambda *a, **k: object())
-    monkeypatch.setattr(m, "_build_audit_agent", lambda *a, **k: object())
+def test_chunked_series_runs_one_prompt_per_chunk_and_merges(
+    monkeypatch: pytest.MonkeyPatch, scratch_catalog: ScratchCatalog
+):
+    m, c, lint = _chunked_setup(monkeypatch, scratch_catalog)
     prompts: list[str] = []
 
     async def fake_run(prepared, prompt, **kw):

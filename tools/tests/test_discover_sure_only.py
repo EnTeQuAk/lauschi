@@ -1,14 +1,15 @@
 """Tests that discover only writes IDs it is sure of."""
 
-from pathlib import Path
+import pytest
 
 from lauschi_catalog.catalog import discover_ops
 from lauschi_catalog.catalog.discover_ops import (
     classify_match,
     match_artist,
 )
-from lauschi_catalog.catalog.io import load_raw, write_catalog
+from lauschi_catalog.catalog.io import load_raw
 from lauschi_catalog.providers.base import Artist
+from tests.conftest import ScratchCatalog
 
 
 def _artist(
@@ -40,19 +41,6 @@ class _FakeProvider:
 
     def artist_exists(self, _artist_id: str) -> bool:
         return True
-
-
-def _patch_loader(monkeypatch, tmp_path: Path, catalog: dict | None = None) -> Path:
-    """Hermetic layout: the LAUSCHI_REPO_ROOT env var is the only patch."""
-    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-    (tmp_path / "assets" / "catalog").mkdir(parents=True)
-    catalog_file = tmp_path / "assets" / "catalog" / "series.json"
-    write_catalog(catalog_file, catalog or {"series": []})
-    (tmp_path / "assets" / "catalog" / "deleted.json").write_text('{"deleted": []}\n')
-    (tmp_path / "android").mkdir()
-    (tmp_path / ".cache").mkdir()
-
-    return catalog_file
 
 
 def test_classify_match_exact_and_substring():
@@ -101,13 +89,11 @@ def test_classify_match_genre_is_weak():
     assert classify_match("Die Playmos", artist) == "genre"
 
 
-def test_discover_all_only_writes_exact_and_substring(tmp_path, monkeypatch):
+def test_discover_all_only_writes_exact_and_substring(
+    scratch_catalog: ScratchCatalog, monkeypatch: pytest.MonkeyPatch
+):
     """Weak and genre-only matches are reported but not written."""
-    _patch_loader(
-        monkeypatch,
-        tmp_path,
-        catalog=PLAYMOS,
-    )
+    scratch_catalog.write_series(*PLAYMOS["series"])
 
     exact = _artist("Die Playmos")
     weak = _artist("Random Artist", genres=["Hörspiel"])
@@ -129,13 +115,11 @@ def test_discover_all_only_writes_exact_and_substring(tmp_path, monkeypatch):
     assert result.written == 1
 
 
-def test_discover_all_reports_weak_without_write(tmp_path, monkeypatch):
+def test_discover_all_reports_weak_without_write(
+    scratch_catalog: ScratchCatalog, monkeypatch: pytest.MonkeyPatch
+):
     """When every candidate is weak, no IDs are written."""
-    _patch_loader(
-        monkeypatch,
-        tmp_path,
-        catalog=PLAYMOS,
-    )
+    scratch_catalog.write_series(*PLAYMOS["series"])
 
     weak = _artist("Playmobil Soundtrack", genres=["Kinder"])
     provider = _FakeProvider([weak])
@@ -178,10 +162,12 @@ class _NoSearch(_FakeProvider):
         raise AssertionError(f"searched {query!r}")
 
 
-def test_discover_all_skips_a_provider_without_an_artist_page(tmp_path, monkeypatch):
+def test_discover_all_skips_a_provider_without_an_artist_page(
+    scratch_catalog: ScratchCatalog, monkeypatch: pytest.MonkeyPatch
+):
     """An entry whose provider has no artist page of its own is not searched
     there: every artist of that name is someone else."""
-    _patch_loader(monkeypatch, tmp_path, catalog=COCO)
+    scratch_catalog.write_series(*COCO["series"])
 
     result = discover_ops.discover_all(
         [_NoSearch([_artist("Coco")])],
@@ -194,9 +180,9 @@ def test_discover_all_skips_a_provider_without_an_artist_page(tmp_path, monkeypa
 
 
 def test_discover_one_writes_no_artist_id_where_there_is_no_artist_page(
-    tmp_path, monkeypatch
+    scratch_catalog: ScratchCatalog, monkeypatch: pytest.MonkeyPatch
 ):
-    catalog_file = _patch_loader(monkeypatch, tmp_path, catalog=COCO)
+    scratch_catalog.write_series(*COCO["series"])
     messages: list[str] = []
 
     result = discover_ops.discover_one(
@@ -207,5 +193,5 @@ def test_discover_one_writes_no_artist_id_where_there_is_no_artist_page(
     )
 
     assert result.written is False
-    assert load_raw(catalog_file) == COCO
+    assert load_raw(scratch_catalog.series_json) == COCO
     assert any("Every artist named Coco is someone else." in m for m in messages)

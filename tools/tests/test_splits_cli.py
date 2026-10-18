@@ -1,30 +1,17 @@
 """Tests for the `splits` CLI command group."""
 
-import json
-
 import pytest
 from click.testing import CliRunner
 
-from lauschi_catalog.catalog.io import write_catalog
 from lauschi_catalog.commands import apply_splits as splits_mod
+from tests.conftest import ScratchCatalog
 
 
 @pytest.fixture
-def split_env(monkeypatch, tmp_path):
+def split_env(scratch_catalog: ScratchCatalog) -> ScratchCatalog:
     """A series with two split proposals."""
-    catalog = tmp_path / "assets" / "catalog"
-    curation_dir = catalog / "curation"
-    curation_dir.mkdir(parents=True)
-    series_json = catalog / "series.json"
-    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-
-    write_catalog(
-        series_json,
-        {
-            "series": [
-                {"id": "parent", "title": "Parent Series", "providers": {}},
-            ],
-        },
+    scratch_catalog.write_series(
+        {"id": "parent", "title": "Parent Series", "providers": {}}
     )
 
     curation = {
@@ -56,12 +43,8 @@ def split_env(monkeypatch, tmp_path):
             ],
         },
     }
-    (curation_dir / "parent.json").write_text(json.dumps(curation))
-
-    return {
-        "series_json": series_json,
-        "curation_dir": curation_dir,
-    }
+    scratch_catalog.write_curation(curation)
+    return scratch_catalog
 
 
 class TestList:
@@ -89,9 +72,7 @@ class TestList:
         assert "kids" in result.output
 
     def test_list_empty(self, split_env):
-        (split_env["curation_dir"] / "parent.json").write_text(
-            json.dumps({"id": "parent", "series_facts": {}})
-        )
+        split_env.write_curation({"id": "parent", "series_facts": {}})
         runner = CliRunner()
         result = runner.invoke(splits_mod.apply_splits, ["list"])
         assert result.exit_code == 0
@@ -124,9 +105,8 @@ class TestAccept:
         assert result.exit_code == 0, result.output
         assert "parent_kids" in result.output
 
-        new_path = split_env["curation_dir"] / "parent_kids.json"
-        assert new_path.exists()
-        new_data = json.loads(new_path.read_text())
+        assert (split_env.curation_dir / "parent_kids.json").exists()
+        new_data = split_env.read_curation("parent_kids")
         assert len(new_data["albums"]) == 1
         assert new_data["albums"][0]["album_id"] == "a3"
 
@@ -134,7 +114,7 @@ class TestAccept:
         runner = CliRunner()
         runner.invoke(splits_mod.apply_splits, ["accept", "parent", "kids"])
 
-        parent = json.loads((split_env["curation_dir"] / "parent.json").read_text())
+        parent = split_env.read_curation("parent")
         album_ids = [a["album_id"] for a in parent["albums"]]
         assert "a3" not in album_ids
         assert "a1" in album_ids
@@ -156,9 +136,8 @@ class TestAccept:
         assert result.exit_code == 0, result.output
         assert "parent_junior" in result.output
 
-        new_path = split_env["curation_dir"] / "parent_junior.json"
-        assert new_path.exists()
-        new_data = json.loads(new_path.read_text())
+        assert (split_env.curation_dir / "parent_junior.json").exists()
+        new_data = split_env.read_curation("parent_junior")
         assert new_data["title"] == "Parent Series Junior"
 
     def test_accept_nonexistent_label(self, split_env):
@@ -178,11 +157,11 @@ class TestAccept:
         assert r2.exit_code == 0, r2.output
 
         # Both new series exist
-        assert (split_env["curation_dir"] / "parent_kids.json").exists()
-        assert (split_env["curation_dir"] / "parent_kinofilm.json").exists()
+        assert (split_env.curation_dir / "parent_kids.json").exists()
+        assert (split_env.curation_dir / "parent_kinofilm.json").exists()
 
         # Parent has only the main episodes left
-        parent = json.loads((split_env["curation_dir"] / "parent.json").read_text())
+        parent = split_env.read_curation("parent")
         album_ids = {a["album_id"] for a in parent["albums"]}
         assert album_ids == {"a1", "a2"}
 
@@ -193,7 +172,7 @@ class TestReject:
         result = runner.invoke(splits_mod.apply_splits, ["reject", "parent", "kids"])
         assert result.exit_code == 0, result.output
 
-        data = json.loads((split_env["curation_dir"] / "parent.json").read_text())
+        data = split_env.read_curation("parent")
         labels = [s["label"] for s in data["series_facts"]["sub_series"]]
         assert "kids" not in labels
         assert "kinofilm" in labels
@@ -202,7 +181,7 @@ class TestReject:
         runner = CliRunner()
         runner.invoke(splits_mod.apply_splits, ["reject", "parent", "kids"])
 
-        parent = json.loads((split_env["curation_dir"] / "parent.json").read_text())
+        parent = split_env.read_curation("parent")
         album_ids = [a["album_id"] for a in parent["albums"]]
         assert "a3" in album_ids
 
@@ -221,13 +200,11 @@ class TestAcceptAll:
         assert result.exit_code == 0, result.output
         assert "parent_kids" in result.output
         assert "parent_kinofilm" in result.output
-        assert (split_env["curation_dir"] / "parent_kids.json").exists()
-        assert (split_env["curation_dir"] / "parent_kinofilm.json").exists()
+        assert (split_env.curation_dir / "parent_kids.json").exists()
+        assert (split_env.curation_dir / "parent_kinofilm.json").exists()
 
     def test_accept_all_empty(self, split_env):
-        (split_env["curation_dir"] / "parent.json").write_text(
-            json.dumps({"id": "parent", "series_facts": {}})
-        )
+        split_env.write_curation({"id": "parent", "series_facts": {}})
         runner = CliRunner()
         result = runner.invoke(splits_mod.apply_splits, ["accept-all"])
         assert result.exit_code == 0

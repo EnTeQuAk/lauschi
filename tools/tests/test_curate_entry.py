@@ -20,6 +20,7 @@ from lauschi_catalog.catalog.curate_ops import (
     prepare_curation,
 )
 from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
+from tests.conftest import ScratchCatalog
 
 pytestmark = pytest.mark.anyio
 
@@ -35,16 +36,13 @@ def _entry(**kw) -> CatalogEntry:
 
 
 @pytest.fixture
-def scratch(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
-    catalog = tmp_path / "assets" / "catalog"
-    (catalog / "curation").mkdir(parents=True)
-    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-    return catalog
+def scratch(scratch_catalog: ScratchCatalog) -> Path:
+    return scratch_catalog.curation_dir
 
 
 class TestPrepareCuration:
     def test_resolves_content_type_and_existing(self, scratch: Path) -> None:
-        (scratch / "curation" / "die_playmos.json").write_text(
+        (scratch / "die_playmos.json").write_text(
             '{"id": "die_playmos", "content_type": "music", "albums": []}'
         )
         prepared = prepare_curation(_entry())
@@ -75,12 +73,12 @@ class TestPrepareCuration:
     def test_corrupt_prior_curation_fails_fast(self, scratch: Path) -> None:
         # An unreadable record may hold approved audit state; silently
         # curating from scratch would overwrite it hours later at save.
-        (scratch / "curation" / "die_playmos.json").write_text("{broken")
+        (scratch / "die_playmos.json").write_text("{broken")
         with pytest.raises(ValueError, match="unreadable"):
             prepare_curation(_entry())
 
     def test_pattern_implies_hoerspiel_against_stale_music(self, scratch: Path) -> None:
-        (scratch / "curation" / "die_playmos.json").write_text(
+        (scratch / "die_playmos.json").write_text(
             '{"id": "die_playmos", "content_type": "music", "albums": []}'
         )
         prepared = prepare_curation(_entry(episode_pattern=r"^Folge (\d+):"))
@@ -126,7 +124,7 @@ class TestCurateAll:
         good = _entry(id="good_series", title="Good")
         bad = _entry(id="bad_series", title="Bad")
         monkeypatch.setattr(curate_ops, "load_catalog", lambda: [good, bad])
-        (scratch / "curation" / "bad_series.json").write_text("{broken")
+        (scratch / "bad_series.json").write_text("{broken")
 
         curated: list[str] = []
 

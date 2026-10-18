@@ -7,9 +7,6 @@ curator's decisions, records what it would change, and `catalog-review`
 lists the series until a person has looked.
 """
 
-import json
-from pathlib import Path
-
 import pytest
 from click.testing import CliRunner
 
@@ -22,6 +19,7 @@ from lauschi_catalog.catalog.audit_ops import (
 from lauschi_catalog.catalog.facts import EraBoundaryProposal
 from lauschi_catalog.catalog.lifecycle import open_flags
 from lauschi_catalog.commands.review_human import review_human
+from tests.conftest import ScratchCatalog
 
 
 def _curation() -> dict:
@@ -56,19 +54,18 @@ def _override(album_id: str, action: str, reason: str = "r") -> AuditOverride:
 
 
 @pytest.fixture
-def root(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
-    curation_dir = tmp_path / "assets" / "catalog" / "curation"
-    curation_dir.mkdir(parents=True)
-    (curation_dir / "s.json").write_text(json.dumps(_curation()))
-    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-    return tmp_path
+def root(scratch_catalog: ScratchCatalog) -> ScratchCatalog:
+    scratch_catalog.write_curation(_curation())
+    return scratch_catalog
 
 
-def _read(root: Path) -> dict:
-    return json.loads((root / "assets/catalog/curation/s.json").read_text())
+def _read(root: ScratchCatalog) -> dict:
+    return root.read_curation("s")
 
 
-def test_an_approving_audit_flags_an_override_and_changes_no_album(root: Path) -> None:
+def test_an_approving_audit_flags_an_override_and_changes_no_album(
+    root: ScratchCatalog,
+) -> None:
     result = AuditResult(
         approve=True,
         overrides=[_override("a1", "exclude", "a reading, not an episode")],
@@ -88,14 +85,14 @@ def test_an_approving_audit_flags_an_override_and_changes_no_album(root: Path) -
     assert [f["album_id"] for f in open_flags(data)] == ["a1"]
 
 
-def test_an_override_that_flips_nothing_is_no_flag(root: Path) -> None:
+def test_an_override_that_flips_nothing_is_no_flag(root: ScratchCatalog) -> None:
     """Naming another reason for an excluded album changes what nobody sees."""
     result = AuditResult(approve=True, overrides=[_override("a2", "exclude")])
     assert apply_audit("s", result, model_name="critic") == "approved"
     assert open_flags(_read(root)) == []
 
 
-def test_apply_overrides_keeps_the_auditor_deciding(root: Path) -> None:
+def test_apply_overrides_keeps_the_auditor_deciding(root: ScratchCatalog) -> None:
     result = AuditResult(approve=True, overrides=[_override("a1", "exclude")])
     action = apply_audit("s", result, model_name="critic", apply_overrides=True)
     data = _read(root)
@@ -105,7 +102,7 @@ def test_apply_overrides_keeps_the_auditor_deciding(root: Path) -> None:
     assert open_flags(data) == []
 
 
-def test_too_many_flags_still_escalate(root: Path) -> None:
+def test_too_many_flags_still_escalate(root: ScratchCatalog) -> None:
     """The volume rule is about how far the auditor disagrees, which is a
     signal whether or not its overrides are applied."""
     data = _curation()
@@ -119,13 +116,13 @@ def test_too_many_flags_still_escalate(root: Path) -> None:
         }
         for i in range(1, 21)
     ]
-    (root / "assets/catalog/curation/s.json").write_text(json.dumps(data))
+    root.write_curation(data)
     overrides = [_override(f"a{i}", "exclude") for i in range(1, 8)]
     result = AuditResult(approve=True, overrides=overrides)
     assert apply_audit("s", result, model_name="critic") == "escalated"
 
 
-def test_a_decision_by_hand_settles_a_flag(root: Path) -> None:
+def test_a_decision_by_hand_settles_a_flag(root: ScratchCatalog) -> None:
     apply_audit(
         "s",
         AuditResult(approve=True, overrides=[_override("a1", "exclude")]),
@@ -136,7 +133,7 @@ def test_a_decision_by_hand_settles_a_flag(root: Path) -> None:
     assert open_flags(data) == []
 
 
-def test_only_the_latest_audit_raises_flags(root: Path) -> None:
+def test_only_the_latest_audit_raises_flags(root: ScratchCatalog) -> None:
     """The overrides list keeps every round's entries. A flag the next
     audit no longer raises is not open any more."""
     apply_audit(
@@ -150,7 +147,7 @@ def test_only_the_latest_audit_raises_flags(root: Path) -> None:
     assert open_flags(data) == []
 
 
-def test_review_lists_a_flagged_series_with_its_flags(root: Path) -> None:
+def test_review_lists_a_flagged_series_with_its_flags(root: ScratchCatalog) -> None:
     apply_audit(
         "s",
         AuditResult(approve=True, overrides=[_override("a1", "exclude", "a reading")]),
@@ -166,16 +163,16 @@ def test_review_lists_a_flagged_series_with_its_flags(root: Path) -> None:
 # ── series facts: the same rule ─────────────────────────────────────────
 
 
-def _with_facts(root: Path, facts: dict) -> None:
+def _with_facts(root: ScratchCatalog, facts: dict) -> None:
     data = _curation()
     data["series_facts"] = facts
-    (root / "assets/catalog/curation/s.json").write_text(json.dumps(data))
+    root.write_curation(data)
 
 
 _ERA = {"label": "klassik", "release_date_range": "1996-2015", "curated_by": "curator"}
 
 
-def test_restating_the_curators_fact_confirms_it(root: Path) -> None:
+def test_restating_the_curators_fact_confirms_it(root: ScratchCatalog) -> None:
     _with_facts(root, {"era_boundaries": [dict(_ERA)]})
     update = AuditFactUpdate(
         era_boundaries=[
@@ -191,7 +188,7 @@ def test_restating_the_curators_fact_confirms_it(root: Path) -> None:
     assert era["curated_by"] == "curator"
 
 
-def test_a_fact_the_auditor_adds_is_a_flag(root: Path) -> None:
+def test_a_fact_the_auditor_adds_is_a_flag(root: ScratchCatalog) -> None:
     """Gemma gave Bullerbü two eras of its own on 2026-10-14 and stamped
     them audited by itself."""
     _with_facts(root, {"era_boundaries": []})
@@ -212,7 +209,7 @@ def test_a_fact_the_auditor_adds_is_a_flag(root: Path) -> None:
     )
 
 
-def test_a_changed_fact_is_a_flag_and_stays_as_it_was(root: Path) -> None:
+def test_a_changed_fact_is_a_flag_and_stays_as_it_was(root: ScratchCatalog) -> None:
     _with_facts(root, {"era_boundaries": [dict(_ERA)]})
     update = AuditFactUpdate(
         era_boundaries=[
@@ -229,7 +226,7 @@ def test_a_changed_fact_is_a_flag_and_stays_as_it_was(root: Path) -> None:
     )
 
 
-def test_a_replace_that_drops_facts_is_a_flag(root: Path) -> None:
+def test_a_replace_that_drops_facts_is_a_flag(root: ScratchCatalog) -> None:
     """Gemma's replace wiped two audited eras and two known gaps of Hexe
     Lilli's Erstlesergeschichten on 2026-10-14."""
     gap = {"number": 7, "reason": "starts at 8", "curated_by": "curator"}
@@ -247,7 +244,7 @@ def test_a_replace_that_drops_facts_is_a_flag(root: Path) -> None:
     assert len(concerns) == 2
 
 
-def test_apply_overrides_lets_the_auditor_write_facts(root: Path) -> None:
+def test_apply_overrides_lets_the_auditor_write_facts(root: ScratchCatalog) -> None:
     _with_facts(root, {"era_boundaries": []})
     update = AuditFactUpdate(
         era_boundaries=[
@@ -264,7 +261,7 @@ def test_apply_overrides_lets_the_auditor_write_facts(root: Path) -> None:
     assert [e["label"] for e in eras] == ["klassiker"]
 
 
-def test_review_lists_every_fact_flag(root: Path) -> None:
+def test_review_lists_every_fact_flag(root: ScratchCatalog) -> None:
     _with_facts(root, {"era_boundaries": []})
     eras = [
         EraBoundaryProposal(label=f"era{i}", release_date_range=f"{1990 + i}-")
@@ -280,7 +277,9 @@ def test_review_lists_every_fact_flag(root: Path) -> None:
     assert all(f"era{i}" in out.output for i in range(4))
 
 
-def test_ignored_overrides_do_not_count_toward_the_volume_rule(root: Path) -> None:
+def test_ignored_overrides_do_not_count_toward_the_volume_rule(
+    root: ScratchCatalog,
+) -> None:
     """Honigkuchenpferde escalated on 8 flips that were all on albums
     decided by hand, which the audit ignores anyway (2026-10-14)."""
     data = _curation()
@@ -295,7 +294,7 @@ def test_ignored_overrides_do_not_count_toward_the_volume_rule(root: Path) -> No
         }
         for i in range(1, 21)
     ]
-    (root / "assets/catalog/curation/s.json").write_text(json.dumps(data))
+    root.write_curation(data)
     overrides = [_override(f"a{i}", "include") for i in range(1, 9)]
     action = apply_audit(
         "s", AuditResult(approve=True, overrides=overrides), model_name="critic"

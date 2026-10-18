@@ -161,11 +161,8 @@ class TestInjectForSplitChild:
         assert _inject_for_split_child(None, PARENT) is None
 
 
-def test_a_split_child_is_prepared_like_any_series(
-    monkeypatch: pytest.MonkeyPatch, tmp_path
-):
-    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-    (tmp_path / "assets" / "catalog" / "curation").mkdir(parents=True)
+@pytest.mark.usefixtures("scratch_catalog")
+def test_a_split_child_is_prepared_like_any_series(monkeypatch: pytest.MonkeyPatch):
     monkeypatch.setattr(
         curate_ops, "lookup_catalog_entry", lambda q: CHILD if q == CHILD.id else None
     )

@@ -9,33 +9,27 @@ from pydantic_ai.usage import RunUsage
 
 import lauschi_catalog.catalog.audit_ops as m
 from lauschi_catalog.catalog.audit_ops import AuditResult, apply_audit, audit_series
+from tests.conftest import ScratchCatalog
 
 
 @pytest.fixture
-def curation_file(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
-    curation_dir = tmp_path / "assets" / "catalog" / "curation"
-    curation_dir.mkdir(parents=True)
-    monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-    path = curation_dir / "s.json"
-    path.write_text(
-        json.dumps(
-            {
-                "id": "s",
-                "title": "S",
-                "albums": [
-                    {
-                        "album_id": "a1",
-                        "provider": "spotify",
-                        "include": True,
-                        "episode_num": 1,
-                        "title": "Folge 1",
-                        "confidence": "high",
-                    }
-                ],
-            }
-        )
+def curation_file(scratch_catalog: ScratchCatalog) -> Path:
+    return scratch_catalog.write_curation(
+        {
+            "id": "s",
+            "title": "S",
+            "albums": [
+                {
+                    "album_id": "a1",
+                    "provider": "spotify",
+                    "include": True,
+                    "episode_num": 1,
+                    "title": "Folge 1",
+                    "confidence": "high",
+                }
+            ],
+        }
     )
-    return path
 
 
 def test_apply_audit_writes_the_usage_into_the_review_block(
