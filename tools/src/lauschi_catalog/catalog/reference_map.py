@@ -154,15 +154,26 @@ def _name_key(name: str) -> str:
 
 
 def _series_by_name(family: Family, index: ReferenceIndex) -> ReferenceSeries | None:
-    by_key: dict[str, int] = {}
+    """The index series named like the main series. The index holds some
+    names twice (Unser Sandmännchen, LEGO Ninjago); then the one whose
+    lines cover most of the family's albums is the family's."""
+    by_key: dict[str, list[int]] = {}
     for series_id, name in index.names().items():
-        by_key.setdefault(_name_key(name), series_id)
+        by_key.setdefault(_name_key(name), []).append(series_id)
     root = family.parent
     assert root is not None, "map_catalog splits a dissolved family into its entries"
     for name in (root.title, *root.aliases):
-        series_id = by_key.get(_name_key(name))
-        if series_id is not None:
-            return index.series(series_id)
+        candidates = [index.series(i) for i in by_key.get(_name_key(name), [])]
+        if len(candidates) == 1:
+            return candidates[0]
+        if candidates:
+            titles = [t for m in family.members for t in shipped_titles(m)]
+
+            def coverage(series: ReferenceSeries) -> int:
+                drop = brand_words(series.name, root.title)
+                return sum(_hits(line, titles, drop) for line in series.lines)
+
+            return max(candidates, key=coverage)
     return None
 
 

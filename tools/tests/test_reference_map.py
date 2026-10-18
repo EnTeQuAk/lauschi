@@ -50,6 +50,17 @@ SERIES = {
         "name": "Lillis Abenteuer",
         "seasons": [_line("Folgen", "Im Dschungel")],
     },
+    # the index holds two series of one name; the second fits the albums
+    40: {
+        "id": 40,
+        "name": "Sandmann",
+        "seasons": [_line("Musik", "Sandmann, lieber Sandmann")],
+    },
+    41: {
+        "id": 41,
+        "name": "Sandmann",
+        "seasons": [_line("Geschichten", "Pittiplatsch", "Moppi", "Schnatterinchen")],
+    },
 }
 
 
@@ -128,6 +139,14 @@ def test_entries_of_a_dissolved_main_series_each_take_their_own_name() -> None:
     mapping = map_catalog([lilli, ausrufezeichen], _index(), {})
     assert mapping["lilli"].series.id == 10  # type: ignore[union-attr]
     assert mapping["die_drei_ausrufezeichen"].series.id == 20  # type: ignore[union-attr]
+
+
+def test_of_two_index_series_with_one_name_the_one_that_fits_the_albums_wins() -> None:
+    sandmann = _entry(
+        "sandmann", "Sandmann", "Pittiplatsch", "Moppi", "Schnatterinchen"
+    )
+    mapping = map_catalog([sandmann], _index(), {})
+    assert mapping["sandmann"].series.id == 41  # type: ignore[union-attr]
 
 
 def test_an_alias_names_the_index_series_too() -> None:
