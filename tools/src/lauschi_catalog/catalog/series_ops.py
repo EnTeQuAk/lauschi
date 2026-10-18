@@ -164,7 +164,7 @@ class DeleteResult:
 def delete_series(series_id: str, *, reason: str) -> DeleteResult:
     """Remove a series from series.json and its curation file.
 
-    Records the deletion in deleted.yaml. Does NOT check the deletion
+    Records the deletion in deleted.json. Does NOT check the deletion
     log (the CLI wrapper handles --force-readd).
     """
     catalog_file = paths.catalog_path()

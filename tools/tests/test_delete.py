@@ -26,7 +26,7 @@ def fake_catalog(monkeypatch, tmp_path):
     curation_dir = catalog / "curation"
     curation_dir.mkdir(parents=True)
     series_json = catalog / "series.json"
-    deleted_yaml = catalog / "deleted.yaml"
+    deleted_log = catalog / "deleted.json"
     monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
 
     data = {
@@ -47,7 +47,7 @@ def fake_catalog(monkeypatch, tmp_path):
     return {
         "series_json": series_json,
         "curation_dir": curation_dir,
-        "deleted_yaml": deleted_yaml,
+        "deleted_log": deleted_log,
     }
 
 
@@ -68,8 +68,8 @@ def test_delete_removes_entry_and_curation_and_logs(fake_catalog):
     assert _series_ids(fake_catalog["series_json"]) == []
     # curation file gone.
     assert not (fake_catalog["curation_dir"] / "tom_turbo.json").exists()
-    # deleted.yaml records the deletion with the reason.
-    log = deleted_mod.load_deleted(fake_catalog["deleted_yaml"])
+    # deleted.json records the deletion with the reason.
+    log = deleted_mod.load_deleted(fake_catalog["deleted_log"])
     assert len(log) == 1
     entry = log[0]
     assert entry["id"] == "tom_turbo"
@@ -110,7 +110,7 @@ def test_delete_dry_run_does_not_touch_files(fake_catalog):
     # Curation still present.
     assert (fake_catalog["curation_dir"] / "tom_turbo.json").exists()
     # Log was NOT created.
-    assert not fake_catalog["deleted_yaml"].exists()
+    assert not fake_catalog["deleted_log"].exists()
 
 
 def test_delete_is_idempotent_on_log(fake_catalog):
@@ -135,14 +135,14 @@ def test_delete_is_idempotent_on_log(fake_catalog):
         ["tom_turbo", "--reason", "second reason"],
     )
     assert result.exit_code == 0
-    log = deleted_mod.load_deleted(fake_catalog["deleted_yaml"])
+    log = deleted_mod.load_deleted(fake_catalog["deleted_log"])
     assert len(log) == 1
     assert log[0]["reason"] == "second reason"
 
 
 def test_deleted_module_helpers(fake_catalog):
     """Direct unit-test of the helper module, independent of CLI."""
-    path = fake_catalog["deleted_yaml"]
+    path = fake_catalog["deleted_log"]
     assert deleted_mod.load_deleted(path) == []
     assert deleted_mod.is_deleted("anything", path) is None
 

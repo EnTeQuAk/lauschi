@@ -19,7 +19,7 @@ from lauschi_catalog.catalog.models import CatalogEntry
 class Family:
     """A split family: one root and zero or more children.
 
-    ``parent`` is None when the root entry was dissolved (deleted.yaml)
+    ``parent`` is None when the root entry was dissolved (deleted.json)
     and its children kept their ``split_from``: they still share the
     artist page and own each other's albums.
     """

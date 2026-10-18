@@ -5,37 +5,38 @@ catalog. `catalog-add` consults this log so an AI agent (or a tired
 human) doesn't silently re-introduce a series we deliberately
 dropped.
 
-Format: a YAML file with one top-level key ``deleted``, holding a list
-of entries::
+Format: assets/catalog/deleted.json, one top-level key ``deleted``
+holding a list of records, each on one line::
 
-    deleted:
-      - id: tom_turbo
-        title: Tom Turbo
-        reason: No streaming presence in the Hörspiel-album format.
-        deleted_at: 2026-05-13T11:42:00+00:00
+    {
+      "deleted": [
+        {"id": "tom_turbo", "title": "Tom Turbo", "reason": "No streaming presence in the Hörspiel-album format.", "deleted_at": "2026-05-13T11:42:00+00:00"}
+      ]
+    }
 
 Entries are append-only by convention. ``catalog-add --force-readd``
 removes an entry when an operator explicitly chooses to re-introduce
 the series.
 """
 
+import json
 from datetime import UTC, datetime
 from pathlib import Path
 
 from lauschi_catalog.catalog import io
-from lauschi_catalog.catalog.paths import deleted_yaml_path
+from lauschi_catalog.catalog.paths import deleted_log_path
 
 
 def _resolve(path: Path | None) -> Path:
     """Call-time resolution so LAUSCHI_REPO_ROOT overrides always work."""
-    return path if path is not None else deleted_yaml_path()
+    return path if path is not None else deleted_log_path()
 
 
 def _load(path: Path | None = None) -> dict:
     target = _resolve(path)
     if not target.exists():
         return {"deleted": []}
-    data = io.yaml_instance().load(target)
+    data = json.loads(target.read_text(encoding="utf-8"))
     if not data or "deleted" not in data:
         return {"deleted": []}
     return data
@@ -79,7 +80,7 @@ def record_deletion(
         },
     )
     data["deleted"] = entries
-    io.safe_write_yaml(_resolve(path), data)
+    io.write_catalog(_resolve(path), data)
 
 
 def remove_from_deleted(series_id: str, *, path: Path | None = None) -> bool:
@@ -94,5 +95,5 @@ def remove_from_deleted(series_id: str, *, path: Path | None = None) -> bool:
     if len(new_entries) == len(entries):
         return False
     data["deleted"] = new_entries
-    io.safe_write_yaml(_resolve(path), data)
+    io.write_catalog(_resolve(path), data)
     return True

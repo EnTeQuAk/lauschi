@@ -48,7 +48,7 @@ def _patch_loader(monkeypatch, tmp_path: Path, catalog: dict | None = None) -> P
     (tmp_path / "assets" / "catalog").mkdir(parents=True)
     catalog_file = tmp_path / "assets" / "catalog" / "series.json"
     write_catalog(catalog_file, catalog or {"series": []})
-    (tmp_path / "assets" / "catalog" / "deleted.yaml").write_text("deleted: []\n")
+    (tmp_path / "assets" / "catalog" / "deleted.json").write_text('{"deleted": []}\n')
     (tmp_path / "android").mkdir()
     (tmp_path / ".cache").mkdir()
 

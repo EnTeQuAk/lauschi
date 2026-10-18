@@ -16,7 +16,7 @@ def catalog_env(monkeypatch, tmp_path):
     curation_dir = catalog / "curation"
     curation_dir.mkdir(parents=True)
     series_json = catalog / "series.json"
-    deleted_yaml = catalog / "deleted.yaml"
+    deleted_log = catalog / "deleted.json"
     monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
 
     write_catalog(
@@ -32,7 +32,7 @@ def catalog_env(monkeypatch, tmp_path):
     return {
         "series_json": series_json,
         "curation_dir": curation_dir,
-        "deleted_yaml": deleted_yaml,
+        "deleted_log": deleted_log,
     }
 
 

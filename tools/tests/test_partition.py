@@ -114,7 +114,7 @@ def test_family_ids_missing_file(tmp_path):
 
 
 def test_children_of_a_dissolved_root_stay_one_family():
-    """An umbrella entry can be dissolved (deleted.yaml) while its
+    """An umbrella entry can be dissolved (deleted.json) while its
     children keep split_from. They still share the artist page and own
     each other's albums; the family simply has no parent entry."""
     madita = entry("madita", split_from="astrid_lindgren_deutsch")

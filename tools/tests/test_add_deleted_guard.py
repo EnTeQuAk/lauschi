@@ -21,7 +21,7 @@ def env(monkeypatch, tmp_path):
     catalog = tmp_path / "assets" / "catalog"
     catalog.mkdir(parents=True)
     series_json = catalog / "series.json"
-    deleted_yaml = catalog / "deleted.yaml"
+    deleted_log = catalog / "deleted.json"
     write_catalog(series_json, {"series": []})
 
     monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
@@ -37,7 +37,7 @@ def env(monkeypatch, tmp_path):
         "tom_turbo",
         "Tom Turbo",
         "No streaming presence",
-        path=deleted_yaml,
+        path=deleted_log,
     )
 
     # Skip provider calls — add() asks confirmation when none are found,
@@ -51,7 +51,7 @@ def env(monkeypatch, tmp_path):
             raise FileNotFoundError
 
     monkeypatch.setattr(add_ops_mod, "load_catalog", lambda: [])
-    return {"series_json": series_json, "deleted_yaml": deleted_yaml}
+    return {"series_json": series_json, "deleted_log": deleted_log}
 
 
 def test_add_refuses_to_readd_deleted_id(env, monkeypatch):
@@ -106,7 +106,7 @@ def test_add_with_force_readd_clears_log_entry(env, monkeypatch, tmp_path):
     assert result.exit_code == 0, result.output
 
     # The deletion log no longer contains tom_turbo.
-    assert deleted_mod.is_deleted("tom_turbo", env["deleted_yaml"]) is None
+    assert deleted_mod.is_deleted("tom_turbo", env["deleted_log"]) is None
 
     # The new entry landed in the test catalog, not the real repo one.
     # add_series_entry resolves the file via paths.catalog_path()

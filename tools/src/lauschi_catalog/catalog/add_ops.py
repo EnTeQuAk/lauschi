@@ -12,7 +12,7 @@ from dataclasses import dataclass
 
 from lauschi_catalog.catalog.deleted import is_deleted, remove_from_deleted
 from lauschi_catalog.catalog.loader import load_catalog
-from lauschi_catalog.catalog.paths import deleted_yaml_path
+from lauschi_catalog.catalog.paths import deleted_log_path
 from lauschi_catalog.catalog.series_ops import add_series_entry
 from lauschi_catalog.providers import Album, Artist
 
@@ -180,7 +180,7 @@ def add_series(
             ok=False, series_id=sid, error=f"series '{sid}' already exists"
         )
 
-    deleted_path = deleted_yaml_path()
+    deleted_path = deleted_log_path()
     deletion = is_deleted(sid, deleted_path)
     if deletion and not force_readd:
         reason = deletion.get("reason", "(no reason recorded)")
@@ -203,7 +203,7 @@ def add_series(
 
     if force_readd and deletion:
         remove_from_deleted(sid, path=deleted_path)
-        on_progress(f"Removed {sid!r} from deleted.yaml.")
+        on_progress(f"Removed {sid!r} from deleted.json.")
 
     on_progress(f"Added '{sid}' to series.json")
     return AddResult(ok=True, series_id=sid)

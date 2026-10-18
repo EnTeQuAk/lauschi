@@ -2,7 +2,7 @@
 
 Delegates to series_ops.delete_series (same path as the CLI delete
 command): series.json entry removed, curation JSON deleted, deletion
-recorded in deleted.yaml.
+recorded in deleted.json.
 """
 
 from unittest.mock import patch

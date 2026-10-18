@@ -41,8 +41,8 @@ def series_lock_path() -> Path:
     return repo_root() / _CATALOG_SUBDIR / ".series.json.lock"
 
 
-def deleted_yaml_path() -> Path:
-    return repo_root() / _CATALOG_SUBDIR / "deleted.yaml"
+def deleted_log_path() -> Path:
+    return repo_root() / _CATALOG_SUBDIR / "deleted.json"
 
 
 def reference_map_path() -> Path:

@@ -33,7 +33,7 @@ def test_repo_root_is_a_directory():
             paths.series_lock_path, ".series.json.lock", "assets", id="series lock"
         ),
         pytest.param(
-            paths.deleted_yaml_path, "deleted.yaml", "assets", id="deleted.yaml"
+            paths.deleted_log_path, "deleted.json", "assets", id="deleted.json"
         ),
         pytest.param(
             lambda: paths.cache_dir("spotify"), "spotify", ".cache", id="provider cache"

@@ -1,5 +1,5 @@
 """Tests that discover_one routes creation through add_series and
-respects deleted.yaml."""
+respects deleted.json."""
 
 from pathlib import Path
 
@@ -45,7 +45,7 @@ def _patch_loader(monkeypatch, tmp_path: Path, catalog: dict | None = None) -> P
     (tmp_path / "assets" / "catalog").mkdir(parents=True)
     catalog_file = tmp_path / "assets" / "catalog" / "series.json"
     write_catalog(catalog_file, catalog or {"series": []})
-    (tmp_path / "assets" / "catalog" / "deleted.yaml").write_text("deleted: []\n")
+    (tmp_path / "assets" / "catalog" / "deleted.json").write_text('{"deleted": []}\n')
     (tmp_path / "android").mkdir()
     (tmp_path / ".cache").mkdir()
 
@@ -93,8 +93,8 @@ async def test_discover_one_skips_creation_when_only_weak_match(tmp_path, monkey
 async def test_discover_one_refuses_deleted_series(tmp_path, monkeypatch):
     """A deleted series id should not be re-created by discover --write."""
     _patch_loader(monkeypatch, tmp_path)
-    (tmp_path / "assets" / "catalog" / "deleted.yaml").write_text(
-        "deleted:\n  - id: die_playmos\n    title: Die Playmos\n    reason: test\n"
+    (tmp_path / "assets" / "catalog" / "deleted.json").write_text(
+        '{"deleted": [{"id": "die_playmos", "title": "Die Playmos", "reason": "test"}]}\n'
     )
 
     provider = _FakeProvider([_artist("Die Playmos")])

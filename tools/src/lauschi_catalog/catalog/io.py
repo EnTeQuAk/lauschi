@@ -2,8 +2,9 @@
 
 All writes use temp-file + os.replace for atomicity. Catalog writes
 acquire a FileLock on the series lock file to prevent concurrent
-writes from CLI and web processes. The catalog is JSON, the small
-hand-kept files next to it (deleted.yaml, reference_map.yaml) are YAML.
+writes from CLI and web processes. The catalog files (series.json,
+deleted.json) are JSON in the layout of `dump_catalog`, and
+reference_map.yaml is YAML.
 """
 
 import json
@@ -82,7 +83,8 @@ def safe_write_yaml(path: Path, data: object) -> None:
 
 
 def write_catalog(path: Path, data: object) -> None:
-    """Write the catalog atomically in the layout of `dump_catalog`."""
+    """Write a catalog file (series.json, deleted.json) atomically in the
+    layout of `dump_catalog`."""
     safe_write_text(path, dump_catalog(data))
 
 

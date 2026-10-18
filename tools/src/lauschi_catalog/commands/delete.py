@@ -1,7 +1,7 @@
 """Delete a series from the catalog.
 
 Removes the entry from series.json and its curation JSON, and records
-the deletion in assets/catalog/deleted.yaml so future `catalog-add`
+the deletion in assets/catalog/deleted.json so future `catalog-add`
 runs can warn before re-introducing the same id.
 
 Use this for series that turn out to have no streaming presence, are
@@ -37,7 +37,7 @@ def delete(series_id: str, reason: str, dry_run: bool):
     """Delete SERIES_ID from the catalog.
 
     Removes the entry from series.json, deletes the matching curation
-    JSON if any, and records the deletion in deleted.yaml so future
+    JSON if any, and records the deletion in deleted.json so future
     catalog-add runs warn before re-introducing the same id.
 
     Example:
@@ -55,7 +55,7 @@ def delete(series_id: str, reason: str, dry_run: bool):
     already = is_deleted(series_id)
     if already:
         console.print(
-            f"[yellow]Note: {series_id!r} is already in deleted.yaml "
+            f"[yellow]Note: {series_id!r} is already in deleted.json "
             f"(reason: {already.get('reason')!r}). "
             f"Refreshing the log entry.[/yellow]",
         )
@@ -74,7 +74,7 @@ def delete(series_id: str, reason: str, dry_run: bool):
         console.print(f"  curation file       → {display}")
     else:
         console.print("  curation file       → [dim](none)[/dim]")
-    console.print(f"  deleted.yaml entry  → id={series_id}, reason={reason!r}")
+    console.print(f"  deleted.json entry  → id={series_id}, reason={reason!r}")
 
     if dry_run:
         console.print("\n[dim]Dry run; nothing written. Drop --dry-run to apply.[/dim]")
