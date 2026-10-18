@@ -96,3 +96,45 @@ def test_validate_step_reads_the_run_event_log(tmp_path, monkeypatch):
     outcomes[("other", "validate")] = "ok"
     state = pipeline_mod.pipeline_status("s", series=entry)
     assert state.step_statuses[4] == "current"
+
+
+def test_given_outcomes_decide_the_validate_step_without_reading_the_log(
+    tmp_path, monkeypatch
+):
+    """A page that lists every series reads the log once and hands each
+    series the outcomes, so `pipeline_status` must not read it again."""
+    _stage(
+        tmp_path,
+        monkeypatch,
+        {
+            "curated_at": "2026-07-01T00:00:00+00:00",
+            "albums": [],
+            "review": {
+                "audited_at": "2026-07-02T00:00:00+00:00",
+                "status": "approved",
+            },
+        },
+    )
+    entry = CatalogEntry(
+        id="s",
+        title="S",
+        providers={
+            "spotify": ProviderConfig(
+                artist_ids=["a"], album_ids=["x"], has_albums=True
+            )
+        },
+    )
+
+    def no_read(*_a, **_kw):
+        raise AssertionError("read the event log")
+
+    monkeypatch.setattr(pipeline_mod, "latest_outcome_for", no_read)
+
+    validated = pipeline_mod.pipeline_status(
+        "s", series=entry, validate_outcomes={"s": "ok"}
+    )
+    other = pipeline_mod.pipeline_status(
+        "s", series=entry, validate_outcomes={"other": "ok"}
+    )
+    assert validated.step_statuses[4] == "done"
+    assert other.step_statuses[4] == "current"

@@ -88,12 +88,18 @@ def read_events(base: Path | None = None) -> list[RunEvent]:
     return events
 
 
+def latest_outcomes(phase: str, base: Path | None = None) -> dict[str, str]:
+    """The most recent outcome of ``phase`` per series, from one read of
+    the log. A page that lists every series reads it once this way."""
+    outcomes: dict[str, str] = {}
+    for event in read_events(base):
+        if event.phase == phase:
+            outcomes[event.series_id] = event.outcome
+    return outcomes
+
+
 def latest_outcome_for(
     series_id: str, phase: str, base: Path | None = None
 ) -> str | None:
     """The most recent outcome recorded for a series+phase, if any."""
-    found: str | None = None
-    for event in read_events(base):
-        if event.series_id == series_id and event.phase == phase:
-            found = event.outcome
-    return found
+    return latest_outcomes(phase, base).get(series_id)

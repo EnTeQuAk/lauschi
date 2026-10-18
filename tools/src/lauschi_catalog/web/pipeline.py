@@ -12,6 +12,7 @@ curation JSON and series.json. Steps are ordered:
 """
 
 import json
+from collections.abc import Mapping
 from dataclasses import dataclass
 from typing import Any
 
@@ -41,13 +42,19 @@ class PipelineState:
 
 
 def pipeline_status(
-    series_id: str, series: CatalogEntry | None = None
+    series_id: str,
+    series: CatalogEntry | None = None,
+    *,
+    validate_outcomes: Mapping[str, str] | None = None,
 ) -> PipelineState:
     """Compute pipeline state for a series.
 
     Args:
         series_id: The series identifier.
         series: Pre-loaded series entry (avoids re-parsing series.json).
+        validate_outcomes: The latest validate outcome per series, from
+            `latest_outcomes`. A page that lists every series passes it,
+            so the event log is read once and not once per series.
     """
     if series is None:
         series = get_series_by_id(series_id)
@@ -110,7 +117,12 @@ def pipeline_status(
 
     # Step 4: Validate. A validated run leaves an event in
     # logs/catalog/run-*.jsonl.
-    has_validated = latest_outcome_for(series_id, "validate") == OUTCOME_OK
+    validate_outcome = (
+        latest_outcome_for(series_id, "validate")
+        if validate_outcomes is None
+        else validate_outcomes.get(series_id)
+    )
+    has_validated = validate_outcome == OUTCOME_OK
     if has_applied:
         step_statuses.append("done" if has_validated else "current")
         if not has_validated:

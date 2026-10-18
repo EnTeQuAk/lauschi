@@ -25,6 +25,7 @@ from lauschi_catalog.catalog.series_ops import (
     edit_series,
     validate_series_changes,
 )
+from lauschi_catalog.run_events import latest_outcomes
 from lauschi_catalog.web.catalog_store import (
     get_all_series,
     get_series_by_id,
@@ -75,9 +76,10 @@ def _curation_album_count(series_id: str) -> int:
 async def pipeline_overview(request: Request):
     """Show all series with their pipeline state and next actions."""
     all_series = get_all_series()
+    validated = latest_outcomes("validate")
     enriched = []
     for s in all_series:
-        state = pipeline_status(s.id, series=s)
+        state = pipeline_status(s.id, series=s, validate_outcomes=validated)
         enriched.append(
             {
                 "id": s.id,
@@ -141,10 +143,11 @@ async def catalog_list(
         if ct in counts:
             counts[ct] += 1
 
+    validated = latest_outcomes("validate")
     enriched = []
     for s in series:
         ct = s.content_type or "hoerspiel"
-        state = pipeline_status(s.id, series=s)
+        state = pipeline_status(s.id, series=s, validate_outcomes=validated)
         label = state.current_label if state.status != "escalated" else "Escalated"
         enriched.append(
             {
@@ -578,9 +581,10 @@ async def series_edit_post(request: Request, series_id: str):
 async def review_queue(request: Request):
     """Show all series that need human attention (escalated or missing curation)."""
     all_series = get_all_series()
+    validated = latest_outcomes("validate")
     needs_review = []
     for s in all_series:
-        state = pipeline_status(s.id, series=s)
+        state = pipeline_status(s.id, series=s, validate_outcomes=validated)
         if state.status in ("escalated", "missing"):
             needs_review.append(
                 {

@@ -19,6 +19,7 @@ from lauschi_catalog.run_events import (
     OUTCOME_SKIPPED,
     RunEvent,
     latest_outcome_for,
+    latest_outcomes,
     read_events,
     record_event,
 )
@@ -128,6 +129,19 @@ class TestLatestOutcome:
         assert latest_outcome_for("kira", "audit", events_dir) == OUTCOME_OK
         assert latest_outcome_for("kira", "validate", events_dir) is None
         assert latest_outcome_for("nobody", "curate", events_dir) is None
+
+    def test_latest_outcomes_holds_each_series_last_outcome_of_a_phase(
+        self, events_dir
+    ):
+        record_event(_event(outcome=OUTCOME_OK), base=events_dir)
+        record_event(_event(outcome=OUTCOME_FAILED), base=events_dir)
+        record_event(_event(series_id="tkkg", outcome=OUTCOME_OK), base=events_dir)
+        record_event(_event(series_id="tkkg", phase="audit"), base=events_dir)
+        assert latest_outcomes("curate", events_dir) == {
+            "kira": OUTCOME_FAILED,
+            "tkkg": OUTCOME_OK,
+        }
+        assert latest_outcomes("validate", events_dir) == {}
 
     def test_process_stamp_is_stable_within_a_process(self):
         assert re_mod.run_events_path() == re_mod.run_events_path()
