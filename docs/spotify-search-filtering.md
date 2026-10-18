@@ -42,7 +42,7 @@ The `genre:kinderhoerspiel` filter works in search queries but has limitations:
 ### Practical search strategies
 
 **For Hörspiele (current approach — already working):**
-The catalog-based matching (`CatalogService.match()`) is more reliable than API filtering. The curated `series.yaml` with keyword + artist ID matching catches content that genre filters miss.
+The catalog-based matching (`CatalogService.match()`) is more reliable than API filtering. The curated `series.json` with keyword + artist ID matching catches content that genre filters miss.
 
 **For music (the gap):**
 - `genre:kindermusik` can be appended to music search queries to bias results

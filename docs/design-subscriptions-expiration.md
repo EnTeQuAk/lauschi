@@ -64,7 +64,7 @@ Query filters: `WHERE available_until IS NULL OR available_until > now()`
 ### Subscription scope
 
 - **ARD**: subscribe to programSet (show level). Clean boundary.
-- **Spotify**: subscribe to catalog series (series.yaml ID). Catalog
+- **Spotify**: subscribe to catalog series (series.json ID). Catalog
   matching is the quality gate.
 - **Non-catalog Spotify content**: manual add only, no auto-subscribe.
   MVP limitation, acceptable because the catalog is expandable.

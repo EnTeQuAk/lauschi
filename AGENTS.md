@@ -135,7 +135,7 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
    the root's finalize proposes splits for it. The root's batch marks each
    album with the children that saw it and left it (`<left_by>`), so the
    root does not hand an album back to a child that passed on it. Children of a dissolved root
-   (listed in `deleted.yaml`, e.g. `astrid_lindgren_deutsch`) stay one
+   (listed in `deleted.json`, e.g. `astrid_lindgren_deutsch`) stay one
    family, and their page's leftovers were settled at dissolution.
    On a page that several entries share, the batch instructions carry what
    the reference index holds for the brand: its lines with their titles and
@@ -417,8 +417,9 @@ one-line diff. Each entry has:
   series, so discover does not search one
 
 Alongside it: `assets/catalog/curation/{id}.json` (290 committed curation
-files, the pipeline's per-series state), `deleted.yaml` (ids that must not be
-re-added), `.cache/{provider}/` (7-day provider API cache, gitignored),
+files, the pipeline's per-series state), `deleted.json` (ids that must not be
+re-added), `ard_featured_shows.json` (the ARD Audiothek shows the app
+features), `.cache/{provider}/` (7-day provider API cache, gitignored),
 `logs/catalog/` (pipeline run logs, gitignored).
 
 Validated by `lauschi-catalog validate` (tools/ package). Today: 290 series
