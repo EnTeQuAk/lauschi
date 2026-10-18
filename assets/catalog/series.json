@@ -11133,8 +11133,7 @@
           "no_artist_page": "No Hörspiel artist page exists, the album is live but standalone. Every Apple Music artist named Coco is an unrelated music act (checked 2026-07).",
           "albums": [
             {"id": "1685948531", "title": "Coco (Hörspiel zum Disney/Pixar Film)", "release_date": "2017", "barcode": "4066339449985"}
-          ],
-          "artist_ids": ["43907668"]
+          ]
         }
       },
       "content_type": "hoerspiel"
