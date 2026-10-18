@@ -15,25 +15,6 @@ def _series_path(path: Path | None) -> Path:
     return path if path is not None else catalog_path()
 
 
-def _cache_key(path: Path) -> tuple[str, int, int]:
-    """Cheap identity of the file's content.
-
-    size + mtime_ns catches every write, including a same-size one: one
-    key per content version, which is the semantics the CLI wants.
-    """
-    st = path.stat()
-    return (str(path), st.st_size, st.st_mtime_ns)
-
-
-#: Per-process parse cache: {cache key: parsed entries}.
-_catalog_cache: dict[tuple[str, int, int], list[CatalogEntry]] = {}
-
-
-def clear_catalog_cache() -> None:
-    """Forget cached parses (exported mostly for test isolation)."""
-    _catalog_cache.clear()
-
-
 def _parse_catalog(path: Path) -> list[CatalogEntry]:
     data = json.loads(path.read_text(encoding="utf-8"))
     entries = []
@@ -89,21 +70,15 @@ def _parse_catalog(path: Path) -> list[CatalogEntry]:
 
 
 def load_catalog(path: Path | None = None) -> list[CatalogEntry]:
-    """Load series.json into CatalogEntry models.
+    """Load series.json into CatalogEntry models, fresh on every call.
 
-    Parsed once per file version and deep-copied per call: one mutation
-    of a returned entry must never leak into anyone else's view, and a
-    copy is still far cheaper than re-parsing the file.
+    A parse takes about 30 ms, no more than copying a cached one, so each
+    caller gets entries of its own and sees every write.
     """
-    import copy
-
     target = _series_path(path)
     if not target.exists():
         return []
-    key = _cache_key(target)
-    if key not in _catalog_cache:
-        _catalog_cache[key] = _parse_catalog(target)
-    return copy.deepcopy(_catalog_cache[key])
+    return _parse_catalog(target)
 
 
 def load_raw(path: Path | None = None) -> dict:
