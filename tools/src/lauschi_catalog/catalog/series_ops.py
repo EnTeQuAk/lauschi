@@ -11,7 +11,12 @@ from typing import Any
 
 from lauschi_catalog.catalog import paths
 from lauschi_catalog.catalog.deleted import record_deletion
-from lauschi_catalog.catalog.io import locked_raw, safe_write_json, write_catalog
+from lauschi_catalog.catalog.io import (
+    find_series,
+    locked_raw,
+    safe_write_json,
+    save_catalog,
+)
 from lauschi_catalog.catalog.loader import load_catalog
 
 # Series ids are stable snake_case ASCII. They may start with a digit
@@ -84,12 +89,7 @@ def edit_series(series_id: str, changes: SeriesChanges) -> EditResult:
         return EditResult(ok=False, series_id=series_id, error="; ".join(errors))
 
     with locked_raw() as data:
-        raw_entry = None
-        for entry in data["series"]:
-            if entry.get("id") == series_id:
-                raw_entry = entry
-                break
-
+        raw_entry = find_series(data, series_id)
         if raw_entry is None:
             return EditResult(
                 ok=False,
@@ -117,7 +117,7 @@ def edit_series(series_id: str, changes: SeriesChanges) -> EditResult:
             elif "content_type" in raw_entry:
                 del raw_entry["content_type"]
 
-        write_catalog(paths.catalog_path(), data)
+        save_catalog(data)
 
     new_id = changes.id
     if new_id and new_id != series_id:
@@ -162,14 +162,13 @@ def delete_series(series_id: str, *, reason: str) -> DeleteResult:
     log (the CLI wrapper handles --force-readd).
     """
     with locked_raw() as data:
-        entries = data.get("series") or []
-        target = next((e for e in entries if e.get("id") == series_id), None)
+        target = find_series(data, series_id)
         if target is None:
             return DeleteResult(ok=False, error=f"series {series_id!r} not found")
 
         title = target.get("title", series_id)
-        data["series"] = [e for e in entries if e.get("id") != series_id]
-        write_catalog(paths.catalog_path(), data)
+        data["series"] = [e for e in data["series"] if e is not target]
+        save_catalog(data)
 
     curation_file = paths.curation_path(series_id)
     curation_removed = False
@@ -214,7 +213,7 @@ def add_series_entry(entry: dict[str, Any]) -> AddResult:
 
     with locked_raw() as data:
         data.setdefault("series", []).append(entry)
-        write_catalog(paths.catalog_path(), data)
+        save_catalog(data)
 
     return AddResult(ok=True, series_id=sid, title=title)
 
@@ -231,6 +230,6 @@ def remove_series_entry(series_id: str) -> bool:
         data["series"] = [e for e in entries if e.get("id") != series_id]
         if len(data["series"]) == before:
             return False
-        write_catalog(paths.catalog_path(), data)
+        save_catalog(data)
 
     return True

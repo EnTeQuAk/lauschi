@@ -1,6 +1,5 @@
 """Catalog loader and writer for series.json."""
 
-import json
 from pathlib import Path
 
 from lauschi_catalog.catalog import io
@@ -16,32 +15,25 @@ def _series_path(path: Path | None) -> Path:
 
 
 def _parse_catalog(path: Path) -> list[CatalogEntry]:
-    data = json.loads(path.read_text(encoding="utf-8"))
+    data = io.load_raw(path)
     entries = []
 
     for raw in data["series"]:
         providers: dict[str, ProviderConfig] = {}
-        raw_providers = raw.get("providers", {}) or {}
-
-        for pname, pdata in raw_providers.items():
-            if pdata is None:
-                continue
-            aids = pdata.get("artist_ids", [])
-
-            albums_raw = pdata.get("albums") or []
+        for pname, pdata in raw.get("providers", {}).items():
+            albums_raw = pdata.get("albums", [])
             providers[pname] = ProviderConfig(
-                artist_ids=[str(a) for a in aids] if aids else [],
-                album_ids=[str(a["id"]) for a in albums_raw if a.get("id")],
+                artist_ids=list(pdata.get("artist_ids", [])),
+                album_ids=[a["id"] for a in albums_raw],
                 albums=[
                     {
-                        "id": str(a["id"]),
+                        "id": a["id"],
                         "title": a.get("title", ""),
                         "episode": a.get("episode"),
                         "release_date": a.get("release_date"),
-                        "barcode": str(a.get("barcode") or ""),
+                        "barcode": a.get("barcode", ""),
                     }
                     for a in albums_raw
-                    if a.get("id")
                 ],
                 episode_pattern=pdata.get("episode_pattern"),
                 no_artist_page=pdata.get("no_artist_page"),
@@ -81,11 +73,7 @@ def load_catalog(path: Path | None = None) -> list[CatalogEntry]:
     return _parse_catalog(target)
 
 
-def update_provider_ids(
-    path: Path | None = None,
-    *,
-    updates: dict[str, dict[str, list[str]]],
-) -> int:
+def update_provider_ids(*, updates: dict[str, dict[str, list[str]]]) -> int:
     """Update provider artist_ids in series.json.
 
     Args:
@@ -94,7 +82,7 @@ def update_provider_ids(
     Returns number of series updated.
     """
     count = 0
-    with locked_raw(path) as data:
+    with locked_raw() as data:
         for raw in data["series"]:
             sid = raw["id"]
             if sid not in updates:
@@ -110,7 +98,7 @@ def update_provider_ids(
                 count += 1
 
         if count > 0:
-            io.write_catalog(catalog_path(), data)
+            io.save_catalog(data)
 
     return count
 

@@ -45,7 +45,7 @@ def scratch(tmp_path, monkeypatch):
 def test_apply_all_exits_zero_when_nothing_blocked(scratch, monkeypatch):
     (scratch / "s1.json").write_text(json.dumps(_curation("s1")))
 
-    monkeypatch.setattr(apply_ops, "write_catalog", lambda *a, **k: None)
+    monkeypatch.setattr(apply_ops, "save_catalog", lambda *a, **k: None)
     result = CliRunner().invoke(apply, ["--all"])
     assert result.exit_code == 0
 

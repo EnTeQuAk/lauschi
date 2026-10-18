@@ -10,13 +10,12 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from lauschi_catalog.catalog.canonical import album_sort_key
-from lauschi_catalog.catalog.io import locked_raw, write_catalog
+from lauschi_catalog.catalog.io import find_series, locked_raw, save_catalog
 from lauschi_catalog.catalog.lifecycle import (
     CurationState,
     apply_blockers,
 )
 from lauschi_catalog.catalog.paths import (
-    catalog_path,
     curation_dir,
     curation_path,
 )
@@ -77,13 +76,6 @@ def _load_curation_file(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _catalog_series(catalog_data: dict, series_id: str) -> dict | None:
-    for entry in catalog_data.get("series", []):
-        if entry.get("id") == series_id:
-            return entry
-    return None
-
-
 def should_apply(data: dict, allow_unreviewed: bool = False) -> str | None:
     """Return a human-readable refusal reason, or None if safe to apply.
 
@@ -124,7 +116,7 @@ def apply_one(
     included = [a for a in albums if a.get("include")]
 
     if not included:
-        catalog_series = _catalog_series(catalog_data, series_id)
+        catalog_series = find_series(catalog_data, series_id)
         old_count = 0
         if catalog_series is not None:
             old_count = sum(
@@ -140,7 +132,7 @@ def apply_one(
             on_progress(f"  {series_id}: no included albums")
         return False
 
-    catalog_series = _catalog_series(catalog_data, series_id)
+    catalog_series = find_series(catalog_data, series_id)
     if catalog_series is None:
         on_progress(f"  {series_id}: not in series.json, skipping")
         return False
@@ -364,7 +356,7 @@ def apply_curations(
                 result.details.append(ApplyOneResult(sid))
 
         if result.applied > 0 and not dry_run:
-            write_catalog(catalog_path(), catalog_data)
+            save_catalog(catalog_data)
             result.written = True
             on_progress(f"Applied {result.applied} curations to series.json")
 

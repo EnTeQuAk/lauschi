@@ -9,13 +9,13 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 
 from lauschi_catalog.catalog.add_ops import add_series, title_to_id
-from lauschi_catalog.catalog.io import locked_raw, safe_write_json, write_catalog
+from lauschi_catalog.catalog.io import locked_raw, safe_write_json, save_catalog
 from lauschi_catalog.catalog.loader import (
     load_catalog,
     update_provider_ids,
 )
 from lauschi_catalog.catalog.models import CatalogEntry
-from lauschi_catalog.catalog.paths import artist_image_path, catalog_path
+from lauschi_catalog.catalog.paths import artist_image_path
 from lauschi_catalog.fanout import map_providers
 from lauschi_catalog.providers import Artist, CatalogProvider
 
@@ -293,7 +293,7 @@ def discover_one(
             break
 
         if updated:
-            write_catalog(catalog_path(), raw)
+            save_catalog(raw)
             result.written = True
             on_progress("Updated series.json")
         else:

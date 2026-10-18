@@ -19,7 +19,6 @@ removes an entry when an operator explicitly chooses to re-introduce
 the series.
 """
 
-import json
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -32,19 +31,10 @@ def _resolve(path: Path | None) -> Path:
     return path if path is not None else deleted_log_path()
 
 
-def _load(path: Path | None = None) -> dict:
-    target = _resolve(path)
-    if not target.exists():
-        return {"deleted": []}
-    data = json.loads(target.read_text(encoding="utf-8"))
-    if not data or "deleted" not in data:
-        return {"deleted": []}
-    return data
-
-
 def load_deleted(path: Path | None = None) -> list[dict]:
-    """Return the list of deletion records (or an empty list)."""
-    return list(_load(path).get("deleted") or [])
+    """The deletion records, none while the log does not exist."""
+    target = _resolve(path)
+    return io.load_raw(target)["deleted"] if target.exists() else []
 
 
 def is_deleted(series_id: str, path: Path | None = None) -> dict | None:
@@ -67,10 +57,8 @@ def record_deletion(
     The reason is required so future readers (and future curate
     agents) can decide whether a re-add proposal is sensible.
     """
-    data = _load(path)
-    entries = data.get("deleted") or []
     # Idempotent: if the id is already logged, refresh its timestamp.
-    entries = [e for e in entries if e.get("id") != series_id]
+    entries = [e for e in load_deleted(path) if e.get("id") != series_id]
     entries.append(
         {
             "id": series_id,
@@ -79,8 +67,7 @@ def record_deletion(
             "deleted_at": datetime.now(UTC).isoformat(timespec="seconds"),
         },
     )
-    data["deleted"] = entries
-    io.write_catalog(_resolve(path), data)
+    io.write_catalog(_resolve(path), {"deleted": entries})
 
 
 def remove_from_deleted(series_id: str, *, path: Path | None = None) -> bool:
@@ -89,11 +76,9 @@ def remove_from_deleted(series_id: str, *, path: Path | None = None) -> bool:
     Used by ``catalog-add --force-readd`` to explicitly clear the log
     entry when an operator chooses to re-introduce the series.
     """
-    data = _load(path)
-    entries = data.get("deleted") or []
-    new_entries = [e for e in entries if e.get("id") != series_id]
-    if len(new_entries) == len(entries):
+    entries = load_deleted(path)
+    kept = [e for e in entries if e.get("id") != series_id]
+    if len(kept) == len(entries):
         return False
-    data["deleted"] = new_entries
-    io.write_catalog(_resolve(path), data)
+    io.write_catalog(_resolve(path), {"deleted": kept})
     return True

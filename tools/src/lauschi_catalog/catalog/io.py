@@ -1,8 +1,8 @@
 """Atomic file I/O with file locking for the catalog.
 
-All writes use temp-file + os.replace for atomicity. Catalog writes
-acquire a FileLock on the series lock file to prevent concurrent
-writes from CLI and web processes. The catalog files (series.json,
+All writes use temp-file + os.replace for atomicity. Edits of
+series.json happen inside `locked_raw`, which holds a FileLock on the
+series lock file so CLI and web processes do not drop each other's edits. The catalog files (series.json,
 deleted.json, reference_map.json) are JSON in the layout of
 `dump_catalog`.
 """
@@ -69,21 +69,31 @@ def write_catalog(path: Path, data: object) -> None:
 
 
 def load_raw(path: Path | None = None) -> dict:
-    """The catalog file as plain data, for load -> mutate -> save."""
+    """A catalog file as plain data: series.json, or the one at ``path``."""
     target = path if path is not None else paths.catalog_path()
     return json.loads(target.read_text(encoding="utf-8"))
 
 
-@contextmanager
-def locked_raw(path: Path | None = None) -> Iterator[dict]:
-    """The catalog under the write lock, for load -> change -> write spans.
+def save_catalog(data: dict) -> None:
+    """Write series.json from inside a `locked_raw` window."""
+    write_catalog(paths.catalog_path(), data)
 
-    Write it with `write_catalog` before the window closes. A read, change
+
+@contextmanager
+def locked_raw() -> Iterator[dict]:
+    """series.json under the write lock, for load -> change -> write spans.
+
+    Write it with `save_catalog` before the window closes. A read, change
     and write outside one window can drop a concurrent web edit.
     """
     lock = paths.series_lock_path()
     with FileLock(str(lock)):
-        yield load_raw(path)
+        yield load_raw()
+
+
+def find_series(data: dict, series_id: str) -> dict | None:
+    """The entry with ``series_id`` in raw catalog data, or None."""
+    return next((e for e in data.get("series", []) if e.get("id") == series_id), None)
 
 
 def load_curation(series_id: str) -> dict:

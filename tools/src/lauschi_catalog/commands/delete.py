@@ -13,7 +13,7 @@ from rich.console import Console
 
 from lauschi_catalog.catalog import paths
 from lauschi_catalog.catalog.deleted import is_deleted
-from lauschi_catalog.catalog.io import load_raw
+from lauschi_catalog.catalog.io import find_series, load_raw
 from lauschi_catalog.catalog.series_ops import delete_series
 
 console = Console()
@@ -44,10 +44,7 @@ def delete(series_id: str, reason: str, dry_run: bool):
 
       lauschi-catalog delete tom_turbo --reason "No streaming presence"
     """
-    catalog_file = paths.catalog_path()
-    data = load_raw(catalog_file)
-    entries = data.get("series") or []
-    target = next((e for e in entries if e.get("id") == series_id), None)
+    target = find_series(load_raw(), series_id)
     if target is None:
         console.print(f"[red]Series {series_id!r} not found in series.json[/red]")
         raise SystemExit(1)

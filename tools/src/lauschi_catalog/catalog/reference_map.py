@@ -33,7 +33,6 @@ has one of its own.
 
 import difflib
 import functools
-import json
 import re
 import unicodedata
 from collections.abc import Callable, Mapping
@@ -42,6 +41,7 @@ from datetime import date, timedelta
 from pathlib import Path
 from typing import Literal, TypedDict
 
+from lauschi_catalog.catalog import io
 from lauschi_catalog.catalog.models import CatalogEntry
 from lauschi_catalog.catalog.partition import Family, families
 from lauschi_catalog.catalog.paths import reference_map_path
@@ -138,18 +138,17 @@ def load_overrides(path: Path | None = None) -> dict[str, Override | None]:
     target = path if path is not None else reference_map_path()
     if not target.exists():
         return {}
-    data = json.loads(target.read_text(encoding="utf-8")) or {}
     overrides: dict[str, Override | None] = {}
-    for entry_id, value in (data.get("overrides") or {}).items():
+    for entry_id, value in io.load_raw(target)["overrides"].items():
         if value is None:
-            overrides[str(entry_id)] = None
+            overrides[entry_id] = None
         elif isinstance(value, int):
-            overrides[str(entry_id)] = {"series": value}
+            overrides[entry_id] = {"series": value}
         else:
-            override: Override = {"series": int(value["series"])}
+            override: Override = {"series": value["series"]}
             if value.get("lines"):
-                override["lines"] = [str(name) for name in value["lines"]]
-            overrides[str(entry_id)] = override
+                override["lines"] = value["lines"]
+            overrides[entry_id] = override
     return overrides
 
 

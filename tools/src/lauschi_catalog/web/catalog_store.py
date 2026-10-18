@@ -15,7 +15,7 @@ from filelock import FileLock
 
 from lauschi_catalog.catalog.loader import load_catalog
 from lauschi_catalog.catalog.models import CatalogEntry
-from lauschi_catalog.catalog.paths import catalog_path, series_lock_path
+from lauschi_catalog.catalog.paths import series_lock_path
 
 _CatalogState = tuple[dict[str, CatalogEntry], list[CatalogEntry]]
 
@@ -27,7 +27,7 @@ def reload_catalog() -> int:
     """Reload series.json into memory. Returns entry count."""
     global _state
     with FileLock(str(series_lock_path())):
-        entries = load_catalog(catalog_path())
+        entries = load_catalog()
     by_id = {e.id: e for e in entries}
     ordered = sorted(entries, key=lambda e: e.title.lower())
     with _write_lock:
