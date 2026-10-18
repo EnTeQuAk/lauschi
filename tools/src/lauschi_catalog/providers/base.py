@@ -40,6 +40,10 @@ class Album:
     album_type: str = ""  # album | single | compilation | ep
     image_url: str = ""
     tracks: list["Track"] = field(default_factory=list)
+    #: The release's UPC or EAN as the store gives it, the same number
+    #: the other store and the reference index use for the release. An
+    #: empty string where the record has none (Spotify's artist page).
+    barcode: str = ""
 
 
 @dataclass

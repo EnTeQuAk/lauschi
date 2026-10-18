@@ -37,6 +37,13 @@ def _artists(raw: dict) -> str:
     return ", ".join(a["name"] for a in raw.get("artists") or [] if a.get("name"))
 
 
+def _barcode(raw: dict) -> str:
+    """The UPC, or the EAN where a record has no UPC. Only full album
+    records carry them."""
+    ids = raw.get("external_ids") or {}
+    return ids.get("upc") or ids.get("ean") or ""
+
+
 def _pick_image(images: list[dict]) -> str:
     """Pick a ~300px image URL from Spotify's images array (sorted largest-first)."""
     if not images:
@@ -258,6 +265,7 @@ class SpotifyProvider(CachedHttpProvider):
             label=data.get("label", ""),
             album_type=_album_type(data),
             image_url=_pick_image(data.get("images", [])),
+            barcode=_barcode(data),
             tracks=[
                 Track(name=t["name"], duration_ms=t.get("duration_ms", 0))
                 for t in data.get("tracks", {}).get("items", [])
@@ -278,6 +286,7 @@ class SpotifyProvider(CachedHttpProvider):
             label=raw.get("label", ""),
             album_type=_album_type(raw),
             image_url=_pick_image(raw.get("images", [])),
+            barcode=_barcode(raw),
         )
 
     def _album_chunk_url(self, ids: list[str]) -> str:

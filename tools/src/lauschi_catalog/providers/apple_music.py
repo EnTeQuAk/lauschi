@@ -183,6 +183,7 @@ class AppleMusicProvider(CachedHttpProvider):
                 artists=a["attributes"].get("artistName", ""),
                 album_type=_album_type(a["attributes"]),
                 image_url=_pick_artwork(a.get("attributes", {})),
+                barcode=a["attributes"].get("upc", ""),
             )
             for a in raw
         ]
@@ -219,6 +220,7 @@ class AppleMusicProvider(CachedHttpProvider):
             artists=attrs.get("artistName", ""),
             album_type=_album_type(attrs),
             image_url=_pick_artwork(attrs),
+            barcode=attrs.get("upc", ""),
             tracks=[
                 Track(
                     name=t["attributes"]["name"],
@@ -242,6 +244,7 @@ class AppleMusicProvider(CachedHttpProvider):
             artists=attrs.get("artistName", ""),
             album_type=_album_type(attrs),
             image_url=_pick_artwork(attrs),
+            barcode=attrs.get("upc", ""),
         )
 
     def _album_chunk_url(self, ids: list[str]) -> str:
@@ -269,6 +272,7 @@ class AppleMusicProvider(CachedHttpProvider):
                 artists=a["attributes"].get("artistName", ""),
                 album_type=_album_type(a["attributes"]),
                 image_url=_pick_artwork(a.get("attributes", {})),
+                barcode=a["attributes"].get("upc", ""),
             )
             for a in raw
         ]
