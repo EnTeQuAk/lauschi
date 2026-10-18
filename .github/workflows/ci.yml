@@ -108,7 +108,7 @@ jobs:
         working-directory: .
         run: git lfs pull --include "assets/catalog/curation/*"
 
-      - uses: astral-sh/setup-uv@v10
+      - uses: astral-sh/setup-uv@v10.2.0
         with:
           enable-cache: true
           cache-dependency-glob: tools/uv.lock
