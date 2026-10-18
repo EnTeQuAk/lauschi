@@ -30,7 +30,7 @@ def test_a_revision_of_a_catalog_pattern_may_not_lose_numbers():
     impact = pattern_update_impact(
         FIXED, STRICT, included_titles=INCLUDED, excluded_titles=[], frozen=True
     )
-    assert impact["rejected"] and "series.yaml" in impact["rejected"]
+    assert impact["rejected"] and "comes from the catalog" in impact["rejected"]
 
 
 def test_a_revision_of_a_proposed_pattern_may_denoise():

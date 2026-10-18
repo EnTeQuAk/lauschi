@@ -49,7 +49,7 @@ is normal, not an error.
 
 The most structurally complex failure. A single artist account hosts
 multiple distinct products. Each is a valid Hörspiel, but they belong in
-separate series.yaml entries.
+separate catalog entries.
 
 How to recognize: albums share the artist but have a distinct title prefix,
 theme, or numbering that runs independently from the main series.

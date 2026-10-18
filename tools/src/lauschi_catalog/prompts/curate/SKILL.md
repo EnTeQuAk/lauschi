@@ -31,7 +31,7 @@ with `wrong_content_type`, not bent to fit.
 **Hörbuch vs Hörspiel** is the most error-prone classification. The
 discriminator is *production style*, not source material. The same novel can
 have both a Hörbuch (single narrator reading) and a Hörspiel (full cast
-dramatization). These are different productions, separate `series.yaml` entries.
+dramatization). These are different productions, separate catalog entries.
 
 | Signal | Hörbuch (audiobook) | Hörspiel (hoerspiel) |
 |---|---|---|
@@ -48,7 +48,7 @@ Super-Papagei" (multiple actors, sound effects) is a Hörspiel.
 
 When a single discography legitimately spans multiple types (e.g. Pumuckl:
 Hörspiel + film soundtrack + Kinderlieder), flag mixed-type albums for
-splitting into separate series.yaml entries by content_type. Do NOT include
+splitting into separate catalog entries by content_type. Do NOT include
 mixed-type content under one series.
 
 ## Phases

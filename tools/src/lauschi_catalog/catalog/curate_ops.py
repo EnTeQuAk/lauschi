@@ -2002,7 +2002,7 @@ def pattern_update_impact(
     rejected = None
     if frozen and new_inc < old_inc:
         rejected = (
-            f"The current pattern comes from series.yaml and numbers "
+            f"The current pattern comes from the catalog and numbers "
             f"{old_inc}/{total} included titles; the proposal numbers only "
             f"{new_inc}. A catalog pattern may be extended, not narrowed."
         )

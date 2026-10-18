@@ -43,7 +43,7 @@ an inszenierte Lesung, not a full Hörspiel cast. **Include** as Hörbuch.
 ### hoerspiel_adaptation
 Multi-voice dramatized production with sound design, even if based on the
 artist's novel. **Exclude** (`wrong_content_type`). Flag for splitting into a
-separate `hoerspiel`-typed series.yaml entry.
+separate `hoerspiel`-typed catalog entry.
 
 ### music_in_audiobook_catalog
 Music album in an audiobook artist's catalog. Exclude (`wrong_content_type`).
