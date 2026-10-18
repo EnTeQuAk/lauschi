@@ -411,13 +411,13 @@ bundled into the app) with:
   release on both stores and in the reference index. The app ignores it.
 - `providers.*.artist_ids`: artist IDs for discovery and fallback matching
 
-Alongside it: `assets/catalog/curation/{id}.json` (289 committed curation
+Alongside it: `assets/catalog/curation/{id}.json` (290 committed curation
 files, the pipeline's per-series state), `deleted.yaml` (ids that must not be
 re-added), `.cache/{provider}/` (7-day provider API cache, gitignored),
 `logs/catalog/` (pipeline run logs, gitignored).
 
-Validated by `lauschi-catalog validate` (tools/ package). Today: 289 series
-(129 of them split-off children), 7,558 curated Spotify and 7,204 Apple Music
+Validated by `lauschi-catalog validate` (tools/ package). Today: 290 series
+(129 of them split-off children), 7,569 curated Spotify and 7,216 Apple Music
 albums.
 
 ## Environment Variables
