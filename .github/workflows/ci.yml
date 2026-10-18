@@ -79,3 +79,49 @@ jobs:
           # Read by gradle: injected into AndroidManifest for on-device JWT.
           APPLE_MUSIC_KEY: ${{ secrets.APPLE_MUSIC_KEY }}
         run: flutter build apk --debug --dart-define-from-file=.env.app
+
+  tools:
+    name: Catalog tools · Lint · Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: tools
+
+    steps:
+      - uses: actions/checkout@v7
+
+      # The tests read the committed curations, which live in LFS. Only those
+      # are pulled, and the LFS store is cached, so a push downloads just the
+      # curations it changed instead of the whole set.
+      - name: List curation LFS objects
+        working-directory: .
+        run: git lfs ls-files -l --include "assets/catalog/curation/*" | cut -d' ' -f1 | sort > lfs-curation-ids
+
+      - uses: actions/cache@v5
+        with:
+          path: .git/lfs
+          key: lfs-curation-${{ hashFiles('lfs-curation-ids') }}
+          restore-keys: lfs-curation-
+
+      - name: Pull curations
+        working-directory: .
+        run: git lfs pull --include "assets/catalog/curation/*"
+
+      - uses: astral-sh/setup-uv@v10
+        with:
+          enable-cache: true
+          cache-dependency-glob: tools/uv.lock
+
+      # The same checks as `mise run tools-check`.
+      - name: Install dependencies
+        run: uv sync --locked --extra ai --extra web
+
+      - name: Lint
+        run: uv run --no-sync ruff check src tests
+
+      - name: Check formatting
+        run: uv run --no-sync ruff format --check src tests
+
+      - name: Run tests
+        run: uv run --no-sync pytest
