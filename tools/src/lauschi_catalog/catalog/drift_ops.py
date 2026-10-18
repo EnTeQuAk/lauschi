@@ -221,8 +221,8 @@ def classify_album_drift(
     ):
         return finding(
             DriftSeverity.critical,
-            f"episode number moved: recorded {recorded_episode}, "
-            f"live title says {live_episode}",
+            f"episode number moved: the title said {recorded_episode}, "
+            f"it says {live_episode} now",
             live_episode,
         )
 
