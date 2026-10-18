@@ -13,9 +13,8 @@ from lauschi_catalog.catalog.audit_ops import (
     _DEFAULT_MODEL,
     audit_series,
 )
-from lauschi_catalog.catalog.io import load_curation
+from lauschi_catalog.catalog.io import load_curation, load_raw
 from lauschi_catalog.catalog.lifecycle import CurationState, audit_is_stale, needs_audit
-from lauschi_catalog.catalog.loader import load_raw
 from lauschi_catalog.catalog.paths import curation_path
 from lauschi_catalog.catalog.providers_init import init_providers
 

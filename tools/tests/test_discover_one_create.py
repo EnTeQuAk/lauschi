@@ -5,13 +5,12 @@ from pathlib import Path
 
 import pytest
 
-from lauschi_catalog.catalog import loader as catalog_loader
 from lauschi_catalog.catalog.discover_ops import (
     DiscoverMatch,
     _artist_to_match,
     discover_one,
 )
-from lauschi_catalog.catalog.io import write_catalog
+from lauschi_catalog.catalog.io import load_raw, write_catalog
 from lauschi_catalog.providers.base import Artist
 
 
@@ -68,7 +67,7 @@ async def test_discover_one_creates_series_with_sure_matches(tmp_path, monkeypat
     assert result.created_new is True
     assert result.new_series_id == "die_playmos"
     assert result.written is True
-    catalog = catalog_loader.load_raw(tmp_path / "assets" / "catalog" / "series.json")
+    catalog = load_raw(tmp_path / "assets" / "catalog" / "series.json")
     assert any(e.get("id") == "die_playmos" for e in catalog.get("series", []))
 
 

@@ -13,8 +13,8 @@ from filelock import FileLock
 
 from lauschi_catalog.catalog import paths
 from lauschi_catalog.catalog.deleted import record_deletion
-from lauschi_catalog.catalog.io import safe_write_json, write_catalog
-from lauschi_catalog.catalog.loader import load_catalog, load_raw
+from lauschi_catalog.catalog.io import load_raw, safe_write_json, write_catalog
+from lauschi_catalog.catalog.loader import load_catalog
 
 # Series ids are stable snake_case ASCII. They may start with a digit
 # (e.g. "5_geschwister", "100_wolf").

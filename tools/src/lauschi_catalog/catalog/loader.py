@@ -81,20 +81,6 @@ def load_catalog(path: Path | None = None) -> list[CatalogEntry]:
     return _parse_catalog(target)
 
 
-def load_raw(path: Path | None = None) -> dict:
-    """The catalog file as plain data, for load -> mutate -> save."""
-    return io.load_raw(_series_path(path))
-
-
-def save_raw(data: object, path: Path | None = None) -> None:
-    """Write modified catalog data back.
-
-    Uses atomic write (temp file + os.replace) with file locking
-    via catalog.io.
-    """
-    io.save_raw(data, _series_path(path))
-
-
 def update_provider_ids(
     path: Path | None = None,
     *,

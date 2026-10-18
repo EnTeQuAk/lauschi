@@ -45,12 +45,6 @@ def scratch(tmp_path, monkeypatch):
 def test_apply_all_exits_zero_when_nothing_blocked(scratch, monkeypatch):
     (scratch / "s1.json").write_text(json.dumps(_curation("s1")))
 
-    def fake_load_raw(_path=None):
-        return {"series": [{"id": "s1", "title": "S1"}]}
-
-    from lauschi_catalog.catalog import loader as loader_mod
-
-    monkeypatch.setattr(loader_mod, "load_raw", fake_load_raw)
     monkeypatch.setattr(apply_ops, "write_catalog", lambda *a, **k: None)
     result = CliRunner().invoke(apply, ["--all"])
     assert result.exit_code == 0
@@ -87,12 +81,6 @@ def test_apply_all_exits_one_when_a_refusal_happened(scratch, monkeypatch):
         )
     )
 
-    def fake_load_raw(_path=None):
-        return {"series": [{"id": "s1", "title": "S1"}]}
-
-    from lauschi_catalog.catalog import loader as loader_mod
-
-    monkeypatch.setattr(loader_mod, "load_raw", fake_load_raw)
     result = CliRunner().invoke(apply, ["--all"])
     assert result.exit_code == 1, result.output
     assert "incomplete" in result.output

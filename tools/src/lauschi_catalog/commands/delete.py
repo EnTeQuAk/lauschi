@@ -13,7 +13,7 @@ from rich.console import Console
 
 from lauschi_catalog.catalog import paths
 from lauschi_catalog.catalog.deleted import is_deleted
-from lauschi_catalog.catalog.loader import load_raw
+from lauschi_catalog.catalog.io import load_raw
 from lauschi_catalog.catalog.series_ops import delete_series
 
 console = Console()
