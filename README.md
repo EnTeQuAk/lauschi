@@ -76,161 +76,33 @@ BRAVE_API_KEY=...               # for catalog review web search
 - **go_router**: navigation with parent PIN gate
 - **very_good_analysis**: strict linting
 - **Sentry**: crash reporting + session replay (EU region)
-- **AI-assisted catalog curation**: pydantic-ai scripts using kimi-k2.5
-  for discovery and review, minimax-m2.5 for independent verification.
-  Final approval is always human via a TUI review tool.
+- **AI-assisted catalog curation**: pydantic-ai agents in `tools/`, one
+  model curates and a second model of another family audits. A person
+  settles what they disagree on.
 
 ## Catalog curation
 
-The curation pipeline uses AI models to discover, classify, and cross-check
-album data from Spotify. This is a developer-side build tool. No AI runs
-in the app itself, no AI-generated content is shown to kids, and neither
-ever will be. The models
-help sort through thousands of albums; a human reviews and approves the
-final result.
+The catalog is a developer-side build product. AI models help sort through
+thousands of store albums, no AI runs in the app itself, and no AI-generated
+content is shown to kids. A second model audits every curation, and a person
+settles what the two disagree on.
 
-The catalog ships as curated YAML in `assets/catalog/series.yaml`, backed by per-series curation data in `assets/catalog/curation/*.json`.
-
-### Pipeline overview
-
-```
-series.yaml          ← defines series (keywords, patterns, artist IDs)
-        │
-        ▼
-catalog-curate       ← AI discovers + classifies albums from Spotify
-        │
-        ▼
-curation/*.json      ← per-series: albums, include/exclude decisions, age notes
-        │
-        ▼
-catalog-review-ai    ← AI reviews: excludes junk, proposes splits, fills gaps
-        │
-        ▼
-catalog-apply-splits ← executes split proposals into new curation JSONs
-        │
-        ▼
-catalog-verify       ← second model verifies; auto-approves on agreement
-        │
-        ▼
-catalog-review (TUI) ← human reviews disagreements → writes to series.yaml
-```
-
-### Adding new series
-
-1. Add the series entry to `assets/catalog/series.yaml`:
-   ```yaml
-   - id: paw_patrol
-     title: PAW Patrol
-     keywords: ["PAW Patrol"]
-     aliases: ["Paw Patrol - Das Hörspiel"]
-     spotify_artist_ids: ["..."]
-     episode_pattern: "Folge (\\d+)"
-   ```
-
-   Series can have multiple `keywords` and `aliases` for fuzzy matching.
-   `episode_pattern` is a regex with one capture group for the episode number.
-
-2. Run AI curation to discover albums:
-   ```bash
-   mise run catalog-curate -- --series "PAW Patrol"
-   ```
-   Creates `assets/catalog/curation/paw_patrol.json` with all albums classified as include/exclude.
-
-3. Run AI review:
-   ```bash
-   mise run catalog-review-ai -- paw_patrol
-   ```
-   Reviews the curation: excludes duplicates/compilations, proposes splits for sub-series, fills episode gaps. Uses Wikipedia + Spotify album details for verification.
-
-4. Apply any splits:
-   ```bash
-   mise run catalog-apply-splits              # dry-run
-   mise run catalog-apply-splits -- --apply   # create new JSONs
-   ```
-
-5. Verify with a second model:
-   ```bash
-   mise run catalog-verify -- paw_patrol
-   ```
-   A second model (minimax-m2.5) independently verifies the review decisions.
-   When both models agree, the series is auto-approved and written to
-   `series.yaml`. Disagreements are flagged for human review.
-
-6. Human review (for disagreements or manual inspection):
-   ```bash
-   mise run catalog-review                    # all series
-   mise run catalog-review -- paw_patrol      # specific series
-   ```
-   - Browse series, see AI decisions with overrides applied
-   - `t`: toggle an album's include/exclude
-   - `n`: add reviewer notes
-   - `a`: approve, writes to `series.yaml`
-   - `r`: reject
-   - `Tab`: next unreviewed series
-
-### Reviewing existing series
-
-AI review is incremental and skips already-reviewed series:
+The app ships `assets/catalog/series.json`: every series with its titles,
+episode pattern, artist ids and the curated albums per store (id, episode
+number, title, release date, barcode). It is written by the `lauschi-catalog`
+CLI and its web UI from the per-series curation state in
+`assets/catalog/curation/*.json`, so you change it through those tools rather
+than by hand.
 
 ```bash
-mise run catalog-review-ai -- --all           # only reviews new/unreviewed
-mise run catalog-review-ai -- --all --force   # re-review everything
-mise run catalog-review-ai -- asterix --force # re-review one series
+mise run catalog-add -- "PAW Patrol"          # seed a new series
+mise run catalog-pipeline-one -- paw_patrol   # curate, audit, apply, validate
+mise run catalog-review                       # what needs a person
+mise run catalog-web                          # the web UI
 ```
 
-On `--force`, previous review decisions are fed to the AI so it builds on prior work.
-
-### How splits work
-
-When the AI review finds albums that belong in a separate series (different era, sub-series, spinoff), it proposes a split:
-
-- **Sub-series**: Wieso? Weshalb? Warum? → JUNIOR, PROFIWISSEN, ERSTLESER, Vorlesegeschichten
-- **Production eras**: Löwenzahn → CLASSICS (Peter Lustig) vs modern (Fritz Fuchs)
-- **Spinoffs**: Die wilden Hühner → Die Wilden Küken
-- **Format variants**: Sternenschweif Hörspiel → Sternenschweif Klassik (audiobook)
-
-Splits are proposals in the JSON until `apply-splits` executes them. Each split creates a new curation JSON with the albums moved over, and adds exclude overrides to the parent.
-
-### Non-destructive edits
-
-All manual and AI review edits go to `review.overrides` in the curation JSON. The original AI curation in `series.albums` is never mutated. This means:
-
-- Re-running curation produces a fresh base; overrides are preserved
-- Every decision has an audit trail
-- The JSON is git-diffable
-
-CLI for quick edits:
-```bash
-mise run catalog-edit -- show asterix
-mise run catalog-edit -- exclude asterix ALBUM_ID "standalone special"
-mise run catalog-edit -- toggle asterix ALBUM_ID
-mise run catalog-edit -- add asterix ALBUM_ID
-mise run catalog-edit -- search "Asterix Folge 35"
-```
-
-### Validation
-
-```bash
-mise run catalog-check          # cached validation against series.yaml
-mise run catalog-check-fresh    # live Spotify API validation
-mise run catalog-audit          # full L5 discography audit
-```
-
-### Available mise tasks
-
-| Task | Description |
-|------|-------------|
-| `catalog-curate` | AI-curate a series (pydantic-ai + kimi-k2.5) |
-| `catalog-review-ai` | AI review with three-way decisions |
-| `catalog-apply-splits` | Execute split proposals |
-| `catalog-review` | Human review TUI |
-| `catalog-edit` | CLI for quick edits |
-| `catalog-report` | Report gaps/dupes across all series |
-| `catalog-check` | Validate series.yaml (cached) |
-| `catalog-check-fresh` | Validate series.yaml (live API) |
-| `catalog-audit` | Full discography audit |
-| `catalog-discover` | Search for new artist candidates |
-| `catalog-titles` | Discover new series titles |
+AGENTS.md ("Catalog Tools") describes every stage, the commands and how to
+evaluate a change to the curator.
 
 ## Development
 
