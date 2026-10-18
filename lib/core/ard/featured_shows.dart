@@ -1,15 +1,21 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:lauschi/core/ard/ard_api.dart';
 import 'package:lauschi/core/ard/ard_models.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:yaml/yaml.dart';
 
 part 'featured_shows.g.dart';
 
 const _tag = 'FeaturedShows';
-const _configPath = 'assets/catalog/ard_featured_shows.yaml';
+
+/// Curated ARD Audiothek shows known for high-quality kids radio drama:
+/// professional adaptations of classic children's literature, with voice
+/// actors, Foley and original scores, free on ARD. Each entry holds the
+/// show id and, for whoever edits the list, the show's name.
+const _configPath = 'assets/catalog/ard_featured_shows.json';
 
 /// Max age of featured items to display.
 const _maxAge = Duration(days: 365);
@@ -28,16 +34,15 @@ class FeaturedShowEntry {
 class FeaturedShowsConfig {
   const FeaturedShowsConfig({required this.shows});
 
-  factory FeaturedShowsConfig.fromYaml(String yaml) {
-    final doc = loadYaml(yaml) as YamlMap;
-    final list = doc['featured_shows'] as YamlList;
-
+  factory FeaturedShowsConfig.fromJson(String json) {
+    final doc = jsonDecode(json) as Map<String, dynamic>;
     return FeaturedShowsConfig(
-      shows:
-          list.map((entry) {
-            final map = entry as YamlMap;
-            return FeaturedShowEntry(id: '${map['id']}');
-          }).toList(),
+      shows: [
+        for (final entry in doc['featured_shows'] as List<dynamic>)
+          FeaturedShowEntry(
+            id: (entry as Map<String, dynamic>)['id'] as String,
+          ),
+      ],
     );
   }
 
@@ -153,8 +158,9 @@ List<FeaturedItem> groupFeaturedItems(List<ArdItem> items, String showId) {
 /// duration (to skip trailers), groups multi-part episodes, and sorts
 /// by publish date.
 Future<List<FeaturedItem>> _fetchFeaturedItems(ArdApi api) async {
-  final configYaml = await rootBundle.loadString(_configPath);
-  final config = FeaturedShowsConfig.fromYaml(configYaml);
+  final config = FeaturedShowsConfig.fromJson(
+    await rootBundle.loadString(_configPath),
+  );
   final cutoff = DateTime.now().subtract(_maxAge);
 
   // Fetch all shows in parallel — they're independent.

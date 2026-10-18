@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 /// Supported audio content providers.
 ///
 /// Each provider has a stable string [value] used in the database and
-/// catalog YAML. The enum is the single source of truth for provider
+/// catalog. The enum is the single source of truth for provider
 /// identity throughout the app.
 enum ProviderType {
   spotify('spotify'),
@@ -13,7 +13,7 @@ enum ProviderType {
 
   const ProviderType(this.value);
 
-  /// Stable string for DB storage and YAML keys.
+  /// Stable string for DB storage and catalog keys.
   final String value;
 
   /// Human-readable name for parent-facing UI.
@@ -48,7 +48,7 @@ enum ProviderType {
     tidal => const Color(0xFF000000),
   };
 
-  /// Parse from DB/YAML string. Throws on unknown values.
+  /// Parse from a DB or catalog string. Throws on unknown values.
   static ProviderType fromString(String s) => values.firstWhere(
     (e) => e.value == s,
     orElse: () => throw ArgumentError('Unknown provider: $s'),

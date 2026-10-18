@@ -36,7 +36,7 @@ class CuratedSeriesCard extends ConsumerWidget {
     final existingUris = ref.watch(existingItemUrisProvider);
     final providerAlbums = series.albumsForProvider(provider);
 
-    // Curated cover_url from YAML takes priority. Per-card cover fetch
+    // Curated cover_url from the catalog takes priority. Per-card cover fetch
     // is the fallback: each card independently resolves its first album's
     // artwork URL so covers appear progressively.
     final String? coverUrl;

@@ -35,7 +35,7 @@ void main() {
         isTrue,
         reason:
             'bibi_blocksberg is a flagship — its absence '
-            'means the YAML is corrupted',
+            'means the catalog is corrupted',
       );
     });
 

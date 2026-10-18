@@ -432,7 +432,7 @@ void main() {
 
     group('preserves Nils Holgersson / Biene Maja nested parens — '
         'parseEpisodeNumber does NOT recognize this format (the catalog '
-        'YAML supplies the episode number out-of-band), and '
+        'supplies the episode number out-of-band), and '
         'cleanEpisodeTitle leaves the parens alone because they are '
         'series context, not Hörspiel boilerplate', () {
       final cases = <(String, int?, String)>[
@@ -460,7 +460,7 @@ void main() {
           // currently does NOT recognize this — the noMatch tests
           // earlier in the file confirm that bare "1: ..." prefixes
           // and similar return null. The number `$num` here comes
-          // from the catalog YAML's explicit episode_number column,
+          // from the catalog's explicit episode number,
           // not from parsing the title.
           //
           // If a future change teaches the parser this format, this

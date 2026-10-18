@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/ard/ard_models.dart';
 import 'package:lauschi/core/ard/featured_shows.dart';
@@ -15,6 +17,26 @@ ArdItem _item({
 );
 
 void main() {
+  group('FeaturedShowsConfig.fromJson', () {
+    test('reads the show ids in order and ignores the names', () {
+      const json = '''
+{"featured_shows": [
+  {"id": "8758580", "name": "Spielraum"},
+  {"id": "73442282", "name": "Mikado Hörspiele (NDR)"}
+]}
+''';
+      final config = FeaturedShowsConfig.fromJson(json);
+      expect(config.shows.map((s) => s.id), ['8758580', '73442282']);
+    });
+
+    test('the bundled list parses', () {
+      final config = FeaturedShowsConfig.fromJson(
+        File('assets/catalog/ard_featured_shows.json').readAsStringSync(),
+      );
+      expect(config.shows, isNotEmpty);
+    });
+  });
+
   group('groupFeaturedItems', () {
     test('distinct episodes with the same title stay separate', () {
       // A daily show whose episodes all carry the same title must not
