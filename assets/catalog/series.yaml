@@ -78036,3 +78036,135 @@ series:
         title: '02: Die geheime Hütte'
         release_date: '2026-07-24'
         barcode: '4071498450680'
+- id: dragons_die_9_welten
+  title: Dragons - Die 9 Welten
+  episode_pattern: ^[Ff]olge\s+(\d+)
+  providers:
+    apple_music:
+      artist_ids:
+      - '1686560256'
+      albums:
+      - id: '1686561026'
+        episode: 1
+        title: 'Folge 1: Projekt Ikaris - Teil 1+2 (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2023-05-26'
+        barcode: '4029759184355'
+      - id: '1687381828'
+        episode: 2
+        title: 'Folge 2: Eine neue Welt / Der Drachenclub (Das Original-Hörspiel zur TV Serie)'
+        release_date: '2023-06-09'
+        barcode: '4029759184362'
+      - id: '1688163546'
+        episode: 3
+        title: 'Folge 3: Tarnfeder / Der Erdspalter (Das Original Hörspiel zur TV Serie)'
+        release_date: '2023-06-23'
+        barcode: '4029759184379'
+      - id: '1695171948'
+        episode: 4
+        title: 'Folge 4: Das Seifenblasenhorn / Der Magmaspucker (Das Original-Hörspiel zur TV Serie)'
+        release_date: '2023-07-14'
+        barcode: '4029759184386'
+      - id: '1698097975'
+        episode: 5
+        title: 'Folge 5: Die untoten Drachen / Der Waldbrand (Das Original-Hörspiel zur TV Serie)'
+        release_date: '2023-08-04'
+        barcode: '4029759184393'
+      - id: '1698771438'
+        episode: 6
+        title: 'Folge 6: Die Spinnendrachen / Die Spur der Blitze - Teil 1&2 (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2023-08-25'
+        barcode: '4029759184409'
+      - id: '1705699771'
+        episode: 7
+        title: 'Folge 7: Der Feuerdrache / Fliegen! Nicht fallen! (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2023-09-15'
+        barcode: '4029759192145'
+      - id: '1705700809'
+        episode: 8
+        title: 'Folge 8: Der Schwarm / (K)Ein Fall für Doktor D [Das Original-Hörspiel zur TV-Serie]'
+        release_date: '2023-10-27'
+        barcode: '4029759184423'
+      - id: '1705702769'
+        episode: 9
+        title: 'Folge 9: Es fliegt in der Familie / Der Netzmeister (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2023-11-24'
+        barcode: '4029759184430'
+      - id: '1721528851'
+        episode: 10
+        title: 'Folge 10: Der Himmelsbrenner / Die Eiswelt (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2024-01-26'
+        barcode: '4029759192671'
+      - id: '1721581135'
+        episode: 11
+        title: 'Folge 11: Der Eissturm / Der geheimnisvolle Schneeverest (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2024-03-08'
+        barcode: '4029759192688'
+      - id: '1731139322'
+        episode: 12
+        title: 'Folge 12: Die Drachenflöte / Die Familie - Teil 1+2 (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2024-04-19'
+        barcode: '4029759192701'
+    spotify:
+      artist_ids:
+      - 29cfLkZSDejeI0vowGYWvg
+      albums:
+      - id: 5rzimhP7Hy1BNsr9pyWsme
+        episode: 1
+        title: 'Folge 1: Projekt Ikaris - Teil 1+2 (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2023-05-26'
+        barcode: '4029759184355'
+      - id: 0HWvolhrFWMQRk1tkinod5
+        episode: 2
+        title: 'Folge 2: Eine neue Welt / Der Drachenclub (Das Original-Hörspiel zur TV Serie)'
+        release_date: '2023-06-09'
+        barcode: '4029759184362'
+      - id: 4A7pbGL9RTVxjjOsTYGkic
+        episode: 3
+        title: 'Folge 3: Tarnfeder / Der Erdspalter (Das Original Hörspiel zur TV Serie)'
+        release_date: '2023-06-23'
+        barcode: '4029759184379'
+      - id: 6hzuVp6ZU9EBHNbVAWrcpA
+        episode: 4
+        title: 'Folge 4: Das Seifenblasenhorn / Der Magmaspucker (Das Original-Hörspiel zur TV Serie)'
+        release_date: '2023-07-14'
+        barcode: '4029759184386'
+      - id: 2AXCcp6O01VMKBiZkWwHrs
+        episode: 5
+        title: 'Folge 5: Die untoten Drachen / Der Waldbrand (Das Original-Hörspiel zur TV Serie)'
+        release_date: '2023-08-04'
+        barcode: '4029759184393'
+      - id: 7gWStRPZ3EGbVG5P9piIKt
+        episode: 6
+        title: 'Folge 6: Die Spinnendrachen / Die Spur der Blitze - Teil 1&2 (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2023-08-25'
+        barcode: '4029759184409'
+      - id: 1YAKixby8eTL67ZefJTBDo
+        episode: 7
+        title: 'Folge 7: Der Feuerdrache / Fliegen! Nicht fallen! (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2023-09-15'
+        barcode: '4029759192145'
+      - id: 7FoCf8wwFocmaG9dwEQqvB
+        episode: 8
+        title: 'Folge 8: Der Schwarm / (K)Ein Fall für Doktor D [Das Original-Hörspiel zur TV-Serie]'
+        release_date: '2023-10-27'
+        barcode: '4029759184423'
+      - id: 6ELfBlJviY08NngL79w5RZ
+        episode: 9
+        title: 'Folge 9: Es fliegt in der Familie / Der Netzmeister (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2023-11-24'
+        barcode: '4029759184430'
+      - id: 417rEvU9YjN04ENfB2Sb6a
+        episode: 10
+        title: 'Folge 10: Der Himmelsbrenner / Die Eiswelt (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2024-01-26'
+        barcode: '4029759192671'
+      - id: 1NVLtVBloMDKP8lNDjgX9d
+        episode: 11
+        title: 'Folge 11: Der Eissturm / Der geheimnisvolle Schneeverest (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2024-03-08'
+        barcode: '4029759192688'
+      - id: 49oS3QWgHAM4JNTqmXWz7m
+        episode: 12
+        title: 'Folge 12: Die Drachenflöte / Die Familie - Teil 1+2 (Das Original-Hörspiel zur TV-Serie)'
+        release_date: '2024-04-19'
+        barcode: '4029759192701'
