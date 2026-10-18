@@ -276,3 +276,12 @@ class AppleMusicProvider(CachedHttpProvider):
             )
             for a in raw
         ]
+
+    def albums_by_barcode(self, barcode: str) -> list[Album]:
+        def fetch():
+            return self._get("albums", **{"filter[upc]": barcode}).get("data", [])
+
+        return [
+            self.raw_to_album(raw)
+            for raw in self._cached(f"am_albums_by_barcode:{barcode}", fetch)
+        ]

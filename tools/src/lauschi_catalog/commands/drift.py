@@ -17,6 +17,7 @@ from lauschi_catalog.catalog.drift_ops import (
     DriftSeverity,
     apply_cosmetic_titles,
     detect_drift,
+    record_barcodes,
 )
 from lauschi_catalog.catalog.loader import load_catalog
 from lauschi_catalog.catalog.paths import repo_root
@@ -52,12 +53,19 @@ _STYLES = {
     is_flag=True,
     help="Adopt provider wording for cosmetic-only title changes",
 )
+@click.option(
+    "--record-barcodes",
+    "record",
+    is_flag=True,
+    help="Write the live barcode into curation records that have none",
+)
 @click.option("--no-report", is_flag=True, help="Skip writing the JSON report")
 def drift(
     provider: str,
     series: str | None,
     include_excluded: bool,
     fix_titles: bool,
+    record: bool,
     no_report: bool,
 ) -> None:
     """Check every stored album against its live provider record.
@@ -146,6 +154,20 @@ def drift(
         )
         console.print("[dim]Run catalog-apply to push them into series.yaml[/dim]")
 
+    if record:
+        recorded = record_barcodes(result)
+        console.print(
+            f"[green]Recorded {recorded} barcodes in the curations[/green]"
+            if recorded
+            else "[dim]No barcodes to record[/dim]"
+        )
+        console.print("[dim]Run catalog-apply to push them into series.yaml[/dim]")
+    elif result.barcodes:
+        console.print(
+            f"[dim]{len(result.barcodes)} albums have no barcode recorded yet "
+            f"(--record-barcodes)[/dim]"
+        )
+
     if not no_report:
         stamp = datetime.now(tz=UTC).strftime("%Y%m%d-%H%M%S")
         path = Path(repo_root()) / "logs" / "catalog" / f"drift-{stamp}.json"
@@ -169,6 +191,7 @@ def drift(
                             "live_title": f.live_title,
                             "stored_episode": f.stored_episode,
                             "live_episode": f.live_episode,
+                            "moved_to": f.moved_to.id if f.moved_to else None,
                         }
                         for f in result.findings
                     ],

@@ -312,3 +312,24 @@ class SpotifyProvider(CachedHttpProvider):
             )
             for a in raw
         ]
+
+    def albums_by_barcode(self, barcode: str) -> list[Album]:
+        def fetch():
+            data = self._get(
+                "search", q=f"upc:{barcode}", type="album", market="DE", limit=5
+            )
+            return data.get("albums", {}).get("items", [])
+
+        return [
+            Album(
+                id=a["id"],
+                name=a["name"],
+                provider="spotify",
+                release_date=a.get("release_date", ""),
+                total_tracks=a.get("total_tracks", 0),
+                artists=_artists(a),
+                album_type=_album_type(a),
+                image_url=_pick_image(a.get("images", [])),
+            )
+            for a in self._cached(f"albums_by_barcode:{barcode}", fetch)
+        ]

@@ -129,6 +129,11 @@ class CatalogProvider(ABC):
     def search_albums(self, query: str, limit: int = 10) -> list[Album]:
         """Search for albums by query."""
 
+    @abstractmethod
+    def albums_by_barcode(self, barcode: str) -> list[Album]:
+        """The albums the store files under a release's barcode (UPC or
+        EAN), usually one. Finds the id a release moved to."""
+
 
 # Sentinel cached under the per-album key when the provider answers 404
 # (or omits the id from a batch response). diskcache must serialize the

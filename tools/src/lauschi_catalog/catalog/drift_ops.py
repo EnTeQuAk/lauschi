@@ -16,12 +16,17 @@ Drift classes this module detects, per album:
   warning   probably the same content, but something moved
   info      cosmetic metadata touch-up, safe to adopt
 
-The hard part is separating `critical` from `info`. We store only title
-and release date per album, so the decisive signal is the episode
-number: an ID whose live title yields a different episode number than
-the one we recorded has moved to another episode. For content without
-episode numbers (films, music, bonus items) we fall back to normalised
-title similarity, corroborated by the release year.
+The hard part is separating `critical` from `info`. The surest signal is
+the barcode: an ID whose live record carries another barcode than the one
+we recorded holds another release. Where we have no barcode yet, the
+decisive signal is the episode number: an ID whose live title yields a
+different episode number than the one we recorded has moved to another
+episode. For content without episode numbers (films, music, bonus items)
+we fall back to normalised title similarity, corroborated by the release
+year.
+
+A gone album is looked up by its barcode, which names the ID the store
+moved the release to, if it did.
 
 Pure classification lives here so it can be tested without the network;
 the batched fetching is in `detect_drift`.
@@ -35,6 +40,7 @@ from datetime import date
 from difflib import SequenceMatcher
 from enum import Enum
 
+from lauschi_catalog.catalog.io import safe_write_json
 from lauschi_catalog.catalog.matcher import extract_episode
 from lauschi_catalog.catalog.models import CatalogEntry
 from lauschi_catalog.catalog.paths import curation_path
@@ -121,6 +127,8 @@ class DriftFinding:
     series_id: str = ""
     stored_episode: int | None = None
     live_episode: int | None = None
+    #: the album the store files the recorded barcode under now, for a gone ID
+    moved_to: Album | None = None
 
     @property
     def is_cosmetic(self) -> bool:
@@ -150,6 +158,8 @@ def classify_album_drift(
     live_title: str | None,
     live_release: str | None,
     pattern: str | list[str] | None,
+    stored_barcode: str = "",
+    live_barcode: str = "",
     series_id: str = "",
     similarity_floor: float = SIMILARITY_FLOOR,
     today: date | None = None,
@@ -188,6 +198,14 @@ def classify_album_drift(
 
     live_episode = extract_episode(pattern, live_title)
     titles_equal = normalize_title(stored_title) == normalize_title(live_title)
+
+    # Decisive: the ID now carries another release.
+    if stored_barcode and live_barcode and stored_barcode != live_barcode:
+        return finding(
+            DriftSeverity.critical,
+            f"barcode changed: recorded {stored_barcode}, live {live_barcode}",
+            live_episode,
+        )
 
     # Decisive: the ID now carries a different episode of the same series.
     if (
@@ -276,6 +294,9 @@ class DriftResult:
     #: IDs whose lookup failed. Absence from the response proves nothing
     #: for these, so they are never reported as gone.
     unverified: list[str] = field(default_factory=list)
+    #: live barcodes of albums whose curation record has none yet, keyed
+    #: (series_id, provider, album_id); `record_barcodes` writes them
+    barcodes: dict[tuple[str, str, str], str] = field(default_factory=dict)
 
     def by_severity(self, severity: DriftSeverity) -> list[DriftFinding]:
         return [f for f in self.findings if f.severity is severity]
@@ -420,6 +441,11 @@ def detect_drift(
                 # deletion report.
                 continue
             hit = live.get(album_id)
+            stored_barcode = str(record.get("barcode") or "")
+            if hit is not None and hit.barcode and not stored_barcode:
+                provider_result.barcodes[(entry.id, provider.name, album_id)] = (
+                    hit.barcode
+                )
             finding = classify_album_drift(
                 album_id=album_id,
                 provider=provider.name,
@@ -429,10 +455,27 @@ def detect_drift(
                 live_title=hit.name if hit else None,
                 live_release=hit.release_date if hit else None,
                 pattern=entry.effective_pattern(provider.name),
+                stored_barcode=stored_barcode,
+                live_barcode=hit.barcode if hit else "",
                 series_id=entry.id,
             )
-            if finding is not None:
-                provider_result.findings.append(finding)
+            if finding is None:
+                continue
+            if finding.severity is DriftSeverity.gone and stored_barcode:
+                finding.moved_to = next(
+                    (
+                        a
+                        for a in provider.albums_by_barcode(stored_barcode)
+                        if a.id != album_id
+                    ),
+                    None,
+                )
+                if finding.moved_to is not None:
+                    finding.detail += (
+                        f"; its barcode is now album {finding.moved_to.id} "
+                        f"({finding.moved_to.name!r})"
+                    )
+            provider_result.findings.append(finding)
         return provider_result
 
     per_provider = map_providers(sweep, providers)
@@ -445,6 +488,7 @@ def detect_drift(
         result.unverified.extend(provider_result.unverified)
         result.checked.update(provider_result.checked)
         result.findings.extend(provider_result.findings)
+        result.barcodes.update(provider_result.barcodes)
 
     result.findings.sort(
         key=lambda f: (
@@ -463,8 +507,6 @@ def apply_cosmetic_titles(result: DriftResult) -> int:
     match, so this is punctuation and store-suffix hygiene, never a
     content decision. Returns the number of records updated.
     """
-    from lauschi_catalog.catalog.io import safe_write_json
-
     by_series: dict[str, list[DriftFinding]] = {}
     for f in result.findings:
         if f.is_cosmetic and f.live_title:
@@ -483,6 +525,35 @@ def apply_cosmetic_titles(result: DriftResult) -> int:
             live_title = wanted.get(key)
             if live_title and album.get("title") != live_title:
                 album["title"] = live_title
+                touched = True
+                updated += 1
+        if touched:
+            safe_write_json(path, data)
+    return updated
+
+
+def record_barcodes(result: DriftResult) -> int:
+    """Write the live barcode into each curation record that has none.
+
+    The barcode is the provider's, like the title `apply_cosmetic_titles`
+    adopts, so this is no content decision. Returns the number of records
+    updated.
+    """
+    by_series: dict[str, dict[tuple[str, str], str]] = {}
+    for (series_id, provider, album_id), barcode in result.barcodes.items():
+        by_series.setdefault(series_id, {})[(provider, album_id)] = barcode
+
+    updated = 0
+    for series_id, wanted in by_series.items():
+        path = curation_path(series_id)
+        if not path.exists():
+            continue
+        data = json.loads(path.read_text())
+        touched = False
+        for album in data.get("albums", []):
+            barcode = wanted.get((album.get("provider"), album.get("album_id")))
+            if barcode and not album.get("barcode"):
+                album["barcode"] = barcode
                 touched = True
                 updated += 1
         if touched:

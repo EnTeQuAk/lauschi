@@ -189,10 +189,10 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
 
 5. **Apply** (`apply`): Writes approved curations into `series.yaml`: album
    IDs with episode numbers and barcodes, patterns, artist IDs, and audited
-   series facts only. Title and aliases stay as they are, you edit them in the web UI.
-   A pattern or content type edited there is saved in the curation as
-   well, so apply does not write the older one back. An edit to
-   series.yaml by hand needs the same change in the curation.
+   series facts only. Title and aliases stay as they are, you edit them in
+   the web UI. A pattern or content type edited there is saved in the
+   curation as well, so apply does not write the older one back. An edit
+   to series.yaml by hand needs the same change in the curation.
    Refuses curations that are incomplete, escalated, stale (curated
    after the last audit), or whose album loss crosses a guard threshold.
    `--force` overrides.
@@ -203,7 +203,11 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
    L5 (artist discography match rate).
 
 7. **Drift** (`drift`): Re-checks every shipped album against its live
-   provider record and reports gone or changed albums.
+   provider record and reports gone or changed albums. An id whose live
+   barcode differs from the recorded one holds another release, and a gone
+   id is looked up by its barcode, which names the id the store moved the
+   release to. `--record-barcodes` writes the live barcode into curation
+   records that have none, and apply then ships it.
 
 Escalations, flags and lint findings are resolved by hand: `catalog-review` lists
 what needs attention, `catalog-edit` and `catalog-splits` make the changes,

@@ -83,3 +83,32 @@ def test_apple_music_keeps_the_barcode_on_every_record(
         apple.search_albums("Folge 1")[0],
     ):
         assert album.barcode == "190295911126"
+
+
+def test_both_stores_find_a_release_by_its_barcode(
+    spotify: SpotifyProvider,
+    apple: AppleMusicProvider,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    asked: list[tuple[str, dict]] = []
+
+    def spotify_get(path: str, **params: object) -> dict:
+        asked.append((path, params))
+        return {"albums": {"items": [_spotify_raw()]}}
+
+    def apple_get(path: str, **params: object) -> dict:
+        asked.append((path, params))
+        raw = {"id": "a1", "attributes": {"name": "Folge 1", "upc": "4029759160373"}}
+        return {"data": [raw]}
+
+    monkeypatch.setattr(spotify, "_get", spotify_get)
+    monkeypatch.setattr(apple, "_get", apple_get)
+
+    assert [a.id for a in spotify.albums_by_barcode("4029759160373")] == ["s1"]
+    assert [a.id for a in apple.albums_by_barcode("4029759160373")] == ["a1"]
+    assert [
+        (path, params.get("q") or params.get("filter[upc]")) for path, params in asked
+    ] == [
+        ("search", "upc:4029759160373"),
+        ("albums", "4029759160373"),
+    ]
