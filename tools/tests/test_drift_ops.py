@@ -79,6 +79,25 @@ def test_episode_number_disagreement_is_critical():
     assert "61" in finding.detail and "59" in finding.detail
 
 
+def test_a_number_taken_from_the_twin_is_no_drift_while_the_title_holds():
+    """Apple Music titles Spirit's 'Ein Pferd für Turo' Folge 2, its Spotify
+    twin is Folge 3, and the catalog ships it as 3. The title did not move,
+    so the id still holds what was curated."""
+    assert (
+        classify_album_drift(
+            album_id="1434409926",
+            provider="apple_music",
+            stored_title="Folge 2: Ein Pferd für Turo / Überraschung!",
+            stored_episode=3,
+            stored_release="2018-09-14",
+            live_title="Folge 2: Ein Pferd für Turo / Überraschung!",
+            live_release="2018-09-14",
+            pattern=FOLGE,
+        )
+        is None
+    )
+
+
 def test_matching_episode_number_with_retitled_subtitle_is_warning():
     """Same episode, publisher touched the subtitle: worth surfacing,
     not worth alarming."""

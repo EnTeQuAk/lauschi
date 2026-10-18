@@ -20,8 +20,9 @@ The hard part is separating `critical` from `info`. The surest signal is
 the barcode: an ID whose live record carries another barcode than the one
 we recorded holds another release. Where we have no barcode yet, the
 decisive signal is the episode number: an ID whose live title yields a
-different episode number than the one we recorded has moved to another
-episode. For content without episode numbers (films, music, bonus items)
+different episode number than the title we recorded has moved to another
+episode. The recorded number itself can come from the twin on the other
+store, so it counts only where the recorded title has none. For content without episode numbers (films, music, bonus items)
 we fall back to normalised title similarity, corroborated by the release
 year.
 
@@ -208,14 +209,19 @@ def classify_album_drift(
         )
 
     # Decisive: the ID now carries a different episode of the same series.
+    # The number in the recorded title is what moved, not the recorded
+    # number, which can come from the twin on the other store.
+    recorded_episode = extract_episode(pattern, stored_title)
+    if recorded_episode is None:
+        recorded_episode = stored_episode
     if (
-        stored_episode is not None
+        recorded_episode is not None
         and live_episode is not None
-        and stored_episode != live_episode
+        and recorded_episode != live_episode
     ):
         return finding(
             DriftSeverity.critical,
-            f"episode number moved: recorded {stored_episode}, "
+            f"episode number moved: recorded {recorded_episode}, "
             f"live title says {live_episode}",
             live_episode,
         )
