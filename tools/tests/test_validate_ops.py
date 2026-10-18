@@ -205,9 +205,9 @@ def test_l1_clean_catalog_has_no_duplicate_issues():
 # it by silently repairing the pattern before use; the app could not match
 # it at all.
 #
-# The check must look at the LOADED value, not the file text: the
-# double-quoted "^Senta's Welt - Folge (\\d+):" looks identical in the
-# file but YAML collapses it to a single backslash, and that one is fine.
+# The check must look at the LOADED value, not the file text: series.json
+# writes a single backslash as two, so a good pattern looks double-escaped
+# in the file.
 
 
 def test_l1_flags_double_escaped_shortcut():

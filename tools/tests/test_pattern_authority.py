@@ -3,7 +3,7 @@ and a revision may not lose numbers.
 
 The metadata agent re-derived Wieso? Weshalb? Warum?'s pattern with a
 closing parenthesis the provider truncates away (2026-09-06), so the
-fixed pattern in series.yaml was overwritten on apply and four
+fixed pattern in the catalog was overwritten on apply and four
 title-borne numbers went missing again.
 """
 

@@ -46,7 +46,7 @@ def deleted_log_path() -> Path:
 
 
 def reference_map_path() -> Path:
-    return repo_root() / _CATALOG_SUBDIR / "reference_map.yaml"
+    return repo_root() / _CATALOG_SUBDIR / "reference_map.json"
 
 
 def cover_cache_dir() -> Path:

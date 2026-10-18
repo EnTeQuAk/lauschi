@@ -39,7 +39,7 @@ def _series(sid: str = "any") -> CuratedSeries:
 
 def test_lock_overrides_when_canonical_differs():
     """The motivating bug: model produced 'benjamin_bluechen' for
-    series.yaml entry 'benjamin_bluemchen'. Override silently fails
+    catalog entry 'benjamin_bluemchen'. Override silently fails
     catalog round-tripping; we want a loud override instead."""
     s = _series("benjamin_bluechen")
     lock_series_id(s, "benjamin_bluemchen")

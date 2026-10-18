@@ -287,22 +287,18 @@ def test_an_override_with_lines_on_a_main_series_gives_it_exactly_those() -> Non
     ]
 
 
-def test_overrides_read_from_the_yaml_file(tmp_path: Path) -> None:
-    path = tmp_path / "reference_map.yaml"
+def test_overrides_read_from_the_file(tmp_path: Path) -> None:
+    path = tmp_path / "reference_map.json"
     path.write_text(
-        "overrides:\n"
-        "  bobo: null\n"
-        "  lillis_abenteuer: 30\n"
-        "  hexe_lilli_musik:\n"
-        "    series: 10\n"
-        "    lines: [Musik]\n"
+        '{"overrides": {"bobo": null, "lillis_abenteuer": 30, '
+        '"hexe_lilli_musik": {"series": 10, "lines": ["Musik"]}}}\n'
     )
     assert load_overrides(path) == {
         "bobo": None,
         "lillis_abenteuer": {"series": 30},
         "hexe_lilli_musik": {"series": 10, "lines": ["Musik"]},
     }
-    assert load_overrides(tmp_path / "missing.yaml") == {}
+    assert load_overrides(tmp_path / "missing.json") == {}
 
 
 def test_same_story_folds_spelling_and_keeps_parts_apart() -> None:

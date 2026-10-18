@@ -3,7 +3,7 @@
 Luna produced one on Bibi Blocksberg (2026-08-31): apple_music
 1143565835 "Folge 75: Die neue Lehrerin", an id that does not exist on
 Apple Music, alongside the 496 albums it was given. Nothing dropped it,
-and `apply` would have shipped it into series.yaml.
+and `apply` would have shipped it into the catalog.
 """
 
 import json

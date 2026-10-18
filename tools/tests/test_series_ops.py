@@ -206,7 +206,7 @@ class TestAddSeriesEntry:
         assert "id is required" in result.error
 
 
-class TestRemoveSeriesFromYaml:
+class TestRemoveSeriesEntry:
     def test_remove_existing(self, catalog_env):
         assert series_ops.remove_series_entry("tkkg")
         data = load_raw(catalog_env["series_json"])

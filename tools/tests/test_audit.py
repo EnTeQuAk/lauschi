@@ -9,7 +9,6 @@ threshold.
 import json
 
 import pytest
-import ruamel.yaml
 
 from lauschi_catalog.catalog.audit_ops import (
     AuditFactUpdate,
@@ -307,8 +306,7 @@ class TestApplyAuditStatus:
             )
         finally:
             monkeypatch.undo()
-        yaml = ruamel.yaml.YAML()
-        data = yaml.load(path)
+        data = json.loads(path.read_text())
         return action, data
 
     def test_clean_approval(self, tmp_path):
@@ -418,8 +416,7 @@ class TestApplyAuditOverrides:
         finally:
             monkeypatch.undo()
 
-        yaml = ruamel.yaml.YAML()
-        data = yaml.load(path)
+        data = json.loads(path.read_text())
         overrides = data["review"]["overrides"]
         assert len(overrides) == 1
         assert overrides[0]["audited_by"] == "test-model"
@@ -462,8 +459,7 @@ class TestApplyAuditOverrides:
         finally:
             monkeypatch.undo()
 
-        yaml = ruamel.yaml.YAML()
-        data = yaml.load(path)
+        data = json.loads(path.read_text())
         overrides = {o["album_id"]: o for o in data["review"]["overrides"]}
         assert "old_album" in overrides
         assert "a2" in overrides
@@ -509,8 +505,7 @@ class TestApplyAuditOverrides:
         finally:
             monkeypatch.undo()
 
-        yaml = ruamel.yaml.YAML()
-        data = yaml.load(path)
+        data = json.loads(path.read_text())
         overrides = data["review"]["overrides"]
         override_ids = {o["album_id"] for o in overrides}
         assert "a2" in override_ids
@@ -651,8 +646,7 @@ class TestApplyAuditMultipleFactUpdates:
         finally:
             monkeypatch.undo()
 
-        yaml = ruamel.yaml.YAML()
-        return yaml.load(path)
+        return json.loads(path.read_text())
 
     def test_all_fact_updates_applied_not_just_last(self, tmp_path):
         updates = [
@@ -758,8 +752,7 @@ class TestApplyAuditHardGate:
             )
         finally:
             monkeypatch.undo()
-        yaml = ruamel.yaml.YAML()
-        data = yaml.load(path)
+        data = json.loads(path.read_text())
         return action, data
 
     def test_critical_regression_escalates_despite_approval(self, tmp_path):

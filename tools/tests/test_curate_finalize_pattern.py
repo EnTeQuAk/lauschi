@@ -31,7 +31,7 @@ def test_finalize_result_has_no_proposed_pattern_field():
 
 
 def test_curated_series_still_validates_pattern():
-    """The final curation still validates the pattern that ships to YAML."""
+    """The final curation still validates the pattern that ships to the catalog."""
     with pytest.raises(Exception):
         CuratedSeries(
             id="s",

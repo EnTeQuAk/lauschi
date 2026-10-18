@@ -237,7 +237,7 @@ in the last eight weeks) and albums a person placed with `catalog-edit`
 are set aside before the model sees them.
 
 Where the names differ, a member owns a line its titles do not show, or
-the index has nothing for an entry, `assets/catalog/reference_map.yaml`
+the index has nothing for an entry, `assets/catalog/reference_map.json`
 says so (format in the module's docstring). The file is tooling data and
 does not ship with the app.
 
@@ -370,7 +370,7 @@ lib/
     └── tiles/               # Kid home screen, tile detail, card widgets
 
 tools/                       # lauschi-catalog CLI + web UI (Python package)
-├── pyproject.toml           # click, ruamel.yaml, pydantic-ai-slim, logfire, diskcache; extras: ai, web
+├── pyproject.toml           # click, pydantic-ai-slim, logfire, diskcache; extras: ai, web
 ├── src/lauschi_catalog/
 │   ├── cli.py               # Click entry point
 │   ├── catalog/             # Domain ops (curate_ops, audit_ops, apply_ops, lint_ops, ...),

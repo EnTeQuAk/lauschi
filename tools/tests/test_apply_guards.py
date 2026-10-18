@@ -1,7 +1,7 @@
 """Apply must be atomic per entry and each guard its own flag.
 
 One flag used to disable five unrelated guards, and a tripped loss
-guard still let pattern, artist IDs and facts through, so series.yaml
+guard still let pattern, artist IDs and facts through, so the catalog
 could end up with the new episode pattern over the old album list.
 """
 
@@ -72,7 +72,7 @@ def _dump(entry: dict) -> dict:
 class TestLossGuardAtomicity:
     def test_tripped_loss_guard_leaves_the_whole_entry_untouched(self):
         """The old code skipped the provider's albums but still wrote
-        pattern, content_type, artist IDs and facts: yaml could end up
+        pattern, content_type, artist IDs and facts: the catalog could end up
         with a new pattern over the old album list."""
         catalog_data = {"series": [_catalog_entry(albums=10, pattern=r"Old (\d+)")]}
         curation = {

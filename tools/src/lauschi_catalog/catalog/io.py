@@ -3,32 +3,19 @@
 All writes use temp-file + os.replace for atomicity. Catalog writes
 acquire a FileLock on the series lock file to prevent concurrent
 writes from CLI and web processes. The catalog files (series.json,
-deleted.json) are JSON in the layout of `dump_catalog`, and
-reference_map.yaml is YAML.
+deleted.json, reference_map.json) are JSON in the layout of
+`dump_catalog`.
 """
 
 import json
 import os
 from collections.abc import Iterator
 from contextlib import contextmanager
-from io import StringIO
 from pathlib import Path
 
 from filelock import FileLock
-from ruamel.yaml import YAML
 
 from lauschi_catalog.catalog import paths
-
-
-def yaml_instance() -> YAML:
-    """Return a consistently configured ruamel.yaml instance."""
-    y = YAML()
-    y.preserve_quotes = True  # type: ignore[assignment]
-    y.width = 200
-    return y
-
-
-_yaml = yaml_instance()
 
 
 def safe_write_text(path: Path, text: str) -> None:
@@ -73,13 +60,6 @@ def dump_catalog(data: object) -> str:
     with every dict or list of plain values (an album, a list of aliases)
     on one line, so a changed album is a one-line diff."""
     return _dump(data, 0) + "\n"
-
-
-def safe_write_yaml(path: Path, data: object) -> None:
-    """Write YAML atomically via ruamel.yaml, preserving comments."""
-    buf = StringIO()
-    _yaml.dump(data, buf)
-    safe_write_text(path, buf.getvalue())
 
 
 def write_catalog(path: Path, data: object) -> None:

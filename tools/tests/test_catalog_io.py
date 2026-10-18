@@ -20,17 +20,6 @@ def test_safe_write_json(tmp_path):
     assert loaded == data
 
 
-def test_safe_write_yaml(tmp_path):
-    from ruamel.yaml import YAML
-
-    path = tmp_path / "test.yaml"
-    data = {"series": [{"id": "test", "title": "Test"}]}
-    io_mod.safe_write_yaml(path, data)
-    yaml = YAML()
-    loaded = yaml.load(path)
-    assert loaded["series"][0]["id"] == "test"
-
-
 def test_safe_write_text_is_atomic(tmp_path):
     """Verify that safe_write_text overwrites existing content cleanly."""
     path = tmp_path / "test.txt"

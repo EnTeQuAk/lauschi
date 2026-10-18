@@ -15,14 +15,17 @@ found the index series by its name, so the QA still checks it. An entry
 left with no line is not compared.
 
 Where the names differ, or a line belongs to a member its titles do not
-show, ``assets/catalog/reference_map.yaml`` says so per entry::
+show, ``assets/catalog/reference_map.json`` says so per entry: null when
+the index has nothing for it, an index series id to compare it with, or
+that series with the lines that are the entry's own::
 
-    overrides:
-      bobo_siebenschlaefer: null      # the index has nothing for it
-      lillis_abenteuer: 30            # compare with index series 30
-      hexe_lilli_musik:               # these lines of series 10 are its own
-        series: 10
-        lines: [Musik]
+    {
+      "overrides": {
+        "bobo_siebenschlaefer": null,
+        "lillis_abenteuer": 30,
+        "hexe_lilli_musik": {"series": 10, "lines": ["Musik"]}
+      }
+    }
 
 An override on a main series holds for its whole family, unless a member
 has one of its own.
@@ -30,6 +33,7 @@ has one of its own.
 
 import difflib
 import functools
+import json
 import re
 import unicodedata
 from collections.abc import Callable, Mapping
@@ -38,14 +42,13 @@ from datetime import date, timedelta
 from pathlib import Path
 from typing import Literal, TypedDict
 
-from lauschi_catalog.catalog import io
 from lauschi_catalog.catalog.models import CatalogEntry
 from lauschi_catalog.catalog.partition import Family, families
 from lauschi_catalog.catalog.paths import reference_map_path
 from lauschi_catalog.reference import ReferenceIndex, ReferenceLine, ReferenceSeries
 
 #: name: by the index series' name. prefix: the entry's name starts with
-#: it. map: by reference_map.yaml.
+#: it. map: by reference_map.json.
 #: no_line: the family maps, but no line fits this member. unmapped: no
 #: index series has the family's name. not_in_index: the override file
 #: says the index holds nothing for it.
@@ -135,7 +138,7 @@ def load_overrides(path: Path | None = None) -> dict[str, Override | None]:
     target = path if path is not None else reference_map_path()
     if not target.exists():
         return {}
-    data = io.yaml_instance().load(target) or {}
+    data = json.loads(target.read_text(encoding="utf-8")) or {}
     overrides: dict[str, Override | None] = {}
     for entry_id, value in (data.get("overrides") or {}).items():
         if value is None:

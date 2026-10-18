@@ -1,7 +1,7 @@
 """A series without facts curates with empty facts, not with None.
 
 The H2O Staffel 3 child (2026-09-06), freshly split with
-`series_facts: {}` and no facts in series.yaml, crashed the curate
+`series_facts: {}` and no facts in the catalog, crashed the curate
 flow: merge_facts returns None when nothing survives, and the finalize
 step read `.era_boundaries` off it.
 """

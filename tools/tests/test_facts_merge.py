@@ -1,9 +1,9 @@
 """Pin facts carry-forward across re-curations.
 
-Re-curation only loaded existing_facts from series.yaml; the facts in
+Re-curation only loaded existing_facts from the catalog; the facts in
 the prior curation JSON were silently discarded, so every re-curation
 threw away discovered era_boundaries/known_gaps/sub_series unless they
-had already been applied to series.yaml. merge_facts +
+had already been applied to the catalog. merge_facts +
 facts_from_curation carry them forward, deduped by natural key (era
 label, gap number, sub_series label), first source wins.
 """

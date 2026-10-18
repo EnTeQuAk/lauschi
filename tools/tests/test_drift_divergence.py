@@ -1,6 +1,6 @@
-"""Yaml/curation divergence must be visible to the drift sweep.
+"""Catalog/curation divergence must be visible to the drift sweep.
 
-A partial divergence (series.yaml configures 8 albums, the curation
+A partial divergence (the catalog ships 8 albums, the curation
 includes only 5) used to be invisible: an unresolved-series warning
 fired only when the curation had zero records, so the remaining catalog
 albums were silently never checked.
