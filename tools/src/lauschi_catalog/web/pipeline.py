@@ -1,12 +1,12 @@
 """Pipeline state computation for catalog series.
 
 Derives the current pipeline step for a series by inspecting
-curation JSON and series.yaml. Steps are ordered:
+curation JSON and series.json. Steps are ordered:
 
-1. Discover  (artist IDs present in series.yaml)
+1. Discover  (artist IDs present in series.json)
 2. Curate    (curation JSON exists with curated_at)
 3. Audit     (curation JSON has review.audited_at)
-4. Apply     (albums written to series.yaml)
+4. Apply     (albums written to series.json)
 5. Validate  (last "validate" event in logs/catalog/run-*.jsonl)
 
 """
@@ -33,7 +33,7 @@ _PIPELINE_STEPS = [
 @dataclass
 class PipelineState:
     series_id: str
-    current_step: int  # 0-indexed; -1 if not in series.yaml at all
+    current_step: int  # 0-indexed; -1 if not in series.json at all
     current_label: str
     status: str  # done | current | missing | escalated | error
     step_labels: list[str]
@@ -47,7 +47,7 @@ def pipeline_status(
 
     Args:
         series_id: The series identifier.
-        series: Pre-loaded series entry (avoids re-parsing series.yaml).
+        series: Pre-loaded series entry (avoids re-parsing series.json).
     """
     if series is None:
         series = get_series_by_id(series_id)

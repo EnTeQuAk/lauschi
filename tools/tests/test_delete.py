@@ -13,13 +13,10 @@ from pathlib import Path
 
 import pytest
 from click.testing import CliRunner
-from ruamel.yaml import YAML
 
 from lauschi_catalog.catalog import deleted as deleted_mod
+from lauschi_catalog.catalog.io import load_raw, write_catalog
 from lauschi_catalog.commands import delete as delete_mod
-
-yaml = YAML()
-yaml.preserve_quotes = True
 
 
 @pytest.fixture
@@ -28,7 +25,7 @@ def fake_catalog(monkeypatch, tmp_path):
     catalog = tmp_path / "assets" / "catalog"
     curation_dir = catalog / "curation"
     curation_dir.mkdir(parents=True)
-    series_yaml = catalog / "series.yaml"
+    series_json = catalog / "series.json"
     deleted_yaml = catalog / "deleted.yaml"
     monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
 
@@ -41,23 +38,21 @@ def fake_catalog(monkeypatch, tmp_path):
             },
         ],
     }
-    with series_yaml.open("w") as f:
-        yaml.dump(data, f)
+    write_catalog(series_json, data)
 
     (curation_dir / "tom_turbo.json").write_text(
         json.dumps({"id": "tom_turbo", "title": "Tom Turbo", "albums": []}),
     )
 
     return {
-        "series_yaml": series_yaml,
+        "series_json": series_json,
         "curation_dir": curation_dir,
         "deleted_yaml": deleted_yaml,
     }
 
 
 def _series_ids(path: Path) -> list[str]:
-    with path.open() as f:
-        data = yaml.load(f)
+    data = load_raw(path)
     return [s["id"] for s in data.get("series", [])]
 
 
@@ -69,8 +64,8 @@ def test_delete_removes_entry_and_curation_and_logs(fake_catalog):
     )
     assert result.exit_code == 0, result.output
 
-    # series.yaml entry gone.
-    assert _series_ids(fake_catalog["series_yaml"]) == []
+    # series.json entry gone.
+    assert _series_ids(fake_catalog["series_json"]) == []
     # curation file gone.
     assert not (fake_catalog["curation_dir"] / "tom_turbo.json").exists()
     # deleted.yaml records the deletion with the reason.
@@ -111,7 +106,7 @@ def test_delete_dry_run_does_not_touch_files(fake_catalog):
     )
     assert result.exit_code == 0
     # Entry still present.
-    assert _series_ids(fake_catalog["series_yaml"]) == ["tom_turbo"]
+    assert _series_ids(fake_catalog["series_json"]) == ["tom_turbo"]
     # Curation still present.
     assert (fake_catalog["curation_dir"] / "tom_turbo.json").exists()
     # Log was NOT created.
@@ -119,7 +114,7 @@ def test_delete_dry_run_does_not_touch_files(fake_catalog):
 
 
 def test_delete_is_idempotent_on_log(fake_catalog):
-    """Re-deleting an id (after manually re-adding the series.yaml entry)
+    """Re-deleting an id (after manually re-adding the series.json entry)
     refreshes the log entry rather than appending a duplicate."""
     runner = CliRunner()
     # First delete.
@@ -128,13 +123,12 @@ def test_delete_is_idempotent_on_log(fake_catalog):
         ["tom_turbo", "--reason", "first reason"],
     )
     assert result.exit_code == 0
-    # Manually add the entry back to series.yaml (simulating an
+    # Manually add the entry back to series.json (simulating an
     # operator who reconsidered without running add).
-    with fake_catalog["series_yaml"].open("w") as f:
-        yaml.dump(
-            {"series": [{"id": "tom_turbo", "title": "Tom Turbo"}]},
-            f,
-        )
+    write_catalog(
+        fake_catalog["series_json"],
+        {"series": [{"id": "tom_turbo", "title": "Tom Turbo"}]},
+    )
     # Delete again with a different reason.
     result = runner.invoke(
         delete_mod.delete,

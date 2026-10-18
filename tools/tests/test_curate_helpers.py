@@ -94,21 +94,25 @@ def test_exception_format_falls_back_to_type_when_str_empty(exc, expected_substr
     ("entry_content_type", "entry_has_pattern", "existing_content_type", "expected"),
     [
         pytest.param(
-            "music", True, None, "music", id="yaml music wins over a leftover pattern"
+            "music",
+            True,
+            None,
+            "music",
+            id="catalog music wins over a leftover pattern",
         ),
         pytest.param(
             "hoerspiel",
             False,
             "music",
             "hoerspiel",
-            id="yaml hoerspiel wins over a stale music curation",
+            id="catalog hoerspiel wins over a stale music curation",
         ),
         pytest.param(
             None,
             True,
             None,
             "hoerspiel",
-            id="a pattern implies hoerspiel when yaml is silent",
+            id="a pattern implies hoerspiel when the catalog is silent",
         ),
         pytest.param(
             None,
@@ -122,7 +126,7 @@ def test_exception_format_falls_back_to_type_when_str_empty(exc, expected_substr
             False,
             "music",
             "music",
-            id="legacy: the existing curation when yaml has neither",
+            id="legacy: the existing curation when the catalog has neither",
         ),
         pytest.param(
             None, False, None, "hoerspiel", id="nothing signals: default hoerspiel"
@@ -149,7 +153,7 @@ def test_exception_format_falls_back_to_type_when_str_empty(exc, expected_substr
 def test_content_type_resolution(
     entry_content_type, entry_has_pattern, existing_content_type, expected
 ):
-    """series.yaml is canonical, a pattern implies hoerspiel, and the
+    """series.json is canonical, a pattern implies hoerspiel, and the
     existing curation is only a fallback, so a misclassification cannot
     compound across --force re-curates."""
     assert (
@@ -278,7 +282,7 @@ def test_metadata_music_prompt_tells_agent_no_pattern_no_tools():
 
 def test_lookup_resolves_by_id(monkeypatch):
     """Single-series CLI usage: 'curate -- detlev_joecker' must
-    resolve to the catalog entry so yaml fields (content_type,
+    resolve to the catalog entry so its fields (content_type,
     artist_ids, title) get used canonically."""
     from lauschi_catalog.catalog import loader as loader_mod
     from lauschi_catalog.catalog.models import CatalogEntry
@@ -307,7 +311,7 @@ def test_lookup_resolves_by_title(monkeypatch):
 
 def test_lookup_returns_none_for_unknown():
     """Brand-new series not in the catalog → caller falls back to
-    the no-yaml path."""
+    the no-catalog-entry path."""
     assert lookup_catalog_entry("definitely_not_a_real_series_id") is None
 
 

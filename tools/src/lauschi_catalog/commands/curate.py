@@ -271,8 +271,8 @@ def curate(
             if cli_content_type and cli_content_type != prepared.entry_content_type:
                 console.print(
                     f"[yellow]Note: --content-type {cli_content_type} overrides "
-                    f"series.yaml value {prepared.entry_content_type}. "
-                    f"Edit series.yaml to make permanent.[/yellow]",
+                    f"series.json value {prepared.entry_content_type}. "
+                    f"Edit series.json to make permanent.[/yellow]",
                 )
 
             if dry_run:
@@ -295,13 +295,13 @@ def curate(
                 raise SystemExit(1)
             return
 
-        # New series not yet in series.yaml
+        # New series not yet in series.json
         resolved_type = cli_content_type or "hoerspiel"
         console.print(
             Panel(
                 f"Curating [bold]{query}[/bold] with {model}\n"
                 f"Providers: {provider_names}\n"
-                f"[dim]Not in series.yaml; treating as new "
+                f"[dim]Not in series.json; treating as new "
                 f"{resolved_type}.[/dim]",
                 title="lauschi-catalog curate",
             ),

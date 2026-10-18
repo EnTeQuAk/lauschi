@@ -102,7 +102,7 @@ def open_flags(curation: dict) -> list[dict]:
 
 def apply_is_unsafe(curation: dict) -> str | None:
     """Return a human-readable reason if this curation can't be safely
-    applied to series.yaml, or ``None`` if it's safe.
+    applied to series.json, or ``None`` if it's safe.
 
     Apply ships data to the live catalog (and via that, to the app).
     Refusing on staleness is defense in depth: if the user runs

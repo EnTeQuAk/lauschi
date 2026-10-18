@@ -1,4 +1,4 @@
-"""The episode_pattern in series.yaml is a fact: a run starts from it,
+"""The episode_pattern in series.json is a fact: a run starts from it,
 and a revision may not lose numbers.
 
 The metadata agent re-derived Wieso? Weshalb? Warum?'s pattern with a

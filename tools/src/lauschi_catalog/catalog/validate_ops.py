@@ -104,16 +104,15 @@ def validate_l1(entries: list[CatalogEntry]) -> list[str]:
                 except re.error as err:
                     issues.append(f"{e.id}: bad pattern {p!r}: {err}")
                 # A double-escaped shortcut compiles fine but matches a
-                # literal backslash, so it silently never fires. This is
-                # what single-quoted YAML does to '\\d' and it went
-                # unnoticed for months because the extractor repaired it
-                # in passing instead of rejecting it.
+                # literal backslash, so it silently never fires. It went
+                # unnoticed for months in the YAML catalog because the
+                # extractor repaired it in passing instead of rejecting it.
                 if _DOUBLE_ESCAPED.search(p):
                     issues.append(
-                        f"{e.id}: double-escaped shortcut in pattern {p!r} "
-                        f"— matches a literal backslash, never an episode "
-                        f"number (single-quoted YAML does not process "
-                        f"escapes; use one backslash)"
+                        f"{e.id}: double-escaped shortcut in pattern {p!r}: "
+                        f"it matches a literal backslash, never an episode "
+                        f"number (the pattern needs one backslash, which the "
+                        f"JSON file writes as two)"
                     )
 
     # Cross-series album uniqueness. The app indexes albums by

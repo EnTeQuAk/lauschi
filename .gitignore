@@ -86,7 +86,7 @@ sentry-wizard
 .cache/
 assets/catalog/curation/.bak/
 assets/catalog/.covers/
-assets/catalog/.series.yaml.lock
+assets/catalog/.series.json.lock
 tools/jobs.db*
 tools/src/jobs.db*
 tools/src/**/jobs.db*

@@ -9,12 +9,13 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 
 from lauschi_catalog.catalog.add_ops import add_series, title_to_id
-from lauschi_catalog.catalog.io import locked_raw, safe_write_json, safe_write_yaml
+from lauschi_catalog.catalog.io import locked_raw, safe_write_json, write_catalog
 from lauschi_catalog.catalog.loader import (
     load_catalog,
     update_provider_ids,
 )
-from lauschi_catalog.catalog.paths import artist_image_path, series_yaml_path
+from lauschi_catalog.catalog.models import CatalogEntry
+from lauschi_catalog.catalog.paths import artist_image_path, catalog_path
 from lauschi_catalog.fanout import map_providers
 from lauschi_catalog.providers import Artist, CatalogProvider
 
@@ -96,7 +97,7 @@ def match_artist(
 
     Accepts only exact name match or substring. Genre-only or
     single-candidate heuristics are intentionally rejected: we do not
-    want to write a random kids-audio artist to series.yaml just
+    want to write a random kids-audio artist to series.json just
     because it is the only search result.
     """
     title_lower = series_title.lower()
@@ -163,6 +164,11 @@ def _save_artist_images(
         safe_write_json(path, images)
 
 
+def _has_no_artist_page(entry: CatalogEntry, provider: str) -> bool:
+    cfg = entry.providers.get(provider)
+    return bool(cfg and cfg.no_artist_page)
+
+
 def discover_one(
     query: str,
     providers: list[CatalogProvider],
@@ -172,7 +178,7 @@ def discover_one(
 ) -> DiscoverResult:
     """Discover artist IDs for a single series across all providers.
 
-    With ``write=True``, persists discovered IDs to series.yaml
+    With ``write=True``, persists discovered IDs to series.json
     (merging with existing IDs, or creating a new entry if needed).
     """
     matches: dict[str, DiscoverMatch | None] = {}
@@ -264,6 +270,12 @@ def discover_one(
                 continue
             raw_providers = raw_entry.setdefault("providers", {})
             for pname, m in discoveries.items():
+                if _has_no_artist_page(entry, pname):
+                    on_progress(
+                        f"  [{pname}] not written: "
+                        f"{entry.providers[pname].no_artist_page}"
+                    )
+                    continue
                 # Only exact/substring matches are written automatically.
                 if m.confidence not in ("exact", "substring"):
                     on_progress(
@@ -283,9 +295,9 @@ def discover_one(
         if updated:
             # still inside locked_raw's window; plain atomic write (a
             # re-entrant save_raw lock on the same path would deadlock)
-            safe_write_yaml(series_yaml_path(), raw)
+            write_catalog(catalog_path(), raw)
             result.written = True
-            on_progress("Updated series.yaml")
+            on_progress("Updated series.json")
         else:
             on_progress("No new artist_ids to write.")
 
@@ -304,7 +316,11 @@ def discover_all(
     found_total = 0
 
     for entry in entries:
-        missing = [p for p in providers if not entry.artist_ids(p.name)]
+        missing = [
+            p
+            for p in providers
+            if not entry.artist_ids(p.name) and not _has_no_artist_page(entry, p.name)
+        ]
         if not missing:
             on_progress(f"  {entry.title}: all providers present")
             continue
@@ -328,7 +344,7 @@ def discover_all(
 
     if write and updates:
         result.written = update_provider_ids(updates=updates)
-        on_progress(f"Updated {result.written} entries in series.yaml")
+        on_progress(f"Updated {result.written} entries in series.json")
 
     return result
 
@@ -384,6 +400,6 @@ def prune_broken(
 
     if write and updates:
         result.written = update_provider_ids(updates=updates)
-        on_progress(f"Updated {result.written} entries in series.yaml")
+        on_progress(f"Updated {result.written} entries in series.json")
 
     return result

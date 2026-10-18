@@ -1,4 +1,4 @@
-"""The series.yaml parse is cached per process, keyed by file state.
+"""The series.json parse is cached per process, keyed by file state.
 
 load_catalog() was a full 1.6 MB ruamel round trip (3.5 s measured) per
 series for several call paths during --all runs: ~10 min of parsing per
@@ -6,16 +6,12 @@ catalog sweep. The file rarely changes inside a process; the cache key
 is (size, mtime_ns) so any write, even a same-size one, re-parses.
 """
 
-import io
 from pathlib import Path
 
 import pytest
-from ruamel.yaml import YAML
 
 from lauschi_catalog.catalog import loader
-
-yaml = YAML()
-yaml.preserve_quotes = True
+from lauschi_catalog.catalog.io import dump_catalog
 
 
 def _write_catalog(path: Path, ids: list[str]) -> None:
@@ -25,9 +21,7 @@ def _write_catalog(path: Path, ids: list[str]) -> None:
             for i in ids
         ]
     }
-    buf = io.StringIO()
-    yaml.dump(data, buf)
-    path.write_text(buf.getvalue(), encoding="utf-8")
+    path.write_text(dump_catalog(data), encoding="utf-8")
 
 
 @pytest.fixture
@@ -36,13 +30,13 @@ def scratch(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
     catalog.mkdir(parents=True)
     monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
     loader.clear_catalog_cache()
-    yield catalog / "series.yaml"
+    yield catalog / "series.json"
     loader.clear_catalog_cache()
 
 
 @pytest.fixture
 def parse_count(monkeypatch):
-    """Count real yaml parses; the cache must collapse them."""
+    """Count real catalog parses; the cache must collapse them."""
     calls = {"n": 0}
     real = loader._parse_catalog
 
@@ -89,7 +83,7 @@ class TestParseCache:
     def test_explicit_path_and_default_share_one_parse(
         self, tmp_path, monkeypatch, parse_count
     ):
-        other = tmp_path / "series.yaml"
+        other = tmp_path / "series.json"
         _write_catalog(other, ["x"])
         first = loader.load_catalog(other)
         second = loader.load_catalog(other)
@@ -125,4 +119,4 @@ class TestParseCache:
         assert parse_count["n"] == 2
 
     def test_missing_file_is_an_empty_list_not_a_cache_hit(self, tmp_path):
-        assert loader.load_catalog(tmp_path / "nope.yaml") == []
+        assert loader.load_catalog(tmp_path / "nope.json") == []

@@ -121,7 +121,7 @@ def drift(
         console.print(table)
 
     if result.divergence:
-        table = Table(title=f"YAML/CURATION DIVERGENCE ({len(result.divergence)})")
+        table = Table(title=f"CATALOG/CURATION DIVERGENCE ({len(result.divergence)})")
         table.add_column("Difference", max_width=140)
         for message in result.divergence:
             table.add_row(escape(message))
@@ -141,7 +141,7 @@ def drift(
     if result.unresolved_series:
         console.print(
             f"[yellow]{len(result.unresolved_series)} series had albums in "
-            f"series.yaml but no curation records to compare[/yellow]"
+            f"series.json but no curation records to compare[/yellow]"
         )
 
     if fix_titles:
@@ -152,7 +152,7 @@ def drift(
             if healed
             else "[dim]No cosmetic title changes to adopt[/dim]"
         )
-        console.print("[dim]Run catalog-apply to push them into series.yaml[/dim]")
+        console.print("[dim]Run catalog-apply to push them into series.json[/dim]")
 
     if record:
         recorded = record_barcodes(result)
@@ -161,7 +161,7 @@ def drift(
             if recorded
             else "[dim]No barcodes to record[/dim]"
         )
-        console.print("[dim]Run catalog-apply to push them into series.yaml[/dim]")
+        console.print("[dim]Run catalog-apply to push them into series.json[/dim]")
     elif result.barcodes:
         console.print(
             f"[dim]{len(result.barcodes)} albums have no barcode recorded yet "

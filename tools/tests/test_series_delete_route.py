@@ -1,7 +1,7 @@
 """POST /catalog/{series_id}/delete removes a series via the web UI.
 
 Delegates to series_ops.delete_series (same path as the CLI delete
-command): series.yaml entry removed, curation JSON deleted, deletion
+command): series.json entry removed, curation JSON deleted, deletion
 recorded in deleted.yaml.
 """
 

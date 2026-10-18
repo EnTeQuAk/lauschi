@@ -14,7 +14,7 @@ from lauschi_catalog.catalog.episode_range import title_number
 from lauschi_catalog.catalog.io import safe_write_json
 from lauschi_catalog.catalog.loader import load_catalog
 from lauschi_catalog.catalog.partition import AWAITS_SPLIT, family_of
-from lauschi_catalog.catalog.series_ops import add_series_entry, remove_series_from_yaml
+from lauschi_catalog.catalog.series_ops import add_series_entry, remove_series_entry
 
 
 @dataclass
@@ -34,7 +34,7 @@ def merge_series(
     """Merge source series into target.
 
     Moves all albums from source curation to target, copies
-    provider_artist_ids, removes source from series.yaml, deletes
+    provider_artist_ids, removes source from series.json, deletes
     source curation file.
 
     Args:
@@ -98,7 +98,7 @@ def merge_series(
     target_curation["provider_artist_ids"] = target_providers
 
     safe_write_json(target_path, target_curation)
-    remove_series_from_yaml(source_id)
+    remove_series_entry(source_id)
     source_path.unlink()
 
     return MergeResult(ok=True, added=added, skipped=skipped)
@@ -125,7 +125,7 @@ def move_albums(
     the number the target's own pattern reads from the title: a number is
     a fact of the line, so the source's is not carried over. Both rows are
     stamped as an operator's decision. Nothing is written unless every
-    album can be moved, and series.yaml changes only with the next apply.
+    album can be moved, and series.json changes only with the next apply.
     """
     if source_id == target_id:
         return MoveResult(ok=False, error="source and target must be different")
@@ -259,7 +259,7 @@ def accept_split(
     new_id: str | None = None,
     new_title: str | None = None,
 ) -> SplitResult:
-    """Accept a split: create new curation, move albums, add to series.yaml."""
+    """Accept a split: create new curation, move albums, add to series.json."""
     cur_path = paths.curation_path(series_id)
     if not cur_path.exists():
         return SplitResult(ok=False, error="curation not found")

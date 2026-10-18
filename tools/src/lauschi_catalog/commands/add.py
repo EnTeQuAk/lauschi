@@ -5,14 +5,12 @@ and duplicate checks live in the library module. This module handles
 provider search with user prompts.
 """
 
-from io import StringIO
-
 import click
 from rich import box
 from rich.console import Console
+from rich.markup import escape
 from rich.panel import Panel
 from rich.table import Table
-from ruamel.yaml import YAML
 
 from lauschi_catalog.catalog.add_ops import (
     add_series,
@@ -22,6 +20,7 @@ from lauschi_catalog.catalog.add_ops import (
 )
 from lauschi_catalog.catalog.deleted import is_deleted
 from lauschi_catalog.catalog.discover_ops import discover_for_provider, match_artist
+from lauschi_catalog.catalog.io import dump_catalog
 from lauschi_catalog.catalog.loader import load_catalog
 from lauschi_catalog.providers import Album, Artist
 from lauschi_catalog.providers.apple_music import AppleMusicProvider
@@ -108,7 +107,7 @@ def add(
     """Add a new series to the catalog.
 
     Searches providers for the artist, analyses the discography for episode
-    patterns, and creates a seed entry in series.yaml.
+    patterns, and creates a seed entry in series.json.
 
     Examples:
 
@@ -120,7 +119,7 @@ def add(
     sid = series_id or title_to_id(title)
     existing_ids = {e.id for e in load_catalog()}
     if sid in existing_ids:
-        console.print(f"[red]Series '{sid}' already exists in series.yaml[/red]")
+        console.print(f"[red]Series '{sid}' already exists in series.json[/red]")
         raise SystemExit(1)
 
     deletion = is_deleted(sid)
@@ -216,7 +215,7 @@ def add(
         console.print(f"[red]{result.error}[/red]")
         raise SystemExit(1)
 
-    console.print(f"\n[green]Added '{result.series_id}' to series.yaml[/green]")
+    console.print(f"\n[green]Added '{result.series_id}' to series.json[/green]")
 
 
 def _fetch_artist_by_id(provider: SpotifyProvider, artist_id: str) -> Artist | None:
@@ -276,13 +275,11 @@ def _search_and_pick(provider: SpotifyProvider, query: str) -> Artist | None:
 
 
 def _print_entry(entry: dict) -> None:
-    """Pretty-print a series entry."""
-    y = YAML()
-    y.default_flow_style = False
-    buf = StringIO()
-    y.dump([entry], buf)
-    yaml_text = buf.getvalue()
-
+    """Pretty-print a series entry as the catalog file holds it."""
     console.print(
-        Panel(yaml_text.strip(), title="New series entry", border_style="green")
+        Panel(
+            escape(dump_catalog(entry).strip()),
+            title="New series entry",
+            border_style="green",
+        )
     )

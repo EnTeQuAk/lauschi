@@ -34,8 +34,8 @@ def _included(
     }
 
 
-def _yaml_with(series_albums: list[dict] | None = None) -> dict:
-    """series.yaml shape with one entry, optionally pre-populated."""
+def _catalog_with(series_albums: list[dict] | None = None) -> dict:
+    """series.json shape with one entry, optionally pre-populated."""
     entry: dict = {"id": "s1", "providers": {"spotify": {}}}
     if series_albums is not None:
         entry["providers"]["spotify"]["albums"] = series_albums
@@ -47,7 +47,7 @@ def testapply_one_writes_when_episode_number_changed_via_pattern_update():
     number, the album_id is unchanged, but the episode field IS
     different. ID-only comparison would skip the write and ship stale
     episode numbers to the app."""
-    yaml_data = _yaml_with(
+    catalog_data = _catalog_with(
         [
             {"id": "a", "episode": 47, "title": "047/Title"},
         ]
@@ -58,14 +58,14 @@ def testapply_one_writes_when_episode_number_changed_via_pattern_update():
         ]
     )
     # Same album, but title changed (and could be episode change too).
-    updated = apply_one("s1", curation, yaml_data)
+    updated = apply_one("s1", curation, catalog_data)
     assert updated is True
-    saved = yaml_data["series"][0]["providers"]["spotify"]["albums"]
+    saved = catalog_data["series"][0]["providers"]["spotify"]["albums"]
     assert saved[0]["title"] == "Folge 47: Title"
 
 
 def testapply_one_skips_write_when_everything_identical():
-    yaml_data = _yaml_with(
+    catalog_data = _catalog_with(
         [
             {"id": "a", "episode": 1, "title": "T"},
         ]
@@ -75,11 +75,11 @@ def testapply_one_skips_write_when_everything_identical():
             _included("a", episode_num=1, title="T"),
         ]
     )
-    assert apply_one("s1", curation, yaml_data) is False
+    assert apply_one("s1", curation, catalog_data) is False
 
 
 def testapply_one_writes_when_album_added():
-    yaml_data = _yaml_with(
+    catalog_data = _catalog_with(
         [
             {"id": "a", "episode": 1, "title": "T"},
         ]
@@ -90,15 +90,15 @@ def testapply_one_writes_when_album_added():
             _included("b", episode_num=2, title="U"),
         ]
     )
-    assert apply_one("s1", curation, yaml_data) is True
+    assert apply_one("s1", curation, catalog_data) is True
     saved_ids = [
-        e["id"] for e in yaml_data["series"][0]["providers"]["spotify"]["albums"]
+        e["id"] for e in catalog_data["series"][0]["providers"]["spotify"]["albums"]
     ]
     assert saved_ids == ["a", "b"]
 
 
 def testapply_one_writes_when_album_removed():
-    yaml_data = _yaml_with(
+    catalog_data = _catalog_with(
         [
             {"id": "a", "episode": 1, "title": "T"},
             {"id": "b", "episode": 2, "title": "U"},
@@ -109,12 +109,12 @@ def testapply_one_writes_when_album_removed():
             _included("a", episode_num=1, title="T"),
         ]
     )
-    assert apply_one("s1", curation, yaml_data) is True
+    assert apply_one("s1", curation, catalog_data) is True
 
 
 def testapply_one_writes_when_only_episode_number_differs():
     """Episode number flipped (e.g., review correction); same id+title."""
-    yaml_data = _yaml_with(
+    catalog_data = _catalog_with(
         [
             {"id": "a", "episode": 5, "title": "T"},
         ]
@@ -124,8 +124,8 @@ def testapply_one_writes_when_only_episode_number_differs():
             _included("a", episode_num=6, title="T"),
         ]
     )
-    assert apply_one("s1", curation, yaml_data) is True
-    saved = yaml_data["series"][0]["providers"]["spotify"]["albums"]
+    assert apply_one("s1", curation, catalog_data) is True
+    saved = catalog_data["series"][0]["providers"]["spotify"]["albums"]
     assert saved[0]["episode"] == 6
 
 
@@ -140,24 +140,24 @@ def _curation_with_ct(content_type: str | None, *, albums: list[dict]) -> dict:
 
 
 def test_apply_writes_music_content_type():
-    yaml_data = _yaml_with([])
+    catalog_data = _catalog_with([])
     curation = _curation_with_ct(
         "music",
         albums=[
             _included("a", episode_num=1, title="T"),
         ],
     )
-    apply_one("s1", curation, yaml_data)
-    assert yaml_data["series"][0].get("content_type") == "music"
+    apply_one("s1", curation, catalog_data)
+    assert catalog_data["series"][0].get("content_type") == "music"
 
 
 def test_apply_strips_redundant_hoerspiel_when_pattern_signals_it():
-    """When the yaml entry has an episode_pattern, the curate flow's
+    """When the catalog entry has an episode_pattern, the curate flow's
     _resolve_is_music picks hoerspiel via that signal — so storing
-    `content_type: hoerspiel` explicitly is yaml noise. Strip it."""
-    yaml_data = _yaml_with([{"id": "a", "episode": 1, "title": "Folge 1: T"}])
-    yaml_data["series"][0]["content_type"] = "hoerspiel"
-    yaml_data["series"][0]["episode_pattern"] = r"^Folge (\d+):"
+    `content_type: hoerspiel` explicitly is noise in the catalog. Strip it."""
+    catalog_data = _catalog_with([{"id": "a", "episode": 1, "title": "Folge 1: T"}])
+    catalog_data["series"][0]["content_type"] = "hoerspiel"
+    catalog_data["series"][0]["episode_pattern"] = r"^Folge (\d+):"
     curation = _curation_with_ct(
         "hoerspiel",
         albums=[
@@ -165,9 +165,9 @@ def test_apply_strips_redundant_hoerspiel_when_pattern_signals_it():
         ],
     )
     curation["episode_pattern"] = r"^Folge (\d+):"
-    updated = apply_one("s1", curation, yaml_data)
+    updated = apply_one("s1", curation, catalog_data)
     assert updated is True
-    assert "content_type" not in yaml_data["series"][0]
+    assert "content_type" not in catalog_data["series"][0]
 
 
 def test_apply_keeps_explicit_hoerspiel_when_no_other_signal():
@@ -177,18 +177,18 @@ def test_apply_keeps_explicit_hoerspiel_when_no_other_signal():
     MUSIC on a future re-curate. Keep the explicit value as a
     safeguard against re-introducing the original misclassification
     bug."""
-    yaml_data = _yaml_with([{"id": "a", "title": "T"}])
-    yaml_data["series"][0]["content_type"] = "hoerspiel"
-    # No episode_pattern in yaml or curation
+    catalog_data = _catalog_with([{"id": "a", "title": "T"}])
+    catalog_data["series"][0]["content_type"] = "hoerspiel"
+    # No episode_pattern in the catalog or curation
     curation = _curation_with_ct(
         "hoerspiel",
         albums=[
             _included("a", episode_num=None, title="T"),
         ],
     )
-    apply_one("s1", curation, yaml_data)
+    apply_one("s1", curation, catalog_data)
     # content_type must persist as a signal for future re-curates.
-    assert yaml_data["series"][0].get("content_type") == "hoerspiel"
+    assert catalog_data["series"][0].get("content_type") == "hoerspiel"
 
 
 def test_apply_writes_explicit_hoerspiel_when_correcting_stale_music_without_pattern():
@@ -198,26 +198,26 @@ def test_apply_writes_explicit_hoerspiel_when_correcting_stale_music_without_pat
     replace music with explicit hoerspiel — not just drop the music
     tag — so _resolve_is_music can pick the right mode on any future
     re-curate, even if the curation JSON gets deleted."""
-    yaml_data = _yaml_with([{"id": "a", "title": "T"}])
-    yaml_data["series"][0]["content_type"] = "music"
+    catalog_data = _catalog_with([{"id": "a", "title": "T"}])
+    catalog_data["series"][0]["content_type"] = "music"
     curation = _curation_with_ct(
         "hoerspiel",
         albums=[
             _included("a", episode_num=None, title="T"),
         ],
     )
-    updated = apply_one("s1", curation, yaml_data)
+    updated = apply_one("s1", curation, catalog_data)
     assert updated is True
-    assert yaml_data["series"][0].get("content_type") == "hoerspiel"
+    assert catalog_data["series"][0].get("content_type") == "hoerspiel"
 
 
 def test_apply_clears_stale_hoerspiel_when_pattern_is_authoritative():
-    """If yaml has both `content_type: hoerspiel` AND an
+    """If the catalog has both `content_type: hoerspiel` AND an
     episode_pattern, the pattern alone signals hoerspiel — so
-    content_type is redundant. Strip it for yaml hygiene."""
-    yaml_data = _yaml_with([{"id": "a", "episode": 1, "title": "Folge 1: T"}])
-    yaml_data["series"][0]["content_type"] = "hoerspiel"
-    yaml_data["series"][0]["episode_pattern"] = r"^Folge (\d+):"
+    content_type is redundant. Strip it for catalog hygiene."""
+    catalog_data = _catalog_with([{"id": "a", "episode": 1, "title": "Folge 1: T"}])
+    catalog_data["series"][0]["content_type"] = "hoerspiel"
+    catalog_data["series"][0]["episode_pattern"] = r"^Folge (\d+):"
     curation = _curation_with_ct(
         "hoerspiel",
         albums=[
@@ -225,37 +225,37 @@ def test_apply_clears_stale_hoerspiel_when_pattern_is_authoritative():
         ],
     )
     curation["episode_pattern"] = r"^Folge (\d+):"
-    apply_one("s1", curation, yaml_data)
-    assert "content_type" not in yaml_data["series"][0]
+    apply_one("s1", curation, catalog_data)
+    assert "content_type" not in catalog_data["series"][0]
     # Pattern still there as the surviving hoerspiel signal
-    assert yaml_data["series"][0].get("episode_pattern") == r"^Folge (\d+):"
+    assert catalog_data["series"][0].get("episode_pattern") == r"^Folge (\d+):"
 
 
 # ── episode_pattern sync (both directions) ────────────────────────────────
 
 
 def test_apply_writes_new_episode_pattern():
-    """Curate produced a pattern; series.yaml previously had none."""
-    yaml_data = _yaml_with([{"id": "a", "episode": 1, "title": "T"}])
+    """Curate produced a pattern; series.json previously had none."""
+    catalog_data = _catalog_with([{"id": "a", "episode": 1, "title": "T"}])
     curation = _curation(
         albums=[
             _included("a", episode_num=1, title="Folge 1: T"),
         ]
     )
     curation["episode_pattern"] = r"^Folge (\d+):"
-    updated = apply_one("s1", curation, yaml_data)
+    updated = apply_one("s1", curation, catalog_data)
     assert updated is True
-    assert yaml_data["series"][0]["episode_pattern"] == r"^Folge (\d+):"
+    assert catalog_data["series"][0]["episode_pattern"] == r"^Folge (\d+):"
 
 
 def test_apply_clears_stale_pattern_when_curation_now_none():
     """The SimsalaGrimm scenario: a previous (bad) apply wrote a
-    non-numeric pattern to series.yaml. Re-curate produces None.
+    non-numeric pattern to series.json. Re-curate produces None.
     Apply MUST clear the stale pattern, not silently keep it —
     otherwise the dead pattern stays forever and confuses any
-    code that reads series.yaml and tries extract_episode."""
-    yaml_data = _yaml_with([{"id": "a", "episode": 1, "title": "T"}])
-    yaml_data["series"][0]["episode_pattern"] = [
+    code that reads series.json and tries extract_episode."""
+    catalog_data = _catalog_with([{"id": "a", "episode": 1, "title": "T"}])
+    catalog_data["series"][0]["episode_pattern"] = [
         r"^(.+?) \(Das Original-Hörspiel zur TV Serie\)$",
         r"^(.+?) \(Die neuen Abenteuer von Yoyo und Doc Croc\)$",
     ]
@@ -265,30 +265,30 @@ def test_apply_clears_stale_pattern_when_curation_now_none():
         ]
     )
     # No episode_pattern in curation → None
-    updated = apply_one("s1", curation, yaml_data)
+    updated = apply_one("s1", curation, catalog_data)
     assert updated is True
-    assert "episode_pattern" not in yaml_data["series"][0]
+    assert "episode_pattern" not in catalog_data["series"][0]
 
 
 def test_apply_replaces_pattern_with_different_pattern():
     """Pattern correction: old regex replaced by new one."""
-    yaml_data = _yaml_with([{"id": "a", "episode": 1, "title": "T"}])
-    yaml_data["series"][0]["episode_pattern"] = r"^Folge (\d+):"
+    catalog_data = _catalog_with([{"id": "a", "episode": 1, "title": "T"}])
+    catalog_data["series"][0]["episode_pattern"] = r"^Folge (\d+):"
     curation = _curation(
         albums=[
             _included("a", episode_num=1, title="01/T"),
         ]
     )
     curation["episode_pattern"] = r"^(\d+)/"
-    updated = apply_one("s1", curation, yaml_data)
+    updated = apply_one("s1", curation, catalog_data)
     assert updated is True
-    assert yaml_data["series"][0]["episode_pattern"] == r"^(\d+)/"
+    assert catalog_data["series"][0]["episode_pattern"] == r"^(\d+)/"
 
 
 def test_apply_no_op_when_pattern_already_matches():
-    """Idempotency: same pattern in yaml and curation, no write needed."""
-    yaml_data = _yaml_with([{"id": "a", "episode": 1, "title": "Folge 1: T"}])
-    yaml_data["series"][0]["episode_pattern"] = r"^Folge (\d+):"
+    """Idempotency: same pattern in the catalog and curation, no write needed."""
+    catalog_data = _catalog_with([{"id": "a", "episode": 1, "title": "Folge 1: T"}])
+    catalog_data["series"][0]["episode_pattern"] = r"^Folge (\d+):"
     curation = _curation(
         albums=[
             _included("a", episode_num=1, title="Folge 1: T"),
@@ -297,7 +297,7 @@ def test_apply_no_op_when_pattern_already_matches():
     curation["episode_pattern"] = r"^Folge (\d+):"
     # Album entry is also unchanged so the only thing that could
     # trigger a write is the pattern. None does → updated=False.
-    assert apply_one("s1", curation, yaml_data) is False
+    assert apply_one("s1", curation, catalog_data) is False
 
 
 # ── escalation guard ──────────────────────────────────────────────────────
@@ -358,25 +358,25 @@ def test_should_apply_refuses_stale_audit():
 
 
 def test_apply_refuses_provider_collapse():
-    """PAW Patrol scenario: curation has 3 Spotify albums but series.yaml
+    """PAW Patrol scenario: curation has 3 Spotify albums but series.json
     has 445. Apply must refuse to replace, preserving existing data."""
-    yaml_data = _yaml_with(
+    catalog_data = _catalog_with(
         [{"id": f"a{i}", "episode": i, "title": f"Folge {i}"} for i in range(50)]
     )
     curation = _curation(
         albums=[_included(f"a{i}", episode_num=i, title=f"Folge {i}") for i in range(3)]
     )
     messages: list[str] = []
-    updated = apply_one("s1", curation, yaml_data, on_progress=messages.append)
+    updated = apply_one("s1", curation, catalog_data, on_progress=messages.append)
     assert updated is False
-    saved = yaml_data["series"][0]["providers"]["spotify"]["albums"]
+    saved = catalog_data["series"][0]["providers"]["spotify"]["albums"]
     assert len(saved) == 50
     assert any("REFUSED" in m for m in messages)
 
 
 def test_apply_allows_modest_drop():
     """A modest drop (< 50%) should still apply normally."""
-    yaml_data = _yaml_with(
+    catalog_data = _catalog_with(
         [{"id": f"a{i}", "episode": i, "title": f"Folge {i}"} for i in range(20)]
     )
     curation = _curation(
@@ -384,27 +384,27 @@ def test_apply_allows_modest_drop():
             _included(f"a{i}", episode_num=i, title=f"Folge {i}") for i in range(15)
         ]
     )
-    updated = apply_one("s1", curation, yaml_data)
+    updated = apply_one("s1", curation, catalog_data)
     assert updated is True
-    saved = yaml_data["series"][0]["providers"]["spotify"]["albums"]
+    saved = catalog_data["series"][0]["providers"]["spotify"]["albums"]
     assert len(saved) == 15
 
 
 def test_apply_allows_drop_below_threshold():
     """Small series (< 10 existing albums) don't trigger the guard."""
-    yaml_data = _yaml_with(
+    catalog_data = _catalog_with(
         [{"id": f"a{i}", "episode": i, "title": f"Folge {i}"} for i in range(8)]
     )
     curation = _curation(
         albums=[_included(f"a{i}", episode_num=i, title=f"Folge {i}") for i in range(2)]
     )
-    updated = apply_one("s1", curation, yaml_data)
+    updated = apply_one("s1", curation, catalog_data)
     assert updated is True
 
 
 def testshould_apply_refuses_incomplete_curation():
     """Incomplete curations (e.g. from a wrong artist ID) must
-    never reach series.yaml. The lifecycle guard catches this."""
+    never reach series.json. The lifecycle guard catches this."""
     data = {
         "review": {
             "status": "approved",
@@ -435,20 +435,20 @@ def test_should_apply_allows_incomplete_with_allow_unreviewed():
 def test_apply_writes_the_release_date_so_the_app_can_hide_pre_releases():
     """A not-yet-released album is included by curation and hidden by the
     app on its date, so the date has to travel with the album entry."""
-    yaml_data = _yaml_with([])
+    catalog_data = _catalog_with([])
     album = _included("a", episode_num=1, title="Folge 1: T")
     album["release_date"] = "2026-10-02"
-    apply_one("s1", _curation(albums=[album]), yaml_data)
-    saved = yaml_data["series"][0]["providers"]["spotify"]["albums"]
+    apply_one("s1", _curation(albums=[album]), catalog_data)
+    saved = catalog_data["series"][0]["providers"]["spotify"]["albums"]
     assert saved[0]["release_date"] == "2026-10-02"
 
 
 def test_apply_writes_when_only_the_release_date_is_new():
     """The first apply after the field exists must populate it everywhere,
     so an entry identical except for the date counts as changed."""
-    yaml_data = _yaml_with([{"id": "a", "episode": 1, "title": "Folge 1: T"}])
+    catalog_data = _catalog_with([{"id": "a", "episode": 1, "title": "Folge 1: T"}])
     album = _included("a", episode_num=1, title="Folge 1: T")
     album["release_date"] = "2001-05-05"
-    assert apply_one("s1", _curation(albums=[album]), yaml_data) is True
-    saved = yaml_data["series"][0]["providers"]["spotify"]["albums"]
+    assert apply_one("s1", _curation(albums=[album]), catalog_data) is True
+    saved = catalog_data["series"][0]["providers"]["spotify"]["albums"]
     assert saved[0]["release_date"] == "2001-05-05"

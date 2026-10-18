@@ -8,6 +8,7 @@ import pytest
 
 from lauschi_catalog.catalog.apply_ops import filter_confirmed_facts
 from lauschi_catalog.catalog.facts import SeriesFacts
+from lauschi_catalog.catalog.io import write_catalog
 from lauschi_catalog.catalog.lint_ops import lint_curation
 from lauschi_catalog.catalog.loader import load_catalog
 
@@ -15,7 +16,7 @@ from lauschi_catalog.catalog.loader import load_catalog
 class TestFactsRoundTrip:
     """White-box pipeline test using real functions."""
 
-    def test_confirmed_facts_persist_to_yaml(self):
+    def test_confirmed_facts_persist_to_the_catalog(self):
         curation = {
             "id": "test_series",
             "title": "Test Series",
@@ -41,16 +42,16 @@ class TestFactsRoundTrip:
                 "sub_series": [],
             },
         }
-        yaml_facts = filter_confirmed_facts(curation["series_facts"])
-        assert yaml_facts is not None
-        assert "era_boundaries" in yaml_facts
-        assert "known_gaps" in yaml_facts
-        era = yaml_facts["era_boundaries"][0]
+        catalog_facts = filter_confirmed_facts(curation["series_facts"])
+        assert catalog_facts is not None
+        assert "era_boundaries" in catalog_facts
+        assert "known_gaps" in catalog_facts
+        era = catalog_facts["era_boundaries"][0]
         assert era["curated_by"] == "curate"
         assert era["audited_by"] == "audit"
         assert era["audited_at"] == "2026-05-17T12:00:00+00:00"
 
-    def test_unaudited_facts_dropped_from_yaml(self):
+    def test_unaudited_facts_dropped_from_the_catalog(self):
         curation = {
             "series_facts": {
                 "era_boundaries": [
@@ -62,8 +63,8 @@ class TestFactsRoundTrip:
                 ],
             },
         }
-        yaml_facts = filter_confirmed_facts(curation["series_facts"])
-        assert yaml_facts is None or yaml_facts == {}
+        catalog_facts = filter_confirmed_facts(curation["series_facts"])
+        assert catalog_facts is None or catalog_facts == {}
 
     def test_mixed_audited_and_unaudited(self):
         curation = {
@@ -84,12 +85,12 @@ class TestFactsRoundTrip:
                 ],
             },
         }
-        yaml_facts = filter_confirmed_facts(curation["series_facts"])
-        assert yaml_facts is not None
-        labels = {e["label"] for e in yaml_facts.get("era_boundaries", [])}
+        catalog_facts = filter_confirmed_facts(curation["series_facts"])
+        assert catalog_facts is not None
+        labels = {e["label"] for e in catalog_facts.get("era_boundaries", [])}
         assert labels == {"good"}
 
-    def test_series_facts_model_validates_yaml_shape(self):
+    def test_series_facts_model_validates_the_catalog_shape(self):
         """The shape filter_confirmed_facts emits must load via SeriesFacts."""
         raw = {
             "era_boundaries": [
@@ -117,10 +118,7 @@ class TestFactsRoundTrip:
         assert facts.known_gaps[0].number == 156
 
     def test_load_catalog_reads_series_facts(self, tmp_path):
-        """series.yaml with series_facts loads correctly into CatalogEntry."""
-        import ruamel.yaml
-
-        yaml = ruamel.yaml.YAML()
+        """series.json with series_facts loads correctly into CatalogEntry."""
         data = {
             "series": [
                 {
@@ -140,9 +138,8 @@ class TestFactsRoundTrip:
                 },
             ],
         }
-        path = tmp_path / "series.yaml"
-        with open(path, "w") as f:
-            yaml.dump(data, f)
+        path = tmp_path / "series.json"
+        write_catalog(path, data)
 
         entries = load_catalog(path)
         entry = entries[0]

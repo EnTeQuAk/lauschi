@@ -12,9 +12,9 @@ from pathlib import Path
 
 import pytest
 from click.testing import CliRunner
-from ruamel.yaml import YAML
 
 from lauschi_catalog.catalog import merge_ops
+from lauschi_catalog.catalog.io import write_catalog
 from lauschi_catalog.catalog.partition import bleed_owner
 from lauschi_catalog.commands.edit import edit
 from tests.factories import album_record
@@ -32,7 +32,8 @@ def catalog(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> Path:
         "spotify": {"artist_ids": ["lilli"]},
         "apple_music": {"artist_ids": ["am"]},
     }
-    YAML().dump(
+    write_catalog(
+        root / "series.json",
         {
             "series": [
                 {
@@ -51,7 +52,6 @@ def catalog(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> Path:
                 {"id": "other", "title": "Other", "providers": {}},
             ]
         },
-        root / "series.yaml",
     )
     _write(
         root,

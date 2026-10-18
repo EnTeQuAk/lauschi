@@ -473,7 +473,7 @@ async def series_edit(request: Request, series_id: str):
 
 @router.post("/catalog/{series_id}/delete", response_class=RedirectResponse)
 async def series_delete(request: Request, series_id: str):
-    """Delete a series: series.yaml entry, curation JSON, deletion log.
+    """Delete a series: series.json entry, curation JSON, deletion log.
 
     Same path as the CLI delete command; the deletion log keeps
     catalog-add from silently re-introducing the id later.

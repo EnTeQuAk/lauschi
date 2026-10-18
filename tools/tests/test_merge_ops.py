@@ -4,14 +4,11 @@ import json
 from datetime import datetime
 
 import pytest
-from ruamel.yaml import YAML
 
 from lauschi_catalog.catalog import merge_ops
+from lauschi_catalog.catalog.io import load_raw, write_catalog
 from lauschi_catalog.catalog.merge_ops import normalize_album_ids
 from lauschi_catalog.catalog.partition import AWAITS_SPLIT
-
-yaml = YAML()
-yaml.preserve_quotes = True
 
 
 @pytest.fixture
@@ -20,17 +17,17 @@ def merge_env(monkeypatch, tmp_path):
     catalog = tmp_path / "assets" / "catalog"
     curation_dir = catalog / "curation"
     curation_dir.mkdir(parents=True)
-    series_yaml = catalog / "series.yaml"
+    series_json = catalog / "series.json"
     monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
 
-    yaml.dump(
+    write_catalog(
+        series_json,
         {
             "series": [
                 {"id": "source", "title": "Source Series", "providers": {}},
                 {"id": "target", "title": "Target Series", "providers": {}},
             ],
         },
-        series_yaml,
     )
 
     source_curation = {
@@ -70,7 +67,7 @@ def merge_env(monkeypatch, tmp_path):
     (curation_dir / "target.json").write_text(json.dumps(target_curation))
 
     return {
-        "series_yaml": series_yaml,
+        "series_json": series_json,
         "curation_dir": curation_dir,
     }
 
@@ -84,7 +81,7 @@ class TestMergeSeries:
 
     def test_merge_removes_source(self, merge_env):
         merge_ops.merge_series("source", "target")
-        data = yaml.load(merge_env["series_yaml"])
+        data = load_raw(merge_env["series_json"])
         ids = [e["id"] for e in data["series"]]
         assert "source" not in ids
         assert "target" in ids
@@ -253,9 +250,9 @@ class TestSplitOps:
         assert "a3" not in album_ids
         assert "a1" in album_ids
 
-    def test_accept_split_adds_to_series_yaml_with_providers(self, split_env):
+    def test_accept_split_adds_to_the_catalog_with_providers(self, split_env):
         merge_ops.accept_split("parent", 0)
-        data = yaml.load(split_env["series_yaml"])
+        data = load_raw(split_env["series_json"])
         entry = next(e for e in data["series"] if e["id"] == "parent_spinoff")
         assert entry["providers"]["spotify"]["artist_ids"] == ["p1"]
 
@@ -273,9 +270,9 @@ class TestSplitOps:
         assert new_data["incomplete"] is False
         assert new_data["incomplete_reason"] == ""
 
-    def test_accept_split_records_split_from_in_series_yaml(self, split_env):
+    def test_accept_split_records_split_from_in_the_catalog(self, split_env):
         merge_ops.accept_split("parent", 0)
-        data = yaml.load(split_env["series_yaml"])
+        data = load_raw(split_env["series_json"])
         entry = next(e for e in data["series"] if e["id"] == "parent_spinoff")
         assert entry["split_from"] == "parent"
 

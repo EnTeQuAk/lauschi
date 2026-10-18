@@ -2,7 +2,7 @@
 
 Facts like era_boundaries, known_gaps, and sub_series are discovered by
 LLM agents during curation, audited by a second model (4-eye principle),
-and then frozen into series.yaml. On subsequent runs (incremental
+and then frozen into series.json. On subsequent runs (incremental
 updates), curate loads the frozen facts as input context and only
 proposes genuinely new ones.
 
@@ -147,7 +147,7 @@ class SeriesFacts(BaseModel):
     Curate proposes facts from the discography. Audit (a different
     model family) stamps agreed facts with audited_by + audited_at.
     Unaudited or disagreed facts stay without audited_by; apply only
-    writes audited facts to series.yaml.
+    writes audited facts to series.json.
     """
 
     era_boundaries: list[EraBoundary] = Field(default_factory=list)
@@ -160,7 +160,7 @@ def merge_facts(*sources: "SeriesFacts | None") -> "SeriesFacts | None":
 
     Keys: era label, gap number, sub_series label. Earlier sources
     win on conflict, so pass the most authoritative first (frozen
-    series.yaml facts, then prior curation, then new proposals).
+    series.json facts, then prior curation, then new proposals).
     Returns None when nothing survives, matching the convention that
     an absent series_facts block means "no facts".
     """

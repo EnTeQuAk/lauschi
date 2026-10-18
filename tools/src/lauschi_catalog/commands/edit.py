@@ -89,7 +89,7 @@ def move(source_id: str, target_id: str, albums: tuple[str, ...]):
 
     The source keeps each album as sub_series_bleed with the target named
     as its owner. The target includes it, numbered by its own pattern.
-    series.yaml changes with the next apply, source first.
+    series.json changes with the next apply, source first.
 
     Example:
 
@@ -110,7 +110,7 @@ def move(source_id: str, target_id: str, albums: tuple[str, ...]):
     console.print(
         f"[green]Moved {result.moved} album(s) from {source_id} to {target_id}[/green]"
     )
-    console.print("Write series.yaml with, in this order:")
+    console.print("Write series.json with, in this order:")
     console.print(f"  lauschi-catalog apply {source_id}")
     console.print(f"  lauschi-catalog apply {target_id}")
 

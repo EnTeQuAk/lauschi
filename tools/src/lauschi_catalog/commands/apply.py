@@ -1,4 +1,4 @@
-"""Apply approved curations to series.yaml (CLI wrapper).
+"""Apply approved curations to series.json (CLI wrapper).
 
 Thin CLI layer over catalog.apply_ops. All business logic lives in
 the library module.
@@ -33,12 +33,12 @@ def apply(
     allow_unreviewed: bool,
     allow_loss: bool,
 ):
-    """Apply approved curations to series.yaml.
+    """Apply approved curations to series.json.
 
     Reads curation JSONs and writes the included album IDs into the
-    providers section of series.yaml. Exits 1 when any series was
+    providers section of series.json. Exits 1 when any series was
     refused by the review gates. Each guard is its own flag: a tripped
-    guard leaves the whole yaml entry untouched, so a refusal never
+    guard leaves the whole catalog entry untouched, so a refusal never
     becomes a half-applied pattern-over-old-albums state.
     """
     if not series_id and not run_all:
@@ -56,7 +56,7 @@ def apply(
 
     if result.applied > 0 and result.written:
         console.print(
-            f"\n[green]Applied {result.applied} curations to series.yaml[/green]"
+            f"\n[green]Applied {result.applied} curations to series.json[/green]"
         )
     elif result.applied > 0 and dry_run:
         console.print(f"\n[dim]Dry run: {result.applied} would be applied[/dim]")

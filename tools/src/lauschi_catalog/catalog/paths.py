@@ -25,8 +25,8 @@ def repo_root() -> Path:
     return checkout_root()
 
 
-def series_yaml_path() -> Path:
-    return repo_root() / _CATALOG_SUBDIR / "series.yaml"
+def catalog_path() -> Path:
+    return repo_root() / _CATALOG_SUBDIR / "series.json"
 
 
 def curation_dir() -> Path:
@@ -38,7 +38,7 @@ def curation_path(series_id: str) -> Path:
 
 
 def series_lock_path() -> Path:
-    return repo_root() / _CATALOG_SUBDIR / ".series.yaml.lock"
+    return repo_root() / _CATALOG_SUBDIR / ".series.json.lock"
 
 
 def deleted_yaml_path() -> Path:

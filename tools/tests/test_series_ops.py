@@ -3,13 +3,10 @@
 import json
 
 import pytest
-from ruamel.yaml import YAML
 
 from lauschi_catalog.catalog import series_ops
 from lauschi_catalog.catalog.apply_ops import apply_curations
-
-yaml = YAML()
-yaml.preserve_quotes = True
+from lauschi_catalog.catalog.io import load_raw, write_catalog
 
 
 @pytest.fixture
@@ -18,22 +15,22 @@ def catalog_env(monkeypatch, tmp_path):
     catalog = tmp_path / "assets" / "catalog"
     curation_dir = catalog / "curation"
     curation_dir.mkdir(parents=True)
-    series_yaml = catalog / "series.yaml"
+    series_json = catalog / "series.json"
     deleted_yaml = catalog / "deleted.yaml"
     monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
 
-    yaml.dump(
+    write_catalog(
+        series_json,
         {
             "series": [
                 {"id": "bibi_blocksberg", "title": "Bibi Blocksberg", "providers": {}},
                 {"id": "tkkg", "title": "TKKG", "providers": {}},
             ],
         },
-        series_yaml,
     )
 
     return {
-        "series_yaml": series_yaml,
+        "series_json": series_json,
         "curation_dir": curation_dir,
         "deleted_yaml": deleted_yaml,
     }
@@ -46,7 +43,7 @@ class TestEditSeries:
         assert result.ok
         assert result.series_id == "bibi_blocksberg"
 
-        data = yaml.load(catalog_env["series_yaml"])
+        data = load_raw(catalog_env["series_json"])
         entry = next(e for e in data["series"] if e["id"] == "bibi_blocksberg")
         assert entry["title"] == "Bibi Blocksberg NEU"
 
@@ -85,7 +82,7 @@ class TestEditSeries:
         result = series_ops.edit_series("bibi_blocksberg", changes)
         assert result.ok
 
-        data = yaml.load(catalog_env["series_yaml"])
+        data = load_raw(catalog_env["series_json"])
         entry = next(e for e in data["series"] if e["id"] == "bibi_blocksberg")
         assert entry["episode_pattern"] == r"Folge\s+(\d+)"
 
@@ -100,7 +97,7 @@ class TestEditSeries:
         result = series_ops.edit_series("bibi_blocksberg", changes)
         assert result.ok
 
-        data = yaml.load(catalog_env["series_yaml"])
+        data = load_raw(catalog_env["series_json"])
         entry = next(e for e in data["series"] if e["id"] == "bibi_blocksberg")
         assert entry["content_type"] == "music"
 
@@ -129,13 +126,13 @@ class TestEditSeries:
     )
     def test_an_edit_survives_the_next_apply(self, catalog_env, changes, key, expected):
         """apply writes a curation's pattern and content type into
-        series.yaml. An edit that reached series.yaml alone was written
+        series.json. An edit that reached series.json alone was written
         over with the next apply, by the curation's older value."""
-        data = yaml.load(catalog_env["series_yaml"])
+        data = load_raw(catalog_env["series_json"])
         entry = next(e for e in data["series"] if e["id"] == "bibi_blocksberg")
         entry["episode_pattern"] = r"^(\d+)/"
         entry["providers"] = {"spotify": {"artist_ids": ["a"]}}
-        yaml.dump(data, catalog_env["series_yaml"])
+        write_catalog(catalog_env["series_json"], data)
         (catalog_env["curation_dir"] / "bibi_blocksberg.json").write_text(
             json.dumps(
                 {
@@ -160,7 +157,7 @@ class TestEditSeries:
         applied = apply_curations("bibi_blocksberg", allow_unreviewed=True)
 
         assert applied.applied == 1
-        data = yaml.load(catalog_env["series_yaml"])
+        data = load_raw(catalog_env["series_json"])
         entry = next(e for e in data["series"] if e["id"] == "bibi_blocksberg")
         assert entry.get(key) == expected
 
@@ -175,7 +172,7 @@ class TestDeleteSeries:
         assert result.title == "Bibi Blocksberg"
         assert result.curation_removed
 
-        data = yaml.load(catalog_env["series_yaml"])
+        data = load_raw(catalog_env["series_json"])
         ids = [e["id"] for e in data["series"]]
         assert "bibi_blocksberg" not in ids
         assert not cur.exists()
@@ -193,7 +190,7 @@ class TestAddSeriesEntry:
         assert result.ok
         assert result.series_id == "benjamin_bluemchen"
 
-        data = yaml.load(catalog_env["series_yaml"])
+        data = load_raw(catalog_env["series_json"])
         ids = [e["id"] for e in data["series"]]
         assert "benjamin_bluemchen" in ids
 
@@ -211,10 +208,10 @@ class TestAddSeriesEntry:
 
 class TestRemoveSeriesFromYaml:
     def test_remove_existing(self, catalog_env):
-        assert series_ops.remove_series_from_yaml("tkkg")
-        data = yaml.load(catalog_env["series_yaml"])
+        assert series_ops.remove_series_entry("tkkg")
+        data = load_raw(catalog_env["series_json"])
         ids = [e["id"] for e in data["series"]]
         assert "tkkg" not in ids
 
     def test_remove_nonexistent_returns_false(self, catalog_env):
-        assert not series_ops.remove_series_from_yaml("nonexistent")
+        assert not series_ops.remove_series_entry("nonexistent")

@@ -1,6 +1,6 @@
 """Drift detection: does the catalog still mean what it says?
 
-`series.yaml` is a cached projection of provider state. Existing checks
+`series.json` is a cached projection of provider state. Existing checks
 verify that our data is internally consistent (L1) and that album IDs
 resolve (L5), but never that an ID still points at the content we
 recorded against it.
@@ -288,7 +288,7 @@ class DriftResult:
     findings: list[DriftFinding] = field(default_factory=list)
     checked: dict[str, int] = field(default_factory=dict)
     unresolved_series: list[str] = field(default_factory=list)
-    #: yaml-vs-curation set differences, named per series/provider.
+    #: catalog-vs-curation set differences, named per series/provider.
     #: Offline (no network), so it also runs before the sweep.
     divergence: list[str] = field(default_factory=list)
     #: IDs whose lookup failed. Absence from the response proves nothing
@@ -311,12 +311,12 @@ class DriftResult:
 
 
 def configured_vs_curation(entry: CatalogEntry, provider: str) -> list[str]:
-    """Offline comparison of what series.yaml ships vs what the curation
+    """Offline comparison of what series.json ships vs what the curation
     includes for one provider.
 
-    Names both directions of the divergence: yaml albums the curation
-    never included, and curation includes yaml never configured. The
-    online sweep can only check what the curation holds, so a yaml
+    Names both directions of the divergence: catalog albums the curation
+    never included, and curation includes the catalog never configured. The
+    online sweep can only check what the curation holds, so a catalog
     album that never made it into the curation is invisible to it;
     this check is the only place that gap surfaces.
 
@@ -333,7 +333,7 @@ def configured_vs_curation(entry: CatalogEntry, provider: str) -> list[str]:
     if not records:
         return [
             f"{entry.id}/{provider}: {len(configured)} album(s) configured in "
-            f"series.yaml but the curation has no records for this provider: "
+            f"series.json but the curation has no records for this provider: "
             f"{', '.join(configured)}"
         ]
 
@@ -348,7 +348,7 @@ def configured_vs_curation(entry: CatalogEntry, provider: str) -> list[str]:
     if extra:
         messages.append(
             f"{entry.id}/{provider}: {len(extra)} included curation album(s) "
-            f"are not configured in series.yaml: {', '.join(extra)}"
+            f"are not configured in series.json: {', '.join(extra)}"
         )
     return messages
 
@@ -361,7 +361,7 @@ def stored_album_records(
 ) -> list[dict]:
     """Album records for a series/provider, read from its curation file.
 
-    The curation is the source rather than series.yaml because it carries
+    The curation is the source rather than series.json because it carries
     the release date and the include flag, and because it is what a
     `--fix-titles` repair writes back to.
     """

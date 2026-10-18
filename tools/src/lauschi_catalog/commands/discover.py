@@ -23,7 +23,7 @@ console = Console()
     type=click.Choice(["spotify", "apple_music", "all"]),
     default="all",
 )
-@click.option("--write", "-w", is_flag=True, help="Write discovered IDs to series.yaml")
+@click.option("--write", "-w", is_flag=True, help="Write discovered IDs to series.json")
 @click.option(
     "--prune-broken",
     is_flag=True,
@@ -94,7 +94,7 @@ def _cli_discover_single(
     if result.created_new:
         console.print(f"[green]Created new series (id: {result.new_series_id})[/green]")
     elif result.written:
-        console.print("[green]Updated series.yaml[/green]")
+        console.print("[green]Updated series.json[/green]")
     elif not write:
         pass
     else:
@@ -124,9 +124,9 @@ def _cli_discover_all(
     console.print(f"\n[bold]{result.found_total} new IDs discovered[/bold]")
 
     if result.written:
-        console.print(f"[green]Updated {result.written} entries in series.yaml[/green]")
+        console.print(f"[green]Updated {result.written} entries in series.json[/green]")
     elif result.updates and not write:
-        console.print("[dim]Dry run. Pass --write to update series.yaml.[/dim]")
+        console.print("[dim]Dry run. Pass --write to update series.json.[/dim]")
 
 
 def _cli_prune_broken(
@@ -163,6 +163,6 @@ def _cli_prune_broken(
     )
 
     if result.written:
-        console.print(f"[green]Updated {result.written} entries in series.yaml[/green]")
+        console.print(f"[green]Updated {result.written} entries in series.json[/green]")
     elif result.pruned_series and not write:
-        console.print("[dim]Dry run. Pass --write to update series.yaml.[/dim]")
+        console.print("[dim]Dry run. Pass --write to update series.json.[/dim]")

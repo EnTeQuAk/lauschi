@@ -576,9 +576,9 @@
     {% if curation.review.status == 'approved' %}
         <form method="post" action="/catalog/{{ series.id }}/run" class="mb-15">
             <input type="hidden" name="command" value="apply" />
-            <button type="submit" class="contrast">Apply to series.yaml</button>
+            <button type="submit" class="contrast">Apply to series.json</button>
             <p class="text-muted">
-                <small>Writes curated album list into series.yaml. Does not affect splits (those are applied individually below).</small>
+                <small>Writes curated album list into series.json. Does not affect splits (those are applied individually below).</small>
             </p>
         </form>
     {% endif %}
@@ -782,7 +782,7 @@
 <article class="panel mt-1">
     <h3>Danger zone</h3>
     <p class="text-muted">
-        Removes the series.yaml entry and the curation file, and records
+        Removes the series.json entry and the curation file, and records
         the deletion in deleted.yaml so catalog-add warns before
         re-introducing the same id.
     </p>
@@ -1028,7 +1028,7 @@ function pipelineStages(seriesId) {
           alert('Failed: ' + (data.detail || 'unknown error'));
           return;
         }
-        this.discoverAccepted = `Wrote ${providerName} artist ID ${artistId} to series.yaml.`;
+        this.discoverAccepted = `Wrote ${providerName} artist ID ${artistId} to series.json.`;
         await this.loadPipeline();
       } catch (e) {
         alert('Request failed: ' + e.message);

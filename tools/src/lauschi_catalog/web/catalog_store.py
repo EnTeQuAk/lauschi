@@ -1,8 +1,8 @@
-"""In-process catalog store backed by series.yaml.
+"""In-process catalog store backed by series.json.
 
-Replaces the former SQLite cache. Loads YAML into a dict on startup;
+Replaces the former SQLite cache. Loads series.json into a dict on startup;
 all reads are dict lookups. Call ``reload_catalog()`` after any write
-to series.yaml to refresh the in-process state.
+to series.json to refresh the in-process state.
 
 Uses atomic reference swap for the read path so readers never block.
 Only the writer (``reload_catalog``) acquires a lock, and only to
@@ -15,7 +15,7 @@ from filelock import FileLock
 
 from lauschi_catalog.catalog.loader import load_catalog
 from lauschi_catalog.catalog.models import CatalogEntry
-from lauschi_catalog.catalog.paths import series_lock_path, series_yaml_path
+from lauschi_catalog.catalog.paths import catalog_path, series_lock_path
 
 _CatalogState = tuple[dict[str, CatalogEntry], list[CatalogEntry]]
 
@@ -24,10 +24,10 @@ _state: _CatalogState = ({}, [])
 
 
 def reload_catalog() -> int:
-    """Reload series.yaml into memory. Returns entry count."""
+    """Reload series.json into memory. Returns entry count."""
     global _state
     with FileLock(str(series_lock_path())):
-        entries = load_catalog(series_yaml_path())
+        entries = load_catalog(catalog_path())
     by_id = {e.id: e for e in entries}
     ordered = sorted(entries, key=lambda e: e.title.lower())
     with _write_lock:

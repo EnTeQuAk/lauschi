@@ -4,12 +4,9 @@ import json
 
 import pytest
 from click.testing import CliRunner
-from ruamel.yaml import YAML
 
+from lauschi_catalog.catalog.io import write_catalog
 from lauschi_catalog.commands import apply_splits as splits_mod
-
-yaml = YAML()
-yaml.preserve_quotes = True
 
 
 @pytest.fixture
@@ -18,16 +15,16 @@ def split_env(monkeypatch, tmp_path):
     catalog = tmp_path / "assets" / "catalog"
     curation_dir = catalog / "curation"
     curation_dir.mkdir(parents=True)
-    series_yaml = catalog / "series.yaml"
+    series_json = catalog / "series.json"
     monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
 
-    yaml.dump(
+    write_catalog(
+        series_json,
         {
             "series": [
                 {"id": "parent", "title": "Parent Series", "providers": {}},
             ],
         },
-        series_yaml,
     )
 
     curation = {
@@ -62,7 +59,7 @@ def split_env(monkeypatch, tmp_path):
     (curation_dir / "parent.json").write_text(json.dumps(curation))
 
     return {
-        "series_yaml": series_yaml,
+        "series_json": series_json,
         "curation_dir": curation_dir,
     }
 

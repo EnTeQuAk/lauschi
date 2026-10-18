@@ -34,7 +34,7 @@ templates = Jinja2Templates(
 
 
 async def _background_sync() -> None:
-    """Periodically reload series.yaml into the in-process store."""
+    """Periodically reload series.json into the in-process store."""
     while True:
         await asyncio.sleep(30)
         try:

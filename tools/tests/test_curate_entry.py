@@ -55,7 +55,7 @@ class TestPrepareCuration:
         assert prepared.entry_content_type == "music"
         assert prepared.series_id == "die_playmos"
 
-    def test_cli_override_wins_but_the_yaml_type_stays_visible(
+    def test_cli_override_wins_but_the_catalog_type_stays_visible(
         self, scratch: Path
     ) -> None:
         prepared = prepare_curation(_entry(), cli_content_type="music")

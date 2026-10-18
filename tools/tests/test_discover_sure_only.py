@@ -7,6 +7,7 @@ from lauschi_catalog.catalog.discover_ops import (
     classify_match,
     match_artist,
 )
+from lauschi_catalog.catalog.io import load_raw, write_catalog
 from lauschi_catalog.providers.base import Artist
 
 
@@ -19,6 +20,11 @@ def _artist(
         provider=provider,
         genres=genres or [],
     )
+
+
+PLAYMOS = {
+    "series": [{"id": "playmos", "title": "Die Playmos", "providers": {"spotify": {}}}]
+}
 
 
 class _FakeProvider:
@@ -36,17 +42,17 @@ class _FakeProvider:
         return True
 
 
-def _patch_loader(monkeypatch, tmp_path: Path, yaml_text: str = "series: []\n"):
+def _patch_loader(monkeypatch, tmp_path: Path, catalog: dict | None = None) -> Path:
     """Hermetic layout: the LAUSCHI_REPO_ROOT env var is the only patch."""
     monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
     (tmp_path / "assets" / "catalog").mkdir(parents=True)
-    yaml_path = tmp_path / "assets" / "catalog" / "series.yaml"
-    yaml_path.write_text(yaml_text)
+    catalog_file = tmp_path / "assets" / "catalog" / "series.json"
+    write_catalog(catalog_file, catalog or {"series": []})
     (tmp_path / "assets" / "catalog" / "deleted.yaml").write_text("deleted: []\n")
     (tmp_path / "android").mkdir()
     (tmp_path / ".cache").mkdir()
 
-    return yaml_path
+    return catalog_file
 
 
 def test_classify_match_exact_and_substring():
@@ -100,7 +106,7 @@ def test_discover_all_only_writes_exact_and_substring(tmp_path, monkeypatch):
     _patch_loader(
         monkeypatch,
         tmp_path,
-        yaml_text="series:\n  - id: playmos\n    title: Die Playmos\n    providers:\n      spotify: {}\n",
+        catalog=PLAYMOS,
     )
 
     exact = _artist("Die Playmos")
@@ -128,7 +134,7 @@ def test_discover_all_reports_weak_without_write(tmp_path, monkeypatch):
     _patch_loader(
         monkeypatch,
         tmp_path,
-        yaml_text="series:\n  - id: playmos\n    title: Die Playmos\n    providers:\n      spotify: {}\n",
+        catalog=PLAYMOS,
     )
 
     weak = _artist("Playmobil Soundtrack", genres=["Kinder"])
@@ -147,3 +153,59 @@ def test_discover_all_reports_weak_without_write(tmp_path, monkeypatch):
     assert result.found_total == 0
     assert result.updates == {}
     assert result.written == 0
+
+
+COCO = {
+    "series": [
+        {
+            "id": "coco",
+            "title": "Coco",
+            "providers": {
+                "spotify": {
+                    "no_artist_page": "Every artist named Coco is someone else.",
+                    "albums": [{"id": "a1", "title": "Coco (Hörspiel)"}],
+                }
+            },
+        }
+    ]
+}
+
+
+class _NoSearch(_FakeProvider):
+    """A provider that must not be searched."""
+
+    def search_artists(self, query: str, limit: int = 8) -> list[Artist]:
+        raise AssertionError(f"searched {query!r}")
+
+
+def test_discover_all_skips_a_provider_without_an_artist_page(tmp_path, monkeypatch):
+    """An entry whose provider has no artist page of its own is not searched
+    there: every artist of that name is someone else."""
+    _patch_loader(monkeypatch, tmp_path, catalog=COCO)
+
+    result = discover_ops.discover_all(
+        [_NoSearch([_artist("Coco")])],
+        write=True,
+        on_progress=lambda _m: None,
+    )
+
+    assert result.updates == {}
+    assert result.written == 0
+
+
+def test_discover_one_writes_no_artist_id_where_there_is_no_artist_page(
+    tmp_path, monkeypatch
+):
+    catalog_file = _patch_loader(monkeypatch, tmp_path, catalog=COCO)
+    messages: list[str] = []
+
+    result = discover_ops.discover_one(
+        "coco",
+        [_FakeProvider([_artist("Coco")])],
+        write=True,
+        on_progress=messages.append,
+    )
+
+    assert result.written is False
+    assert load_raw(catalog_file) == COCO
+    assert any("Every artist named Coco is someone else." in m for m in messages)

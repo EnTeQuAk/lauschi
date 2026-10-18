@@ -609,8 +609,8 @@ def _child_album_records(child) -> list[tuple[str, str, str]]:
 
     The child's current curation is its claim: children curate before
     their root, so it holds what the child took this run, including a new
-    line album series.yaml does not ship yet, and leaves out an album the
-    child gave back. series.yaml stands in for a child with no curation
+    line album series.json does not ship yet, and leaves out an album the
+    child gave back. series.json stands in for a child with no curation
     yet, such as one a split acceptance just created.
     """
     child_path = curation_path(child.id)
@@ -1321,7 +1321,7 @@ def decisions_from_answer(
     provider id attached to a real title. Luna did this once on Bibi
     Blocksberg (apple_music 1143565835, "Folge 75: Die neue Lehrerin",
     an id Apple Music does not have). Such a decision is an invented
-    album; kept, it would ship into series.yaml through apply and the
+    album; kept, it would ship into series.json through apply and the
     app would show a tile that cannot play. Returns the decisions and
     the dropped ``provider:album_id`` keys.
     """
@@ -1828,7 +1828,7 @@ class CurateDeps(AgentDeps):
     """Dependency container for all curate-phase agents."""
 
     pattern: str | list[str] | None = None
-    #: the pattern is the entry's own from series.yaml, a fact a revision may extend but not narrow
+    #: the pattern is the entry's own from series.json, a fact a revision may extend but not narrow
     pattern_from_catalog: bool = False
     pattern_revisions: list[str | list[str]] = field(default_factory=list)
     titles: list[str] = field(default_factory=list)
@@ -1944,7 +1944,7 @@ def _pattern_for_run(
     entry_pattern: str | list[str] | None, proposed: str | list[str] | None
 ) -> str | list[str] | None:
     """The pattern a run works with: the entry's own pattern from
-    series.yaml when it has one, else the metadata agent's proposal.
+    series.json when it has one, else the metadata agent's proposal.
     The catalog pattern is a fact; the agent proposes only where there
     is none yet."""
     return entry_pattern if entry_pattern else proposed
@@ -2983,7 +2983,7 @@ async def _run_large(
     )
     if entry_pattern and entry_pattern != meta.episode_pattern:
         on_progress(
-            f"  Pattern from series.yaml: {entry_pattern!r} "
+            f"  Pattern from series.json: {entry_pattern!r} "
             f"(the agent proposed {meta.episode_pattern!r}).\n"
         )
     meta.episode_pattern = _pattern_for_run(entry_pattern, meta.episode_pattern)
@@ -3418,7 +3418,7 @@ def save_curation(
     # when the album ID set is identical. Clearing forces re-audit.
     data.pop("review", None)
 
-    # series.yaml decides the family; the audit reads it from here.
+    # series.json decides the family; the audit reads it from here.
     entry = lookup_catalog_entry(series.id)
     if entry is not None:
         if entry.split_from:
@@ -3464,13 +3464,13 @@ def resolve_content_type(
 ) -> Literal["hoerspiel", "music", "audiobook"]:
     """Decide the content_type for curation.
 
-    series.yaml is canonical: an explicit content_type there wins.
+    series.json is canonical: an explicit content_type there wins.
     """
     if entry_content_type in ("hoerspiel", "music", "audiobook"):
         return entry_content_type  # type: ignore[return-value]
     if entry_content_type is not None:
         raise ValueError(
-            f"unknown content_type {entry_content_type!r} in series.yaml. "
+            f"unknown content_type {entry_content_type!r} in series.json. "
             f"Use one of: hoerspiel, music, audiobook.",
         )
     if entry_has_pattern:
@@ -3595,17 +3595,18 @@ def metadata_problem(
 
 
 def _carry_facts(
-    yaml_facts: "SeriesFacts | None", existing_curation: dict | None
+    catalog_facts: "SeriesFacts | None", existing_curation: dict | None
 ) -> "SeriesFacts":
-    """Facts a re-curation starts from: the frozen series.yaml facts
-    plus the prior curation's, series.yaml winning on conflict.
+    """Facts a re-curation starts from: the frozen series.json facts
+    plus the prior curation's, series.json winning on conflict.
 
     Re-curation is an incremental update, not a rediscovery from
     scratch. A series without any facts starts from empty facts, never
     from None.
     """
     return (
-        merge_facts(yaml_facts, facts_from_curation(existing_curation)) or SeriesFacts()
+        merge_facts(catalog_facts, facts_from_curation(existing_curation))
+        or SeriesFacts()
     )
 
 
@@ -3625,7 +3626,7 @@ def lock_series_id(
     if canonical_id and series.id != canonical_id:
         on_progress(
             f"  Locked id to canonical: {series.id!r} -> "
-            f"{canonical_id!r} (model output overridden by series.yaml)",
+            f"{canonical_id!r} (model output overridden by series.json)",
         )
         series.id = canonical_id
     return series
@@ -3659,7 +3660,7 @@ class CurateAllResult:
 class CurateEntryPrepared:
     """Everything curate_one needs, resolved from the catalog entry.
 
-    One place decides how the prior curation, the yaml content type,
+    One place decides how the prior curation, the catalog's content type,
     split protection, and the canonical id interact.
     """
 
@@ -3682,7 +3683,7 @@ def prepare_curation(
 
     Loads the entry from the catalog when given only a query string,
     refuses split-off children, loads the prior curation record, and
-    resolves the content type (CLI override > series.yaml > inference).
+    resolves the content type (CLI override > series.json > inference).
     """
     if isinstance(entry_or_query, CatalogEntry):
         entry: CatalogEntry = entry_or_query

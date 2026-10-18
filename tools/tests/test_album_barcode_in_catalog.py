@@ -1,4 +1,4 @@
-"""An album's barcode travels from the provider record to series.yaml.
+"""An album's barcode travels from the provider record to series.json.
 
 Curate puts the provider's barcode on every decision, as it does the
 title and release date, a re-curation carries it, and apply writes it
@@ -8,14 +8,13 @@ reference index, so a store id that moved to another release shows.
 
 from pathlib import Path
 
-from ruamel.yaml import YAML
-
 from lauschi_catalog.catalog.apply_ops import apply_one
 from lauschi_catalog.catalog.curate_ops import (
     _fill_barcodes,
     _preseed_decisions,
     _restore_identity,
 )
+from lauschi_catalog.catalog.io import write_catalog
 from lauschi_catalog.catalog.loader import _parse_catalog
 from lauschi_catalog.providers.base import Album
 from tests.factories import album_record, decision, discovered_album
@@ -52,7 +51,7 @@ def test_a_carried_decision_keeps_its_barcode() -> None:
     assert carried[0].barcode == "4029759160373"
 
 
-def _yaml_entry(*albums: dict) -> dict:
+def _catalog_entry(*albums: dict) -> dict:
     return {
         "id": "s",
         "title": "S",
@@ -65,15 +64,15 @@ def _curation(*albums: dict) -> dict:
 
 
 def test_apply_writes_the_barcode_next_to_the_album_id() -> None:
-    yaml_data = {"series": [_yaml_entry()]}
+    catalog_data = {"series": [_catalog_entry()]}
     data = _curation(
         album_record("s1", title="Folge 1", episode_num=1, barcode="4029759160373"),
         album_record("s2", title="Folge 2", episode_num=2, barcode=""),
     )
 
-    assert apply_one("s", data, yaml_data)
+    assert apply_one("s", data, catalog_data)
 
-    assert yaml_data["series"][0]["providers"]["spotify"]["albums"] == [
+    assert catalog_data["series"][0]["providers"]["spotify"]["albums"] == [
         {"id": "s1", "episode": 1, "title": "Folge 1", "barcode": "4029759160373"},
         {"id": "s2", "episode": 2, "title": "Folge 2"},
     ]
@@ -81,28 +80,28 @@ def test_apply_writes_the_barcode_next_to_the_album_id() -> None:
 
 def test_apply_writes_a_barcode_that_is_all_that_changed() -> None:
     shipped = {"id": "s1", "episode": 1, "title": "Folge 1"}
-    yaml_data = {"series": [_yaml_entry(shipped)]}
+    catalog_data = {"series": [_catalog_entry(shipped)]}
     data = _curation(
         album_record("s1", title="Folge 1", episode_num=1, barcode="4029759160373")
     )
 
-    assert apply_one("s", data, yaml_data)
-    album = yaml_data["series"][0]["providers"]["spotify"]["albums"][0]
+    assert apply_one("s", data, catalog_data)
+    album = catalog_data["series"][0]["providers"]["spotify"]["albums"][0]
     assert album["barcode"] == "4029759160373"
 
 
 def test_the_catalog_reads_the_barcode(tmp_path: Path) -> None:
-    path = tmp_path / "series.yaml"
-    YAML().dump(
+    path = tmp_path / "series.json"
+    write_catalog(
+        path,
         {
             "series": [
-                _yaml_entry(
+                _catalog_entry(
                     {"id": "s1", "episode": 1, "title": "Folge 1", "barcode": "0123"},
                     {"id": "s2", "episode": 2, "title": "Folge 2"},
                 )
             ]
         },
-        path,
     )
 
     (entry,) = _parse_catalog(path)

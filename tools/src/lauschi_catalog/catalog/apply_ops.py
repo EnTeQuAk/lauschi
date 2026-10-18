@@ -1,4 +1,4 @@
-"""Library functions for applying curations to series.yaml.
+"""Library functions for applying curations to series.json.
 
 Pure business logic with no console output. Progress is reported via
 callbacks so both the CLI and the web UI can consume it.
@@ -10,15 +10,15 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from lauschi_catalog.catalog.canonical import album_sort_key
-from lauschi_catalog.catalog.io import locked_raw, safe_write_yaml
+from lauschi_catalog.catalog.io import locked_raw, write_catalog
 from lauschi_catalog.catalog.lifecycle import (
     CurationState,
     apply_blockers,
 )
 from lauschi_catalog.catalog.paths import (
+    catalog_path,
     curation_dir,
     curation_path,
-    series_yaml_path,
 )
 
 Progress = Callable[[str], None]
@@ -57,7 +57,7 @@ class ApplyResult:
 def filter_confirmed_facts(facts: dict) -> dict | None:
     """The audited subset of a curation's series facts.
 
-    Facts are frozen into series.yaml only once audit confirms them;
+    Facts are frozen into series.json only once audit confirms them;
     one stale item is enough to tag the whole block as still in motion.
     """
     result: dict = {}
@@ -77,8 +77,8 @@ def _load_curation_file(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _yaml_series(yaml_data: dict, series_id: str) -> dict | None:
-    for entry in yaml_data.get("series", []):
+def _catalog_series(catalog_data: dict, series_id: str) -> dict | None:
+    for entry in catalog_data.get("series", []):
         if entry.get("id") == series_id:
             return entry
     return None
@@ -106,16 +106,16 @@ def should_apply(data: dict, allow_unreviewed: bool = False) -> str | None:
 def apply_one(
     series_id: str,
     data: dict,
-    yaml_data: dict,
+    catalog_data: dict,
     *,
     allow_loss: bool = False,
     on_progress: Progress = _noop,
 ) -> bool:
-    """Apply a single curation to the yaml data. Returns True if updated.
+    """Apply a single curation to the catalog data. Returns True if updated.
 
     Atomic per entry: every guard runs before any mutation, so a
-    tripped guard leaves the whole yaml entry exactly as it was. A
-    curation including far fewer albums than yaml holds is a fetch
+    tripped guard leaves the whole catalog entry exactly as it was. A
+    curation including far fewer albums than the catalog holds is a fetch
     failure in progress, not a decision; overriding that refusal is
     its own flag (--allow-loss). The review gates live in
     should_apply; this function only guards against data loss.
@@ -124,25 +124,25 @@ def apply_one(
     included = [a for a in albums if a.get("include")]
 
     if not included:
-        yaml_series = _yaml_series(yaml_data, series_id)
+        catalog_series = _catalog_series(catalog_data, series_id)
         old_count = 0
-        if yaml_series is not None:
+        if catalog_series is not None:
             old_count = sum(
                 len(p.get("albums") or [])
-                for p in (yaml_series.get("providers") or {}).values()
+                for p in (catalog_series.get("providers") or {}).values()
             )
         if old_count:
             on_progress(
-                f"  {series_id}: curation includes 0 albums but series.yaml "
+                f"  {series_id}: curation includes 0 albums but series.json "
                 f"has {old_count}: not clearing (see catalog-drift)"
             )
         else:
             on_progress(f"  {series_id}: no included albums")
         return False
 
-    yaml_series = _yaml_series(yaml_data, series_id)
-    if yaml_series is None:
-        on_progress(f"  {series_id}: not in series.yaml, skipping")
+    catalog_series = _catalog_series(catalog_data, series_id)
+    if catalog_series is None:
+        on_progress(f"  {series_id}: not in series.json, skipping")
         return False
 
     by_provider: dict[str, list[dict]] = {}
@@ -150,8 +150,8 @@ def apply_one(
         prov = a.get("provider", "spotify")
         by_provider.setdefault(prov, []).append(a)
 
-    if "providers" not in yaml_series:
-        yaml_series["providers"] = {}
+    if "providers" not in catalog_series:
+        catalog_series["providers"] = {}
 
     # Pre-compute every provider's new album list and run ALL guards
     # before touching the entry, so a tripped guard cannot leave the
@@ -178,13 +178,13 @@ def apply_one(
     if not allow_loss:
         for prov_name, album_entries in planned.items():
             existing: list[dict] = (
-                yaml_series.get("providers", {}).get(prov_name, {}).get("albums")
+                catalog_series.get("providers", {}).get(prov_name, {}).get("albums")
             ) or []
             if len(existing) >= 10 and len(album_entries) < len(existing) * 0.5:
                 # Guard: refuse to replace when a provider's album count
                 # drops by more than half. Catches API fetch issues (e.g.
                 # Spotify returning only recent albums) that would
-                # silently wipe curated data from series.yaml.
+                # silently wipe curated data from series.json.
                 on_progress(
                     f"  {prov_name}: REFUSED — would drop from "
                     f"{len(existing)} to {len(album_entries)} albums "
@@ -206,7 +206,9 @@ def apply_one(
 
     updated = False
     for prov_name, album_entries in planned.items():
-        prov_section = yaml_series.setdefault("providers", {}).setdefault(prov_name, {})
+        prov_section = catalog_series.setdefault("providers", {}).setdefault(
+            prov_name, {}
+        )
         existing: list[dict] = prov_section.get("albums", []) or []
 
         existing_ids = {e.get("id") for e in existing}
@@ -226,34 +228,34 @@ def apply_one(
             )
 
     pattern = data.get("episode_pattern")
-    yaml_pattern = yaml_series.get("episode_pattern")
-    if pattern != yaml_pattern:
+    shipped_pattern = catalog_series.get("episode_pattern")
+    if pattern != shipped_pattern:
         if pattern is None:
-            yaml_series.pop("episode_pattern", None)
+            catalog_series.pop("episode_pattern", None)
         else:
-            yaml_series["episode_pattern"] = pattern
+            catalog_series["episode_pattern"] = pattern
         updated = True
 
     ct = data.get("content_type")
-    yaml_ct = yaml_series.get("content_type")
-    has_other_hoerspiel_signal = yaml_series.get("episode_pattern") is not None
+    shipped_ct = catalog_series.get("content_type")
+    has_other_hoerspiel_signal = catalog_series.get("episode_pattern") is not None
     if ct == "hoerspiel":
-        if yaml_ct is not None and has_other_hoerspiel_signal:
-            del yaml_series["content_type"]
+        if shipped_ct is not None and has_other_hoerspiel_signal:
+            del catalog_series["content_type"]
             updated = True
-        elif yaml_ct != "hoerspiel" and not has_other_hoerspiel_signal:
-            yaml_series["content_type"] = "hoerspiel"
+        elif shipped_ct != "hoerspiel" and not has_other_hoerspiel_signal:
+            catalog_series["content_type"] = "hoerspiel"
             updated = True
-    elif ct and ct != yaml_ct:
-        yaml_series["content_type"] = ct
+    elif ct and ct != shipped_ct:
+        catalog_series["content_type"] = ct
         updated = True
 
     prov_artist_ids = data.get("provider_artist_ids", {})
     for prov_name, aids in prov_artist_ids.items():
-        if aids and prov_name in yaml_series["providers"]:
-            current = yaml_series["providers"][prov_name].get("artist_ids", [])
+        if aids and prov_name in catalog_series["providers"]:
+            current = catalog_series["providers"][prov_name].get("artist_ids", [])
             if set(str(a) for a in aids) != set(str(a) for a in current):
-                yaml_series["providers"][prov_name]["artist_ids"] = [
+                catalog_series["providers"][prov_name]["artist_ids"] = [
                     str(a) for a in aids
                 ]
                 updated = True
@@ -261,11 +263,11 @@ def apply_one(
     facts = data.get("series_facts")
     if facts:
         confirmed = filter_confirmed_facts(facts)
-        if confirmed != yaml_series.get("series_facts"):
+        if confirmed != catalog_series.get("series_facts"):
             if confirmed:
-                yaml_series["series_facts"] = confirmed
+                catalog_series["series_facts"] = confirmed
             else:
-                yaml_series.pop("series_facts", None)
+                catalog_series.pop("series_facts", None)
             updated = True
 
     return updated
@@ -280,11 +282,11 @@ def apply_curations(
     dry_run: bool = False,
     on_progress: Progress = _noop,
 ) -> ApplyResult:
-    """Apply approved curations to series.yaml.
+    """Apply approved curations to series.json.
 
     With ``series_id``, applies a single curation (a missing file or a
     filename/id mismatch is an error). With ``run_all``, applies every
-    approved curation and skips the rest. The series.yaml read-
+    approved curation and skips the rest. The series.json read-
     modify-write holds the catalog lock the whole way, so a concurrent
     web edit can't be dropped between load and save.
     """
@@ -299,7 +301,7 @@ def apply_curations(
         single = False
 
     result = ApplyResult()
-    with locked_raw() as yaml_data:
+    with locked_raw() as catalog_data:
         for path in paths:
             if not path.exists():
                 if single:
@@ -319,7 +321,7 @@ def apply_curations(
             if sid != path.stem:
                 reason = (
                     f"curation file {path.name} declares id '{sid}'; refusing "
-                    "to apply one series' albums into another's yaml entry"
+                    "to apply one series' albums into another's catalog entry"
                 )
                 on_progress(f"{path.name}: {reason}")
                 result.skipped += 1
@@ -351,7 +353,7 @@ def apply_curations(
             if apply_one(
                 sid,
                 data,
-                yaml_data,
+                catalog_data,
                 allow_loss=allow_loss,
                 on_progress=on_progress,
             ):
@@ -364,9 +366,9 @@ def apply_curations(
         if result.applied > 0 and not dry_run:
             # Still inside locked_raw's window; the plain atomic writer,
             # save_raw's re-lock on the same path would deadlock.
-            safe_write_yaml(series_yaml_path(), yaml_data)
+            write_catalog(catalog_path(), catalog_data)
             result.written = True
-            on_progress(f"Applied {result.applied} curations to series.yaml")
+            on_progress(f"Applied {result.applied} curations to series.json")
 
     if result.applied > 0 and dry_run:
         on_progress(f"Dry run: {result.applied} would be applied")

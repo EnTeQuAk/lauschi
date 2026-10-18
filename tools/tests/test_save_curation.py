@@ -194,7 +194,7 @@ def test_split_from_follows_the_catalog(
     prior: str | None,
     expected: str | None,
 ) -> None:
-    """series.yaml is the authority on the family. JUNIOR and Erstleser
+    """series.json is the authority on the family. JUNIOR and Erstleser
     became split children there (2026-09-30), but their curations never
     said so, and the audit reads split_from from the curation."""
     from lauschi_catalog.catalog import curate_ops

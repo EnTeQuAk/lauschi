@@ -21,7 +21,7 @@ def test_repo_root_is_a_directory():
 @pytest.mark.parametrize(
     ("build", "name", "under"),
     [
-        pytest.param(paths.series_yaml_path, "series.yaml", "assets", id="series.yaml"),
+        pytest.param(paths.catalog_path, "series.json", "assets", id="series.json"),
         pytest.param(paths.curation_dir, "curation", "assets", id="curation dir"),
         pytest.param(
             lambda: paths.curation_path("die_drei_fragezeichen"),
@@ -30,7 +30,7 @@ def test_repo_root_is_a_directory():
             id="curation file",
         ),
         pytest.param(
-            paths.series_lock_path, ".series.yaml.lock", "assets", id="series lock"
+            paths.series_lock_path, ".series.json.lock", "assets", id="series lock"
         ),
         pytest.param(
             paths.deleted_yaml_path, "deleted.yaml", "assets", id="deleted.yaml"
@@ -63,7 +63,5 @@ def test_paths_functions_resolve_at_call_time(monkeypatch, tmp_path):
     """No module-level constants remain: env set after import still wins."""
     reloaded = importlib.reload(paths)
     monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
-    assert (
-        reloaded.series_yaml_path() == tmp_path / "assets" / "catalog" / "series.yaml"
-    )
+    assert reloaded.catalog_path() == tmp_path / "assets" / "catalog" / "series.json"
     assert reloaded.curation_dir() == tmp_path / "assets" / "catalog" / "curation"

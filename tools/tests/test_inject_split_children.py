@@ -3,7 +3,7 @@
 A fresh curation of a parent (Kira Kolumna) with a split child (Kira
 Kolumna Reportage) must exclude all the child's albums as
 sub_series_bleed before the batch phase decides anything. The albums
-are sourced from series.yaml (the applied, authoritative record),
+are sourced from series.json (the applied, authoritative record),
 which is present even when the child has no curation file in the
 working directory. That absence is exactly what let two clean runs
 split the 28 Reportage items 21/7 differently (2026-09-05).
@@ -23,7 +23,7 @@ def _parent() -> CatalogEntry:
     return CatalogEntry(id="kira_kolumna", title="Kira Kolumna")
 
 
-def _child_with_yaml_albums() -> CatalogEntry:
+def _child_with_catalog_albums() -> CatalogEntry:
     return CatalogEntry(
         id="kira_kolumna_reportage",
         title="Kira Kolumna Reportage",
@@ -54,11 +54,11 @@ def _no_real_curations(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
     )
 
 
-def test_child_albums_are_injected_from_series_yaml_without_a_curation_file(
+def test_child_albums_are_injected_from_the_catalog_without_a_curation_file(
     monkeypatch: pytest.MonkeyPatch,
 ):
     monkeypatch.setattr(
-        curate_ops, "load_catalog", lambda: [_parent(), _child_with_yaml_albums()]
+        curate_ops, "load_catalog", lambda: [_parent(), _child_with_catalog_albums()]
     )
     result = curate_ops._inject_split_children(None, "kira_kolumna")
     injected = {(a["provider"], a["album_id"]): a for a in result["albums"]}
@@ -77,7 +77,7 @@ def test_injection_does_not_duplicate_an_already_present_album(
     monkeypatch: pytest.MonkeyPatch,
 ):
     monkeypatch.setattr(
-        curate_ops, "load_catalog", lambda: [_parent(), _child_with_yaml_albums()]
+        curate_ops, "load_catalog", lambda: [_parent(), _child_with_catalog_albums()]
     )
     existing = {
         "albums": [
@@ -96,7 +96,7 @@ def test_an_album_that_awaited_its_split_goes_to_the_line_that_claims_it(
     """The main series keeps such an album only until its line has an
     entry. Kept on as an ordinary inclusion, it would ship in both."""
     monkeypatch.setattr(
-        curate_ops, "load_catalog", lambda: [_parent(), _child_with_yaml_albums()]
+        curate_ops, "load_catalog", lambda: [_parent(), _child_with_catalog_albums()]
     )
     existing = {
         "albums": [

@@ -43,7 +43,7 @@ MODEL_NAME = os.environ.get("EVAL_MODEL", DEFAULT_MODEL)
 
 @checked_dataclass(frozen=True, config=ConfigDict(extra="forbid"))
 class SeriesContext:
-    """What series.yaml says about the series of a case.
+    """What series.json says about the series of a case.
 
     Checked on construction, so a case file with a misspelt or mistyped
     fact is refused when it is loaded.

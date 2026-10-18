@@ -1,8 +1,9 @@
 """Atomic file I/O with file locking for the catalog.
 
-All writes use temp-file + os.replace for atomicity. YAML writes
+All writes use temp-file + os.replace for atomicity. Catalog writes
 acquire a FileLock on the series lock file to prevent concurrent
-writes from CLI and web processes.
+writes from CLI and web processes. The catalog is JSON, the small
+hand-kept files next to it (deleted.yaml, reference_map.yaml) are YAML.
 """
 
 import json
@@ -80,23 +81,28 @@ def safe_write_yaml(path: Path, data: object) -> None:
     safe_write_text(path, buf.getvalue())
 
 
-def load_raw(path: Path | None = None):
-    """Load series.yaml as raw ruamel.yaml data (preserves comments)."""
-    target = path if path is not None else paths.series_yaml_path()
-    return _yaml.load(target)
+def write_catalog(path: Path, data: object) -> None:
+    """Write the catalog atomically in the layout of `dump_catalog`."""
+    safe_write_text(path, dump_catalog(data))
+
+
+def load_raw(path: Path | None = None) -> dict:
+    """The catalog file as plain data, for load -> mutate -> save."""
+    target = path if path is not None else paths.catalog_path()
+    return json.loads(target.read_text(encoding="utf-8"))
 
 
 def save_raw(data: object, path: Path | None = None) -> None:
-    """Write series.yaml atomically with file lock."""
-    target = path if path is not None else paths.series_yaml_path()
+    """Write the catalog atomically with file lock."""
+    target = path if path is not None else paths.catalog_path()
     lock = paths.series_lock_path()
     with FileLock(str(lock)):
-        safe_write_yaml(target, data)
+        write_catalog(target, data)
 
 
 @contextmanager
 def locked_raw(path: Path | None = None):
-    """series.yaml under the write lock, for load -> mutate -> save spans.
+    """The catalog under the write lock, for load -> mutate -> save spans.
 
     save_raw takes the lock only around its own write; a read-modify-
     write without this window can drop a concurrent web edit.

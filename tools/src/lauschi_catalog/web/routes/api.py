@@ -28,7 +28,7 @@ router = APIRouter()
 
 @router.post("/sync")
 async def post_sync() -> dict[str, int]:
-    """Trigger a manual reload of series.yaml into the catalog store."""
+    """Trigger a manual reload of series.json into the catalog store."""
     count = reload_catalog()
     return {"series_synced": count}
 
@@ -121,7 +121,7 @@ async def get_series_edit(series_id: str) -> dict[str, Any]:
 
 @router.post("/series/{series_id}/edit")
 async def post_series_edit(series_id: str, edit: SeriesEdit) -> dict[str, Any]:
-    """Edit series properties in series.yaml."""
+    """Edit series properties in series.json."""
     changes = SeriesChanges(
         title=edit.title,
         id=edit.id,
@@ -201,7 +201,7 @@ class AcceptArtistRequest(BaseModel):
 
 @router.post("/series/{series_id}/accept-artist")
 async def accept_artist(series_id: str, request: AcceptArtistRequest) -> dict[str, Any]:
-    """Write a discovered artist ID to series.yaml for a specific provider.
+    """Write a discovered artist ID to series.json for a specific provider.
 
     Merges with existing artist_ids so accepting a new ID doesn't
     overwrite previously accepted ones.

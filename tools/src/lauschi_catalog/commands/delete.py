@@ -1,6 +1,6 @@
 """Delete a series from the catalog.
 
-Removes the entry from series.yaml and its curation JSON, and records
+Removes the entry from series.json and its curation JSON, and records
 the deletion in assets/catalog/deleted.yaml so future `catalog-add`
 runs can warn before re-introducing the same id.
 
@@ -36,7 +36,7 @@ console = Console()
 def delete(series_id: str, reason: str, dry_run: bool):
     """Delete SERIES_ID from the catalog.
 
-    Removes the entry from series.yaml, deletes the matching curation
+    Removes the entry from series.json, deletes the matching curation
     JSON if any, and records the deletion in deleted.yaml so future
     catalog-add runs warn before re-introducing the same id.
 
@@ -44,12 +44,12 @@ def delete(series_id: str, reason: str, dry_run: bool):
 
       lauschi-catalog delete tom_turbo --reason "No streaming presence"
     """
-    yaml_path = paths.series_yaml_path()
-    data = load_raw(yaml_path)
+    catalog_file = paths.catalog_path()
+    data = load_raw(catalog_file)
     entries = data.get("series") or []
     target = next((e for e in entries if e.get("id") == series_id), None)
     if target is None:
-        console.print(f"[red]Series {series_id!r} not found in series.yaml[/red]")
+        console.print(f"[red]Series {series_id!r} not found in series.json[/red]")
         raise SystemExit(1)
 
     already = is_deleted(series_id)
@@ -65,7 +65,7 @@ def delete(series_id: str, reason: str, dry_run: bool):
     repo_root = paths.repo_root()
 
     console.print("[bold]Will remove:[/bold]")
-    console.print(f"  series.yaml entry  → id={series_id}, title={title!r}")
+    console.print(f"  series.json entry  → id={series_id}, title={title!r}")
     if curation_file.exists():
         try:
             display = curation_file.relative_to(repo_root)

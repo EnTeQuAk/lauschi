@@ -238,7 +238,7 @@ class TestParentClaimsForItsChildren:
 
     def test_a_childs_current_curation_is_its_claim(self, tmp_path) -> None:
         """The children curate before the parent, so the parent takes what
-        they claim now, not what series.yaml shipped at the last apply:
+        they claim now, not what series.json shipped at the last apply:
         a new line album the child took is the child's, and an album it
         gave back is the parent's to decide again."""
         (tmp_path / "lego_ninjago_hoerbuch.json").write_text(

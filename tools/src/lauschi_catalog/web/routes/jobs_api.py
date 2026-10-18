@@ -713,7 +713,7 @@ async def post_cancel_job(job_id: str, request: Request):
 
 @router.post("/series/{series_id}/apply")
 async def apply_series(series_id: str) -> dict[str, str]:
-    """Queue an apply job for a series. Writes approved curation to series.yaml."""
+    """Queue an apply job for a series. Writes approved curation to series.json."""
     job_id = create_job(series_id, "apply")
     run_subprocess(job_id, series_id, "apply")
     return {"job_id": job_id}

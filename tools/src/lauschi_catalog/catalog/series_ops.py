@@ -13,7 +13,7 @@ from filelock import FileLock
 
 from lauschi_catalog.catalog import paths
 from lauschi_catalog.catalog.deleted import record_deletion
-from lauschi_catalog.catalog.io import safe_write_json, safe_write_yaml
+from lauschi_catalog.catalog.io import safe_write_json, write_catalog
 from lauschi_catalog.catalog.loader import load_catalog, load_raw
 
 # Series ids are stable snake_case ASCII. They may start with a digit
@@ -80,16 +80,16 @@ def validate_series_changes(
 
 
 def edit_series(series_id: str, changes: SeriesChanges) -> EditResult:
-    """Edit a series in series.yaml. Returns the (possibly new) series id."""
+    """Edit a series in series.json. Returns the (possibly new) series id."""
     errors = validate_series_changes(series_id, changes)
     if errors:
         return EditResult(ok=False, series_id=series_id, error="; ".join(errors))
 
-    yaml_path = paths.series_yaml_path()
+    catalog_file = paths.catalog_path()
     lock = paths.series_lock_path()
 
     with FileLock(str(lock)):
-        data = load_raw(yaml_path)
+        data = load_raw(catalog_file)
         raw_entry = None
         for entry in data["series"]:
             if entry.get("id") == series_id:
@@ -100,7 +100,7 @@ def edit_series(series_id: str, changes: SeriesChanges) -> EditResult:
             return EditResult(
                 ok=False,
                 series_id=series_id,
-                error="series not found in series.yaml",
+                error="series not found in series.json",
             )
 
         if changes.title is not None:
@@ -123,7 +123,7 @@ def edit_series(series_id: str, changes: SeriesChanges) -> EditResult:
             elif "content_type" in raw_entry:
                 del raw_entry["content_type"]
 
-        safe_write_yaml(yaml_path, data)
+        write_catalog(catalog_file, data)
 
     new_id = changes.id
     if new_id and new_id != series_id:
@@ -132,7 +132,7 @@ def edit_series(series_id: str, changes: SeriesChanges) -> EditResult:
             old_curation.rename(paths.curation_path(new_id))
 
     # apply writes the pattern and the content type from the curation into
-    # series.yaml and refuses a curation whose id is not its file's, so the
+    # series.json and refuses a curation whose id is not its file's, so the
     # curation has to hold what was edited here.
     edited: dict[str, str | list[str] | None] = {}
     if new_id is not None:
@@ -162,16 +162,16 @@ class DeleteResult:
 
 
 def delete_series(series_id: str, *, reason: str) -> DeleteResult:
-    """Remove a series from series.yaml and its curation file.
+    """Remove a series from series.json and its curation file.
 
     Records the deletion in deleted.yaml. Does NOT check the deletion
     log (the CLI wrapper handles --force-readd).
     """
-    yaml_path = paths.series_yaml_path()
+    catalog_file = paths.catalog_path()
     lock = paths.series_lock_path()
 
     with FileLock(str(lock)):
-        data = load_raw(yaml_path)
+        data = load_raw(catalog_file)
         entries = data.get("series") or []
         target = next((e for e in entries if e.get("id") == series_id), None)
         if target is None:
@@ -179,7 +179,7 @@ def delete_series(series_id: str, *, reason: str) -> DeleteResult:
 
         title = target.get("title", series_id)
         data["series"] = [e for e in entries if e.get("id") != series_id]
-        safe_write_yaml(yaml_path, data)
+        write_catalog(catalog_file, data)
 
     curation_file = paths.curation_path(series_id)
     curation_removed = False
@@ -203,7 +203,7 @@ class AddResult:
 
 
 def add_series_entry(entry: dict[str, Any]) -> AddResult:
-    """Append a new series entry to series.yaml.
+    """Append a new series entry to series.json.
 
     The entry dict should contain at least 'id' and 'title'.
     Returns an error if the id already exists.
@@ -222,33 +222,33 @@ def add_series_entry(entry: dict[str, Any]) -> AddResult:
             error=f"series '{sid}' already exists",
         )
 
-    yaml_path = paths.series_yaml_path()
+    catalog_file = paths.catalog_path()
     lock = paths.series_lock_path()
 
     with FileLock(str(lock)):
-        data = load_raw(yaml_path)
+        data = load_raw(catalog_file)
         data.setdefault("series", []).append(entry)
-        safe_write_yaml(yaml_path, data)
+        write_catalog(catalog_file, data)
 
     return AddResult(ok=True, series_id=sid, title=title)
 
 
-def remove_series_from_yaml(series_id: str) -> bool:
-    """Remove a series entry from series.yaml by id.
+def remove_series_entry(series_id: str) -> bool:
+    """Remove a series entry from series.json by id.
 
     Returns True if removed, False if not found. Used by merge to
     remove the source series without recording a deletion.
     """
-    yaml_path = paths.series_yaml_path()
+    catalog_file = paths.catalog_path()
     lock = paths.series_lock_path()
 
     with FileLock(str(lock)):
-        data = load_raw(yaml_path)
+        data = load_raw(catalog_file)
         entries = data.get("series") or []
         before = len(entries)
         data["series"] = [e for e in entries if e.get("id") != series_id]
         if len(data["series"]) == before:
             return False
-        safe_write_yaml(yaml_path, data)
+        write_catalog(catalog_file, data)
 
     return True

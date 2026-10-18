@@ -121,7 +121,7 @@ def build_entry(
     artists: dict[str, Artist] | None = None,
     analysis: dict | None = None,
 ) -> dict:
-    """Build a series.yaml entry dict.
+    """Build a series.json entry dict.
 
     Args:
         title: Series title.
@@ -169,7 +169,7 @@ def add_series(
     """Add a new series to the catalog (non-interactive).
 
     Checks for duplicates and deleted entries, builds the entry,
-    and writes to series.yaml.
+    and writes to series.json.
     """
     sid = series_id or title_to_id(title)
 
@@ -205,5 +205,5 @@ def add_series(
         remove_from_deleted(sid, path=deleted_path)
         on_progress(f"Removed {sid!r} from deleted.yaml.")
 
-    on_progress(f"Added '{sid}' to series.yaml")
+    on_progress(f"Added '{sid}' to series.json")
     return AddResult(ok=True, series_id=sid)

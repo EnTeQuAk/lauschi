@@ -11,6 +11,7 @@ from lauschi_catalog.catalog.discover_ops import (
     _artist_to_match,
     discover_one,
 )
+from lauschi_catalog.catalog.io import write_catalog
 from lauschi_catalog.providers.base import Artist
 
 
@@ -38,17 +39,17 @@ class _FakeProvider:
         return True
 
 
-def _patch_loader(monkeypatch, tmp_path: Path, yaml_text: str = "series: []\n"):
+def _patch_loader(monkeypatch, tmp_path: Path, catalog: dict | None = None) -> Path:
     """Hermetic layout: the LAUSCHI_REPO_ROOT env var is the only patch."""
     monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
     (tmp_path / "assets" / "catalog").mkdir(parents=True)
-    yaml_path = tmp_path / "assets" / "catalog" / "series.yaml"
-    yaml_path.write_text(yaml_text)
+    catalog_file = tmp_path / "assets" / "catalog" / "series.json"
+    write_catalog(catalog_file, catalog or {"series": []})
     (tmp_path / "assets" / "catalog" / "deleted.yaml").write_text("deleted: []\n")
     (tmp_path / "android").mkdir()
     (tmp_path / ".cache").mkdir()
 
-    return yaml_path
+    return catalog_file
 
 
 @pytest.mark.anyio
@@ -67,8 +68,8 @@ async def test_discover_one_creates_series_with_sure_matches(tmp_path, monkeypat
     assert result.created_new is True
     assert result.new_series_id == "die_playmos"
     assert result.written is True
-    yaml = catalog_loader.load_raw(tmp_path / "assets" / "catalog" / "series.yaml")
-    assert any(e.get("id") == "die_playmos" for e in yaml.get("series", []))
+    catalog = catalog_loader.load_raw(tmp_path / "assets" / "catalog" / "series.json")
+    assert any(e.get("id") == "die_playmos" for e in catalog.get("series", []))
 
 
 @pytest.mark.anyio

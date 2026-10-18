@@ -2,7 +2,7 @@
 
 Apply must not report success when it refused work. A missing single
 series file is an error; a curation file whose `id` disagrees with its
-filename is refused (it would apply into someone else's yaml entry).
+filename is refused (it would apply into someone else's catalog entry).
 """
 
 from __future__ import annotations
@@ -33,8 +33,10 @@ def _curation(sid: str) -> dict:
 def scratch(tmp_path, monkeypatch):
     catalog = tmp_path / "assets" / "catalog"
     (catalog / "curation").mkdir(parents=True)
-    (catalog / "series.yaml").write_text(
-        "series:\n  - id: s1\n    title: S1\n  - id: s2\n    title: S2\n"
+    (catalog / "series.json").write_text(
+        json.dumps(
+            {"series": [{"id": "s1", "title": "S1"}, {"id": "s2", "title": "S2"}]}
+        )
     )
     monkeypatch.setenv("LAUSCHI_REPO_ROOT", str(tmp_path))
     return catalog / "curation"
@@ -49,7 +51,7 @@ def test_apply_all_exits_zero_when_nothing_blocked(scratch, monkeypatch):
     from lauschi_catalog.catalog import loader as loader_mod
 
     monkeypatch.setattr(loader_mod, "load_raw", fake_load_raw)
-    monkeypatch.setattr(apply_ops, "safe_write_yaml", lambda *a, **k: None)
+    monkeypatch.setattr(apply_ops, "write_catalog", lambda *a, **k: None)
     result = CliRunner().invoke(apply, ["--all"])
     assert result.exit_code == 0
 

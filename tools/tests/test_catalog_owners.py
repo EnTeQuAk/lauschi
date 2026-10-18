@@ -99,7 +99,7 @@ FAMILY = [
 
 def test_family_members_are_no_shipping_owners_inside_the_family() -> None:
     """Inside a family a member's claim comes from its current curation,
-    not from what series.yaml shipped at the last apply. A child curates
+    not from what series.json shipped at the last apply. A child curates
     its own line without inheriting the parent's or a sibling's albums,
     and the parent takes the children's claims from their curations.
     A series outside the family still owns what it ships."""

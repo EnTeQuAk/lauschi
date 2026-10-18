@@ -14,11 +14,14 @@ class ProviderConfig:
     album_ids: list[str] = field(default_factory=list)
     #: applied albums as {"id", "title", "episode", "release_date",
     #: "barcode"}; the authoritative membership
-    #: record for split children, present in series.yaml even when a
+    #: record for split children, present in series.json even when a
     #: child has no curation file in the working directory.
     albums: list[dict] = field(default_factory=list)
     episode_pattern: str | list[str] | None = None  # override
     has_albums: bool = False
+    #: why the provider has no artist page for the series, so discover
+    #: does not search one (every artist of the name is someone else)
+    no_artist_page: str | None = None
 
 
 @dataclass
@@ -35,14 +38,14 @@ class CatalogEntry:
     episode_pattern: str | list[str] | None = None
     cover_url: str | None = None
     # Either "hoerspiel" (default) or "music". Set explicitly in
-    # series.yaml when the default doesn't fit. Treated as canonical
+    # series.json when the default doesn't fit. Treated as canonical
     # by curate — overrides whatever the existing curation file
     # carries, so a misclassified content_type can't compound across
     # re-curates.
     content_type: str | None = None
     # Structured facts discovered by the curation pipeline: era
     # boundaries, known episode gaps, sub-series. Frozen into
-    # series.yaml after audit confirms them. Curate loads them as
+    # series.json after audit confirms them. Curate loads them as
     # input context for incremental updates.
     series_facts: dict | None = None
     split_from: str | None = None
