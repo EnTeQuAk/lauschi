@@ -1,11 +1,18 @@
 """Which reference index series and lines a catalog entry is compared against.
 
 A family (a main series and its sub-series) is compared with the index
-series whose name is the main series' title or one of its aliases, case
-and outer spaces folded but punctuation kept, so "Die drei ???" and
-"Die drei !!!" stay apart. Each line of that series then goes to the
-family member whose shipped titles cover most of it, three titles or a
-third of the line at least. A member that covers no line is not compared.
+series named like its main series: by the exact name or an alias first,
+so "Die drei ???" and "Die drei !!!" stay apart, then by the name without
+punctuation, then by an index name the main series' name starts with
+("Dragons - Die Reiter von Berk" is the index's Dragons). A sub-series of
+a family the index does not know (an author's) tries its own name.
+
+Every entry compared with one index series shares its lines, whether the
+entries are one family or several main series. Each line goes to the
+entry whose shipped titles cover most of it, three titles or a third of
+the line at least. A line no entry covers goes to the main series that
+found the index series by its name, so the QA still checks it. An entry
+left with no line is not compared.
 
 Where the names differ, or a line belongs to a member its titles do not
 show, ``assets/catalog/reference_map.yaml`` says so per entry::
@@ -37,11 +44,12 @@ from lauschi_catalog.catalog.partition import Family, families
 from lauschi_catalog.catalog.paths import reference_map_path
 from lauschi_catalog.reference import ReferenceIndex, ReferenceLine, ReferenceSeries
 
-#: name: by the index series' name. map: by reference_map.yaml.
+#: name: by the index series' name. prefix: the entry's name starts with
+#: it. map: by reference_map.yaml.
 #: no_line: the family maps, but no line fits this member. unmapped: no
 #: index series has the family's name. not_in_index: the override file
 #: says the index holds nothing for it.
-How = Literal["name", "map", "no_line", "unmapped", "not_in_index"]
+How = Literal["name", "prefix", "map", "no_line", "unmapped", "not_in_index"]
 
 
 class Override(TypedDict, total=False):
@@ -55,6 +63,8 @@ class EntryMapping:
     series: ReferenceSeries | None
     lines: tuple[ReferenceLine, ...]
     how: How
+    #: lines among ``lines`` that no entry ships, given to this main series
+    leftover: tuple[ReferenceLine, ...] = ()
 
 
 _STOP = frozenset(
@@ -153,28 +163,81 @@ def _name_key(name: str) -> str:
     return unicodedata.normalize("NFC", name).strip().casefold()
 
 
-def _series_by_name(family: Family, index: ReferenceIndex) -> ReferenceSeries | None:
-    """The index series named like the main series. The index holds some
-    names twice (Unser Sandmännchen, LEGO Ninjago); then the one whose
-    lines cover most of the family's albums is the family's."""
-    by_key: dict[str, list[int]] = {}
-    for series_id, name in index.names().items():
-        by_key.setdefault(_name_key(name), []).append(series_id)
-    root = family.parent
-    assert root is not None, "map_catalog splits a dissolved family into its entries"
-    for name in (root.title, *root.aliases):
-        candidates = [index.series(i) for i in by_key.get(_name_key(name), [])]
+def _loose_key(name: str) -> str:
+    """A name without its punctuation, so "Käpt'n Sharky" meets "Käpt’n
+    Sharky" and "H2O - Plötzlich Meerjungfrau!" meets "H2O – Plötzlich
+    Meerjungfrau"."""
+    return " ".join(re.findall(r"\w+", unicodedata.normalize("NFKC", name).casefold()))
+
+
+@dataclass(frozen=True)
+class _Names:
+    """The index's series names, by exact and by loose key."""
+
+    exact: dict[str, list[int]]
+    loose: dict[str, list[int]]
+
+    @classmethod
+    def of(cls, index: ReferenceIndex) -> "_Names":
+        exact: dict[str, list[int]] = {}
+        loose: dict[str, list[int]] = {}
+        for series_id, name in index.names().items():
+            exact.setdefault(_name_key(name), []).append(series_id)
+            loose.setdefault(_loose_key(name), []).append(series_id)
+        return cls(exact, loose)
+
+
+def _coverage(series: ReferenceSeries, titles: list[str], name: str) -> int:
+    drop = brand_words(series.name, name)
+    return sum(_hits(line, titles, drop) for line in series.lines)
+
+
+def _series_named(
+    names: tuple[str, ...],
+    titles: list[str],
+    index: ReferenceIndex,
+    lookup: _Names,
+) -> tuple[ReferenceSeries, How] | None:
+    """The index series an entry's names point to. The exact name comes
+    first, so "Die drei ???" and "Die drei !!!" stay apart, then the name
+    without punctuation, then an index name the entry's name starts with
+    ("Dragons - Die Reiter von Berk" is the index's Dragons). That last
+    one counts only when the series holds one of the entry's titles. The
+    index holds some names twice (Unser Sandmännchen, LEGO Ninjago), and
+    then the series that covers most of the albums wins."""
+
+    def best(ids: list[int]) -> ReferenceSeries:
+        candidates = [index.series(i) for i in ids]
         if len(candidates) == 1:
             return candidates[0]
-        if candidates:
-            titles = [t for m in family.members for t in shipped_titles(m)]
+        return max(candidates, key=lambda s: _coverage(s, titles, names[0]))
 
-            def coverage(series: ReferenceSeries) -> int:
-                drop = brand_words(series.name, root.title)
-                return sum(_hits(line, titles, drop) for line in series.lines)
-
-            return max(candidates, key=coverage)
+    for key_of, table in ((_name_key, lookup.exact), (_loose_key, lookup.loose)):
+        for name in names:
+            if ids := table.get(key_of(name)):
+                return best(ids), "name"
+    longest = ""
+    for name in names:
+        loose = _loose_key(name)
+        for key in lookup.loose:
+            if len(key) > len(longest) and loose.startswith(key + " "):
+                longest = key
+    if longest:
+        series = best(lookup.loose[longest])
+        if _coverage(series, titles, names[0]):
+            return series, "prefix"
     return None
+
+
+@dataclass
+class _Unit:
+    """Entries compared with one index series: a family, or a sub-series
+    that found an index series by its own name."""
+
+    root: CatalogEntry | None
+    series: ReferenceSeries | None
+    how: How
+    pool: list[CatalogEntry]
 
 
 def _hits(line: ReferenceLine, titles: list[str], drop: frozenset[str]) -> int:
@@ -183,27 +246,35 @@ def _hits(line: ReferenceLine, titles: list[str], drop: frozenset[str]) -> int:
     )
 
 
-def _family_series(
+def _units(
     family: Family,
     index: ReferenceIndex,
+    lookup: _Names,
     overrides: dict[str, Override | None],
-) -> tuple[ReferenceSeries | None, How]:
+    out: dict[str, EntryMapping],
+) -> list[_Unit]:
+    """The family's units. Members with an override of their own are
+    mapped into ``out`` right away."""
+    root = family.parent
+    assert root is not None, "map_catalog splits a dissolved family into its entries"
+    series: ReferenceSeries | None
+    how: How
     if family.root_id in overrides:
-        root = overrides[family.root_id]
-        if root is None:
-            return None, "not_in_index"
-        return index.series(root["series"]), "map"
-    series = _series_by_name(family, index)
-    return (series, "name") if series is not None else (None, "unmapped")
+        given = overrides[family.root_id]
+        series, how = (
+            (None, "not_in_index")
+            if given is None
+            else (index.series(given["series"]), "map")
+        )
+    else:
+        found = _series_named(
+            (root.title, *root.aliases),
+            [t for m in family.members for t in shipped_titles(m)],
+            index,
+            lookup,
+        )
+        series, how = found if found is not None else (None, "unmapped")
 
-
-def _map_family(
-    family: Family,
-    index: ReferenceIndex,
-    overrides: dict[str, Override | None],
-) -> dict[str, EntryMapping]:
-    series, how = _family_series(family, index, overrides)
-    out: dict[str, EntryMapping] = {}
     pool: list[CatalogEntry] = []
     for member in family.members:
         own = overrides.get(member.id, _UNSET)
@@ -225,33 +296,73 @@ def _map_family(
             lines = tuple(line for line in theirs.lines if line.name in wanted)
             out[member.id] = EntryMapping(member.id, theirs, lines, "map")
 
-    if series is None:
-        for member in pool:
-            out[member.id] = EntryMapping(member.id, None, (), how)
-        return out
+    units = [_Unit(root if root in pool else None, series, how, pool)]
+    if series is None and how == "unmapped":
+        # An author's family (Michael Ende) is not in the index, but its
+        # sub-series (Jim Knopf) may be, under their own names.
+        for member in [m for m in pool if m is not root]:
+            found = _series_named(
+                (member.title, *member.aliases), shipped_titles(member), index, lookup
+            )
+            if found is not None:
+                pool.remove(member)
+                units.append(_Unit(member, found[0], found[1], [member]))
+    return units
 
+
+def _share_lines(group: list[_Unit], out: dict[str, EntryMapping]) -> None:
+    """Hand out the lines of the series these units are compared with.
+    Each line goes to the entry that ships most of it, three titles or a
+    third of the line at least. A line nobody ships goes to the main
+    series of the best fitting unit, so the QA still sees it."""
+    series = group[0].series
+    assert series is not None
     taken = {
         line.name
         for m in out.values()
         if m.series is not None and m.series.id == series.id
         for line in m.lines
     }
-    drop = brand_words(series.name, *(m.title for m in family.members))
+    pool = [m for unit in group for m in unit.pool]
+    drop = brand_words(series.name, *(m.title for m in pool))
     titles = {m.id: shipped_titles(m) for m in pool}
     owned: dict[str, list[ReferenceLine]] = {m.id: [] for m in pool}
+    unowned: list[ReferenceLine] = []
     for line in series.lines:
-        if line.name in taken or not line.episodes or not pool:
+        if line.name in taken or not line.episodes:
             continue
-        best = max(pool, key=lambda m: _hits(line, titles[m.id], drop))
-        hits = _hits(line, titles[best.id], drop)
-        if hits and (hits >= _MIN_HITS or hits >= _MIN_SHARE * len(line.episodes)):
+        best = max(pool, key=lambda m: _hits(line, titles[m.id], drop), default=None)
+        hits = _hits(line, titles[best.id], drop) if best is not None else 0
+        if (
+            best is not None
+            and hits
+            and (hits >= _MIN_HITS or hits >= _MIN_SHARE * len(line.episodes))
+        ):
             owned[best.id].append(line)
-    for member in pool:
-        lines = tuple(owned[member.id])
-        out[member.id] = EntryMapping(
-            member.id, series, lines, how if lines else "no_line"
-        )
-    return out
+        else:
+            unowned.append(line)
+
+    homes = [u for u in group if u.root is not None]
+    named = [u for u in homes if u.how != "prefix"] or homes
+    home = max(
+        named,
+        key=lambda u: sum(len(owned[m.id]) for m in u.pool),
+        default=None,
+    )
+    for unit in group:
+        for member in unit.pool:
+            lines = owned[member.id]
+            leftover: tuple[ReferenceLine, ...] = ()
+            if home is not None and member is home.root and unowned:
+                lines = lines + unowned
+                leftover = tuple(unowned)
+            out[member.id] = EntryMapping(
+                member.id,
+                series,
+                tuple(lines),
+                unit.how if lines else "no_line",
+                leftover,
+            )
 
 
 def map_catalog(
@@ -259,8 +370,11 @@ def map_catalog(
     index: ReferenceIndex,
     overrides: dict[str, Override | None],
 ) -> dict[str, EntryMapping]:
-    """Every entry's index series and lines, family by family."""
-    mapping: dict[str, EntryMapping] = {}
+    """Every entry's index series and lines. Entries compared with one
+    index series share its lines, whether they are one family or not."""
+    lookup = _Names.of(index)
+    out: dict[str, EntryMapping] = {}
+    units: list[_Unit] = []
     for family in families(catalog).values():
         # The entries of a dissolved main series are brands of their own
         # (Pippi, Michel, Karlsson), each with its own index series.
@@ -270,8 +384,17 @@ def map_catalog(
             else [Family(child.id, child, ()) for child in family.children]
         )
         for each in own:
-            mapping.update(_map_family(each, index, overrides))
-    return mapping
+            units.extend(_units(each, index, lookup, overrides, out))
+    by_series: dict[int, list[_Unit]] = {}
+    for unit in units:
+        if unit.series is None:
+            for member in unit.pool:
+                out[member.id] = EntryMapping(member.id, None, (), unit.how)
+        elif unit.pool:
+            by_series.setdefault(unit.series.id, []).append(unit)
+    for group in by_series.values():
+        _share_lines(group, out)
+    return out
 
 
 #: "Die Piraten - Teil 2" as a track is a piece of the story, not its second part

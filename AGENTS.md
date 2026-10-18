@@ -219,8 +219,10 @@ own pattern, and `apply` for both (the giving one first) writes series.yaml.
 catalog against the reference index, one entry at a time, and changes
 nothing: it writes `logs/catalog/qa-<time>.json` and prints a table.
 `catalog/reference_map.py` gives each entry its index series (the one
-named like its main series) and lines (each to the family member that
-ships most of it), and pairs its shipped albums with those lines' episodes
+named like its main series, also without punctuation or as the start of
+its name, so "Dragons - Die Reiter von Berk" is the index's Dragons) and
+lines (each to the entry that ships most of it, and a line nobody ships to
+the main series), and pairs its shipped albums with those lines' episodes
 by number, title and track names. What pairs with nothing on either side
 goes to a model (`glm-5.3-flash` by default, `-m` to change), in a run of
 its own per entry, which names every open item `same_story`,

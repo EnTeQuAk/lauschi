@@ -16,6 +16,7 @@ from lauschi_catalog.reference import ReferenceEpisode, ReferenceIndex, Referenc
 
 
 def _line(name: str, *titles: str) -> dict:
+    """An index line (a "Staffel" on the site) and its episode titles."""
     return {
         "name": name,
         "episodes": [
@@ -60,6 +61,26 @@ SERIES = {
         "id": 41,
         "name": "Sandmann",
         "seasons": [_line("Geschichten", "Pittiplatsch", "Moppi", "Schnatterinchen")],
+    },
+    50: {
+        "id": 50,
+        "name": "Käpt’n Sharky",
+        "seasons": [_line("Hörspiele", "Das Geheimnis der Schatzinsel")],
+    },
+    # three of the index's six Dragons lines
+    51: {
+        "id": 51,
+        "name": "Dragons",
+        "seasons": [
+            _line("Filme", "Drachenzähmen leicht gemacht 1"),
+            _line("Die Reiter von Berk", "Der Sturm", "Fackel", "Familienbande"),
+            _line("Die 9 Welten", "Eine neue Welt", "Der Drachenclub"),
+        ],
+    },
+    60: {
+        "id": 60,
+        "name": "Jim Knopf",
+        "seasons": [_line("Hörspiele", "Jim Knopf und die Wilde 13")],
     },
 }
 
@@ -116,10 +137,69 @@ def test_a_family_takes_the_index_series_named_like_its_main_series() -> None:
 
 def test_each_line_goes_to_the_member_that_ships_most_of_it() -> None:
     mapping = map_catalog([LILLI, ERSTLESER], _index(), {})
-    assert [line.name for line in mapping["hexe_lilli"].lines] == ["Hörspiele"]
     assert [line.name for line in mapping["hexe_lilli_erstleser"].lines] == [
         "Erstlesergeschichten"
     ]
+    assert mapping["hexe_lilli_erstleser"].leftover == ()
+
+
+def test_a_line_nobody_ships_goes_to_the_main_series() -> None:
+    mapping = map_catalog([LILLI, ERSTLESER], _index(), {})
+    assert [line.name for line in mapping["hexe_lilli"].lines] == ["Hörspiele", "Musik"]
+    assert [line.name for line in mapping["hexe_lilli"].leftover] == ["Musik"]
+
+
+def test_a_name_matches_without_its_punctuation() -> None:
+    sharky = _entry("kaept_n_sharky", "Käpt'n Sharky", "Das Geheimnis der Schatzinsel")
+    assert map_catalog([sharky], _index(), {})["kaept_n_sharky"].series.id == 50  # type: ignore[union-attr]
+
+
+FILM = _entry(
+    "drachenzaehmen",
+    "Drachenzähmen leicht gemacht",
+    "Drachenzähmen leicht gemacht 1 (Das Original-Hörspiel zum Kinofilm)",
+    aliases=("Dragons",),
+)
+BERK = _entry(
+    "dragons_berk",
+    "Dragons - Die Reiter von Berk",
+    "Folge 1: Der Sturm / Fackel",
+    "Folge 10: Familienbande",
+)
+
+
+def test_main_series_named_after_an_index_series_share_its_lines() -> None:
+    mapping = map_catalog([FILM, BERK], _index(), {})
+    assert mapping["dragons_berk"].how == "prefix"
+    assert [line.name for line in mapping["dragons_berk"].lines] == [
+        "Die Reiter von Berk"
+    ]
+    # the line no entry ships goes to the one that has the index's name
+    assert [line.name for line in mapping["drachenzaehmen"].lines] == [
+        "Filme",
+        "Die 9 Welten",
+    ]
+    assert [line.name for line in mapping["drachenzaehmen"].leftover] == [
+        "Die 9 Welten"
+    ]
+
+
+def test_a_name_that_only_starts_like_an_index_series_needs_a_title_of_it() -> None:
+    other = _entry("dragons_quest", "Dragons Quest", "Ein Spiel")
+    assert map_catalog([other], _index(), {})["dragons_quest"].how == "unmapped"
+
+
+def test_a_sub_series_of_a_family_the_index_lacks_tries_its_own_name() -> None:
+    ende = _entry("michael_ende", "Michael Ende", "Momo")
+    jim = _entry(
+        "jim_knopf",
+        "Jim Knopf",
+        "Jim Knopf und die Wilde 13",
+        split_from="michael_ende",
+    )
+    mapping = map_catalog([ende, jim], _index(), {})
+    assert mapping["jim_knopf"].series.id == 60  # type: ignore[union-attr]
+    assert mapping["michael_ende"].how == "unmapped"
 
 
 def test_a_member_that_covers_no_line_says_so() -> None:
