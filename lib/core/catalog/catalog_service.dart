@@ -1,10 +1,10 @@
+import 'dart:convert';
 import 'dart:isolate';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
-import 'package:yaml/yaml.dart';
 
 const _tag = 'CatalogService';
 
@@ -17,7 +17,7 @@ enum ContentType {
 
   final String value;
 
-  /// Parse from a string (e.g. from YAML or DB). Defaults to hoerspiel.
+  /// Parse from a string (e.g. from the catalog or DB). Defaults to hoerspiel.
   static ContentType fromString(String? value) => switch (value) {
     'music' => ContentType.music,
     'audiobook' || 'hoerspiel' || null => ContentType.hoerspiel,
@@ -142,7 +142,7 @@ class CatalogMatch {
 
   final CatalogSeries series;
 
-  /// The curated episode number from series.yaml, or null when the
+  /// The curated episode number from series.json, or null when the
   /// curated album carries none (music, films, specials).
   final int? episodeNumber;
 }
@@ -195,14 +195,15 @@ class CatalogService {
   /// Number of catalog-known albums across all series and providers.
   int get albumCount => _albumIndex.length;
 
-  /// Load the catalog from bundled YAML asset.
+  /// Load the catalog from the bundled series.json asset.
   static Future<CatalogService> load() async {
-    final raw = await rootBundle.loadString('assets/catalog/series.yaml');
-    // The 1.6 MB YAML document takes hundreds of milliseconds of pure
-    // Dart parsing. On the UI isolate that would jank the first frames
-    // of the kid home screen on every cold start, because the startup
-    // episode reconcile forces this load during launch.
-    final result = await Isolate.run(() => parseSeriesYaml(raw));
+    final raw = await rootBundle.loadString('assets/catalog/series.json');
+    // Decoding the 2.8 MB document and building every series takes tens
+    // of milliseconds on a desktop and more on a phone. On the UI isolate
+    // that would jank the first frames of the kid home screen on every
+    // cold start, because the startup episode reconcile forces this load
+    // during launch.
+    final result = await Isolate.run(() => parseCatalog(raw));
 
     for (final error in result.errors) {
       Log.error(_tag, 'Skipped malformed series entry', data: {'entry': error});
@@ -238,34 +239,34 @@ class CatalogService {
     return service;
   }
 
-  /// Parse the series.yaml document. Pure computation: no I/O and no
+  /// Parse the series.json document. Pure computation: no I/O and no
   /// logging, so it can run on a background isolate. Also computes the
   /// cross-series shared album ids there, so [load] only logs them.
   ///
   /// A malformed series entry is skipped and reported in `errors`
   /// instead of failing the parse: one bad row must not take down
   /// badges, browse, and reconcile for the other ~270 series. A
-  /// document that is not valid YAML at all still throws.
+  /// document that is not valid JSON at all still throws.
   static ({
     List<CatalogSeries> series,
     List<String> errors,
     Map<String, List<String>> sharedAlbumIds,
   })
-  parseSeriesYaml(String raw) {
-    final doc = loadYaml(raw) as YamlMap;
-    final seriesList = doc['series'] as YamlList;
+  parseCatalog(String raw) {
+    final doc = jsonDecode(raw) as Map<String, dynamic>;
+    final seriesList = doc['series'] as List<dynamic>;
 
     final parsed = <CatalogSeries>[];
     final errors = <String>[];
     for (final (index, entry) in seriesList.indexed) {
       try {
-        parsed.add(_parseSeries(entry as YamlMap));
+        parsed.add(_parseSeries(entry as Map<String, dynamic>));
         // Cast failures throw TypeError — an Error, not an Exception —
         // and a bad entry of any shape must be skipped, not crash the
         // parse of every other series.
         // ignore: avoid_catches_without_on_clauses
       } catch (e) {
-        final id = entry is YamlMap ? entry['id'] : null;
+        final id = entry is Map<String, dynamic> ? entry['id'] : null;
         errors.add('series[$index] (id: ${id ?? 'unknown'}): $e');
       }
     }
@@ -300,47 +301,41 @@ class CatalogService {
     };
   }
 
-  /// Items of [list] as strings via toString(): ids may be quoted
-  /// strings in YAML but parse as integers.
-  static List<String> _stringList(YamlList? list) =>
-      list == null ? const [] : list.map((e) => e.toString()).toList();
+  static List<String> _stringList(Object? list) => [
+    for (final item in (list as List<dynamic>?) ?? const []) item as String,
+  ];
 
-  static List<CatalogAlbum> _albumList(YamlList? list, ProviderType provider) =>
-      list == null
-          ? const []
-          : list.map<CatalogAlbum>((a) {
-            final aMap = a as YamlMap;
-            return CatalogAlbum(
-              id: aMap['id'].toString(),
-              provider: provider,
-              title: aMap['title'] as String,
-              episode: aMap['episode'] as int?,
-              releaseDate: aMap['release_date']?.toString(),
-            );
-          }).toList();
+  static List<CatalogAlbum> _albumList(Object? list, ProviderType provider) => [
+    for (final album in (list as List<dynamic>?) ?? const [])
+      _album(album as Map<String, dynamic>, provider),
+  ];
 
-  static CatalogSeries _parseSeries(YamlMap map) {
+  static CatalogAlbum _album(Map<String, dynamic> map, ProviderType provider) =>
+      CatalogAlbum(
+        id: map['id'] as String,
+        provider: provider,
+        title: map['title'] as String,
+        episode: map['episode'] as int?,
+        releaseDate: map['release_date'] as String?,
+      );
+
+  static CatalogSeries _parseSeries(Map<String, dynamic> map) {
     // Per-provider identifiers come from the `providers:` map.
-    final providersMap = map['providers'] as YamlMap?;
-    final spotifyMap = providersMap?['spotify'] as YamlMap?;
-    final appleMusicMap = providersMap?['apple_music'] as YamlMap?;
+    final providersMap = map['providers'] as Map<String, dynamic>?;
+    final spotifyMap = providersMap?['spotify'] as Map<String, dynamic>?;
+    final appleMusicMap = providersMap?['apple_music'] as Map<String, dynamic>?;
 
     return CatalogSeries(
       id: map['id'] as String,
       title: map['title'] as String,
-      aliases: _stringList(map['aliases'] as YamlList?),
-      spotifyArtistIds: _stringList(spotifyMap?['artist_ids'] as YamlList?),
-      appleMusicArtistIds: _stringList(
-        appleMusicMap?['artist_ids'] as YamlList?,
-      ),
+      aliases: _stringList(map['aliases']),
+      spotifyArtistIds: _stringList(spotifyMap?['artist_ids']),
+      appleMusicArtistIds: _stringList(appleMusicMap?['artist_ids']),
       coverUrl: map['cover_url'] as String?,
       contentType: ContentType.fromString(map['content_type'] as String?),
-      albums: _albumList(
-        spotifyMap?['albums'] as YamlList?,
-        ProviderType.spotify,
-      ),
+      albums: _albumList(spotifyMap?['albums'], ProviderType.spotify),
       appleMusicAlbums: _albumList(
-        appleMusicMap?['albums'] as YamlList?,
+        appleMusicMap?['albums'],
         ProviderType.appleMusic,
       ),
     );

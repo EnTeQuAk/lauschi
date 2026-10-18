@@ -4,9 +4,9 @@ import 'package:lauschi/core/providers/provider_type.dart';
 
 // The catalog is curated by the Python tooling (tools/) and consumed
 // as-is by the app: match() returns the curated episode number from
-// series.yaml, never a fresh derivation (docs/catalog-episode-numbers.md).
+// series.json, never a fresh derivation (docs/catalog-episode-numbers.md).
 // These tests pin the data invariants the app relies on, over the real
-// shipped series.yaml.
+// shipped series.json.
 
 const _providers = [ProviderType.spotify, ProviderType.appleMusic];
 

@@ -34,7 +34,7 @@
 /// provider don't run. The test prints labeled progress markers so CI
 /// logs pinpoint exactly which behavior failed.
 ///
-/// Content uses stable URIs from `assets/catalog/series.yaml`:
+/// Content uses stable URIs from `assets/catalog/series.json`:
 /// - Spotify: Die drei ??? Folge 1 (album, won't disappear)
 /// - Apple Music: Asterix Folge 1 (album, won't disappear)
 /// - ARD: Ohrenbär episode (discovered at runtime; audio URLs expire)
@@ -70,7 +70,7 @@ import 'package:patrol/patrol.dart';
 import 'ard_helpers.dart';
 import 'helpers.dart';
 
-// ── Stable content from assets/catalog/series.yaml ─────────────────────────
+// ── Stable content from assets/catalog/series.json ─────────────────────────
 
 // Spotify: Die drei ??? Folge 1
 const _spotifyUri = 'spotify:album:4N9tvSjWfZXx3eHKblYEWQ';

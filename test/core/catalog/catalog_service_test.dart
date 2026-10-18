@@ -3,7 +3,7 @@ import 'package:lauschi/core/catalog/catalog_service.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
 
 // The catalog matcher uses a single signal: provider+album_id lookup
-// against the curated index built from series.yaml. Fuzzy keyword and
+// against the curated index built from series.json. Fuzzy keyword and
 // artist_id matching were removed (commit "Drop keyword matching from
 // Dart") after the encanto/Blaze incident, where the overly-broad
 // keyword "Das Original-Hörspiel" caused a Spotify search for "blaze"
@@ -13,7 +13,7 @@ import 'package:lauschi/core/providers/provider_type.dart';
 // an album not in the catalog → no badge. Coverage of brand-new releases
 // is deferred to the subscription/refresh feature.
 //
-// Album ids in this file are real, taken straight from series.yaml so
+// Album ids in this file are real, taken straight from series.json so
 // the tests fail loudly if anyone removes those entries.
 
 void main() {
@@ -49,7 +49,7 @@ void main() {
 
   group('CatalogService.match — curated album_id lookup', () {
     test('matches a curated Spotify album by id', () {
-      // Yakari Folge 1 — real album_id from series.yaml.
+      // Yakari Folge 1 — real album_id from series.json.
       final r = catalog.match(
         'Folge 1: Yakari und Grosser Adler (Das Original-Hörspiel zur TV-Serie)',
         albumId: '25u9Clfj4qnEJD3jjxOwPR',
@@ -57,7 +57,7 @@ void main() {
       );
       expect(r, isNotNull);
       expect(r!.series.id, 'yakari');
-      // The curated episode number from series.yaml, not derived
+      // The curated episode number from series.json, not derived
       // from the title.
       expect(r.episodeNumber, 1);
     });
@@ -116,7 +116,7 @@ void main() {
     );
 
     test('returns the curated episode number, ignoring the title', () {
-      // The episode comes from the curated album record in series.yaml.
+      // The episode comes from the curated album record in series.json.
       // The title passed here is display context only; a match must not
       // re-derive the number from it.
       final r = catalog.match(
@@ -171,7 +171,7 @@ void main() {
     });
 
     test('alias match works', () {
-      // "Bibi & Tina" is an alias for bibi_und_tina (see series.yaml).
+      // "Bibi & Tina" is an alias for bibi_und_tina (see series.json).
       final results = catalog.search('Bibi & Tina');
       expect(results.map((r) => r.id), contains('bibi_und_tina'));
     });
@@ -229,28 +229,22 @@ void main() {
     });
   });
 
-  group('CatalogService.parseSeriesYaml', () {
+  group('CatalogService.parseCatalog', () {
     test('skips a malformed entry and keeps the rest', () {
-      // id must be a string; 123 parses as int and fails the cast.
+      // id must be a string, so 123 fails the cast.
       // One bad row shipped by the pipeline must not take down the
       // whole catalog (badges, browse, reconcile) for every series.
-      const yaml = '''
-series:
-  - id: good_before
-    title: Good Before
-  - id: 123
-    title: Broken Entry
-  - id: good_after
-    title: Good After
-    providers:
-      spotify:
-        albums:
-          - id: abc
-            title: 'Folge 1'
-            episode: 1
+      const json = '''
+{"series": [
+  {"id": "good_before", "title": "Good Before"},
+  {"id": 123, "title": "Broken Entry"},
+  {"id": "good_after", "title": "Good After", "providers": {"spotify": {"albums": [
+    {"id": "abc", "title": "Folge 1", "episode": 1}
+  ]}}}
+]}
 ''';
 
-      final result = CatalogService.parseSeriesYaml(yaml);
+      final result = CatalogService.parseCatalog(json);
 
       expect(result.series.map((s) => s.id), [
         'good_before',
@@ -266,26 +260,22 @@ series:
     });
 
     test('parses a fully valid document without errors', () {
-      const yaml = '''
-series:
-  - id: only
-    title: Only
-''';
-      final result = CatalogService.parseSeriesYaml(yaml);
+      const json = '{"series": [{"id": "only", "title": "Only"}]}';
+      final result = CatalogService.parseCatalog(json);
       expect(result.series.single.id, 'only');
       expect(result.errors, isEmpty);
     });
 
     test('still throws when the document itself is broken', () {
-      // Catastrophic breakage (not YAML, or no series list) must stay
+      // Catastrophic breakage (not JSON, or no series list) must stay
       // loud — the startup caller logs it and the app runs without
       // catalog features rather than with a silently empty catalog.
       expect(
-        () => CatalogService.parseSeriesYaml('not yaml at all: ['),
-        throwsA(anything),
+        () => CatalogService.parseCatalog('{"series": ['),
+        throwsA(isA<FormatException>()),
       );
       expect(
-        () => CatalogService.parseSeriesYaml('unrelated: true'),
+        () => CatalogService.parseCatalog('{"unrelated": true}'),
         throwsA(anything),
       );
     });

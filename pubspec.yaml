@@ -60,7 +60,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/player.html
-    - assets/catalog/series.yaml
+    - assets/catalog/series.json
     - assets/catalog/ard_featured_shows.yaml
     - assets/images/branding/
     - assets/images/icons/

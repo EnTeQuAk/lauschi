@@ -18,7 +18,7 @@ import 'package:lauschi/core/database/tile_item_repository.dart';
 /// episodes, and existing tiles would otherwise keep the wrong numbers
 /// forever.
 ///
-/// Album ids below are real, taken from series.yaml, so these tests fail
+/// Album ids below are real, taken from series.json, so these tests fail
 /// loudly if those entries change or disappear.
 void main() {
   late AppDatabase db;
@@ -175,7 +175,7 @@ void main() {
     // it would be an unhandled async exception on every launch.
     await expectLater(
       reconcileEpisodeNumbersAtStartup(
-        catalog: Future.error(Exception('series.yaml unreadable')),
+        catalog: Future.error(Exception('series.json unreadable')),
         items: repo,
       ),
       completes,

@@ -407,7 +407,7 @@ void main() {
       }
     });
 
-    group('handles series.yaml Wieso Weshalb Warum style', () {
+    group('handles series.json Wieso Weshalb Warum style', () {
       final cases = <(String, String)>[
         (
           'Was machen wir im Frühling? (Wieso? Weshalb? Warum? JUNIOR, Folge 59)',
