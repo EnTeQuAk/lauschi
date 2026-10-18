@@ -10,12 +10,16 @@ from pydantic_ai.messages import ModelMessage, ModelRequest, ModelResponse, Tool
 from pydantic_ai.models.function import AgentInfo, FunctionModel
 
 from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
-from lauschi_catalog.catalog.reference_map import EntryMapping
+from lauschi_catalog.catalog.reference_map import EntryMapping, ShippedAlbum
 from lauschi_catalog.catalog.reference_qa import (
+    _credit_reader,
     build_qa_agent,
     qa_entry,
     qa_prompt,
 )
+from lauschi_catalog.providers.apple_music import AppleMusicProvider
+from lauschi_catalog.providers.base import Album
+from lauschi_catalog.providers.spotify import SpotifyProvider
 from lauschi_catalog.reference import ReferenceEpisode, ReferenceLine, ReferenceSeries
 
 TODAY = date(2026, 10, 17)
@@ -186,6 +190,40 @@ def test_an_open_album_shows_who_the_store_credits() -> None:
     )
     assert "A2 Lilli im Zirkus (spotify; credited to Hexe Lilli)" in prompt.text
     assert "A1 Hexe Lilli und der Western-Spaß (spotify)" in prompt.text
+
+
+def test_the_credit_comes_from_whichever_store_names_an_artist(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("SPOTIFY_CLIENT_ID", "id")
+    monkeypatch.setenv("SPOTIFY_CLIENT_SECRET", "sec")
+    monkeypatch.setattr(SpotifyProvider, "_fetch_token", lambda self: "tok")
+    monkeypatch.setattr(AppleMusicProvider, "_generate_token", lambda *a: "tok")
+    apple, spotify = (
+        AppleMusicProvider(use_cache=False),
+        SpotifyProvider(use_cache=False),
+    )
+    credited = {"a1": "", "s1": "Hexe Lilli", "a2": "Conni"}
+
+    def details(store: str):
+        def read(ids: list[str]) -> dict[str, Album]:
+            return {
+                i: Album(i, "Lilli im Zirkus", store, artists=credited[i]) for i in ids
+            }
+
+        return read
+
+    monkeypatch.setattr(apple, "album_details_many", details("apple_music"))
+    monkeypatch.setattr(spotify, "album_details_many", details("spotify"))
+    read = _credit_reader([apple, spotify])
+    assert read is not None
+
+    def album(*ids: tuple[str, str]) -> ShippedAlbum:
+        return ShippedAlbum(2, "Lilli im Zirkus", tuple(p for p, _ in ids), None, ids)
+
+    assert read(album(("apple_music", "a1"), ("spotify", "s1"))) == "Hexe Lilli"
+    assert read(album(("spotify", "s1"), ("apple_music", "a2"))) == "Conni"
+    assert read(album(("apple_music", "a1"))) is None
 
 
 def test_an_album_placed_by_hand_is_not_put_to_the_model_again() -> None:

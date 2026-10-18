@@ -42,6 +42,7 @@ from lauschi_catalog.catalog.reference_map import (
     story_words,
 )
 from lauschi_catalog.fanout import run_bounded
+from lauschi_catalog.providers import CatalogProvider
 from lauschi_catalog.providers.apple_music import AppleMusicProvider
 from lauschi_catalog.providers.spotify import SpotifyProvider
 from lauschi_catalog.reference import ReferenceIndex
@@ -435,19 +436,21 @@ def _curation_albums(entry_id: str) -> list[dict]:
 
 
 def _credit_reader(
-    apple: AppleMusicProvider | None,
+    providers: Sequence[CatalogProvider],
 ) -> Callable[[ShippedAlbum], str | None] | None:
-    """Who Apple Music credits for an album. Spotify's album records come
-    without artist names here, so an album only on Spotify has no credit."""
-    if apple is None:
+    """Who the stores credit for an album, from the first store in
+    ``providers`` that ships it and names an artist."""
+    if not providers:
         return None
 
     def read(album: ShippedAlbum) -> str | None:
-        ids = [
-            album_id for provider, album_id in album.ids if provider == "apple_music"
-        ]
-        details = apple.album_details_many(ids[:1]) if ids else {}
-        return next((d.artists for d in details.values() if d.artists), None)
+        for provider in providers:
+            ids = [i for name, i in album.ids if name == provider.name]
+            details = provider.album_details_many(ids[:1]) if ids else {}
+            credit = next((d.artists for d in details.values() if d.artists), None)
+            if credit:
+                return credit
+        return None
 
     return read
 
@@ -496,15 +499,17 @@ async def run_reference_qa(
     )
     try:
         spotify: SpotifyProvider | None = SpotifyProvider()
-    except Exception as exc:  # no Spotify credentials: match without track names
-        on_progress(f"  No track names ({type(exc).__name__}: {exc})")
+    except (
+        Exception
+    ) as exc:  # no Spotify credentials: no track names, Apple credits only
+        on_progress(f"  No Spotify ({type(exc).__name__}: {exc})")
         spotify = None
     try:
         apple: AppleMusicProvider | None = AppleMusicProvider()
-    except Exception as exc:  # no MusicKit key: open albums go without credits
-        on_progress(f"  No artist credits ({type(exc).__name__}: {exc})")
+    except Exception as exc:  # no MusicKit key: Spotify credits only
+        on_progress(f"  No Apple Music ({type(exc).__name__}: {exc})")
         apple = None
-    credits = _credit_reader(apple)
+    credits = _credit_reader([p for p in (apple, spotify) if p is not None])
     day = today or date.today()
 
     async def one(entry: CatalogEntry) -> EntryQa:

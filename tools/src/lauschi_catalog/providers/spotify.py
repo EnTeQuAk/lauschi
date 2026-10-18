@@ -33,6 +33,10 @@ def _album_type(raw: dict) -> str:
     return kind
 
 
+def _artists(raw: dict) -> str:
+    return ", ".join(a["name"] for a in raw.get("artists") or [] if a.get("name"))
+
+
 def _pick_image(images: list[dict]) -> str:
     """Pick a ~300px image URL from Spotify's images array (sorted largest-first)."""
     if not images:
@@ -197,6 +201,7 @@ class SpotifyProvider(CachedHttpProvider):
                 provider="spotify",
                 release_date=a.get("release_date", ""),
                 total_tracks=a.get("total_tracks", 0),
+                artists=_artists(a),
                 album_type=_album_type(a),
                 image_url=_pick_image(a.get("images", [])),
             )
@@ -249,6 +254,7 @@ class SpotifyProvider(CachedHttpProvider):
             provider="spotify",
             release_date=data.get("release_date", ""),
             total_tracks=data.get("total_tracks", 0),
+            artists=_artists(data),
             label=data.get("label", ""),
             album_type=_album_type(data),
             image_url=_pick_image(data.get("images", [])),
@@ -268,6 +274,7 @@ class SpotifyProvider(CachedHttpProvider):
             provider="spotify",
             release_date=raw.get("release_date", ""),
             total_tracks=raw.get("total_tracks", 0),
+            artists=_artists(raw),
             label=raw.get("label", ""),
             album_type=_album_type(raw),
             image_url=_pick_image(raw.get("images", [])),
@@ -291,7 +298,7 @@ class SpotifyProvider(CachedHttpProvider):
                 name=a["name"],
                 provider="spotify",
                 total_tracks=a.get("total_tracks", 0),
-                artists=", ".join(art["name"] for art in a.get("artists", [])),
+                artists=_artists(a),
                 image_url=_pick_image(a.get("images", [])),
             )
             for a in raw
