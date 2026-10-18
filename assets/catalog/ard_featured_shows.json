@@ -1,0 +1,10 @@
+{
+  "featured_shows": [
+    {"id": "8758580", "name": "Spielraum – Hörspiel (SWR Kultur)"},
+    {"id": "73442282", "name": "Mikado Hörspiele (NDR)"},
+    {"id": "58715068", "name": "Geschichten für Kinder (BR)"},
+    {"id": "94878292", "name": "Kakadu – Kinderhörspiel (DLF Kultur)"},
+    {"id": "76725818", "name": "Die Märchen der ARD"},
+    {"id": "36244846", "name": "MausHörspiel lang (WDR)"}
+  ]
+}
