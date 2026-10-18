@@ -42,6 +42,37 @@ def safe_write_json(path: Path, data: object) -> None:
     safe_write_text(path, text + "\n")
 
 
+def _one_line(value: object) -> bool:
+    """A plain value, or a dict or list of plain values only."""
+    if isinstance(value, dict):
+        return not any(isinstance(item, (dict, list)) for item in value.values())
+    if isinstance(value, list):
+        return not any(isinstance(item, (dict, list)) for item in value)
+    return True
+
+
+def _dump(value: object, depth: int) -> str:
+    if _one_line(value):
+        return json.dumps(value, ensure_ascii=False)
+    pad, inner = "  " * depth, "  " * (depth + 1)
+    if isinstance(value, dict):
+        body = ",\n".join(
+            f"{inner}{json.dumps(key, ensure_ascii=False)}: {_dump(item, depth + 1)}"
+            for key, item in value.items()
+        )
+        return "{\n" + body + "\n" + pad + "}"
+    assert isinstance(value, list)
+    body = ",\n".join(f"{inner}{_dump(item, depth + 1)}" for item in value)
+    return "[\n" + body + "\n" + pad + "]"
+
+
+def dump_catalog(data: object) -> str:
+    """The catalog as JSON a diff can be read in: indented by two spaces,
+    with every dict or list of plain values (an album, a list of aliases)
+    on one line, so a changed album is a one-line diff."""
+    return _dump(data, 0) + "\n"
+
+
 def safe_write_yaml(path: Path, data: object) -> None:
     """Write YAML atomically via ruamel.yaml, preserving comments."""
     buf = StringIO()
