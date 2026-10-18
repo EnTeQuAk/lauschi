@@ -197,13 +197,21 @@ class CatalogService {
 
   /// Load the catalog from the bundled series.json asset.
   static Future<CatalogService> load() async {
-    final raw = await rootBundle.loadString('assets/catalog/series.json');
-    // Decoding the 2.8 MB document and building every series takes tens
-    // of milliseconds on a desktop and more on a phone. On the UI isolate
-    // that would jank the first frames of the kid home screen on every
-    // cold start, because the startup episode reconcile forces this load
-    // during launch.
-    final result = await Isolate.run(() => parseCatalog(raw));
+    // The bytes, not loadString: that keeps the decoded 2.8 MB string cached
+    // for the app's lifetime and decodes it on an isolate of its own first.
+    final bytes = await rootBundle.load('assets/catalog/series.json');
+    // Decoding the document and building every series takes tens of
+    // milliseconds on a desktop and more on a phone. On the UI isolate that
+    // would jank the first frames of the kid home screen on every cold
+    // start, because the startup episode reconcile forces this load during
+    // launch.
+    final result = await Isolate.run(
+      () => parseCatalog(
+        utf8.decode(
+          bytes.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes),
+        ),
+      ),
+    );
 
     for (final error in result.errors) {
       Log.error(_tag, 'Skipped malformed series entry', data: {'entry': error});
