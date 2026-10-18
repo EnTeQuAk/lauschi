@@ -6,18 +6,9 @@ shape) by mocking the provider and catalog layers.
 
 from unittest.mock import MagicMock
 
-import pytest
-from fastapi.testclient import TestClient
-
 from lauschi_catalog.catalog.models import CatalogEntry
 from lauschi_catalog.providers import Artist
-from lauschi_catalog.web.main import app
 from tests.factories import entry
-
-
-@pytest.fixture
-def client():
-    return TestClient(app)
 
 
 def _entry(series_id: str, *, spotify_ids: list[str] | None = None) -> CatalogEntry:
@@ -30,7 +21,7 @@ def _entry(series_id: str, *, spotify_ids: list[str] | None = None) -> CatalogEn
 class TestAcceptArtist:
     """POST /api/series/{id}/accept-artist"""
 
-    def test_adds_new_artist_id(self, client, monkeypatch):
+    def test_adds_new_artist_id(self, web_client, monkeypatch):
         entry = _entry("test_series", spotify_ids=["existing-id"])
         monkeypatch.setattr(
             "lauschi_catalog.web.routes.api.get_series_by_id",
@@ -51,7 +42,7 @@ class TestAcceptArtist:
             lambda: None,
         )
 
-        resp = client.post(
+        resp = web_client.post(
             "/api/series/test_series/accept-artist",
             json={"provider": "spotify", "artist_id": "new-id"},
         )
@@ -62,7 +53,7 @@ class TestAcceptArtist:
             "new-id",
         ]
 
-    def test_does_not_duplicate_existing_id(self, client, monkeypatch):
+    def test_does_not_duplicate_existing_id(self, web_client, monkeypatch):
         entry = _entry("test_series", spotify_ids=["existing-id"])
         monkeypatch.setattr(
             "lauschi_catalog.web.routes.api.get_series_by_id",
@@ -83,25 +74,25 @@ class TestAcceptArtist:
             lambda: None,
         )
 
-        resp = client.post(
+        resp = web_client.post(
             "/api/series/test_series/accept-artist",
             json={"provider": "spotify", "artist_id": "existing-id"},
         )
         assert resp.status_code == 200
         assert captured["updates"]["test_series"]["spotify"] == ["existing-id"]
 
-    def test_returns_404_for_unknown_series(self, client, monkeypatch):
+    def test_returns_404_for_unknown_series(self, web_client, monkeypatch):
         monkeypatch.setattr(
             "lauschi_catalog.web.routes.api.get_series_by_id",
             lambda sid: None,
         )
-        resp = client.post(
+        resp = web_client.post(
             "/api/series/nonexistent/accept-artist",
             json={"provider": "spotify", "artist_id": "some-id"},
         )
         assert resp.status_code == 404
 
-    def test_adds_first_id_for_new_provider(self, client, monkeypatch):
+    def test_adds_first_id_for_new_provider(self, web_client, monkeypatch):
         entry = _entry("test_series")
         monkeypatch.setattr(
             "lauschi_catalog.web.routes.api.get_series_by_id",
@@ -122,7 +113,7 @@ class TestAcceptArtist:
             lambda: None,
         )
 
-        resp = client.post(
+        resp = web_client.post(
             "/api/series/test_series/accept-artist",
             json={"provider": "apple_music", "artist_id": "apple-123"},
         )
@@ -133,7 +124,7 @@ class TestAcceptArtist:
 class TestDiscoverPreview:
     """POST /api/series/{id}/discover-preview"""
 
-    def test_returns_candidates_and_best_match(self, client, monkeypatch):
+    def test_returns_candidates_and_best_match(self, web_client, monkeypatch):
         entry = _entry("bibi_blocksberg", spotify_ids=["123"])
         monkeypatch.setattr(
             "lauschi_catalog.web.routes.api.get_series_by_id",
@@ -163,7 +154,7 @@ class TestDiscoverPreview:
             lambda: [fake_provider],
         )
 
-        resp = client.post("/api/series/bibi_blocksberg/discover-preview")
+        resp = web_client.post("/api/series/bibi_blocksberg/discover-preview")
         assert resp.status_code == 200
 
         data = resp.json()
@@ -182,15 +173,15 @@ class TestDiscoverPreview:
         assert best["id"] == "sp-1"
         assert best["name"] == "Bibi Blocksberg"
 
-    def test_returns_404_for_unknown_series(self, client, monkeypatch):
+    def test_returns_404_for_unknown_series(self, web_client, monkeypatch):
         monkeypatch.setattr(
             "lauschi_catalog.web.routes.api.get_series_by_id",
             lambda sid: None,
         )
-        resp = client.post("/api/series/nonexistent/discover-preview")
+        resp = web_client.post("/api/series/nonexistent/discover-preview")
         assert resp.status_code == 404
 
-    def test_no_match_returns_null_best(self, client, monkeypatch):
+    def test_no_match_returns_null_best(self, web_client, monkeypatch):
         entry = _entry("obscure_series")
         monkeypatch.setattr(
             "lauschi_catalog.web.routes.api.get_series_by_id",
@@ -205,7 +196,7 @@ class TestDiscoverPreview:
             lambda: [fake_provider],
         )
 
-        resp = client.post("/api/series/obscure_series/discover-preview")
+        resp = web_client.post("/api/series/obscure_series/discover-preview")
         assert resp.status_code == 200
         data = resp.json()
         assert data["candidates"]["spotify"] == []

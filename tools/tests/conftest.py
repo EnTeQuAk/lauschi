@@ -3,12 +3,15 @@
 import json
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import pytest
 
 from lauschi_catalog.catalog import paths
 from lauschi_catalog.catalog.io import write_catalog
+
+if TYPE_CHECKING:
+    from fastapi.testclient import TestClient
 
 
 @dataclass(frozen=True)
@@ -50,6 +53,31 @@ def scratch_catalog(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> ScratchC
         curation_dir=paths.curation_dir(),
         deleted_log=paths.deleted_log_path(),
     )
+
+
+@pytest.fixture
+def jobs_db(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
+    """A jobs database of the test's own. The checkout's tools/jobs.db
+    belongs to a running web UI, and the app's startup marks its active
+    jobs as errored."""
+    # Deferred: only the web tests need the web extra.
+    from lauschi_catalog.web import jobs
+
+    path = tmp_path / "jobs.db"
+    monkeypatch.setattr(jobs, "JOBS_DB_PATH", path)
+    jobs.init_db()
+    return path
+
+
+@pytest.fixture
+def web_client(jobs_db: Path) -> "TestClient":
+    """The web app in-process, on a jobs database of its own."""
+    # Deferred: only the web tests need the web extra.
+    from fastapi.testclient import TestClient
+
+    from lauschi_catalog.web.main import app
+
+    return TestClient(app)
 
 
 def make_album(

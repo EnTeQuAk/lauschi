@@ -2,12 +2,14 @@
 
 from unittest.mock import patch
 
+import pytest
 from fastapi.testclient import TestClient
 
 from lauschi_catalog.web.main import app
 from tests.test_series_detail_tabs import _pipeline_state
 
 
+@pytest.mark.usefixtures("jobs_db")
 def test_child_of_a_dissolved_root_lists_its_siblings() -> None:
     with (
         patch(

@@ -2,16 +2,7 @@
 
 from unittest.mock import patch
 
-import pytest
-from fastapi.testclient import TestClient
-
-from lauschi_catalog.web.main import app
 from tests.factories import entry
-
-
-@pytest.fixture
-def client():
-    return TestClient(app)
 
 
 def _mock_series():
@@ -24,12 +15,12 @@ def _mock_series():
     ]
 
 
-def test_audiobook_tab_shows_audiobook_count(client):
+def test_audiobook_tab_shows_audiobook_count(web_client):
     with patch(
         "lauschi_catalog.web.routes.catalog.get_all_series",
         return_value=_mock_series(),
     ):
-        resp = client.get("/catalog?tab=audiobook")
+        resp = web_client.get("/catalog?tab=audiobook")
 
     assert resp.status_code == 200
     html = resp.text
@@ -39,12 +30,12 @@ def test_audiobook_tab_shows_audiobook_count(client):
     assert "tkkg" not in html
 
 
-def test_all_tab_includes_audiobooks_in_total(client):
+def test_all_tab_includes_audiobooks_in_total(web_client):
     with patch(
         "lauschi_catalog.web.routes.catalog.get_all_series",
         return_value=_mock_series(),
     ):
-        resp = client.get("/catalog?tab=all")
+        resp = web_client.get("/catalog?tab=all")
 
     assert resp.status_code == 200
     html = resp.text
@@ -52,12 +43,12 @@ def test_all_tab_includes_audiobooks_in_total(client):
     assert "tkkg" in html
 
 
-def test_tab_counts_include_audiobooks(client):
+def test_tab_counts_include_audiobooks(web_client):
     with patch(
         "lauschi_catalog.web.routes.catalog.get_all_series",
         return_value=_mock_series(),
     ):
-        resp = client.get("/catalog?tab=hoerspiel")
+        resp = web_client.get("/catalog?tab=hoerspiel")
 
     assert resp.status_code == 200
     html = resp.text
@@ -65,12 +56,12 @@ def test_tab_counts_include_audiobooks(client):
     assert ">2<" in html.replace(" ", "")
 
 
-def test_tab_links_do_not_carry_status_filter(client):
+def test_tab_links_do_not_carry_status_filter(web_client):
     with patch(
         "lauschi_catalog.web.routes.catalog.get_all_series",
         return_value=_mock_series(),
     ):
-        resp = client.get("/catalog?tab=hoerspiel&status=Validate")
+        resp = web_client.get("/catalog?tab=hoerspiel&status=Validate")
 
     html = resp.text
     assert "tab=audiobook&amp;status=" not in html

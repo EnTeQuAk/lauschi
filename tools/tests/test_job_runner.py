@@ -9,16 +9,9 @@ import sys
 
 import pytest
 
-from lauschi_catalog.web.jobs import get_job, init_db, reap_zombie_jobs, set_status
+from lauschi_catalog.web.jobs import get_job, reap_zombie_jobs, set_status
 
-
-@pytest.fixture(autouse=True)
-def _setup_db(tmp_path, monkeypatch):
-    """Point the job DB at a temp file for each test."""
-    db_path = tmp_path / "test_jobs.db"
-    monkeypatch.setattr("lauschi_catalog.web.config.JOBS_DB_PATH", db_path)
-    monkeypatch.setattr("lauschi_catalog.web.jobs.JOBS_DB_PATH", db_path)
-    init_db()
+pytestmark = pytest.mark.usefixtures("jobs_db")
 
 
 def _create_job(series_id: str = "test", command: str = "test") -> str:

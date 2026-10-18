@@ -5,16 +5,7 @@ flash_context processor pops them on the next render so they appear
 exactly once, then disappear.
 """
 
-import pytest
-from fastapi.testclient import TestClient
-
 from lauschi_catalog.web.flash import add_flash, make_flash
-from lauschi_catalog.web.main import app
-
-
-@pytest.fixture
-def client():
-    return TestClient(app)
 
 
 class TestMakeFlash:
@@ -29,8 +20,8 @@ class TestMakeFlash:
 
 
 class TestBannerRendering:
-    def test_no_banner_without_flash(self, client):
-        resp = client.get("/jobs")
+    def test_no_banner_without_flash(self, web_client):
+        resp = web_client.get("/jobs")
         assert 'class="flash' not in resp.text
 
 
