@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/catalog/catalog_service.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
@@ -31,6 +34,17 @@ void main() {
     TestWidgetsFlutterBinding.ensureInitialized();
     catalog = await CatalogService.load();
     shared = CatalogService.findSharedAlbumIds(catalog.all);
+  });
+
+  test('every entry of the shipped catalog parses', () {
+    // The parser skips a malformed entry and only logs it, so a type the
+    // app does not expect (an id written as a number) would drop a whole
+    // series quietly. Every entry in the file must come through.
+    final raw = File('assets/catalog/series.json').readAsStringSync();
+    final entries = (jsonDecode(raw) as Map<String, dynamic>)['series'] as List;
+    final result = CatalogService.parseCatalog(raw);
+    expect(result.errors, isEmpty);
+    expect(result.series, hasLength(entries.length));
   });
 
   test('curated episode numbers agree with explicit Folge N in titles', () {
