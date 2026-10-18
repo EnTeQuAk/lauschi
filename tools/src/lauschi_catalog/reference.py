@@ -18,6 +18,7 @@ do not show them, so they are read through the product search
 still be a product of the brand.
 """
 
+import itertools
 import os
 import re
 import time
@@ -41,6 +42,9 @@ class ReferenceEpisode:
     number: str | None
     title: str
     seconds: int | None
+    #: the product (release) the episode is part of; several episodes
+    #: can share one, like two stories on one album
+    product: int | None = None
 
 
 @dataclass(frozen=True)
@@ -73,6 +77,8 @@ class ReferenceProduct:
     brand: str | None
     line: str | None
     number: str | None
+    #: the release's EAN or ISBN-13, the barcode the stores give it too
+    barcode: str = ""
 
 
 def _key(name: str) -> str:
@@ -114,6 +120,7 @@ def _parse_series(data: dict) -> ReferenceSeries:
                 else None,
                 title=str(e.get("episodeTitle") or "").strip(),
                 seconds=_int(e.get("length")),
+                product=_int(e.get("productId")),
             )
             for e in season.get("episodes") or []
         ]
@@ -149,7 +156,12 @@ def _parse_product(item: dict) -> ReferenceProduct:
         brand=_first_name(embedded.get("series")),
         line=_first_name(embedded.get("season")),
         number=(str(number).strip() or None) if number is not None else None,
+        barcode=_barcode(item),
     )
+
+
+def _barcode(item: dict) -> str:
+    return str((item.get("attributes") or {}).get("isbn") or "").strip()
 
 
 #: The fields of a search hit that are kept. A hit carries a long
@@ -273,17 +285,38 @@ class ReferenceIndex:
         )
         return [_parse_product(item) for item in raw]  # type: ignore[union-attr]
 
+    def barcodes(self, series_id: int) -> dict[int, str]:
+        """The barcode of each product a series files, by product id.
+        One paged sweep, cached. A product without one is left out."""
+        if not self.configured:
+            return {}
+        raw = self._cached(
+            f"barcodes:{series_id}",
+            lambda: {
+                str(item["id"]): _barcode(item)
+                for item in self._search_products({"seriesId": series_id}, pages=None)
+            },
+        )
+        return {int(pid): code for pid, code in raw.items() if code}  # type: ignore[union-attr]
+
     def _fetch_products(self, query: str) -> list[dict]:
+        return [
+            {k: item[k] for k in _PRODUCT_FIELDS if k in item}
+            for item in self._search_products(
+                {"query": query}, pages=_MAX_PRODUCT_PAGES
+            )
+        ]
+
+    def _search_products(self, params: dict, *, pages: int | None) -> list[dict]:
+        """The hits of a product search, page by page, up to ``pages``
+        pages (all of them for None)."""
         items: list[dict] = []
-        for page in range(_MAX_PRODUCT_PAGES):
+        for page in itertools.count() if pages is None else range(pages):
             data = self._fetch(
                 f"{self._base}/searches/products-by-clients",
-                {"query": query, "page": page, "per_page": _PAGE_SIZE},
+                {**params, "page": page, "per_page": _PAGE_SIZE},
             )
-            for item in data.get("_embedded", {}).get(
-                "simpleHalRepresentationModels", []
-            ):
-                items.append({k: item[k] for k in _PRODUCT_FIELDS if k in item})
+            items += data.get("_embedded", {}).get("simpleHalRepresentationModels", [])
             if page + 1 >= int((data.get("page") or {}).get("totalPages", 0)):
                 break
         return items

@@ -238,3 +238,56 @@ def test_an_album_placed_by_hand_is_not_put_to_the_model_again() -> None:
     prompt = qa_prompt(LILLI, MAPPING, [ERSTLESER], EXCLUDED + by_hand, today=TODAY)
     assert "Lilli im Zirkus" not in prompt.text
     assert [a.title for a in prompt.by_hand] == ["Lilli im Zirkus"]
+
+
+BARCODED = ReferenceLine(
+    "Hörspiele",
+    [
+        ReferenceEpisode("2", "Im wilden Wilden Westen", None, product=2),
+        ReferenceEpisode("3", "Der Drache", None, product=3),
+    ],
+)
+
+
+def test_an_open_episode_whose_release_another_entry_ships_is_theirs() -> None:
+    """The sibling ships the release under other words, the barcode says so."""
+    western = _entry("hexe_lilli_western", "Hexe Lilli: Western", (None, "Yeehaw!"))
+    western.providers["spotify"].albums[0]["barcode"] = "4001504265602"
+    mapping = EntryMapping("hexe_lilli", SERIES, (BARCODED,), "name")
+
+    prompt = qa_prompt(
+        LILLI,
+        mapping,
+        [western],
+        [],
+        today=TODAY,
+        barcodes={2: "4001504265602"},
+    )
+
+    assert [(e.title, owner) for e, owner in prompt.elsewhere] == [
+        ("Im wilden Wilden Westen", "hexe_lilli_western")
+    ]
+
+
+def test_an_open_episode_names_the_release_the_entry_leaves_out() -> None:
+    mapping = EntryMapping("hexe_lilli", SERIES, (BARCODED,), "name")
+    left_out = [
+        {
+            "title": "Lilli und das grüne Ungeheuer",
+            "include": False,
+            "exclude_reason": "sub_series_bleed",
+            "provider": "spotify",
+            "barcode": "4001504265619",
+        }
+    ]
+
+    prompt = qa_prompt(
+        LILLI, mapping, [], left_out, today=TODAY, barcodes={3: "4001504265619"}
+    ).text
+
+    assert (
+        "[Hörspiele 3] Der Drache (its release is on the store as "
+        "'Lilli und das grüne Ungeheuer', which this entry leaves out: "
+        "sub_series_bleed)"
+    ) in prompt
+    assert "- Lilli und das grüne Ungeheuer: sub_series_bleed" in prompt

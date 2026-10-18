@@ -33,6 +33,7 @@ SERIES = {
                     "episodeNumber": "1",
                     "episodeTitle": "Die rote Socke ",
                     "length": "3674",
+                    "productId": 1,
                 },
                 {"episodeNumber": None, "episodeTitle": "Sammelband", "length": None},
             ],
@@ -65,7 +66,7 @@ def _product(
         "author": author,
         "imprint": {"name": label},
         "productClassification": "RADIOPLAY",
-        "attributes": {"length": 2880},
+        "attributes": {"length": 2880, "isbn": f"40297591603{product_id:02d}"},
         "categories": [{"name": "Krimi"}],
         "_embedded": embedded,
     }
@@ -109,6 +110,9 @@ def fake_fetch(url: str, params: dict | None) -> dict:
         return PAGES[params["page"]]
     if url.endswith("/series/157"):
         return SERIES
+    if url.endswith("/searches/products-by-clients") and "seriesId" in params:
+        assert params["seriesId"] == 157
+        return PRODUCT_PAGES[params["page"]]
     if url.endswith("/searches/products-by-clients"):
         assert params["query"] == "Kommissar Kugelblitz"
         return PRODUCT_PAGES[params["page"]]
@@ -156,6 +160,15 @@ def test_a_series_parses_into_lines_and_episodes():
     first, second = series.lines[0].episodes
     assert (first.number, first.title, first.seconds) == ("1", "Die rote Socke", 3674)
     assert (second.number, second.seconds) == (None, None)
+    assert (first.product, second.product) == (1, None)
+
+
+def test_a_series_products_give_their_barcodes():
+    """An episode names its product, and the product holds the release's
+    barcode, the number the stores give the same release."""
+    barcodes = index().barcodes(157)
+    assert barcodes[1] == "4029759160301"
+    assert sorted(barcodes) == [1, 2, 3, 4, 5, 6, 7]
 
 
 @pytest.mark.parametrize(
@@ -188,10 +201,11 @@ def test_a_product_search_reads_every_page():
         "Hörspiele zu den Büchern",
         "1",
     )
-    assert (first.label, first.kind, first.seconds) == (
+    assert (first.label, first.kind, first.seconds, first.barcode) == (
         "EUROPA mini",
         "RADIOPLAY",
         2880,
+        "4029759160301",
     )
     assert (second.brand, second.line, second.number) == (None, None, None)
 

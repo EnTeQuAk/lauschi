@@ -227,13 +227,14 @@ named like its main series, also without punctuation or as the start of
 its name, so "Dragons - Die Reiter von Berk" is the index's Dragons) and
 lines (each to the entry that ships most of it, and a line nobody ships to
 the main series), and pairs its shipped albums with those lines' episodes
-by number, title and track names. What pairs with nothing on either side
-goes to a model (`glm-5.3-flash` by default, `-m` to change), in a run of
-its own per entry, which names every open item `same_story`,
-`should_ship`, `rightly_absent`, `out_of_place` or `unlisted`. Albums the
-index cannot know yet (numbered past its lines, out in the last eight
-weeks) and albums a person placed with `catalog-edit` are set aside
-before the model sees them.
+by barcode, number, title and track names. The barcode pairs a release
+whatever its titles say, and settles every story on it. What pairs with
+nothing on either side goes to a model (`glm-5.3-flash` by default, `-m`
+to change), in a run of its own per entry, which names every open item
+`same_story`, `should_ship`, `rightly_absent`, `out_of_place` or
+`unlisted`. Albums the index cannot know yet (numbered past its lines, out
+in the last eight weeks) and albums a person placed with `catalog-edit`
+are set aside before the model sees them.
 
 Where the names differ, a member owns a line its titles do not show, or
 the index has nothing for an entry, `assets/catalog/reference_map.yaml`

@@ -412,3 +412,71 @@ def test_albums_the_index_cannot_know_yet_are_set_aside() -> None:
     result = match_entry(entry, _lines(_ep("Hörspiele", 3, "Der Drache")), today=TODAY)
     assert sorted(a.number for a in result.newer) == [4, 12]
     assert result.open_ours == []
+
+
+def _with_barcodes(*albums: tuple[int | None, str, str]) -> CatalogEntry:
+    """(number, title, barcode) per album shipped on Spotify."""
+    rows = [
+        {
+            "id": f"s{i}",
+            "episode": number,
+            "title": title,
+            "release_date": "2014-06-27",
+            "barcode": barcode,
+        }
+        for i, (number, title, barcode) in enumerate(albums)
+    ]
+    return CatalogEntry(
+        id="dragons_die_reiter_von_berk",
+        title="Dragons - Die Reiter von Berk",
+        providers={"spotify": ProviderConfig(albums=rows)},
+    )
+
+
+REITER_VON_BERK = (
+    ReferenceLine(
+        "Die Reiter von Berk",
+        [
+            ReferenceEpisode("1-1", "Wie man einen Drachen zähmt", None, product=10),
+            ReferenceEpisode("1-2", "Der Sturm", None, product=11),
+            ReferenceEpisode("1-3", "Fackel", None, product=11),
+        ],
+    ),
+)
+
+
+def test_a_release_with_the_index_barcode_matches_whatever_its_title_says() -> None:
+    """Der Sturm and Fackel are one release, and the store titles it by its
+    number alone. The barcode settles both stories."""
+    entry = _with_barcodes(
+        (1, "Folge 1: Drachenzähmen", "4029759160373"),
+        (2, "Folge 2", "4029759160380"),
+    )
+    result = match_entry(
+        entry,
+        REITER_VON_BERK,
+        today=TODAY,
+        barcodes={10: "4029759160373", 11: "4029759160380"},
+    )
+    assert (result.matched, result.bundled) == (2, 1)
+    assert result.open_index == [] and result.open_ours == []
+
+
+def test_a_barcode_matches_in_its_short_and_long_form() -> None:
+    """A 12-digit UPC is the 13-digit EAN with a leading zero."""
+    entry = _with_barcodes((1, "Folge 1", "886445747584"))
+    result = match_entry(
+        entry, REITER_VON_BERK[:1], today=TODAY, barcodes={10: "0886445747584"}
+    )
+    assert result.matched == 1
+
+
+def test_a_release_paired_by_barcode_under_another_number_is_named() -> None:
+    entry = _with_barcodes((7, "Folge 7: Wie man einen Drachen zähmt", "4029759160373"))
+    line = ReferenceLine(
+        "Die Reiter von Berk",
+        [ReferenceEpisode("1", "Wie man einen Drachen zähmt", None, product=10)],
+    )
+    result = match_entry(entry, (line,), today=TODAY, barcodes={10: "4029759160373"})
+    [moved] = result.number_differs
+    assert (moved.index.number, moved.ours.number) == (1, 7)

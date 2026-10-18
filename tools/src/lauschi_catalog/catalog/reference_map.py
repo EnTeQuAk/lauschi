@@ -32,7 +32,7 @@ import difflib
 import functools
 import re
 import unicodedata
-from collections.abc import Callable
+from collections.abc import Callable, Mapping
 from dataclasses import dataclass, field
 from datetime import date, timedelta
 from pathlib import Path
@@ -403,11 +403,19 @@ _TRACK_PART = re.compile(r"\s*[-–]\s*(teil|part|kapitel|track)\s*\d+.*$", re.I
 _INDEX_LAG = timedelta(weeks=8)
 
 
+def barcode_key(code: str) -> str:
+    """A barcode as it compares: a 12-digit UPC is the 13-digit EAN with a
+    leading zero, and stores and the index write either."""
+    return code.strip().lstrip("0")
+
+
 @dataclass(frozen=True)
 class IndexEpisode:
     line: str
     number: int | None
     title: str
+    #: the barcode of the release the episode is part of, as `barcode_key`
+    barcode: str = ""
 
 
 @dataclass(frozen=True)
@@ -420,6 +428,8 @@ class ShippedAlbum:
     release_date: str | None
     #: (provider, album id) of each store's release
     ids: tuple[tuple[str, str], ...] = ()
+    #: each store's barcode for it, as `barcode_key`
+    barcodes: frozenset[str] = frozenset()
 
 
 @dataclass(frozen=True)
@@ -468,11 +478,14 @@ def shipped_albums(entry: CatalogEntry) -> list[ShippedAlbum]:
                     "title": title,
                     "providers": [],
                     "ids": [],
+                    "barcodes": set(),
                     "release_date": album.get("release_date"),
                 },
             )
             row["providers"].append(provider)
             row["ids"].append((provider, album["id"]))
+            if album.get("barcode"):
+                row["barcodes"].add(barcode_key(album["barcode"]))
     return [
         ShippedAlbum(
             r["number"],
@@ -480,6 +493,7 @@ def shipped_albums(entry: CatalogEntry) -> list[ShippedAlbum]:
             tuple(r["providers"]),
             r["release_date"],
             tuple(r["ids"]),
+            frozenset(r["barcodes"]),
         )
         for r in merged.values()
     ]
@@ -492,10 +506,14 @@ def match_entry(
     today: date,
     drop: frozenset[str] = frozenset(),
     tracks: Callable[[], list[str]] | None = None,
+    barcodes: Mapping[int, str] | None = None,
 ) -> EntryMatch:
     """Pair the entry's shipped albums with the episodes of its index lines.
 
-    A story pairs under its own number first, then by title anywhere. An
+    A story pairs with the album that carries its release's barcode first
+    (``barcodes`` holds them by the index's product id), whatever the two
+    titles say, and the other stories of that release count as bundled.
+    Then a story pairs under its own number, then by title anywhere. An
     index story that pairs with nothing may sit in an album that matched
     another story, or among the track names, which ``tracks`` reads only
     when it gets that far.
@@ -504,15 +522,43 @@ def match_entry(
     result = EntryMatch()
     used: set[int] = set()
     track_titles: list[str] | None = None
+    codes = barcodes or {}
     episodes = [
-        IndexEpisode(line.name, _number(ep.number), ep.title)
+        IndexEpisode(
+            line.name,
+            _number(ep.number),
+            ep.title,
+            barcode_key(codes[ep.product]) if ep.product in codes else "",
+        )
         for line in lines
         for ep in line.episodes
     ]
     by_number = {a.number: i for i, a in enumerate(ours) if a.number is not None}
+    by_barcode = {code: i for i, a in enumerate(ours) for code in a.barcodes}
+
+    unpaired: list[IndexEpisode] = []
+    for ep in episodes:
+        i = by_barcode.get(ep.barcode) if ep.barcode else None
+        if i is None:
+            unpaired.append(ep)
+        elif i in used:
+            result.bundled += 1
+        else:
+            used.add(i)
+            album = ours[i]
+            if (
+                ep.number is not None
+                and album.number is not None
+                and ep.number != album.number
+            ):
+                result.number_differs.append(Pair(ep, album))
+                continue
+            result.matched += 1
+            if ep.number is not None and album.number is None:
+                result.unnumbered.append(Pair(ep, album))
 
     pending: list[IndexEpisode] = []
-    for ep in episodes:
+    for ep in unpaired:
         i = by_number.get(ep.number) if ep.number is not None else None
         if (
             i is not None

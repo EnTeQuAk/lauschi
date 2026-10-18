@@ -11,7 +11,7 @@ catalog does not change.
 
 import json
 from collections import Counter
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass, field
 from datetime import date
 from pathlib import Path
@@ -32,6 +32,7 @@ from lauschi_catalog.catalog.reference_map import (
     EntryMatch,
     IndexEpisode,
     ShippedAlbum,
+    barcode_key,
     brand_words,
     fold_word,
     load_overrides,
@@ -220,9 +221,15 @@ def _near(title: str, open_titles: list[str], drop: frozenset[str]) -> bool:
 def _shipped_by(
     episode: IndexEpisode, entries: Sequence[CatalogEntry], drop: frozenset[str]
 ) -> str | None:
-    """The first of ``entries`` that ships the episode's story."""
+    """The first of ``entries`` that ships the episode's release or story."""
     words = {fold_word(w) for w in story_words(episode.title, drop)}
     for other in entries:
+        if episode.barcode and any(
+            barcode_key(album.get("barcode") or "") == episode.barcode
+            for cfg in other.providers.values()
+            for album in cfg.albums
+        ):
+            return other.id
         for title in shipped_titles(other):
             theirs = {fold_word(w) for w in story_words(title, drop)}
             # the word check spares most titles the slower comparison
@@ -243,6 +250,7 @@ def qa_prompt(
     tracks: Callable[[], list[str]] | None = None,
     credits: Callable[[ShippedAlbum], str | None] | None = None,
     rest: Sequence[CatalogEntry] = (),
+    barcodes: Mapping[int, str] | None = None,
 ) -> QaPrompt:
     """Match the entry deterministically and phrase what stays open.
 
@@ -251,10 +259,18 @@ def qa_prompt(
     theirs and goes to nobody's model run. ``albums`` are the rows of the
     entry's curation: the albums it leaves out, and those a person placed
     by hand. ``credits`` names who the store credits for an open album.
+    ``barcodes`` holds the index series' barcodes by product id.
     """
     assert mapping.series is not None
     drop = brand_words(mapping.series.name, entry.title, *(m.title for m in family))
-    match = match_entry(entry, mapping.lines, today=today, drop=drop, tracks=tracks)
+    match = match_entry(
+        entry,
+        mapping.lines,
+        today=today,
+        drop=drop,
+        tracks=tracks,
+        barcodes=barcodes,
+    )
 
     elsewhere: list[tuple[IndexEpisode, str]] = []
     open_index: list[IndexEpisode] = []
@@ -273,11 +289,18 @@ def qa_prompt(
     by_hand = [a for a in match.open_ours if any(key in hand for key in a.ids)]
     open_ours = [a for a in match.open_ours if a not in by_hand]
     excluded = [a for a in albums if not a.get("include")]
+    #: the left-out album of an open index episode's release, by its barcode
+    left_out = {barcode_key(x["barcode"]): x for x in excluded if x.get("barcode")}
 
     index_refs = {f"I{n}": e for n, e in enumerate(open_index, start=1)}
     album_refs = {f"A{n}": a for n, a in enumerate(open_ours, start=1)}
     open_titles = [e.title for e in open_index]
-    near = [x for x in excluded if _near(x.get("title") or "", open_titles, drop)]
+    near = [
+        x
+        for x in excluded
+        if barcode_key(x.get("barcode") or "") in {e.barcode for e in open_index}
+        or _near(x.get("title") or "", open_titles, drop)
+    ]
 
     mine = {line.name for line in mapping.lines}
     other_lines = [line.name for line in mapping.series.lines if line.name not in mine]
@@ -301,7 +324,14 @@ def qa_prompt(
     out.append("Index episodes no shipped album matched:")
     for ref, e in index_refs.items():
         where = f"{e.line} {e.number}" if e.number is not None else e.line
-        out.append(f"{ref} [{where}] {e.title}")
+        x = left_out.get(e.barcode) if e.barcode else None
+        release = (
+            f" (its release is on the store as {x.get('title')!r}, which this "
+            f"entry leaves out: {x.get('exclude_reason') or 'unspecified'})"
+            if x is not None
+            else ""
+        )
+        out.append(f"{ref} [{where}] {e.title}{release}")
     if not index_refs:
         out.append("(none)")
     out.append("")
@@ -394,6 +424,7 @@ async def qa_entry(
     tracks: Callable[[], list[str]] | None = None,
     credits: Callable[[ShippedAlbum], str | None] | None = None,
     rest: Sequence[CatalogEntry] = (),
+    barcodes: Mapping[int, str] | None = None,
 ) -> EntryQa:
     """Check one mapped entry. The model runs only when the match leaves
     something open."""
@@ -406,6 +437,7 @@ async def qa_entry(
         tracks=tracks,
         credits=credits,
         rest=rest,
+        barcodes=barcodes,
     )
     result = EntryQa(
         entry.id, entry.title, mapping, prompt.match, prompt.elsewhere, prompt.by_hand
@@ -484,7 +516,8 @@ async def run_reference_qa(
     """Check every entry the index maps (or the named ones), one model run
     per entry that has something open."""
     catalog = load_catalog()
-    mapping = map_catalog(catalog, ReferenceIndex(), load_overrides())
+    index = ReferenceIndex()
+    mapping = map_catalog(catalog, index, load_overrides())
     wanted = set(series_ids) if series_ids else None
     targets = [
         e for e in catalog if mapping[e.id].lines and (wanted is None or e.id in wanted)
@@ -513,6 +546,8 @@ async def run_reference_qa(
     day = today or date.today()
 
     async def one(entry: CatalogEntry) -> EntryQa:
+        series = mapping[entry.id].series
+        assert series is not None
         family = list(family_of(entry, catalog).siblings_of(entry.id))
         rest = [e for e in catalog if e.id != entry.id and e not in family]
         try:
@@ -527,6 +562,7 @@ async def run_reference_qa(
                     tracks=_track_reader(entry, spotify),
                     credits=credits,
                     rest=rest,
+                    barcodes=index.barcodes(series.id),
                 ),
                 attempts=2,
                 label=entry.id,
