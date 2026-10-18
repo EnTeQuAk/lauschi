@@ -19,8 +19,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v7
+
+      # The app bundles the branding images, which live in LFS.
+      - uses: ./.github/actions/lfs-pull
         with:
-          lfs: true
+          include: assets/images/branding/*
+          cache-name: branding
 
       - name: Read Flutter version from mise.toml
         id: flutter-version
@@ -91,22 +95,11 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      # The tests read the committed curations, which live in LFS. Only those
-      # are pulled, and the LFS store is cached, so a push downloads just the
-      # curations it changed instead of the whole set.
-      - name: List curation LFS objects
-        working-directory: .
-        run: git lfs ls-files -l --include "assets/catalog/curation/*" | cut -d' ' -f1 | sort > lfs-curation-ids
-
-      - uses: actions/cache@v5
+      # The tests read the committed curations, which live in LFS.
+      - uses: ./.github/actions/lfs-pull
         with:
-          path: .git/lfs
-          key: lfs-curation-${{ hashFiles('lfs-curation-ids') }}
-          restore-keys: lfs-curation-
-
-      - name: Pull curations
-        working-directory: .
-        run: git lfs pull --include "assets/catalog/curation/*"
+          include: assets/catalog/curation/*
+          cache-name: curation
 
       - uses: astral-sh/setup-uv@v10.2.0
         with:
