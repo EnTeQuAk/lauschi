@@ -218,22 +218,45 @@ def _near(title: str, open_titles: list[str], drop: frozenset[str]) -> bool:
     return False
 
 
+@dataclass(frozen=True)
+class Shipped:
+    """What an entry ships, prepared once for `_shipped_by`: its barcodes
+    and each title with its folded story words."""
+
+    barcodes: frozenset[str]
+    titles: tuple[tuple[str, frozenset[str]], ...]
+
+    @classmethod
+    def of(cls, entry: CatalogEntry) -> "Shipped":
+        return cls(
+            frozenset(
+                barcode_key(album.get("barcode") or "")
+                for cfg in entry.providers.values()
+                for album in cfg.albums
+            )
+            - {""},
+            tuple(
+                (title, frozenset(fold_word(w) for w in story_words(title)))
+                for title in shipped_titles(entry)
+            ),
+        )
+
+
 def _shipped_by(
-    episode: IndexEpisode, entries: Sequence[CatalogEntry], drop: frozenset[str]
+    episode: IndexEpisode,
+    entries: Sequence[CatalogEntry],
+    drop: frozenset[str],
+    shipped: Mapping[str, Shipped],
 ) -> str | None:
     """The first of ``entries`` that ships the episode's release or story."""
     words = {fold_word(w) for w in story_words(episode.title, drop)}
     for other in entries:
-        if episode.barcode and any(
-            barcode_key(album.get("barcode") or "") == episode.barcode
-            for cfg in other.providers.values()
-            for album in cfg.albums
-        ):
+        theirs = shipped[other.id]
+        if episode.barcode and episode.barcode in theirs.barcodes:
             return other.id
-        for title in shipped_titles(other):
-            theirs = {fold_word(w) for w in story_words(title, drop)}
+        for title, title_words in theirs.titles:
             # the word check spares most titles the slower comparison
-            if words and not words & theirs:
+            if words and not words & title_words:
                 continue
             if same_story(episode.title, title, drop):
                 return other.id
@@ -251,6 +274,7 @@ def qa_prompt(
     credits: Callable[[ShippedAlbum], str | None] | None = None,
     rest: Sequence[CatalogEntry] = (),
     barcodes: Mapping[int, str] | None = None,
+    shipped: Mapping[str, Shipped] | None = None,
 ) -> QaPrompt:
     """Match the entry deterministically and phrase what stays open.
 
@@ -259,7 +283,8 @@ def qa_prompt(
     theirs and goes to nobody's model run. ``albums`` are the rows of the
     entry's curation: the albums it leaves out, and those a person placed
     by hand. ``credits`` names who the store credits for an open album.
-    ``barcodes`` holds the index series' barcodes by product id.
+    ``barcodes`` holds the index series' barcodes by product id, and
+    ``shipped`` what each other entry ships, built once per run.
     """
     assert mapping.series is not None
     drop = brand_words(mapping.series.name, entry.title, *(m.title for m in family))
@@ -274,8 +299,11 @@ def qa_prompt(
 
     elsewhere: list[tuple[IndexEpisode, str]] = []
     open_index: list[IndexEpisode] = []
+    others = [*family, *rest]
+    if shipped is None:
+        shipped = {e.id: Shipped.of(e) for e in others}
     for episode in match.open_index:
-        owner = _shipped_by(episode, [*family, *rest], drop)
+        owner = _shipped_by(episode, others, drop, shipped)
         if owner is not None:
             elsewhere.append((episode, owner))
         else:
@@ -425,6 +453,7 @@ async def qa_entry(
     credits: Callable[[ShippedAlbum], str | None] | None = None,
     rest: Sequence[CatalogEntry] = (),
     barcodes: Mapping[int, str] | None = None,
+    shipped: Mapping[str, Shipped] | None = None,
 ) -> EntryQa:
     """Check one mapped entry. The model runs only when the match leaves
     something open."""
@@ -438,6 +467,7 @@ async def qa_entry(
         credits=credits,
         rest=rest,
         barcodes=barcodes,
+        shipped=shipped,
     )
     result = EntryQa(
         entry.id, entry.title, mapping, prompt.match, prompt.elsewhere, prompt.by_hand
@@ -532,9 +562,8 @@ async def run_reference_qa(
     )
     try:
         spotify: SpotifyProvider | None = SpotifyProvider()
-    except (
-        Exception
-    ) as exc:  # no Spotify credentials: no track names, Apple credits only
+    # no Spotify credentials: no track names, Apple credits only
+    except Exception as exc:
         on_progress(f"  No Spotify ({type(exc).__name__}: {exc})")
         spotify = None
     try:
@@ -544,6 +573,14 @@ async def run_reference_qa(
         apple = None
     credits = _credit_reader([p for p in (apple, spotify) if p is not None])
     day = today or date.today()
+    shipped = {e.id: Shipped.of(e) for e in catalog}
+    # The index's barcode sweeps are blocking HTTP, so they run before the
+    # entries' model runs start rather than inside them.
+    index_barcodes = {
+        series.id: index.barcodes(series.id)
+        for e in targets
+        if (series := mapping[e.id].series) is not None
+    }
 
     async def one(entry: CatalogEntry) -> EntryQa:
         series = mapping[entry.id].series
@@ -562,7 +599,8 @@ async def run_reference_qa(
                     tracks=_track_reader(entry, spotify),
                     credits=credits,
                     rest=rest,
-                    barcodes=index.barcodes(series.id),
+                    barcodes=index_barcodes[series.id],
+                    shipped=shipped,
                 ),
                 attempts=2,
                 label=entry.id,
