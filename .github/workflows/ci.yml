@@ -74,6 +74,39 @@ jobs:
           APPLE_MUSIC_KEY: ${{ secrets.APPLE_MUSIC_KEY }}
         run: flutter build apk --debug --dart-define-from-file=.env.app
 
+  store-variant:
+    name: Store build without Sentry
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      MISE_DISABLE_TOOLS: gh,biome
+
+    # The store builds run tool/strip_sentry.sh only on a release. This
+    # keeps the stripped app compiling in between, so a Sentry call outside
+    # lib/core/telemetry/ fails here and not on release day.
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: jdx/mise-action@v5.1.1
+
+      # Restore only: the stripped .dart_tool/ must not land in the cache
+      # the check job uses.
+      - uses: actions/cache/restore@v5
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool/
+          key: pub-${{ hashFiles('pubspec.lock', 'mise.toml') }}
+
+      - name: Remove Sentry
+        run: tool/strip_sentry.sh
+
+      - name: Code generation (Riverpod + Drift)
+        run: mise run codegen
+
+      - name: Analyze
+        run: flutter analyze --fatal-infos
+
   tools:
     name: Catalog tools · Lint · Test
     runs-on: ubuntu-latest

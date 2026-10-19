@@ -473,6 +473,13 @@ Triggers:
 - **GitHub Actions** `ios-store.yml` → triggers Codemagic `ios-store` → IPA → App Store
 
 Both build with `ENABLE_SPOTIFY=false`, `ENABLE_SENTRY=false`. Zero data collection.
+They also run `tool/strip_sentry.sh` first, so the Sentry SDK isn't in the
+binary at all and a tracker scan such as Exodus finds nothing, and
+`tool/check_no_sentry.sh` fails the build if it is. The script removes the
+Sentry packages and switches `lib/core/telemetry/` to the backend that
+collects nothing. Report errors and logs through `telemetry` (or `Log`),
+never through Sentry directly: a test keeps every Sentry import inside
+`sentry_telemetry.dart`, and CI analyzes the stripped app on every push.
 
 ## Changelog & Release Process
 

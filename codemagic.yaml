@@ -118,6 +118,10 @@ workflows:
           SENTRY_ENVIRONMENT=production
           EOF
 
+      # Store builds ship without the Sentry SDK, not just with it off.
+      - name: Remove Sentry
+        script: tool/strip_sentry.sh
+
       - name: Install dependencies
         script: flutter pub get
 
@@ -132,6 +136,9 @@ workflows:
             --build-number=$PROJECT_BUILD_NUMBER \
             --dart-define-from-file=$CM_BUILD_DIR/.env.app \
             --export-options-plist=/Users/builder/export_options.plist
+
+      - name: Check the IPA has no Sentry
+        script: tool/check_no_sentry.sh build/ios/ipa/*.ipa
 
     artifacts:
       - build/ios/ipa/*.ipa
