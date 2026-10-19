@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:lauschi/core/ard/ard_api.dart';
 import 'package:lauschi/core/ard/ard_helpers.dart';
 import 'package:lauschi/core/ard/ard_image.dart';
@@ -104,9 +106,13 @@ final class ImportFailed extends ImportState {
 @Riverpod(keepAlive: true)
 class ContentImporter extends _$ContentImporter {
   int _generation = 0;
+  Timer? _resetTimer;
 
   @override
-  ImportState build() => const ImportIdle();
+  ImportState build() {
+    ref.onDispose(() => _resetTimer?.cancel());
+    return const ImportIdle();
+  }
 
   TileItemRepository get _cardRepo => ref.read(tileItemRepositoryProvider);
   TileRepository get _groupRepo => ref.read(tileRepositoryProvider);
@@ -316,7 +322,8 @@ class ContentImporter extends _$ContentImporter {
   /// Auto-reset after 5s as safety net when no widget is listening.
   /// Uses a generation counter to avoid resetting a subsequent import.
   void _autoReset(int generation) {
-    Future<void>.delayed(const Duration(seconds: 5), () {
+    _resetTimer?.cancel();
+    _resetTimer = Timer(const Duration(seconds: 5), () {
       if (_generation == generation &&
           (state is ImportDone || state is ImportFailed)) {
         state = const ImportIdle();

@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:drift/native.dart';
+import 'package:fake_async/fake_async.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/database/app_database.dart';
@@ -350,5 +353,34 @@ void main() {
     );
     expect(result.added, 1);
     expect(await items.getAll(), hasLength(1));
+  });
+
+  test('disposing the importer cancels its pending auto-reset', () {
+    fakeAsync((async) {
+      final importer = container.read(contentImporterProvider.notifier);
+      var finished = false;
+      unawaited(
+        importer
+            .importToGroup(
+              groupTitle: 'Group',
+              cards: const [
+                PendingCard(
+                  title: 'Episode',
+                  providerUri: 'spotify:album:ep1',
+                  cardType: 'album',
+                ),
+              ],
+            )
+            .then((_) => finished = true),
+      );
+      async.flushMicrotasks();
+      expect(finished, isTrue, reason: 'setup: the import completed');
+
+      // The reset timer outliving its provider would set state on a
+      // disposed Ref when it fires.
+      container.dispose();
+      async.elapse(const Duration(seconds: 10));
+      expect(async.pendingTimers, isEmpty);
+    });
   });
 }
