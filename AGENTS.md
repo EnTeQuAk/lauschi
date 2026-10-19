@@ -13,6 +13,11 @@ Flutter app targeting iOS and Android (DACH market focus). MVP in progress.
 ## Development Commands
 
 All commands use [mise](https://mise.jdx.dev/) for tool management. Run `mise install` first.
+CI, the release workflows and Codemagic install the same tools through mise
+and run the same tasks. `mise.lock` pins each tool's exact download and
+checksum for Linux and macOS arm64, and CI installs with `--locked`, so after
+you change a version in `mise.toml` run
+`mise lock --platform linux-x64,macos-arm64` and commit both files.
 
 ```bash
 mise run setup          # Install deps, codegen, verify analysis

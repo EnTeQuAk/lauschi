@@ -5,11 +5,12 @@ workflows:
     instance_type: mac_mini_m2
     max_build_duration: 30
     environment:
-      flutter: 3.47.6
       xcode: latest
       cocoapods: default
       vars:
         AUDIO_SESSION_MICROPHONE: "0"
+        # The build needs only Flutter from mise.toml.
+        MISE_DISABLE_TOOLS: gh,biome,java
       groups:
         - app-store-credentials
         - app-env
@@ -49,11 +50,21 @@ workflows:
           SENTRY_ENVIRONMENT=$SENTRY_ENVIRONMENT
           EOF
 
+      # Flutter at the version mise.toml pins, the same as the GitHub
+      # builds. Codemagic's own Flutter is not used.
+      - name: Install Flutter with mise
+        script: |
+          curl -fsSL https://mise.run | MISE_VERSION=v2026.10.3 sh
+          export PATH="$HOME/.local/bin:$PATH"
+          mise trust "$CM_BUILD_DIR/mise.toml"
+          mise install --locked
+          echo "PATH=$HOME/.local/share/mise/shims:$HOME/.local/bin:$PATH" >> "$CM_ENV"
+
       - name: Install dependencies
         script: flutter pub get
 
       - name: Run code generation
-        script: dart run build_runner build
+        script: mise run codegen
 
       - name: Build iOS
         script: |
@@ -81,11 +92,12 @@ workflows:
     instance_type: mac_mini_m2
     max_build_duration: 30
     environment:
-      flutter: 3.47.6
       xcode: latest
       cocoapods: default
       vars:
         AUDIO_SESSION_MICROPHONE: "0"
+        # The build needs only Flutter from mise.toml.
+        MISE_DISABLE_TOOLS: gh,biome,java
       groups:
         - app-store-credentials
     integrations:
@@ -118,6 +130,16 @@ workflows:
           SENTRY_ENVIRONMENT=production
           EOF
 
+      # Flutter at the version mise.toml pins, the same as the GitHub
+      # builds. Codemagic's own Flutter is not used.
+      - name: Install Flutter with mise
+        script: |
+          curl -fsSL https://mise.run | MISE_VERSION=v2026.10.3 sh
+          export PATH="$HOME/.local/bin:$PATH"
+          mise trust "$CM_BUILD_DIR/mise.toml"
+          mise install --locked
+          echo "PATH=$HOME/.local/share/mise/shims:$HOME/.local/bin:$PATH" >> "$CM_ENV"
+
       # Store builds ship without the Sentry SDK, not just with it off.
       - name: Remove Sentry
         script: tool/strip_sentry.sh
@@ -126,7 +148,7 @@ workflows:
         script: flutter pub get
 
       - name: Run code generation
-        script: dart run build_runner build
+        script: mise run codegen
 
       - name: Build iOS
         script: |

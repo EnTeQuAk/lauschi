@@ -13,36 +13,29 @@ jobs:
     name: Build · Sign · Play Store
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    env:
+      # The job needs only Flutter and Java from mise.toml.
+      MISE_DISABLE_TOOLS: gh,biome
 
     steps:
       - uses: actions/checkout@v7
         with:
           lfs: true
 
-      - name: Read Flutter version from mise.toml
-        id: flutter-version
-        run: echo "version=$(grep -m1 '^flutter =' mise.toml | sed 's/.*= *"\(.*\)"/\1/')" >> "$GITHUB_OUTPUT"
-
-      - uses: actions/setup-java@v5
+      # Flutter and Java at the versions mise.toml pins.
+      - uses: jdx/mise-action@v5.1.1
         with:
-          distribution: temurin
-          java-version: '21'
-          cache: gradle
+          version: 2026.10.3
 
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ steps.flutter-version.outputs.version }}
-          channel: stable
-          cache: true
-
-      - name: Cache pub dependencies
-        uses: actions/cache@v5
+      # Restore only: the stripped .dart_tool/ must not land in the cache
+      # the other builds use.
+      - name: Restore pub dependencies
+        uses: actions/cache/restore@v5
         with:
           path: |
             ~/.pub-cache
             .dart_tool/
-          key: pub-${{ hashFiles('pubspec.lock') }}
-          restore-keys: pub-
+          key: pub-${{ hashFiles('pubspec.lock', 'mise.toml') }}
 
       # Store builds ship without the Sentry SDK, not just with it off.
       - name: Remove Sentry
@@ -52,7 +45,7 @@ jobs:
         run: flutter pub get
 
       - name: Code generation
-        run: dart run build_runner build
+        run: mise run codegen
 
       - name: Create .env.app
         run: |
