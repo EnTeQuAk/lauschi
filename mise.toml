@@ -14,17 +14,17 @@ AUDIO_SESSION_MICROPHONE = "0"
 description = "Install deps, run codegen, verify analysis"
 run = """
 flutter pub get
-dart run build_runner build --delete-conflicting-outputs
+dart run build_runner build
 flutter analyze --fatal-infos
 """
 
 [tasks.codegen]
 description = "Run build_runner (Riverpod + Drift)"
-run = "dart run build_runner build --delete-conflicting-outputs"
+run = "dart run build_runner build"
 
 [tasks.watch]
 description = "Run build_runner in watch mode"
-run = "dart run build_runner watch --delete-conflicting-outputs"
+run = "dart run build_runner watch"
 
 [tasks.test]
 description = "Run all tests"
