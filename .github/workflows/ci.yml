@@ -71,8 +71,13 @@ jobs:
           SENTRY_ENVIRONMENT=ci
           EOF
 
+      # Very Good CLI bundles the test files into one, so the runner's
+      # few cores compile the app once instead of once per file.
+      - name: Install Very Good CLI
+        run: dart pub global activate very_good_cli 1.5.0
+
       - name: Run tests
-        run: flutter test --dart-define-from-file=.env.app
+        run: dart pub global run very_good_cli:very_good test --dart-define-from-file=.env.app
 
       - name: Build APK (verify compilation)
         if: github.event_name == 'pull_request'
