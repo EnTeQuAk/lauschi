@@ -25,9 +25,27 @@ run = "dart run build_runner build"
 description = "Run build_runner in watch mode"
 run = "dart run build_runner watch"
 
+[tasks.lint]
+description = "Check formatting and run the analyzer"
+run = """
+# Tracked files only: Patrol regenerates the gitignored test_bundle.dart
+# unformatted on every integration run.
+git ls-files -z -- 'lib/*.dart' 'test/*.dart' 'integration_test/*.dart' 'tool/*.dart' | xargs -0 dart format --set-exit-if-changed
+flutter analyze --fatal-infos
+"""
+
 [tasks.test]
-description = "Run all tests"
-run = "flutter test --dart-define-from-file=.env.app"
+description = "Run all tests, bundled into one compile with Very Good CLI"
+run = """
+# Activated globally rather than as a dev dependency: its dependencies
+# conflict with sentry_flutter's and would hold back the analyzer that
+# codegen runs on.
+version=1.5.0
+if ! dart pub global list | grep -qx "very_good_cli $version"; then
+  dart pub global activate very_good_cli "$version"
+fi
+dart pub global run very_good_cli:very_good test --dart-define-from-file=.env.app
+"""
 
 [tasks.dev]
 description = "Run on connected device with all providers + Sentry enabled"
@@ -51,11 +69,8 @@ run = "flutter build apk --dart-define-from-file=.env.app"
 [tasks.check]
 description = "Full CI check: format + analyze + test"
 run = """
-# Tracked files only: Patrol regenerates the gitignored test_bundle.dart
-# unformatted on every integration run.
-git ls-files -z -- 'lib/*.dart' 'test/*.dart' 'integration_test/*.dart' 'tool/*.dart' | xargs -0 dart format --set-exit-if-changed
-flutter analyze --fatal-infos
-flutter test --dart-define-from-file=.env.app
+mise run lint
+mise run test
 # Same as CI: tests don't compile the native side, a stale Gradle cache
 # or a plugin's Kotlin break only shows up in a real build.
 flutter build apk --debug --dart-define-from-file=.env.app

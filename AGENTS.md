@@ -648,6 +648,16 @@ mise run test-integration                                   # Patrol on-device t
 mise run test-integration integration_test/ard_playback_basic_test.dart  # Single integration test
 ```
 
+CI installs Flutter and Java through mise and runs the same tasks
+(`codegen`, `lint`, `test`), so a green `mise run check` should mean a
+green CI. `mise run test` bundles the test files into one with
+[Very Good CLI](https://cli.vgv.dev/), so the app compiles once instead of
+once per file. All files share one isolate there, so a test that leaves a
+timer or global state behind can break another file's tests.
+`flutter test <file>` still runs a single file on its own. The task
+activates very_good_cli globally on first use, since as a dev dependency
+it would conflict with sentry_flutter's.
+
 patrol_cli is a dev dependency, so `pubspec.lock` pins it next to the
 patrol package it has to match (patrol 4.10 needs patrol_cli 4.7 or newer,
 see Patrol's

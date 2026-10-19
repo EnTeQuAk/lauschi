@@ -16,6 +16,9 @@ jobs:
     name: Format · Analyze · Test · Build
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    env:
+      # The job needs only Flutter and Java from mise.toml.
+      MISE_DISABLE_TOOLS: gh,biome
 
     steps:
       - uses: actions/checkout@v7
@@ -23,21 +26,13 @@ jobs:
       # The app bundles the branding images, which live in LFS.
       - run: git lfs pull --include "assets/images/branding/*"
 
-      - name: Read Flutter version from mise.toml
-        id: flutter-version
-        run: echo "version=$(grep -m1 '^flutter =' mise.toml | sed 's/.*= *"\(.*\)"/\1/')" >> "$GITHUB_OUTPUT"
-
-      - uses: actions/setup-java@v5
+      # Flutter and Java at the versions mise.toml pins, so CI runs the
+      # same toolchain and tasks as a local `mise run check`. The cache is
+      # saved after the job so it holds the SDK artifacts Flutter
+      # downloads on first use.
+      - uses: jdx/mise-action@v5.1.1
         with:
-          distribution: temurin
-          java-version: '21'
-          cache: gradle
-
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ steps.flutter-version.outputs.version }}
-          channel: stable
-          cache: true
+          cache_save_post: true
 
       - name: Cache pub dependencies
         uses: actions/cache@v5
@@ -52,13 +47,10 @@ jobs:
         run: flutter pub get
 
       - name: Code generation (Riverpod + Drift)
-        run: dart run build_runner build
+        run: mise run codegen
 
-      - name: Check formatting
-        run: dart format --set-exit-if-changed lib test integration_test tool
-
-      - name: Analyze
-        run: flutter analyze --fatal-infos
+      - name: Format and analyze
+        run: mise run lint
 
       - name: Create .env.app for tests
         run: |
@@ -71,13 +63,8 @@ jobs:
           SENTRY_ENVIRONMENT=ci
           EOF
 
-      # Very Good CLI bundles the test files into one, so the runner's
-      # few cores compile the app once instead of once per file.
-      - name: Install Very Good CLI
-        run: dart pub global activate very_good_cli 1.5.0
-
       - name: Run tests
-        run: dart pub global run very_good_cli:very_good test --dart-define-from-file=.env.app
+        run: mise run test
 
       - name: Build APK (verify compilation)
         if: github.event_name == 'pull_request'
