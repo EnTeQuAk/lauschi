@@ -1,4 +1,4 @@
-/// Integration test helpers for ARD Audiothek flows.
+/// Integration test helpers for ARD Sounds flows.
 ///
 /// Provides stable test fixtures, audio state waiting, and database
 /// setup/teardown for playback tests.

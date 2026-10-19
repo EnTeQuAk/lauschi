@@ -14,7 +14,7 @@ import 'package:lauschi/features/parent/screens/browse_catalog/widgets/catalog_h
 import 'package:lauschi/features/parent/widgets/featured_section.dart';
 import 'package:lauschi/features/tiles/widgets/tile_card.dart';
 
-/// Browse ARD Audiothek kids content. Featured items on top, then the
+/// Browse ARD Sounds kids content. Featured items on top, then the
 /// full kids show grid below.
 ///
 /// When [embedded] is true, returns just the body content without
@@ -59,7 +59,7 @@ class DiscoverScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: AppSpacing.md),
                 const Text(
-                  'ARD Audiothek nicht erreichbar',
+                  'ARD Sounds nicht erreichbar',
                   style: TextStyle(
                     fontFamily: 'Nunito',
                     color: AppColors.textSecondary,
@@ -165,7 +165,7 @@ class DiscoverScreen extends ConsumerWidget {
                   AppSpacing.xl,
                 ),
                 child: Text(
-                  'Inhalte der ARD Audiothek',
+                  'Inhalte von ARD Sounds',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'Nunito',

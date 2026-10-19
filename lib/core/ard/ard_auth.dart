@@ -1,7 +1,7 @@
 import 'package:lauschi/core/providers/provider_auth.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
 
-/// Auth for ARD Audiothek. Always authenticated (no auth required).
+/// Auth for ARD Sounds. Always authenticated (no auth required).
 class ArdAuth implements ProviderAuth {
   @override
   ProviderType get type => ProviderType.ardAudiothek;

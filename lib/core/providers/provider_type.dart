@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 /// identity throughout the app.
 enum ProviderType {
   spotify('spotify'),
+
+  /// ARD Sounds, called ARD Audiothek until March 2026. The stored value
+  /// keeps the old name, so existing cards and URIs stay valid.
   ardAudiothek('ard_audiothek'),
   appleMusic('apple_music'),
   tidal('tidal');
@@ -19,7 +22,7 @@ enum ProviderType {
   /// Human-readable name for parent-facing UI.
   String get displayName => switch (this) {
     spotify => 'Spotify',
-    ardAudiothek => 'ARD Audiothek',
+    ardAudiothek => 'ARD Sounds',
     appleMusic => 'Apple Music',
     tidal => 'Tidal',
   };

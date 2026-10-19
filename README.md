@@ -9,8 +9,8 @@ lauschi wraps audio providers behind a curated, card-based interface
 for children. Parents build visual content cards; kid taps a card,
 audio starts. No recommendations, no autoplay, no screen time spiral.
 
-Currently supports **Spotify** and **ARD Audiothek** (free, no account
-needed). Built with Flutter. DACH-market focus (Hörspiele, Kindermusik),
+Currently supports **ARD Sounds** (formerly ARD Audiothek, free, no
+account needed), **Spotify** and **Apple Music**. Built with Flutter. DACH-market focus (Hörspiele, Kindermusik),
 internationalizable. All data stays on-device.
 
 ## Status
@@ -48,9 +48,9 @@ SENTRY_DSN=...                  # optional, error tracking
 SENTRY_ENVIRONMENT=development
 ```
 
-**ARD Audiothek** works out of the box with no credentials, no account. Free
-public broadcaster content. The app uses the ARD Audiothek GraphQL API
-(`api.ardaudiothek.de`) to browse and stream children's audio content directly.
+**ARD Sounds** works out of the box with no credentials, no account. Free
+public broadcaster content. The app uses the ARD Sounds GraphQL API
+(still at `api.ardaudiothek.de`, the service's name until March 2026) to browse and stream children's audio content directly.
 
 **Spotify** requires a client ID (PKCE flow, no client secret). Create a
 Spotify app at https://developer.spotify.com/dashboard, add
@@ -71,7 +71,7 @@ BRAVE_API_KEY=...               # for catalog review web search
 - **Spotify Web Playback SDK**: Spotify audio via hidden WebView (EME/DRM).
   The SDK's `player.html` is hosted externally (requires HTTPS origin for
   Widevine). See `lib/core/spotify/spotify_config.dart` for the URL.
-- **ARD Audiothek GraphQL API** + **just_audio**: free streaming of public
+- **ARD Sounds GraphQL API** + **just_audio**: free streaming of public
   broadcaster content (no account required)
 - **go_router**: navigation with parent PIN gate
 - **very_good_analysis**: strict linting

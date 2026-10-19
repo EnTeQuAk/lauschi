@@ -11,7 +11,7 @@ part 'featured_shows.g.dart';
 
 const _tag = 'FeaturedShows';
 
-/// Curated ARD Audiothek shows known for high-quality kids radio drama:
+/// Curated ARD Sounds shows known for high-quality kids radio drama:
 /// professional adaptations of classic children's literature, with voice
 /// actors, Foley and original scores, free on ARD. Each entry holds the
 /// show id and, for whoever edits the list, the show's name.

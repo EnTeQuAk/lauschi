@@ -326,12 +326,12 @@ app itself reports to Sentry and sends nothing to Logfire.
 - **Riverpod** — state management (v3 with codegen via `@riverpod` annotations)
 - **Drift** — local SQLite (tables in `lib/core/database/tables.dart`)
 - **go_router** — navigation with redirect guards
-- **Multi-provider audio**: ARD Audiothek (free, just_audio), Spotify (WebView SDK), Apple Music (MusicKit JS WebView)
+- **Multi-provider audio**: ARD Sounds (free, just_audio), Spotify (WebView SDK), Apple Music (MusicKit JS WebView)
 
 ### Key Architectural Decisions
 
 **Multi-Provider Architecture**: Three audio providers share a common interface:
-- **ARD Audiothek**: Free, no auth. Direct HTTP streams via `StreamPlayer` (just_audio).
+- **ARD Sounds** (called ARD Audiothek until March 2026, still `ardAudiothek` in code and `ard_audiothek` in the database): Free, no auth. Direct HTTP streams via `StreamPlayer` (just_audio).
 - **Spotify**: OAuth PKCE, WebView SDK bridge. `SpotifyPlayer` wraps `SpotifyWebViewBridge`.
 - **Apple Music**: MusicKit JS in WebView (same pattern as Spotify). Auth via native MusicKit SDK, tokens injected into JS. Forked `music_kit` plugin (packages/music_kit) used for auth + catalog API only. JWT generated on-device from .p8 key. User needs Apple Music subscription.
 
@@ -355,7 +355,7 @@ lib/
 ├── main.dart                # Entry point, media session init, Sentry
 ├── core/
 │   ├── apple_music/         # MusicKit auth, API client
-│   ├── ard/                 # ARD Audiothek API, models, helpers
+│   ├── ard/                 # ARD Sounds API, models, helpers
 │   ├── auth/                # PIN service
 │   ├── catalog/             # series.json matching, CatalogSource interface
 │   ├── connectivity/        # Network state
@@ -423,7 +423,7 @@ one-line diff. Each entry has:
 
 Alongside it: `assets/catalog/curation/{id}.json` (290 committed curation
 files, the pipeline's per-series state), `deleted.json` (ids that must not be
-re-added), `ard_featured_shows.json` (the ARD Audiothek shows the app
+re-added), `ard_featured_shows.json` (the ARD Sounds shows the app
 features), `.cache/{provider}/` (7-day provider API cache, gitignored),
 `logs/catalog/` (pipeline run logs, gitignored).
 

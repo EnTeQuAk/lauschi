@@ -32,7 +32,7 @@ class ShowDetailExtra {
   final List<String>? highlightEpisodeUris;
 }
 
-/// Detail screen for an ARD Audiothek show. Lists episodes with
+/// Detail screen for an ARD Sounds show. Lists episodes with
 /// options to add individual episodes or all at once.
 ///
 /// When [autoAssignTileId] is set, episodes are added directly to

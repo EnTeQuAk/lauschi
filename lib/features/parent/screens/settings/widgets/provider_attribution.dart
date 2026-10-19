@@ -5,7 +5,7 @@ import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-/// Builds the disclaimer sentence shown above the ardaudiothek.de link.
+/// Builds the disclaimer sentence shown above the ardsounds.de link.
 ///
 /// Pure function so we can unit-test all four combinations of feature
 /// flags without re-compiling with different `--dart-define` values.
@@ -14,12 +14,13 @@ String buildProviderAttributionSentence({
   required bool spotifyEnabled,
   required bool appleMusicEnabled,
 }) {
-  final providers = <String>['ARD Audiothek'];
+  final providers = <String>['ARD Sounds'];
   if (spotifyEnabled) providers.add('Spotify');
   if (appleMusicEnabled) providers.add('Apple Music');
 
   if (providers.length == 1) {
-    return 'Audioinhalte stammen von der ${providers.first}. '
+    // ARD writes its brand without an article: von ARD Sounds.
+    return 'Audioinhalte stammen von ${providers.first}. '
         'lauschi ist kein offizielles Angebot der ARD. Mehr Hörspiele auf ';
   }
 
@@ -40,14 +41,14 @@ String buildProviderAttributionSentence({
 /// SVG logos satisfy Spotify's and Apple Music's "display the brand
 /// prominently" requirements, and this paragraph is the disclaimer.
 ///
-/// The ardaudiothek.de link is kept because ARD is the only provider
+/// The ardsounds.de link is kept because ARD is the only provider
 /// where the user can discover and play content for free without an
 /// existing account; Spotify and Apple Music are accessed through their
 /// own apps and accounts.
 class ProviderAttribution extends StatelessWidget {
   const ProviderAttribution({super.key});
 
-  static final _ardUrl = Uri.parse('https://www.ardaudiothek.de');
+  static final _ardUrl = Uri.parse('https://www.ardsounds.de');
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +83,7 @@ class ProviderAttribution extends StatelessWidget {
                       launchUrl(_ardUrl, mode: LaunchMode.externalApplication),
                     ),
                 child: const Text(
-                  'ardaudiothek.de',
+                  'ardsounds.de',
                   style: TextStyle(
                     fontFamily: 'Nunito',
                     fontSize: 12,

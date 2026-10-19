@@ -179,7 +179,7 @@ class Cards extends Table {
   /// Null means permanent (Spotify, some ARD shows like Figarino/Kakadu).
   DateTimeColumn get availableUntil => dateTime().nullable()();
 
-  /// Direct audio URL for non-SDK providers (ARD Audiothek, local, etc.).
+  /// Direct audio URL for non-SDK providers (ARD Sounds, local, etc.).
   /// Null for Spotify/Apple Music (playback via SDK, not direct URL).
   TextColumn get audioUrl => text().nullable()();
 

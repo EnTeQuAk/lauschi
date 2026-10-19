@@ -8,7 +8,7 @@ const playerArtworkHeroTag = 'player-artwork';
 /// Current track metadata.
 ///
 /// [artist] and [album] are nullable because not all providers supply them.
-/// ARD Audiothek episodes have no artist/album metadata; Spotify always does.
+/// ARD Sounds episodes have no artist/album metadata; Spotify always does.
 @immutable
 class TrackInfo {
   const TrackInfo({

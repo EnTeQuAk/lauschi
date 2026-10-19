@@ -14,7 +14,7 @@ import 'package:lauschi/features/parent/screens/discover_screen.dart';
 
 /// Screen for discovering and adding content from available providers.
 ///
-/// Shows provider cards as entry points. ARD Audiothek is always available
+/// Shows provider cards as entry points. ARD Sounds is always available
 /// and visually prominent. Spotify and Apple Music appear only when their
 /// feature flags are enabled.
 ///
@@ -111,17 +111,17 @@ class _ProviderTabBar extends StatelessWidget implements PreferredSizeWidget {
 /// Single tab label: logo + name, with accessibility.
 ///
 /// The ARD logo already contains the "ARD" wordmark, so the visible
-/// label is just "Audiothek". A [Semantics] wrapper provides the full
-/// name "ARD Audiothek" for screen readers.
+/// label is just "Sounds". A [Semantics] wrapper provides the full
+/// name "ARD Sounds" for screen readers.
 class _ProviderTabLabel extends StatelessWidget {
   const _ProviderTabLabel(this.info);
 
   final ProviderInfo info;
 
-  /// Short label for the tab. ARD gets "Audiothek" since the logo
+  /// Short label for the tab. ARD gets "Sounds" since the logo
   /// already spells "ARD".
   String get _tabLabel => switch (info.type) {
-    ProviderType.ardAudiothek => 'Audiothek',
+    ProviderType.ardAudiothek => 'Sounds',
     _ => info.type.displayName,
   };
 

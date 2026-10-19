@@ -9,7 +9,7 @@ import 'package:lauschi/core/theme/app_theme.dart';
 
 /// Onboarding page showing all available content providers.
 ///
-/// ARD Audiothek is highlighted as always-free. Streaming providers
+/// ARD Sounds is highlighted as always-free. Streaming providers
 /// (Spotify, Apple Music) appear based on feature flags with connect
 /// buttons.
 class ConnectProvidersPage extends ConsumerWidget {
@@ -47,9 +47,9 @@ class ConnectProvidersPage extends ConsumerWidget {
                   ),
                   const SizedBox(height: AppSpacing.sm),
                   const Text(
-                    'Kostenlose Hörspiele der ARD Audiothek sind '
-                    'immer verfügbar. Mit einem Streaming-Abo '
-                    'kannst du noch mehr entdecken.',
+                    'Kostenlose Hörspiele von ARD Sounds (früher '
+                    'ARD Audiothek) sind immer verfügbar. Mit einem '
+                    'Streaming-Abo kannst du noch mehr entdecken.',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Nunito',
@@ -62,7 +62,7 @@ class ConnectProvidersPage extends ConsumerWidget {
                   const _ProviderCard(
                     type: ProviderType.ardAudiothek,
                     svgAsset: 'assets/images/icons/ard_audiothek.svg',
-                    label: 'ARD Audiothek',
+                    label: 'ARD Sounds',
                     subtitle: 'Kostenlos, ohne Abo',
                     connected: true,
                   ),

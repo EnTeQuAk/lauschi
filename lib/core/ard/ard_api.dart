@@ -20,7 +20,8 @@ const _itemFields = '''
   audios { url mimeType }
 ''';
 
-/// Client for the ARD Audiothek GraphQL API.
+/// Client for the ARD Sounds GraphQL API. It still lives at
+/// api.ardaudiothek.de, after the service's name until March 2026.
 ///
 /// No authentication required. All queries are POST to /graphql.
 /// See https://api.ardaudiothek.de/graphiql for the schema explorer.
@@ -288,7 +289,7 @@ class ArdApi {
   }
 }
 
-/// Exception thrown by the ARD Audiothek API client.
+/// Exception thrown by the ARD Sounds API client.
 class ArdApiException implements Exception {
   const ArdApiException(
     this.message, {

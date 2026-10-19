@@ -8,21 +8,23 @@ void main() {
         spotifyEnabled: false,
         appleMusicEnabled: false,
       );
-      expect(sentence, contains('ARD Audiothek'));
+      // ARD writes its brand without an article ("Fragen zu ARD Sounds"),
+      // so not "von der ARD Sounds".
+      expect(sentence, startsWith('Audioinhalte stammen von ARD Sounds. '));
       expect(sentence, isNot(contains('Spotify')));
       expect(sentence, isNot(contains('Apple Music')));
       // Singular disclaimer: "der ARD" (dative), not "dieser Anbieter"
       // (plural) because only one provider is mentioned.
       expect(sentence, contains('kein offizielles Angebot der ARD'));
       // The trailing space is intentional: the UI puts the clickable
-      // "ardaudiothek.de" link immediately after this sentence and
+      // "ardsounds.de" link immediately after this sentence and
       // there's no CSS-level spacing between the TextSpan and the
       // WidgetSpan. Dropping the space would run them together.
       expect(
         sentence,
         endsWith('Mehr Hörspiele auf '),
         reason:
-            'trailing space before ardaudiothek.de link is intentional — '
+            'trailing space before ardsounds.de link is intentional — '
             'see buildProviderAttributionSentence docstring',
       );
     });
@@ -32,7 +34,7 @@ void main() {
         spotifyEnabled: true,
         appleMusicEnabled: false,
       );
-      expect(sentence, contains('ARD Audiothek und Spotify'));
+      expect(sentence, contains('ARD Sounds und Spotify'));
       expect(sentence, isNot(contains('Apple Music')));
       // Plural disclaimer: two providers listed, so "dieser Anbieter".
       expect(sentence, contains('kein offizielles Angebot dieser Anbieter'));
@@ -43,7 +45,7 @@ void main() {
         spotifyEnabled: false,
         appleMusicEnabled: true,
       );
-      expect(sentence, contains('ARD Audiothek und Apple Music'));
+      expect(sentence, contains('ARD Sounds und Apple Music'));
       expect(sentence, isNot(contains('Spotify')));
       expect(sentence, contains('kein offizielles Angebot dieser Anbieter'));
     });
@@ -54,12 +56,12 @@ void main() {
         appleMusicEnabled: true,
       );
       // Comma between first two, "und" before the last (German list joining).
-      expect(sentence, contains('ARD Audiothek, Spotify und Apple Music'));
+      expect(sentence, contains('ARD Sounds, Spotify und Apple Music'));
       expect(sentence, contains('kein offizielles Angebot dieser Anbieter'));
       expect(
         sentence,
         endsWith('Mehr Hörspiele auf '),
-        reason: 'trailing space before ardaudiothek.de link is intentional',
+        reason: 'trailing space before ardsounds.de link is intentional',
       );
     });
 

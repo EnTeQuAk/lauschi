@@ -1,4 +1,4 @@
-/// Data models for ARD Audiothek API responses.
+/// Data models for ARD Sounds API responses.
 ///
 /// Maps to GraphQL schema types: ProgramSet, Item, and nested
 /// audio/image structures. Only fields relevant to lauschi are included.
@@ -63,7 +63,7 @@ class ArdProgramSet {
   final String? brandingColor;
 }
 
-/// Multipart group metadata from the ARD Audiothek Grouping type.
+/// Multipart group metadata from the ARD Sounds Grouping type.
 class ArdGroup {
   const ArdGroup({required this.title, this.type, this.count});
 
@@ -179,7 +179,7 @@ class ArdItem {
   String get providerUri => 'ard:item:$id';
 }
 
-/// Audio asset from ARD Audiothek (AssetType in the GraphQL schema).
+/// Audio asset from ARD Sounds (AssetType in the GraphQL schema).
 class ArdAudio {
   const ArdAudio({required this.url, required this.mimeType});
 

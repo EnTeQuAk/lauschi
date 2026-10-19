@@ -72,7 +72,7 @@ class SessionRetryBudget {
 
 /// Plays audio from direct HTTP URLs using just_audio.
 ///
-/// Used for ARD Audiothek content. No DRM, no SDK, no WebView — just a URL
+/// Used for ARD Sounds content. No DRM, no SDK, no WebView — just a URL
 /// and a player.
 ///
 /// `play()` returns once the synchronous setup (setUrl, seek, fire play

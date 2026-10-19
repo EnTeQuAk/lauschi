@@ -365,7 +365,7 @@ class TileItemRepository {
     );
   }
 
-  /// Insert an ARD Audiothek episode as an item in a single transaction.
+  /// Insert an ARD Sounds episode as an item in a single transaction.
   ///
   /// Combines insertIfAbsent + _updateArdFields atomically — if either
   /// step fails, neither is committed.

@@ -24,7 +24,7 @@ abstract class ProviderAuth {
   ProviderType get type;
 
   /// Whether this provider requires user authentication.
-  /// False for free providers like ARD Audiothek.
+  /// False for free providers like ARD Sounds.
   bool get requiresAuth;
 
   /// Start the authentication flow (OAuth, MusicKit, etc.).
