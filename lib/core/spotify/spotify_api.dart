@@ -2,10 +2,9 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' show visibleForTesting;
-import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/spotify/spotify_config.dart';
-import 'package:sentry_dio/sentry_dio.dart';
+import 'package:lauschi/core/telemetry/telemetry.dart';
 
 const _tag = 'SpotifyApi';
 
@@ -29,7 +28,7 @@ class SpotifyApi {
   /// interceptors stay owned by this constructor either way.
   SpotifyApi({@visibleForTesting HttpClientAdapter? adapter})
     : _dio = Dio(BaseOptions(baseUrl: 'https://api.spotify.com/v1')) {
-    if (FeatureFlags.enableSentry) _dio.addSentry();
+    telemetry.instrument(_dio);
     if (adapter != null) _dio.httpClientAdapter = adapter;
   }
 

@@ -2,9 +2,8 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' show visibleForTesting;
-import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
-import 'package:sentry_dio/sentry_dio.dart';
+import 'package:lauschi/core/telemetry/telemetry.dart';
 
 const _tag = 'AppleMusicStream';
 
@@ -44,7 +43,7 @@ class AppleMusicStreamResolver {
           receiveTimeout: const Duration(seconds: 15),
         ),
       ) {
-    if (FeatureFlags.enableSentry) _dio.addSentry();
+    telemetry.instrument(_dio);
     if (adapter != null) _dio.httpClientAdapter = adapter;
   }
 

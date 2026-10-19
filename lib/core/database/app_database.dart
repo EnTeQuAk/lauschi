@@ -6,7 +6,6 @@ import 'package:lauschi/core/database/tables.dart';
 import 'package:lauschi/core/database/weiter_backfill.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 
 part 'app_database.g.dart';
 
@@ -140,10 +139,8 @@ class AppDatabase extends _$AppDatabase {
           'Migration failed',
           data: {'from': '$from', 'to': '$to'},
           exception: e,
+          stackTrace: stack,
         );
-        // Report to Sentry so we know about it in production.
-        // Don't rethrow — let Drift surface the error to callers.
-        await Sentry.captureException(e, stackTrace: stack);
         rethrow;
       }
     },

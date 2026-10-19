@@ -2,10 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:lauschi/core/ard/ard_config.dart';
 import 'package:lauschi/core/ard/ard_models.dart';
-import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
+import 'package:lauschi/core/telemetry/telemetry.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sentry_dio/sentry_dio.dart';
 
 part 'ard_api.g.dart';
 
@@ -36,7 +35,7 @@ class ArdApi {
           receiveTimeout: const Duration(seconds: 15),
         ),
       ) {
-    if (FeatureFlags.enableSentry) _dio.addSentry();
+    telemetry.instrument(_dio);
     if (adapter != null) _dio.httpClientAdapter = adapter;
   }
 
