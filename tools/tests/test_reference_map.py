@@ -12,88 +12,100 @@ from lauschi_catalog.catalog.reference_map import (
     match_entry,
     same_story,
 )
-from lauschi_catalog.reference import ReferenceEpisode, ReferenceIndex, ReferenceLine
+from lauschi_catalog.reference import (
+    ReferenceEpisode,
+    ReferenceIndex,
+    ReferenceLine,
+    ReferenceProduct,
+    ReferenceSeries,
+)
 
 
-def _line(name: str, *titles: str) -> dict:
-    """An index line (a "Staffel" on the site) and its episode titles."""
-    return {
-        "name": name,
-        "episodes": [
-            {"episodeNumber": str(n), "episodeTitle": t, "length": None}
-            for n, t in enumerate(titles, start=1)
-        ],
-    }
+def _line(name: str, *titles: str) -> ReferenceLine:
+    """An index line and its episode titles, numbered from 1."""
+    return ReferenceLine(
+        name,
+        [ReferenceEpisode(str(n), t, None) for n, t in enumerate(titles, start=1)],
+    )
 
 
 SERIES = {
-    10: {
-        "id": 10,
-        "name": "Hexe Lilli ",
-        "seasons": [
+    10: ReferenceSeries(
+        10,
+        "Hexe Lilli",
+        [
             _line("Hörspiele", "Die Zauberschule", "Der Drache", "Die Piraten"),
             _line("Erstlesergeschichten", "Zaubert Hausaufgaben", "Feiert Geburtstag"),
             _line("Musik", "Lieder zum Zaubern"),
         ],
-    },
-    20: {
-        "id": 20,
-        "name": "Die drei !!!",
-        "seasons": [_line("Fälle", "Tanz der Hexen")],
-    },
-    21: {
-        "id": 21,
-        "name": "Die drei ???",
-        "seasons": [_line("Fälle", "Der Super-Papagei")],
-    },
-    30: {
-        "id": 30,
-        "name": "Lillis Abenteuer",
-        "seasons": [_line("Folgen", "Im Dschungel")],
-    },
+    ),
+    20: ReferenceSeries(
+        20,
+        "Die drei !!!",
+        [_line("Fälle", "Tanz der Hexen")],
+    ),
+    21: ReferenceSeries(
+        21,
+        "Die drei ???",
+        [_line("Fälle", "Der Super-Papagei")],
+    ),
+    30: ReferenceSeries(
+        30,
+        "Lillis Abenteuer",
+        [_line("Folgen", "Im Dschungel")],
+    ),
     # the index holds two series of one name; the second fits the albums
-    40: {
-        "id": 40,
-        "name": "Sandmann",
-        "seasons": [_line("Musik", "Sandmann, lieber Sandmann")],
-    },
-    41: {
-        "id": 41,
-        "name": "Sandmann",
-        "seasons": [_line("Geschichten", "Pittiplatsch", "Moppi", "Schnatterinchen")],
-    },
-    50: {
-        "id": 50,
-        "name": "Käpt’n Sharky",
-        "seasons": [_line("Hörspiele", "Das Geheimnis der Schatzinsel")],
-    },
+    40: ReferenceSeries(
+        40,
+        "Sandmann",
+        [_line("Musik", "Sandmann, lieber Sandmann")],
+    ),
+    41: ReferenceSeries(
+        41,
+        "Sandmann",
+        [_line("Geschichten", "Pittiplatsch", "Moppi", "Schnatterinchen")],
+    ),
+    50: ReferenceSeries(
+        50,
+        "Käpt’n Sharky",
+        [_line("Hörspiele", "Das Geheimnis der Schatzinsel")],
+    ),
     # three of the index's six Dragons lines
-    51: {
-        "id": 51,
-        "name": "Dragons",
-        "seasons": [
+    51: ReferenceSeries(
+        51,
+        "Dragons",
+        [
             _line("Filme", "Drachenzähmen leicht gemacht 1"),
             _line("Die Reiter von Berk", "Der Sturm", "Fackel", "Familienbande"),
             _line("Die 9 Welten", "Eine neue Welt", "Der Drachenclub"),
         ],
-    },
-    60: {
-        "id": 60,
-        "name": "Jim Knopf",
-        "seasons": [_line("Hörspiele", "Jim Knopf und die Wilde 13")],
-    },
+    ),
+    60: ReferenceSeries(
+        60,
+        "Jim Knopf",
+        [_line("Hörspiele", "Jim Knopf und die Wilde 13")],
+    ),
 }
 
 
-def _fetch(url: str, params: dict | None) -> dict:
-    if url.endswith("/series"):
-        items = [{"id": sid, "name": s["name"]} for sid, s in SERIES.items()]
-        return {"_embedded": {"series": items}, "page": {"totalPages": 1}}
-    return SERIES[int(url.rsplit("/", 1)[1])]
+class _Source:
+    """The index holding SERIES, with no products."""
+
+    def names(self) -> dict[int, str]:
+        return {sid: series.name for sid, series in SERIES.items()}
+
+    def series(self, series_id: int) -> ReferenceSeries:
+        return SERIES[series_id]
+
+    def products(self, query: str) -> list[ReferenceProduct]:
+        return []
+
+    def barcodes(self, series_id: int) -> dict[int, str]:
+        return {}
 
 
 def _index() -> ReferenceIndex:
-    return ReferenceIndex("http://index.test", fetch=_fetch, use_cache=False)
+    return ReferenceIndex(_Source(), use_cache=False)
 
 
 def _entry(

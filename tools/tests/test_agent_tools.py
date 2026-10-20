@@ -6,7 +6,7 @@ from types import SimpleNamespace
 from lauschi_catalog.agent_deps import AgentDeps
 from lauschi_catalog.agent_tools import build_agent_tools
 from lauschi_catalog.reference import ReferenceIndex
-from tests.test_reference_index import fake_fetch
+from tests.test_reference_index import fake_source
 
 
 class TestBuildAgentTools(unittest.TestCase):
@@ -76,14 +76,12 @@ class TestReferenceLookup(unittest.TestCase):
 
     def test_an_unconfigured_index_is_reported_not_raised(self) -> None:
         tool = build_agent_tools().tools["lookup_reference_lines"].function
-        result = tool(self._ctx(ReferenceIndex("", fetch=fake_fetch)), "TKKG")
+        result = tool(self._ctx(ReferenceIndex()), "TKKG")
         assert "not configured" in result["error"]
 
     def test_a_brand_comes_back_as_lines_of_titles_without_numbers(self) -> None:
         tool = build_agent_tools().tools["lookup_reference_lines"].function
-        index = ReferenceIndex(
-            "https://example.test/api", fetch=fake_fetch, use_cache=False
-        )
+        index = ReferenceIndex(fake_source(), use_cache=False)
         result = tool(self._ctx(index), "Kommissar Kugelblitz")
         assert result["series"] == "Kommissar Kugelblitz"
         assert result["lines"][0]["name"] == "Hörspiele zu den Büchern"
@@ -95,9 +93,7 @@ class TestReferenceLookup(unittest.TestCase):
         index holds products it files nowhere. Without them the curator
         took "not in a line" for "not this series"."""
         tool = build_agent_tools().tools["lookup_reference_lines"].function
-        index = ReferenceIndex(
-            "https://example.test/api", fetch=fake_fetch, use_cache=False
-        )
+        index = ReferenceIndex(fake_source(), use_cache=False)
 
         result = tool(self._ctx(index), "Kommissar Kugelblitz")
 

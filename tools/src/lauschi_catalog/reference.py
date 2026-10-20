@@ -1,10 +1,12 @@
 """Public reference index: an outside, publisher-fed catalog of Hörspiel
 series, their lines and the numbering inside each line.
 
-Configured by REFERENCE_INDEX_URL, the API base URL, kept in `.env`
-like the provider keys. Without it the index reports itself
-unconfigured and every lookup says so; nothing else in the pipeline
-changes. Responses are cached for seven days under `.cache/reference/`.
+The index's own wire format stays out of this repo. `REFERENCE_INDEX_SOURCE`
+in `.env` names a Python file on your machine whose `source()` returns a
+`ReferenceSource`, and this module caches and matches what it returns.
+Without it the index reports itself unconfigured and every lookup says so;
+nothing else in the pipeline changes. Answers are cached for seven days
+under `.cache/reference/`.
 
 Good for: which line of a brand an album belongs to, the number an
 episode carries inside its line when the provider title carries none,
@@ -18,23 +20,18 @@ do not show them, so they are read through the product search
 still be a product of the brand.
 """
 
-import itertools
+import importlib.util
 import os
 import re
-import time
 import unicodedata
 from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
-
-import requests
+from typing import Protocol
 
 from lauschi_catalog.catalog.paths import cache_dir
 
 _TTL_SECONDS = 7 * 24 * 3600
-_PAGE_SIZE = 50
-
-Fetch = Callable[[str, dict | None], dict]
 
 
 @dataclass(frozen=True)
@@ -70,7 +67,7 @@ class ReferenceProduct:
     title: str
     author: str
     label: str
-    #: RADIOPLAY, AUDIOBOOK or MUSIC
+    #: the index's word for the kind of release (Hörspiel, audiobook, music)
     kind: str
     seconds: int | None
     categories: tuple[str, ...]
@@ -88,123 +85,67 @@ def _key(name: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
-def _int(value: object) -> int | None:
-    try:
-        return int(str(value).strip())
-    except TypeError, ValueError:
+class ReferenceSource(Protocol):
+    """Where the index's answers come from. Each call may be a request,
+    `ReferenceIndex` caches them."""
+
+    def names(self) -> dict[int, str]:
+        """Every series in the index, id to name."""
+        ...
+
+    def series(self, series_id: int) -> ReferenceSeries:
+        """One series with its lines and their episodes."""
+        ...
+
+    def products(self, query: str) -> list[ReferenceProduct]:
+        """The products a full-text search finds, in a line or not."""
+        ...
+
+    def barcodes(self, series_id: int) -> dict[int, str]:
+        """The barcode of each product a series files, by product id,
+        leaving out products without one."""
+        ...
+
+
+def load_source() -> ReferenceSource | None:
+    """The source `REFERENCE_INDEX_SOURCE` points to, or None when it is
+    not set. A path that is set but does not load is an error, not an
+    unconfigured index."""
+    path = os.environ.get("REFERENCE_INDEX_SOURCE", "").strip()
+    if not path:
         return None
-
-
-def _http_get(url: str, params: dict | None) -> dict:
-    """GET with a short 5xx backoff. The index is public, no token."""
-    response: requests.Response | None = None
-    for attempt in range(3):
-        response = requests.get(url, params=params, timeout=20)
-        if 500 <= response.status_code < 600 and attempt < 2:
-            time.sleep(2 * 2**attempt)
-            continue
-        response.raise_for_status()
-        return response.json()
-    assert response is not None
-    response.raise_for_status()
-    return {}
-
-
-def _parse_series(data: dict) -> ReferenceSeries:
-    lines: list[ReferenceLine] = []
-    for season in data.get("seasons") or []:
-        episodes = [
-            ReferenceEpisode(
-                number=(str(e["episodeNumber"]).strip() or None)
-                if e.get("episodeNumber") is not None
-                else None,
-                title=str(e.get("episodeTitle") or "").strip(),
-                seconds=_int(e.get("length")),
-                product=_int(e.get("productId")),
-            )
-            for e in season.get("episodes") or []
-        ]
-        lines.append(
-            ReferenceLine(name=str(season.get("name") or "").strip(), episodes=episodes)
+    spec = importlib.util.spec_from_file_location(
+        "lauschi_reference_source", Path(path).expanduser()
+    )
+    if spec is None or spec.loader is None:
+        raise RuntimeError(
+            f"REFERENCE_INDEX_SOURCE does not name a Python file: {path}"
         )
-    return ReferenceSeries(
-        id=int(data["id"]), name=str(data.get("name") or "").strip(), lines=lines
-    )
-
-
-def _first_name(items: object) -> str | None:
-    """The name of the first entry of an embedded list, if it has one."""
-    if isinstance(items, list) and items and isinstance(items[0], dict):
-        return str(items[0].get("name") or "").strip() or None
-    return None
-
-
-def _parse_product(item: dict) -> ReferenceProduct:
-    embedded = item.get("_embedded") or {}
-    episodes = embedded.get("episodes") or []
-    number = episodes[0].get("episodeNumber") if episodes else None
-    return ReferenceProduct(
-        id=int(item["id"]),
-        title=str(item.get("title") or "").strip(),
-        author=str(item.get("author") or "").strip(),
-        label=str((item.get("imprint") or {}).get("name") or "").strip(),
-        kind=str(item.get("productClassification") or "").strip(),
-        seconds=_int((item.get("attributes") or {}).get("length")),
-        categories=tuple(
-            str(c.get("name") or "").strip() for c in item.get("categories") or []
-        ),
-        brand=_first_name(embedded.get("series")),
-        line=_first_name(embedded.get("season")),
-        number=(str(number).strip() or None) if number is not None else None,
-        barcode=_barcode(item),
-    )
-
-
-def _barcode(item: dict) -> str:
-    return str((item.get("attributes") or {}).get("isbn") or "").strip()
-
-
-#: The fields of a search hit that are kept. A hit carries a long
-#: description, prices and cover links the catalog has no use for.
-_PRODUCT_FIELDS = (
-    "id",
-    "title",
-    "author",
-    "imprint",
-    "productClassification",
-    "attributes",
-    "categories",
-    "_embedded",
-)
-#: A product search is full text and can match hundreds of releases.
-_MAX_PRODUCT_PAGES = 20
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module.source()
 
 
 class ReferenceIndex:
-    """Cached client for the public reference index."""
+    """Cached access to the public reference index."""
 
     def __init__(
         self,
-        base_url: str | None = None,
+        source: ReferenceSource | None = None,
         *,
-        fetch: Fetch = _http_get,
         cache_root: Path | None = None,
         use_cache: bool = True,
     ) -> None:
-        url = (
-            base_url
-            if base_url is not None
-            else os.environ.get("REFERENCE_INDEX_URL", "")
-        )
-        self._base = url.rstrip("/")
-        self._fetch = fetch
-        self._use_cache = use_cache and bool(self._base)
+        """Without a ``source`` the index loads the one the environment
+        names, and stays unconfigured when there is none."""
+        self._source = source if source is not None else load_source()
+        self._use_cache = use_cache and self._source is not None
         self._cache_root = cache_root
         self._cache = None
 
     @property
     def configured(self) -> bool:
-        return bool(self._base)
+        return self._source is not None
 
     def _store(self):
         if self._cache is None:
@@ -216,7 +157,7 @@ class ReferenceIndex:
             self._cache = diskcache.Cache(str(root), size_limit=100 * 1024 * 1024)
         return self._cache
 
-    def _cached(self, key: str, fetch: Callable[[], object]) -> object:
+    def _cached[T](self, key: str, fetch: Callable[[], T]) -> T:
         if not self._use_cache:
             return fetch()
         store = self._store()
@@ -228,23 +169,10 @@ class ReferenceIndex:
         return value
 
     def names(self) -> dict[int, str]:
-        """Every series in the index, id to name. One paged sweep, cached."""
-        if not self.configured:
+        """Every series in the index, id to name. Cached."""
+        if self._source is None:
             return {}
-        return self._cached("names", self._fetch_names)  # type: ignore[return-value]
-
-    def _fetch_names(self) -> dict[int, str]:
-        names: dict[int, str] = {}
-        page = 0
-        while True:
-            data = self._fetch(
-                f"{self._base}/series", {"page": page, "size": _PAGE_SIZE}
-            )
-            for item in data.get("_embedded", {}).get("series", []):
-                names[int(item["id"])] = str(item.get("name") or "").strip()
-            page += 1
-            if page >= int((data.get("page") or {}).get("totalPages", 0)):
-                return names
+        return self._cached("names", self._source.names)
 
     def find(self, query: str) -> list[tuple[int, str]]:
         """Series matching a name: exact key matches first, then the
@@ -264,11 +192,10 @@ class ReferenceIndex:
         return exact + partial
 
     def series(self, series_id: int) -> ReferenceSeries:
-        data = self._cached(
-            f"series:{series_id}",
-            lambda: self._fetch(f"{self._base}/series/{series_id}", None),
-        )
-        return _parse_series(data)  # type: ignore[arg-type]
+        if self._source is None:
+            raise RuntimeError("The reference index is not configured.")
+        source = self._source
+        return self._cached(f"lines:{series_id}", lambda: source.series(series_id))
 
     def lines_for(self, query: str) -> ReferenceSeries | None:
         """The best-matching series with its lines, or None."""
@@ -278,48 +205,20 @@ class ReferenceIndex:
     def products(self, query: str) -> list[ReferenceProduct]:
         """Products the index's full-text search finds for a query,
         whether they sit in a line or not. Cached per query."""
-        if not self.configured or not _key(query):
+        if self._source is None or not _key(query):
             return []
-        raw = self._cached(
-            f"products:{_key(query)}", lambda: self._fetch_products(query)
-        )
-        return [_parse_product(item) for item in raw]  # type: ignore[union-attr]
+        source = self._source
+        return self._cached(f"releases:{_key(query)}", lambda: source.products(query))
 
     def barcodes(self, series_id: int) -> dict[int, str]:
         """The barcode of each product a series files, by product id.
-        One paged sweep, cached. A product without one is left out."""
-        if not self.configured:
+        Cached. A product without one is left out."""
+        if self._source is None:
             return {}
-        raw = self._cached(
-            f"barcodes:{series_id}",
-            lambda: {
-                str(item["id"]): _barcode(item)
-                for item in self._search_products({"seriesId": series_id}, pages=None)
-            },
+        source = self._source
+        return self._cached(
+            f"product_barcodes:{series_id}", lambda: source.barcodes(series_id)
         )
-        return {int(pid): code for pid, code in raw.items() if code}  # type: ignore[union-attr]
-
-    def _fetch_products(self, query: str) -> list[dict]:
-        return [
-            {k: item[k] for k in _PRODUCT_FIELDS if k in item}
-            for item in self._search_products(
-                {"query": query}, pages=_MAX_PRODUCT_PAGES
-            )
-        ]
-
-    def _search_products(self, params: dict, *, pages: int | None) -> list[dict]:
-        """The hits of a product search, page by page, up to ``pages``
-        pages (all of them for None)."""
-        items: list[dict] = []
-        for page in itertools.count() if pages is None else range(pages):
-            data = self._fetch(
-                f"{self._base}/searches/products-by-clients",
-                {**params, "page": page, "per_page": _PAGE_SIZE},
-            )
-            items += data.get("_embedded", {}).get("simpleHalRepresentationModels", [])
-            if page + 1 >= int((data.get("page") or {}).get("totalPages", 0)):
-                break
-        return items
 
     def without_a_line(self, series: ReferenceSeries) -> list[ReferenceProduct]:
         """A brand's products that the index files under no line.

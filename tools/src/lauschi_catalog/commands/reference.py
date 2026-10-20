@@ -19,7 +19,7 @@ def reference(query: str, show_all: bool):
     index = ReferenceIndex()
     if not index.configured:
         console.print(
-            "[yellow]REFERENCE_INDEX_URL is not set (see .env.example)[/yellow]"
+            "[yellow]REFERENCE_INDEX_SOURCE is not set (see .env.example)[/yellow]"
         )
         raise SystemExit(1)
     hits = index.find(query)

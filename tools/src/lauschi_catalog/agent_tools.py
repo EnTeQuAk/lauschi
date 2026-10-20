@@ -116,7 +116,7 @@ def build_agent_tools() -> FunctionToolset[AgentDeps]:
         index = ctx.deps.reference
         if not index.configured:
             return {
-                "error": "The public reference index is not configured (REFERENCE_INDEX_URL)."
+                "error": "The public reference index is not configured (REFERENCE_INDEX_SOURCE)."
             }
         found = index.lines_for(series_name)
         if found is None:

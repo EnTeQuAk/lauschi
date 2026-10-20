@@ -41,6 +41,13 @@ class ScratchCatalog:
         return json.loads((self.curation_dir / f"{series_id}.json").read_text())
 
 
+@pytest.fixture(autouse=True)
+def _no_reference_index(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Keep the suite offline: mise loads `.env`, which may name the real
+    reference index source. A test that needs an index passes a fake."""
+    monkeypatch.delenv("REFERENCE_INDEX_SOURCE", raising=False)
+
+
 @pytest.fixture
 def scratch_catalog(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> ScratchCatalog:
     """Point ``LAUSCHI_REPO_ROOT`` at ``tmp_path``, so nothing a test writes

@@ -44,7 +44,8 @@ with `LAUSCHI_MODEL_HOST=opencode`. Keys, all in `.env`
 (loaded by mise): `SPOTIFY_CLIENT_ID`/`SPOTIFY_CLIENT_SECRET` for the provider
 APIs (Apple Music uses the shared MusicKit key `android/app/AuthKey_*.p8`),
 `OLLAMA_API_KEY` (or `OPENCODE_API_KEY`) for model calls, `BRAVE_API_KEY` for the agents' web search
-tool, `REFERENCE_INDEX_URL` (optional) for the public reference index behind the
+tool, `REFERENCE_INDEX_SOURCE` (optional, the path of a file outside the repo
+that reads the public reference index, see `lauschi_catalog.reference`) for the index behind the
 agents' `lookup_reference_lines` tool and `lauschi-catalog reference <title>`
 (a brand's lines and their numbered episodes; lags on new releases, so
 absence there proves nothing).

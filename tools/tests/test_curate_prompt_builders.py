@@ -24,7 +24,6 @@ from lauschi_catalog.catalog.curate_ops import (
 from lauschi_catalog.catalog.episode_range import RangeFact
 from lauschi_catalog.catalog.prompt import format_album_xml, format_reference_lines
 from lauschi_catalog.reference import (
-    Fetch,
     ReferenceEpisode,
     ReferenceIndex,
     ReferenceLine,
@@ -32,7 +31,7 @@ from lauschi_catalog.reference import (
     ReferenceSeries,
 )
 from tests.factories import decision
-from tests.test_reference_index import fake_fetch
+from tests.test_reference_index import FakeSource, fake_source
 
 
 def _decision(
@@ -417,17 +416,19 @@ class TestReferenceLines:
 class TestSharedPageReference:
     """The fetch around the block: a run goes on without the index."""
 
-    def _index(self, monkeypatch: pytest.MonkeyPatch, fetch: Fetch, url: str) -> None:
+    def _index(
+        self, monkeypatch: pytest.MonkeyPatch, source: FakeSource | None
+    ) -> None:
         monkeypatch.setattr(
             curate_ops,
             "ReferenceIndex",
-            lambda: ReferenceIndex(url, fetch=fetch, use_cache=False),
+            lambda: ReferenceIndex(source, use_cache=False),
         )
 
     def test_a_known_brand_comes_back_as_the_block(
         self, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        self._index(monkeypatch, fake_fetch, "https://example.test/api")
+        self._index(monkeypatch, fake_source())
 
         block = curate_ops.shared_page_reference("Kommissar Kugelblitz")
 
@@ -439,18 +440,19 @@ class TestSharedPageReference:
     def test_an_unknown_brand_and_an_unconfigured_index_give_nothing(
         self, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        self._index(monkeypatch, fake_fetch, "https://example.test/api")
+        self._index(monkeypatch, fake_source())
         assert curate_ops.shared_page_reference("Conni") == ""
 
-        self._index(monkeypatch, fake_fetch, "")
+        self._index(monkeypatch, None)
         assert curate_ops.shared_page_reference("Kommissar Kugelblitz") == ""
 
     def test_an_index_that_cannot_be_reached_does_not_stop_the_run(
         self, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        def down(url: str, params: dict | None) -> dict:
-            raise requests.ConnectionError(url)
+        class Down(FakeSource):
+            def names(self) -> dict[int, str]:
+                raise requests.ConnectionError("index unreachable")
 
-        self._index(monkeypatch, down, "https://example.test/api")
+        self._index(monkeypatch, Down())
 
         assert curate_ops.shared_page_reference("Kommissar Kugelblitz") == ""
