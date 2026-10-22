@@ -243,9 +243,10 @@ in the last eight weeks) and albums a person placed with `catalog-edit`
 are set aside before the model sees them.
 
 Where the names differ, a member owns a line its titles do not show, or
-the index has nothing for an entry, `assets/catalog/reference_map.json`
-says so (format in the module's docstring). The file is tooling data and
-does not ship with the app.
+the index has nothing for an entry, the override file says so (format in
+the module's docstring). It names the index's own series ids, so it lives
+outside the repo next to the source, and `REFERENCE_INDEX_MAP` in `.env`
+holds its path.
 
 #### Evaluating a change
 

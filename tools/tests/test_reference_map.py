@@ -4,6 +4,8 @@ against: by name, by the override file, and line by line inside a family."""
 from datetime import date
 from pathlib import Path
 
+import pytest
+
 from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
 from lauschi_catalog.catalog.reference_map import (
     IndexEpisode,
@@ -311,6 +313,20 @@ def test_overrides_read_from_the_file(tmp_path: Path) -> None:
         "hexe_lilli_musik": {"series": 10, "lines": ["Musik"]},
     }
     assert load_overrides(tmp_path / "missing.json") == {}
+
+
+def test_the_environment_names_the_override_file(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """The file names the index's own series ids, so it lives outside the
+    repo next to the source, and no file means no overrides."""
+    assert load_overrides() == {}
+
+    path = tmp_path / "reference_map.json"
+    path.write_text('{"overrides": {"lillis_abenteuer": 30}}\n')
+    monkeypatch.setenv("REFERENCE_INDEX_MAP", str(path))
+
+    assert load_overrides() == {"lillis_abenteuer": {"series": 30}}
 
 
 def test_same_story_folds_spelling_and_keeps_parts_apart() -> None:

@@ -15,9 +15,11 @@ found the index series by its name, so the QA still checks it. An entry
 left with no line is not compared.
 
 Where the names differ, or a line belongs to a member its titles do not
-show, ``assets/catalog/reference_map.json`` says so per entry: null when
-the index has nothing for it, an index series id to compare it with, or
-that series with the lines that are the entry's own::
+show, the override file says so per entry: null when the index has
+nothing for it, an index series id to compare it with, or that series
+with the lines that are the entry's own. The file names the index's own
+series ids, so it lives outside this repo next to the source, and
+``REFERENCE_INDEX_MAP`` holds its path::
 
     {
       "overrides": {
@@ -33,6 +35,7 @@ has one of its own.
 
 import difflib
 import functools
+import os
 import re
 import unicodedata
 from collections.abc import Callable, Mapping
@@ -44,11 +47,10 @@ from typing import Literal, TypedDict
 from lauschi_catalog.catalog import io
 from lauschi_catalog.catalog.models import CatalogEntry
 from lauschi_catalog.catalog.partition import Family, families
-from lauschi_catalog.catalog.paths import reference_map_path
 from lauschi_catalog.reference import ReferenceIndex, ReferenceLine, ReferenceSeries
 
 #: name: by the index series' name. prefix: the entry's name starts with
-#: it. map: by reference_map.json.
+#: it. map: by the override file.
 #: no_line: the family maps, but no line fits this member. unmapped: no
 #: index series has the family's name. not_in_index: the override file
 #: says the index holds nothing for it.
@@ -133,13 +135,18 @@ def brand_words(*names: str) -> frozenset[str]:
 
 
 def load_overrides(path: Path | None = None) -> dict[str, Override | None]:
-    """The override file as entry id to override, None meaning the index
-    holds nothing for the entry. A missing file has no overrides."""
-    target = path if path is not None else reference_map_path()
-    if not target.exists():
+    """The override file (``path``, or the one ``REFERENCE_INDEX_MAP``
+    names) as entry id to override, None meaning the index holds nothing
+    for the entry. No file means no overrides."""
+    if path is None:
+        named = os.environ.get("REFERENCE_INDEX_MAP", "").strip()
+        if not named:
+            return {}
+        path = Path(named).expanduser()
+    if not path.exists():
         return {}
     overrides: dict[str, Override | None] = {}
-    for entry_id, value in io.load_raw(target)["overrides"].items():
+    for entry_id, value in io.load_raw(path)["overrides"].items():
         if value is None:
             overrides[entry_id] = None
         elif isinstance(value, int):

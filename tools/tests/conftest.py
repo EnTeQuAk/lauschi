@@ -44,8 +44,10 @@ class ScratchCatalog:
 @pytest.fixture(autouse=True)
 def _no_reference_index(monkeypatch: pytest.MonkeyPatch) -> None:
     """Keep the suite offline: mise loads `.env`, which may name the real
-    reference index source. A test that needs an index passes a fake."""
+    reference index source and its override file. A test that needs an
+    index passes a fake."""
     monkeypatch.delenv("REFERENCE_INDEX_SOURCE", raising=False)
+    monkeypatch.delenv("REFERENCE_INDEX_MAP", raising=False)
 
 
 @pytest.fixture

@@ -3,7 +3,7 @@
 All writes use temp-file + os.replace for atomicity. Edits of
 series.json happen inside `locked_raw`, which holds a FileLock on the
 series lock file so CLI and web processes do not drop each other's edits. The catalog files (series.json,
-deleted.json, reference_map.json) are JSON in the layout of
+deleted.json) are JSON in the layout of
 `dump_catalog`.
 """
 
