@@ -36,7 +36,7 @@ jobs:
       # Restore only: the stripped .dart_tool/ must not land in the cache
       # the other builds use.
       - name: Restore pub dependencies
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: |
             ~/.pub-cache
