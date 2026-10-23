@@ -16,17 +16,17 @@ url = "https://github.com/biomejs/biome/releases/download/cli/v1.9.4/biome-darwi
 url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/199810205"
 
 [[tools.flutter]]
-version = "3.47.6"
+version = "3.47.8"
 backend = "http:flutter"
-specifiers = ["3.47.6"]
+specifiers = ["3.47.8"]
 
 [tools.flutter."platforms.linux-x64"]
-checksum = "sha256:f1631b9c2c8b3529323db412b0d1beacf4a748f8783b0d7cf599a8fd5f461675"
-url = "https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.47.6-stable.tar.xz"
+checksum = "sha256:baf7dcc5a3dbba60fe863bf493a6cf203195621f7786eaa5a1bba02cd0d87dd2"
+url = "https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.47.8-stable.tar.xz"
 
 [tools.flutter."platforms.macos-arm64"]
-checksum = "sha256:a1946d3b6b3de15ce247dc89649df9035ce29e6b4e7ebe91919a25890ea2e79a"
-url = "https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_arm64_3.47.6-stable.zip"
+checksum = "sha256:6114edc2dae3636cfefb7e4456a4510399ee856e324149b34dbacb509e329d05"
+url = "https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_arm64_3.47.8-stable.zip"
 
 [[tools.gh]]
 version = "2.87.3"
