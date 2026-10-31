@@ -22006,6 +22006,31 @@
           ]
         }
       }
+    },
+    {
+      "id": "der_gestiefelte_kater_abenteuer_in_san_lorenzo",
+      "title": "Der gestiefelte Kater - Abenteuer in San Lorenzo",
+      "episode_pattern": "^Folge (\\d+):",
+      "providers": {
+        "spotify": {
+          "artist_ids": ["3ompJTo0FaFpApXzbFwgcM"],
+          "albums": [
+            {"id": "2rbbPN5zsNJBOcB2Z70ooB", "episode": 1, "title": "Folge 1: Die verborgene Stadt (Das Original-Hörspiel zur TV-Serie)", "release_date": "2015-10-03", "barcode": "4029759208914"},
+            {"id": "4b2HvneyPDyGAirCocxZk0", "episode": 2, "title": "Folge 2: Böse Brüder (Das Original-Hörspiel zur TV-Serie)", "release_date": "2015-12-11", "barcode": "4029759208938"},
+            {"id": "2UrM7l2RH591smDAh75SCF", "episode": 3, "title": "Folge 3: Rettet die Prinzessin! (Das Original-Hörspiel zur TV-Serie)", "release_date": "2016-03-18", "barcode": "4029759208921"},
+            {"id": "6C1en4S8U2FFLeAzaHqv3C", "episode": 4, "title": "Folge 4: Tapferer Bürgermeister (Das Original-Hörspiel zur TV-Serie)", "release_date": "2016-09-02", "barcode": "4029759208945"}
+          ]
+        },
+        "apple_music": {
+          "artist_ids": ["1051811560"],
+          "albums": [
+            {"id": "1821703960", "episode": 1, "title": "Folge 1: Die verborgene Stadt (Das Original-Hörspiel zur TV-Serie)", "release_date": "2015-10-03", "barcode": "4029759208914"},
+            {"id": "1821224184", "episode": 2, "title": "Folge 2: Böse Brüder (Das Original-Hörspiel zur TV-Serie)", "release_date": "2015-12-11", "barcode": "4029759208938"},
+            {"id": "1821467752", "episode": 3, "title": "Folge 3: Rettet die Prinzessin! (Das Original-Hörspiel zur TV-Serie)", "release_date": "2016-03-18", "barcode": "4029759208921"},
+            {"id": "1821218691", "episode": 4, "title": "Folge 4: Tapferer Bürgermeister (Das Original-Hörspiel zur TV-Serie)", "release_date": "2016-09-02", "barcode": "4029759208945"}
+          ]
+        }
+      }
     }
   ]
 }
