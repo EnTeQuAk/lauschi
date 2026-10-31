@@ -22132,6 +22132,90 @@
           ]
         }
       }
+    },
+    {
+      "id": "jurassic_world_die_chaostheorie",
+      "title": "Jurassic World - Die Chaostheorie",
+      "episode_pattern": "^Folge (\\d+):",
+      "providers": {
+        "apple_music": {
+          "artist_ids": ["1760827424"],
+          "albums": [
+            {"id": "1760828216", "episode": 25, "title": "Folge 25: Nachbeben / Pinkelpause (Das Original Hörspiel zur Serie)", "release_date": "2024-08-30", "barcode": "4029759200291"},
+            {"id": "1761371094", "episode": 26, "title": "Folge 26: Fahrt ins Ungewisse / Brüder (Das Original Hörspiel zur Serie)", "release_date": "2024-09-06", "barcode": "4029759200307"},
+            {"id": "1761781678", "episode": 27, "title": "Folge 27: Rehabilitation / Im freien Fall (Das Original Hörspiel zur Serie)", "release_date": "2024-09-13", "barcode": "4029759200314"},
+            {"id": "1762596656", "episode": 28, "title": "Folge 28: In jener Nacht / Die Übergabe (Das Original Hörspiel zur Serie)", "release_date": "2024-09-20", "barcode": "4029759200321"},
+            {"id": "1763000184", "episode": 29, "title": "Folge 29: Im Nebel / Kein Zurück mehr (Das Original Hörspiel zur Serie)", "release_date": "2024-10-04", "barcode": "4029759200338"},
+            {"id": "1800550639", "episode": 30, "title": "Folge 30: Über Bord / Koexistenz (Das Original-Hörspiel zur Serie)", "release_date": "2025-03-28", "barcode": "4029759205029"},
+            {"id": "1803091246", "episode": 31, "title": "Folge 31: Fäden / Kleine Planänderung (Das Original-Hörspiel zur Serie)", "release_date": "2025-04-18", "barcode": "4029759205036"},
+            {"id": "1807622267", "episode": 32, "title": "Folge 32: Unruhiges Fahrwasser / Flussaufwärts (Das Original-Hörspiel zur Serie)", "release_date": "2025-05-09", "barcode": "4029759205722"},
+            {"id": "1807755309", "episode": 33, "title": "Folge 33: Eine lange Nacht / Wer solche Freunde hat (1) [Das Original-Hörspiel zur Serie]", "release_date": "2025-05-30", "barcode": "4029759205739"},
+            {"id": "1807795171", "episode": 34, "title": "Folge 34: Wer solche Freunde hat (2) / Wieder vereint [Das Original-Hörspiel zur Serie]", "release_date": "2025-06-20", "barcode": "4029759205746"},
+            {"id": "1822975084", "episode": 35, "title": "Folge 35: Harte Landung / Willkommen in der Villa Paradiso (Das Original-Hörspiel zur Serie)", "release_date": "2025-07-11", "barcode": "4029759207849"},
+            {"id": "1826775822", "episode": 36, "title": "Folge 36: Das Spiel der Königin / Seitenwechsel (Das Original-Hörspiel zur Serie)", "release_date": "2025-08-01", "barcode": "4029759207856"},
+            {"id": "1826435252", "episode": 37, "title": "Folge 37: Zerreißprobe / Pakt mit dem Teufel (Das Original-Hörspiel zur Serie)", "release_date": "2025-08-22", "barcode": "4029759207863"},
+            {"id": "1827251877", "episode": 38, "title": "Folge 38: Schwere Entscheidung / Kein Entkommen (Das Original-Hörspiel zur Serie)", "release_date": "2025-09-12", "barcode": "4029759207870"},
+            {"id": "1827253852", "episode": 39, "title": "Folge 39: Plan B / Auf ein Neues (Das Original-Hörspiel zur Serie)", "release_date": "2025-09-26", "barcode": "4029759208952"},
+            {"id": "1872790652", "episode": 40, "title": "Folge 40: Ankunft / Reingelegt (Das Original-Hörspiel zur Serie)", "release_date": "2026-02-27", "barcode": "4029759212782"},
+            {"id": "1876886661", "episode": 41, "title": "Folge 41: Bekannte Gesichter / Nimm das, Dodgson! (Das Original-Hörspiel zur Serie)", "release_date": "2026-03-20", "barcode": "4029759212812"},
+            {"id": "1886112457", "episode": 42, "title": "Folge 42: Schuld und Sühne / Feuer (Das Original-Hörspiel zur Serie)", "release_date": "2026-04-17", "barcode": "4029759216414"},
+            {"id": "6766563233", "episode": 43, "title": "Folge 43: Einer für alle, alle für einen / Delirium / Lebe wohl (Das Original-Hörspiel zur Serie)", "release_date": "2026-05-22", "barcode": "4029759216421"}
+          ]
+        },
+        "spotify": {
+          "artist_ids": ["1DIJWoKe1oSNVxPSSLYc0X"],
+          "albums": [
+            {"id": "6hQS0i7ri0lQJ2mqEnVmfc", "episode": 25, "title": "Folge 25: Nachbeben / Pinkelpause (Das Original Hörspiel zur Serie)", "release_date": "2024-08-30", "barcode": "4029759200291"},
+            {"id": "54iZshQeenJqA8DossPhsv", "episode": 26, "title": "Folge 26: Fahrt ins Ungewisse / Brüder (Das Original Hörspiel zur Serie)", "release_date": "2024-09-06", "barcode": "4029759200307"},
+            {"id": "0kNJlOjb90uXHHtc5XTmSh", "episode": 27, "title": "Folge 27: Rehabilitation / Im freien Fall (Das Original Hörspiel zur Serie)", "release_date": "2024-09-13", "barcode": "4029759200314"},
+            {"id": "2nK0zxWblxDgBDMnOD7T2D", "episode": 28, "title": "Folge 28: In jener Nacht / Die Übergabe (Das Original Hörspiel zur Serie)", "release_date": "2024-09-20", "barcode": "4029759200321"},
+            {"id": "7EOQWVz4um60SDKOWLEvDq", "episode": 29, "title": "Folge 29: Im Nebel / Kein Zurück mehr (Das Original Hörspiel zur Serie)", "release_date": "2024-10-04", "barcode": "4029759200338"},
+            {"id": "2xQ3P8YufHRb5CJN3A72us", "episode": 30, "title": "Folge 30: Über Bord / Koexistenz (Das Original-Hörspiel zur Serie)", "release_date": "2025-03-28", "barcode": "4029759205029"},
+            {"id": "0GtdutZfAIuHJd26YNdEvJ", "episode": 31, "title": "Folge 31: Fäden / Kleine Planänderung (Das Original-Hörspiel zur Serie)", "release_date": "2025-04-18", "barcode": "4029759205036"},
+            {"id": "77eJX86Bt75Wg7F7BsywfR", "episode": 32, "title": "Folge 32: Unruhiges Fahrwasser / Flussaufwärts (Das Original-Hörspiel zur Serie)", "release_date": "2025-05-09", "barcode": "4029759205722"},
+            {"id": "1Zsc0AmSte6fsTu6jVnySv", "episode": 33, "title": "Folge 33: Eine lange Nacht / Wer solche Freunde hat (1) [Das Original-Hörspiel zur Serie]", "release_date": "2025-05-30", "barcode": "4029759205739"},
+            {"id": "55P2w3HxWSHcdw1wojxOwp", "episode": 34, "title": "Folge 34: Wer solche Freunde hat (2) / Wieder vereint [Das Original-Hörspiel zur Serie]", "release_date": "2025-06-20", "barcode": "4029759205746"},
+            {"id": "5taTH7tBbqXcuF2kieRkaa", "episode": 35, "title": "Folge 35: Harte Landung / Willkommen in der Villa Paradiso (Das Original-Hörspiel zur Serie)", "release_date": "2025-07-11", "barcode": "4029759207849"},
+            {"id": "3dalU6Ftq5FUJCNBaA5UP7", "episode": 36, "title": "Folge 36: Das Spiel der Königin / Seitenwechsel (Das Original-Hörspiel zur Serie)", "release_date": "2025-08-01", "barcode": "4029759207856"},
+            {"id": "3Vn2fmRLSAr8rmsFIr59c1", "episode": 37, "title": "Folge 37: Zerreißprobe / Pakt mit dem Teufel (Das Original-Hörspiel zur Serie)", "release_date": "2025-08-22", "barcode": "4029759207863"},
+            {"id": "4nFeBbfXXIJm8xMoioRVCN", "episode": 38, "title": "Folge 38: Schwere Entscheidung / Kein Entkommen (Das Original-Hörspiel zur Serie)", "release_date": "2025-09-12", "barcode": "4029759207870"},
+            {"id": "0bhsqvhm8nwNQDpjlHiB6y", "episode": 39, "title": "Folge 39: Plan B / Auf ein Neues (Das Original-Hörspiel zur Serie)", "release_date": "2025-09-26", "barcode": "4029759208952"},
+            {"id": "7DcO7APCyYY7QbBPipU7CY", "episode": 40, "title": "Folge 40: Ankunft / Reingelegt (Das Original-Hörspiel zur Serie)", "release_date": "2026-02-27", "barcode": "4029759212782"},
+            {"id": "5u9x5M4VeWHZUClpEA9tJg", "episode": 41, "title": "Folge 41: Bekannte Gesichter / Nimm das, Dodgson! (Das Original-Hörspiel zur Serie)", "release_date": "2026-03-20", "barcode": "4029759212812"},
+            {"id": "1dAr0YpUeZ156UhkB38d7V", "episode": 42, "title": "Folge 42: Schuld und Sühne / Feuer (Das Original-Hörspiel zur Serie)", "release_date": "2026-04-17", "barcode": "4029759216414"},
+            {"id": "5kVdqfR0uw14DHY9nn0jGi", "episode": 43, "title": "Folge 43: Einer für alle, alle für einen / Delirium / Lebe wohl (Das Original-Hörspiel zur Serie)", "release_date": "2026-05-22", "barcode": "4029759216421"}
+          ]
+        }
+      }
+    },
+    {
+      "id": "heidi_hoerspielserie_1970er",
+      "title": "Heidi (Hörspielserie aus den 1970ern)",
+      "episode_pattern": "^Folge (\\d+):",
+      "providers": {
+        "apple_music": {
+          "artist_ids": ["1594933755", "1596786124"],
+          "albums": [
+            {"id": "1447677792", "episode": 1, "title": "Folge 1: Heidi kommt zum Alm-Öhi", "release_date": "2019-01-25", "barcode": "4260507146588"},
+            {"id": "1447677578", "episode": 2, "title": "Folge 2: Die große Enttäuschung", "release_date": "2019-01-25", "barcode": "4260507146595"},
+            {"id": "1447677769", "episode": 3, "title": "Folge 3: Eine schwierige Freundschaft", "release_date": "2019-01-25", "barcode": "4260507146601"},
+            {"id": "1447676082", "episode": 4, "title": "Folge 4: Sehnsucht, Spuk und Tränen", "release_date": "2019-02-01", "barcode": "4260507146618"},
+            {"id": "1447665975", "episode": 5, "title": "Folge 5: Heimkehr auf die Alm", "release_date": "2019-02-01", "barcode": "4260507146625"},
+            {"id": "1447668124", "episode": 6, "title": "Folge 6: Die wunderbare Heilung", "release_date": "2019-02-01", "barcode": "4260507146632"}
+          ]
+        },
+        "spotify": {
+          "artist_ids": ["38MJVhx6S7PeScYAIX2PRs"],
+          "albums": [
+            {"id": "0Pe1f1yJlEyud1HNN4vsvN", "episode": 1, "title": "Folge 1: Heidi kommt zum Alm-Öhi", "release_date": "2019-01-25", "barcode": "4066004023557"},
+            {"id": "5xq5zethHbk6QN6EqGNNNv", "episode": 2, "title": "Folge 2: Die große Enttäuschung", "release_date": "2019-01-25", "barcode": "4066004025063"},
+            {"id": "5lZ61lvGS2eGZ3iIGGzxVv", "episode": 3, "title": "Folge 3: Eine schwierige Freundschaft", "release_date": "2019-01-25", "barcode": "4066004022529"},
+            {"id": "4w5XCuCWojbcxhmVhZ04GP", "episode": 4, "title": "Folge 4: Sehnsucht, Spuk und Tränen", "release_date": "2019-02-01", "barcode": "4066004026831"},
+            {"id": "0Q6dG6iOc5rCFpXWgTZUSM", "episode": 5, "title": "Folge 5: Heimkehr auf die Alm", "release_date": "2019-02-01", "barcode": "4066004023182"},
+            {"id": "3gOVGRIDfR95WSJ2b8vWvX", "episode": 6, "title": "Folge 6: Die wunderbare Heilung", "release_date": "2019-02-01", "barcode": "4066004027180"}
+          ]
+        }
+      }
     }
   ]
 }
