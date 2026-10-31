@@ -9392,28 +9392,6 @@
       }
     },
     {
-      "id": "pets",
-      "title": "Pets",
-      "providers": {
-        "spotify": {
-          "artist_ids": ["0Rgm4XWEcCIeXyoYmNvCN7"],
-          "albums": [
-            {"id": "2477hCb6Ra9XhqaNuut2oZ", "title": "Pets - Das Original-Hörspiel zum Kinofilm", "release_date": "2016-07-29", "barcode": "4064067423628"},
-            {"id": "0HStGhUipv5K3i1AYkilMN", "title": "Pets 2 - Das Original-Hörspiel zum Kinofilm", "release_date": "2019-07-19", "barcode": "4064067423611"}
-          ]
-        },
-        "apple_music": {
-          "artist_ids": ["1707870182"],
-          "albums": [
-            {"id": "1686013818", "title": "Pets (Das Original-Hörspiel zum Kinofilm)", "release_date": "2016-07-29", "barcode": "4057664206077"},
-            {"id": "1686043027", "title": "Pets 2 - Das Original-Hörspiel zum Kinofilm", "release_date": "2019-07-19", "barcode": "4057664660947"}
-          ]
-        }
-      },
-      "content_type": "hoerspiel",
-      "aliases": ["The Secret Life of Pets"]
-    },
-    {
       "id": "die_feriendetektive",
       "title": "Die Feriendetektive",
       "providers": {
@@ -14509,29 +14487,6 @@
       }
     },
     {
-      "id": "kinderlieder_superstar",
-      "title": "Kinderlieder-Superstar",
-      "providers": {
-        "spotify": {
-          "artist_ids": ["2duFGriu4O62dpmID8n95V"],
-          "albums": [
-            {"id": "1eSOSPP9nP8sK6sKd3IZcl", "title": "Kinderlieder", "release_date": "2016-02-16", "barcode": "859716646732"},
-            {"id": "7IZ7dCC2sYaeXgGVEMnmEY", "title": "Die Räder Vom Bus Und Andere Kinderlieder", "release_date": "2017-09-18", "barcode": "859723242286"},
-            {"id": "157glNDTuDB92bIkPVjRw4", "title": "Kinderlieder, die 60 besten Lieder für Kinder", "release_date": "2018-09-28", "barcode": "859728847950"},
-            {"id": "2qgCGHML1Yacpn1m1ZA4J1", "title": "Weihnachtslieder für Kinder", "release_date": "2018-10-19", "barcode": "859729163479"},
-            {"id": "3432VOcOn1RYqmn374c8q1", "title": "Weihnachtslieder zum Mitsingen", "release_date": "2025-11-30", "barcode": "4066004917559"}
-          ]
-        },
-        "apple_music": {
-          "artist_ids": ["1085495632"],
-          "albums": [
-            {"id": "1085495630", "title": "Kinderlieder", "release_date": "2016-02-16", "barcode": "859716646732"}
-          ]
-        }
-      },
-      "content_type": "music"
-    },
-    {
       "id": "bummelkasten",
       "title": "Bummelkasten",
       "providers": {
@@ -15455,40 +15410,6 @@
       "content_type": "music"
     },
     {
-      "id": "tirili_kinderlieder",
-      "title": "TiRiLi Kinderlieder",
-      "providers": {
-        "spotify": {
-          "artist_ids": ["2ppmbdTYwLmcIVuay1eGea"],
-          "albums": [
-            {"id": "2P0m2FLliswzpIRznjB2vZ", "title": "Kinderklassiker Vol. 1", "release_date": "2024-11-29", "barcode": "4064946440029"},
-            {"id": "6WhQWDaD79Pi600aZUUHts", "title": "Kinderklassiker, Vol. 1", "release_date": "2024-11-29", "barcode": "3618112407357"}
-          ]
-        },
-        "apple_music": {
-          "artist_ids": ["1509046617"],
-          "albums": [
-            {"id": "6777229583", "title": "Kinderklassiker, Vol. 1", "release_date": "2024-11-29", "barcode": "3618112407357"}
-          ]
-        }
-      },
-      "content_type": "music",
-      "aliases": ["TiRiLi"],
-      "series_facts": {
-        "sub_series": [
-          {
-            "label": "Kinderklassiker",
-            "album_ids": ["6777229583", "6WhQWDaD79Pi600aZUUHts"],
-            "reason": "Themed multi-track collection of traditional nursery songs; singles-first artist, so this collection album is the primary catalog entry (Vol. 1 suggests ongoing series)",
-            "curated_by": "minimax-m2.7",
-            "curated_at": "2026-10-03T01:30:47.667081+00:00",
-            "audited_by": "minimax-m2.7",
-            "audited_at": "2026-10-03T01:30:47.667081+00:00"
-          }
-        ]
-      }
-    },
-    {
       "id": "eule",
       "title": "Eule",
       "providers": {
@@ -15815,50 +15736,6 @@
       }
     },
     {
-      "id": "jonina",
-      "title": "Jonina",
-      "providers": {
-        "spotify": {
-          "artist_ids": ["3z4aXIXMPnlSsk9zJFqmEh"],
-          "albums": [
-            {"id": "3OZpsd1elhbBYVtMiTPr4a", "title": "Kinderlieder (Klassiker für Kinder)", "release_date": "2009-08-04", "barcode": "0881969517361"},
-            {"id": "214p0K41eWdOoe5S2CnFDF", "title": "Weihnachtslieder (Klassiker für Kinder)", "release_date": "2010-11-01", "barcode": "3661585539834"},
-            {"id": "4m6IfJmrYotJiQ1N6cmw5v", "title": "Kirchenlieder (Klassiker für Kinder)", "release_date": "2014-01-24", "barcode": "4250527444115"}
-          ]
-        },
-        "apple_music": {
-          "artist_ids": ["321034778"],
-          "albums": [
-            {"id": "321034747", "title": "Kinderlieder (Klassiker für Kinder)", "release_date": "2009-08-04", "barcode": "881969517361"},
-            {"id": "397954299", "title": "Weihnachtslieder (Klassiker für Kinder)", "release_date": "2010-11-01", "barcode": "3661585539834"},
-            {"id": "806031065", "title": "Kirchenlieder (Klassiker für Kinder)", "release_date": "2014-01-24", "barcode": "4250527444115"}
-          ]
-        }
-      },
-      "content_type": "music"
-    },
-    {
-      "id": "liederkiste",
-      "title": "Liederkiste",
-      "providers": {
-        "spotify": {
-          "artist_ids": ["3i2mGyvB5Vw4sALoIUuuZl"],
-          "albums": [
-            {"id": "3VWKjIW5D7HmFOyHz6jJ1s", "title": "Die schönsten Kinderlieder Vol. 1", "release_date": "2021-03-19", "barcode": "4064832453652"},
-            {"id": "5001fiiJEiW6ORY9YnMIQp", "title": "Die schönsten Kinderlieder Vol. 2", "release_date": "2022-02-25", "barcode": "4064832880717"}
-          ]
-        },
-        "apple_music": {
-          "artist_ids": ["1305380291"],
-          "albums": [
-            {"id": "1557484891", "title": "Die schönsten Kinderlieder Vol. 1", "release_date": "2021-03-19", "barcode": "4064832453652"},
-            {"id": "1609227626", "title": "Die schönsten Kinderlieder Vol. 2", "release_date": "2022-02-25", "barcode": "4064832880717"}
-          ]
-        }
-      },
-      "content_type": "music"
-    },
-    {
       "id": "familie_sonntag",
       "title": "Familie Sonntag",
       "providers": {
@@ -16054,27 +15931,6 @@
             {"id": "6776814624", "title": "Der Maulwurf kocht (Chaos in der Küche) - Single", "release_date": "2026-06-19", "barcode": "1200214262549"},
             {"id": "6791228937", "title": "Alle lieben Kinderlieder: Spielen - EP", "release_date": "2026-07-24", "barcode": "1200214521905"},
             {"id": "6800730152", "title": "Alle lieben Kinderlieder: Lernen", "release_date": "2026-08-28", "barcode": "1200214813420"}
-          ]
-        }
-      },
-      "content_type": "music"
-    },
-    {
-      "id": "manuel_straube",
-      "title": "Manuel Straube",
-      "providers": {
-        "spotify": {
-          "artist_ids": ["0Jq2DAvV3tdUIrksw0BJSQ"],
-          "albums": [
-            {"id": "5f0n97gwfSia9E5E510fa8", "title": "Fantasiereisen für Kinder, Vol. 3", "release_date": "2015-09-25", "barcode": "4260072370920"},
-            {"id": "4EF0NzZnNvUlQkqjWNUg1c", "title": "15: Sommer-Blockbuster / Wolkig mit Aussicht auf Mom / Der Hutmacher / Außer Rand und Band (Hörspiel zur Disney TV-Serie)", "release_date": "2025-12-26", "barcode": "4069829311625"},
-            {"id": "1hDV6Lb89lDvLosyh6xGCF", "title": "16: Die Chroniken von Miep: Heimweh nach Saint Louis / Keine Übernachtungsparty / Die Ballade von Bubba Doof (Hörspiel zur Disney TV-Serie)", "release_date": "2025-12-26", "barcode": "4069829311595"}
-          ]
-        },
-        "apple_music": {
-          "artist_ids": ["120801800"],
-          "albums": [
-            {"id": "1035448019", "title": "Fantasiereisen für Kinder, Vol. 3", "release_date": "2015-09-25", "barcode": "4260072370920"}
           ]
         }
       },
@@ -16318,30 +16174,6 @@
       }
     },
     {
-      "id": "emmalu",
-      "title": "EMMALU",
-      "providers": {
-        "spotify": {
-          "artist_ids": ["2qDDgS9myAvvFEjI4WzcKO"],
-          "albums": [
-            {"id": "6pSxTURrEwQjlB9gAD6lRG", "title": "Sing mit mir - Die schönsten Fahrzeuglieder (Bagger Mats & seine Freunde)", "release_date": "2024-03-01", "barcode": "197189790973"},
-            {"id": "7iLFUsQ7bwJCDenijWW3qI", "title": "Sing mit mir - Die schönsten Stadtlieder (Milo, das Müllautokind & seine Freunde)", "release_date": "2025-09-12", "barcode": "198391926198"},
-            {"id": "5BDc72tBZX8TmB0DvfEQcq", "title": "Sing mit mir - Die schönsten Bauernhoflieder (Timmy Traktor & seine Freunde)", "release_date": "2026-05-29", "barcode": "199538094770"}
-          ]
-        },
-        "apple_music": {
-          "artist_ids": ["1540759951"],
-          "albums": [
-            {"id": "1707902453", "title": "Sing mit mir - Die schönsten Fahrzeuglieder", "release_date": "2024-03-01", "barcode": "197189790973"},
-            {"id": "1770291827", "title": "Sing mit mir - Die schönsten Stadtlieder (Milo, das Müllautokind & seine Freunde)", "release_date": "2025-09-12", "barcode": "198391926198"},
-            {"id": "1894866614", "title": "Sing mit mir - Die schönsten Bauernhoflieder (Timmy Traktor & seine Freunde)", "release_date": "2026-05-29", "barcode": "199538094770"}
-          ]
-        }
-      },
-      "content_type": "music",
-      "aliases": ["Emma & Lu"]
-    },
-    {
       "id": "der_singende_bauernhof",
       "title": "Der singende Bauernhof",
       "providers": {
@@ -16379,55 +16211,6 @@
         }
       },
       "content_type": "music"
-    },
-    {
-      "id": "piano_papa",
-      "title": "Piano Papa",
-      "providers": {
-        "spotify": {
-          "artist_ids": ["3Xd05Lsm0o1YdsrYJ3yio4"],
-          "albums": [
-            {"id": "7IqtP3dBv1A9x06P3PDkwk", "title": "Es ist Winterzeit", "release_date": "2024-11-01", "barcode": "198886000174"},
-            {"id": "59ixrjPBh0IwOSGA2QzKce", "title": "Zwischen Fantasie & Wirklichkeit", "release_date": "2025-10-03", "barcode": "199326880202"},
-            {"id": "0CXz9LHyI8HPmuchLS16NE", "title": "Musik ist überall", "release_date": "2026-03-13", "barcode": "821430841236"}
-          ]
-        },
-        "apple_music": {
-          "artist_ids": ["1685254479"],
-          "albums": [
-            {"id": "1771221392", "title": "Es ist Winterzeit - Single", "release_date": "2024-11-01", "barcode": "198886000174"},
-            {"id": "1834127392", "title": "Zwischen Fantasie & Wirklichkeit", "release_date": "2025-10-03", "barcode": "199326880202"},
-            {"id": "1877400380", "title": "Musik ist überall - Single", "release_date": "2026-03-13", "barcode": "821430841236"}
-          ]
-        }
-      },
-      "content_type": "music",
-      "series_facts": {
-        "known_gaps": [
-          {"number": 1, "range_end": null, "reason": "Artist releases singles-first; no regular albums beyond 'Zwischen Fantasie & Wirklichkeit'. Sparse catalog is expected.", "curated_by": "minimax-m2.7", "curated_at": "2026-10-03T02:14:03.140385+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-10-03T02:14:03.140385+00:00"}
-        ]
-      }
-    },
-    {
-      "id": "mama_sandy",
-      "title": "Mama Sandy",
-      "providers": {
-        "spotify": {
-          "artist_ids": ["2TCzYLwdBFfM057skRovHS"],
-          "albums": [
-            {"id": "738Z0Y5q5t8jwXKfLuR5UC", "title": "Stopp, kein Mobbing!", "release_date": "2025-01-31", "barcode": "198875076388"}
-          ]
-        },
-        "apple_music": {
-          "artist_ids": ["1596159720"]
-        }
-      },
-      "content_type": "music",
-      "series_facts": {
-        "known_gaps": [
-          {"curated_by": "minimax-m2.7", "curated_at": "2026-06-10T19:29:59.405605+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-10T19:29:59.405605+00:00", "number": 1, "range_end": null, "reason": "37 Mama Sandy singles excluded (traditional Lieder, featured appearances, compilation contributions, a capella variants). Only 8 albums curated in. This may be intentional scope limitation (original content only) but creates significant catalog gaps."}
-        ]
-      }
     },
     {
       "id": "herrh",
