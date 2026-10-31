@@ -22095,6 +22095,31 @@
           ]
         }
       }
+    },
+    {
+      "id": "sternenfohlen_sternchen",
+      "title": "Sternenfohlen Sternchen",
+      "episode_pattern": "^Teil (\\d+):",
+      "providers": {
+        "spotify": {
+          "artist_ids": ["5nxR2CP0fhVTEyNOxV3aow"],
+          "albums": [
+            {"id": "0gPAp5aG5kCO1EdVmyEtW1", "episode": 1, "title": "Teil 1: Der widerspenstige Zaubertrank", "release_date": "2026-02-19", "barcode": "9783803288066"},
+            {"id": "13JC2Ijvhpf7Tj6Y5ku5xS", "episode": 2, "title": "Teil 2: Die zerstreute Lehrerin", "release_date": "2026-03-05", "barcode": "9783803288073"},
+            {"id": "6lLn1zsR9pimysmnL34Ips", "episode": 3, "title": "Teil 3: Der große Elfenhausputz", "release_date": "2026-07-02", "barcode": "9783803288080"},
+            {"id": "3Oi8wfH9ZcwWM5DOFTsyCX", "episode": 4, "title": "Teil 4: Das Zauberchamäleon", "release_date": "2026-07-16", "barcode": "9783803288097"}
+          ]
+        },
+        "apple_music": {
+          "artist_ids": ["1872754302"],
+          "albums": [
+            {"id": "1874159685", "episode": 1, "title": "Teil 1: Der widerspenstige Zaubertrank", "release_date": "2026-02-19", "barcode": "9783803288103"},
+            {"id": "1874160021", "episode": 2, "title": "Teil 2: Die zerstreute Lehrerin", "release_date": "2026-03-05", "barcode": "9783803288110"},
+            {"id": "1896409120", "episode": 3, "title": "Teil 3: Der große Elfenhausputz", "release_date": "2026-07-02", "barcode": "9783803288080"},
+            {"id": "6782939544", "episode": 4, "title": "Teil 4: Das Zauberchamäleon", "release_date": "2026-07-16", "barcode": "9783803288097"}
+          ]
+        }
+      }
     }
   ]
 }
