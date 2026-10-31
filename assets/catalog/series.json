@@ -18801,17 +18801,26 @@
       "split_from": "sternenschweif",
       "providers": {
         "spotify": {
-          "artist_ids": ["79iLUmzekfn37nPHuM09uq"],
+          "artist_ids": ["79iLUmzekfn37nPHuM09uq", "3qDaERZWilLiDqilVaRhoq"],
           "albums": [
             {"id": "4PeJ7S0Njod6b2xPg19mo7", "episode": 1, "title": "Teil 1: Ein Einhorn in der Schule", "release_date": "2025-07-31", "barcode": "9783803286383"},
             {"id": "62XN52fjzBjzYihERmePkp", "episode": 2, "title": "Teil 2: Die goldene Feder", "release_date": "2025-09-11", "barcode": "9783803286390"},
             {"id": "1diZg9wfrm8Y9dVVjPjpTG", "episode": 3, "title": "Teil 3: Fest auf dem Ponyhof", "release_date": "2025-11-13", "barcode": "9783803286406"},
             {"id": "0DYKzQ5bEC8x9BAINAB3eo", "episode": 4, "title": "Teil 4: Das Glückspferd", "release_date": "2026-01-15", "barcode": "9783803286413"},
-            {"id": "0V2IqLBV32XNbE7KqCorNt", "episode": 5, "title": "Teil 5: Die Zauber-Wiese", "release_date": "2026-08-13", "barcode": "9783803286543"}
+            {"id": "0V2IqLBV32XNbE7KqCorNt", "episode": 5, "title": "Teil 5: Die Zauber-Wiese", "release_date": "2026-08-13", "barcode": "9783803286543"},
+            {"id": "4pcpBGWKa8WYeDjWrX8V4z", "episode": 6, "title": "Teil 6: Ferien auf dem Reiterhof", "release_date": "2022-06-20", "barcode": "9783803286550"}
           ]
         },
         "apple_music": {
-          "artist_ids": ["1062930511"]
+          "artist_ids": ["1062930511", "1826992357"],
+          "albums": [
+            {"id": "1826992342", "episode": 1, "title": "Teil 1: Ein Einhorn in der Schule", "release_date": "2025-07-31", "barcode": "9783803286420"},
+            {"id": "1834708696", "episode": 2, "title": "Teil 2: Die goldene Feder", "release_date": "2025-09-11", "barcode": "9783803286437"},
+            {"id": "1847408443", "episode": 3, "title": "Teil 3: Fest auf dem Ponyhof", "release_date": "2025-11-13", "barcode": "9783803286444"},
+            {"id": "1862479889", "episode": 4, "title": "Teil 4: Das Glückspferd", "release_date": "2026-01-15", "barcode": "9783803286451"},
+            {"id": "6793482430", "episode": 5, "title": "Teil 5: Die Zauber-Wiese", "release_date": "2026-08-13", "barcode": "9783803286543"},
+            {"id": "6823111472", "episode": 6, "title": "Teil 6: Ferien auf dem Reiterhof", "release_date": "2026-08-13", "barcode": "9783803286550"}
+          ]
         }
       }
     },
