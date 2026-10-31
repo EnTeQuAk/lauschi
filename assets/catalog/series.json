@@ -3960,7 +3960,7 @@
           ]
         },
         "apple_music": {
-          "artist_ids": ["51883585"],
+          "artist_ids": ["51883585", "1710037223"],
           "albums": [
             {"id": "1463411408", "episode": 1, "title": "Folge 1: Eine Geburtstagstorte für die Katze + zwei weitere Geschichten (Das Original-Hörspiel zur TV-Serie)", "release_date": "2007-09-14", "barcode": "4029759142201"},
             {"id": "1463411535", "episode": 2, "title": "Folge 2: Ein Feuerwerk für den Fuchs / Armer Pettersson / Pettersson zeltet (Das Original-Hörspiel zur TV-Serie)", "release_date": "2007-09-14", "barcode": "4029759142218"},
@@ -18538,9 +18538,12 @@
           ]
         },
         "apple_music": {
-          "artist_ids": ["51883585"],
+          "artist_ids": ["51883585", "1710037223"],
           "albums": [
             {"id": "1492436426", "title": "Findus erklärt die Welt: In der Natur mit Pettersson und Findus (Das Original-Hörspiel zum Naturbuch)", "release_date": "2019-12-19", "barcode": "4029759146520"},
+            {"id": "1529635536", "title": "Findus erklärt die Welt: Tiere entdecken in Wald und Wiese (Das Orginal-Hörspiel zum Naturbuch)", "release_date": "2020-09-25", "barcode": "4029759150558"},
+            {"id": "1621738060", "title": "Findus erklärt die Welt: Meine ersten Experimente und Erfindungen", "release_date": "2022-06-24", "barcode": "4029759178385"},
+            {"id": "1672015790", "title": "Findus erklärt die Welt: Mein Gartenjahr (Frühling & Sommer)", "release_date": "2023-03-17", "barcode": "4029759178422"},
             {"id": "1721273472", "title": "Findus erklärt die Welt: Der Urknall und das Weltall", "release_date": "2024-01-05", "barcode": "4029759194767"},
             {"id": "1735987280", "title": "Findus erklärt die Welt: Eine Kugel namens Erde", "release_date": "2024-03-29", "barcode": "4029759195757"},
             {"id": "1739781043", "title": "Findus erklärt die Welt: Der Mensch von innen und außen", "release_date": "2024-04-19", "barcode": "4029759195764"},
@@ -18573,7 +18576,7 @@
           ]
         },
         "apple_music": {
-          "artist_ids": ["51883585"],
+          "artist_ids": ["51883585", "1710037223"],
           "albums": [
             {"id": "1701351660", "title": "Pettersson und Findus. Kleiner Quälgeist - große Freundschaft", "release_date": "2014-02-20", "barcode": "4057664424143"},
             {"id": "1463595195", "title": "Kuddelmuddel bei Pettersson und Findus (Das Original-Hörspiel zum Kinofilm)", "release_date": "2019-05-17", "barcode": "4029759142478"},
@@ -18585,7 +18588,7 @@
       },
       "series_facts": {
         "known_gaps": [
-          {"curated_by": "minimax-m2.7", "curated_at": "2026-06-17T20:49:24.628796+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-17T20:49:24.628796+00:00", "number": 1, "range_end": null, "reason": "Apple Music does not appear to carry 'Findus zieht um' (2013); only Spotify version available."}
+          {"curated_by": "minimax-m2.7", "curated_at": "2026-06-17T20:49:24.628796+00:00", "audited_by": "gemma4:31b", "audited_at": "2026-10-31T22:07:23.500179+00:00", "number": 1, "range_end": null, "reason": "Apple Music does not appear to carry 'Findus zieht um' (2013); only Spotify version available."}
         ]
       },
       "content_type": "hoerspiel"
@@ -22132,6 +22135,28 @@
             {"id": "1874160021", "episode": 2, "title": "Teil 2: Die zerstreute Lehrerin", "release_date": "2026-03-05", "barcode": "9783803288110"},
             {"id": "1896409120", "episode": 3, "title": "Teil 3: Der große Elfenhausputz", "release_date": "2026-07-02", "barcode": "9783803288080"},
             {"id": "6782939544", "episode": 4, "title": "Teil 4: Das Zauberchamäleon", "release_date": "2026-07-16", "barcode": "9783803288097"}
+          ]
+        }
+      }
+    },
+    {
+      "id": "pettersson_und_findus_adventskalender",
+      "title": "Pettersson und Findus: Adventskalender",
+      "aliases": [],
+      "episode_pattern": null,
+      "content_type": "hoerspiel",
+      "split_from": "pettersson_und_findus",
+      "providers": {
+        "spotify": {
+          "artist_ids": ["3YZqnPKdtP5qP4LSvrgx9i"],
+          "albums": [
+            {"id": "2i7QtmDxxUUfY80C4vJLSg", "title": "Mein Adventskalender-Hörspiel", "release_date": "2019", "barcode": "4029759161714"}
+          ]
+        },
+        "apple_music": {
+          "artist_ids": ["1710037223", "51883585"],
+          "albums": [
+            {"id": "1620408263", "title": "Mein Adventskalender-Hörspiel", "release_date": "2019-10-25", "barcode": "4029759161714"}
           ]
         }
       }
