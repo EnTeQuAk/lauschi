@@ -32,7 +32,7 @@ jobs:
       # downloads on first use.
       - uses: jdx/mise-action@v5.1.1
         with:
-          version: 2026.10.3
+          version: 2026.10.25
           cache_save_post: true
 
       # .dart_tool/ holds build_runner's compiled builders, which are tied
@@ -90,7 +90,7 @@ jobs:
 
       - uses: jdx/mise-action@v5.1.1
         with:
-          version: 2026.10.3
+          version: 2026.10.25
 
       # Restore only: the stripped .dart_tool/ must not land in the cache
       # the check job uses.
