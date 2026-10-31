@@ -4395,11 +4395,9 @@
             {"id": "1YauaCGiGBUyqjouWiAyVM", "episode": 67, "title": "Folge 67: Alix Geburtstag / Ängste (Das Original-Hörspiel zur TV-Serie)", "release_date": "2026-06-05", "barcode": "4029759215615"},
             {"id": "2SftCgkUq8PIw7riCgNK0s", "episode": 68, "title": "Folge 68: Vampigami / Yaksi Gozen (Das Original-Hörspiel zur TV-Serie)", "release_date": "2026-07-03", "barcode": "4029759220398"},
             {"id": "3ebi5d9WxQ0FOHCuG2lvjc", "episode": 69, "title": "Folge 69: Der maskierte Rächer / Noe (Das Original-Hörspiel zur TV-Serie)", "release_date": "2026-08-14", "barcode": "4029759220404"},
-            {"id": "1pE3I6Rb3nAenCTbeDePNq", "title": "Eine böse Weihnachtsüberraschung (Das Original-Hörspiel zur TV-Serie)", "release_date": "2018-11-23", "barcode": "4029759161356"},
             {"id": "3mbW2WWGG1cr430vc2JApd", "title": "Marinette, die Weihnachtselfe (Das Original-Hörspiel zur TV-Serie)", "release_date": "2021-11-26", "barcode": "4029759173489"},
             {"id": "0SXKn1DvrpmJ3dSCXZ4xrN", "title": "Miraculous: Ladybug & Cat Noir, Der Film - Das Original-Hörspiel", "release_date": "2023-07-07", "barcode": "4029759177609"},
             {"id": "1rznWaNDsYTW4sLEVcRDKT", "title": "Miraculous: Ladybug & Cat Noir, the Movie - Audio Play", "release_date": "2023-09-08", "barcode": "4029759190479"},
-            {"id": "5MJ9qn5btULJONQNS2c5eb", "title": "Miraculous: Ladybug & Chat Noir, Le Film - Audio Play", "release_date": "2023-09-15", "barcode": "4029759190486"},
             {"id": "30bSmwlSuccq89DiunaBLv", "title": "Action (Das Original-Hörspiel zur TV-Serie)", "release_date": "2024-12-27", "barcode": "4029759202974"}
           ]
         },
@@ -4475,11 +4473,9 @@
             {"id": "6768668041", "episode": 67, "title": "Folge 67: Alix Geburtstag / Ängste (Das Original-Hörspiel zur TV-Serie)", "release_date": "2026-06-05", "barcode": "4029759215615"},
             {"id": "6779214772", "episode": 68, "title": "Folge 68: Vampigami / Yaksi Gozen (Das Original-Hörspiel zur TV-Serie)", "release_date": "2026-07-03", "barcode": "4029759220398"},
             {"id": "6793083233", "episode": 69, "title": "Folge 69: Der maskierte Rächer / Noe (Das Original-Hörspiel zur TV-Serie)", "release_date": "2026-08-14", "barcode": "4029759220404"},
-            {"id": "1441804700", "title": "Eine böse Weihnachtsüberraschung (Das Original-Hörspiel zum TV-Special)", "release_date": "2018-11-23", "barcode": "4029759136569"},
             {"id": "1593179961", "title": "Marinette, die Weihnachtselfe (Das Original-Hörspiel zur TV-Serie)", "release_date": "2021-11-26", "barcode": "4029759173489"},
             {"id": "1694892522", "title": "Miraculous: Ladybug & Cat Noir, Der Film - Das Original-Hörspiel", "release_date": "2023-07-07", "barcode": "4029759177609"},
             {"id": "1704372607", "title": "Miraculous: Ladybug & Cat Noir, The Movie - Audio Play", "release_date": "2023-09-08", "barcode": "4029759190479"},
-            {"id": "1705254284", "title": "Miraculous: Ladybug & Chat Noir, Le Film - Audio Play", "release_date": "2023-09-15", "barcode": "4029759190486"},
             {"id": "1774467027", "title": "Action (Das Original-Hörspiel zur TV-Serie)", "release_date": "2024-12-27", "barcode": "4029759202974"}
           ]
         }
@@ -9360,8 +9356,6 @@
           "albums": [
             {"id": "6t66YGNjdfQRTLbwMe63lE", "title": "Der gestiefelte Kater - Schnurr um Gnade (Das Original-Hörspiel zum Kinofilm)", "release_date": "2011", "barcode": "4029759111061"},
             {"id": "75IVCH1h4edevZiHWm0jNN", "title": "Der gestiefelte Kater & Die drei Diablos (Das Original-Hörspiel zum Kinofilm & Film Special) [Das Original-Hörspiel zum Kinofilm & Film-Special]", "release_date": "2012-11-02", "barcode": "4029759114741"},
-            {"id": "4ZJEuwWhlPMkqyscE0IlFA", "title": "Der gestiefelte Kater", "release_date": "2013-12-06", "barcode": "4066004273563"},
-            {"id": "0aYMMfJNtxHRuP54tsoztv", "title": "Der gestiefelte Kater", "release_date": "2020-09-24", "barcode": "4251133739909"},
             {"id": "7EaUHi8faMwhsxgmFfQeJ8", "title": "Der gestiefelte Kater: Der letzte Wunsch (Das Original-Hörspiel zum Kinofilm)", "release_date": "2023-03-10", "barcode": "4029759178583"}
           ]
         },
@@ -9370,7 +9364,6 @@
           "albums": [
             {"id": "1127889811", "title": "Der gestiefelte Kater - Schnurr um Gnade (Das Original-Hörspiel zum Kinofilm)", "release_date": "2011", "barcode": "4029759111061"},
             {"id": "1138887629", "title": "Der gestiefelte Kater & Die drei Diablos (Das Original-Hörspiel zum Kinofilm & Film Special) [Das Original-Hörspiel zum Kinofilm & Film-Special] - EP", "release_date": "2012-11-02", "barcode": "4029759114741"},
-            {"id": "758010317", "title": "Der gestiefelte Kater", "release_date": "2013-12-06", "barcode": "4260147772550"},
             {"id": "1673717787", "title": "Der gestiefelte Kater: Der letzte Wunsch (Das Original-Hörspiel zum Kinofilm)", "release_date": "2023-03-10", "barcode": "4029759178583"}
           ]
         }
@@ -12036,17 +12029,14 @@
             {"id": "07lAvUvijAgZqYuG5k9Ra0", "title": "Kugelblitz als Weihnachtsmann", "release_date": "2018-11-16", "barcode": "190295519117"},
             {"id": "0aXrCMRvN7F2PTJZeHaQ8i", "title": "Die Nikolaus-Bande (Der Adventskalender)", "release_date": "2018-11-30", "barcode": "190295501112"},
             {"id": "3Ik8gPVRTcFU55PVMwu4sP", "title": "Der Fall Shanghai", "release_date": "2019-07-05", "barcode": "190295398293"},
-            {"id": "5hqpaijDgptIIO2vMxG7wM", "title": "Tote trinken keine Cola", "release_date": "2019-07-05", "barcode": "190295399078"},
             {"id": "5qBAXGuN3WJ5TWe0mZ0DCK", "title": "Vermisst am Mississippi", "release_date": "2019-07-05", "barcode": "190295398316"},
             {"id": "39IfFPvrOQ3ImEKTGUXzKs", "title": "Der Fall Wüstenkönig", "release_date": "2022-07-01", "barcode": "5054197200748"},
             {"id": "4N77PwFUHPIE6qKoZwvq1C", "title": "Das Geheimnis von Spooky Hill", "release_date": "2022-09-16", "barcode": "5054197918056"},
             {"id": "1w11l4b6TBgDj1cx8pstmY", "title": "Auf Gaunerjagd durch Deutschland", "release_date": "2023-08-04", "barcode": "5054197918216"},
             {"id": "5e0OYpymgepB33NPactKvp", "title": "Unter Hochspannung", "release_date": "2023-10-20", "barcode": "5054197918209"},
-            {"id": "2Bu2rFSmXlRnT2Ux6ChQWM", "title": "Das Geheimnis der gefiederten Schlange", "release_date": "2024-01-19", "barcode": "5054197956195"},
             {"id": "00l4724PhRgQfkoCgSYmNr", "title": "Der Fall Giftnudel", "release_date": "2024-04-05", "barcode": "5021732267306"},
             {"id": "4UtKU8tIOdxpr5LtybPQAm", "title": "Der Fall Kiwi", "release_date": "2024-07-05", "barcode": "4033694140840"},
             {"id": "3PwPv84ivTvcy0kHxLG3ae", "title": "Die Akte 2013", "release_date": "2024-09-20", "barcode": "4033694140857"},
-            {"id": "42RwFcOdxyKgDMabNWOLlL", "title": "Die Moskito-Bande", "release_date": "2024-11-22", "barcode": "4033694140864"},
             {"id": "3nX9eDNwNKTmtdea4QIHUw", "title": "Der Fall Rhinozeros", "release_date": "2025-05-30", "barcode": "4033694140871"},
             {"id": "5lxI2ZoC7FpkDyASfnhaU1", "title": "Piraten der Wüste", "release_date": "2025-09-05", "barcode": "4033694140888"},
             {"id": "55ITdCmKdzpL23deLCSwFB", "title": "Alarm in Windhuk", "release_date": "2025-10-24", "barcode": "4033694140895"},
@@ -12073,7 +12063,6 @@
             {"id": "1038198000", "episode": 15, "title": "Folge 15 - Rauchsignale", "release_date": "2011-03-01", "barcode": "825646295807"},
             {"id": "1038148406", "episode": 16, "title": "Folge 16 - Nashornjägern auf der Spur", "release_date": "2011-03-01", "barcode": "825646295791"},
             {"id": "1038102410", "episode": 17, "title": "Folge 17 - KK fischt im Internet", "release_date": "2011-03-01", "barcode": "825646295784"},
-            {"id": "1469412048", "episode": 27, "title": "Folge 27: Tote trinken keine Cola", "release_date": "2011-03-01", "barcode": "190295399078"},
             {"id": "1441548959", "title": "Kugelblitz als Weihnachtsmann", "release_date": "2018-11-16", "barcode": "190295519117"},
             {"id": "1444770143", "title": "Die Nikolaus-Bande (Der Adventskalender)", "release_date": "2018-11-30", "barcode": "190295501112"},
             {"id": "1469398547", "title": "Der Fall Shanghai", "release_date": "2019-07-05", "barcode": "190295398293"},
@@ -12082,11 +12071,9 @@
             {"id": "1642733591", "title": "Das Geheimnis von Spooky Hill", "release_date": "2022-09-16", "barcode": "5054197340482"},
             {"id": "1700490614", "title": "Auf Gaunerjagd durch Deutschland", "release_date": "2023-08-04", "barcode": "5054197767975"},
             {"id": "1712618196", "title": "Unter Hochspannung", "release_date": "2023-10-20", "barcode": "5054197866036"},
-            {"id": "1725822300", "title": "Das Geheimnis der gefiederten Schlange", "release_date": "2024-01-19", "barcode": "5054197956195"},
             {"id": "1738286314", "title": "Der Fall Giftnudel", "release_date": "2024-04-05", "barcode": "5021732266958"},
             {"id": "1754561645", "title": "Der Fall Kiwi", "release_date": "2024-07-05", "barcode": "4033694440841"},
             {"id": "1764108202", "title": "Die Akte 2013", "release_date": "2024-09-20", "barcode": "4033694440858"},
-            {"id": "1778473304", "title": "Die Moskito-Bande", "release_date": "2024-11-22", "barcode": "4033694440865"},
             {"id": "1809041512", "title": "Der Fall Rhinozeros", "release_date": "2025-05-30", "barcode": "4033694440872"},
             {"id": "1830366763", "title": "Piraten der Wüste", "release_date": "2025-09-05", "barcode": "4033694440889"},
             {"id": "1836984983", "title": "Alarm in Windhuk", "release_date": "2025-10-24", "barcode": "4033694440896"},
@@ -12094,7 +12081,7 @@
           ]
         }
       },
-      "episode_pattern": ["^Folge (\\d+):", "^Folge (\\d+) -"],
+      "episode_pattern": ["^Folge (\\d+) -"],
       "series_facts": {
         "known_gaps": [
           {"curated_by": "minimax-m2.7", "curated_at": "2026-06-17T09:35:08.295448+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-17T09:35:08.295448+00:00", "number": 18, "range_end": null, "reason": "Episode 18 not available in current streaming catalogs; series has ~36 total episodes but only 1-17 and 27+ appear digitally"},
@@ -13023,15 +13010,12 @@
             {"id": "10ta4eNoa7kq4JRrt9mNYL", "title": "Die 30 besten Kinderlieder für den Morgenkreis", "release_date": "2020-07-10", "barcode": "4260167473147"},
             {"id": "4VaDEpN29xJxZD6ZmiVu9i", "title": "Die 30 besten Kinderlieder", "release_date": "2020-09-11", "barcode": "4260167473208"},
             {"id": "6Wnp7CnGKCpa8JnycIQ1qa", "title": "Die 30 besten neuen Kinderlieder", "release_date": "2020-11-20", "barcode": "4260167473253"},
-            {"id": "4GkB7QliNKVI273bZfoCYp", "title": "Les 30 plus belles Chansons pour enfants", "release_date": "2021-02-19", "barcode": "4260167473598"},
             {"id": "28As4itOyMfYmKy1QTmZYy", "title": "Die 100 besten Kinderlieder", "release_date": "2021-02-22", "barcode": "4260167476469"},
             {"id": "4AoOEVd7IEm0YPGXEosWTe", "title": "Die 30 besten Babylieder", "release_date": "2021-02-26", "barcode": "4260167473536"},
             {"id": "6CrEeasMjZh4q6B47T5zoR", "title": "Die 30 besten Piraten- und Seemannslieder", "release_date": "2021-04-16", "barcode": "4260167476407"},
-            {"id": "7IRn6GeEfo6ZPs7kwJD0mR", "title": "Le 30 più belle Canzoni per bambini", "release_date": "2021-07-09", "barcode": "4260167476704"},
             {"id": "28juahQe2sXMtigi7yFbiB", "title": "Die 30 besten Gute-Nacht-Lieder (Zum Entspannen und Träumen)", "release_date": "2021-07-23", "barcode": "4260167476711"},
             {"id": "2EUxVIRUV8uvItM0b3bpaA", "title": "Die 30 besten Spaß- Und Gute-Laune-Lieder (Zum Mitsingen und Lachen)", "release_date": "2021-07-23", "barcode": "4260167476735"},
             {"id": "7EPQEUgL5LbEDIRqc5YARW", "title": "Die 30 besten Tierlieder für Kinder", "release_date": "2021-07-23", "barcode": "4260167476728"},
-            {"id": "6HHguBE4kRzU5hWrD0i71D", "title": "Las 30 Más Bellas Canciones para Niños", "release_date": "2021-08-06", "barcode": "4260167476742"},
             {"id": "0wF2LsjQUivDCliurW3eO8", "title": "Die 30 besten Weihnachts- und Winterlieder 2", "release_date": "2021-10-01", "barcode": "4260167476476"},
             {"id": "5qaODoqnEsKBRCYJUghndH", "title": "Die 30 besten Kinderlieder für den Winter", "release_date": "2021-10-15", "barcode": "4260167476889"},
             {"id": "0z6ZOVxP4s6H2oBMqBxSfQ", "title": "Die 30 besten Kinderlieder zum Singen und Spielen", "release_date": "2021-10-15", "barcode": "4260167476865"},
@@ -13125,22 +13109,17 @@
             {"id": "1517838462", "title": "Die 30 besten Kinderlieder für den Morgenkreis", "release_date": "2020-07-10", "barcode": "4260167473147"},
             {"id": "1528493845", "title": "Die 30 besten Kinderlieder", "release_date": "2020-09-11", "barcode": "4260167473208"},
             {"id": "1536793906", "title": "Die 30 besten neuen Kinderlieder", "release_date": "2020-11-20", "barcode": "4260167473253"},
-            {"id": "1550266309", "title": "Les 30 plus belles Chansons pour enfants", "release_date": "2021-02-19", "barcode": "4260167473598"},
             {"id": "1559726937", "title": "Die 100 besten Kinderlieder (Das Album zum Liederbuch)", "release_date": "2021-02-22", "barcode": "4260167476469"},
             {"id": "1551332470", "title": "Die 30 besten Babylieder", "release_date": "2021-02-26", "barcode": "4260167473536"},
             {"id": "1561807788", "title": "Die 30 besten Piraten- und Seemanslieder", "release_date": "2021-04-16", "barcode": "4260167476407"},
-            {"id": "1574719823", "title": "Le 30 più belle Canzoni per bambini", "release_date": "2021-07-09", "barcode": "4260167476704"},
             {"id": "1574301717", "title": "Die 30 besten Gute-Nacht-Lieder", "release_date": "2021-07-23", "barcode": "4260167476711"},
             {"id": "1574301916", "title": "Die 30 besten Spaß- Und Gute-Laune-Lieder", "release_date": "2021-07-23", "barcode": "4260167476735"},
             {"id": "1574301969", "title": "Die 30 besten Tierlieder für Kinder", "release_date": "2021-07-23", "barcode": "4260167476728"},
-            {"id": "1578915173", "title": "Las 30 Más Bellas Canciones para Niños", "release_date": "2021-08-06", "barcode": "4260167476742"},
             {"id": "1585660227", "title": "Die 30 besten Weihnachts- und Winterlieder 2", "release_date": "2021-10-01", "barcode": "4260167476476"},
             {"id": "1596125945", "title": "Die 30 besten Kinderlieder für den Winter", "release_date": "2021-10-15", "barcode": "4260167476889"},
             {"id": "1596126093", "title": "Die 30 besten Kinderlieder zum Singen und Spielen", "release_date": "2021-10-15", "barcode": "4260167476865"},
             {"id": "1596751218", "title": "Die 30 besten Kinderlieder zum Entspannen (30 beruhigende, fantasievolle Lieder)", "release_date": "2021-11-26", "barcode": "4260167476506"},
             {"id": "1611157317", "title": "Die 30 besten Oster- und Frühlingslieder 2", "release_date": "2022-03-18", "barcode": "4260167479026"},
-            {"id": "1616966670", "title": "The 30 Greatest Songs for Children", "release_date": "2022-04-01", "barcode": "4260167479101"},
-            {"id": "1628298649", "title": "De 30 beste Kinderliedjes", "release_date": "2022-06-10", "barcode": "4260167479217"},
             {"id": "1644333553", "title": "Die 30 besten Herbstlieder 2", "release_date": "2022-09-09", "barcode": "4260167479163"},
             {"id": "1658762215", "title": "Die 30 besten Kinderpartylieder für den Karneval", "release_date": "2022-12-16", "barcode": "4260167479170"},
             {"id": "1700481839", "title": "Die 30 besten Lieblingslieder von Simone Sommerland", "release_date": "2023-02-01", "barcode": "4056813489699"},
@@ -18040,14 +18019,18 @@
             {"id": "7zeUeWFJU9uanvpv0mfVUL", "title": "Kugelblitz in Barcelona", "release_date": "2017-04-28", "barcode": "190295809386"},
             {"id": "59wjR1gCmVzl44pOxhMVhM", "title": "Kugelblitz in Spanien", "release_date": "2017-04-28", "barcode": "190295809331"},
             {"id": "6hF9zznEzRkbHHgJO5KMPI", "title": "Kugelblitz in Hamburg", "release_date": "2018-11-16", "barcode": "190295519131"},
+            {"id": "5hqpaijDgptIIO2vMxG7wM", "title": "Tote trinken keine Cola", "release_date": "2019-07-05", "barcode": "190295399078"},
             {"id": "75xFoEfwSYDtjWzuViymPN", "title": "Kugelblitz in München", "release_date": "2023-01-27", "barcode": "5054197918179"},
             {"id": "3pH7UbF2X7wEctx4rg87Ft", "title": "Kugelblitz in Venedig", "release_date": "2023-04-28", "barcode": "5054197918193"},
+            {"id": "2Bu2rFSmXlRnT2Ux6ChQWM", "title": "Das Geheimnis der gefiederten Schlange", "release_date": "2024-01-19", "barcode": "5054197956195"},
+            {"id": "42RwFcOdxyKgDMabNWOLlL", "title": "Die Moskito-Bande", "release_date": "2024-11-22", "barcode": "4033694140864"},
             {"id": "4ztLbXeJM2OMraKegwvdRE", "title": "in Istanbul", "release_date": "2026-05-15", "barcode": "4033694140901"}
           ]
         },
         "apple_music": {
           "artist_ids": ["161429596"],
           "albums": [
+            {"id": "1469412048", "title": "Folge 27: Tote trinken keine Cola", "release_date": "2011-03-01", "barcode": "190295399078"},
             {"id": "1469411461", "title": "Schnee auf Mallorca", "release_date": "2011-03-01", "barcode": "190295398231"},
             {"id": "1420125083", "title": "Kommissar Kugelblitz in Berlin", "release_date": "2017-01-01", "barcode": "190295569587"},
             {"id": "1420127990", "title": "Kommissar Kugelblitz in Wien", "release_date": "2017-01-01", "barcode": "190295569662"},
@@ -18061,6 +18044,8 @@
             {"id": "1441548534", "title": "Kugelblitz in Hamburg", "release_date": "2018-11-16", "barcode": "190295519131"},
             {"id": "1664517106", "title": "Kugelblitz in München", "release_date": "2023-01-27", "barcode": "5054197462955"},
             {"id": "1684691056", "title": "Kugelblitz in Venedig", "release_date": "2023-04-28", "barcode": "5054197660535"},
+            {"id": "1725822300", "title": "Das Geheimnis der gefiederten Schlange", "release_date": "2024-01-19", "barcode": "5054197956195"},
+            {"id": "1778473304", "title": "Die Moskito-Bande", "release_date": "2024-11-22", "barcode": "4033694440865"},
             {"id": "1892392893", "title": "in Istanbul", "release_date": "2026-05-15", "barcode": "4033694440902"}
           ]
         }
@@ -18501,6 +18486,7 @@
         "spotify": {
           "artist_ids": ["0g12RW7N9VQmkjkcQreys3"],
           "albums": [
+            {"id": "1pE3I6Rb3nAenCTbeDePNq", "title": "Eine böse Weihnachtsüberraschung (Das Original-Hörspiel zur TV-Serie)", "release_date": "2018-11-23", "barcode": "4029759161356"},
             {"id": "3zI973MbFwxHfS4qBofQJb", "title": "New York - United Heroez (Das Original-Hörspiel zum Film-Special)", "release_date": "2021-05-07", "barcode": "4029759163688"},
             {"id": "7mr3Jo35HHlJn9HSSSMzGa", "title": "Shanghai - Die Legende von Lady Dragon (Das Original-Hörspiel zum TV-Special)", "release_date": "2021-11-26", "barcode": "4029759169284"},
             {"id": "7otNv1uDwJIcyEx93V2Soo", "title": "Miraculous World - Paris: Geschichten von Shadybug und Claw Noir (Das Original-Hörspiel zum TV-Special)", "release_date": "2024-11-29", "barcode": "4029759201199"},
@@ -18511,6 +18497,7 @@
         "apple_music": {
           "artist_ids": ["1353483673"],
           "albums": [
+            {"id": "1441804700", "title": "Eine böse Weihnachtsüberraschung (Das Original-Hörspiel zum TV-Special)", "release_date": "2018-11-23", "barcode": "4029759136569"},
             {"id": "1563039584", "title": "New York - United Heroez (Das Original-Hörspiel zum Film-Special)", "release_date": "2021-05-07", "barcode": "4029759163688"},
             {"id": "1592727556", "title": "Shanghai - Die Legende von Lady Dragons (Das Original-Hörspiel zum TV-Special)", "release_date": "2021-11-26", "barcode": "4029759169284"},
             {"id": "1777100666", "title": "Miraculous World - Paris: Geschichten von Shadybug und Claw Noir (Das Original-Hörspiel zum TV-Special)", "release_date": "2024-11-29", "barcode": "4029759201199"},
@@ -20793,8 +20780,7 @@
             {"id": "45MICTZzVqMs8xVGyGhWTb", "episode": 23, "title": "23: Pumuckl und das Jo-Jo (Neue Geschichten vom Pumuckl)", "release_date": "2026-04-17", "barcode": "4057664981608"},
             {"id": "1JmE840AdeytVT6r7t4cV9", "episode": 24, "title": "24: Pumuckl und das Heinzelmännchen (Neue Geschichten vom Pumuckl)", "release_date": "2026-04-24", "barcode": "4071498205488"},
             {"id": "6kdg2qPyGNQ1m3jAsCiAnP", "episode": 25, "title": "25: Pumuckl geht verloren (Neue Geschichten vom Pumuckl)", "release_date": "2026-04-24", "barcode": "4071498205525"},
-            {"id": "3yLIVCQzGQMNkL8Me0FdQJ", "episode": 26, "title": "26: Wiedersehen mit Pumuckl (Neue Geschichten vom Pumuckl)", "release_date": "2026-04-24", "barcode": "4071498205556"},
-            {"id": "3Nu2btZxxyTFoW3UISjRH5", "title": "Pumuckl und das große Missverständnis (Das Original-Hörspiel zum Kinofilm) (Neue Geschichten vom Pumuckl)", "release_date": "2025-10-31", "barcode": "4069829029766"}
+            {"id": "3yLIVCQzGQMNkL8Me0FdQJ", "episode": 26, "title": "26: Wiedersehen mit Pumuckl (Neue Geschichten vom Pumuckl)", "release_date": "2026-04-24", "barcode": "4071498205556"}
           ]
         },
         "apple_music": {
@@ -20825,8 +20811,7 @@
             {"id": "1893282532", "episode": 23, "title": "23: Pumuckl und das Jo-Jo (Neue Geschichten vom Pumuckl)", "release_date": "2026-04-17", "barcode": "4057664980441"},
             {"id": "1895037324", "episode": 24, "title": "24: Pumuckl und das Heinzelmännchen (Neue Geschichten vom Pumuckl)", "release_date": "2026-04-24", "barcode": "4071498205457"},
             {"id": "1895107975", "episode": 25, "title": "25: Pumuckl geht verloren (Neue Geschichten vom Pumuckl)", "release_date": "2026-04-24", "barcode": "4071498205464"},
-            {"id": "1895107955", "episode": 26, "title": "26: Wiedersehen mit Pumuckl (Neue Geschichten vom Pumuckl)", "release_date": "2026-04-24", "barcode": "4071498205426"},
-            {"id": "1847324343", "title": "Pumuckl und das große Missverständnis (Das Original-Hörspiel zum Kinofilm) (Neue Geschichten vom Pumuckl)", "release_date": "2025-10-31", "barcode": "4069829029339"}
+            {"id": "1895107955", "episode": 26, "title": "26: Wiedersehen mit Pumuckl (Neue Geschichten vom Pumuckl)", "release_date": "2026-04-24", "barcode": "4071498205426"}
           ]
         }
       }
@@ -21996,6 +21981,28 @@
             {"id": "4w5XCuCWojbcxhmVhZ04GP", "episode": 4, "title": "Folge 4: Sehnsucht, Spuk und Tränen", "release_date": "2019-02-01", "barcode": "4066004026831"},
             {"id": "0Q6dG6iOc5rCFpXWgTZUSM", "episode": 5, "title": "Folge 5: Heimkehr auf die Alm", "release_date": "2019-02-01", "barcode": "4066004023182"},
             {"id": "3gOVGRIDfR95WSJ2b8vWvX", "episode": 6, "title": "Folge 6: Die wunderbare Heilung", "release_date": "2019-02-01", "barcode": "4066004027180"}
+          ]
+        }
+      }
+    },
+    {
+      "id": "pumuckl_kinofilm",
+      "title": "Pumuckl: Kinofilm",
+      "aliases": ["Pumuckl: Das Original-Hörspiel zum Kinofilm"],
+      "episode_pattern": null,
+      "content_type": "hoerspiel",
+      "split_from": "pumuckl",
+      "providers": {
+        "spotify": {
+          "artist_ids": ["1lhceMHrxr0jC943AuAhhh"],
+          "albums": [
+            {"id": "3Nu2btZxxyTFoW3UISjRH5", "title": "Pumuckl und das große Missverständnis (Das Original-Hörspiel zum Kinofilm) (Neue Geschichten vom Pumuckl)", "release_date": "2025-10-31", "barcode": "4069829029766"}
+          ]
+        },
+        "apple_music": {
+          "artist_ids": ["1710040920"],
+          "albums": [
+            {"id": "1847324343", "title": "Pumuckl und das große Missverständnis (Das Original-Hörspiel zum Kinofilm) (Neue Geschichten vom Pumuckl)", "release_date": "2025-10-31", "barcode": "4069829029339"}
           ]
         }
       }
