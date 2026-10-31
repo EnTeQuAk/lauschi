@@ -22031,6 +22031,45 @@
           ]
         }
       }
+    },
+    {
+      "id": "kung_fu_panda_der_drachenritter",
+      "title": "Kung Fu Panda - Der Drachenritter",
+      "episode_pattern": "^Folge (\\d+):",
+      "providers": {
+        "spotify": {
+          "artist_ids": ["4MjNlyWzBgFgnfzr4cTncV"],
+          "albums": [
+            {"id": "5cvugLhbwKY81coWcMvwhA", "episode": 1, "title": "Folge 1: Die Handschuh-Herausforderung / Der Ritterkodex (Das Original-Hörspiel zur Serie)", "release_date": "2023-07-14", "barcode": "4029759187653"},
+            {"id": "144JdCZs3SEMjxeHTRl371", "episode": 2, "title": "Folge 2: Der Lotus / Die Legende von Meisterin Langzahn (Das Original-Hörspiel zur Serie)", "release_date": "2023-07-28", "barcode": "4029759187660"},
+            {"id": "6EFjjxllbfCTHxiyzrCDLP", "episode": 3, "title": "Folge 3: Das Tor zur Wüste / Die verlorene Stadt (Das Original-Hörspiel zur Serie)", "release_date": "2023-08-18", "barcode": "4029759187677"},
+            {"id": "4PjmAIkZYXakYExb3kto3W", "episode": 4, "title": "Folge 4: Die letzte Hüterin / Ein Band der Finsternis (Das Original-Hörspiel zur Serie)", "release_date": "2023-09-01", "barcode": "4029759187684"},
+            {"id": "22hqeTlcgdHb7hH6wbbHxf", "episode": 5, "title": "Folge 5: Eine lange, langsame Bootsfahrt / Der Fall des Ritters - Teil 1+2 (Das Original-Hörspiel zur Serie)", "release_date": "2023-09-15", "barcode": "4029759187691"},
+            {"id": "4hsoJDdP8GDv4APRdLl6CJ", "episode": 6, "title": "Folge 6: Die Lügnerin und die Diebin / Ein letzter Job (Das Original-Hörspiel zur Serie)", "release_date": "2023-10-27", "barcode": "4029759187707"},
+            {"id": "3w28sEPjvlY9OZp9SVBL0q", "episode": 7, "title": "Folge 7: Trauung mit Turbulenzen / Pingferno (Das Original-Hörspiel zur Serie)", "release_date": "2023-11-10", "barcode": "4029759187714"},
+            {"id": "2LJhUUitXnaA5KM3N5EPM1", "episode": 8, "title": "Folge 8: Mister Mastodon / Die Jagd nach dem Blitz (Das Original-Hörspiel zur Serie)", "release_date": "2023-12-01", "barcode": "4029759187721"},
+            {"id": "2JXzitfiueImxncIwQS76R", "episode": 9, "title": "Folge 9: Das Biest / Kampf um den Vulkan (Das Original-Hörspiel zur Serie)", "release_date": "2024-01-26", "barcode": "4029759187738"},
+            {"id": "3bgWUZbYCYwgUawwg1eUbT", "episode": 10, "title": "Folge 10: Die verrückte Wissenschafterin / Apok-Ta-Pokalypse - Teil 1+2 (Das Original-Hörspiel zur Serie)", "release_date": "2024-02-23", "barcode": "4029759187745"},
+            {"id": "6vJicaTC61PlRtOir1ib15", "episode": 11, "title": "Folge 11: Ein episches Mond-Neujahr (Das Original-Hörspiel zur Serie)", "release_date": "2024-05-10", "barcode": "4029759187752"}
+          ]
+        },
+        "apple_music": {
+          "artist_ids": ["1693984703"],
+          "albums": [
+            {"id": "1693985132", "episode": 1, "title": "Folge 1: Die Handschuh-Herausforderung / Der Ritterkodex (Das Original-Hörspiel zur Serie)", "release_date": "2023-07-14", "barcode": "4029759187653"},
+            {"id": "1694673146", "episode": 2, "title": "Folge 2: Der Lotus / Die Legende von Meisterin Langzahn (Das Original-Hörspiel zur Serie)", "release_date": "2023-07-28", "barcode": "4029759187660"},
+            {"id": "1696612966", "episode": 3, "title": "Folge 3: Das Tor zur Wüste / Die verlorene Stadt (Das Original-Hörspiel zur Serie)", "release_date": "2023-08-18", "barcode": "4029759187677"},
+            {"id": "1697901725", "episode": 4, "title": "Folge 4: Die letzte Hüterin / Ein Band der Finsternis (Das Original-Hörspiel zur Serie)", "release_date": "2023-09-01", "barcode": "4029759187684"},
+            {"id": "1700261249", "episode": 5, "title": "Folge 5: Eine lange, langsame Bootsfahrt / Der Fall des Ritters - Teil 1+2 (Das Original-Hörspiel zur Serie)", "release_date": "2023-09-15", "barcode": "4029759187691"},
+            {"id": "1710455267", "episode": 6, "title": "Folge 6: Die Lügnerin und die Diebin / Ein letzter Job (Das Original-Hörspiel zur Serie)", "release_date": "2023-10-27", "barcode": "4029759187707"},
+            {"id": "1712307629", "episode": 7, "title": "Folge 7: Trauung mit Turbulenzen / Pingferno (Das Original-Hörspiel zur Serie)", "release_date": "2023-11-10", "barcode": "4029759187714"},
+            {"id": "1716758999", "episode": 8, "title": "Folge 8: Mister Mastodon / Die Jagd nach dem Blitz (Das Original-Hörspiel zur Serie)", "release_date": "2023-12-01", "barcode": "4029759187721"},
+            {"id": "1724988365", "episode": 9, "title": "Folge 9: Das Biest / Kampf um den Vulkan (Das Original-Hörspiel zur Serie)", "release_date": "2024-01-26", "barcode": "4029759187738"},
+            {"id": "1728489025", "episode": 10, "title": "Folge 10: Die verrückte Wissenschafterin / Apok-Ta-Pokalypse - Teil 1+2 (Das Original-Hörspiel zur Serie)", "release_date": "2024-02-23", "barcode": "4029759187745"},
+            {"id": "1742990238", "episode": 11, "title": "Folge 11: Ein episches Mond-Neujahr (Das Original-Hörspiel zur Serie)", "release_date": "2024-05-10", "barcode": "4029759187752"}
+          ]
+        }
+      }
     }
   ]
 }
