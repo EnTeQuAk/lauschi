@@ -20048,7 +20048,7 @@
       "split_from": "die_olchis",
       "providers": {
         "spotify": {
-          "artist_ids": ["32Aa42Dbmqm4GKsv3wUSMb"],
+          "artist_ids": ["32Aa42Dbmqm4GKsv3wUSMb", "0La5AAKOYrkJOGJyUtdDa8"],
           "albums": [
             {"id": "1uzRxeC1NHplN1rNKO61M7", "episode": 1, "title": "Olchi-Detektive 1. Jagd auf die Gully-Gangster", "release_date": "2014-01-06", "barcode": "4064067609404"},
             {"id": "17SSDMYscSNsBvwZubonNw", "episode": 2, "title": "Olchi-Detektive 2. Rote Karte für Halunken", "release_date": "2014-01-06", "barcode": "4064067609619"},
@@ -20073,21 +20073,27 @@
           ]
         },
         "apple_music": {
-          "artist_ids": ["556813799"],
+          "artist_ids": ["556813799", "1618280382"],
           "albums": [
+            {"id": "1573478525", "episode": 1, "title": "Folge 1: Jagd auf die Gully-Gangster (Olchi-Detektive)", "release_date": "2014-01-06", "barcode": "4057664422699"},
+            {"id": "1573478164", "episode": 2, "title": "Folge 2: Rote Karte für Halunken (Olchi-Detektive)", "release_date": "2014-01-06", "barcode": "4057664422675"},
+            {"id": "1573477913", "episode": 3, "title": "Folge 3: Löwenalarm (Olchi-Detektive)", "release_date": "2014-01-06", "barcode": "4057664422712"},
             {"id": "1573471733", "episode": 4, "title": "Olchi-Detektive 4. Im Einsatz der Königin", "release_date": "2014-01-06", "barcode": "4057664422705"},
+            {"id": "1573473986", "episode": 5, "title": "Folge 5: Die Monsterschwäne vom Hyde Park (Olchi-Detektive)", "release_date": "2014-03-25", "barcode": "4057664422569"},
+            {"id": "1573474329", "episode": 7, "title": "Folge 7: Das Geheimnis der Löcherwände (Olchi-Detektive)", "release_date": "2014-07-21", "barcode": "4057664422736"},
+            {"id": "1573474337", "episode": 8, "title": "Folge 8: Das Mikado-Komplott (Olchi-Detektive)", "release_date": "2014-07-21", "barcode": "4057664422729"},
             {"id": "1573473627", "episode": 9, "title": "Olchi-Detektive 9. Horrorspuk und Geisterspucke", "release_date": "2014-07-21", "barcode": "4057664424648"},
+            {"id": "1573473415", "episode": 10, "title": "Folge 10: Das Erbe der Piraten (Olchi-Detektive)", "release_date": "2014-07-21", "barcode": "4057664422668"},
+            {"id": "1573472751", "episode": 11, "title": "Folge 11: Achtung, Bankräuber! (Olchi-Detektive)", "release_date": "2014-06-01", "barcode": "4057664423443"},
             {"id": "1573479673", "episode": 12, "title": "Olchi-Detektive 12. Eine brandheiße Spur", "release_date": "2015-01-20", "barcode": "4057664423429"},
+            {"id": "1573474208", "episode": 14, "title": "Folge 14: Ufo in Sicht (Olchi-Detektive)", "release_date": "2014-01-01", "barcode": "4057664422484"},
             {"id": "1573466838", "episode": 15, "title": "Olchi-Detektive 15. Angriff der Gangster-Haie", "release_date": "2015-01-20", "barcode": "4057664425355"},
+            {"id": "1573473959", "episode": 17, "title": "Folge 17: Die Ritter der Popelrunde (Olchi-Detektive)", "release_date": "2015-03-20", "barcode": "4057664422347"},
+            {"id": "1573473543", "episode": 18, "title": "Folge 18: Eine rabenschwarze Drohung (Olchi-Detektive)", "release_date": "2015-05-08", "barcode": "4057664422378"},
             {"id": "1573466375", "episode": 19, "title": "Folge 19: Himmel, Furz und Wolkenbruch!", "release_date": "2015-05-08", "barcode": "4057664421647"},
             {"id": "1573466837", "episode": 20, "title": "Folge 20: Der Gangster-Tunnel", "release_date": "2015-07-17", "barcode": "4057664425898"}
           ]
         }
-      },
-      "series_facts": {
-        "known_gaps": [
-          {"number": 21, "range_end": null, "reason": "Episode published but not found in current Spotify/Apple Music catalog. Series was split from die_olchis rather than re-discovered, so this episode may not have been in the parent's curation.", "curated_by": "minimax-m2.7", "curated_at": "2026-07-23T19:00:22.689400+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-07-23T19:00:22.689400+00:00"}
-        ]
       }
     },
     {
