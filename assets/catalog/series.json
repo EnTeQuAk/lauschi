@@ -21657,7 +21657,7 @@
       "id": "wieso_weshalb_warum_profiwissen",
       "title": "Wieso? Weshalb? Warum? ProfiWissen",
       "aliases": ["Wieso? Weshalb? Warum? PROFIWISSEN"],
-      "episode_pattern": "PROFIWISSEN, Folge\\s*(\\d+)",
+      "episode_pattern": "^(?!.*\\bTiere\\b).*PROFIWISSEN, Folge\\s*(\\d+)",
       "split_from": "wieso_weshalb_warum",
       "providers": {
         "spotify": {
@@ -21665,7 +21665,7 @@
           "albums": [
             {"id": "0VFw6TFHb28JOcv3mBsHxF", "episode": 1, "title": "Die Erde (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 1)", "release_date": "2011-03-23", "barcode": "4064067578700"},
             {"id": "2NnIrKPVmNZBJVdJsCfOKp", "episode": 2, "title": "Altes Ägypten(Wieso? Weshalb? Warum? PROFIWISSEN, Folge 2)", "release_date": "2016-03-18", "barcode": "4064067579158"},
-            {"id": "5D4NrvYikj5UxytXBFAcyZ", "episode": 3, "title": "Tiere (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 3)", "release_date": "2021-03-18", "barcode": "4066338497567"},
+            {"id": "2wwezWM0GBYFAK1ZBh6i6p", "episode": 3, "title": "Autos (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 3)", "release_date": "2015-08-21", "barcode": "4064067578489"},
             {"id": "505qINntDxBqxm1W9OXNtH", "episode": 4, "title": "Pferde (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 4)", "release_date": "2011-03-23", "barcode": "4064067578724"},
             {"id": "1tsKtqRc72V9z0wiShby5s", "episode": 5, "title": "Körper (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 5)", "release_date": "2018-03-09", "barcode": "4064067579998"},
             {"id": "6aJcSvhJ3h3Flt3F6orEnM", "episode": 6, "title": "Weltraum (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 6)", "release_date": "2019-07-19", "barcode": "4064067150982"},
@@ -21680,7 +21680,7 @@
             {"id": "3EFJOwBrk4kaxHpzRYQRho", "episode": 24, "title": "Haie, Wale und Delfine (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 24)", "release_date": "2018-08-31", "barcode": "4064067580024"},
             {"id": "2ikT2NVMfU4kTVi0y0sBAp", "episode": 25, "title": "Vulkane (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 25)", "release_date": "2019-05-24", "barcode": "4064067580086"},
             {"id": "3TAWveTLyLNgSGlEYVtQcI", "episode": 26, "title": "Umweltschutz (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 26)", "release_date": "2020-03-13", "barcode": "4064067580994"},
-            {"id": "2wwezWM0GBYFAK1ZBh6i6p", "title": "Autos (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 3)", "release_date": "2015-08-21", "barcode": "4064067578489"}
+            {"id": "5D4NrvYikj5UxytXBFAcyZ", "title": "Tiere (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 3)", "release_date": "2021-03-18", "barcode": "4066338497567"}
           ]
         },
         "apple_music": {
@@ -21688,7 +21688,7 @@
           "albums": [
             {"id": "1863382499", "episode": 1, "title": "Die Erde (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 1)", "release_date": "2011-03-23", "barcode": "4064067578694"},
             {"id": "1863399530", "episode": 2, "title": "Altes Ägypten(Wieso? Weshalb? Warum? PROFIWISSEN, Folge 2)", "release_date": "2016-03-18", "barcode": "4064067579141"},
-            {"id": "1863382675", "episode": 3, "title": "Tiere (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 3)", "release_date": "2021-03-18", "barcode": "4064066910334"},
+            {"id": "1863391822", "episode": 3, "title": "Autos (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 3)", "release_date": "2015-08-21", "barcode": "4064067578472"},
             {"id": "1863380311", "episode": 4, "title": "Pferde (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 4)", "release_date": "2011-03-23", "barcode": "4064067578717"},
             {"id": "1863408874", "episode": 5, "title": "Körper (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 5)", "release_date": "2018-03-09", "barcode": "4064067579981"},
             {"id": "1863407908", "episode": 6, "title": "Weltraum (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 6)", "release_date": "2019-07-19", "barcode": "4064066608965"},
@@ -21703,7 +21703,7 @@
             {"id": "1863404859", "episode": 24, "title": "Haie, Wale und Delfine (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 24)", "release_date": "2018-08-31", "barcode": "4064067580017"},
             {"id": "1863406649", "episode": 25, "title": "Vulkane (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 25)", "release_date": "2019-05-24", "barcode": "4064067580079"},
             {"id": "1863387202", "episode": 26, "title": "Umweltschutz (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 26)", "release_date": "2020-03-13", "barcode": "4064067580987"},
-            {"id": "1863391822", "title": "Autos (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 3)", "release_date": "2015-08-21", "barcode": "4064067578472"}
+            {"id": "1863382675", "title": "Tiere (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 3)", "release_date": "2021-03-18", "barcode": "4064066910334"}
           ]
         }
       },
@@ -21718,17 +21718,6 @@
           {"curated_by": "curate", "curated_at": "2026-09-06T08:54:17.018554+00:00", "audited_by": "gemma4:31b", "audited_at": "2026-10-14T07:54:03.013329+00:00", "number": 20, "range_end": null, "reason": "Missing from ProfiWissen discography"},
           {"curated_by": "curate", "curated_at": "2026-09-06T08:54:17.018554+00:00", "audited_by": "gemma4:31b", "audited_at": "2026-10-14T07:54:03.013329+00:00", "number": 22, "range_end": null, "reason": "Missing from ProfiWissen discography"},
           {"curated_by": "curate", "curated_at": "2026-09-06T08:54:17.018554+00:00", "audited_by": "gemma4:31b", "audited_at": "2026-10-14T07:54:03.013329+00:00", "number": 23, "range_end": null, "reason": "Missing from ProfiWissen discography"}
-        ],
-        "sub_series": [
-          {
-            "curated_by": "minimax-m2.7",
-            "curated_at": "2026-10-03T04:55:51.621619+00:00",
-            "audited_by": "minimax-m2.7",
-            "audited_at": "2026-10-03T04:55:51.621619+00:00",
-            "label": "folge3_tiere",
-            "album_ids": ["spotify:5D4NrvYikj5UxytXBFAcyZ"],
-            "reason": "Apple Music Episode 3 is Tiere (2011-03-23), Spotify Episode 3 is Autos (2015-08-21). These are two different productions sharing episode number 3, suggesting a re-recording/reboot."
-          }
         ]
       }
     },
