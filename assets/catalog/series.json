@@ -22218,6 +22218,37 @@
           ]
         }
       }
+    },
+    {
+      "id": "janosch_figurenwelt",
+      "title": "Nach einer Figurenwelt von Janosch",
+      "aliases": ["Der kleine Tiger", "Tiger und Bär: Nach einer Figurenwelt"],
+      "content_type": "hoerspiel",
+      "split_from": "janosch",
+      "providers": {
+        "spotify": {
+          "artist_ids": ["37BRnZPTI5GU1LeHaqu4ZQ"],
+          "albums": [
+            {"id": "14PJnw8auRd0DUccvYVRGu", "title": "Nach einer Figurenwelt von Janosch. Als Tiger und Bär beinahe das Beste verpassten", "release_date": "2018-09-24", "barcode": "4066338240057"},
+            {"id": "0yExmhvcv40mdtsPeq4EMW", "title": "Nach einer Figurenwelt von Janosch. Der kleine Tiger wünscht sich Tigerfreunde", "release_date": "2018-09-24", "barcode": "4066338240026"},
+            {"id": "0k1ayoWNLZxATYmLPQnhf7", "title": "Nach einer Figurenwelt von Janosch. Der kleine Tiger und der große Mut", "release_date": "2019-02-25", "barcode": "4066338240033"},
+            {"id": "7I11up1C7Qa2QxK1slYkUT", "title": "Nach einer Figurenwelt von Janosch. Als der Tiger einmal der Bär sein wollte", "release_date": "2019-03-18", "barcode": "4066338240064"},
+            {"id": "3iRiP9FzYHeACQ9c8cq0S9", "title": "Nach einer Figurenwelt von Janosch. Zusammen ist man stark und eine weitere Geschichte", "release_date": "2019-07-22", "barcode": "4066338239969"},
+            {"id": "2CPVFCOQqUGY9ftcYmKP0N", "title": "Nach einer Figurenwelt von Janosch. Tiger und Bär, es weihnachtet sehr!", "release_date": "2019-09-23", "barcode": "4066338239976"},
+            {"id": "0ooDkuZxUQ3VfE8FCvIhI9", "title": "Nach einer Figurenwelt von Janosch. Der kleine Tiger und das wahre Glück", "release_date": "2020-04-20", "barcode": "4066338240040"},
+            {"id": "48ggaHb1KvtbMcGWdgTB3o", "title": "Nach einer Figurenwelt von Janosch. Jetzt wird geschlafen, Freunde! Teil 1 (Gutenachtgeschichten mit Tiger und Bär)", "release_date": "2020-08-24", "barcode": "4066338240019"},
+            {"id": "5yZwgSjFQklIZjxBk0x5A4", "title": "Nach einer Figurenwelt von Janosch. Jetzt wird geschlafen, Freunde! Teil 2 (Gutenachtgeschichten mit Tiger und Bär)", "release_date": "2020-08-24", "barcode": "4066338240002"},
+            {"id": "6a5vQQdFrDg21WhcM5yON0", "title": "Nach einer Figurenwelt von Janosch. Jetzt wird geschlafen, Freunde! Teil 3 (Gutenachtgeschichten mit Tiger und Bär)", "release_date": "2020-08-24", "barcode": "4066338239990"},
+            {"id": "0NvbWgQ7zI99PxlrzHHFIo", "title": "Nach einer Figurenwelt von Janosch. Oh, wie schön doch Freunde sind!", "release_date": "2023-03-10", "barcode": "4066339677890"}
+          ]
+        },
+        "apple_music": {
+          "artist_ids": ["1879464689"],
+          "albums": [
+            {"id": "1583190370", "title": "Nach einer Figurenwelt von Janosch. Der kleine Tiger und das wahre Glück", "release_date": "2020-04-20", "barcode": "9783837391947"}
+          ]
+        }
+      }
     }
   ]
 }
