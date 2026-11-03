@@ -7814,9 +7814,7 @@
             {"id": "7KbELvtm6SGQIzFgA3h0q2", "title": "Norbert Nackendick + Tranquilla Trampeltreu", "release_date": "2010-01-01", "barcode": "00028947641421"},
             {"id": "4T219OxthZeYAtVEcLtd16", "title": "Das Schnurpsenbuch", "release_date": "2016-07-28", "barcode": "4064067678967"},
             {"id": "2WsIzNKGcuYJxvrcgmSv2p", "title": "Der Teddy und die Tiere und weitere Geschichten", "release_date": "2017-06-30", "barcode": "4064067638671"},
-            {"id": "2wFuB4iNXrE6FlOkrJAHtq", "title": "Lenchens Geheimnis", "release_date": "2022-01-27", "barcode": "4066338439710"},
-            {"id": "4D3freTvvr9R3IY9ffoPJE", "title": "Jim Knopf - Hörspiele: Jim Knopf und Lukas der Lokomotivführer - Das Hörspiel", "release_date": "2023-03-24", "barcode": "4066339614062"},
-            {"id": "1zrUuet13zT0U6zVE4DGeh", "title": "Jim Knopf - Hörspiele: Jim Knopf und die Wilde 13 - Das Hörspiel", "release_date": "2023-03-24", "barcode": "4066339614079"}
+            {"id": "2wFuB4iNXrE6FlOkrJAHtq", "title": "Lenchens Geheimnis", "release_date": "2022-01-27", "barcode": "4066338439710"}
           ]
         },
         "apple_music": {
@@ -19697,7 +19695,9 @@
             {"id": "4iyysgUrEoLyQytonklJXk", "title": "Jim Knopf - Hörspiele: Jim Knopf und Lukas der Lokomotivführer - Das Hörspiel", "release_date": "2009", "barcode": "4057664537218"},
             {"id": "5MjawExCW8GQ3V1b2mQzch", "title": "Jim Knopf - Hörspiele: Jim Knopf und die Wilde 13 - Das Hörspiel", "release_date": "2009", "barcode": "4057664537201"},
             {"id": "1DdJ8dfyR3tCNKFObDv1EC", "title": "Jim Knopf und Lukas auf großer Reise", "release_date": "2021-06-28", "barcode": "4064067331060"},
-            {"id": "1OYQLxTOg3IhOi7gR31QHk", "title": "Jim Knopf und Lukas – Auf zu neuen Ufern", "release_date": "2022-11-28", "barcode": "4066339225411"}
+            {"id": "1OYQLxTOg3IhOi7gR31QHk", "title": "Jim Knopf und Lukas – Auf zu neuen Ufern", "release_date": "2022-11-28", "barcode": "4066339225411"},
+            {"id": "4D3freTvvr9R3IY9ffoPJE", "title": "Jim Knopf - Hörspiele: Jim Knopf und Lukas der Lokomotivführer - Das Hörspiel", "release_date": "2023-03-24", "barcode": "4066339614062"},
+            {"id": "1zrUuet13zT0U6zVE4DGeh", "title": "Jim Knopf - Hörspiele: Jim Knopf und die Wilde 13 - Das Hörspiel", "release_date": "2023-03-24", "barcode": "4066339614079"}
           ]
         },
         "apple_music": {
@@ -19707,7 +19707,8 @@
             {"id": "1686043874", "title": "Jim Knopf und die Wilde 13", "release_date": "1973-01-01", "barcode": "4057664684158"},
             {"id": "1587881546", "title": "Jim Knopf - Hörspiele: Jim Knopf und Lukas der Lokomotivführer - Das Hörspiel", "release_date": "1999-06-30", "barcode": "4057664537218"},
             {"id": "1672070050", "title": "Jim Knopf und Lukas der Lokomotivführer - Das Hörspiel", "release_date": "1999-06-30", "barcode": "4066339479821"},
-            {"id": "1587875100", "title": "Jim Knopf - Hörspiele: Jim Knopf und die Wilde 13 - Das Hörspiel", "release_date": "2000-06-21", "barcode": "4057664537201"}
+            {"id": "1587875100", "title": "Jim Knopf - Hörspiele: Jim Knopf und die Wilde 13 - Das Hörspiel", "release_date": "2000-06-21", "barcode": "4057664537201"},
+            {"id": "1672014052", "title": "Jim Knopf - Hörspiele: Jim Knopf und die Wilde 13 - Das Hörspiel", "release_date": "2000-06-21", "barcode": "4066339479838"}
           ]
         }
       }
