@@ -3951,7 +3951,8 @@
             {"id": "4fP1C8vVJow7ZiKdIl28Ze", "title": "Pettersson und Findus. Findus und der Hahn im Korb", "release_date": "1996-06-01", "barcode": "4066338954657"},
             {"id": "10b3l8yuTNShsm8PCVO5Op", "title": "Pettersson und Findus. Das Musical", "release_date": "2001", "barcode": "4064067440069"},
             {"id": "4x3gJUyNxhtGV1glqezZwd", "title": "Pettersson und Findus. Wie Findus zu Pettersson kam", "release_date": "2002-06-01", "barcode": "4066338954664"},
-            {"id": "78x2X30ZogObYin6H88nD8", "title": "Pettersson und Findus. Findus zieht um", "release_date": "2013-06-01", "barcode": "4066338563705"}
+            {"id": "78x2X30ZogObYin6H88nD8", "title": "Pettersson und Findus. Findus zieht um", "release_date": "2013-06-01", "barcode": "4066338563705"},
+            {"id": "3mAnEL8nYwVzYBklo7Nsd9", "title": "Pettersson und Findus. Schau mal, was ich kann, Pettersson!", "release_date": "2019-07-22", "barcode": "4066339839540"}
           ]
         },
         "apple_music": {
@@ -3979,7 +3980,8 @@
             {"id": "1701347447", "title": "Pettersson und Findus. Wie Findus zu Pettersson kam", "release_date": "2008", "barcode": "4057664423207"},
             {"id": "1701350362", "title": "Pettersson und Findus. Findus und der Hahn im Korb", "release_date": "2009", "barcode": "4057664423498"},
             {"id": "1701347950", "title": "Pettersson und Findus. Pettersson kriegt Weihnachtsbesuch", "release_date": "2010", "barcode": "4057664423528"},
-            {"id": "1701350651", "title": "Findus zieht um", "release_date": "2013-06-01", "barcode": "4057664424723"}
+            {"id": "1701350651", "title": "Findus zieht um", "release_date": "2013-06-01", "barcode": "4057664424723"},
+            {"id": "1701347820", "title": "Schau mal, was ich kann, Pettersson!", "release_date": "2019-07-22", "barcode": "9783837393552"}
           ]
         }
       },
@@ -18577,18 +18579,15 @@
         "apple_music": {
           "artist_ids": ["51883585", "1710037223"],
           "albums": [
+            {"id": "1701347669", "title": "Pettersson und Findus. Findus zieht um", "release_date": "2013-02-01", "barcode": "9783837395075"},
             {"id": "1701351660", "title": "Pettersson und Findus. Kleiner Quälgeist - große Freundschaft", "release_date": "2014-02-20", "barcode": "4057664424143"},
+            {"id": "1728520713", "title": "Pettersson und Findus. Das schönste Weihnachten überhaupt", "release_date": "2016-10-24", "barcode": "4057664421890"},
             {"id": "1463595195", "title": "Kuddelmuddel bei Pettersson und Findus (Das Original-Hörspiel zum Kinofilm)", "release_date": "2019-05-17", "barcode": "4029759142478"},
             {"id": "1463595135", "title": "Morgen, Findus, wird's was geben! (Das Original-Hörspiel zum Kinofilm)", "release_date": "2019-05-17", "barcode": "4029759142461"},
             {"id": "1463596352", "title": "Neues von Pettersson und Findus (Das Original-Hörspiel zum Kinofilm)", "release_date": "2019-05-17", "barcode": "4029759142454"},
             {"id": "1463571162", "title": "Pettersson und Findus (Das Original-Hörspiel zum Kinofilm)", "release_date": "2019-05-17", "barcode": "4029759142447"}
           ]
         }
-      },
-      "series_facts": {
-        "known_gaps": [
-          {"curated_by": "minimax-m2.7", "curated_at": "2026-06-17T20:49:24.628796+00:00", "audited_by": "gemma4:31b", "audited_at": "2026-10-31T22:07:23.500179+00:00", "number": 1, "range_end": null, "reason": "Apple Music does not appear to carry 'Findus zieht um' (2013); only Spotify version available."}
-        ]
       },
       "content_type": "hoerspiel"
     },
