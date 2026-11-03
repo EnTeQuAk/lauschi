@@ -19693,8 +19693,6 @@
             {"id": "3MpO7ItzjK8ADRMq3q9nmt", "title": "Jim Knopf und die Wilde 13", "release_date": "1973-01-01", "barcode": "4064067303739"},
             {"id": "4iyysgUrEoLyQytonklJXk", "title": "Jim Knopf - Hörspiele: Jim Knopf und Lukas der Lokomotivführer - Das Hörspiel", "release_date": "2009", "barcode": "4057664537218"},
             {"id": "5MjawExCW8GQ3V1b2mQzch", "title": "Jim Knopf - Hörspiele: Jim Knopf und die Wilde 13 - Das Hörspiel", "release_date": "2009", "barcode": "4057664537201"},
-            {"id": "1DdJ8dfyR3tCNKFObDv1EC", "title": "Jim Knopf und Lukas auf großer Reise", "release_date": "2021-06-28", "barcode": "4064067331060"},
-            {"id": "1OYQLxTOg3IhOi7gR31QHk", "title": "Jim Knopf und Lukas – Auf zu neuen Ufern", "release_date": "2022-11-28", "barcode": "4066339225411"},
             {"id": "4D3freTvvr9R3IY9ffoPJE", "title": "Jim Knopf - Hörspiele: Jim Knopf und Lukas der Lokomotivführer - Das Hörspiel", "release_date": "2023-03-24", "barcode": "4066339614062"},
             {"id": "1zrUuet13zT0U6zVE4DGeh", "title": "Jim Knopf - Hörspiele: Jim Knopf und die Wilde 13 - Das Hörspiel", "release_date": "2023-03-24", "barcode": "4066339614079"}
           ]
@@ -22235,6 +22233,54 @@
           "albums": [
             {"id": "1583190370", "title": "Nach einer Figurenwelt von Janosch. Der kleine Tiger und das wahre Glück", "release_date": "2020-04-20", "barcode": "9783837391947"}
           ]
+        }
+      }
+    },
+    {
+      "id": "die_wilden_huehner_hoerbuch",
+      "title": "Die Wilden Hühner: Hörbücher",
+      "aliases": ["Die Wilden Hühner Hörbuch"],
+      "content_type": "audiobook",
+      "split_from": "cornelia_funke",
+      "providers": {
+        "spotify": {
+          "artist_ids": ["7FFCbo48YA1o0mhUE66DjO"],
+          "albums": [
+            {"id": "0YWKYup2Axls1NMofRdQ6M", "title": "Die Wilden Hühner", "release_date": "1998-09-01", "barcode": "4064067380037"},
+            {"id": "1m0gUz7ge6rYs3w0pFgzl3", "title": "Die Wilden Hühner und das Glück der Erde", "release_date": "2000-07-27", "barcode": "4066338241801"},
+            {"id": "3dcOzSIQwgrG229n8gnUCg", "title": "Die Wilden Hühner. Fuchsalarm", "release_date": "2002-07-29", "barcode": "4066338241764"},
+            {"id": "7qlHTVKawlCzCKFD4LoZpr", "title": "Die Wilden Hühner auf Klassenfahrt", "release_date": "2002-08-03", "barcode": "4064067380020"},
+            {"id": "4FwoYwy88mcywyrFoMMJX0", "title": "Die Wilden Hühner und die Liebe", "release_date": "2003-02-14", "barcode": "4064067633041"},
+            {"id": "31bkxKUPoN42LaOPbmVr23", "title": "Das geheime Wissen der Wilden Hühner", "release_date": "2003-07-29", "barcode": "4064067149078"},
+            {"id": "7fAgcvHn3uszlfROsl7qla", "title": "Die Wilden Hühner 6. Cornelia Funkes Die Wilden Hühner und das Leben", "release_date": "2008", "barcode": "4064067736247"}
+          ]
+        },
+        "apple_music": {
+          "artist_ids": ["313750359"],
+          "albums": []
+        }
+      }
+    },
+    {
+      "id": "jim_knopf_hoerbuch",
+      "title": "Jim Knopf: Hörbücher",
+      "aliases": ["Jim Knopf Hörbuch"],
+      "content_type": "audiobook",
+      "split_from": "michael_ende",
+      "providers": {
+        "spotify": {
+          "artist_ids": ["0tWp8kvWgAy0AhtaaN4xiB", "1VORulhv2aMemo1kSvxdVX"],
+          "albums": [
+            {"id": "43W6kOwvk93bjMazyDLaPc", "title": "Jim Knopf: Jim Knopf und die Wilde 13 - Die ungekürzte Lesung", "release_date": "1960", "barcode": "4064066646424"},
+            {"id": "735iwIhG7zQyNE4LSpBAq7", "title": "Jim Knopf findet's raus (Geschichten von Himmelsforschern, Halbdrachen und Flugmaschinen)", "release_date": "2016-04-29", "barcode": "4064067704185"},
+            {"id": "1kDCORAWVfJv1ihRK5zaCD", "title": "Jim Knopf: Jim Knopf und Lukas der Lokomotivführer - Die ungekürzte Lesung", "release_date": "2018-01-31", "barcode": "4064067677496"},
+            {"id": "1DdJ8dfyR3tCNKFObDv1EC", "title": "Jim Knopf und Lukas auf großer Reise", "release_date": "2021-06-28", "barcode": "4064067331060"},
+            {"id": "1OYQLxTOg3IhOi7gR31QHk", "title": "Jim Knopf und Lukas – Auf zu neuen Ufern", "release_date": "2022-11-28", "barcode": "4066339225411"}
+          ]
+        },
+        "apple_music": {
+          "artist_ids": ["1173512481", "1515591006"],
+          "albums": []
         }
       }
     }
