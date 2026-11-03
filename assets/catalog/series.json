@@ -3946,17 +3946,12 @@
             {"id": "0xZAa4YMdVdorJeNYi2nvE", "title": "Pettersson und Findus. Armer Pettersson", "release_date": "1988-06-01", "barcode": "4066338954619"},
             {"id": "7f1sQsUOnd2LrGpOLckLlp", "title": "Pettersson und Findus. Pettersson kriegt Weihnachtsbesuch", "release_date": "1989-06-01", "barcode": "4066338954695"},
             {"id": "4AyYKFbtodIKdWeuaIAgJF", "title": "Aufruhr im Gemüsebeet", "release_date": "1991-06-01", "barcode": "4066338954640"},
-            {"id": "6kNZoQ5dWHBciJx7N46GL8", "title": "Pettersson und Findus. Aufruhr im Gemüsebeet / Pettersson zeltet", "release_date": "1993", "barcode": "4066338954817"},
             {"id": "53bdVgRrHNdkWJ3jm3kBlo", "title": "Pettersson und Findus. Pettersson zeltet", "release_date": "1993-06-01", "barcode": "4064067747007"},
             {"id": "4beDGktFTnKQkBbr33ggDt", "title": "Morgen, Findus, wird´s was geben", "release_date": "1995-08-01", "barcode": "4064067429019"},
             {"id": "4fP1C8vVJow7ZiKdIl28Ze", "title": "Pettersson und Findus. Findus und der Hahn im Korb", "release_date": "1996-06-01", "barcode": "4066338954657"},
-            {"id": "3Lilp7kBnfW69AiEbneCTR", "title": "Ein Feuerwerk für den Fuchs/Findus und der Hahn im Korb", "release_date": "1997", "barcode": "4066338954749"},
             {"id": "10b3l8yuTNShsm8PCVO5Op", "title": "Pettersson und Findus. Das Musical", "release_date": "2001", "barcode": "4064067440069"},
-            {"id": "4VK7kXVsdXgjMScbJ0N5nQ", "title": "Wie Findus zu Pettersson kam / Eine Geburtstagstorte für die Katze", "release_date": "2002", "barcode": "4066338954763"},
             {"id": "4x3gJUyNxhtGV1glqezZwd", "title": "Pettersson und Findus. Wie Findus zu Pettersson kam", "release_date": "2002-06-01", "barcode": "4066338954664"},
-            {"id": "78x2X30ZogObYin6H88nD8", "title": "Pettersson und Findus. Findus zieht um", "release_date": "2013-06-01", "barcode": "4066338563705"},
-            {"id": "5MUDszZjUZ3nM41dUAgu7V", "title": "Pettersson und Findus. Findus zieht um / Pettersson kriegt Weihnachtsbesuch", "release_date": "2014-08-20", "barcode": "4066338954800"},
-            {"id": "4L4nMdP6xEdJOBvNcTTSUS", "title": "English Edition #1 (Das Original-Hörspiel zur TV-Serie)", "release_date": "2015-09-08", "barcode": "4029759161561"}
+            {"id": "78x2X30ZogObYin6H88nD8", "title": "Pettersson und Findus. Findus zieht um", "release_date": "2013-06-01", "barcode": "4066338563705"}
           ]
         },
         "apple_music": {
@@ -3970,20 +3965,26 @@
             {"id": "1463414021", "episode": 6, "title": "Folge 6: Schatzsuche + zwei weitere Geschichten (Das Original-Hörspiel zur TV-Serie)", "release_date": "2007-07-17", "barcode": "4029759142256"},
             {"id": "1463414019", "episode": 7, "title": "Folge 7: Der Weihnachtsmann kommt - Teil 1 (Das Original-Hörspiel zur TV-Serie)", "release_date": "2007-09-14", "barcode": "4029759142270"},
             {"id": "1463619276", "episode": 8, "title": "Folge 8: Der Weihnachtsmann kommt - Teil 2 (Das Original-Hörspiel zur TV-Serie)", "release_date": "2007-09-14", "barcode": "4029759142263"},
+            {"id": "1565136648", "episode": 9, "title": "Folge 9: Überraschung für Pettersson (Das Original-Hörspiel zur TV-Serie)", "release_date": "2007-09-14", "barcode": "4029759162841"},
+            {"id": "1565136467", "episode": 10, "title": "Folge 10: Findus und das eigene Fahrrad (Das Original Hörspiel zur TV-Serie)", "release_date": "2007-09-14", "barcode": "4029759162858"},
+            {"id": "1588399520", "episode": 11, "title": "Folge 11: Fia und der Hühnerfloh (Das Original Hörspiel zur TV-Serie)", "release_date": "2007-09-14", "barcode": "4029759169246"},
+            {"id": "1588398502", "episode": 12, "title": "Folge 12: Duell unterm Kirschbaum (Das Original Hörspiel zur TV-Serie)", "release_date": "2007-07-17", "barcode": "4029759169215"},
+            {"id": "1599694687", "episode": 13, "title": "Folge 13: Bei Katze und Hund geht es oft rund / Die tote Elster / Im Kürbis-König-Fieber (Das Original-Hörspiel zur TV-Serie)", "release_date": "2022-02-18", "barcode": "4029759172093"},
+            {"id": "1598609936", "episode": 14, "title": "Folge 14: Namenstag für alle (Das Original-Hörspiel zur TV-Serie)", "release_date": "2022-02-18", "barcode": "4029759172109"},
+            {"id": "1609253390", "episode": 15, "title": "Folge 15: Das Denk-Dran-Taschentuch (Das Original-Hörspiel zur TV-Serie)", "release_date": "2007-09-14", "barcode": "4029759172116"},
+            {"id": "1609285871", "episode": 16, "title": "Folge 16: Der allerlängste Tag des Jahres (Das Original-Hörspiel zur TV-Serie)", "release_date": "2022-04-08", "barcode": "4029759172123"},
             {"id": "1701347434", "title": "Aufruhr im Gemüsebeet", "release_date": "1991-06-01", "barcode": "4057664423399"},
             {"id": "1701347483", "title": "Pettersson und Findus. Armer Pettersson", "release_date": "2008", "barcode": "4057664423467"},
             {"id": "1701347073", "title": "Pettersson und Findus. Ein Feuerwerk für den Fuchs", "release_date": "2008", "barcode": "4057664423474"},
             {"id": "1701347447", "title": "Pettersson und Findus. Wie Findus zu Pettersson kam", "release_date": "2008", "barcode": "4057664423207"},
             {"id": "1701350362", "title": "Pettersson und Findus. Findus und der Hahn im Korb", "release_date": "2009", "barcode": "4057664423498"},
             {"id": "1701347950", "title": "Pettersson und Findus. Pettersson kriegt Weihnachtsbesuch", "release_date": "2010", "barcode": "4057664423528"},
-            {"id": "1701347669", "title": "Pettersson und Findus. Findus zieht um", "release_date": "2013-02-01", "barcode": "9783837395075"},
-            {"id": "1701350651", "title": "Findus zieht um", "release_date": "2013-06-01", "barcode": "4057664424723"},
-            {"id": "1270116073", "title": "English Edition #1 (Das Original-Hörspiel zur TV-Serie) [Das Deutsch-Englische Hörspiel zur TV-Serie]", "release_date": "2017-09-08", "barcode": "4029759124344"}
+            {"id": "1701350651", "title": "Findus zieht um", "release_date": "2013-06-01", "barcode": "4057664424723"}
           ]
         }
       },
-      "content_type": "hoerspiel",
-      "aliases": ["Pettersson & Findus"]
+      "aliases": ["Pettersson & Findus"],
+      "episode_pattern": "^Folge (\\d+):"
     },
     {
       "id": "die_playmos",
