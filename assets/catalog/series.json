@@ -22167,6 +22167,29 @@
           ]
         }
       }
+    },
+    {
+      "id": "jim_knopf_kinofilm",
+      "title": "Jim Knopf: Kinofilm",
+      "aliases": ["Jim Knopf (Filme)", "Jim Knopf Hörspiel zum Kinofilm"],
+      "content_type": "hoerspiel",
+      "split_from": "michael_ende",
+      "providers": {
+        "spotify": {
+          "artist_ids": ["4RsG6crVjDR4gNuORa9X8s"],
+          "albums": [
+            {"id": "15tnhIjHvR4ds4j6Wp2szQ", "title": "Jim Knopf und Lukas der Lokomotivführer (Hörspiel zum Kinofilm)", "release_date": "2018-04-20", "barcode": "4064067449833"},
+            {"id": "50AawJDA3hrr01siSKIph4", "title": "Jim Knopf und die Wilde 13 (Hörspiel zum Kinofilm)", "release_date": "2020-10-09", "barcode": "4064067449826"}
+          ]
+        },
+        "apple_music": {
+          "artist_ids": ["1173512481"],
+          "albums": [
+            {"id": "1686137706", "title": "Jim Knopf und die Wilde 13 (Hörspiel zum Kinofilm)", "release_date": "2018-01-01", "barcode": "4064066721879"},
+            {"id": "1686206879", "title": "Jim Knopf und Lukas der Lokomotivführer (Hörspiel zum Kinofilm)", "release_date": "2018-04-20", "barcode": "4057664396273"}
+          ]
+        }
+      }
     }
   ]
 }
