@@ -22190,6 +22190,34 @@
           ]
         }
       }
+    },
+    {
+      "id": "die_kleine_hexe_lieve_baeten",
+      "title": "Die kleine Hexe (Lieve Baeten)",
+      "aliases": ["Die neugierige kleine Hexe"],
+      "content_type": "hoerspiel",
+      "providers": {
+        "spotify": {
+          "artist_ids": ["1Iqdxnjazyk0WwLDLh7gHu"],
+          "albums": [
+            {"id": "0i9czA1lGmeHMUWWqKLyIw", "title": "Die neugierige kleine Hexe", "release_date": "1992-02-01", "barcode": "4066338954398"},
+            {"id": "1VfJNyPAeuHeBR8Cqh7P3e", "title": "Die kleine Hexe hat Geburtstag", "release_date": "1995-02-01", "barcode": "4066338954404"},
+            {"id": "2vD0v061X8lMo05dY4AADW", "title": "Die kleine Hexe feiert Weihnachten", "release_date": "1996-08-01", "barcode": "4066338954589"},
+            {"id": "43vchxiKkr9Ybb3KpBi7Lv", "title": "Die kleine Hexe geht auf Reisen", "release_date": "1999-08-01", "barcode": "4066338955043"},
+            {"id": "2ndu5Y3d41pMwhwc19hiGf", "title": "Die schlaue kleine Hexe", "release_date": "2003-08-01", "barcode": "4066338954411"}
+          ]
+        },
+        "apple_music": {
+          "artist_ids": ["1627228853"],
+          "albums": [
+            {"id": "1627237524", "title": "Die kleine Hexe feiert Weihnachten", "release_date": "2009", "barcode": "4057664423139"},
+            {"id": "1627238962", "title": "Die kleine Hexe hat Geburtstag", "release_date": "2009-01-01", "barcode": "4057664423160"},
+            {"id": "1627237186", "title": "Die neugierige kleine Hexe", "release_date": "2009-01-01", "barcode": "4057664423153"},
+            {"id": "1627426887", "title": "Die kleine Hexe geht auf Reisen", "release_date": "2010", "barcode": "4057664422859"},
+            {"id": "1627228848", "title": "Die schlaue kleine Hexe", "release_date": "2010-01-01", "barcode": "4057664425225"}
+          ]
+        }
+      }
     }
   ]
 }
