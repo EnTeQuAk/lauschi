@@ -21661,7 +21661,7 @@
       "split_from": "wieso_weshalb_warum",
       "providers": {
         "spotify": {
-          "artist_ids": ["79fds5dgda0VCYelERV8Gi"],
+          "artist_ids": ["79fds5dgda0VCYelERV8Gi", "7CogQoFl6oPr45Xz6ZuFYU"],
           "albums": [
             {"id": "0VFw6TFHb28JOcv3mBsHxF", "episode": 1, "title": "Die Erde (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 1)", "release_date": "2011-03-23", "barcode": "4064067578700"},
             {"id": "2NnIrKPVmNZBJVdJsCfOKp", "episode": 2, "title": "Altes Ägypten(Wieso? Weshalb? Warum? PROFIWISSEN, Folge 2)", "release_date": "2016-03-18", "barcode": "4064067579158"},
@@ -21670,6 +21670,7 @@
             {"id": "1tsKtqRc72V9z0wiShby5s", "episode": 5, "title": "Körper (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 5)", "release_date": "2018-03-09", "barcode": "4064067579998"},
             {"id": "6aJcSvhJ3h3Flt3F6orEnM", "episode": 6, "title": "Weltraum (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 6)", "release_date": "2019-07-19", "barcode": "4064067150982"},
             {"id": "3uoy5eDRPeXdmbajEMszRL", "episode": 9, "title": "Altes Rom (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 9)", "release_date": "2021-08-20", "barcode": "4066338153494"},
+            {"id": "3zgxD0Wr2Y5tUtoafGAXJD", "episode": 10, "title": "Retter im Einsatz (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 10)", "release_date": "2016-08-26", "barcode": "4064067150951"},
             {"id": "7MoKxSFPyDUhSG7mClth7w", "episode": 12, "title": "Dinosaurier (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 12)", "release_date": "2020-08-21", "barcode": "4066338922144"},
             {"id": "4hKnFRVyyhEyDAm06jbtYi", "episode": 13, "title": "Mittelalter (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 13)", "release_date": "2015-08-21", "barcode": "4064067578458"},
             {"id": "0PWNXFERql77QAetGLJYMf", "episode": 15, "title": "Fußball (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 15)", "release_date": "2016-03-18", "barcode": "4064067579110"},
@@ -21683,22 +21684,26 @@
           ]
         },
         "apple_music": {
-          "artist_ids": ["1560025489"],
+          "artist_ids": ["1560025489", "1669534015"],
           "albums": [
             {"id": "1863382499", "episode": 1, "title": "Die Erde (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 1)", "release_date": "2011-03-23", "barcode": "4064067578694"},
             {"id": "1863399530", "episode": 2, "title": "Altes Ägypten(Wieso? Weshalb? Warum? PROFIWISSEN, Folge 2)", "release_date": "2016-03-18", "barcode": "4064067579141"},
+            {"id": "1863382675", "episode": 3, "title": "Tiere (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 3)", "release_date": "2021-03-18", "barcode": "4064066910334"},
             {"id": "1863380311", "episode": 4, "title": "Pferde (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 4)", "release_date": "2011-03-23", "barcode": "4064067578717"},
             {"id": "1863408874", "episode": 5, "title": "Körper (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 5)", "release_date": "2018-03-09", "barcode": "4064067579981"},
             {"id": "1863407908", "episode": 6, "title": "Weltraum (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 6)", "release_date": "2019-07-19", "barcode": "4064066608965"},
             {"id": "1863384525", "episode": 9, "title": "Altes Rom (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 9)", "release_date": "2021-08-20", "barcode": "4066338153487"},
             {"id": "1863401744", "episode": 10, "title": "Retter im Einsatz (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 10)", "release_date": "2016-08-26", "barcode": "4064066508234"},
+            {"id": "1863394904", "episode": 12, "title": "Dinosaurier (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 12)", "release_date": "2020-08-21", "barcode": "4066338922137"},
             {"id": "1863398005", "episode": 13, "title": "Mittelalter (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 13)", "release_date": "2015-08-21", "barcode": "4064067578441"},
+            {"id": "1863399589", "episode": 15, "title": "Fußball (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 15)", "release_date": "2016-03-18", "barcode": "4064067579103"},
             {"id": "1863400173", "episode": 17, "title": "Erfindungen (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 17)", "release_date": "2016-08-26", "barcode": "4064067579127"},
             {"id": "1863398068", "episode": 19, "title": "Ozeane (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 19)", "release_date": "2017-03-10", "barcode": "4064067580055"},
             {"id": "1863413146", "episode": 21, "title": "Deutschland (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 21)", "release_date": "2017-08-04", "barcode": "4064067580031"},
             {"id": "1863404859", "episode": 24, "title": "Haie, Wale und Delfine (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 24)", "release_date": "2018-08-31", "barcode": "4064067580017"},
             {"id": "1863406649", "episode": 25, "title": "Vulkane (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 25)", "release_date": "2019-05-24", "barcode": "4064067580079"},
-            {"id": "1863387202", "episode": 26, "title": "Umweltschutz (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 26)", "release_date": "2020-03-13", "barcode": "4064067580987"}
+            {"id": "1863387202", "episode": 26, "title": "Umweltschutz (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 26)", "release_date": "2020-03-13", "barcode": "4064067580987"},
+            {"id": "1863391822", "title": "Autos (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 3)", "release_date": "2015-08-21", "barcode": "4064067578472"}
           ]
         }
       },
