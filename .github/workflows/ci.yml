@@ -38,7 +38,7 @@ jobs:
       # .dart_tool/ holds build_runner's compiled builders, which are tied
       # to the Flutter SDK, so a toolchain change in mise.toml starts over.
       - name: Cache pub dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: |
             ~/.pub-cache
@@ -94,7 +94,7 @@ jobs:
 
       # Restore only: the stripped .dart_tool/ must not land in the cache
       # the check job uses.
-      - uses: actions/cache/restore@v5
+      - uses: actions/cache/restore@v6
         with:
           path: |
             ~/.pub-cache
