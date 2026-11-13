@@ -1,117 +1,98 @@
 # Audiobook (Hörbuch)
 
-Printed books turned into audio. Usually single narrator, minimal sound
-design. One entry per book; no `episode_pattern`.
+Printed books read aloud, usually by one narrator with little sound design.
+In an audiobook series the Hörspiel of the same book is the other type
+(`wrong_content_type`).
 
-## Hörbuch vs Hörspiel
+## Telling the reading from the play
 
-This is the most error-prone classification for non-DACH models. Same novel
-can have both productions:
+Beyond the signals above, two settle it most often:
 
-| Signal | Hörbuch (this class) | Hörspiel (`wrong_content_type` here) |
-|---|---|---|
-| Production style | Read aloud from the book | Acted out with cast |
-| Voices | One narrator (occasionally two for dialogue) | Multiple voice actors playing characters |
-| Sound design | Minimal, maybe intro/outro music | Foley, effects, music score, ambient sound |
-| Source | A printed book, read more or less as written | Original script, or script adapted from a book |
-| Title hints | "ungekürzt", "Lesung", "gelesen von [name]", "vollständige Lesung" | "Folge N:", "Hörspiel zum Film", "Original-Hörspiel", "Hörspielfassung" |
-| Track shape | Many tracks (one per chapter) on Spotify; few long tracks (one per CD/cassette) on Apple Music | Few tracks (one per episode) on both providers |
-| Per-album duration | Hours (a whole book) | One story, a few minutes to feature length |
-| Credits | "Sprecher: …" (one name) | "Mit: …" (multiple names) |
+- **The source.** A Hörbuch reads a printed book more or less as written. A
+  Hörspiel plays a script, also when the script was adapted from a book.
+- **The credits.** "Sprecher: …" with one name is a reading. "Mit: …" and a
+  list of names is a cast.
 
 ## Failure taxonomy
 
 ### ungekuerzt_reading
-Full-book reading by single narrator, split into chapter tracks. Include if
-kids' book.
+A full-book reading by one narrator, split into chapter tracks. Include if
+it is a children's book.
 
 ### gekuerzt_reading
-Abridged single-narrator reading. Include only if no `ungekuerzt` version of
-the same title exists in the same artist's catalog. Otherwise exclude it as
+An abridged reading. Include it only if no `ungekuerzt` version of the same
+title exists in the artist's catalog. Otherwise exclude it as
 `format_variant`.
 
 ### inszenierte_lesung
-Small-cast dramatized reading of one source book (1-3 voices, light music,
-still anchored to reading the text). Include, this is still a Hörbuch.
+A reading staged with a small cast (one to three voices, light music),
+still anchored to the text of one book. Include, this is still a Hörbuch.
 
-Worked example: "Jim Knopf und Lukas der Lokomotivführer, Hörspiel
-nach der Romanvorlage" (Spotify, 8 tracks, ~75 min). Title says "Hörspiel"
-but the track count is low and duration is short-ish. However, the credit
-lists "Sprecher: …" (one narrator) with occasional guest voices, so this is
-an inszenierte Lesung, not a full Hörspiel cast. **Include** as Hörbuch.
+Worked example: "Jim Knopf und Lukas der Lokomotivführer, Hörspiel nach der
+Romanvorlage" (Spotify, 8 tracks, ~75 min). The title says "Hörspiel", but
+the credit lists "Sprecher: …" (one narrator) with occasional guest voices,
+so this is an inszenierte Lesung, not a full Hörspiel cast. **Include** it
+as a Hörbuch.
 
 ### hoerspiel_adaptation
-Multi-voice dramatized production with sound design, even if based on the
-artist's novel. **Exclude** (`wrong_content_type`). Flag for splitting into a
-separate `hoerspiel`-typed catalog entry.
+A dramatized production with a cast and sound design, even if it is based
+on the author's novel. **Exclude** (`wrong_content_type`), and flag it for a
+separate `hoerspiel` entry.
 
 ### music_in_audiobook_catalog
-Music album in an audiobook artist's catalog. Exclude (`wrong_content_type`).
+A music album in an audiobook artist's catalog. Exclude
+(`wrong_content_type`).
 
 ### non_kids_work
-Adult/non-kids works by the same author. Exclude (`not_kids_content`), out of
-scope for Lauschi.
+The author's works for adults. Exclude (`not_kids_content`), they are out of
+scope for lauschi.
 
 ### compilation_set
-Multi-book box (e.g., "Sammelband: 5 Romane in einer Lesung"). Exclude
+A box of several books ("Sammelband: 5 Romane in einer Lesung"). Exclude
 (`compilation`).
 
 ### excerpt_or_sample
-Leseprobe, sample chapter, promotional excerpt. Exclude (`partial_release`).
+A Leseprobe, a sample chapter, a promotional excerpt. Exclude
+(`partial_release`).
 
-## Positive confidence signals (Hörbuch)
+## Reading the title and the tracks
 
-When the title is bare and the artist is a known children's author, use
-track count and duration as the primary signal:
+The title is the first signal, and the tracks confirm it. For a bare title
+by a known children's author, the tracks carry the decision: many chapter
+tracks on Spotify, or several hours on Apple Music, is a reading (`high`).
+A few tracks with the length of one story point to a Hörspiel: exclude it
+when the title or the credits confirm it ("Hörspiel", a "Mit: …" cast),
+and without that, include it at `medium` and say so in the notes.
 
-- Many tracks on Spotify (30-150, one per chapter) = Hörbuch, **HIGH confidence**
-- Several hours in total on Apple Music (few long tracks per CD/cassette)
-  = Hörbuch, **HIGH confidence**
-- Few tracks (<10) and the length of one story rather than a book = likely
-  a Hörspiel. Exclude it as
-  `wrong_content_type` when the title or credits confirm it ("Hörspiel",
-  a "Mit: …" cast list). Without a confirming signal, track shape alone is
-  a hint: include with MEDIUM confidence and say so in the notes.
-
-## Title decoder: worked examples (Michael Ende)
-
-Use the title as your primary signal. Track count confirms.
+Michael Ende's catalog as an example:
 
 | Title fragment | Type | Action |
 |---|---|---|
-| "… - Die ungekürzte Lesung" | Hörbuch (full reading) | **Include** |
-| "… - Die Lesung" | Hörbuch (reading) | **Include** |
-| "… (116 tracks)" / "… (106 tracks)" / "… (108 tracks)" | Hörbuch (chapter-per-chapter) | **Include** |
-| "… - Das Hörspiel" | Hörspiel (dramatized) | **Exclude** (`wrong_content_type`) |
-| "… - Kinderoper" | Hörspiel (musical adaptation) | **Exclude** (`wrong_content_type`) |
-| "… - Das Hörspiel zum Film" / "… - Das Hörspiel zum Kinofilm" | Hörspiel (movie tie-in) | **Exclude** (`wrong_content_type`) |
-| "Englisch lernen mit …" | Educational, not narrative | **Exclude** (`wrong_content_type`) |
-| "Let's Have Fun!" / "Verdi: Messa da Requiem" | Not by Michael Ende | **Exclude** (`different_series`) |
-| Multi-book box: "… und weitere Geschichten" with 2+ titles | Compilation | **Exclude** (`compilation`) |
-| Title prefix says "Jim Knopf:" but suffix says "- Die ungekürzte Lesung" | Prefix vs suffix conflict | **Suffix wins**: "Lesung" / "ungekürzt" = Hörbuch, **include**. The "Jim Knopf:" prefix is a series label, not a Hörspiel signal. |
+| "… - Die ungekürzte Lesung", "… - Die Lesung" | Hörbuch | **Include** |
+| "…" with 100+ chapter tracks | Hörbuch | **Include** |
+| "… - Das Hörspiel", "… - Das Hörspiel zum Film" | Hörspiel | **Exclude** (`wrong_content_type`) |
+| "… - Kinderoper" | A musical stage adaptation | **Exclude** (`wrong_content_type`) |
+| "Englisch lernen mit …" | Learning material, no story | **Exclude** (`wrong_content_type`) |
+| "Let's Have Fun!", "Verdi: Messa da Requiem" | Not by Michael Ende | **Exclude** (`different_series`) |
+| "… und weitere Geschichten" with 2+ book titles | Several books in one box | **Exclude** (`compilation`) |
 
-When you see the same source novel in both forms (e.g. "Momo" as Hörbuch AND "Momo - Das Hörspiel"), the one WITHOUT "Hörspiel" / "Kinderoper" / "zum Film" is the Hörbuch: **include it**. The one WITH those suffixes is the Hörspiel: **exclude it**.
+When the same novel exists in both forms ("Momo" and "Momo - Das
+Hörspiel"), the one without "Hörspiel", "Kinderoper" or "zum Film" is the
+Hörbuch. When a prefix and a suffix disagree, the suffix wins: "Jim Knopf:
+Jim Knopf und Lukas der Lokomotivführer - Die ungekürzte Lesung" is a
+Hörbuch, and "Jim Knopf:" is only the series label the publisher puts in
+front.
 
-When prefix and suffix conflict, **suffix wins**. "Jim Knopf: Jim Knopf und Lukas der Lokomotivführer - Die ungekürzte Lesung" is a Hörbuch because "- Die ungekürzte Lesung" is the Hörbuch suffix. The "Jim Knopf:" prefix is just the series label applied by the publisher (Europa), not a Hörspiel signal. The same logic applies to any "Series: Title - Lesung" format.
-
-## Confidence worked examples
-
-Use track count and duration as **positive** signals, not just absence of Hörspiel labels.
-
-| Album title | Tracks | Duration | Signals | Confidence | Reasoning |
-|---|---|---|---|---|---|
-| "Jim Knopf und die Wilde 13 - Die ungekürzte Lesung" | 116 | ~5h | Many tracks, long duration, "Lesung" suffix | **HIGH** | All positive signals align |
-| "Momo - Die ungekürzte Lesung" | 42 | ~2.5h | Many tracks, "Lesung" suffix | **HIGH** | Clear Hörbuch |
-| "Momo - Das Hörspiel" | 12 | 50min | Few tracks, "Hörspiel" suffix | **HIGH** for exclusion | The title names the Hörspiel: exclude as `wrong_content_type` |
-| "Verdi: Messa da Requiem" | 4 | 45min | Classical music, no narrative | **HIGH** for exclusion | Not this author's work: `different_series` |
-
-Defaulting to MEDIUM because "no Hörspiel label found" is absence-based reasoning. Stamp HIGH only when you have **positive** evidence (many tracks, long duration, "Lesung"/"ungekürzt" suffix).
+`high` needs positive evidence (many chapter tracks, hours of length, a
+"Lesung" or "ungekürzt" suffix), not only the absence of a Hörspiel label.
 
 ## Pattern and facts
 
-- `episode_pattern=None` always. Books are standalone; chapter/Teil numbers
-  within a single album aren't episodes.
-- `series_facts` rarely populated. If a long author career has distinct
-  production phases (early readings vs later inszenierte Lesungen, different
-  narrators for different decades), `sub_series` can group them, but
-  `era_boundaries` typically don't apply (eras imply numbered episodic content).
+- Most books stand alone and have no `episode_pattern`. A book series that
+  numbers its volumes ("Band 3", "Folge 12") has one in the catalog, and
+  the run reads the numbers with it. Chapter or "Teil" numbers within one
+  album are never episodes.
+- `series_facts` are rare. Where a long career has distinct production
+  phases (early readings against later staged readings, different
+  narrators per decade), `sub_series` can group them. `era_boundaries`
+  rarely apply, since eras mean numbered episodic content.

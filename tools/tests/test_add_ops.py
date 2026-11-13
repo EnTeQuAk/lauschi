@@ -26,7 +26,7 @@ def test_which_pattern_matches_at_start(title: str, expected_name: str) -> None:
 
 
 def test_which_pattern_anchors_to_start() -> None:
-    """Mid-string numbering must not match (SKILL.md:112)."""
+    """Mid-string numbering must not match (the anchor rule in PHASE_metadata.md)."""
     assert which_pattern("Foo Folge 12: Bar") is None
     assert which_pattern("Foo Nr. 12 Bar") is None
 

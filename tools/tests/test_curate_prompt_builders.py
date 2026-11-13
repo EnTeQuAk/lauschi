@@ -412,6 +412,14 @@ class TestReferenceLines:
         assert "proves nothing" in block
         assert "no episode numbers" in block
 
+    def test_the_block_does_not_place_a_release_by_its_label(self) -> None:
+        """One label carries titles of several lines, which the skill says,
+        and the block told the model to place a release by its label."""
+        block = format_reference_lines(self.SERIES, self.UNFILED)
+
+        assert "by its label" not in block
+        assert "Its label settles nothing" in block
+
 
 class TestSharedPageReference:
     """The fetch around the block: a run goes on without the index."""

@@ -1,58 +1,35 @@
 # Hörspiel (hoerspiel)
 
-The default content type. Dramatized radio plays with multiple voice actors,
-sound effects, and music scores. Usually episodic with numbered episodes.
+The default content type: stories played by a cast, with sound effects and
+music, usually in numbered episodes.
 
-## What makes something a Hörspiel episode
+## What a Hörspiel episode is
 
-A Hörspiel episode is a single self-contained story produced for audio. The
-production signals that distinguish it from other content in the same catalog:
-
-- **Multiple voice actors** playing characters (not one narrator reading)
-- **Sound design**: foley, ambient sound, music score woven through the story
-- **One story per release**: anything from a seven-minute TV story to a
-  feature-length film. Length alone decides nothing
-- **Track structure**: on Spotify, 20-40 tracks (scenes/chapters within one
-  episode). On Apple Music, 1-5 tracks (often one per CD side or a single file).
-  Both are the same content, different packaging.
+One produced story with a cast: several voice actors play the characters,
+sound design and music carry the scenes. It can be a seven-minute TV story
+or a feature-length film, so length alone decides nothing. Spotify usually
+splits an episode into many scene tracks, Apple Music into a few long
+ones, which is the same content packaged differently.
 
 When you see an album in a Hörspiel discography, ask: "Is this one produced
-story with a cast?" If yes, include it. The failure taxonomy below covers the
-cases where the answer is no.
+story with a cast?" If yes, include it. The failure taxonomy below covers
+the cases where the answer is no.
 
-## Title naming conventions
-
-DACH Hörspiel publishers use a few dominant title formats. Recognizing these
-helps you assign episode numbers and spot content that doesn't belong:
-
-| Format | Example | Prevalence |
-|---|---|---|
-| `Folge NNN: Title` | `Folge 1: als Wetterelefant` | ~48% of catalog |
-| `NNN/Title` | `013/Der verlorene Besen` | ~7% (older physical releases) |
-| `NNN: Title` (no Folge prefix) | `04: Leben der Ritter` | ~6% |
-| `Teil NNN` | `Teil 1: Malicias Rache` | ~1% |
-| Named, no number | `Aladin und die Wunderlampe` | ~33% (TV tie-ins, standalone) |
-
-Long-running series (Benjamin Blümchen 1977-2026, Die drei ??? 1979-2026)
-typically keep the same format across decades. Pumuckl is the notable
-exception: two production eras on one artist page, distinguished by
-parenthetical suffix (`(Das Original aus dem Fernsehen)` vs
-`(Neue Geschichten vom Pumuckl)`), both using `NNN:` format.
-
-When a series uses multiple formats, the metadata phase sets up a list of
-patterns. Each pattern captures one naming convention. "Multiple formats"
-is normal, not an error.
+Publishers number their titles in a few ways: `Folge 1: als Wetterelefant`,
+`013/Der verlorene Besen`, `04: Leben der Ritter`, `Teil 1: Malicias Rache`,
+and many titles carry no number at all (TV tie-ins, standalone stories). A
+series can change its format over the decades, and then its pattern lists
+one regex per format. Pumuckl keeps two production eras apart by a suffix
+(`(Das Original aus dem Fernsehen)` against `(Neue Geschichten vom
+Pumuckl)`).
 
 ## Failure taxonomy
 
 ### sub_series_bleed
 
-The most structurally complex failure. A single artist account hosts
-multiple distinct products. Each is a valid Hörspiel, but they belong in
-separate catalog entries.
-
-How to recognize: albums share the artist but have a distinct title prefix,
-theme, or numbering that runs independently from the main series.
+One artist page often hosts several products. Each is a valid Hörspiel,
+and each belongs in its own catalog entry: albums that share the artist but
+carry a title prefix, a theme or a numbering of their own.
 
 | Main series | Sub-series (exclude) | Signal |
 |---|---|---|
@@ -62,172 +39,143 @@ theme, or numbering that runs independently from the main series.
 | Pumuckl | Meister Eder und sein Pumuckl (Hörspiel) | Different production, own catalog |
 | Bibi Blocksberg | Bibi & Tina (if under same artist) | Different cast, own universe |
 
-**Pattern-match trap:** some sub-series titles start with "Folge N:" which
-matches the main series' episode_pattern. A pattern match does NOT override
-a sub-series brand. Look at what follows the episode number: if it contains
-a distinct product name ("Mini-Fall", "Sonderband", "Kurzkrimis"), the
-album belongs to that sub-series regardless of the pattern match. Confirming
-signals: the brand also appears in track names ("Mini-Fall: Die Räuberjagd,
-Teil 1"), and/or the extracted episode number collides with an existing
-main-series episode.
+**Pattern-match trap:** some sub-series titles start with "Folge N:" and
+match the main series' pattern. A pattern match does not outweigh a
+sub-series brand. Look at what follows the number: a product name
+("Mini-Fall", "Sonderband", "Kurzkrimis") makes the album that line's,
+whatever the pattern says. The brand in the track names ("Mini-Fall: Die
+Räuberjagd, Teil 1") or a number that collides with a main episode
+confirms it.
 
-When you exclude for sub_series_bleed, note which sub-series it belongs to.
-The finalize phase uses your notes to propose `sub_series` facts with
-`album_ids`, so downstream tools can split them into their own entries.
+The batch prompt lists the sibling entries the catalog has on this page,
+and an album of one of them is theirs. A line that has no entry yet counts
+too. Note which line the album belongs to: finalize turns those notes into
+a split proposal.
 
 ### compilation_as_episode
 
-A repackaging: a release that re-sells episodes which already exist as
-their own releases. Publishers do this constantly, TKKG "3er Box",
-"Folge 1-10: Jubiläumsbox", "Best of", "Die schönsten Weihnachtsfolgen".
-The listener gains nothing new, and a box sitting between Folge 12 and
-Folge 13 breaks the sequence a child scrolls through.
+A repackaging re-sells episodes that already exist as their own releases:
+TKKG "3er Box", "Folge 1-10: Jubiläumsbox", "Best of", "Die schönsten
+Weihnachtsfolgen". The listener gains nothing new, and a box between Folge
+12 and Folge 13 breaks the sequence a child scrolls through.
 
-Recognise it relative to the episodes it repackages. An album whose
-title names a run of episodes carries
+An album whose title names a run of episodes carries
 `<episode_range first="…" last="…" also_released_alone="…"/>`, worked out
-from the whole provider page, which no single batch shows you. It answers
-the question for you:
+from the whole store page, which no single batch shows you. It answers the
+question:
 
 - Every episode of the run is listed in `also_released_alone`: the album
   re-sells them, exclude it as `compilation`.
 - `also_released_alone="none"`: the album is the only release of those
-  episodes on this provider. Feuerwehrmann Sam 1 to 132 exist only as
-  "Folgen 1-5", "Folgen 6-10" and so on. That is the episode release:
-  include it with the number of its first episode, the way "Folge 1+2"
-  double episodes are numbered.
+  episodes on this store. Feuerwehrmann Sam 1 to 132 exist only as "Folgen
+  1-5", "Folgen 6-10" and so on. That is the episode release: include it,
+  numbered with its first episode, the way "Folge 1+2" double episodes are.
 - Only some are listed: the album overlaps releases that exist, and
   including it would put two albums under one number. Exclude it as
   `compilation` and name the episodes only it carries in the notes, so a
   human can decide.
 
-Without `<episode_range>`, a range, a plus or an "und" in the
-number position ("Folge 1-10", "Folgen 3 & 4", "1+2") is the usual tell;
-"Box", "Sammelbox", "Kollektion", "Jubiläum", "Best of" and seasonal
-bundles ("Weihnachtsfolgen", "Osterbundle") are others. A very high track
-count often comes with it but proves nothing on its own: some publishers
-chapter a single episode into dozens of tracks. Spotify's
-`album_type=compilation` is a strong signal (see "Using album_type").
+Without `<episode_range>`, a range, a plus or an "und" in the number
+position ("Folge 1-10", "Folgen 3 & 4", "1+2") is the usual tell, and so
+are "Box", "Sammelbox", "Kollektion", "Jubiläum", "Best of" and seasonal
+bundles ("Weihnachtsfolgen", "Osterbundle"). A very high track count proves
+nothing on its own, since some publishers chapter a single episode into
+dozens of tracks.
 
 **Two stories in one release is not a repackaging.** Many series ship one
-release holding two or three short stories or topics under one episode
-number, with a slash between the titles: Was Ist Was ("Roboter & Androiden
-/ Supercomputer"), Miraculous, Mia and Me, Conni ("Folge 5: Schatzjagd im
-Museum / Magische Meisterschaft"), and the TV tie-ins where one Folge holds
-three seven-minute stories. That is the series' standard format: one
-release, one episode number, include it. The catalog holds over a thousand
-of these and includes nearly all of them. The same holds for one story told
-across two releases ("Folge 100: Ottos neue Freundin - Teil 1" / "Teil 2"):
-two releases, one story, both included.
+release with two or three short stories or topics under one number, a slash
+between the titles: Was Ist Was ("Roboter & Androiden / Supercomputer"),
+Miraculous, Mia and Me, Conni ("Folge 5: Schatzjagd im Museum / Magische
+Meisterschaft"), and the TV tie-ins where one Folge holds three
+seven-minute stories. That is the series' standard format: one release, one
+episode number, include it. One story told across two releases ("Folge 100:
+Ottos neue Freundin - Teil 1" / "Teil 2") is the same: two releases, one
+story, both included.
 
-**One episode released in parts, and then complete.** A publisher
-sometimes puts one episode out piece by piece ("Folge 100: Der magische
-Ring - Episode 1" to "Episode 9", a week apart, twenty minutes each) and
-then as one album with the whole story ("Folge 100: Der magische Ring",
-168 minutes). The complete album is the episode: include it. It is not a
-box, because its parts are not episodes of their own: they share its
-number, and none of them is a whole story. The parts are
-`partial_release`. Where the provider has no complete album, the parts are
-the only way to hear the story and stay in, like "Teil 1" and "Teil 2"
-above.
+**One episode released in parts, and then complete.** A publisher sometimes
+puts one episode out piece by piece ("Folge 100: Der magische Ring -
+Episode 1" to "Episode 9", a week apart, twenty minutes each) and then as
+one album with the whole story ("Folge 100: Der magische Ring", 168
+minutes). The complete album is the episode: include it. It is not a box,
+because its parts are not episodes of their own: they share its number,
+and none of them is a whole story. The parts are `partial_release`. Where
+the store has no complete album, the parts are the only way to hear the
+story and stay in, like "Teil 1" and "Teil 2" above.
 
-The question to ask: does this release re-sell episodes that already exist
-on their own? Then it is a compilation, exclude it as `compilation`. Does
-it hold stories or topics that only exist together, under one number? Then
-it is an episode, include it.
+The question to ask: does this release re-sell episodes that exist on their
+own? Then it is a `compilation`. Does it hold stories that only exist
+together, under one number? Then it is an episode.
 
 ### music_single
 
-The most common exclusion (37% of all excludes). Music tracks uploaded as
-albums in a Hörspiel artist's catalog.
-
-Signals: `album_type=single`, title ends with ` - Single`, 1-2 tracks,
-duration under 5 minutes, no episode marker in title. Often theme songs,
-character songs, or promotional tracks.
-
-Exclude with reason `music_single`.
+A song uploaded as its own release in a Hörspiel artist's catalog: a theme
+song, a character song, a promotional track. `album_type=single`, a title
+ending in " - Single", one or two tracks of a few minutes, no episode
+marker. Exclude (`music_single`).
 
 ### wrong_content_type
 
-Content that belongs to a different content type entirely:
+Content of another type entirely:
 
-- **Hörbuch in Hörspiel catalog**: sometimes labeled in the title ("Lesung",
-  "ungekürzt", "gelesen von"), but often not. When the title doesn't help,
-  use track structure: 20+ sequentially numbered "Teil" or "Kapitel" tracks
-  at 2-5 min each, forming one continuous story over 90+ minutes total.
-  Hörspiel tracks have descriptive scene names ("Spuk in der Werkstatt,
-  Teil 1"); audiobook chapters are just numbered ("Teil 01", "Teil 02", ...
-  "Teil 40"). If every track is named "Teil NN" with no scene or episode
-  title, it's a reading, not a production. Exclude as `wrong_content_type`.
+- **A Hörbuch in a Hörspiel catalog.** The title often says so ("Lesung",
+  "ungekürzt", "gelesen von"), but not always. Without a title marker, a
+  long row of tracks named only "Teil NN" or "Kapitel NN", one continuous
+  story over hours, points to a reading. Hörspiel tracks carry scene names.
 
   Track structure is a hint, never proof. Publishers (JUMBO, Atmende
   Bücher) chapter genuine Hörspiele as "Kapitel N" and slice them into
-  uniform-length tracks, and retailers put "gelesen von" on full-cast
-  productions (Audible's credit field, narrator-only credits). Both
-  signals have produced confirmed false positives on real Hörspiele
-  (Wickie, Drachenreiter film, Vulkan-Mission, Wilden Hühner films).
-  In particular, a Filmhörspiel that weaves the film's original voices
-  with narrator passages IS a dramatized Hörspiel even though one
-  narrator is credited. Before excluding anything titled "Hörspiel" as
-  wrong_content_type, verify the production format from publisher or
-  review pages (web search), not from track names or store credits,
-  and if an album's notes record an operator verification, treat that
-  as settled unless you have stronger new evidence.
-- **Soundtrack/score**: "Original Motion Picture Soundtrack", instrumental
-- **ASMR/ambient**: "Klangreise", "ASMR" in title. Soundscapes, not stories.
-- **Educational non-narrative**: "Englisch lernen mit...", language courses
+  tracks of equal length, and retailers put "gelesen von" on full-cast
+  productions. Both have caused wrong exclusions of real Hörspiele (Wickie,
+  the Drachenreiter film, Vulkan-Mission, the Wilden Hühner films). A
+  Filmhörspiel that weaves the film's voices with narrator passages IS a
+  Hörspiel, even with one narrator credited. Before you exclude anything
+  titled "Hörspiel" as `wrong_content_type`, check the production on the
+  publisher's or a review page (web search), not in track names or store
+  credits. Where an album's notes record an operator's check, that is
+  settled unless you find stronger new evidence.
+- **Soundtrack or score**: "Original Motion Picture Soundtrack", film music.
+- **ASMR or ambient**: "Klangreise", "ASMR". Soundscapes, not stories.
+- **Learning material without a story**: "Englisch lernen mit...",
+  language courses.
 
-Exclude with reason `wrong_content_type`.
+Exclude (`wrong_content_type`).
 
 ### format_variant
 
-Same content re-released in a different format. Not additional value for
-the listener.
+The same production released again in another rendition or mix. The
+listener gets a story they already have.
 
-Signals: "Karaoke", "Instrumental", "Sped-Up", "Nightcore" in title.
-Also "Playback" or version markers that indicate a non-standard rendition.
+Signals: "Karaoke", "Instrumental", "Sped-Up", "Nightcore" in title. Also
+"Playback" or version markers that indicate a non-standard rendition. A new
+recording with a new cast is not a variant but another production (see
+"Era collision").
 
-Exclude with reason `format_variant`.
+Exclude (`format_variant`).
 
 ### kinderlieder_compilation
 
-Music albums branded under a Hörspiel character. They look like they
-belong to the series (same artist, character name in title) but contain
-songs, not stories.
-
-Signals: title suggests songs ("tanzt!", "Kinderparty", "Die schönsten
-Lieder", "Liederalbum"), track durations are 2-4 minutes each (song-length,
-not scene-length), no episode number.
-
-Exclude with reason `kinderlieder_compilation` or `wrong_content_type`.
+Song albums under a Hörspiel character's brand. They look like the series
+(same artist, the character in the title) but hold songs, not stories:
+"tanzt!", "Kinderparty", "Die schönsten Lieder", "Liederalbum", tracks of
+song length, no episode number. Exclude (`kinderlieder_compilation`).
 
 ## Cross-provider pairs
 
-The same episode on Spotify and Apple Music is the same content with
-different catalog metadata:
+The same episode on both stores often has different titles, track counts
+and release dates. Both are correct entries: include both, a cross_provider_pair.
 
-| Field | Typical Spotify | Typical Apple Music |
-|---|---|---|
-| Title | `Folge 1: als Wetterelefant` | `Klassiker, Folge 1: Maja lernt fliegen` |
-| Tracks | 20-40 (scene-per-track) | 1-5 (one per CD side) |
-| Release date | Re-release date (often recent) | May reflect original release |
-
-Both are correct entries. Include both. Different track counts between
-providers is the norm, not a reason to question the decision.
-
-Worked example (Biene Maja episode 1):
+Biene Maja episode 1:
 - Spotify: "01/Majas Geburt" (1977, 26 tracks)
 - Apple Music: "Klassiker, Folge 1: Maja lernt fliegen" (1976, 3 tracks)
-Same content, different catalog entry, different title format. Include both.
+
+Same content, two stores, two title formats. Include both.
 
 ## Era collision
 
-Same episode number, same provider, release dates 5+ years apart. This
-happens when a series was re-released, re-recorded, or rebooted.
-
-Include both versions. Write "era collision" in your `notes` field so the
-finalize phase can propose an `era_boundary` fact grouping the old and new
-production runs.
+Same episode number on the same store, from two productions: an old
+recording and a re-recording or reboot with a new cast. Include both, and
+write "era collision" in `notes` so finalize can propose an `era_boundary`
+fact that groups the two production runs.
 
 ## Using album_type
 
@@ -237,25 +185,25 @@ Measured against the reviewed catalog (2,556 albums, 2026-09): of the 46
 albums Spotify flags `compilation`, 44 are excluded by us.
 It is a strong signal.
 
-- `album_type=single` + 1-2 tracks + short duration → strong `music_single` signal
-- `album_type=compilation` → almost always a publisher repackaging or a
-  "Best of": exclude as `compilation`. The one exception class is a music
+- `album_type=single` with one or two short tracks: a strong
+  `music_single` signal.
+- `album_type=compilation`: almost always a publisher repackaging or a
+  "Best of", exclude as `compilation`. The exception is a music
   artist's own song collection (Rolf Zuckowski's "Das große Abenteuer
-  Musik" is the only such case in the catalog), which is a regular album
-  of that artist.
-- `album_type=album` → the default for regular episodes. Necessary but
-  not sufficient for inclusion.
-- `album_type=ep` → a short release, and no signal on its own: Apple Music
+  Musik" is the only such case in the catalog), a regular album of theirs.
+- `album_type=album`: the default for regular episodes, necessary but not
+  sufficient.
+- `album_type=ep`: a short release, and no signal on its own: Apple Music
   labels many regular episodes " - EP". Judge it by title and tracks.
 
 ## Pattern and facts
 
 - `episode_pattern` matches album titles, not track names. The metadata
-  phase sets this up and the batch phase applies it.
-- `era_boundaries` group episodes into production eras (e.g., classic
-  vs revival). Based on release-date clusters and title convention changes.
-- `known_gaps` record missing episode numbers with reasons (legal dispute,
-  publisher change, number skipped). Propose as a known_gap only when the
+  phase sets it up, and code applies it.
+- `era_boundaries` group episodes into production eras (classic against
+  revival), from release-date clusters and changes in title convention.
+- `known_gaps` record missing episode numbers with their reasons (a legal
+  dispute, a publisher change, a skipped number). Propose one only when the
   episode is truly missing from the discography, not just excluded.
 - `sub_series` tag albums that belong to a spin-off. Always include
   `album_ids` so downstream tools know which albums to split.

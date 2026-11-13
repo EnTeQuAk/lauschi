@@ -17,8 +17,17 @@ expected. The metadata is for this series alone, and the titles it ships
 today show which albums are its own.
 
 **episode_pattern rules:**
+
+A pattern answers "how do I order the included albums?", not "what numbers
+appear anywhere in the discography?".
+
 - Regex with exactly 1 capture group per pattern. The captured group MUST be a
 digit string: `int(group)` has to succeed.
+- Anchor every regex with `^`. An unanchored `Folge (\d+):` matches inside
+`Folge 1-10: Sammelbox` and silently mis-orders the box.
+- Track-level numbers ("Teil 01", "Teil 02") mark chapters within ONE
+episode, not episodes. Ask: if you removed the matching prefix, would the
+rest be an episode title of its own?
 - Use a list of regexes when naming conventions changed across eras (e.g.
 ["^(\\d{3})/", "^Folge (\\d+):"]). Tried in order, first match wins.
 - A series may have distinct sub-formats with their own numbering (e.g. main

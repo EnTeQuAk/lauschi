@@ -52,6 +52,12 @@ see that an episode exists on one provider but not the other, use
 it's truly missing, miscategorized, or excluded under a different title.
 Propose overrides or concerns for each unresolved discrepancy.
 
+These are not errors: the same episode number on two stores (two lists,
+not a duplicate), a missing episode that `known_gaps` documents, an episode
+or three that one store does not carry at all (stores license different
+titles, which the investigation above tells apart from a miss), and an
+album of another type excluded as `wrong_content_type`.
+
 `lookup_reference_lines` shows how an outside index divides the brand into lines. Use it to check sub-series membership and split proposals, nothing about numbering. A title absent there proves nothing.
 
 ## Every album, in priority order

@@ -118,7 +118,7 @@ multiple Hörbuch titles. A single Hörbuch should be excluded with
 
 ## When NOT to split
 
-### Adventskalender
+### Adventskalender years
 
 Annual Advent calendar releases ("Die drei ??? Adventskalender 2021",
 "2022", "2023") are one format, not separate series. Propose ONE
@@ -239,19 +239,6 @@ Reasoning:
   reason="Separate age-bracket product line (6-8 vs 10+)"
 ```
 
-**Clear split** (film adaptations):
-```
-Series: "Bibi und Tina"
-Albums found: 100+ numbered episodes, 4 albums with "Kinofilm" in title
-Reasoning:
-  1. 4 theatrical film Hörspiele with "Kinofilm" branding
-  2. Films are 60-90 min vs 40 min episodes
-  3. Mixing them into Folge sequence disrupts browsing
-  4. Distinct cover art and marketing ("Die Hörspiele zum Kinofilm")
-→ Propose sub_series: label="kinofilm", album_ids=[...film albums],
-  reason="Theatrical film Hörspiele with distinct branding, disrupt episode sequence"
-```
-
 **Clear split** (standalone work from author umbrella):
 ```
 Series: "Astrid Lindgren Deutsch"
@@ -265,18 +252,18 @@ Reasoning:
   reason="Standalone literary work, parents search by title"
 ```
 
-**Do NOT split** (no distinct branding):
+**Do NOT split** (a single film):
 ```
 Series: "Benjamin Blümchen"
 Albums found: 140 numbered episodes, 1 album "Benjamin Blümchen: Der Kinofilm"
 Reasoning:
-  1. No "Kinofilm" sub-branding, just the series name
-  2. 50 min duration, same range as regular episodes
+  1. One film Hörspiel, not a line of them
+  2. A single film stays in the parent rather than becoming a one-album entry
   3. Keep in parent. Include, without a number
 → No sub_series proposal
 ```
 
-**Do NOT split** (Adventskalender):
+**Do NOT split per year** (Adventskalender):
 ```
 Series: "Die drei ???"
 Albums found: 3 Adventskalender albums (2021, 2022, 2023)
@@ -288,14 +275,4 @@ Reasoning:
 → If splitting: label="adventskalender", album_ids=[all 3],
   reason="Annual format, grouped as one sub-series"
   If keeping: no proposal, include without a number
-```
-
-**Do NOT split** (compilation repackaging):
-```
-Series: "TKKG"
-Albums found: 5 "TKKG 3er Box" compilation albums
-Reasoning:
-  1. These are re-packagings of existing episodes, not new content
-  2. Exclude with reason=compilation, not a split candidate
-→ No sub_series proposal. Exclude the compilations.
 ```

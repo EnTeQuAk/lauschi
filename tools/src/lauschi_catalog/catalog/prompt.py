@@ -178,8 +178,9 @@ def format_reference_lines(
         "Several catalog entries share this artist page. The index files the "
         f"releases of {series.name!r} as listed below. A title in a line belongs "
         "to that line. A release under `no_line` is the brand's, and the index "
-        "does not say which line: place it by its label, its running time and "
-        "the form of its title, next to the titles that are in a line. "
+        "does not say which line: place it by its running time and the form of "
+        "its title, next to the titles that are in a line. Its label settles "
+        "nothing, since one label carries titles of several lines. "
         "The index lags behind new releases and lists only licensed titles, so a "
         "title missing here proves nothing. It gives no episode numbers.",
         "",
