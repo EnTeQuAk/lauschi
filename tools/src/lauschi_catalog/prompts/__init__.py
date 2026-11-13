@@ -20,6 +20,9 @@ _TYPE_REFS = {
 }
 
 _SPLIT_PHASES: set[Phase] = {"batch", "finalize"}
+#: The phases that propose or check era facts. Batch only notes an era
+#: collision, which SKILL.md teaches.
+_ERA_PHASES: set[Phase] = {"finalize", "audit"}
 
 
 def _read_resource(rel_path: str) -> str:
@@ -40,7 +43,8 @@ def load_curate_skill(
       1. SKILL.md — universal principles (content-type purity,
          cross-provider consistency, inclusion bias, confidence)
       2. references/<content_type>.md — type-specific failure taxonomy
-      3. references/era_detection.md (if discography_span_years >= 10)
+      3. references/era_detection.md (finalize and audit, if
+         discography_span_years >= 10)
       4. references/split_guidelines.md (batch and finalize phases)
       5. PHASE_<phase>.md — phase-specific workflow and output contract
       6. Date anchor
@@ -53,7 +57,8 @@ def load_curate_skill(
         parts.append(_read_resource(_TYPE_REFS[content_type]))
 
     if (
-        discography_span_years is not None
+        phase in _ERA_PHASES
+        and discography_span_years is not None
         and discography_span_years >= 10
         and content_type == "hoerspiel"
     ):

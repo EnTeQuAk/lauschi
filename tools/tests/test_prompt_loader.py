@@ -10,7 +10,7 @@ from lauschi_catalog.catalog.curate_ops import (
     ExcludeReason,
     build_batch_prompt,
 )
-from lauschi_catalog.prompts import ContentType, load_curate_skill
+from lauschi_catalog.prompts import ContentType, Phase, load_curate_skill
 
 
 class TestLoadCurateSkill:
@@ -67,6 +67,20 @@ class TestLoadCurateSkill:
             phase="finalize", content_type="hoerspiel", discography_span_years=5
         )
         assert "# Era detection" not in p
+
+    @pytest.mark.parametrize(
+        ("phase", "loaded"),
+        [("metadata", False), ("batch", False), ("finalize", True), ("audit", True)],
+    )
+    def test_era_detection_loads_where_eras_are_proposed_or_checked(
+        self, phase: Phase, loaded: bool
+    ) -> None:
+        """Batch only notes an era collision, and every batch of a long
+        series carried the guide to proposing era facts all the same."""
+        p = load_curate_skill(
+            phase=phase, content_type="hoerspiel", discography_span_years=15
+        )
+        assert ("# Era detection" in p) is loaded
 
     def test_composition_order(self):
         """SKILL.md comes before phase suffix."""
