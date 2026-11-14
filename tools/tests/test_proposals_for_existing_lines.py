@@ -1,5 +1,7 @@
 """A finalize proposal for a line that already is a split-off child is
-dropped: the child entry is the fact.
+dropped: the child entry is the fact. So is a fact the prior curation
+carries for such a line, and the regression check does not count it as
+lost.
 
 The Wieso? Weshalb? Warum? re-curation (2026-09-06) proposed junior and
 erstleser as sub-series although both children exist and their albums
@@ -7,8 +9,12 @@ were pre-excluded from the parent's page as bleed. Accepting would fail
 on the existing id, listing them clogs the review queue.
 """
 
-from lauschi_catalog.catalog.curate_ops import _drop_proposals_for_existing_lines
+from lauschi_catalog.catalog.curate_ops import (
+    _drop_proposals_for_existing_lines,
+    _regression_baseline,
+)
 from lauschi_catalog.catalog.facts import SeriesFacts, SubSeriesFact
+from lauschi_catalog.catalog.lint_ops import lint_regression
 from lauschi_catalog.catalog.models import CatalogEntry
 
 PARENT = CatalogEntry(id="wieso_weshalb_warum", title="Wieso? Weshalb? Warum?")
@@ -101,6 +107,28 @@ def test_carried_proposals_are_filtered_like_new_ones():
         _facts("junior"), PARENT, CATALOG, log.append
     )
     assert kept.sub_series == [] and log
+
+
+def test_a_fact_that_became_an_entry_is_not_reported_as_lost():
+    """The run drops the prior curation's fact for a line that has its
+    own entry now, so the fact moved, it was not lost. The facts-lost
+    gate read it as a wipe and escalated Feuerwehrmann Sam once its film
+    line had an entry."""
+    previous = {"albums": [], "series_facts": _facts("junior").model_dump()}
+    current = {"albums": [], "series_facts": SeriesFacts().model_dump()}
+
+    baseline = _regression_baseline(previous, PARENT, CATALOG)
+
+    assert lint_regression(baseline, current) == []
+
+
+def test_a_fact_the_run_keeps_still_counts_as_lost():
+    previous = {"albums": [], "series_facts": _facts("profiwissen").model_dump()}
+    current = {"albums": [], "series_facts": SeriesFacts().model_dump()}
+
+    baseline = _regression_baseline(previous, PARENT, CATALOG)
+
+    assert any("series_facts lost" in f for f in lint_regression(baseline, current))
 
 
 def test_a_line_with_its_own_artist_page_still_counts_as_existing():

@@ -881,6 +881,27 @@ def _drop_proposals_for_existing_lines(
     return proposed.model_copy(update={"sub_series": kept})
 
 
+def _regression_baseline(
+    existing_curation: dict | None,
+    entry: "CatalogEntry | None",
+    catalog: list["CatalogEntry"],
+) -> dict | None:
+    """The previous curation as this run's regression check reads it.
+
+    A run drops the prior curation's sub-series fact for a line that has
+    its own entry now, since the entry is the fact. That fact moved, it
+    was not lost, so it is left out of the comparison: Feuerwehrmann Sam
+    tripped the facts-lost gate once its film line had an entry.
+    """
+    facts = facts_from_curation(existing_curation)
+    if existing_curation is None or facts is None:
+        return existing_curation
+    kept = _drop_proposals_for_existing_lines(facts, entry, catalog, _noop)
+    if kept is facts or kept is None:
+        return existing_curation
+    return {**existing_curation, "series_facts": kept.model_dump()}
+
+
 def _route_by_family_patterns(
     remaining: list[dict],
     entry: "CatalogEntry",
@@ -3853,7 +3874,10 @@ async def _curate_one(
             "albums": [a.model_dump() for a in series.albums],
             "series_facts": series.series_facts.model_dump(),
         }
-        series.regression_flags = lint_regression(existing_curation, current_dict)
+        series.regression_flags = lint_regression(
+            _regression_baseline(existing_curation, entry, load_catalog()),
+            current_dict,
+        )
         series.regression_flags.extend(
             lint_provenance_flips(existing_curation, current_dict)
         )
