@@ -11,6 +11,7 @@ from lauschi_catalog.catalog.curate_ops import album_provenance
 from lauschi_catalog.catalog.io import safe_write_json
 from lauschi_catalog.catalog.merge_ops import move_albums
 from lauschi_catalog.catalog.paths import curation_path
+from lauschi_catalog.catalog.reasons import CURATE_REASON_KEYS
 
 console = Console()
 
@@ -33,6 +34,15 @@ def edit():
     """Edit curation files."""
 
 
+# Replaces the album's note when given. Without one, an include keeps the
+# note that explained the exclusion.
+_note_option = click.option(
+    "--note",
+    "-n",
+    help="Why, in a sentence (replaces the album's note)",
+)
+
+
 @edit.command()
 @click.argument("series_id")
 @click.argument("album_id")
@@ -41,19 +51,27 @@ def edit():
     "--reason",
     "-r",
     required=True,
-    help="Why this album is being excluded (recorded in the curation JSON)",
+    type=click.Choice(CURATE_REASON_KEYS),
+    help="Why this album is being excluded, in the curate vocabulary",
 )
-def exclude(series_id: str, album_id: str, provider: str, reason: str):
+@_note_option
+def exclude(
+    series_id: str, album_id: str, provider: str, reason: str, note: str | None
+) -> None:
     """Exclude an album from a curation.
 
     Records the reason on the album, so a future review pass (or
     re-curation) can tell intentional drops from agent-generated ones.
+    A re-curation reads it as the curate model's own, so it takes the
+    same reasons, and the note says what the reason cannot.
     """
     path, data = _load(series_id)
     for a in data["albums"]:
         if a["album_id"] == album_id and a.get("provider", "spotify") == provider:
             a["include"] = False
             a["exclude_reason"] = reason
+            if note is not None:
+                a["notes"] = note
             a.update(album_provenance("operator"))
             console.print(f"Excluded: {a['title']}")
             console.print(f"  reason: {reason}")
@@ -66,13 +84,16 @@ def exclude(series_id: str, album_id: str, provider: str, reason: str):
 @click.argument("series_id")
 @click.argument("album_id")
 @click.option("--provider", "-p", default="spotify")
-def include(series_id: str, album_id: str, provider: str):
+@_note_option
+def include(series_id: str, album_id: str, provider: str, note: str | None) -> None:
     """Include a previously excluded album."""
     path, data = _load(series_id)
     for a in data["albums"]:
         if a["album_id"] == album_id and a.get("provider", "spotify") == provider:
             a["include"] = True
             a.pop("exclude_reason", None)
+            if note is not None:
+                a["notes"] = note
             a.update(album_provenance("operator"))
             console.print(f"Included: {a['title']}")
             _save(path, data)
