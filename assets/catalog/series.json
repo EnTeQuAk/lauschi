@@ -4787,6 +4787,32 @@
         "spotify": {
           "artist_ids": ["4qhaHyCtCaFugTqT9LzuKp"],
           "albums": [
+            {"id": "5JubqYXTRk8aNqFI0N5Abd", "episode": 1, "title": "Folgen 1-5: Der Neue Held Von Nebenan (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339691865"},
+            {"id": "4W0ANHLO45Dn5kEo6PL9dU", "episode": 6, "title": "Folgen 6-10: Das Baby im Schafspelz (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339691988"},
+            {"id": "5c2RByDBuKtBVJUgfEc84K", "episode": 11, "title": "Folgen 11-15: Der Retter in der Not (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339691902"},
+            {"id": "30GiopspKT005H40NW5ufP", "episode": 16, "title": "Folgen 16-20: Falscher Alarm (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339692060"},
+            {"id": "2QszW3hkxshJsAbcXYf26y", "episode": 21, "title": "Folgen 21-26: Blitz Und Donner (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339692084"},
+            {"id": "1KNwsMxQHOIgzErCAw5XFw", "episode": 27, "title": "Folgen 27-31: Der Große Knall (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339692107"},
+            {"id": "7aDU9NW6g2huWZ5If1S2T8", "episode": 32, "title": "Folgen 32-37: Wildes Gewässer (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339692121"},
+            {"id": "3mh4UpAjoYeOqXSyNqbhIj", "episode": 38, "title": "Folgen 38-42: Abenteuer in Pontypandy (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339692138"},
+            {"id": "0xpMN4NOCVTaXe8K5euUsK", "episode": 43, "title": "Folgen 43-47: Der Retter von Pontypandy (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339692152"},
+            {"id": "6TdOSZ3yTrwU36qTITbTND", "episode": 48, "title": "Folgen 48-52: Tag der offenen Tür (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339692183"},
+            {"id": "2AHX3AijU4JmzFeJBEthwT", "episode": 53, "title": "Folgen 53-57: In Pontypandy wird's wild (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339692305"},
+            {"id": "4qlDbbzPNY2VZmhG4euiWJ", "episode": 58, "title": "Folgen 58-62: Helden auf dem Wasser (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339692442"},
+            {"id": "5V9JFTphXydqbwlSvmbzyv", "episode": 63, "title": "Folgen 63-67: Der tapfere Retter (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339692404"},
+            {"id": "2iAVmzlfwwvhTppby0F0ZU", "episode": 68, "title": "Folgen 68-72: Abenteuer im Schnee (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339692398"},
+            {"id": "1uvPz0fKotI9cUYV3ijdUg", "episode": 73, "title": "Folgen 73-78: Einsatz in den Bergen (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339692381"},
+            {"id": "4FESfa4bhLV4eUj1FD6ber", "episode": 79, "title": "Folgen 79-84: Mann über Bord (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339692374"},
+            {"id": "7qiSdaSrDqO9xsHinT6RN3", "episode": 85, "title": "Folgen 85-89: Auf dünnem Eis (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339692435"},
+            {"id": "5mdpj1OjOZ9VBuy9vLgcvE", "episode": 90, "title": "Folgen 90-94: Eine Insel voller Abenteuer (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339692350"},
+            {"id": "6us3jschPutXYS8HtAEZTD", "episode": 95, "title": "Folgen 95-98: Norman außer Rand und Band (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339692343"},
+            {"id": "4giGoAQgEAPxouSBf4tAmi", "episode": 99, "title": "Folgen 99-103: In Pontypandy ist was los (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339692329"},
+            {"id": "60JZcEsvEqo0jml5JOdZ0k", "episode": 104, "title": "Folgen 104-108: Wettlauf gegen die Zeit (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339692466"},
+            {"id": "5DXgsP2tRzrjXR5b3tAQGk", "episode": 109, "title": "Folgen 109-113: Sams Geburtstag (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339692206"},
+            {"id": "3LmPIgL2kVZmWflRJ725sz", "episode": 114, "title": "Folgen 114-118: Tierische Rettung (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339692220"},
+            {"id": "71Ghlo2gJEPQijdzs0rFif", "episode": 119, "title": "Folgen 119-123: Der Tag des Pinguins (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339692244"},
+            {"id": "0hNSYM0vZr15PTQrg8sFYL", "episode": 124, "title": "Folgen 124-128: Der Schatz von Pontypandy Pete (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339692268"},
+            {"id": "7aPpig74A0aV1L1Cv8rcqm", "episode": 129, "title": "Folgen 129-132: Tiere in Pontypandy (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339692282"},
             {"id": "4X2SP7EqLXOnbqPFJN7dsg", "episode": 133, "title": "Folge 133: Monster-Alarm (Das Original-Hörspiel zur TV-Serie)", "release_date": "2023", "barcode": "4066339692923"},
             {"id": "3mRDra3z38ks3SccwGdjPe", "episode": 134, "title": "Folge 134: Norman auf magischer Mission (Das Original-Hörspiel zur TV-Serie)", "release_date": "2023", "barcode": "4066339692893"},
             {"id": "01fvACi9OPIDJ3V9Mho13g", "episode": 135, "title": "Folge 135: Norman sieht Gespenster (Das Original-Hörspiel zur TV-Serie)", "release_date": "2023", "barcode": "4066339692886"},
@@ -4926,6 +4952,32 @@
         "apple_music": {
           "artist_ids": ["374131430"],
           "albums": [
+            {"id": "6772221300", "episode": 1, "title": "Folgen 1-5: Der Neue Held Von Nebenan (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4066339691858"},
+            {"id": "6772222780", "episode": 6, "title": "Folgen 6-10: Das Baby im Schafspelz (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4066339691971"},
+            {"id": "6772222379", "episode": 11, "title": "Folgen 11-15: Der Retter in der Not (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4066339691896"},
+            {"id": "6772224029", "episode": 16, "title": "Folgen 16-20: Falscher Alarm (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4066339692053"},
+            {"id": "6772224494", "episode": 21, "title": "Folgen 21-26: Blitz Und Donner (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4066339692077"},
+            {"id": "6772224298", "episode": 27, "title": "Folgen 27-31: Der Große Knall (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4066339692091"},
+            {"id": "6772224785", "episode": 32, "title": "Folgen 32-37: Wildes Gewässer (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4066339692114"},
+            {"id": "6772224951", "episode": 38, "title": "Folgen 38-42: Abenteuer in Pontypandy (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4066339692145"},
+            {"id": "6772224969", "episode": 43, "title": "Folgen 43-47: Der Retter von Pontypandy (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4066339692169"},
+            {"id": "6772225399", "episode": 48, "title": "Folgen 48-52: Tag der offenen Tür (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4066339692176"},
+            {"id": "6772228163", "episode": 53, "title": "Folgen 53-57: In Pontypandy wird's wild (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4066339692299"},
+            {"id": "6772230106", "episode": 58, "title": "Folgen 58-62: Helden auf dem Wasser (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4260009919017"},
+            {"id": "6772229693", "episode": 63, "title": "Folgen 63-67: Der tapfere Retter (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4260009919024"},
+            {"id": "6772229043", "episode": 68, "title": "Folgen 68-72: Abenteuer im Schnee (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4066339692398"},
+            {"id": "6772229509", "episode": 73, "title": "Folgen 73-78: Einsatz in den Bergen (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4066339692381"},
+            {"id": "6772228646", "episode": 79, "title": "Folgen 79-84: Mann über Bord (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4066339692374"},
+            {"id": "6772230307", "episode": 85, "title": "Folgen 85-89: Auf dünnem Eis (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4066339692435"},
+            {"id": "6772230414", "episode": 90, "title": "Folgen 90-94: Eine Insel voller Abenteuer (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4260009919925"},
+            {"id": "6772230780", "episode": 95, "title": "Folgen 95-98: Norman außer Rand und Band (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4260009919932"},
+            {"id": "6772227887", "episode": 99, "title": "Folgen 99-103: In Pontypandy ist was los (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4260009919949"},
+            {"id": "6772229477", "episode": 104, "title": "Folgen 104-108: Wettlauf gegen die Zeit (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4066339692459"},
+            {"id": "6772225833", "episode": 109, "title": "Folgen 109-113: Sams Geburtstag (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4066339692190"},
+            {"id": "6772226224", "episode": 114, "title": "Folgen 114-118: Tierische Rettung (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4066339692213"},
+            {"id": "6772226214", "episode": 119, "title": "Folgen 119-123: Der Tag des Pinguins (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4066339692237"},
+            {"id": "6772228238", "episode": 124, "title": "Folgen 124-128: Der Schatz von Pontypandy Pete (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4066339692251"},
+            {"id": "6772231453", "episode": 129, "title": "Folgen 129-132: Tiere in Pontypandy (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4260646129237"},
             {"id": "6772153685", "episode": 133, "title": "Folge 133: Monster-Alarm (Das Original-Hörspiel zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4260646128728"},
             {"id": "6772151971", "episode": 134, "title": "Folge 134: Norman auf magischer Mission (Das Original-Hörspiel zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4260646128735"},
             {"id": "6772153833", "episode": 135, "title": "Folge 135: Norman sieht Gespenster (Das Original-Hörspiel zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4260646128742"},
@@ -5051,20 +5103,7 @@
         }
       },
       "episode_pattern": "^Folge (\\d+):",
-      "aliases": ["Fireman Sam"],
-      "series_facts": {
-        "sub_series": [
-          {
-            "label": "kinofilm",
-            "album_ids": ["apple_music:6772233140", "apple_music:6772235619", "apple_music:6772235792", "apple_music:6772235864", "apple_music:6772245986", "spotify:0ZoMXHDAV9EKYqDNq72aiO", "spotify:1B4lJAjlmGPH6AOPPHaE1c", "spotify:1aINvB8BoFkcPNONprp720", "spotify:5gZIJ83eSRFa7Za0GeP4MU", "spotify:6EAiJniLwF8WLmUeDGicqw"],
-            "reason": "Theatrical film Hörspiele with distinct 'zum Film' / 'zum Kinofilm' branding. Five unique film tie-in titles plus one 2010 release, representing a separate product line from the main episodic series. Confirmed against reference lines as the 'Kinofilme' line.",
-            "curated_by": "minimax-m2.7",
-            "curated_at": "2026-10-02T22:15:53.725570+00:00",
-            "audited_by": "minimax-m2.7",
-            "audited_at": "2026-10-02T22:15:53.725570+00:00"
-          }
-        ]
-      }
+      "aliases": ["Fireman Sam"]
     },
     {
       "id": "shrek",
@@ -22283,6 +22322,37 @@
         "apple_music": {
           "artist_ids": ["1173512481", "1515591006"],
           "albums": []
+        }
+      }
+    },
+    {
+      "id": "feuerwehrmann_sam_classics",
+      "title": "Feuerwehrmann Sam: Classics",
+      "aliases": ["Feuerwehrmann Sam Classics"],
+      "episode_pattern": "^Folgen (\\d+)-\\d+: (?:Wasser Marsch|Unser Held von Nebenan|Allzeit Bereit!|Feueralarm!|Winter in Pontypandy|Rettung in letzter Sekunde)",
+      "split_from": "feuerwehrmann_sam",
+      "providers": {
+        "spotify": {
+          "artist_ids": ["4qhaHyCtCaFugTqT9LzuKp"],
+          "albums": [
+            {"id": "0RjRBrYB5QS6fHEKZSxu4e", "episode": 1, "title": "Folgen 1-4: Wasser Marsch (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339691889"},
+            {"id": "1aCbaLwiTmigYRpfnQn0Lj", "episode": 5, "title": "Folgen 5-8: Unser Held von Nebenan (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339692411"},
+            {"id": "4uXG3chL4Wgl1Iq8yXVLfU", "episode": 9, "title": "Folgen 9-12: Allzeit Bereit! (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339692046"},
+            {"id": "4L3zJcpRqjHy5iNbcRZi2F", "episode": 13, "title": "Folgen 13-16: Feueralarm! (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339691964"},
+            {"id": "3T2sOkEv9ca7r1e0kU3rNQ", "episode": 17, "title": "Folgen 17-21: Winter in Pontypandy (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339691940"},
+            {"id": "32y2N3Ia00ifUfldZfYFKV", "episode": 22, "title": "Folgen 22-26: Rettung in letzter Sekunde (Die Original-Hörspiele zur TV-Serie)", "release_date": "2023", "barcode": "4066339691926"}
+          ]
+        },
+        "apple_music": {
+          "artist_ids": ["374131430"],
+          "albums": [
+            {"id": "6772224095", "episode": 1, "title": "Folgen 1-4: Wasser Marsch (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4066339691872"},
+            {"id": "6772229787", "episode": 5, "title": "Folgen 5-8: Unser Held von Nebenan (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4260009918164"},
+            {"id": "6772226702", "episode": 9, "title": "Folgen 9-12: Allzeit Bereit! (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4260009918171"},
+            {"id": "6772226715", "episode": 13, "title": "Folgen 13-16: Feueralarm! (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4260009918188"},
+            {"id": "6772226860", "episode": 17, "title": "Folgen 17-21: Winter in Pontypandy (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4260009918195"},
+            {"id": "6772224651", "episode": 22, "title": "Folgen 22-26: Rettung in letzter Sekunde (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4066339691919"}
+          ]
         }
       }
     }
