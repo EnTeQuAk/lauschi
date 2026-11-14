@@ -11320,11 +11320,14 @@
             {"id": "6WPVxlZcxUidWx7FHYXZjH", "episode": 64, "title": "Folge 64: als Butler", "release_date": "2007-04-27", "barcode": "190295922207"},
             {"id": "0vA0r7hmSecsmqX9lSPItK", "episode": 65, "title": "Folge 65: Wo ist Otto?", "release_date": "2007-04-27", "barcode": "190295922153"},
             {"id": "1yv8jm64CiSPosTsxh4lCo", "episode": 66, "title": "Folge 66: als Ballonfahrer", "release_date": "2007-04-27", "barcode": "190295919726"},
+            {"id": "1SeO1t4hsaR0pZImgwCYpa", "episode": 67, "title": "Folge 67: Meine schönsten Lieder", "release_date": "1991-04-01", "barcode": "190296506239"},
             {"id": "63RcR5NFniG16nkYiTyaGc", "episode": 68, "title": "Folge 68: als Taxifahrer", "release_date": "2007-04-27", "barcode": "190295919597"},
             {"id": "1e3NPoCQB8TEgJ2fo3UMqp", "episode": 69, "title": "Folge 69: als Zoodirektor", "release_date": "2007-04-27", "barcode": "190295922672"},
             {"id": "6lNjuIEJNSfQXD7odKQKPG", "episode": 70, "title": "Folge 70: und Bibi in Indien", "release_date": "2007-04-27", "barcode": "190295922689"},
+            {"id": "1JeBY6qSC9x6Pd5MnWW8q8", "episode": 71, "title": "Folge 71 - Benjamin Blümchen: Alle meine Freunde", "release_date": "1992", "barcode": "825646393503"},
             {"id": "1PhNAdwzlUPyXerld6mVvR", "episode": 72, "title": "Folge 72: und Bino", "release_date": "2007-04-27", "barcode": "190295919276"},
             {"id": "3CHmjvDfUeAgOUdAWAMXxU", "episode": 73, "title": "Folge 73: und der Weihnachtsmann", "release_date": "2007-04-27", "barcode": "190295919290"},
+            {"id": "6AVz3QZh2M5qneXF3MyNua", "episode": 74, "title": "Folge 74 - Benjamin Blümchen singt Weihnachtslieder", "release_date": "1992", "barcode": "825646395026"},
             {"id": "38XOHM64E7ROyyUdHpa5jt", "episode": 75, "title": "Folge 75: Der geheimnisvolle Brief", "release_date": "2007-04-27", "barcode": "190295922665"},
             {"id": "1eY0gXcIvgBs54YMs4M2Oy", "episode": 76, "title": "Folge 76: als Förster", "release_date": "1997", "barcode": "190295922641"},
             {"id": "2JD9zuelRUhvJavOJ2HMYz", "episode": 77, "title": "Folge 77: und die Eisprinzessin", "release_date": "1994-01-01", "barcode": "190295919351"},
@@ -11495,11 +11498,14 @@
             {"id": "1139311779", "episode": 64, "title": "Folge 64: als Butler", "release_date": "2007-04-27", "barcode": "190295922207"},
             {"id": "1139308993", "episode": 65, "title": "Folge 65: Wo ist Otto?", "release_date": "2007-04-27", "barcode": "190295922153"},
             {"id": "1139278523", "episode": 66, "title": "Folge 66: als Ballonfahrer", "release_date": "2007-04-27", "barcode": "190295919726"},
+            {"id": "1659079965", "episode": 67, "title": "Folge 67: Meine schönsten Lieder", "release_date": "1991-04-01", "barcode": "190296506239"},
             {"id": "1139279409", "episode": 68, "title": "Folge 68: als Taxifahrer", "release_date": "2007-04-27", "barcode": "190295919597"},
             {"id": "1139295167", "episode": 69, "title": "Folge 69: als Zoodirektor", "release_date": "2007-04-27", "barcode": "190295922672"},
             {"id": "1139294473", "episode": 70, "title": "Folge 70: und Bibi in Indien", "release_date": "2007-04-27", "barcode": "190295922689"},
+            {"id": "1069067188", "episode": 71, "title": "Folge 71 - Benjamin Blümchen: Alle meine Freunde", "release_date": "1992", "barcode": "825646393503"},
             {"id": "1139273172", "episode": 72, "title": "Folge 72: und Bino", "release_date": "2007-04-27", "barcode": "190295919276"},
             {"id": "1139273918", "episode": 73, "title": "Folge 73: und der Weihnachtsmann", "release_date": "2007-04-27", "barcode": "190295919290"},
+            {"id": "1069147314", "episode": 74, "title": "Folge 74 - Benjamin Blümchen singt Weihnachtslieder", "release_date": "1992", "barcode": "825646395026"},
             {"id": "1139297270", "episode": 75, "title": "Folge 75: Der geheimnisvolle Brief", "release_date": "2007-04-27", "barcode": "190295922665"},
             {"id": "1139308529", "episode": 76, "title": "Folge 76: als Förster", "release_date": "1997", "barcode": "190295922641"},
             {"id": "1139284423", "episode": 77, "title": "Folge 77: und die Eisprinzessin", "release_date": "1994-01-01", "barcode": "190295919351"},
@@ -11602,13 +11608,8 @@
           ]
         }
       },
-      "episode_pattern": ["^Folge (\\d+):"],
+      "episode_pattern": ["^Folge (\\d+):", "^Folge (\\d+) - "],
       "series_facts": {
-        "known_gaps": [
-          {"curated_by": "minimax-m2.7", "curated_at": "2026-07-02T16:02:12.034356+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-07-02T16:02:12.034356+00:00", "number": 67, "range_end": null, "reason": "Episode 67 exists in both catalogs as a music compilation album ('Meine schönsten Lieder', 12 song tracks), not a narrative Hörspiel episode. The actual narrative episode 67 does not exist in catalogs."},
-          {"curated_by": "unknown", "curated_at": null, "audited_by": "minimax-m2.7", "audited_at": "2026-05-28T11:07:48.014853+00:00", "number": 71, "range_end": null, "reason": "Episode 71 'Alle meine Freunde' exists in both catalogs as a music compilation album, not a narrative Hörspiel. The actual narrative episode 71 does not exist in catalogs."},
-          {"curated_by": "unknown", "curated_at": null, "audited_by": "minimax-m2.7", "audited_at": "2026-05-28T11:07:48.014853+00:00", "number": 74, "range_end": null, "reason": "Episode 74 'singt Weihnachtslieder' exists in both catalogs as a Christmas songs album, not a narrative Hörspiel. The actual narrative episode 74 does not exist in catalogs."}
-        ],
         "sub_series": [
           {
             "curated_by": "curate",
@@ -13192,6 +13193,7 @@
             {"id": "3jOa5x2ON65krbdYaF201a", "title": "Die vier Jahreszeiten des kleinen Bären - Das große Abenteuer Musik - Folge 1", "release_date": "1994", "barcode": "00028947966609"},
             {"id": "2QbFKs4vPbE7LYV5ubQLs6", "title": "Du brauchst ein Lied", "release_date": "1994-01-01", "barcode": "00731452367020"},
             {"id": "38fU1VW61DMdWabqL8psOZ", "title": "Im Kindergarten", "release_date": "1994-01-01", "barcode": "00028943139427"},
+            {"id": "4SIMTfYVduuhrzev72aZR5", "title": "Sing mit uns - Rolfs Vogelhochzeit", "release_date": "1994-01-01", "barcode": "00731452302328"},
             {"id": "01JrN7TzqiE7Vs1JNJ3Mkl", "title": "Rolfs Vogelhochzeit (Das Original in der Urfassung)", "release_date": "1994-02-28", "barcode": "00602557007169"},
             {"id": "0ijBGSXUC6LCpKF0RDbXZE", "title": "Freunde wie wir", "release_date": "1995-01-01", "barcode": "00731452909725"},
             {"id": "7IrWAAxCy0noDnV41yogM0", "title": "12 Bunte Liedergeschichten", "release_date": "1996-01-01", "barcode": "00731453178328"},
@@ -13222,7 +13224,6 @@
             {"id": "5VOBTWkOx6AdqqEiVdDkDC", "title": "Mit Kindern singen - Rolfs Gitarrenschule", "release_date": "2010-01-01", "barcode": "4069828391086"},
             {"id": "2GmcoK6qYfjXtxXEYe4LFf", "title": "Sehnsucht nach Weihnachten", "release_date": "2010-11-26", "barcode": "00602527487922"},
             {"id": "4x5GjyI5mjuNwVTVRm5rF9", "title": "In der Weihnachtsbäckerei", "release_date": "2012-01-01", "barcode": "00602537100507"},
-            {"id": "4y0ZKgr9xOkwBbCwI3Wo5b", "title": "leiseStärke", "release_date": "2012-03-16", "barcode": "00602527958026"},
             {"id": "16IzmPeth4GOmsRk7haYQz", "title": "3 Klassiker für Kinder", "release_date": "2015-02-02", "barcode": "00602547129512"},
             {"id": "4TOQUUWEZeQ9ZNnfFDR0M0", "title": "Schule ist mehr - 14 Lieder für die Grundschulzeit", "release_date": "2016-09-23", "barcode": "00602547258113"},
             {"id": "3ZZ0Bfd3QJAEsqF2MeJaLb", "title": "Rolfs neue Vogelhochzeit", "release_date": "2017-04-07", "barcode": "00602557395174"},
@@ -13240,6 +13241,7 @@
             {"id": "1442519033", "title": "Claras Traum vom Nussknacker und Mäusekönig - Das große Abenteuer Musik -  Folge 4", "release_date": "1994", "barcode": "00028947966630"},
             {"id": "1442683544", "title": "Die vier Jahreszeiten des kleinen Bären - Das große Abenteuer Musik - Folge 1", "release_date": "1994", "barcode": "00028947966609"},
             {"id": "1442517751", "title": "Du brauchst ein Lied", "release_date": "1994-01-01", "barcode": "00731452367020"},
+            {"id": "1442764709", "title": "Sing mit uns! - Rolfs Vogelhochzeit", "release_date": "1994-01-01", "barcode": "00731452302328"},
             {"id": "1442544005", "title": "Freunde wie wir", "release_date": "1995-01-01", "barcode": "00731452909725"},
             {"id": "1442764501", "title": "Rolfs Liederbüchermaus", "release_date": "1996-01-01", "barcode": "00731453315921"},
             {"id": "1445752625", "title": "Der kleine Tag", "release_date": "1999-01-01", "barcode": "00731454770729"},
