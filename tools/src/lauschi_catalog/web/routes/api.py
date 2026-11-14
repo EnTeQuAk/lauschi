@@ -4,7 +4,7 @@ from typing import Any
 
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import RedirectResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 
 from lauschi_catalog.catalog.album_ops import update_album as _update_album
 from lauschi_catalog.catalog.discover_ops import (
@@ -16,6 +16,7 @@ from lauschi_catalog.catalog.discover_ops import (
 from lauschi_catalog.catalog.loader import update_provider_ids
 from lauschi_catalog.catalog.merge_ops import accept_split, merge_series, reject_split
 from lauschi_catalog.catalog.providers_init import init_providers
+from lauschi_catalog.catalog.reasons import CURATE_REASON_KEYS
 from lauschi_catalog.catalog.series_ops import SeriesChanges, edit_series
 from lauschi_catalog.providers import CatalogProvider
 from lauschi_catalog.web.catalog_store import get_series_by_id, reload_catalog
@@ -72,6 +73,17 @@ class AlbumStatusUpdate(BaseModel):
     exclude_reason: str | None = None
     episode_num: int | str | None = None
     title: str | None = None
+
+    @field_validator("exclude_reason")
+    @classmethod
+    def _curate_reason(cls, value: str | None) -> str | None:
+        # A re-curation reads the reason into the curate model, which
+        # takes no other, so any other would abort the next curate run.
+        if value is not None and value not in CURATE_REASON_KEYS:
+            raise ValueError(
+                f"exclude_reason must be one of {', '.join(CURATE_REASON_KEYS)}"
+            )
+        return value
 
 
 class SeriesEdit(BaseModel):

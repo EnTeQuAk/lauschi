@@ -361,13 +361,13 @@
                                             </td>
                                             <td x-text="album.release_date ?? '-'"></td>
                                             <td>
-                                                <input x-show="!album.include"
-                                                       x-model="album.exclude_reason"
-                                                       @blur="saveReason(album)"
-                                                       @keydown.enter="saveReason(album)"
-                                                       type="text"
-                                                       placeholder="Reason…"
-                                                       class="reason-input text-muted" />
+                                                <select x-show="!album.include"
+                                                        x-model="album.exclude_reason"
+                                                        @change="saveReason(album)"
+                                                        class="reason-input text-muted">
+                                                    <option value="">Reason…</option>
+                                                    {% for reason in exclude_reasons %}<option value="{{ reason }}">{{ reason }}</option>{% endfor %}
+                                                </select>
                                                 <small x-show="album.include"
                                                        x-text="album.exclude_reason ?? ''"
                                                        class="text-muted"></small>
@@ -846,7 +846,7 @@ function episodesApp(seriesId) {
       }
     },
     async saveReason(album) {
-      if (album.include) return;
+      if (album.include || !album.exclude_reason) return;
       const res = await fetch(`/api/series/${seriesId}/albums/${album.album_id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },

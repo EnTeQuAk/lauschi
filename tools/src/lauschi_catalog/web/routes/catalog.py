@@ -18,6 +18,7 @@ from lauschi_catalog.catalog.paths import (
 from lauschi_catalog.catalog.paths import (
     curation_path as _curation_path,
 )
+from lauschi_catalog.catalog.reasons import CURATE_REASON_KEYS
 from lauschi_catalog.catalog.series_ops import (
     SERIES_ID_PATTERN,
     SeriesChanges,
@@ -434,6 +435,7 @@ def _render_series_detail(
             "family": family,
             "extra_flashes": extra_flashes or [],
             "insights": _build_insights(curation),
+            "exclude_reasons": CURATE_REASON_KEYS,
         },
     )
 
