@@ -139,6 +139,122 @@ class TestEditSeries:
         assert entry.get(key) == expected
 
 
+_FOLGE_COLON = r"^Folge (\d+):"
+_FOLGE_DASH = r"^Folge (\d+) - "
+
+
+def _numbered_family(catalog: ScratchCatalog) -> None:
+    """A series on one pattern line whose curation holds the numbers a
+    curate run settled: one by the pattern, one cleared because a newer
+    story took it, one from the twin on the other provider, and one title
+    the pattern does not read."""
+    data = load_raw(catalog.series_json)
+    entry = next(e for e in data["series"] if e["id"] == "bibi_blocksberg")
+    entry["episode_pattern"] = _FOLGE_COLON
+    entry["providers"] = {"spotify": {"artist_ids": ["a"]}}
+    write_catalog(catalog.series_json, data)
+    catalog.write_curation(
+        {
+            "id": "bibi_blocksberg",
+            "title": "Bibi Blocksberg",
+            "episode_pattern": _FOLGE_COLON,
+            "albums": [
+                {
+                    "album_id": "a70",
+                    "provider": "spotify",
+                    "include": True,
+                    "title": "Folge 70: Der Hexengeburtstag",
+                    "episode_num": 70,
+                },
+                {
+                    "album_id": "a71",
+                    "provider": "spotify",
+                    "include": True,
+                    "title": "Folge 71 - Alle meine Freunde",
+                    "episode_num": None,
+                },
+                {
+                    "album_id": "a81_old",
+                    "provider": "spotify",
+                    "include": True,
+                    "title": "Folge 81: Die Zauberschule",
+                    "episode_num": None,
+                },
+                {
+                    "album_id": "a81",
+                    "provider": "spotify",
+                    "include": True,
+                    "title": "Folge 81: Das Hexenfest",
+                    "episode_num": 81,
+                },
+                {
+                    "album_id": "a67",
+                    "provider": "spotify",
+                    "include": True,
+                    "title": "Meine schönsten Lieder",
+                    "episode_num": 67,
+                },
+            ],
+        }
+    )
+
+
+def _numbers(catalog: ScratchCatalog) -> dict[str, int | None]:
+    return {
+        a["album_id"]: a["episode_num"]
+        for a in catalog.read_curation("bibi_blocksberg")["albums"]
+    }
+
+
+class TestEditPatternNumbers:
+    """apply ships the curation's episode numbers, and only curate set
+    them. A pattern line added by hand left the titles it reads
+    unnumbered, so they shipped at the end of the list."""
+
+    def test_an_added_line_numbers_the_titles_it_reads(self, catalog_env):
+        _numbered_family(catalog_env)
+
+        changes = series_ops.SeriesChanges(episode_pattern=[_FOLGE_COLON, _FOLGE_DASH])
+        assert series_ops.edit_series("bibi_blocksberg", changes).ok
+        assert apply_curations("bibi_blocksberg", allow_unreviewed=True).applied == 1
+
+        # The number curate cleared and the twin's number stay as they were.
+        assert _numbers(catalog_env) == {
+            "a70": 70,
+            "a71": 71,
+            "a81_old": None,
+            "a81": 81,
+            "a67": 67,
+        }
+        data = load_raw(catalog_env.series_json)
+        entry = next(e for e in data["series"] if e["id"] == "bibi_blocksberg")
+        shipped = {
+            a["id"]: a.get("episode") for a in entry["providers"]["spotify"]["albums"]
+        }
+        assert shipped["a71"] == 71
+
+    @pytest.mark.parametrize(
+        "changes",
+        [
+            pytest.param(
+                series_ops.SeriesChanges(title="Bibi", episode_pattern=_FOLGE_COLON),
+                id="the web form sends the same pattern back",
+            ),
+            pytest.param(
+                series_ops.SeriesChanges(episode_pattern=[]),
+                id="no pattern",
+            ),
+        ],
+    )
+    def test_the_numbers_curate_settled_stay(self, catalog_env, changes):
+        _numbered_family(catalog_env)
+        before = _numbers(catalog_env)
+
+        assert series_ops.edit_series("bibi_blocksberg", changes).ok
+
+        assert _numbers(catalog_env) == before
+
+
 class TestDeleteSeries:
     def test_delete_removes_and_logs(self, catalog_env):
         cur = catalog_env.write_curation({"id": "bibi_blocksberg"})

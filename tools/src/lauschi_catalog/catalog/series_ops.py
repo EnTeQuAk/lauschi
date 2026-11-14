@@ -11,6 +11,7 @@ from typing import Any
 
 from lauschi_catalog.catalog import paths
 from lauschi_catalog.catalog.deleted import record_deletion
+from lauschi_catalog.catalog.episode_range import title_number
 from lauschi_catalog.catalog.io import (
     find_series,
     locked_raw,
@@ -138,10 +139,36 @@ def edit_series(series_id: str, changes: SeriesChanges) -> EditResult:
     curation_path = paths.curation_path(new_id or series_id)
     if edited and curation_path.exists():
         curation = json.loads(curation_path.read_text())
+        if changes.episode_pattern:
+            _number_new_readings(
+                curation.get("albums", []),
+                curation.get("episode_pattern"),
+                changes.episode_pattern,
+            )
         curation.update(edited)
         safe_write_json(curation_path, curation)
 
     return EditResult(ok=True, series_id=new_id or series_id)
+
+
+def _number_new_readings(
+    albums: list[dict[str, Any]],
+    old_pattern: str | list[str] | None,
+    new_pattern: str | list[str],
+) -> None:
+    """Number the titles the new pattern reads differently from the old.
+
+    apply ships the curation's numbers, and a curate run settles those
+    from the title, the track names and the other provider, clearing a
+    number a newer story took. So only a title whose reading the edit
+    changed takes the new number here, and every other number stays as
+    curate left it until the next curate run.
+    """
+    for album in albums:
+        title = album.get("title", "")
+        number = title_number(new_pattern, title)
+        if number is not None and number != title_number(old_pattern, title):
+            album["episode_num"] = number
 
 
 # ---- Delete ----
