@@ -37,6 +37,7 @@ from lauschi_catalog.catalog.analysis import analyze_series, normalize_title
 from lauschi_catalog.catalog.canonical import album_sort_key, canonicalize
 from lauschi_catalog.catalog.episode_range import (
     RangeFact,
+    episode_range,
     numbers_released_alone,
     range_facts,
     title_number,
@@ -1232,6 +1233,12 @@ def settle_batch_decisions(
             f"  Dropped {unsupported} carried episode number(s) neither the "
             f"title nor the track names support.\n"
         )
+    boxes = _number_boxes_by_their_own_episodes(decisions)
+    if boxes:
+        on_progress(
+            f"  {boxes} box(es) beside singles numbered with the first episode "
+            f"only they release.\n"
+        )
     from_twins = _derive_numbers_from_twins(decisions, series_names)
     if from_twins:
         on_progress(f"  Twins on the other provider numbered {from_twins} album(s).\n")
@@ -1547,6 +1554,30 @@ def _derive_numbers_from_twins(
             d.episode_num = twins.pop()
             filled += 1
     return filled
+
+
+def _number_boxes_by_their_own_episodes(decisions: list["AlbumDecision"]) -> int:
+    """Number a box beside singles with the first episode only it releases.
+
+    A box ships as the release of the episodes its store has nowhere
+    else. Feuerwehrmann Sam "Folgen 151-154" on Apple Music is the only
+    release of 154, since 151 to 153 ship alone. Its first episode belongs
+    to the single, so the box carries 154: the number its title names that
+    no other album there holds. A box whose every episode ships alone keeps
+    its number, and so does one whose first episode is only in the box.
+    Returns how many boxes were renumbered.
+    """
+    alone = numbers_released_alone(d for d in decisions if d.include)
+    renumbered = 0
+    for d in decisions:
+        run = episode_range(d.title)
+        if not d.include or run is None or d.episode_num != run.first:
+            continue
+        own = [n for n in run.episodes if n not in alone.get(d.provider, set())]
+        if own and own[0] != run.first:
+            d.episode_num = own[0]
+            renumbered += 1
+    return renumbered
 
 
 def _settle_number_reuse(

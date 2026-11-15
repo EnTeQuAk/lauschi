@@ -8,7 +8,8 @@ page in batches and cannot tell the two apart, so `range_facts` works it
 out from the whole page and the batch gets it as a fact.
 
 An included run carries the number of its first episode, so code that
-looks for gaps uses `covered_episodes` to count the rest of the run.
+looks for gaps uses `covered_episodes` to count the rest of the run. A run
+whose start ships as singles carries the first episode only it releases.
 """
 
 import re
@@ -142,7 +143,9 @@ def covered_episodes(albums: Iterable[Mapping[str, object]]) -> set[int]:
     ``albums`` are curation records (``episode_num``, ``title``). A run
     covers its episodes only when it carries its own first number, the
     way the curator numbers it. Numbered any other way it covers just
-    that number, and the oddity is left for a human to see.
+    that number. That is right for a box beside singles, which carries the
+    first episode only it releases while the singles cover the rest, and
+    any other oddity is left for a human to see.
     """
     covered: set[int] = set()
     for album in albums:

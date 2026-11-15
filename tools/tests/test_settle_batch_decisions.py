@@ -198,3 +198,77 @@ def test_a_shipped_album_still_leaves(
 
     assert album.include is False
     assert album.decided_by != AWAITS_SPLIT
+
+
+def _box_and_singles(
+    box: str, singles: dict[int, bool]
+) -> tuple[AlbumDecision, dict[int, AlbumDecision]]:
+    """A box and the singles beside it on one Apple Music page, all of one
+    day, as the Feuerwehrmann Sam re-release of 2026-05-29 lists them."""
+    day = "2026-05-29"
+    the_box = decision("box", provider="apple_music", title=box, release_date=day)
+    the_box.decided_by = "operator"
+    alone = {
+        number: decision(
+            f"single-{number}",
+            provider="apple_music",
+            title=f"Folge {number}: Story {number}",
+            release_date=day,
+            include=shipped,
+            exclude_reason=None if shipped else "partial_release",
+        )
+        for number, shipped in singles.items()
+    }
+    return the_box, alone
+
+
+@pytest.mark.parametrize(
+    ("box", "singles", "number"),
+    [
+        pytest.param(
+            "Folgen 151-154: Hilfspolizist James",
+            {151: True, 152: True, 153: True},
+            154,
+            id="its first episode ships alone",
+        ),
+        pytest.param(
+            "Folgen 27-30: Die Königin von Halloween",
+            {28: True, 29: True, 30: True},
+            27,
+            id="its first episode is only in the box",
+        ),
+        pytest.param(
+            "Folgen 151-154: Hilfspolizist James",
+            {151: False, 152: True, 153: True},
+            151,
+            id="a single that does not ship",
+        ),
+    ],
+)
+def test_a_box_beside_singles_carries_the_first_episode_only_it_releases(
+    box: str, singles: dict[int, bool], number: int
+) -> None:
+    """Apple Music has Feuerwehrmann Sam 151 to 153 alone, and 154 only in
+    the box "Folgen 151-154", which ships for it. Numbered with its first
+    episode the box took 151 from the single, and the number-reuse settle
+    then cleared one of the two, whichever came first on the page."""
+    the_box, alone = _box_and_singles(box, singles)
+
+    settle_batch_decisions(
+        [*alone.values(), the_box],
+        discovered=_page(
+            *(
+                ("apple_music", d.album_id, d.title, d.release_date or "")
+                for d in [the_box, *alone.values()]
+            )
+        ),
+        pattern=PATTERN,
+        entry=CatalogEntry(id="feuerwehrmann_sam", title="Feuerwehrmann Sam"),
+        line_of=None,
+        series_names=["Feuerwehrmann Sam"],
+        seen_details={},
+    )
+
+    assert the_box.episode_num == number
+    shipped = {n: d.episode_num for n, d in alone.items() if d.include}
+    assert shipped == {n: n for n in shipped}
