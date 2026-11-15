@@ -1125,6 +1125,66 @@ def _name_root_as_owner(
     return named
 
 
+def _settle_barcode_twins(
+    decisions: list["AlbumDecision"], entry: "CatalogEntry | None"
+) -> int:
+    """One release on one provider ships once, however its copies are titled.
+
+    A barcode names a release, so two albums on one provider with the same
+    barcode are that release twice. Spotify moves releases to new ids, at
+    times under another title (Die Playmos 81 as "Prinzessin in Not" and
+    "Prinzessin in höchster Not", Heidi's Swiss German Hörspiele without
+    "(Schwizer Dütsch)"). A person's decision on one copy is their call on
+    the release, so an included copy follows it. Without one, the copy the
+    entry ships stays, else the first on the page, and the other included
+    copies are duplicates. Returns how many copies were excluded.
+    """
+    shipped = (
+        {(provider, album_id) for provider, album_id, *_ in _applied_records(entry)}
+        if entry is not None
+        else set()
+    )
+    groups: dict[tuple[str, str], list[AlbumDecision]] = {}
+    for d in decisions:
+        if d.barcode:
+            groups.setdefault((d.provider, d.barcode), []).append(d)
+    excluded = 0
+    for (_provider, barcode), copies in groups.items():
+        included = [d for d in copies if d.include and d.decided_by != "operator"]
+        if len(copies) < 2 or not included:
+            continue
+        by_hand = [d for d in copies if d.decided_by == "operator"]
+        if len({d.include for d in by_hand}) > 1:
+            continue  # a person kept one copy and dropped another: theirs to settle
+        if by_hand:
+            chosen = by_hand[0]
+            reason = "duplicate" if chosen.include else chosen.exclude_reason
+            why = "chose" if chosen.include else f"excluded as {chosen.exclude_reason}"
+            losers = included
+        else:
+            chosen = next(
+                (d for d in included if (d.provider, d.album_id) in shipped),
+                included[0],
+            )
+            reason, why = "duplicate", "ships"
+            losers = [d for d in included if d is not chosen]
+        for d in losers:
+            d.include = False
+            d.exclude_reason = reason
+            d.notes = (
+                f"The same release (barcode {barcode}) as {chosen.album_id}, "
+                f"which {'a person ' if by_hand else 'the series '}{why}."
+            )
+            d.confidence = "high"
+            provenance = album_provenance("duplicate")
+            d.decided_by, d.decided_at = (
+                provenance["decided_by"],
+                provenance["decided_at"],
+            )
+            excluded += 1
+    return excluded
+
+
 def _keep_shipped_bleed(
     decisions: list["AlbumDecision"], entry: "CatalogEntry | None"
 ) -> list["AlbumDecision"]:
@@ -1175,7 +1235,8 @@ def settle_batch_decisions(
     """Bring the model's batch decisions into the state the catalog ships.
 
     The steps are deterministic and their order matters. Identity comes
-    first, since every later step reads titles. A split-off line then
+    first, since every later step reads titles, and a release the page
+    lists twice under one barcode keeps one copy. A split-off line then
     leaves its doubt to the root, claims the twins of what it kept, and
     names the root on the rest. A main series keeps what it ships of a
     line without an entry. Numbers come last, from the title, the track
@@ -1191,6 +1252,12 @@ def settle_batch_decisions(
         on_progress(
             f"  Restored {restored} title(s) that were not the provider's; episode "
             f"numbers follow the provider's titles.\n"
+        )
+    left_out = _settle_barcode_twins(decisions, entry)
+    if left_out:
+        on_progress(
+            f"  {left_out} copy/copies of a release the page lists twice (same "
+            f"barcode) left out.\n"
         )
 
     doubted = _leave_doubt_to_root(decisions, entry)

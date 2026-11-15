@@ -348,3 +348,103 @@ def test_a_newer_story_does_not_take_a_number_a_person_set() -> None:
 
     assert older.episode_num == 5
     assert newer.episode_num is None
+
+
+def _copy(album_id: str, title: str, barcode: str, **kw: object) -> AlbumDecision:
+    d = decision(album_id, title=title, release_date="2022-11-17", **kw)  # type: ignore[arg-type]
+    d.barcode = barcode
+    return d
+
+
+def _settle_page(decisions: list[AlbumDecision], entry: CatalogEntry) -> None:
+    settle_batch_decisions(
+        decisions,
+        discovered=_page(
+            *(
+                (d.provider, d.album_id, d.title, d.release_date or "")
+                for d in decisions
+            )
+        ),
+        pattern=PATTERN,
+        entry=entry,
+        line_of=None,
+        series_names=[entry.title],
+        seen_details={},
+    )
+
+
+def test_one_release_ships_once_whatever_its_copies_are_titled() -> None:
+    """Spotify put Die Playmos 81 under a second id, titled "Prinzessin in
+    höchster Not" next to the "Prinzessin in Not" the series ships. One
+    barcode, one release: the copy that ships stays."""
+    shipped = _copy("old-id", "Folge 81: Prinzessin in Not", "4260229665008")
+    moved = _copy("new-id", "Folge 81: Prinzessin in höchster Not", "4260229665008")
+    entry = CatalogEntry(
+        id="die_playmos",
+        title="Die Playmos",
+        providers={
+            "spotify": ProviderConfig(
+                albums=[{"id": "old-id", "title": shipped.title, "episode": 81}]
+            )
+        },
+    )
+
+    _settle_page([moved, shipped], entry)
+
+    assert shipped.include and shipped.episode_num == 81
+    assert not moved.include and moved.exclude_reason == "duplicate"
+
+
+def test_a_persons_decision_on_a_release_holds_for_its_other_copies() -> None:
+    """Heidi's 1970s Hörspielserie: a person shipped the High German Folge
+    1 and excluded the Swiss German one. Spotify moved both to new ids,
+    the Swiss German one without "(Schwizer Dütsch)" in its title."""
+    high_german = _copy("hd", "Folge 1: Heidi kommt zum Alm-Öhi", "4066004023557")
+    high_german.decided_by = "operator"
+    swiss = _copy(
+        "ch",
+        "Folge 1: Heidi kommt zum Alm-Öhi (Schwizer Dütsch)",
+        "4066004026329",
+        include=False,
+        exclude_reason="sub_series_bleed",
+        notes="Schwizer-Dütsch (Swiss German) version of the same episode",
+    )
+    swiss.decided_by = "operator"
+    swiss_moved = _copy("ch-new", "Folge 1: Heidi kommt zum Alm-Öhi", "4066004026329")
+    high_german_moved = _copy(
+        "hd-new", "Folge 1: Heidi kommt zum Alm-Öhi", "4066004023557"
+    )
+    entry = CatalogEntry(id="heidi_1970", title="Heidi")
+
+    _settle_page([high_german, swiss, swiss_moved, high_german_moved], entry)
+
+    assert high_german.include
+    assert not swiss_moved.include
+    assert swiss_moved.exclude_reason == "sub_series_bleed"
+    assert not high_german_moved.include
+    assert high_german_moved.exclude_reason == "duplicate"
+
+
+@pytest.mark.parametrize(
+    ("first", "second"),
+    [
+        pytest.param(("a", "spotify", ""), ("b", "spotify", ""), id="no barcode"),
+        pytest.param(
+            ("a", "spotify", "123"), ("b", "apple_music", "123"), id="two stores"
+        ),
+    ],
+)
+def test_copies_without_a_shared_barcode_on_one_store_both_stay(
+    first: tuple[str, str, str], second: tuple[str, str, str]
+) -> None:
+    a = _copy(first[0], "Willi und die Wunder dieser Welt", first[2], provider=first[1])
+    b = _copy(
+        second[0],
+        "Willi und die Wunder dieser Welt (Hörspiel)",
+        second[2],
+        provider=second[1],
+    )
+
+    _settle_page([a, b], CatalogEntry(id="willi", title="Willi wills wissen"))
+
+    assert a.include and b.include
