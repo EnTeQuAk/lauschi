@@ -11182,7 +11182,7 @@
           ]
         }
       },
-      "episode_pattern": "^Wir Kinder aus Bullerbü[ .:](\\d+)",
+      "episode_pattern": "^Wir Kinder aus Bullerbü[ .:](\\d+)(?!.*Lesung)",
       "aliases": ["Die Kinder von Bullerbü", "Bullerbü"]
     },
     {
@@ -22373,6 +22373,177 @@
         },
         "apple_music": {
           "artist_ids": ["374131430"],
+          "albums": []
+        }
+      }
+    },
+    {
+      "id": "heidi_wird_erwachsen",
+      "title": "Heidi wird erwachsen",
+      "aliases": [],
+      "content_type": "hoerspiel",
+      "episode_pattern": "^Heidi wird erwachsen, Folge (\\d+):",
+      "split_from": "heidi_hoerspielserie_1970er",
+      "providers": {
+        "apple_music": {
+          "artist_ids": ["1594933755", "1596786124"],
+          "albums": []
+        },
+        "spotify": {
+          "artist_ids": ["38MJVhx6S7PeScYAIX2PRs"],
+          "albums": []
+        }
+      }
+    },
+    {
+      "id": "pumuckl_hoerbuch",
+      "title": "Pumuckl: Hörbücher",
+      "aliases": ["Pumuckl Hörbuch"],
+      "content_type": "audiobook",
+      "split_from": "pumuckl",
+      "providers": {
+        "spotify": {
+          "artist_ids": ["1lhceMHrxr0jC943AuAhhh"],
+          "albums": []
+        },
+        "apple_music": {
+          "artist_ids": ["1710040920"],
+          "albums": []
+        }
+      }
+    },
+    {
+      "id": "bibi_blocksberg_hoerbuch",
+      "title": "Bibi Blocksberg: Hörbücher",
+      "aliases": ["Bibi Blocksberg Hörbuch"],
+      "content_type": "audiobook",
+      "split_from": "bibi_blocksberg",
+      "providers": {
+        "spotify": {
+          "artist_ids": ["3t2iKODSDyzoDJw7AsD99u"],
+          "albums": []
+        },
+        "apple_music": {
+          "artist_ids": ["41480004"],
+          "albums": []
+        }
+      }
+    },
+    {
+      "id": "bibi_und_tina_hoerbuch",
+      "title": "Bibi und Tina: Hörbücher",
+      "aliases": ["Bibi & Tina Hörbuch"],
+      "content_type": "audiobook",
+      "split_from": "bibi_und_tina",
+      "providers": {
+        "spotify": {
+          "artist_ids": ["2x8vG4f0HYXzMEo3xNsoiI"],
+          "albums": []
+        },
+        "apple_music": {
+          "artist_ids": ["220152697"],
+          "albums": []
+        }
+      }
+    },
+    {
+      "id": "tintenwelt_hoerbuch",
+      "title": "Tintenwelt: Hörbücher",
+      "aliases": ["Tintenherz Hörbuch"],
+      "content_type": "audiobook",
+      "split_from": "cornelia_funke",
+      "providers": {
+        "spotify": {
+          "artist_ids": ["5HQzBHnczgis11u7lSLVbt"],
+          "albums": []
+        },
+        "apple_music": {
+          "artist_ids": ["3500268"],
+          "albums": []
+        }
+      }
+    },
+    {
+      "id": "janosch_hoerbuch",
+      "title": "Janosch: Hörbücher",
+      "aliases": ["Janosch Hörbuch"],
+      "content_type": "audiobook",
+      "split_from": "janosch",
+      "providers": {
+        "spotify": {
+          "artist_ids": ["2QnEjtjHZPLkj6dYDmSigw"],
+          "albums": []
+        },
+        "apple_music": {
+          "artist_ids": ["34031449"],
+          "albums": []
+        }
+      }
+    },
+    {
+      "id": "der_kleine_rabe_socke_hoerbuch",
+      "title": "Der kleine Rabe Socke: Hörbücher",
+      "aliases": ["Rabe Socke Hörbuch"],
+      "content_type": "audiobook",
+      "split_from": "der_kleine_rabe_socke",
+      "providers": {
+        "spotify": {
+          "artist_ids": ["6NdYPh29DHFBbiYzcK7Nb0"],
+          "albums": []
+        },
+        "apple_music": {
+          "artist_ids": ["726252391"],
+          "albums": []
+        }
+      }
+    },
+    {
+      "id": "die_schule_der_magischen_tiere_hoerbuch",
+      "title": "Die Schule der magischen Tiere: Hörbücher",
+      "aliases": ["Schule der magischen Tiere Hörbuch"],
+      "content_type": "audiobook",
+      "split_from": "die_schule_der_magischen_tiere",
+      "providers": {
+        "spotify": {
+          "artist_ids": ["1BElEHaU2xaZg7FOGsSird", "6wlMx6MhWCynm8yVU0K3V3"],
+          "albums": []
+        },
+        "apple_music": {
+          "artist_ids": ["1328909127", "1805765716", "1676101199"],
+          "albums": []
+        }
+      }
+    },
+    {
+      "id": "astrid_lindgren_hoerbuch",
+      "title": "Astrid Lindgren: Hörbücher",
+      "aliases": ["Astrid Lindgren Hörbuch"],
+      "content_type": "audiobook",
+      "split_from": "astrid_lindgren_deutsch",
+      "providers": {
+        "spotify": {
+          "artist_ids": ["7sRF5KPi10c3pueaKGmArz"],
+          "albums": []
+        },
+        "apple_music": {
+          "artist_ids": ["1703088793"],
+          "albums": []
+        }
+      }
+    },
+    {
+      "id": "bullerbue_hoerbuch",
+      "title": "Wir Kinder aus Bullerbü: Hörbücher",
+      "aliases": ["Bullerbü Hörbuch"],
+      "content_type": "audiobook",
+      "split_from": "bullerbue",
+      "providers": {
+        "spotify": {
+          "artist_ids": ["6zjAfmQRjD2sWgEOkmKD3D"],
+          "albums": []
+        },
+        "apple_music": {
+          "artist_ids": ["1634428590"],
           "albums": []
         }
       }
