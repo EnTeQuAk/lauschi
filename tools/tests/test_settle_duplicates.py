@@ -95,3 +95,28 @@ class TestSettleSameProviderDuplicates:
         out = _settle_same_provider_duplicates([x, old, new], [])
         assert [d.album_id for d in out] == ["x", "old", "new"]
         assert out[0] is x
+
+    def test_a_persons_include_stays_when_a_newer_copy_turns_up(self):
+        """Heidi's 1970s Hörspielserie on Spotify: a person shipped the High
+        German "Folge 1: Heidi kommt zum Alm-Öhi" of January 2019 and
+        excluded the Swiss German version of May 2019. Spotify then moved
+        that version to a new id under the same title, and the newest copy
+        won, so the series would have shipped in Swiss German."""
+        mine = _dec(
+            "high-german", "Folge 1: Heidi kommt zum Alm-Öhi", "2019-01-25", ep=1
+        )
+        mine.decided_by = "operator"
+        newer = _dec("moved", "Folge 1: Heidi kommt zum Alm-Öhi", "2019-05-24", ep=1)
+        out = {
+            d.album_id: d for d in _settle_same_provider_duplicates([mine, newer], [])
+        }
+        assert out["high-german"].include is True
+        assert out["high-german"].decided_by == "operator"
+        assert out["moved"].include is False
+        assert out["moved"].exclude_reason == "duplicate"
+
+    def test_two_includes_a_person_made_both_stay(self):
+        a = _dec("a", "Folge 12: Der Fluch", "2016-01-01")
+        b = _dec("b", "Folge 12: Der Fluch", "2019-01-01")
+        a.decided_by = b.decided_by = "operator"
+        assert all(d.include for d in _settle_same_provider_duplicates([a, b], []))

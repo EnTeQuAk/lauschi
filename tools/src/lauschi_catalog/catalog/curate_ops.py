@@ -711,7 +711,9 @@ def _settle_same_provider_duplicates(
     unless an era_boundary fact places them in different eras (a
     re-recording decades apart). Without such a fact the newest wins and
     the other is marked duplicate; with one, both stay. The fact is the
-    authority, so the outcome is the same on every run.
+    authority, so the outcome is the same on every run. A person's
+    include outranks the newest: it stays, and a copy that turns up later
+    is the duplicate.
     """
     names = series_names or []
     groups: dict[tuple[str, str], list[int]] = {}
@@ -746,15 +748,21 @@ def _settle_same_provider_duplicates(
         eras = {era_of(decisions[i]) for i in members}
         if len(eras) > 1 and None not in eras:
             continue  # an era fact separates them: different recordings
-        newest = max(
+        kept = max(
             members,
             key=lambda i: (
+                decisions[i].decided_by == "operator",
                 decisions[i].episode_num is not None,
                 decisions[i].release_date or "",
             ),
         )
+        why = (
+            "a person chose that one"
+            if decisions[kept].decided_by == "operator"
+            else "the newest release is kept"
+        )
         for i in members:
-            if i == newest:
+            if i == kept or decisions[i].decided_by == "operator":
                 continue
             settled[i] = decisions[i].model_copy(
                 update={
@@ -763,9 +771,9 @@ def _settle_same_provider_duplicates(
                     "confidence": "high",
                     "notes": (
                         f"Same episode and title on this provider as "
-                        f"{decisions[newest].album_id} "
-                        f"({decisions[newest].release_date}); no era_boundary "
-                        f"separates them, the newest release is kept."
+                        f"{decisions[kept].album_id} "
+                        f"({decisions[kept].release_date}); no era_boundary "
+                        f"separates them, {why}."
                     ),
                     **album_provenance("duplicate"),
                 }
