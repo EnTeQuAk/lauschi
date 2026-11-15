@@ -426,14 +426,14 @@ one-line diff. Each entry has:
 - `providers.*.no_artist_page`: why a store has no artist page for the
   series, so discover does not search one
 
-Alongside it: `assets/catalog/curation/{id}.json` (290 committed curation
+Alongside it: `assets/catalog/curation/{id}.json` (296 committed curation
 files, the pipeline's per-series state), `deleted.json` (ids that must not be
 re-added), `ard_featured_shows.json` (the ARD Sounds shows the app
 features), `.cache/{provider}/` (7-day provider API cache, gitignored),
 `logs/catalog/` (pipeline run logs, gitignored).
 
-Validated by `lauschi-catalog validate` (tools/ package). Today: 290 series
-(129 of them split-off children), 7,569 curated Spotify and 7,216 Apple Music
+Validated by `lauschi-catalog validate` (tools/ package). Today: 296 series
+(137 of them split-off children), 7,656 curated Spotify and 7,325 Apple Music
 albums.
 
 ## Environment Variables
