@@ -272,3 +272,79 @@ def test_a_box_beside_singles_carries_the_first_episode_only_it_releases(
     assert the_box.episode_num == number
     shipped = {n: d.episode_num for n, d in alone.items() if d.include}
     assert shipped == {n: n for n in shipped}
+
+
+def _by_hand(album_id: str, title: str, number: int | None, **kw: str) -> AlbumDecision:
+    d = decision(album_id, title=title, episode_num=number, **kw)
+    d.decided_by = "operator"
+    return d
+
+
+def _settle_numbers(
+    decisions: list[AlbumDecision], seen_details: dict[str, dict] | None = None
+) -> None:
+    settle_batch_decisions(
+        decisions,
+        discovered=_page(
+            *(
+                (d.provider, d.album_id, d.title, d.release_date or "")
+                for d in decisions
+            )
+        ),
+        pattern=PATTERN,
+        entry=CatalogEntry(id="spirit", title="Spirit"),
+        line_of=None,
+        series_names=["Spirit"],
+        seen_details=seen_details or {},
+    )
+
+
+def test_a_number_a_person_set_against_the_title_stays() -> None:
+    """Apple Music titles Spirit's third story "Folge 2" as well, and a
+    person gave it the 3 its Spotify twin carries. Read from the title
+    again, it took the real Folge 2's number, and the reuse settle then
+    cleared one of the two."""
+    real = _by_hand(
+        "real-2",
+        "Folge 2: Die rätselhafte Karte",
+        2,
+        provider="apple_music",
+        release_date="2018-10-12",
+    )
+    mislabelled = _by_hand(
+        "turo",
+        "Folge 2: Ein Pferd für Turo",
+        3,
+        provider="apple_music",
+        release_date="2018-11-09",
+    )
+
+    _settle_numbers([real, mislabelled])
+
+    assert (real.episode_num, mislabelled.episode_num) == (2, 3)
+
+
+def test_a_number_a_person_gave_a_title_without_one_stays() -> None:
+    """The Wilde Hühner readings name no book number, in the title or the
+    tracks, so a person numbers them by book. A pattern a later run reads
+    must not drop that as unsupported."""
+    book = _by_hand("klassenfahrt", "Die Wilden Hühner auf Klassenfahrt", 2)
+    tracks = {"spotify:klassenfahrt": {"tracks": [{"name": "Kapitel 1"}]}}
+
+    _settle_numbers([book], tracks)
+
+    assert book.episode_num == 2
+
+
+def test_a_newer_story_does_not_take_a_number_a_person_set() -> None:
+    """The newest story keeps a reused number, unless a person gave it to
+    the older one."""
+    older = _by_hand("older", "Die alte Geschichte", 5, release_date="2010-01-01")
+    newer = decision(
+        "newer", title="Folge 5: Die neue Geschichte", release_date="2024-01-01"
+    )
+
+    _settle_numbers([older, newer])
+
+    assert older.episode_num == 5
+    assert newer.episode_num is None

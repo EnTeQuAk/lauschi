@@ -1491,6 +1491,19 @@ def render_sub_series_exclusions(
     return "\n".join(lines)
 
 
+def _numbered_by_a_person(d: "AlbumDecision") -> bool:
+    """Whether the number on a decision is a person's.
+
+    The number steps read numbers from titles, tracks and twins and
+    correct the ones the model gave. A number a person left on their
+    decision stays as it is, so a store's wrong title can be corrected by
+    hand (Spirit's third story, which Apple Music titles "Folge 2") and a
+    title without a number can carry one (the Wilde Hühner readings, by
+    book). A person's decision without a number is numbered as usual.
+    """
+    return d.decided_by == "operator" and d.episode_num is not None
+
+
 def _derive_numbers_from_tracks(
     decisions: list["AlbumDecision"],
     seen_details: dict[str, dict],
@@ -1588,8 +1601,9 @@ def _settle_number_reuse(
     Long series reuse numbers across eras (Wieso? Weshalb? Warum? Folge
     40 is a 2007 story and a 2019 story). The app shows one tile per
     number; the newest release keeps it, the older story keeps its title
-    and loses the number. Release dates decide, so a group without them
-    is left alone. Same-title twins are the duplicate settle's business.
+    and loses the number. A number a person set stays with their story,
+    however old. Release dates decide, so a group without them is left
+    alone. Same-title twins are the duplicate settle's business.
     Returns how many numbers were cleared.
     """
     groups: dict[tuple[str, int], list["AlbumDecision"]] = {}
@@ -1601,10 +1615,15 @@ def _settle_number_reuse(
         titles = {core_title(m.title, series_names) for m in members}
         if len(titles) < 2 or any(not m.release_date for m in members):
             continue
-        newest = max(members, key=lambda m: m.release_date or "")
+        newest = max(
+            members, key=lambda m: (_numbered_by_a_person(m), m.release_date or "")
+        )
         for m in members:
-            if m is newest or core_title(m.title, series_names) == core_title(
-                newest.title, series_names
+            if (
+                m is newest
+                or _numbered_by_a_person(m)
+                or core_title(m.title, series_names)
+                == core_title(newest.title, series_names)
             ):
                 continue
             number = m.episode_num
@@ -1627,15 +1646,15 @@ def _drop_unsupported_numbers(
 
     A re-curation carries prior decisions forward, numbers included, so a
     number the model once guessed would live forever. A number comes from
-    the title or the track names via the pattern, or from nothing. When
-    the tracks are unknown the number stays: dropping on missing data
-    would be a guess the other way. Returns how many were dropped.
+    the title or the track names via the pattern, a person, or nothing.
+    When the tracks are unknown the number stays: dropping on missing
+    data would be a guess the other way. Returns how many were dropped.
     """
     if not pattern:
         return 0
     dropped = 0
     for d in decisions:
-        if not d.include or d.episode_num is None:
+        if not d.include or d.episode_num is None or _numbered_by_a_person(d):
             continue
         if title_number(pattern, d.title) == d.episode_num:
             continue
@@ -1661,11 +1680,14 @@ def _reextract_episode_numbers(
     pattern: str | list[str] | None,
 ) -> int:
     """Re-run episode extraction on all decisions with a (possibly revised)
-    pattern. Returns the number of decisions whose episode_num changed."""
+    pattern, except on a number a person set. Returns the number of
+    decisions whose episode_num changed."""
     if pattern is None:
         return 0
     changed = 0
     for d in decisions:
+        if _numbered_by_a_person(d):
+            continue
         new_ep = title_number(pattern, d.title)
         if new_ep is not None and new_ep != d.episode_num:
             d.episode_num = new_ep

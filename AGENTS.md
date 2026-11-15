@@ -115,6 +115,9 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
    the agents propose one only where there is none and may extend a catalog
    pattern, not narrow it. Episode numbers come from the title pattern, the
    track names, or the same album on the other provider; nothing else. The
+   one exception is a number a person sets in the web UI, where a store
+   titles a release wrong or a title names no number: a re-curate keeps it
+   as it is. The
    steps that compare titles (duplicates, the same title on the other
    provider) strip the series' name from them first: the entry's title and
    its aliases in series.json, never the aliases a run proposes. Id, title

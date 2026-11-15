@@ -3,6 +3,7 @@
 import json
 from dataclasses import dataclass
 
+from lauschi_catalog.catalog.curate_ops import album_provenance
 from lauschi_catalog.catalog.io import safe_write_json
 from lauschi_catalog.catalog.paths import curation_path
 
@@ -29,7 +30,8 @@ def update_album(
 
     Only provided fields are written. ``_SENTINEL`` default means
     "not provided" so we can distinguish None (clear the field)
-    from absent.
+    from absent. The album is then a person's decision, which a
+    re-curate keeps and an audit leaves alone.
     """
     path = curation_path(series_id)
     if not path.exists():
@@ -53,6 +55,7 @@ def update_album(
             if title is not _SENTINEL:
                 album["title"] = title
 
+            album.update(album_provenance("operator"))
             safe_write_json(path, data)
             return AlbumResult(ok=True)
 

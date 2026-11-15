@@ -89,3 +89,23 @@ class TestUpdateAlbum:
         result = album_ops.update_album("no_such_series", "alb1", include=True)
         assert not result.ok
         assert "curation not found" in result.error
+
+    @pytest.mark.parametrize(
+        "change",
+        [
+            {"include": False, "exclude_reason": "music_single"},
+            {"episode_num": 3},
+            {"title": "Renamed"},
+        ],
+        ids=["exclude", "number", "title"],
+    )
+    def test_a_change_is_recorded_as_a_persons_decision(self, album_env, change):
+        """The web UI saves a person's edits here. Recorded as theirs, a
+        re-curate keeps them and an audit leaves them alone, as it does
+        for `lauschi-catalog edit`."""
+        result = album_ops.update_album("test_series", "alb1", **change)
+        assert result.ok
+        data = json.loads((album_env / "test_series.json").read_text())
+        alb = next(a for a in data["albums"] if a["album_id"] == "alb1")
+        assert alb["decided_by"] == "operator"
+        assert alb["decided_at"]
