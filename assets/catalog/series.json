@@ -10236,22 +10236,15 @@
       },
       "episode_pattern": "^Folge (\\d+):",
       "series_facts": {
-        "known_gaps": [
-          {"curated_by": "minimax-m2.7", "curated_at": "2026-06-11T07:19:29.027905+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-11T07:19:29.027905+00:00", "number": 27, "range_end": null, "reason": "On Apple Music, episodes 27-52 exist only in box sets (Folgen 27-30, 31-34, 35-38, 39-42, 43-47, 48-52) which are excluded as compilations. Standalone singles for these episodes only exist on Spotify."},
-          {"curated_by": "minimax-m2.7", "curated_at": "2026-06-11T07:19:29.027905+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-11T07:19:29.027905+00:00", "number": 28, "range_end": 40, "reason": "Apple Music only has episodes 27-52 in excluded box sets."},
-          {"curated_by": "unknown", "curated_at": null, "audited_by": "third-pass-review", "audited_at": "2026-06-11T20:37:47.244530+00:00", "number": 42, "range_end": null, "reason": "Episode 42 on Apple Music is a 2.3-min stub (excluded); full version only on Spotify."},
-          {"curated_by": "minimax-m2.7", "curated_at": "2026-06-11T07:19:29.027905+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-11T07:19:29.027905+00:00", "number": 43, "range_end": 52, "reason": "Apple Music only has episodes 27-52 in excluded box sets."},
-          {"number": 78, "range_end": null, "reason": "Apple Music only has episodes 77-78 in excluded box sets. Standalone Episode 78 only on Spotify. (Cross-provider gap beyond the already-documented 2023-era box-set gap.)", "curated_by": "minimax-m2.7", "curated_at": "2026-10-02T23:37:24.933945+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-10-02T23:37:24.933945+00:00"}
-        ],
         "sub_series": [
           {
-            "label": "music",
-            "album_ids": ["1699299368", "1771717626", "1802295977", "1835047341", "6cLh3vDUOsVhkFdh0Uxz3z"],
-            "reason": "Songs/music tracks (not Hörspiele) under the Polly Pocket artist. Confirmed by reference index 'Musik' line and track structure (song-length durations, no Hörspiel production format). Different content type from main series.",
             "curated_by": "minimax-m2.7",
             "curated_at": "2026-10-02T23:37:24.933945+00:00",
             "audited_by": "minimax-m2.7",
-            "audited_at": "2026-10-02T23:37:24.933945+00:00"
+            "audited_at": "2026-10-02T23:37:24.933945+00:00",
+            "label": "music",
+            "album_ids": ["1699299368", "1771717626", "1802295977", "1835047341", "6cLh3vDUOsVhkFdh0Uxz3z"],
+            "reason": "Songs/music tracks (not Hörspiele) under the Polly Pocket artist. Confirmed by reference index 'Musik' line and track structure (song-length durations, no Hörspiel production format). Different content type from main series."
           }
         ]
       }
