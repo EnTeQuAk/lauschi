@@ -5561,2382 +5561,6 @@
    "evaluator_failures": []
   },
   {
-   "name": "hexe_lilli_erstleser_own_line [1/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": {
-    "albums": [
-     {
-      "album_id": "4rRg8Lxw09m5FsCGWid99d",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Im wilden Wilden Westen",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1996-11-13",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:23:59.846713+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "4ghoOGAttLAGG5LHZ2TyJI",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Zaubert Hausaufgaben",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1996-11-13",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:23:59.846713+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "7J10fbU5ef9lYoxFMXhwqs",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Und das wilde Indianerabenteuer",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1997-11-13",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:23:59.846713+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "4S9JLpOKw8B5AxduUu8U88",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Und der Vampir mit dem Wackelzahn",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2007-03-26",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:23:59.846713+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "4IzmCaIX0eEgRb7xsQFkfv",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Das Buch des Drachen",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2011-02-11",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Klassiker (main) line",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:23:59.846713+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "7iQo6EXjMtLPorNrw2vlXW",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Die Reise nach Mandolan",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2011-11-13",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:23:59.846713+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "6K5a3qRU976BpPIEG9mZnb",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Feiert Geburtstag",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2013-11-22",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Mini-Hörspiele line (Feiert Geburtstag + verflixter Gespensterzauber)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:23:59.846713+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "23Xt15lSmNEmJVmqjOqUeQ",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Hexe Lilli und das verzauberte Fußballspiel",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2014-05-23",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Mini-Hörspiele line (verzaubertes Fußballspiel + wilde Dinos)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:23:59.846713+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "2UFXuzfiqd0cThQRCalzdy",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Hexe Lilli rettet Weihnachten - Das Hörspiel zum Kinofilm",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2019-04-01",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Filme line, belongs to Hexe Lilli (Kinofilm)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:23:59.846713+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "3CiZjceqtFe8yc63b4ZmsL",
-      "provider": "spotify",
-      "include": true,
-      "episode_num": null,
-      "title": "Hilfe! Die Murze kommen! (Erstlesergeschichten)",
-      "exclude_reason": null,
-      "release_date": "2019-07-05",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:23:59.846713+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1s2fFBRaLCFreCBop1ZUiQ",
-      "provider": "spotify",
-      "include": true,
-      "episode_num": null,
-      "title": "Hexe Lilli und der geheimnisvolle Flaschengeist Suki (Erstlesergeschichten)",
-      "exclude_reason": null,
-      "release_date": "2020-02-07",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:23:59.846713+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1056436201",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Folge 2: im wilden Wilden Westen",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1996",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:23:59.846713+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1056441922",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Folge 8: zaubert Hausaufgaben",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1996",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:23:59.846713+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1056433966",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Folge 11: und das wilde Indianerabenteuer",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1997",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:23:59.846713+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1056433273",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Folge 18: und der Vampir mit dem Wackelzahn",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2007-03-26",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:23:59.846713+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1055056779",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Folge 23: Die Reise nach Mandolan",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2007-03-31",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:23:59.846713+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1356622351",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Das Buch des Drachen",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2009-01-01",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Klassiker (main) line",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:23:59.846713+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1055054537",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Hexe Lilli feiert Geburtstag",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2013-11-22",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Mini-Hörspiele line (Feiert Geburtstag + verflixter Gespensterzauber)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:23:59.846713+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1055088464",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Hexe Lilli und das verzauberte Fußballspiel",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2014-05-23",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Mini-Hörspiele line (verzaubertes Fußballspiel + wilde Dinos)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:23:59.846713+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1465730970",
-      "provider": "apple_music",
-      "include": true,
-      "episode_num": null,
-      "title": "Hilfe! Die Murze kommen! (Erstlesergeschichten)",
-      "exclude_reason": null,
-      "release_date": "2019-07-05",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:23:59.846713+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1490107448",
-      "provider": "apple_music",
-      "include": true,
-      "episode_num": null,
-      "title": "Hexe Lilli und der geheimnisvolle Flaschengeist Suki (Erstlesergeschichten)",
-      "exclude_reason": null,
-      "release_date": "2020-02-07",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:23:59.846713+00:00",
-      "barcode": ""
-     }
-    ]
-   },
-   "metrics": {
-    "requests": 1,
-    "input_tokens": 35752,
-    "output_tokens": 3380,
-    "cache_read.input_tokens": 35751,
-    "cache_read_tokens": 35751
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 0.6190476190476191,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 8,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": false,
-     "reason": "Wrong: spotify:4ghoOGAttLAGG5LHZ2TyJI (Zaubert Hausaufgaben): excluded, expected include; spotify:4S9JLpOKw8B5AxduUu8U88 (Und der Vampir mit dem Wackelzahn): excluded, expected include; spotify:6K5a3qRU976BpPIEG9mZnb (Feiert Geburtstag): excluded, expected include; spotify:23Xt15lSmNEmJVmqjOqUeQ (Hexe Lilli und das verzauberte Fußballspiel): excluded, expected include; apple_music:1056441922 (Folge 8: zaubert Hausaufgaben): excluded, expected include; apple_music:1056433273 (Folge 18: und der Vampir mit dem Wackelzahn): excluded, expected include; apple_music:1055054537 (Hexe Lilli feiert Geburtstag): excluded, expected include; apple_music:1055088464 (Hexe Lilli und das verzauberte Fußballspiel): excluded, expected include",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "episode_numbers": {
-     "name": "episode_numbers",
-     "value": true,
-     "reason": "2 number(s) as expected",
-     "source": {
-      "name": "EpisodeNumbersCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 16.837189072,
-   "total_duration": 16.845215218,
-   "source_case_name": "hexe_lilli_erstleser_own_line",
-   "trace_id": "01a1d6c9b05e974265827229db7636f5",
-   "span_id": "131cffc8d1d9431b",
-   "evaluator_failures": []
-  },
-  {
-   "name": "hexe_lilli_erstleser_own_line [2/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": {
-    "albums": [
-     {
-      "album_id": "4rRg8Lxw09m5FsCGWid99d",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Im wilden Wilden Westen",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1996-11-13",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line (Hexe Lilli im wilden Wilden Westen)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:19.395606+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "4ghoOGAttLAGG5LHZ2TyJI",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Zaubert Hausaufgaben",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1996-11-13",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line (Hexe Lilli zaubert Hausaufgaben)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:19.395606+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "7J10fbU5ef9lYoxFMXhwqs",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Und das wilde Indianerabenteuer",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1997-11-13",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line (Hexe Lilli und das wilde Indianerabenteuer)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:19.395606+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "4S9JLpOKw8B5AxduUu8U88",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Und der Vampir mit dem Wackelzahn",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2007-03-26",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line (Hexe Lilli und der Vampir mit dem Wackelzahn)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:19.395606+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "4IzmCaIX0eEgRb7xsQFkfv",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Das Buch des Drachen",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2011-02-11",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Klassiker line (Das Buch des Drachen)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:19.395606+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "7iQo6EXjMtLPorNrw2vlXW",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Die Reise nach Mandolan",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2011-11-13",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line (Hexe Lilli und die Reise nach Mandolan)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:19.395606+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "6K5a3qRU976BpPIEG9mZnb",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Feiert Geburtstag",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2013-11-22",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Mini-Hörspiele line (feiert Geburtstag + verflixter Gespensterzauber)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:19.395606+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "23Xt15lSmNEmJVmqjOqUeQ",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Hexe Lilli und das verzauberte Fußballspiel",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2014-05-23",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Mini-Hörspiele line (verzaubertes Fußballspiel + wilde Dinos)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:19.395606+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "2UFXuzfiqd0cThQRCalzdy",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Hexe Lilli rettet Weihnachten - Das Hörspiel zum Kinofilm",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2019-04-01",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Kinofilm line (Hexe Lilli rettet Weihnachten)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:19.395606+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "3CiZjceqtFe8yc63b4ZmsL",
-      "provider": "spotify",
-      "include": true,
-      "episode_num": null,
-      "title": "Hilfe! Die Murze kommen! (Erstlesergeschichten)",
-      "exclude_reason": null,
-      "release_date": "2019-07-05",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:19.395606+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1s2fFBRaLCFreCBop1ZUiQ",
-      "provider": "spotify",
-      "include": true,
-      "episode_num": null,
-      "title": "Hexe Lilli und der geheimnisvolle Flaschengeist Suki (Erstlesergeschichten)",
-      "exclude_reason": null,
-      "release_date": "2020-02-07",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:19.395606+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1056436201",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Folge 2: im wilden Wilden Westen",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1996",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line (Folge 2: im wilden Wilden Westen)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:19.395606+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1056441922",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Folge 8: zaubert Hausaufgaben",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1996",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line (Folge 8: zaubert Hausaufgaben)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:19.395606+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1056433966",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Folge 11: und das wilde Indianerabenteuer",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1997",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line (Folge 11: wildes Indianerabenteuer)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:19.395606+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1056433273",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Folge 18: und der Vampir mit dem Wackelzahn",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2007-03-26",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line (Folge 18: Vampir mit dem Wackelzahn)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:19.395606+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1055056779",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Folge 23: Die Reise nach Mandolan",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2007-03-31",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line (Folge 23: Reise nach Mandolan)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:19.395606+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1356622351",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Das Buch des Drachen",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2009-01-01",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Klassiker line (Das Buch des Drachen)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:19.395606+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1055054537",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Hexe Lilli feiert Geburtstag",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2013-11-22",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Mini-Hörspiele line (feiert Geburtstag + verflixter Gespensterzauber)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:19.395606+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1055088464",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Hexe Lilli und das verzauberte Fußballspiel",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2014-05-23",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Mini-Hörspiele line (verzaubertes Fußballspiel + wilde Dinos)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:19.395606+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1465730970",
-      "provider": "apple_music",
-      "include": true,
-      "episode_num": null,
-      "title": "Hilfe! Die Murze kommen! (Erstlesergeschichten)",
-      "exclude_reason": null,
-      "release_date": "2019-07-05",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:19.395606+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1490107448",
-      "provider": "apple_music",
-      "include": true,
-      "episode_num": null,
-      "title": "Hexe Lilli und der geheimnisvolle Flaschengeist Suki (Erstlesergeschichten)",
-      "exclude_reason": null,
-      "release_date": "2020-02-07",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:19.395606+00:00",
-      "barcode": ""
-     }
-    ]
-   },
-   "metrics": {
-    "requests": 1,
-    "input_tokens": 35752,
-    "output_tokens": 3784,
-    "cache_read.input_tokens": 35751,
-    "cache_read_tokens": 35751
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 0.6190476190476191,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 8,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": false,
-     "reason": "Wrong: spotify:4ghoOGAttLAGG5LHZ2TyJI (Zaubert Hausaufgaben): excluded, expected include; spotify:4S9JLpOKw8B5AxduUu8U88 (Und der Vampir mit dem Wackelzahn): excluded, expected include; spotify:6K5a3qRU976BpPIEG9mZnb (Feiert Geburtstag): excluded, expected include; spotify:23Xt15lSmNEmJVmqjOqUeQ (Hexe Lilli und das verzauberte Fußballspiel): excluded, expected include; apple_music:1056441922 (Folge 8: zaubert Hausaufgaben): excluded, expected include; apple_music:1056433273 (Folge 18: und der Vampir mit dem Wackelzahn): excluded, expected include; apple_music:1055054537 (Hexe Lilli feiert Geburtstag): excluded, expected include; apple_music:1055088464 (Hexe Lilli und das verzauberte Fußballspiel): excluded, expected include",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "episode_numbers": {
-     "name": "episode_numbers",
-     "value": true,
-     "reason": "2 number(s) as expected",
-     "source": {
-      "name": "EpisodeNumbersCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 19.530595937,
-   "total_duration": 19.53853082,
-   "source_case_name": "hexe_lilli_erstleser_own_line",
-   "trace_id": "01a1d6c9b05e974265827229db7636f5",
-   "span_id": "ba6deb3f75dcf9a7",
-   "evaluator_failures": []
-  },
-  {
-   "name": "hexe_lilli_erstleser_own_line [3/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": {
-    "albums": [
-     {
-      "album_id": "4rRg8Lxw09m5FsCGWid99d",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Im wilden Wilden Westen",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1996-11-13",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line (Hexe Lilli im wilden Wilden Westen), belongs to root 'Hexe Lilli'",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:36.684770+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "4ghoOGAttLAGG5LHZ2TyJI",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Zaubert Hausaufgaben",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1996-11-13",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line (Hexe Lilli zaubert Hausaufgaben), belongs to root 'Hexe Lilli'",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:36.684770+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "7J10fbU5ef9lYoxFMXhwqs",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Und das wilde Indianerabenteuer",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1997-11-13",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line (Hexe Lilli und das wilde Indianerabenteuer), belongs to root 'Hexe Lilli'",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:36.684770+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "4S9JLpOKw8B5AxduUu8U88",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Und der Vampir mit dem Wackelzahn",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2007-03-26",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line (Hexe Lilli und der Vampir mit dem Wackelzahn), belongs to root 'Hexe Lilli'",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:36.684770+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "4IzmCaIX0eEgRb7xsQFkfv",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Das Buch des Drachen",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2011-02-11",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Klassiker line (Das Buch des Drachen), belongs to root 'Hexe Lilli'",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:36.684770+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "7iQo6EXjMtLPorNrw2vlXW",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Die Reise nach Mandolan",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2011-11-13",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line (Die Reise nach Mandolan), belongs to root 'Hexe Lilli'",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:36.684770+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "6K5a3qRU976BpPIEG9mZnb",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Feiert Geburtstag",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2013-11-22",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Mini-Hörspiele line (feiert Geburtstag + verflixter Gespensterzauber), belongs to root 'Hexe Lilli'",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:36.684770+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "23Xt15lSmNEmJVmqjOqUeQ",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Hexe Lilli und das verzauberte Fußballspiel",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2014-05-23",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Mini-Hörspiele line (verzaubertes Fußballspiel + wilde Dinos), belongs to root 'Hexe Lilli'",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:36.684770+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "2UFXuzfiqd0cThQRCalzdy",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Hexe Lilli rettet Weihnachten - Das Hörspiel zum Kinofilm",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2019-04-01",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Filme line (Hexe Lilli rettet Weihnachten), belongs to sibling 'Hexe Lilli (Kinofilm)'",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:36.684770+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "3CiZjceqtFe8yc63b4ZmsL",
-      "provider": "spotify",
-      "include": true,
-      "episode_num": null,
-      "title": "Hilfe! Die Murze kommen! (Erstlesergeschichten)",
-      "exclude_reason": null,
-      "release_date": "2019-07-05",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:36.684770+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1s2fFBRaLCFreCBop1ZUiQ",
-      "provider": "spotify",
-      "include": true,
-      "episode_num": null,
-      "title": "Hexe Lilli und der geheimnisvolle Flaschengeist Suki (Erstlesergeschichten)",
-      "exclude_reason": null,
-      "release_date": "2020-02-07",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:36.684770+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1056436201",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Folge 2: im wilden Wilden Westen",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1996",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line (Folge 2: im wilden Wilden Westen), belongs to root 'Hexe Lilli'",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:36.684770+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1056441922",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Folge 8: zaubert Hausaufgaben",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1996",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line (Folge 8: zaubert Hausaufgaben), belongs to root 'Hexe Lilli'",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:36.684770+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1056433966",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Folge 11: und das wilde Indianerabenteuer",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1997",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line (Folge 11: und das wilde Indianerabenteuer), belongs to root 'Hexe Lilli'",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:36.684770+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1056433273",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Folge 18: und der Vampir mit dem Wackelzahn",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2007-03-26",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line (Folge 18: und der Vampir mit dem Wackelzahn), belongs to root 'Hexe Lilli'",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:36.684770+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1055056779",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Folge 23: Die Reise nach Mandolan",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2007-03-31",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line (Folge 23: Die Reise nach Mandolan), belongs to root 'Hexe Lilli'",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:36.684770+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1356622351",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Das Buch des Drachen",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2009-01-01",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Klassiker line (Das Buch des Drachen), belongs to root 'Hexe Lilli'",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:36.684770+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1055054537",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Hexe Lilli feiert Geburtstag",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2013-11-22",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Mini-Hörspiele line (feiert Geburtstag + verflixter Gespensterzauber), belongs to root 'Hexe Lilli'",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:36.684770+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1055088464",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Hexe Lilli und das verzauberte Fußballspiel",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2014-05-23",
-      "confidence": "high",
-      "notes": "Belongs to 'hexe_lilli'. Mini-Hörspiele line (verzaubertes Fußballspiel + wilde Dinos), belongs to root 'Hexe Lilli'",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:36.684770+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1465730970",
-      "provider": "apple_music",
-      "include": true,
-      "episode_num": null,
-      "title": "Hilfe! Die Murze kommen! (Erstlesergeschichten)",
-      "exclude_reason": null,
-      "release_date": "2019-07-05",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:36.684770+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1490107448",
-      "provider": "apple_music",
-      "include": true,
-      "episode_num": null,
-      "title": "Hexe Lilli und der geheimnisvolle Flaschengeist Suki (Erstlesergeschichten)",
-      "exclude_reason": null,
-      "release_date": "2020-02-07",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:36.684770+00:00",
-      "barcode": ""
-     }
-    ]
-   },
-   "metrics": {
-    "requests": 1,
-    "input_tokens": 35752,
-    "output_tokens": 5670,
-    "cache_read.input_tokens": 35751,
-    "cache_read_tokens": 35751
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 0.6190476190476191,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 8,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": false,
-     "reason": "Wrong: spotify:4ghoOGAttLAGG5LHZ2TyJI (Zaubert Hausaufgaben): excluded, expected include; spotify:4S9JLpOKw8B5AxduUu8U88 (Und der Vampir mit dem Wackelzahn): excluded, expected include; spotify:6K5a3qRU976BpPIEG9mZnb (Feiert Geburtstag): excluded, expected include; spotify:23Xt15lSmNEmJVmqjOqUeQ (Hexe Lilli und das verzauberte Fußballspiel): excluded, expected include; apple_music:1056441922 (Folge 8: zaubert Hausaufgaben): excluded, expected include; apple_music:1056433273 (Folge 18: und der Vampir mit dem Wackelzahn): excluded, expected include; apple_music:1055054537 (Hexe Lilli feiert Geburtstag): excluded, expected include; apple_music:1055088464 (Hexe Lilli und das verzauberte Fußballspiel): excluded, expected include",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "episode_numbers": {
-     "name": "episode_numbers",
-     "value": true,
-     "reason": "2 number(s) as expected",
-     "source": {
-      "name": "EpisodeNumbersCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 36.766961637,
-   "total_duration": 36.775179247,
-   "source_case_name": "hexe_lilli_erstleser_own_line",
-   "trace_id": "01a1d6c9b05e974265827229db7636f5",
-   "span_id": "107230c50d1361fa",
-   "evaluator_failures": []
-  },
-  {
-   "name": "hexe_lilli_main_keeps_its_line [1/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": {
-    "albums": [
-     {
-      "album_id": "17r2Acz7jO4CK7HH8vPB2k",
-      "provider": "spotify",
-      "include": true,
-      "episode_num": 1,
-      "title": "001/stellt die Schule auf den Kopf",
-      "exclude_reason": null,
-      "release_date": "1994-04-27",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:45.781538+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "2AAyaocf5n35vHhq43ATco",
-      "provider": "spotify",
-      "include": true,
-      "episode_num": 2,
-      "title": "002/macht Zauberquatsch",
-      "exclude_reason": null,
-      "release_date": "1994-04-27",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:45.781538+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "4rRg8Lxw09m5FsCGWid99d",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Im wilden Wilden Westen",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1996-11-13",
-      "confidence": "high",
-      "notes": "Primo-Hörspiele line (im wilden Wilden Westen)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:45.781538+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "4ghoOGAttLAGG5LHZ2TyJI",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Zaubert Hausaufgaben",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1996-11-13",
-      "confidence": "high",
-      "notes": "Primo-Hörspiele line (zaubert Hausaufgaben)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:45.781538+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "7J10fbU5ef9lYoxFMXhwqs",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Und das wilde Indianerabenteuer",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1997-11-13",
-      "confidence": "high",
-      "notes": "Primo-Hörspiele line (und das wilde Indianerabenteuer)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:45.781538+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "6wCQWfFLjfH2Uz5BhwkM94",
-      "provider": "spotify",
-      "include": true,
-      "episode_num": 11,
-      "title": "011/auf der Jagd nach dem verlorenen Schatz",
-      "exclude_reason": null,
-      "release_date": "2005-05-11",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:45.781538+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "4S9JLpOKw8B5AxduUu8U88",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Und der Vampir mit dem Wackelzahn",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2007-03-26",
-      "confidence": "high",
-      "notes": "Primo-Hörspiele line (und der Vampir mit dem Wackelzahn)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:45.781538+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "4IzmCaIX0eEgRb7xsQFkfv",
-      "provider": "spotify",
-      "include": true,
-      "episode_num": null,
-      "title": "Das Buch des Drachen",
-      "exclude_reason": null,
-      "release_date": "2011-02-11",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:45.781538+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "7Js7yHJKNpYOy4maCeMXEY",
-      "provider": "spotify",
-      "include": true,
-      "episode_num": 18,
-      "title": "018/im Wunderland",
-      "exclude_reason": null,
-      "release_date": "2013-05-18",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:45.781538+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "6K5a3qRU976BpPIEG9mZnb",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Feiert Geburtstag",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2013-11-22",
-      "confidence": "high",
-      "notes": "Mini-Hörspiele line (feiert Geburtstag + verflixte Gespensterzauber)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:45.781538+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "2UFXuzfiqd0cThQRCalzdy",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Hexe Lilli rettet Weihnachten - Das Hörspiel zum Kinofilm",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2019-04-01",
-      "confidence": "high",
-      "notes": "Hexe Lilli (Kinofilm) - Das Hörspiel zum Kinofilm",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:45.781538+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1356623749",
-      "provider": "apple_music",
-      "include": true,
-      "episode_num": 2,
-      "title": "Folge 2: macht Zauberquatsch",
-      "exclude_reason": null,
-      "release_date": "1994-01-01",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:45.781538+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1356624523",
-      "provider": "apple_music",
-      "include": true,
-      "episode_num": 1,
-      "title": "001: stellt die Schule auf den Kopf",
-      "exclude_reason": null,
-      "release_date": "1994-04-27",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:45.781538+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1056436201",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Folge 2: im wilden Wilden Westen",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1996",
-      "confidence": "high",
-      "notes": "Primo-Hörspiele line (im wilden Wilden Westen)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:45.781538+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1056441922",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Folge 8: zaubert Hausaufgaben",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1996",
-      "confidence": "high",
-      "notes": "Primo-Hörspiele line (zaubert Hausaufgaben)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:45.781538+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1056433966",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Folge 11: und das wilde Indianerabenteuer",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1997",
-      "confidence": "high",
-      "notes": "Primo-Hörspiele line (und das wilde Indianerabenteuer)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:45.781538+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1356630478",
-      "provider": "apple_music",
-      "include": true,
-      "episode_num": 11,
-      "title": "Folge 11: auf der Jagd nach dem verlorenen Schatz",
-      "exclude_reason": null,
-      "release_date": "2005-01-01",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:45.781538+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1056433273",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Folge 18: und der Vampir mit dem Wackelzahn",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2007-03-26",
-      "confidence": "high",
-      "notes": "Primo-Hörspiele line (und der Vampir mit dem Wackelzahn)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:45.781538+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1356652069",
-      "provider": "apple_music",
-      "include": true,
-      "episode_num": 18,
-      "title": "Folge 18: im Wunderland",
-      "exclude_reason": null,
-      "release_date": "2013",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:45.781538+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1055054537",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Hexe Lilli feiert Geburtstag",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2013-11-22",
-      "confidence": "high",
-      "notes": "Mini-Hörspiele line (feiert Geburtstag + verflixte Gespensterzauber)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:24:45.781538+00:00",
-      "barcode": ""
-     }
-    ]
-   },
-   "metrics": {
-    "requests": 1,
-    "input_tokens": 34821,
-    "output_tokens": 5334,
-    "cache_read.input_tokens": 34820,
-    "cache_read_tokens": 34820
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 0.8,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 4,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": false,
-     "reason": "Wrong: spotify:4rRg8Lxw09m5FsCGWid99d (Im wilden Wilden Westen): excluded, expected include; spotify:7J10fbU5ef9lYoxFMXhwqs (Und das wilde Indianerabenteuer): excluded, expected include; apple_music:1056436201 (Folge 2: im wilden Wilden Westen): excluded, expected include; apple_music:1056433966 (Folge 11: und das wilde Indianerabenteuer): excluded, expected include",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "episode_numbers": {
-     "name": "episode_numbers",
-     "value": true,
-     "reason": "9 number(s) as expected",
-     "source": {
-      "name": "EpisodeNumbersCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 38.788814379,
-   "total_duration": 38.797452474,
-   "source_case_name": "hexe_lilli_main_keeps_its_line",
-   "trace_id": "01a1d6c9b05e974265827229db7636f5",
-   "span_id": "f477a6906de4ea0c",
-   "evaluator_failures": []
-  },
-  {
-   "name": "hexe_lilli_main_keeps_its_line [2/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": {
-    "albums": [
-     {
-      "album_id": "17r2Acz7jO4CK7HH8vPB2k",
-      "provider": "spotify",
-      "include": true,
-      "episode_num": 1,
-      "title": "001/stellt die Schule auf den Kopf",
-      "exclude_reason": null,
-      "release_date": "1994-04-27",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:09.345971+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "2AAyaocf5n35vHhq43ATco",
-      "provider": "spotify",
-      "include": true,
-      "episode_num": 2,
-      "title": "002/macht Zauberquatsch",
-      "exclude_reason": null,
-      "release_date": "1994-04-27",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:09.345971+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "4rRg8Lxw09m5FsCGWid99d",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Im wilden Wilden Westen",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1996-11-13",
-      "confidence": "high",
-      "notes": "Primo-Hörspiele line ('Hexe Lilli im wilden Wilden Westen'), EUROPA primo",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:09.345971+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "4ghoOGAttLAGG5LHZ2TyJI",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Zaubert Hausaufgaben",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1996-11-13",
-      "confidence": "high",
-      "notes": "Primo-Hörspiele line ('Hexe Lilli zaubert Hausaufgaben'), EUROPA primo",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:09.345971+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "7J10fbU5ef9lYoxFMXhwqs",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Und das wilde Indianerabenteuer",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1997-11-13",
-      "confidence": "high",
-      "notes": "Primo-Hörspiele line ('Hexe Lilli und das wilde Indianerabenteuer'), EUROPA primo",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:09.345971+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "6wCQWfFLjfH2Uz5BhwkM94",
-      "provider": "spotify",
-      "include": true,
-      "episode_num": 11,
-      "title": "011/auf der Jagd nach dem verlorenen Schatz",
-      "exclude_reason": null,
-      "release_date": "2005-05-11",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:09.345971+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "4S9JLpOKw8B5AxduUu8U88",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Und der Vampir mit dem Wackelzahn",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2007-03-26",
-      "confidence": "high",
-      "notes": "Primo-Hörspiele line ('Hexe Lilli und der Vampir mit dem Wackelzahn'), EUROPA primo",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:09.345971+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "4IzmCaIX0eEgRb7xsQFkfv",
-      "provider": "spotify",
-      "include": true,
-      "episode_num": null,
-      "title": "Das Buch des Drachen",
-      "exclude_reason": null,
-      "release_date": "2011-02-11",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:09.345971+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "7Js7yHJKNpYOy4maCeMXEY",
-      "provider": "spotify",
-      "include": true,
-      "episode_num": 18,
-      "title": "018/im Wunderland",
-      "exclude_reason": null,
-      "release_date": "2013-05-18",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:09.345971+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "6K5a3qRU976BpPIEG9mZnb",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Feiert Geburtstag",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2013-11-22",
-      "confidence": "high",
-      "notes": "Mini-Hörspiele line ('Hexe Lilli feiert Geburtstag' + 'und der verflixte Gespensterzauber'), EUROPA mini",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:09.345971+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "2UFXuzfiqd0cThQRCalzdy",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Hexe Lilli rettet Weihnachten - Das Hörspiel zum Kinofilm",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2019-04-01",
-      "confidence": "high",
-      "notes": "Kinofilm line ('Hexe Lilli rettet Weihnachten', Filme)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:09.345971+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1356623749",
-      "provider": "apple_music",
-      "include": true,
-      "episode_num": 2,
-      "title": "Folge 2: macht Zauberquatsch",
-      "exclude_reason": null,
-      "release_date": "1994-01-01",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:09.345971+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1356624523",
-      "provider": "apple_music",
-      "include": true,
-      "episode_num": 1,
-      "title": "001: stellt die Schule auf den Kopf",
-      "exclude_reason": null,
-      "release_date": "1994-04-27",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:09.345971+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1056436201",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Folge 2: im wilden Wilden Westen",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1996",
-      "confidence": "high",
-      "notes": "Primo-Hörspiele line ('im wilden Wilden Westen'), EUROPA primo; pattern-match trap (Folge 2 collides with main numbering)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:09.345971+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1056441922",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Folge 8: zaubert Hausaufgaben",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1996",
-      "confidence": "high",
-      "notes": "Primo-Hörspiele line ('zaubert Hausaufgaben'), EUROPA primo; pattern-match trap",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:09.345971+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1056433966",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Folge 11: und das wilde Indianerabenteuer",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1997",
-      "confidence": "high",
-      "notes": "Primo-Hörspiele line ('und das wilde Indianerabenteuer'), EUROPA primo; pattern-match trap",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:09.345971+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1356630478",
-      "provider": "apple_music",
-      "include": true,
-      "episode_num": 11,
-      "title": "Folge 11: auf der Jagd nach dem verlorenen Schatz",
-      "exclude_reason": null,
-      "release_date": "2005-01-01",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:09.345971+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1056433273",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Folge 18: und der Vampir mit dem Wackelzahn",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2007-03-26",
-      "confidence": "high",
-      "notes": "Primo-Hörspiele line ('und der Vampir mit dem Wackelzahn'), EUROPA primo; pattern-match trap",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:09.345971+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1356652069",
-      "provider": "apple_music",
-      "include": true,
-      "episode_num": 18,
-      "title": "Folge 18: im Wunderland",
-      "exclude_reason": null,
-      "release_date": "2013",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:09.345971+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1055054537",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Hexe Lilli feiert Geburtstag",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2013-11-22",
-      "confidence": "high",
-      "notes": "Mini-Hörspiele line ('feiert Geburtstag' + 'und der verflixte Gespensterzauber'), EUROPA mini",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:09.345971+00:00",
-      "barcode": ""
-     }
-    ]
-   },
-   "metrics": {
-    "requests": 1,
-    "input_tokens": 34821,
-    "output_tokens": 5953,
-    "cache_read.input_tokens": 34820,
-    "cache_read_tokens": 34820
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 0.8,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 4,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": false,
-     "reason": "Wrong: spotify:4rRg8Lxw09m5FsCGWid99d (Im wilden Wilden Westen): excluded, expected include; spotify:7J10fbU5ef9lYoxFMXhwqs (Und das wilde Indianerabenteuer): excluded, expected include; apple_music:1056436201 (Folge 2: im wilden Wilden Westen): excluded, expected include; apple_music:1056433966 (Folge 11: und das wilde Indianerabenteuer): excluded, expected include",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "episode_numbers": {
-     "name": "episode_numbers",
-     "value": true,
-     "reason": "9 number(s) as expected",
-     "source": {
-      "name": "EpisodeNumbersCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 49.929185763,
-   "total_duration": 49.938287055,
-   "source_case_name": "hexe_lilli_main_keeps_its_line",
-   "trace_id": "01a1d6c9b05e974265827229db7636f5",
-   "span_id": "2823b5c228520703",
-   "evaluator_failures": []
-  },
-  {
-   "name": "hexe_lilli_main_keeps_its_line [3/3]",
-   "inputs": null,
-   "metadata": null,
-   "expected_output": null,
-   "output": {
-    "albums": [
-     {
-      "album_id": "17r2Acz7jO4CK7HH8vPB2k",
-      "provider": "spotify",
-      "include": true,
-      "episode_num": 1,
-      "title": "001/stellt die Schule auf den Kopf",
-      "exclude_reason": null,
-      "release_date": "1994-04-27",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:20.430466+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "2AAyaocf5n35vHhq43ATco",
-      "provider": "spotify",
-      "include": true,
-      "episode_num": 2,
-      "title": "002/macht Zauberquatsch",
-      "exclude_reason": null,
-      "release_date": "1994-04-27",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:20.430466+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "4rRg8Lxw09m5FsCGWid99d",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Im wilden Wilden Westen",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1996-11-13",
-      "confidence": "high",
-      "notes": "Primo-Hörspiele line (EUROPA primo), not a numbered Klassiker episode",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:20.430466+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "4ghoOGAttLAGG5LHZ2TyJI",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Zaubert Hausaufgaben",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1996-11-13",
-      "confidence": "high",
-      "notes": "Primo-Hörspiele line (EUROPA primo)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:20.430466+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "7J10fbU5ef9lYoxFMXhwqs",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Und das wilde Indianerabenteuer",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1997-11-13",
-      "confidence": "high",
-      "notes": "Primo-Hörspiele line (EUROPA primo)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:20.430466+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "6wCQWfFLjfH2Uz5BhwkM94",
-      "provider": "spotify",
-      "include": true,
-      "episode_num": 11,
-      "title": "011/auf der Jagd nach dem verlorenen Schatz",
-      "exclude_reason": null,
-      "release_date": "2005-05-11",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:20.430466+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "4S9JLpOKw8B5AxduUu8U88",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Und der Vampir mit dem Wackelzahn",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2007-03-26",
-      "confidence": "high",
-      "notes": "Primo-Hörspiele line (EUROPA primo)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:20.430466+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "4IzmCaIX0eEgRb7xsQFkfv",
-      "provider": "spotify",
-      "include": true,
-      "episode_num": null,
-      "title": "Das Buch des Drachen",
-      "exclude_reason": null,
-      "release_date": "2011-02-11",
-      "confidence": "high",
-      "notes": "EUROPA mini is a label, not a line; index files this title under Klassiker (55 min, matches 55.9)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:20.430466+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "7Js7yHJKNpYOy4maCeMXEY",
-      "provider": "spotify",
-      "include": true,
-      "episode_num": 18,
-      "title": "018/im Wunderland",
-      "exclude_reason": null,
-      "release_date": "2013-05-18",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:20.430466+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "6K5a3qRU976BpPIEG9mZnb",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Feiert Geburtstag",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2013-11-22",
-      "confidence": "high",
-      "notes": "Mini-Hörspiele line: feiert Geburtstag + verflixter Gespensterzauber (two Mini stories, ~26 min each)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:20.430466+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "2UFXuzfiqd0cThQRCalzdy",
-      "provider": "spotify",
-      "include": false,
-      "episode_num": null,
-      "title": "Hexe Lilli rettet Weihnachten - Das Hörspiel zum Kinofilm",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2019-04-01",
-      "confidence": "high",
-      "notes": "Kinofilm Hörspiel (Hexe Lilli rettet Weihnachten), belongs to Hexe Lilli (Kinofilm)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:20.430466+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1356623749",
-      "provider": "apple_music",
-      "include": true,
-      "episode_num": 2,
-      "title": "Folge 2: macht Zauberquatsch",
-      "exclude_reason": null,
-      "release_date": "1994-01-01",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:20.430466+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1356624523",
-      "provider": "apple_music",
-      "include": true,
-      "episode_num": 1,
-      "title": "001: stellt die Schule auf den Kopf",
-      "exclude_reason": null,
-      "release_date": "1994-04-27",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:20.430466+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1056436201",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Folge 2: im wilden Wilden Westen",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1996",
-      "confidence": "high",
-      "notes": "Primo-Hörspiele line (im wilden Wilden Westen), own Primo numbering",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:20.430466+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1056441922",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Folge 8: zaubert Hausaufgaben",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1996",
-      "confidence": "high",
-      "notes": "Primo-Hörspiele line (zaubert Hausaufgaben)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:20.430466+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1056433966",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Folge 11: und das wilde Indianerabenteuer",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "1997",
-      "confidence": "high",
-      "notes": "Primo-Hörspiele line (und das wilde Indianerabenteuer)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:20.430466+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1356630478",
-      "provider": "apple_music",
-      "include": true,
-      "episode_num": 11,
-      "title": "Folge 11: auf der Jagd nach dem verlorenen Schatz",
-      "exclude_reason": null,
-      "release_date": "2005-01-01",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:20.430466+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1056433273",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Folge 18: und der Vampir mit dem Wackelzahn",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2007-03-26",
-      "confidence": "high",
-      "notes": "Primo-Hörspiele line (und der Vampir mit dem Wackelzahn)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:20.430466+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1356652069",
-      "provider": "apple_music",
-      "include": true,
-      "episode_num": 18,
-      "title": "Folge 18: im Wunderland",
-      "exclude_reason": null,
-      "release_date": "2013",
-      "confidence": "high",
-      "notes": null,
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:20.430466+00:00",
-      "barcode": ""
-     },
-     {
-      "album_id": "1055054537",
-      "provider": "apple_music",
-      "include": false,
-      "episode_num": null,
-      "title": "Hexe Lilli feiert Geburtstag",
-      "exclude_reason": "sub_series_bleed",
-      "release_date": "2013-11-22",
-      "confidence": "high",
-      "notes": "Mini-Hörspiele line: feiert Geburtstag + verflixter Gespensterzauber (two Mini stories)",
-      "decided_by": "deepseek-v4-pro:0813",
-      "decided_at": "2026-11-13T21:25:20.430466+00:00",
-      "barcode": ""
-     }
-    ]
-   },
-   "metrics": {
-    "requests": 1,
-    "input_tokens": 34821,
-    "output_tokens": 7408,
-    "cache_read.input_tokens": 34820,
-    "cache_read_tokens": 34820
-   },
-   "attributes": {},
-   "scores": {
-    "right": {
-     "name": "right",
-     "value": 0.8,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "wrong_content": {
-     "name": "wrong_content",
-     "value": 0,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "missing_content": {
-     "name": "missing_content",
-     "value": 4,
-     "reason": null,
-     "source": {
-      "name": "CatalogOutcome",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "labels": {},
-   "assertions": {
-    "decisions_correct": {
-     "name": "decisions_correct",
-     "value": false,
-     "reason": "Wrong: spotify:4rRg8Lxw09m5FsCGWid99d (Im wilden Wilden Westen): excluded, expected include; spotify:7J10fbU5ef9lYoxFMXhwqs (Und das wilde Indianerabenteuer): excluded, expected include; apple_music:1056436201 (Folge 2: im wilden Wilden Westen): excluded, expected include; apple_music:1056433966 (Folge 11: und das wilde Indianerabenteuer): excluded, expected include",
-     "source": {
-      "name": "DecisionsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "exclude_reasons": {
-     "name": "exclude_reasons",
-     "value": true,
-     "reason": "All exclude reasons correct",
-     "source": {
-      "name": "ExcludeReasonsCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "confidence": {
-     "name": "confidence",
-     "value": true,
-     "reason": "All confidence levels sufficient",
-     "source": {
-      "name": "ConfidenceMinimum",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "notes_present": {
-     "name": "notes_present",
-     "value": true,
-     "reason": "All non-high decisions have notes",
-     "source": {
-      "name": "NotesPresent",
-      "arguments": null
-     },
-     "evaluator_version": null
-    },
-    "episode_numbers": {
-     "name": "episode_numbers",
-     "value": true,
-     "reason": "9 number(s) as expected",
-     "source": {
-      "name": "EpisodeNumbersCorrect",
-      "arguments": null
-     },
-     "evaluator_version": null
-    }
-   },
-   "task_duration": 43.7237579,
-   "total_duration": 43.733359038,
-   "source_case_name": "hexe_lilli_main_keeps_its_line",
-   "trace_id": "01a1d6c9b05e974265827229db7636f5",
-   "span_id": "1f28478edf154dac",
-   "evaluator_failures": []
-  },
-  {
    "name": "hui_buh_format_variant [1/3]",
    "inputs": null,
    "metadata": null,
@@ -13896,34 +11520,1632 @@
    "trace_id": "01a1d6c9b05e974265827229db7636f5",
    "span_id": "0f6e3f458f47ed5b",
    "evaluator_failures": []
+  },
+  {
+   "name": "hexe_lilli_erstleser_own_line [1/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": {
+    "albums": [
+     {
+      "album_id": "4rRg8Lxw09m5FsCGWid99d",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Im wilden Wilden Westen",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "1996-11-13",
+      "confidence": "high",
+      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line of Hexe Lilli (index: 'Hexe Lilli im wilden Wilden Westen').",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:49.053814+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "7J10fbU5ef9lYoxFMXhwqs",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Und das wilde Indianerabenteuer",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "1997-11-13",
+      "confidence": "high",
+      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line of Hexe Lilli (index: 'Hexe Lilli und das wilde Indianerabenteuer').",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:49.053814+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "4IzmCaIX0eEgRb7xsQFkfv",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Das Buch des Drachen",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2011-02-11",
+      "confidence": "high",
+      "notes": "Belongs to 'hexe_lilli'. Klassiker line of Hexe Lilli (index: 'Das Buch des Drachen').",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:49.053814+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "7iQo6EXjMtLPorNrw2vlXW",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Die Reise nach Mandolan",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2011-11-13",
+      "confidence": "high",
+      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line of Hexe Lilli (index: 'Hexe Lilli und die Reise nach Mandolan').",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:49.053814+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "2UFXuzfiqd0cThQRCalzdy",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Hexe Lilli rettet Weihnachten - Das Hörspiel zum Kinofilm",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2019-04-01",
+      "confidence": "high",
+      "notes": "Belongs to 'hexe_lilli'. Kinofilm Hörspiel, belongs to sibling entry 'Hexe Lilli (Kinofilm)'.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:49.053814+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "3CiZjceqtFe8yc63b4ZmsL",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": null,
+      "title": "Hilfe! Die Murze kommen! (Erstlesergeschichten)",
+      "exclude_reason": null,
+      "release_date": "2019-07-05",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:49.053814+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1s2fFBRaLCFreCBop1ZUiQ",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": null,
+      "title": "Hexe Lilli und der geheimnisvolle Flaschengeist Suki (Erstlesergeschichten)",
+      "exclude_reason": null,
+      "release_date": "2020-02-07",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:49.053814+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1056436201",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Folge 2: im wilden Wilden Westen",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "1996",
+      "confidence": "high",
+      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line of Hexe Lilli ('im wilden Wilden Westen').",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:49.053814+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1056433966",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Folge 11: und das wilde Indianerabenteuer",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "1997",
+      "confidence": "high",
+      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line of Hexe Lilli ('das wilde Indianerabenteuer').",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:49.053814+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1055056779",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Folge 23: Die Reise nach Mandolan",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2007-03-31",
+      "confidence": "high",
+      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line of Hexe Lilli ('Die Reise nach Mandolan').",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:49.053814+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1356622351",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Das Buch des Drachen",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2009-01-01",
+      "confidence": "high",
+      "notes": "Belongs to 'hexe_lilli'. Klassiker line of Hexe Lilli ('Das Buch des Drachen').",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:49.053814+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1465730970",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": null,
+      "title": "Hilfe! Die Murze kommen! (Erstlesergeschichten)",
+      "exclude_reason": null,
+      "release_date": "2019-07-05",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:49.053814+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1490107448",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": null,
+      "title": "Hexe Lilli und der geheimnisvolle Flaschengeist Suki (Erstlesergeschichten)",
+      "exclude_reason": null,
+      "release_date": "2020-02-07",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:49.053814+00:00",
+      "barcode": ""
+     }
+    ]
+   },
+   "metrics": {
+    "requests": 1,
+    "input_tokens": 26316,
+    "output_tokens": 3380
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "2 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 15.632768342,
+   "total_duration": 15.638411856,
+   "source_case_name": "hexe_lilli_erstleser_own_line",
+   "trace_id": "01a1dfbeea3a393a0018d868083147fe",
+   "span_id": "4c7b188a198e2a35",
+   "evaluator_failures": []
+  },
+  {
+   "name": "hexe_lilli_erstleser_own_line [2/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": {
+    "albums": [
+     {
+      "album_id": "4rRg8Lxw09m5FsCGWid99d",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Im wilden Wilden Westen",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "1996-11-13",
+      "confidence": "high",
+      "notes": "Belongs to 'hexe_lilli'",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:44.578494+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "7J10fbU5ef9lYoxFMXhwqs",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Und das wilde Indianerabenteuer",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "1997-11-13",
+      "confidence": "high",
+      "notes": "Belongs to 'hexe_lilli'",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:44.578494+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "4IzmCaIX0eEgRb7xsQFkfv",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Das Buch des Drachen",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2011-02-11",
+      "confidence": "high",
+      "notes": "Belongs to 'hexe_lilli'",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:44.578494+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "7iQo6EXjMtLPorNrw2vlXW",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Die Reise nach Mandolan",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2011-11-13",
+      "confidence": "high",
+      "notes": "Belongs to 'hexe_lilli'",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:44.578494+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "2UFXuzfiqd0cThQRCalzdy",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Hexe Lilli rettet Weihnachten - Das Hörspiel zum Kinofilm",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2019-04-01",
+      "confidence": "high",
+      "notes": "Belongs to 'hexe_lilli'",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:44.578494+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "3CiZjceqtFe8yc63b4ZmsL",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": null,
+      "title": "Hilfe! Die Murze kommen! (Erstlesergeschichten)",
+      "exclude_reason": null,
+      "release_date": "2019-07-05",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:44.578494+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1s2fFBRaLCFreCBop1ZUiQ",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": null,
+      "title": "Hexe Lilli und der geheimnisvolle Flaschengeist Suki (Erstlesergeschichten)",
+      "exclude_reason": null,
+      "release_date": "2020-02-07",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:44.578494+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1056436201",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Folge 2: im wilden Wilden Westen",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "1996",
+      "confidence": "high",
+      "notes": "Belongs to 'hexe_lilli'",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:44.578494+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1056433966",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Folge 11: und das wilde Indianerabenteuer",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "1997",
+      "confidence": "high",
+      "notes": "Belongs to 'hexe_lilli'",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:44.578494+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1055056779",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Folge 23: Die Reise nach Mandolan",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2007-03-31",
+      "confidence": "high",
+      "notes": "Belongs to 'hexe_lilli'",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:44.578494+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1356622351",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Das Buch des Drachen",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2009-01-01",
+      "confidence": "high",
+      "notes": "Belongs to 'hexe_lilli'",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:44.578494+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1465730970",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": null,
+      "title": "Hilfe! Die Murze kommen! (Erstlesergeschichten)",
+      "exclude_reason": null,
+      "release_date": "2019-07-05",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:44.578494+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1490107448",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": null,
+      "title": "Hexe Lilli und der geheimnisvolle Flaschengeist Suki (Erstlesergeschichten)",
+      "exclude_reason": null,
+      "release_date": "2020-02-07",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:44.578494+00:00",
+      "barcode": ""
+     }
+    ]
+   },
+   "metrics": {
+    "requests": 1,
+    "input_tokens": 26316,
+    "output_tokens": 2296,
+    "cache_read.input_tokens": 24576,
+    "cache_read_tokens": 24576
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "2 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 10.951806564,
+   "total_duration": 10.963092342,
+   "source_case_name": "hexe_lilli_erstleser_own_line",
+   "trace_id": "01a1dfbeea3a393a0018d868083147fe",
+   "span_id": "d37d03353fd87aab",
+   "evaluator_failures": []
+  },
+  {
+   "name": "hexe_lilli_erstleser_own_line [3/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": {
+    "albums": [
+     {
+      "album_id": "4rRg8Lxw09m5FsCGWid99d",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Im wilden Wilden Westen",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "1996-11-13",
+      "confidence": "high",
+      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line ('Hexe Lilli im wilden Wilden Westen', 44 min, EUROPA primo)",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:53.618820+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "7J10fbU5ef9lYoxFMXhwqs",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Und das wilde Indianerabenteuer",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "1997-11-13",
+      "confidence": "high",
+      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line ('Hexe Lilli und das wilde Indianerabenteuer', 44 min, EUROPA primo)",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:53.618820+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "4IzmCaIX0eEgRb7xsQFkfv",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Das Buch des Drachen",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2011-02-11",
+      "confidence": "high",
+      "notes": "Belongs to 'hexe_lilli'. Klassiker line ('Das Buch des Drachen (Wie alles begann)', 55 min)",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:53.618820+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "7iQo6EXjMtLPorNrw2vlXW",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Die Reise nach Mandolan",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2011-11-13",
+      "confidence": "high",
+      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line ('Hexe Lilli und die Reise nach Mandolan', 61 min)",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:53.618820+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "2UFXuzfiqd0cThQRCalzdy",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Hexe Lilli rettet Weihnachten - Das Hörspiel zum Kinofilm",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2019-04-01",
+      "confidence": "high",
+      "notes": "Belongs to 'hexe_lilli'. Filme line ('Hexe Lilli rettet Weihnachten', 72 min) - belongs to sibling entry 'Hexe Lilli (Kinofilm)'",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:53.618820+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "3CiZjceqtFe8yc63b4ZmsL",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": null,
+      "title": "Hilfe! Die Murze kommen! (Erstlesergeschichten)",
+      "exclude_reason": null,
+      "release_date": "2019-07-05",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:53.618820+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1s2fFBRaLCFreCBop1ZUiQ",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": null,
+      "title": "Hexe Lilli und der geheimnisvolle Flaschengeist Suki (Erstlesergeschichten)",
+      "exclude_reason": null,
+      "release_date": "2020-02-07",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:53.618820+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1056436201",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Folge 2: im wilden Wilden Westen",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "1996",
+      "confidence": "high",
+      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line ('im wilden Wilden Westen', 44 min)",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:53.618820+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1056433966",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Folge 11: und das wilde Indianerabenteuer",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "1997",
+      "confidence": "high",
+      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line ('und das wilde Indianerabenteuer', 45 min)",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:53.618820+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1055056779",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Folge 23: Die Reise nach Mandolan",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2007-03-31",
+      "confidence": "high",
+      "notes": "Belongs to 'hexe_lilli'. Primo-Hörspiele line ('Die Reise nach Mandolan', 61 min)",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:53.618820+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1356622351",
+      "provider": "apple_music",
+      "include": false,
+      "episode_num": null,
+      "title": "Das Buch des Drachen",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2009-01-01",
+      "confidence": "high",
+      "notes": "Belongs to 'hexe_lilli'. Klassiker line ('Das Buch des Drachen', 55 min)",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:53.618820+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1465730970",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": null,
+      "title": "Hilfe! Die Murze kommen! (Erstlesergeschichten)",
+      "exclude_reason": null,
+      "release_date": "2019-07-05",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:53.618820+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1490107448",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": null,
+      "title": "Hexe Lilli und der geheimnisvolle Flaschengeist Suki (Erstlesergeschichten)",
+      "exclude_reason": null,
+      "release_date": "2020-02-07",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:53.618820+00:00",
+      "barcode": ""
+     }
+    ]
+   },
+   "metrics": {
+    "requests": 1,
+    "input_tokens": 26316,
+    "output_tokens": 4281,
+    "cache_read.input_tokens": 24576,
+    "cache_read_tokens": 24576
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "2 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 19.951566566,
+   "total_duration": 19.95719569,
+   "source_case_name": "hexe_lilli_erstleser_own_line",
+   "trace_id": "01a1dfbeea3a393a0018d868083147fe",
+   "span_id": "e9666b7cc02c6615",
+   "evaluator_failures": []
+  },
+  {
+   "name": "hexe_lilli_main_keeps_its_line [1/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": {
+    "albums": [
+     {
+      "album_id": "17r2Acz7jO4CK7HH8vPB2k",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": 1,
+      "title": "001/stellt die Schule auf den Kopf",
+      "exclude_reason": null,
+      "release_date": "1994-04-27",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:54.068386+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "2AAyaocf5n35vHhq43ATco",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": 2,
+      "title": "002/macht Zauberquatsch",
+      "exclude_reason": null,
+      "release_date": "1994-04-27",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:54.068386+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "6wCQWfFLjfH2Uz5BhwkM94",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": 11,
+      "title": "011/auf der Jagd nach dem verlorenen Schatz",
+      "exclude_reason": null,
+      "release_date": "2005-05-11",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:54.068386+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "4IzmCaIX0eEgRb7xsQFkfv",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": null,
+      "title": "Das Buch des Drachen",
+      "exclude_reason": null,
+      "release_date": "2011-02-11",
+      "confidence": "high",
+      "notes": "Index files 'Das Buch des Drachen (Wie alles begann)' in the Klassiker line; 55.9 min matches.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:54.068386+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "7Js7yHJKNpYOy4maCeMXEY",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": 18,
+      "title": "018/im Wunderland",
+      "exclude_reason": null,
+      "release_date": "2013-05-18",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:54.068386+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "2UFXuzfiqd0cThQRCalzdy",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Hexe Lilli rettet Weihnachten - Das Hörspiel zum Kinofilm",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2019-04-01",
+      "confidence": "high",
+      "notes": "Belongs to 'Hexe Lilli (Kinofilm)' (index Filme: 'Hexe Lilli rettet Weihnachten').",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:54.068386+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1356623749",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 2,
+      "title": "Folge 2: macht Zauberquatsch",
+      "exclude_reason": null,
+      "release_date": "1994-01-01",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:54.068386+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1356624523",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 1,
+      "title": "001: stellt die Schule auf den Kopf",
+      "exclude_reason": null,
+      "release_date": "1994-04-27",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:54.068386+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1356630478",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 11,
+      "title": "Folge 11: auf der Jagd nach dem verlorenen Schatz",
+      "exclude_reason": null,
+      "release_date": "2005-01-01",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:54.068386+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1356652069",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 18,
+      "title": "Folge 18: im Wunderland",
+      "exclude_reason": null,
+      "release_date": "2013",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:54.068386+00:00",
+      "barcode": ""
+     }
+    ]
+   },
+   "metrics": {
+    "requests": 1,
+    "input_tokens": 23026,
+    "output_tokens": 1792,
+    "cache_read.input_tokens": 8320,
+    "cache_read_tokens": 8320
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "9 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 9.472571053,
+   "total_duration": 9.47790753,
+   "source_case_name": "hexe_lilli_main_keeps_its_line",
+   "trace_id": "01a1dfbeea3a393a0018d868083147fe",
+   "span_id": "060df428bcefdf55",
+   "evaluator_failures": []
+  },
+  {
+   "name": "hexe_lilli_main_keeps_its_line [2/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": {
+    "albums": [
+     {
+      "album_id": "17r2Acz7jO4CK7HH8vPB2k",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": 1,
+      "title": "001/stellt die Schule auf den Kopf",
+      "exclude_reason": null,
+      "release_date": "1994-04-27",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:58.784354+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "2AAyaocf5n35vHhq43ATco",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": 2,
+      "title": "002/macht Zauberquatsch",
+      "exclude_reason": null,
+      "release_date": "1994-04-27",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:58.784354+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "6wCQWfFLjfH2Uz5BhwkM94",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": 11,
+      "title": "011/auf der Jagd nach dem verlorenen Schatz",
+      "exclude_reason": null,
+      "release_date": "2005-05-11",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:58.784354+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "4IzmCaIX0eEgRb7xsQFkfv",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": null,
+      "title": "Das Buch des Drachen",
+      "exclude_reason": null,
+      "release_date": "2011-02-11",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:58.784354+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "7Js7yHJKNpYOy4maCeMXEY",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": 18,
+      "title": "018/im Wunderland",
+      "exclude_reason": null,
+      "release_date": "2013-05-18",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:58.784354+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "2UFXuzfiqd0cThQRCalzdy",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Hexe Lilli rettet Weihnachten - Das Hörspiel zum Kinofilm",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2019-04-01",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:58.784354+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1356623749",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 2,
+      "title": "Folge 2: macht Zauberquatsch",
+      "exclude_reason": null,
+      "release_date": "1994-01-01",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:58.784354+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1356624523",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 1,
+      "title": "001: stellt die Schule auf den Kopf",
+      "exclude_reason": null,
+      "release_date": "1994-04-27",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:58.784354+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1356630478",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 11,
+      "title": "Folge 11: auf der Jagd nach dem verlorenen Schatz",
+      "exclude_reason": null,
+      "release_date": "2005-01-01",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:58.784354+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1356652069",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 18,
+      "title": "Folge 18: im Wunderland",
+      "exclude_reason": null,
+      "release_date": "2013",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:06:58.784354+00:00",
+      "barcode": ""
+     }
+    ]
+   },
+   "metrics": {
+    "requests": 1,
+    "input_tokens": 23026,
+    "output_tokens": 1903,
+    "cache_read.input_tokens": 23025,
+    "cache_read_tokens": 23025
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "9 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 9.717590715,
+   "total_duration": 9.723527146,
+   "source_case_name": "hexe_lilli_main_keeps_its_line",
+   "trace_id": "01a1dfbeea3a393a0018d868083147fe",
+   "span_id": "d3f915c9f428fc12",
+   "evaluator_failures": []
+  },
+  {
+   "name": "hexe_lilli_main_keeps_its_line [3/3]",
+   "inputs": null,
+   "metadata": null,
+   "expected_output": null,
+   "output": {
+    "albums": [
+     {
+      "album_id": "17r2Acz7jO4CK7HH8vPB2k",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": 1,
+      "title": "001/stellt die Schule auf den Kopf",
+      "exclude_reason": null,
+      "release_date": "1994-04-27",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:07:02.931820+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "2AAyaocf5n35vHhq43ATco",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": 2,
+      "title": "002/macht Zauberquatsch",
+      "exclude_reason": null,
+      "release_date": "1994-04-27",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:07:02.931820+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "6wCQWfFLjfH2Uz5BhwkM94",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": 11,
+      "title": "011/auf der Jagd nach dem verlorenen Schatz",
+      "exclude_reason": null,
+      "release_date": "2005-05-11",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:07:02.931820+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "4IzmCaIX0eEgRb7xsQFkfv",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": null,
+      "title": "Das Buch des Drachen",
+      "exclude_reason": null,
+      "release_date": "2011-02-11",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:07:02.931820+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "7Js7yHJKNpYOy4maCeMXEY",
+      "provider": "spotify",
+      "include": true,
+      "episode_num": 18,
+      "title": "018/im Wunderland",
+      "exclude_reason": null,
+      "release_date": "2013-05-18",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:07:02.931820+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "2UFXuzfiqd0cThQRCalzdy",
+      "provider": "spotify",
+      "include": false,
+      "episode_num": null,
+      "title": "Hexe Lilli rettet Weihnachten - Das Hörspiel zum Kinofilm",
+      "exclude_reason": "sub_series_bleed",
+      "release_date": "2019-04-01",
+      "confidence": "high",
+      "notes": "Belongs to Hexe Lilli (Kinofilm): 'Hexe Lilli rettet Weihnachten' is the Filme line, not a numbered Klassiker episode.",
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:07:02.931820+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1356623749",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 2,
+      "title": "Folge 2: macht Zauberquatsch",
+      "exclude_reason": null,
+      "release_date": "1994-01-01",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:07:02.931820+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1356624523",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 1,
+      "title": "001: stellt die Schule auf den Kopf",
+      "exclude_reason": null,
+      "release_date": "1994-04-27",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:07:02.931820+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1356630478",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 11,
+      "title": "Folge 11: auf der Jagd nach dem verlorenen Schatz",
+      "exclude_reason": null,
+      "release_date": "2005-01-01",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:07:02.931820+00:00",
+      "barcode": ""
+     },
+     {
+      "album_id": "1356652069",
+      "provider": "apple_music",
+      "include": true,
+      "episode_num": 18,
+      "title": "Folge 18: im Wunderland",
+      "exclude_reason": null,
+      "release_date": "2013",
+      "confidence": "high",
+      "notes": null,
+      "decided_by": "deepseek-v4-pro:0813",
+      "decided_at": "2026-11-15T15:07:02.931820+00:00",
+      "barcode": ""
+     }
+    ]
+   },
+   "metrics": {
+    "requests": 1,
+    "input_tokens": 23026,
+    "output_tokens": 1735,
+    "cache_read.input_tokens": 23025,
+    "cache_read_tokens": 23025
+   },
+   "attributes": {},
+   "scores": {
+    "right": {
+     "name": "right",
+     "value": 1.0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "wrong_content": {
+     "name": "wrong_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "missing_content": {
+     "name": "missing_content",
+     "value": 0,
+     "reason": null,
+     "source": {
+      "name": "CatalogOutcome",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "labels": {},
+   "assertions": {
+    "decisions_correct": {
+     "name": "decisions_correct",
+     "value": true,
+     "reason": "All decisions correct",
+     "source": {
+      "name": "DecisionsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "exclude_reasons": {
+     "name": "exclude_reasons",
+     "value": true,
+     "reason": "All exclude reasons correct",
+     "source": {
+      "name": "ExcludeReasonsCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "confidence": {
+     "name": "confidence",
+     "value": true,
+     "reason": "All confidence levels sufficient",
+     "source": {
+      "name": "ConfidenceMinimum",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "notes_present": {
+     "name": "notes_present",
+     "value": true,
+     "reason": "All non-high decisions have notes",
+     "source": {
+      "name": "NotesPresent",
+      "arguments": null
+     },
+     "evaluator_version": null
+    },
+    "episode_numbers": {
+     "name": "episode_numbers",
+     "value": true,
+     "reason": "9 number(s) as expected",
+     "source": {
+      "name": "EpisodeNumbersCorrect",
+      "arguments": null
+     },
+     "evaluator_version": null
+    }
+   },
+   "task_duration": 9.301312602,
+   "total_duration": 9.306955036,
+   "source_case_name": "hexe_lilli_main_keeps_its_line",
+   "trace_id": "01a1dfbeea3a393a0018d868083147fe",
+   "span_id": "37b2a1e7da6a8834",
+   "evaluator_failures": []
   }
  ],
  "failures": [],
- "analyses": [
-  {
-   "type": "table",
-   "title": "Albums across all cases",
-   "description": null,
-   "columns": [
-    "albums",
-    "right",
-    "wrong content",
-    "missing content"
-   ],
-   "rows": [
-    [
-     636,
-     600,
-     0,
-     36
-    ]
-   ]
-  }
- ],
+ "analyses": [],
  "report_evaluator_failures": [],
  "experiment_metadata": {
   "model": "deepseek-v4-pro:0813"
  },
- "trace_id": "01a1d6c9b05e974265827229db7636f5",
- "span_id": "66fb1d5168e9cea2"
+ "trace_id": "01a1dfbeea3a393a0018d868083147fe",
+ "span_id": "38ed21ccf52ad089"
 }
