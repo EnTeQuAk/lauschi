@@ -6026,6 +6026,8 @@
         "spotify": {
           "artist_ids": ["7lWAti8HlNyw39Z5OI92Ep"],
           "albums": [
+            {"id": "7dP8gv1I2IcdIBHX0mMUxB", "episode": 1, "title": "LEGO City TV-Serie Folgen 1-5: Helden und Räuber", "release_date": "2019-11-22", "barcode": "4064067676642"},
+            {"id": "2xXCU788DCGwZdzDdvdgJG", "episode": 6, "title": "LEGO City TV-Serie Folgen 6-10: Harl Hubbs hilft", "release_date": "2019-11-22", "barcode": "4064067676628"},
             {"id": "42BE5wTum5s04aMPyeCVts", "episode": 11, "title": "Folge 11: Die kleine Carol", "release_date": "2020-03-13", "barcode": "4064067676291"},
             {"id": "7kDBgiq85tziKpD6HGYJcN", "episode": 12, "title": "Folge 12: Wer fliegt zum Mars?", "release_date": "2020-03-13", "barcode": "4064067676321"},
             {"id": "0ocedFC0do9mHJlACnW2ML", "episode": 13, "title": "Folge 13: Fröhliche Polizeihnachten", "release_date": "2020-03-13", "barcode": "4064067676352"},
@@ -6127,6 +6129,8 @@
         "apple_music": {
           "artist_ids": ["672648501"],
           "albums": [
+            {"id": "1485429140", "episode": 1, "title": "LEGO City TV-Serie Folgen 1-5: Helden und Räuber", "release_date": "2019-11-22", "barcode": "4064066011192"},
+            {"id": "1485428848", "episode": 6, "title": "LEGO City TV-Serie Folgen 6-10: Harl Hubbs hilft", "release_date": "2019-11-22", "barcode": "4064066011185"},
             {"id": "1501854451", "episode": 11, "title": "Folge 11: Die kleine Carol", "release_date": "2020-03-13", "barcode": "4064066290924"},
             {"id": "1502281028", "episode": 12, "title": "Folge 12: Wer fliegt zum Mars?", "release_date": "2020-03-13", "barcode": "4064066292225"},
             {"id": "1502280970", "episode": 13, "title": "Folge 13: Fröhliche Polizeihnachten", "release_date": "2020-03-13", "barcode": "4064066292232"},
