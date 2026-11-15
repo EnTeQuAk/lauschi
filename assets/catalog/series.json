@@ -4938,15 +4938,7 @@
             {"id": "5MwuvZl5fOcRtVT61SGA5f", "episode": 255, "title": "Folge 255: Die Zukunft der Seefahrt", "release_date": "2026-03-06", "barcode": "4069829516662"},
             {"id": "0MurU9omD2VnjKFFs6AYa7", "episode": 256, "title": "Folge 256: Das Pontypandy-Genuss-Festival", "release_date": "2026-03-13", "barcode": "4069829516693"},
             {"id": "1vZWcIuFu4fXpDbM2JQsaR", "episode": 257, "title": "Folge 257: Die Magische Mandini und der Große Normanski", "release_date": "2026-03-20", "barcode": "4069829516716"},
-            {"id": "7oipSGxDWo8YL1dimL0Jzr", "episode": 258, "title": "Folge 258: Die große Show", "release_date": "2026-03-27", "barcode": "4069829516723"},
-            {"id": "6y9ihfDcD6uPo1JIdBDIuf", "title": "Feuerwehrmann Sam - Das Kanurennen", "release_date": "2024-05-01", "barcode": "4099995520279"},
-            {"id": "464jJhDCyjwCZIXZoVHZq4", "title": "Feuerwehrmann Sam - Der rollende Riesenkürbis", "release_date": "2024-05-01", "barcode": "4099995520163"},
-            {"id": "2tPASdk1nWphGxCJJwMgpx", "title": "Feuerwehrmann Sam - Ein sensationelles Fußballspiel", "release_date": "2024-05-01", "barcode": "4099995520255"},
-            {"id": "6pEqTgweO8kv2HLmH8Gwd3", "title": "Feuerwehrmann Sam - Norman und der Pinguin", "release_date": "2024-05-01", "barcode": "4099995520330"},
-            {"id": "21D8coxkQMDNX6mMeMR50u", "title": "Feuerwehrmann Sam - Ein feuriges Konzert", "release_date": "2024-05-06", "barcode": "4099995520293"},
-            {"id": "6vPVMABaTlBFL2Bqc9Kfu4", "title": "Feuerwehrmann Sam - Ein großartiger Rettungshund", "release_date": "2024-05-06", "barcode": "4099995520231"},
-            {"id": "1ZEE4iXQ0CGWkAAUS8YZIY", "title": "Feuerwehrmann Sam - Norman auf magischer Mission", "release_date": "2024-05-06", "barcode": "4099995520316"},
-            {"id": "1zmYsNl03wrpwBcUnVupU3", "title": "Feuerwehrmann Sam - Norman macht die Pferde scheu", "release_date": "2024-05-06", "barcode": "4099995520217"}
+            {"id": "7oipSGxDWo8YL1dimL0Jzr", "episode": 258, "title": "Folge 258: Die große Show", "release_date": "2026-03-27", "barcode": "4069829516723"}
           ]
         },
         "apple_music": {
@@ -22349,6 +22341,37 @@
             {"id": "6772226860", "episode": 17, "title": "Folgen 17-21: Winter in Pontypandy (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4260009918195"},
             {"id": "6772224651", "episode": 22, "title": "Folgen 22-26: Rettung in letzter Sekunde (Die Original-Hörspiele zur TV-Serie)", "release_date": "2026-05-29", "barcode": "4066339691919"}
           ]
+        }
+      }
+    },
+    {
+      "id": "feuerwehrmann_sam_hoerbuch",
+      "title": "Feuerwehrmann Sam: Hörbücher",
+      "aliases": ["Feuerwehrmann Sam Hörbuch"],
+      "content_type": "audiobook",
+      "split_from": "feuerwehrmann_sam",
+      "providers": {
+        "spotify": {
+          "artist_ids": ["4qhaHyCtCaFugTqT9LzuKp"],
+          "albums": [
+            {"id": "6y9ihfDcD6uPo1JIdBDIuf", "title": "Feuerwehrmann Sam - Das Kanurennen", "release_date": "2024-05-01", "barcode": "4099995520279"},
+            {"id": "464jJhDCyjwCZIXZoVHZq4", "title": "Feuerwehrmann Sam - Der rollende Riesenkürbis", "release_date": "2024-05-01", "barcode": "4099995520163"},
+            {"id": "2tPASdk1nWphGxCJJwMgpx", "title": "Feuerwehrmann Sam - Ein sensationelles Fußballspiel", "release_date": "2024-05-01", "barcode": "4099995520255"},
+            {"id": "6pEqTgweO8kv2HLmH8Gwd3", "title": "Feuerwehrmann Sam - Norman und der Pinguin", "release_date": "2024-05-01", "barcode": "4099995520330"},
+            {"id": "4Z0FHWWUOBjQQ9o8tmnpA6", "title": "Feuerwehrmann Sam - Geschichtensammlung 1", "release_date": "2024-05-03", "barcode": "4099995454758"},
+            {"id": "21D8coxkQMDNX6mMeMR50u", "title": "Feuerwehrmann Sam - Ein feuriges Konzert", "release_date": "2024-05-06", "barcode": "4099995520293"},
+            {"id": "6vPVMABaTlBFL2Bqc9Kfu4", "title": "Feuerwehrmann Sam - Ein großartiger Rettungshund", "release_date": "2024-05-06", "barcode": "4099995520231"},
+            {"id": "1ZEE4iXQ0CGWkAAUS8YZIY", "title": "Feuerwehrmann Sam - Norman auf magischer Mission", "release_date": "2024-05-06", "barcode": "4099995520316"},
+            {"id": "1zmYsNl03wrpwBcUnVupU3", "title": "Feuerwehrmann Sam - Norman macht die Pferde scheu", "release_date": "2024-05-06", "barcode": "4099995520217"},
+            {"id": "4P8gtQTBDwwBZzwONFOMie", "title": "Feuerwehrmann Sam - Geschichtensammlung 2", "release_date": "2024-05-10", "barcode": "4099995454772"},
+            {"id": "1YTKjyK73Xjz4KY7Z0AZ7E", "title": "Feuerwehrmann Sam - Geschichtensammlung 3", "release_date": "2024-05-17", "barcode": "4099995454796"},
+            {"id": "3aBpft3YjZsu1iQquM87lz", "title": "Feuerwehrmann Sam - Geschichtensammlung 4", "release_date": "2024-08-02", "barcode": "4099995557992"},
+            {"id": "1HFHgmyRz5FPiy7joXkTHJ", "title": "Feuerwehrmann Sam - Geschichtensammlung 5", "release_date": "2024-08-02", "barcode": "4099995558012"}
+          ]
+        },
+        "apple_music": {
+          "artist_ids": ["374131430"],
+          "albums": []
         }
       }
     }
