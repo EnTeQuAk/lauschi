@@ -22277,13 +22277,13 @@
         "spotify": {
           "artist_ids": ["7FFCbo48YA1o0mhUE66DjO"],
           "albums": [
-            {"id": "0YWKYup2Axls1NMofRdQ6M", "title": "Die Wilden Hühner", "release_date": "1998-09-01", "barcode": "4064067380037"},
-            {"id": "1m0gUz7ge6rYs3w0pFgzl3", "title": "Die Wilden Hühner und das Glück der Erde", "release_date": "2000-07-27", "barcode": "4066338241801"},
-            {"id": "3dcOzSIQwgrG229n8gnUCg", "title": "Die Wilden Hühner. Fuchsalarm", "release_date": "2002-07-29", "barcode": "4066338241764"},
-            {"id": "7qlHTVKawlCzCKFD4LoZpr", "title": "Die Wilden Hühner auf Klassenfahrt", "release_date": "2002-08-03", "barcode": "4064067380020"},
-            {"id": "4FwoYwy88mcywyrFoMMJX0", "title": "Die Wilden Hühner und die Liebe", "release_date": "2003-02-14", "barcode": "4064067633041"},
-            {"id": "31bkxKUPoN42LaOPbmVr23", "title": "Das geheime Wissen der Wilden Hühner", "release_date": "2003-07-29", "barcode": "4064067149078"},
-            {"id": "7fAgcvHn3uszlfROsl7qla", "title": "Die Wilden Hühner 6. Cornelia Funkes Die Wilden Hühner und das Leben", "release_date": "2008", "barcode": "4064067736247"}
+            {"id": "0YWKYup2Axls1NMofRdQ6M", "episode": 1, "title": "Die Wilden Hühner", "release_date": "1998-09-01", "barcode": "4064067380037"},
+            {"id": "7qlHTVKawlCzCKFD4LoZpr", "episode": 2, "title": "Die Wilden Hühner auf Klassenfahrt", "release_date": "2002-08-03", "barcode": "4064067380020"},
+            {"id": "3dcOzSIQwgrG229n8gnUCg", "episode": 3, "title": "Die Wilden Hühner. Fuchsalarm", "release_date": "2002-07-29", "barcode": "4066338241764"},
+            {"id": "1m0gUz7ge6rYs3w0pFgzl3", "episode": 4, "title": "Die Wilden Hühner und das Glück der Erde", "release_date": "2000-07-27", "barcode": "4066338241801"},
+            {"id": "4FwoYwy88mcywyrFoMMJX0", "episode": 5, "title": "Die Wilden Hühner und die Liebe", "release_date": "2003-02-14", "barcode": "4064067633041"},
+            {"id": "7fAgcvHn3uszlfROsl7qla", "episode": 6, "title": "Die Wilden Hühner 6. Cornelia Funkes Die Wilden Hühner und das Leben", "release_date": "2008", "barcode": "4064067736247"},
+            {"id": "31bkxKUPoN42LaOPbmVr23", "title": "Das geheime Wissen der Wilden Hühner", "release_date": "2003-07-29", "barcode": "4064067149078"}
           ]
         },
         "apple_music": {
