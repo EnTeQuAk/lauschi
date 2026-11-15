@@ -56,7 +56,10 @@ _ONE_SHOT_MAX = _AUDIT_PROFILE.one_shot_max_tokens
 # wieso_weshalb_warum left on 2026-10-01 once its 181 Junior and
 # Erstleser rows named their owners. spongebob_schwammkopf joined on
 # 2026-10-13 with its single stories: 736 rows, approved in 14 chunks.
+# die_playmos joined on 2026-11-15 with Folge 103 and the releases
+# Spotify lists twice under new ids, and its chunked audit approved.
 _CHUNKED_SERIES = {
+    "die_playmos",
     "paw_patrol",
     "spongebob_schwammkopf",
     "stephen_janetzko",
