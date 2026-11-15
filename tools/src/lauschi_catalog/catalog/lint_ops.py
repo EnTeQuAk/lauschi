@@ -442,7 +442,9 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
     # while the full album sat excluded. An included title that extends
     # an excluded sibling's title on the same provider is
     # fragment-shaped; the correct state includes the shorter title,
-    # so the direction of the prefix decides.
+    # so the direction of the prefix decides. A sibling with the same
+    # barcode is the same release under another id and title (Spotify
+    # lists Die Playmos twice), not a fragment of it.
     excluded_by_provider: dict[str, list[dict]] = {}
     for a in albums:
         if not a.get("include") and not _owned_elsewhere(curation.get("id"), a):
@@ -454,6 +456,8 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
         if not na:
             continue
         for b in excluded_by_provider.get(a.get("provider", "?"), []):
+            if a.get("barcode") and a.get("barcode") == b.get("barcode"):
+                continue
             nb = _norm_title(b.get("title") or "")
             # A fragment continues the full title at a word boundary:
             # "folge 10: ..." does not continue an album titled "folge 1".

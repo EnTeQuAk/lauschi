@@ -634,6 +634,26 @@ class TestFragmentIncluded:
         issues = lint_curation({"id": "s", "albums": albums})
         assert not any("[fragment_included]" in i for i in issues)
 
+    def test_a_copy_of_the_same_release_is_not_a_fragment(self):
+        """Spotify lists Die Playmos twice: the album the series ships and a
+        copy under a new id with a shorter title and the same barcode. The
+        copy is excluded as a duplicate, and the longer title is the same
+        release, not a fragment of it."""
+        shipped = _make_album(
+            "sp_shipped",
+            "Folge 1: Der Schatz der Teufelsinsel (Das Original Playmobil Hörspiel)",
+            episode_num=1,
+        )
+        copy = _make_album(
+            "sp_copy",
+            "Folge 1: Der Schatz der Teufelsinsel",
+            include=False,
+            exclude_reason="duplicate",
+        )
+        shipped["barcode"] = copy["barcode"] = "4260229664001"
+        issues = lint_curation({"id": "s", "albums": [shipped, copy]})
+        assert not any("[fragment_included]" in i for i in issues)
+
 
 class TestDataIntegrityRules:
     def test_duplicate_provider_album_id_is_flagged(self):
