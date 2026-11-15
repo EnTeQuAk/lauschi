@@ -1,5 +1,28 @@
 # Changelog
 
+## v2026.11.1 (November 2026)
+
+🎯 **Hörbücher mit eigenem Platz**
+Lesungen stehen jetzt in eigenen Einträgen neben den Hörspielen, zum Beispiel bei Pumuckl, Bibi Blocksberg, Bibi und Tina, Pippi Langstrumpf, Astrid Lindgren, Wir Kinder aus Bullerbü, Otfried Preußler, Tintenwelt, Janosch, Der kleine Rabe Socke, Die Schule der magischen Tiere, Die Wilden Hühner, Jim Knopf und Feuerwehrmann Sam.
+
+⏳ **Über 500 Folgen mehr pro Musikdienst**
+Der Katalog wächst auf 309 Reihen. Neu sind unter anderem Feuerwehrmann Sam ab Folge 1, Feuerwehrmann Sam Classics, LEGO City Folge 1 bis 10, Jurassic World: Die Chaostheorie, Heidi aus den 1970ern mit Heidi wird erwachsen, Der gestiefelte Kater: Abenteuer in San Lorenzo, H2O: Abenteuer Meerjungfrau, Kung Fu Panda: Der Drachenritter, PAW Patrol Dino-Check, der Adventskalender von Pettersson und Findus und die Kinofilme von Jim Knopf. Dazu kommen die neuesten Folgen vieler Reihen und verschiedene neue Weihnachtsfolgen.
+
+📂 **Folgen in der richtigen Reihenfolge**
+Es kommt hin und wieder vor, dass ein Musikdienst eine Folge falsch nummeriert. In lauschi steht sie trotzdem an der richtigen Stelle, und Lesungen wie die Wilden Hühner laufen in der Reihenfolge der Bücher. Folgen, die ein Dienst doppelt listet, erscheinen nur noch einmal.
+
+🔒 **Mehr Privatsphäre**
+Weitere Verbesserungen, um Tracking aktiv zu vermeiden: Die App aus dem Play Store und dem App Store enthält jetzt gar keinen Code für Fehlerberichte mehr, auch keinen ungenutzten. Ein Tracker-Scan wie Exodus findet nichts.
+
+✨ **ARD Sounds**
+lauschi unterstützt nun ARD Sounds (früher ARD Audiothek).
+
+🐛 **Behoben**
+- Wer kurz vor Schluss einer Folge pausiert, etwa beim Schlusslied, hört danach an der richtigen Stelle weiter statt wieder von vorn
+- Wer bis zum Ende durch die Kapitel springt, hat die Folge nicht mehr automatisch gehört
+- Zurück aus dem Player scrollt die Liste wieder zur richtigen Weiter-Kachel
+- Der Katalog ist beim Start schneller geladen
+
 ## v2026.10.2 (Oktober 2026)
 
 🎯 **Weiter, wo dein Kind aufgehört hat**

@@ -1,5 +1,6 @@
-🎯 After an episode, the "Weiter" badge always moves to the next one, and the list no longer jumps to the end.
-✅ Skipped the closing credits? The episode still counts as heard.
-✨ Undo instead of confirmation dialogs when deleting.
-📂 Tidier catalog: Bibi, Conni, Ninjago, WAS IST WAS and more re-sorted.
-🎵 Spotify resumes at the right spot after being in the background.
+🎯 Audiobook readings now have their own entries next to the audio plays.
+⏳ Over 500 more episodes, for example Fireman Sam from episode 1, Heidi, Jurassic World and several new Christmas episodes.
+📂 Episodes a service numbers wrong now sit in the right place.
+🔒 More work to actively avoid tracking: the app no longer contains any crash reporting code.
+✨ lauschi now supports ARD Sounds (formerly ARD Audiothek).
+🐛 Pausing near the end no longer restarts the episode.
