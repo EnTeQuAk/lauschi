@@ -111,7 +111,6 @@ async def run_with_rate_limit_retry(
             )
 
     attempt_count = 0
-    attempt_count = 0
 
     try:
         async for attempt in AsyncRetrying(
