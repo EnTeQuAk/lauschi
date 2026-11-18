@@ -2758,7 +2758,8 @@
             {"id": "2zzBfYuHr5mDS7kMgbpJLT", "episode": 16, "title": "Folge 16: Quietschende Schuhe (Das Original-Hörspiel zur TV-Serie)", "release_date": "2003-11-03", "barcode": "4062851238106"},
             {"id": "3xJLKHk19gsb2I406IedXY", "episode": 17, "title": "Folge 17: Zurück zur Natur (Das Original-Hörspiel zur TV-Serie)", "release_date": "2004-03-08", "barcode": "4062851238250"},
             {"id": "7watEGQXPPhRy9fFtapFI8", "episode": 18, "title": "Folge 18: Im Gegenteil (Das Original-Hörspiel zur TV-Serie)", "release_date": "2004-03-09", "barcode": "4062851238267"},
-            {"id": "1pJbuHIlhDwLUB7UqmFr32", "episode": 19, "title": "Folge 19: F.u.n (Das Original-Hörspiel zur TV-Serie)", "release_date": "2004-03-11", "barcode": "4062851238281"},
+            {"id": "26ZQIhr1VniLR5o0jwX01T", "episode": 19, "title": "Folge 19: Kulturschock (Das Original-Hörspiel zur TV-Serie)", "release_date": "2004-03-10", "barcode": "4062851238274"},
+            {"id": "1pJbuHIlhDwLUB7UqmFr32", "episode": 20, "title": "Folge 19: F.u.n (Das Original-Hörspiel zur TV-Serie)", "release_date": "2004-03-11", "barcode": "4062851238281"},
             {"id": "2LYCCqjFBd1Bd5H47bO9ID", "episode": 21, "title": "Folge 21: Tanz' den Schwamm (Das Original-Hörspiel zur TV-Serie)", "release_date": "2004-03-12", "barcode": "4062851238694"},
             {"id": "4UzbtYEbhJ0dgESxLc1qWK", "episode": 22, "title": "Folge 22: Mitarbeiter des Monats (Das Original-Hörspiel zur TV-Serie)", "release_date": "2004-03-13", "barcode": "4062851238700"},
             {"id": "6XSdGoW8Scd1UKbJnDzccZ", "episode": 23, "title": "Folge 23: Die Zeitmaschine (Das Original-Hörspiel zur TV-Serie)", "release_date": "2004-03-14", "barcode": "4062851238717"},
@@ -2821,6 +2822,7 @@
             {"id": "6ADOoanbnP5vKsoxUmaasP", "episode": 85, "title": "Folge 85: Der Schrumpf-Tag (Das Original-Hörspiel zur TV-Serie)", "release_date": "2006-04-25", "barcode": "4062851230865"},
             {"id": "2Hgj4qYQJL0XKfpqXG7e4D", "episode": 86, "title": "Folge 86: Gefängnisstrafe (Das Original-Hörspiel zur TV-Serie)", "release_date": "2006-04-26", "barcode": "4062851230872"},
             {"id": "3gKghXvTjMDgyRr9SmLCRu", "episode": 87, "title": "Folge 87: Das große Schneckenrennen (Das Original-Hörspiel zur TV-Serie)", "release_date": "2006-04-27", "barcode": "4062851230889"},
+            {"id": "73o7ZGzb0yTyR0orxdX1n9", "episode": 88, "title": "Folge 89: Einmal wieder jung sein (Das Original-Hörspiel zur TV-Serie)", "release_date": "2006-04-28", "barcode": "4062851230896"},
             {"id": "0LwfSMl6JQVBA7XDSKgTdK", "episode": 89, "title": "Folge 89: Der Fernsehstar (Das Original-Hörspiel zur TV-Serie)", "release_date": "2006-10-06", "barcode": "4062851235976"},
             {"id": "4edZedKSQsa1ZDVrMZjb3w", "episode": 90, "title": "Folge 90: Schonungslos ausgenutzt (Das Original-Hörspiel zur TV-Serie)", "release_date": "2006-10-07", "barcode": "4062851235983"},
             {"id": "5n29h9u6ooFYnryaxZ8IYw", "episode": 91, "title": "Folge 91: Harte Jungs (Das Original-Hörspiel zur TV-Serie)", "release_date": "2006-10-08", "barcode": "4062851235990"},
@@ -2908,10 +2910,11 @@
             {"id": "5sCP38pHSgWwncrPtb3cMb", "episode": 181, "title": "Folge 181: Die Welle zurück (Teil 1) [Das Original-Hörspiel zur TV-Serie]", "release_date": "2012-09-11", "barcode": "4062851238373"},
             {"id": "5LSRgTWaTVL9OAwxv1p54G", "episode": 182, "title": "Folge 182: Die Welle zurück (Teil 2) [Das Original-Hörspiel zur TV-Serie]", "release_date": "2012-09-11", "barcode": "4062851238380"},
             {"id": "6voljCWi5cQyg4VX89Uqtq", "episode": 183, "title": "Folge 183: Neureich (Das Original-Hörspiel zur TV-Serie)", "release_date": "2012-09-12", "barcode": "4062851238397"},
-            {"id": "1rtxPxJww1Nw7ZyfvMAX6p", "episode": 184, "title": "Folge 184: Liebe Wikinger (Das Original-Hörspiel zur TV-Serie)", "release_date": "2013-03-24", "barcode": "4062851238359"},
+            {"id": "5w8OkThOyLAdQRCOXjuVfd", "episode": 184, "title": "Folge 184: Chorknaben (Das Original-Hörspiel zur TV-Serie)", "release_date": "2012-09-13", "barcode": "4062851238403"},
             {"id": "3haJ2D6CYPvs5Si6EPfO0T", "episode": 185, "title": "Folge 185: Liebe Wikinger (Das Original-Hörspiel zur TV-Serie)", "release_date": "2013-03-22", "barcode": "4062851375306"},
-            {"id": "5yEtRGpl7rvCpOFkLsw04S", "episode": 186, "title": "Folge 186: Schulschwänzer (Das Original-Hörspiel zur TV-Serie)", "release_date": "2013-03-25", "barcode": "4062851238366"},
+            {"id": "0GHkkPEu0kpMan4yjATqvn", "episode": 186, "title": "Folge 186: Die Karte (Das Original-Hörspiel zur TV-Serie)", "release_date": "2013-03-23", "barcode": "4062851238342"},
             {"id": "6dwlQu1XzNset7qJAkRyhn", "episode": 187, "title": "Folge 187: Die Krossen Knochenbrecher (Das Original-Hörspiel zur TV-Serie)", "release_date": "2013-03-22", "barcode": "4062851238335"},
+            {"id": "5yEtRGpl7rvCpOFkLsw04S", "episode": 188, "title": "Folge 186: Schulschwänzer (Das Original-Hörspiel zur TV-Serie)", "release_date": "2013-03-25", "barcode": "4062851238366"},
             {"id": "07BRLuQ6SE77hz1Ot2U8Yf", "episode": 189, "title": "Folge 189: Piratenopa (Das Original-Hörspiel zur TV-Serie)", "release_date": "2013-03-26", "barcode": "4062851238298"},
             {"id": "0FxKcKt9Q1Zd0nPb85W4ZQ", "episode": 190, "title": "Folge 190: Die Kopffüßler-Lage (Das Original-Hörspiel zur TV-Serie)", "release_date": "2013-03-27", "barcode": "4062851238304"},
             {"id": "6oYwLcrcLHuou5gSLpgt6K", "episode": 191, "title": "Folge 191: Besuch von Thaddäus (Das Original-Hörspiel zur TV-Serie)", "release_date": "2013-03-28", "barcode": "4062851238311"},
@@ -3004,14 +3007,10 @@
             {"id": "5R4D9biTCxwuzki1DKv0oJ", "episode": 278, "title": "Folge 278: Der Würstchen-Chef (Das Original-Hörspiel zur TV-Serie)", "release_date": "2026-10-09", "barcode": "4062851360159"},
             {"id": "1jubZmNzgYZOlblZrVSDQG", "episode": 279, "title": "Folge 279: Thaddäus schutzlos (Das Original-Hörspiel zur TV-Serie)", "release_date": "2026-10-23", "barcode": "4062851360371"},
             {"id": "2tYyKgdTRHFFGfRKApvlO4", "episode": 280, "title": "Folge 280: Sandy allein zu Haus' (Das Original-Hörspiel zur TV-Serie)", "release_date": "2026-11-06", "barcode": "4062851360319"},
-            {"id": "26ZQIhr1VniLR5o0jwX01T", "title": "Folge 19: Kulturschock (Das Original-Hörspiel zur TV-Serie)", "release_date": "2004-03-10", "barcode": "4062851238274"},
-            {"id": "73o7ZGzb0yTyR0orxdX1n9", "title": "Folge 89: Einmal wieder jung sein (Das Original-Hörspiel zur TV-Serie)", "release_date": "2006-04-28", "barcode": "4062851230896"},
             {"id": "43sQbnUtsLldpybSEScvAV", "title": "Folge 11 (Das Original-Hörspiel zur TV-Serie)", "release_date": "2006-07-14", "barcode": "4029759162186"},
             {"id": "3QXFVb9jpcNA69el9PKXt4", "title": "Folge 19 (Das Original-Hörspiel zur TV-Serie)", "release_date": "2006-07-14", "barcode": "4029759162285"},
             {"id": "3mg95sBbJ3azk6RAWyO7Io", "title": "Folge 24 (Das Original-Hörspiel zur TV-Serie)", "release_date": "2006-10-13", "barcode": "4029759162322"},
             {"id": "3xqtYyHsO6bOnc5U3VM8G9", "title": "Folge 27 (Das Original-Hörspiel zur TV-Serie)", "release_date": "2007-08-31", "barcode": "4029759162346"},
-            {"id": "5w8OkThOyLAdQRCOXjuVfd", "title": "Folge 184: Chorknaben (Das Original-Hörspiel zur TV-Serie)", "release_date": "2012-09-13", "barcode": "4062851238403"},
-            {"id": "0GHkkPEu0kpMan4yjATqvn", "title": "Folge 186: Die Karte (Das Original-Hörspiel zur TV-Serie)", "release_date": "2013-03-23", "barcode": "4062851238342"},
             {"id": "2b6UlYURVhpiOT8tdfHOEm", "title": "X-Mas Edition (Das Original-Hörspiel zur TV-Serie)", "release_date": "2020-11-06", "barcode": "4029759162759"}
           ]
         },
@@ -3186,11 +3185,12 @@
             {"id": "6821152636", "episode": 179, "title": "Folge 179: Die Pyjama-Party (Das Original-Hörspiel zur TV-Serie) - EP", "release_date": "2012-09-09", "barcode": "4062851242806"},
             {"id": "6821153224", "episode": 180, "title": "Folge 180: Der glänzende Gary (Das Original-Hörspiel zur TV-Serie) - EP", "release_date": "2012-09-10", "barcode": "4062851242813"},
             {"id": "6821154423", "episode": 181, "title": "Folge 181: Die Welle zurück (Teil 1) [Das Original-Hörspiel zur TV-Serie] - EP", "release_date": "2012-09-11", "barcode": "4062851242905"},
-            {"id": "6821145823", "episode": 182, "title": "Folge 182: Die Krossen Knochenbrecher (Das Original-Hörspiel zur TV-Serie) - EP", "release_date": "2013-03-22", "barcode": "4062851242660"},
+            {"id": "6821154733", "episode": 182, "title": "Folge 182: Die Welle zurück (Teil 2) [Das Original-Hörspiel zur TV-Serie] - EP", "release_date": "2012-09-11", "barcode": "4062851242912"},
             {"id": "6821154882", "episode": 183, "title": "Folge 183: Neureich (Das Original-Hörspiel zur TV-Serie) - EP", "release_date": "2012-09-12", "barcode": "4062851242929"},
             {"id": "6821154929", "episode": 184, "title": "Folge 184: Chorknaben (Das Original-Hörspiel zur TV-Serie) - EP", "release_date": "2012-09-13", "barcode": "4062851242936"},
+            {"id": "6821146280", "episode": 185, "title": "Folge 187: Liebe Wikinger (Das Original-Hörspiel zur TV-Serie) - EP", "release_date": "2013-03-24", "barcode": "4062851242684"},
             {"id": "6821146119", "episode": 186, "title": "Folge 186: Die Karte (Das Original-Hörspiel zur TV-Serie) - EP", "release_date": "2013-03-23", "barcode": "4062851242677"},
-            {"id": "6821146280", "episode": 187, "title": "Folge 187: Liebe Wikinger (Das Original-Hörspiel zur TV-Serie) - EP", "release_date": "2013-03-24", "barcode": "4062851242684"},
+            {"id": "6821145823", "episode": 187, "title": "Folge 182: Die Krossen Knochenbrecher (Das Original-Hörspiel zur TV-Serie) - EP", "release_date": "2013-03-22", "barcode": "4062851242660"},
             {"id": "6821146908", "episode": 188, "title": "Folge 188: Schulschwänzer (Das Original-Hörspiel zur TV-Serie) - EP", "release_date": "2013-03-25", "barcode": "4062851242691"},
             {"id": "6821142308", "episode": 189, "title": "Folge 189: Piratenopa (Das Original-Hörspiel zur TV-Serie) - EP", "release_date": "2013-03-26", "barcode": "4062851242578"},
             {"id": "6821143083", "episode": 190, "title": "Folge 190: Die Kopffüßler-Loge (Das Original-Hörspiel zur TV-Serie) - EP", "release_date": "2013-03-27", "barcode": "4062851242585"},
@@ -3286,7 +3286,6 @@
             {"id": "1841776105", "title": "Folge 19 (Das Original-Hörspiel zur TV-Serie)", "release_date": "2006-07-14", "barcode": "4029759162285"},
             {"id": "1841768861", "title": "Folge 24 (Das Original-Hörspiel zur TV-Serie)", "release_date": "2006-10-13", "barcode": "4029759162322"},
             {"id": "1841766252", "title": "Folge 27 (Das Original-Hörspiel zur TV-Serie)", "release_date": "2007-08-31", "barcode": "4029759162346"},
-            {"id": "6821154733", "title": "Folge 182: Die Welle zurück (Teil 2) [Das Original-Hörspiel zur TV-Serie] - EP", "release_date": "2012-09-11", "barcode": "4062851242912"},
             {"id": "1841765171", "title": "X-Mas Edition (Das Original-Hörspiel zur TV-Serie)", "release_date": "2020-11-06", "barcode": "4029759152811"}
           ]
         }
@@ -9104,7 +9103,7 @@
             {"id": "3yWVXMSJX7UIE96f9iumC0", "title": "Das Löweneckerchen (Das Original-Hörspiel zur TV Serie)", "release_date": "2022-07-22", "barcode": "4066339004405"},
             {"id": "7vTaEsmc2n9WQkzbpoJlqV", "title": "Der Zaubererwettkampf (Das Original-Hörspiel zur TV Serie)", "release_date": "2022-08-05", "barcode": "4066339024854"},
             {"id": "4GGfQHF7ycGbXRP7U92Rhl", "title": "Goldlöckchen und die drei Bären (Das Original-Hörspiel zur TV Serie)", "release_date": "2022-08-05", "barcode": "4066339024878"},
-            {"id": "5BD5cSCXywyohLQc4M4Y2c", "title": "Der Hase und der Igel ((Das Original-Hörspiel zur TV Serie)", "release_date": "2022-08-19", "barcode": "4066339037854"},
+            {"id": "5BD5cSCXywyohLQc4M4Y2c", "title": "Der Hase und der Igel (Das Original-Hörspiel zur TV Serie)", "release_date": "2022-08-19", "barcode": "4066339037854"},
             {"id": "3ENrDzBfBh9F8Doj0S3EU5", "title": "Der alte Sultan (Das Original-Hörspiel zur TV Serie)", "release_date": "2022-08-19", "barcode": "4066339037830"},
             {"id": "5iwdyz1TOaavw2QgFeFoHz", "title": "Der Eisenhans (Das Original-Hörspiel zur TV Serie)", "release_date": "2022-09-02", "barcode": "4066339042674"},
             {"id": "5bidRISmrpsjLaPzcx0nhh", "title": "Des Kaisers neue Kleider (Das Original-Hörspiel zur TV Serie)", "release_date": "2022-09-02", "barcode": "4066339042698"},
@@ -9113,12 +9112,7 @@
             {"id": "6foXUYniZwzQeGFenkMcxQ", "title": "Der kleine Muck (Das Original-Hörspiel zur TV Serie)", "release_date": "2022-09-30", "barcode": "4066339222526"},
             {"id": "2FXQkiH9L4eWt5nzy6PQaY", "title": "Die vier kunstreichen Brüder (Das Original-Hörspiel zur TV Serie)", "release_date": "2022-09-30", "barcode": "4066339222533"},
             {"id": "3ZeiT2EX5VCZ7SgFo7tpU6", "title": "Der Bärenhäuter (Das Original-Hörspiel zur TV Serie)", "release_date": "2022-10-14", "barcode": "4066339245877"},
-            {"id": "5hrpmHr2hVnzzxRPPwnugJ", "title": "Der Trommler (Das Original-Hörspiel zur TV Serie)", "release_date": "2022-10-14", "barcode": "4066339245853"},
-            {"id": "28UmM9X1fFNXFaop5toLTO", "title": "Der Baum des Lebens (Die neuen Abenteuer von Yoyo und Doc Croc)", "release_date": "2023-04-28", "barcode": "4066339705562"},
-            {"id": "2HhDXIbwKTcrYi4U8tjMHU", "title": "Das verwunschene Schloss (Die neuen Abenteuer von Yoyo und Doc Croc)", "release_date": "2023-10-20", "barcode": "4099994240031"},
-            {"id": "4VewEsx3ydUyW1jmLoARfU", "title": "Die Wichtelmänner (Die neuen Abenteuer von Yoyo und Doc Croc)", "release_date": "2023-11-17", "barcode": "4099994421348"},
-            {"id": "5BQhs3Iab8PNDxBf6YK5N9", "title": "Der Bann der Königstöchter (Die neuen Abenteuer von Yoyo und Doc Croc)", "release_date": "2024-03-15", "barcode": "4099995302349"},
-            {"id": "1zGdC94Bwk9ROqdjnESULu", "title": "Der dreiste Dieb (Die neuen Abenteuer von Yoyo und Doc Croc)", "release_date": "2024-06-14", "barcode": "4099995470277"}
+            {"id": "5hrpmHr2hVnzzxRPPwnugJ", "title": "Der Trommler (Das Original-Hörspiel zur TV Serie)", "release_date": "2022-10-14", "barcode": "4066339245853"}
           ]
         },
         "apple_music": {
@@ -9175,12 +9169,7 @@
             {"id": "1686038402", "title": "Der kleine Muck (Das Original-Hörspiel zur TV Serie)", "release_date": "2022-09-30", "barcode": "4066339221505"},
             {"id": "1686038101", "title": "Die vier kunstreichen Brüder (Das Original-Hörspiel zur TV Serie)", "release_date": "2022-09-30", "barcode": "4066339221536"},
             {"id": "1686042575", "title": "Der Bärenhäuter (Das Original-Hörspiel zur TV Serie)", "release_date": "2022-10-14", "barcode": "4066339243101"},
-            {"id": "1686042821", "title": "Der Trommler (Das Original-Hörspiel zur TV Serie)", "release_date": "2022-10-14", "barcode": "4066339243132"},
-            {"id": "1685878732", "title": "Der Baum des Lebens (Die neuen Abenteuer von Yoyo und Doc Croc)", "release_date": "2023-05-17", "barcode": "4066339705531"},
-            {"id": "1710709112", "title": "Das verwunschene Schloss (Die neuen Abenteuer von Yoyo und Doc Croc)", "release_date": "2023-10-20", "barcode": "4099994220064"},
-            {"id": "1714484687", "title": "Die Wichtelmänner (Die neuen Abenteuer von Yoyo und Doc Croc)", "release_date": "2023-11-17", "barcode": "4099994201636"},
-            {"id": "1732547229", "title": "Der Bann der Königstöchter (Die neuen Abenteuer von Yoyo und Doc Croc)", "release_date": "2024-03-15", "barcode": "4099995259315"},
-            {"id": "1748161196", "title": "Der dreiste Dieb (Die neuen Abenteuer von Yoyo und Doc Croc)", "release_date": "2024-06-14", "barcode": "4099995469950"}
+            {"id": "1686042821", "title": "Der Trommler (Das Original-Hörspiel zur TV Serie)", "release_date": "2022-10-14", "barcode": "4066339243132"}
           ]
         }
       },
@@ -11050,10 +11039,25 @@
           ]
         },
         "apple_music": {
-          "artist_ids": ["1640898758"],
+          "artist_ids": ["1640898758", "1007564301"],
           "albums": [
+            {"id": "1543709530", "episode": 1, "title": "Folge 1: Camp Kreidezeit / Geheimnisse (Das Original-Hörspiel zur TV-Serie)", "release_date": "2021-01-01", "barcode": "4029759156901"},
+            {"id": "1544598969", "episode": 2, "title": "Folge 2: Viehtrieb / Abgründe (Das Original-Hörspiel zur TV-Serie)", "release_date": "2021-01-08", "barcode": "4029759156918"},
+            {"id": "1544598831", "episode": 3, "title": "Folge 3: Eddies Geburtstag / Willkommen in Jurassic World (Das Original-Hörspiel zur TV-Serie)", "release_date": "2021-01-08", "barcode": "4029759156925"},
             {"id": "1544599010", "episode": 4, "title": "Folge 4: Vom Niemand zum Jemand / Endstation (Das Original-Hörspiel zur TV-Serie)", "release_date": "2021-01-08", "barcode": "4029759156932"},
+            {"id": "1555718176", "episode": 5, "title": "Folge 5: Ein Fünkchen Hoffnung / Die Kunst der Ruhe (Das Original-Hörspiel zur TV-Serie)", "release_date": "2021-03-19", "barcode": "4029759164210"},
+            {"id": "1555717620", "episode": 6, "title": "Folge 6: Die Wasserstelle / Die Erlösung (Das Original-Hörspiel zur TV-Serie)", "release_date": "2021-03-19", "barcode": "4029759164227"},
+            {"id": "1555714842", "episode": 7, "title": "Folge 7: Tapfer / Plan C (Das Original-Hörspiel zur TV-Serie)", "release_date": "2021-03-26", "barcode": "4029759164234"},
+            {"id": "1556066207", "episode": 8, "title": "Folge 8: Überleben / Chaostheorie (Das Original-Hörspiel zur TV-Serie)", "release_date": "2021-03-26", "barcode": "4029759164241"},
+            {"id": "1578716267", "episode": 9, "title": "Folge 9: Gute Aussichten / Sicherer Hafen (Das Original-Hörspiel zur TV-Serie)", "release_date": "2021-08-27", "barcode": "4029759170945"},
+            {"id": "1578716682", "episode": 10, "title": "Folge 10: Kenjis Reich / Cleveres Mädchen (Das Original-Hörspiel zur TV-Serie)", "release_date": "2021-08-27", "barcode": "4029759170952"},
+            {"id": "1578718150", "episode": 11, "title": "Folge 11: Im Auge des Sturms / Langenstreckenlauf (Das Original-Hörspiel zur TV-Serie)", "release_date": "2021-08-27", "barcode": "4029759170969"},
+            {"id": "1577806071", "episode": 12, "title": "Folge 12: Eigene Wege / Flucht von Isla Nublar (Das Original-Hörspiel zur TV-Serie)", "release_date": "2021-08-27", "barcode": "4029759170976"},
+            {"id": "1577805806", "episode": 13, "title": "Folge 13: Koste es, was es wolle / Klick (Das Original-Hörspiel zur TV-Serie)", "release_date": "2021-08-27", "barcode": "4029759170983"},
+            {"id": "1605636976", "episode": 14, "title": "Folge 14: Unter der Oberfläche / Wenigstens (Das Original-Hörspiel zur TV-Serie)", "release_date": "2022-02-11", "barcode": "4029759175704"},
             {"id": "1607107150", "episode": 15, "title": "Folge 15: Gestatten, Dr. Turner / Böses Erwachen (Das Original-Hörspiel zur TV-Serie)", "release_date": "2022-02-11", "barcode": "4029759175711"},
+            {"id": "1607107061", "episode": 16, "title": "Folge 16: Langer Atem / Mission des Lebens (Das Original-Hörspiel zur TV-Serie)", "release_date": "2022-03-04", "barcode": "4029759175728"},
+            {"id": "1608196286", "episode": 17, "title": "Folge 17: Kampfgeist / Freundliche Übernahme (Das Original-Hörspiel zur TV-Serie)", "release_date": "2022-03-04", "barcode": "4029759175735"},
             {"id": "1608196131", "episode": 18, "title": "Folge 18: Von Engeln und Rebellen / Unter Kontrolle / Wer ist hier der Chef (Das Original-Hörspiel zur TV-Serie)", "release_date": "2022-03-11", "barcode": "4029759175742"},
             {"id": "1639870364", "episode": 19, "title": "Folge 19: Wieder vereint / Das erste Date (Das Original-Hörspiel zur TV-Serie)", "release_date": "2022-09-02", "barcode": "4029759175759"},
             {"id": "1639870727", "episode": 20, "title": "Folge 20: Verhärtete Fronten / Verdrängung (Das Original-Hörspiel zur TV-Serie)", "release_date": "2022-09-09", "barcode": "4029759181774"},
@@ -11236,47 +11240,47 @@
         "spotify": {
           "artist_ids": ["3Mr28PUoMrOvS8KshvBXa8"],
           "albums": [
-            {"id": "30hi50DjyuscflSYsY2HnV", "episode": 1, "title": "Das Schulgeheimnis [Detektivbüro LasseMaja, Teil 1 (ungekürzt)]", "barcode": "4066004753119"},
-            {"id": "2nb4aM6G6PdHgpUz3E8bWT", "episode": 2, "title": "Das Mumiengeheimnis [Detektivbüro LasseMaja, Teil 2 (ungekürzt)]", "barcode": "4066004753126"},
-            {"id": "6HV1wF77ntBpT92IGWlRay", "episode": 3, "title": "Das Diamantengeheimnis [Detektivbüro LasseMaja, Teil 3 (ungekürzt)]", "barcode": "4066004753133"},
-            {"id": "6Bl5Gg19h65j1r3GnjuvHj", "episode": 4, "title": "Das Tiergeheimnis [Detektivbüro LasseMaja, Teil 4 (ungekürzt)]", "barcode": "4066004753140"},
-            {"id": "36UimIcSqT1QwsWYYlWaAH", "episode": 5, "title": "Das Cafégeheimnis [Detektivbüro LasseMaja, Teil 5 (ungekürzt)]", "barcode": "4066004753157"},
-            {"id": "3XDdeTeZQdvTkm2NbfnARP", "episode": 6, "title": "Das Zirkusgeheimnis [Detektivbüro LasseMaja, Teil 6 (ungekürzt)]", "barcode": "4066004753164"},
-            {"id": "4Qycch7UD5vaJ61Y4rCM7U", "episode": 7, "title": "Das Zeitungsgeheimnis [Detektivbüro LasseMaja, Teil 7 (ungekürzt)]", "barcode": "4066004753171"},
-            {"id": "3eIAPpqAVeFlNnZ167j0ii", "episode": 8, "title": "Das Campinggeheimnis [Detektivbüro LasseMaja, Teil 8 (ungekürzt)]", "barcode": "4066004753188"},
-            {"id": "0J2RKHpu0qAaU8xWeWM1xR", "episode": 9, "title": "Das Kinogeheimnis [Detektivbüro LasseMaja, Teil 9 (ungekürzt)]", "barcode": "4066004753195"},
-            {"id": "7DFdveVMmgC7JuK8dDJNi1", "episode": 10, "title": "Das Goldgeheimnis [Detektivbüro LasseMaja, Teil 10 (ungekürzt)]", "barcode": "4066004753201"},
-            {"id": "0AKXwFhPf1MGoAHdw71yj3", "episode": 11, "title": "Das Fußballgeheimnis [Detektivbüro LasseMaja, Teil 11 (ungekürzt)]", "barcode": "4066004753218"},
-            {"id": "4M6qWJ0iGhzWIphFNVMfp6", "episode": 12, "title": "Das Bibliotheksgeheimnis [Detektivbüro LasseMaja, Teil 12 (ungekürzt)]", "barcode": "4066004753225"},
-            {"id": "05au8hwDxIbm31TmKz27D1", "episode": 14, "title": "Das Eisenbahngeheimnis [Detektivbüro LasseMaja, Teil 14 (ungekürzt)]", "barcode": "4066004753232"},
-            {"id": "4kLEx4d3LSioWeG0ChgCBZ", "episode": 15, "title": "Das Liebesgeheimnis [Detektivbüro LasseMaja, Teil 15 (ungekürzt)]", "barcode": "4066004753249"},
-            {"id": "4G4wjfsS9Xy4bD8Ira5404", "episode": 16, "title": "Das Safrangeheimnis [Detektivbüro LasseMaja, Teil 16 (ungekürzt)]", "barcode": "4066004753256"},
-            {"id": "1dfAi1WbInlFTnDgwdZ0V7", "episode": 17, "title": "Das Krankenhausgeheimnis [Detektivbüro LasseMaja, Teil 17 (ungekürzt)]", "barcode": "4066004753263"},
-            {"id": "2MBF1mggaUwHXdKG6J9sCu", "episode": 18, "title": "Das Kirchengeheimnis [Detektivbüro LasseMaja, Teil 18 (ungekürzt)]", "barcode": "4066004753270"},
-            {"id": "7MiA61WnUOZgTVakSkEzu8", "episode": 19, "title": "Das Hotelgeheimnis [Detektivbüro LasseMaja, Teil 19 (ungekürzt)]", "barcode": "4066004753287"},
-            {"id": "03ItuTQMBMsZggN72q4rnv", "episode": 20, "title": "Das Geburtstagsgeheimnis [Detektivbüro LasseMaja, Teil 20 (ungekürzt)]", "barcode": "4066004753294"},
-            {"id": "4GVkT9K2IM3ZFf3zVqehNn", "episode": 22, "title": "Das Fahrradgeheimnis [Detektivbüro LasseMaja, Teil 22 (ungekürzt)]", "barcode": "4066004753300"},
-            {"id": "1mF2ZfwFpiYKklNknbYTqG", "episode": 23, "title": "Das Feuerwehrgeheimnis [Detektivbüro LasseMaja, Teil 23 (ungekürzt)]", "barcode": "4066004753317"},
-            {"id": "5Q9sbLW61TftIoiLw2HnQz", "episode": 24, "title": "Das Gefängnisgeheimnis [Detektivbüro LasseMaja, Teil 24 (ungekürzt)]", "barcode": "4066004753324"},
-            {"id": "3x8U23hxtA1Ekhcq4n7Sxa", "episode": 25, "title": "Das Katzengeheimnis [Detektivbüro LasseMaja, Teil 25 (ungekürzt)]", "barcode": "4066004753331"},
-            {"id": "4PdNHEGa0rm1r1wisj2WxZ", "episode": 26, "title": "Das Schlossgeheimnis [Detektivbüro LasseMaja, Teil 26 (ungekürzt)]", "barcode": "4066004753348"},
-            {"id": "0ZlvofyIXUX2lLLl9xlC5R", "episode": 29, "title": "Das Wikingergeheimnis [Detektivbüro LasseMaja, Teil 29 (ungekürzt)]", "barcode": "4066004753355"},
-            {"id": "29qq1zEdiXgfs1VbGnNmDp", "episode": 30, "title": "Das Filmgeheimnis [Detektivbüro LasseMaja, Teil 30 (ungekürzt)]", "barcode": "4066004753362"},
-            {"id": "0cRh5HnjcgzdPULQE8dvmu", "episode": 33, "title": "Das Strandgeheimnis [Detektivbüro LasseMaja, Teil 33 (ungekürzt)]", "barcode": "4066004764900"},
-            {"id": "1Q3odqM64ncGcbskuuAZBd", "episode": 34, "title": "Das Musikgeheimnis [Detektivbüro LasseMaja, Teil 34 (ungekürzt)]", "barcode": "4066004764917"},
-            {"id": "2PDvBwKvrSXHJvhImJARdN", "episode": 36, "title": "Das Dinogeheimnis [Detektivbüro LasseMaja, Teil 36 (Ungekürzt)]", "barcode": "9783754019085"}
+            {"id": "30hi50DjyuscflSYsY2HnV", "episode": 1, "title": "Das Schulgeheimnis - Detektivbüro LasseMaja, Teil 1 (ungekürzt)", "release_date": "2011", "barcode": "4066004753119"},
+            {"id": "2nb4aM6G6PdHgpUz3E8bWT", "episode": 2, "title": "Das Mumiengeheimnis - Detektivbüro LasseMaja, Teil 2 (ungekürzt)", "release_date": "2010", "barcode": "4066004753126"},
+            {"id": "6HV1wF77ntBpT92IGWlRay", "episode": 3, "title": "Das Diamantengeheimnis - Detektivbüro LasseMaja, Teil 3 (ungekürzt)", "release_date": "2010", "barcode": "4066004753133"},
+            {"id": "6Bl5Gg19h65j1r3GnjuvHj", "episode": 4, "title": "Das Tiergeheimnis - Detektivbüro LasseMaja, Teil 4 (ungekürzt)", "release_date": "2010", "barcode": "4066004753140"},
+            {"id": "36UimIcSqT1QwsWYYlWaAH", "episode": 5, "title": "Das Cafégeheimnis - Detektivbüro LasseMaja, Teil 5 (ungekürzt)", "release_date": "2010", "barcode": "4066004753157"},
+            {"id": "3XDdeTeZQdvTkm2NbfnARP", "episode": 6, "title": "Das Zirkusgeheimnis - Detektivbüro LasseMaja, Teil 6 (ungekürzt)", "release_date": "2010", "barcode": "4066004753164"},
+            {"id": "4Qycch7UD5vaJ61Y4rCM7U", "episode": 7, "title": "Das Zeitungsgeheimnis - Detektivbüro LasseMaja, Teil 7 (ungekürzt)", "release_date": "2010", "barcode": "4066004753171"},
+            {"id": "3eIAPpqAVeFlNnZ167j0ii", "episode": 8, "title": "Das Campinggeheimnis - Detektivbüro LasseMaja, Teil 8 (ungekürzt)", "release_date": "2011", "barcode": "4066004753188"},
+            {"id": "0J2RKHpu0qAaU8xWeWM1xR", "episode": 9, "title": "Das Kinogeheimnis - Detektivbüro LasseMaja, Teil 9 (ungekürzt)", "release_date": "2011", "barcode": "4066004753195"},
+            {"id": "7DFdveVMmgC7JuK8dDJNi1", "episode": 10, "title": "Das Goldgeheimnis - Detektivbüro LasseMaja, Teil 10 (ungekürzt)", "release_date": "2011", "barcode": "4066004753201"},
+            {"id": "0AKXwFhPf1MGoAHdw71yj3", "episode": 11, "title": "Das Fußballgeheimnis - Detektivbüro LasseMaja, Teil 11 (ungekürzt)", "release_date": "2012", "barcode": "4066004753218"},
+            {"id": "4M6qWJ0iGhzWIphFNVMfp6", "episode": 12, "title": "Das Bibliotheksgeheimnis - Detektivbüro LasseMaja, Teil 12 (ungekürzt)", "release_date": "2012", "barcode": "4066004753225"},
+            {"id": "05au8hwDxIbm31TmKz27D1", "episode": 14, "title": "Das Eisenbahngeheimnis - Detektivbüro LasseMaja, Teil 14 (ungekürzt)", "release_date": "2012", "barcode": "4066004753232"},
+            {"id": "4kLEx4d3LSioWeG0ChgCBZ", "episode": 15, "title": "Das Liebesgeheimnis - Detektivbüro LasseMaja, Teil 15 (ungekürzt)", "release_date": "2013", "barcode": "4066004753249"},
+            {"id": "4G4wjfsS9Xy4bD8Ira5404", "episode": 16, "title": "Das Safrangeheimnis - Detektivbüro LasseMaja, Teil 16 (ungekürzt)", "release_date": "2013", "barcode": "4066004753256"},
+            {"id": "1dfAi1WbInlFTnDgwdZ0V7", "episode": 17, "title": "Das Krankenhausgeheimnis - Detektivbüro LasseMaja, Teil 17 (ungekürzt)", "release_date": "2013", "barcode": "4066004753263"},
+            {"id": "2MBF1mggaUwHXdKG6J9sCu", "episode": 18, "title": "Das Kirchengeheimnis - Detektivbüro LasseMaja, Teil 18 (ungekürzt)", "release_date": "2012", "barcode": "4066004753270"},
+            {"id": "7MiA61WnUOZgTVakSkEzu8", "episode": 19, "title": "Das Hotelgeheimnis - Detektivbüro LasseMaja, Teil 19 (ungekürzt)", "release_date": "2014", "barcode": "4066004753287"},
+            {"id": "03ItuTQMBMsZggN72q4rnv", "episode": 20, "title": "Das Geburtstagsgeheimnis - Detektivbüro LasseMaja, Teil 20 (ungekürzt)", "release_date": "2014", "barcode": "4066004753294"},
+            {"id": "4GVkT9K2IM3ZFf3zVqehNn", "episode": 22, "title": "Das Fahrradgeheimnis - Detektivbüro LasseMaja, Teil 22 (ungekürzt)", "release_date": "2015", "barcode": "4066004753300"},
+            {"id": "1mF2ZfwFpiYKklNknbYTqG", "episode": 23, "title": "Das Feuerwehrgeheimnis - Detektivbüro LasseMaja, Teil 23 (ungekürzt)", "release_date": "2017-03-17", "barcode": "4066004753317"},
+            {"id": "5Q9sbLW61TftIoiLw2HnQz", "episode": 24, "title": "Das Gefängnisgeheimnis - Detektivbüro LasseMaja, Teil 24 (ungekürzt)", "release_date": "2018-02-09", "barcode": "4066004753324"},
+            {"id": "3x8U23hxtA1Ekhcq4n7Sxa", "episode": 25, "title": "Das Katzengeheimnis - Detektivbüro LasseMaja, Teil 25 (ungekürzt)", "release_date": "2018-02-09", "barcode": "4066004753331"},
+            {"id": "4PdNHEGa0rm1r1wisj2WxZ", "episode": 26, "title": "Das Schlossgeheimnis - Detektivbüro LasseMaja, Teil 26 (ungekürzt)", "release_date": "2019-08-16", "barcode": "4066004753348"},
+            {"id": "0ZlvofyIXUX2lLLl9xlC5R", "episode": 29, "title": "Das Wikingergeheimnis - Detektivbüro LasseMaja, Teil 29 (ungekürzt)", "release_date": "2020-02-12", "barcode": "4066004753355"},
+            {"id": "29qq1zEdiXgfs1VbGnNmDp", "episode": 30, "title": "Das Filmgeheimnis - Detektivbüro LasseMaja, Teil 30 (ungekürzt)", "release_date": "2021-02-10", "barcode": "4066004753362"},
+            {"id": "0cRh5HnjcgzdPULQE8dvmu", "episode": 33, "title": "Das Strandgeheimnis - Detektivbüro LasseMaja, Teil 33 (ungekürzt)", "release_date": "2022-02-08", "barcode": "4066004764900"},
+            {"id": "1Q3odqM64ncGcbskuuAZBd", "episode": 34, "title": "Das Musikgeheimnis - Detektivbüro LasseMaja, Teil 34 (ungekürzt)", "release_date": "2022-02-08", "barcode": "4066004764917"},
+            {"id": "2PDvBwKvrSXHJvhImJARdN", "episode": 36, "title": "Das Dinogeheimnis - Detektivbüro LasseMaja, Teil 36 (Ungekürzt)", "release_date": "2025-02-12", "barcode": "9783754019085"}
           ]
         }
       },
       "episode_pattern": "Teil (\\d+)",
       "series_facts": {
         "known_gaps": [
-          {"number": 13, "reason": "Episode exists in series but not found on Spotify; may not have been released as German audiobook yet", "curated_by": "minimax-m2.7", "curated_at": "2026-06-10T18:58:13.736090+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-10T18:58:13.736090+00:00"},
-          {"number": 21, "reason": "Episode exists in series but not found on Spotify; may not have been released as German audiobook yet", "curated_by": "minimax-m2.7", "curated_at": "2026-06-10T18:58:13.736090+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-10T18:58:13.736090+00:00"},
-          {"number": 27, "reason": "Episode exists in series but not found on Spotify; may not have been released as German audiobook yet", "curated_by": "minimax-m2.7", "curated_at": "2026-06-10T18:58:13.736090+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-10T18:58:13.736090+00:00"},
-          {"number": 28, "reason": "Das Sommergeheimnis exists in series but not found on Spotify; may not have been released as German audiobook yet", "curated_by": "minimax-m2.7", "curated_at": "2026-06-10T18:58:13.736090+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-10T18:58:13.736090+00:00"},
-          {"number": 31, "reason": "Episode exists in series but not found on Spotify; may not have been released as German audiobook yet", "curated_by": "minimax-m2.7", "curated_at": "2026-06-10T18:58:13.736090+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-10T18:58:13.736090+00:00", "range_end": 32},
-          {"number": 35, "reason": "Das Kostümgeheimnis exists in series but not found on Spotify; may not have been released as German audiobook yet", "curated_by": "minimax-m2.7", "curated_at": "2026-06-10T18:58:13.736090+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-10T18:58:13.736090+00:00"}
+          {"curated_by": "minimax-m2.7", "curated_at": "2026-06-10T18:58:13.736090+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-10T18:58:13.736090+00:00", "number": 13, "range_end": null, "reason": "Episode exists in series but not found on Spotify; may not have been released as German audiobook yet"},
+          {"curated_by": "minimax-m2.7", "curated_at": "2026-06-10T18:58:13.736090+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-10T18:58:13.736090+00:00", "number": 21, "range_end": null, "reason": "Episode exists in series but not found on Spotify; may not have been released as German audiobook yet"},
+          {"curated_by": "minimax-m2.7", "curated_at": "2026-06-10T18:58:13.736090+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-10T18:58:13.736090+00:00", "number": 27, "range_end": null, "reason": "Episode exists in series but not found on Spotify; may not have been released as German audiobook yet"},
+          {"curated_by": "minimax-m2.7", "curated_at": "2026-06-10T18:58:13.736090+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-10T18:58:13.736090+00:00", "number": 28, "range_end": null, "reason": "Das Sommergeheimnis exists in series but not found on Spotify; may not have been released as German audiobook yet"},
+          {"curated_by": "minimax-m2.7", "curated_at": "2026-06-10T18:58:13.736090+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-10T18:58:13.736090+00:00", "number": 31, "range_end": 32, "reason": "Episode exists in series but not found on Spotify; may not have been released as German audiobook yet"},
+          {"curated_by": "minimax-m2.7", "curated_at": "2026-06-10T18:58:13.736090+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-10T18:58:13.736090+00:00", "number": 35, "range_end": null, "reason": "Das Kostümgeheimnis exists in series but not found on Spotify; may not have been released as German audiobook yet"}
         ]
       },
       "content_type": "audiobook"
@@ -22833,6 +22837,38 @@
           "albums": [
             {"id": "1685935364", "title": "Der kleine Wassermann", "release_date": "2007", "barcode": "4064066564780"},
             {"id": "6782025225", "title": "Krabat", "release_date": "2008-01-01", "barcode": "4057664433275"}
+          ]
+        }
+      }
+    },
+    {
+      "id": "simsalagrimm_neue_abenteuer",
+      "title": "SimsalaGrimm: Die neuen Abenteuer von Yoyo und Doc Croc",
+      "aliases": [],
+      "episode_pattern": null,
+      "content_type": "hoerspiel",
+      "split_from": "simsalagrimm",
+      "providers": {
+        "spotify": {
+          "artist_ids": ["6suxlS58YpxGJzRcqvZvCZ"],
+          "albums": [
+            {"id": "3ATNe34X9t6TSSFsTS4iUF", "title": "Die sieben Raben (Die neuen Abenteuer von Yoyo und Doc Croc)", "release_date": "2022-02-11", "barcode": "4066338537584"},
+            {"id": "28UmM9X1fFNXFaop5toLTO", "title": "Der Baum des Lebens (Die neuen Abenteuer von Yoyo und Doc Croc)", "release_date": "2023-04-28", "barcode": "4066339705562"},
+            {"id": "2HhDXIbwKTcrYi4U8tjMHU", "title": "Das verwunschene Schloss (Die neuen Abenteuer von Yoyo und Doc Croc)", "release_date": "2023-10-20", "barcode": "4099994240031"},
+            {"id": "4VewEsx3ydUyW1jmLoARfU", "title": "Die Wichtelmänner (Die neuen Abenteuer von Yoyo und Doc Croc)", "release_date": "2023-11-17", "barcode": "4099994421348"},
+            {"id": "5BQhs3Iab8PNDxBf6YK5N9", "title": "Der Bann der Königstöchter (Die neuen Abenteuer von Yoyo und Doc Croc)", "release_date": "2024-03-15", "barcode": "4099995302349"},
+            {"id": "1zGdC94Bwk9ROqdjnESULu", "title": "Der dreiste Dieb (Die neuen Abenteuer von Yoyo und Doc Croc)", "release_date": "2024-06-14", "barcode": "4099995470277"}
+          ]
+        },
+        "apple_music": {
+          "artist_ids": ["269793180"],
+          "albums": [
+            {"id": "1685869874", "title": "Die sieben Raben (Die neuen Abenteuer von Yoyo und Doc Croc)", "release_date": "2022-02-11", "barcode": "4066338529480"},
+            {"id": "1685878732", "title": "Der Baum des Lebens (Die neuen Abenteuer von Yoyo und Doc Croc)", "release_date": "2023-05-17", "barcode": "4066339705531"},
+            {"id": "1710709112", "title": "Das verwunschene Schloss (Die neuen Abenteuer von Yoyo und Doc Croc)", "release_date": "2023-10-20", "barcode": "4099994220064"},
+            {"id": "1714484687", "title": "Die Wichtelmänner (Die neuen Abenteuer von Yoyo und Doc Croc)", "release_date": "2023-11-17", "barcode": "4099994201636"},
+            {"id": "1732547229", "title": "Der Bann der Königstöchter (Die neuen Abenteuer von Yoyo und Doc Croc)", "release_date": "2024-03-15", "barcode": "4099995259315"},
+            {"id": "1748161196", "title": "Der dreiste Dieb (Die neuen Abenteuer von Yoyo und Doc Croc)", "release_date": "2024-06-14", "barcode": "4099995469950"}
           ]
         }
       }

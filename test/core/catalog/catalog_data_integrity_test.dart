@@ -62,11 +62,22 @@ void main() {
     // and Apple has no Folge 3), so the curation stores 3 against a title
     // that prints 2. Third entry: Apple's "Gute-Nacht-Geschichten (Folge 3)"
     // counts the CD, which holds stories 5+6, while the series numbers by first
-    // story, as Spotify and EUROPA's own playlist do.
+    // story, as Spotify and EUROPA's own playlist do. The SpongeBob
+    // entries are store slips the other store's title of the same story
+    // corrects: Spotify prints 19 for F.u.n (20), 89 for "Einmal wieder
+    // jung sein" (88) and 186 for "Schulschwänzer" (188), Apple prints
+    // 187 for "Liebe Wikinger" (185) and 182 for "Die Krossen
+    // Knochenbrecher" (187). Taking each title as printed would give two
+    // stories one number.
     const knownAmbiguous = {
       'spotify:4J7VLI47aJNd2vQEdbfdDO',
       'apple_music:1434409926',
       'apple_music:1474808673',
+      'spotify:1pJbuHIlhDwLUB7UqmFr32',
+      'spotify:73o7ZGzb0yTyR0orxdX1n9',
+      'spotify:5yEtRGpl7rvCpOFkLsw04S',
+      'apple_music:6821146280',
+      'apple_music:6821145823',
     };
 
     final disagreements = <String>[];
