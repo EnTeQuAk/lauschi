@@ -12,6 +12,7 @@ from lauschi_catalog.catalog.io import safe_write_json
 from lauschi_catalog.catalog.merge_ops import move_albums
 from lauschi_catalog.catalog.paths import curation_path
 from lauschi_catalog.catalog.reasons import CURATE_REASON_KEYS
+from lauschi_catalog.catalog.review_ops import resolve_escalation
 
 console = Console()
 
@@ -134,6 +135,30 @@ def move(source_id: str, target_id: str, albums: tuple[str, ...]):
     console.print("Write series.json with, in this order:")
     console.print(f"  lauschi-catalog apply {source_id}")
     console.print(f"  lauschi-catalog apply {target_id}")
+
+
+@edit.command()
+@click.argument("series_id")
+@click.option(
+    "--note",
+    "-n",
+    required=True,
+    help="Why the escalation does not hold, in a sentence",
+)
+def resolve(series_id: str, note: str) -> None:
+    """Approve an escalated curation after judging its audit.
+
+    For an escalation that does not hold, such as the auditor calling a
+    different recording a duplicate. Albums stay as they are, so change
+    the ones that are wrong with include, exclude or move first. The next
+    audit or curate replaces the verdict.
+    """
+    result = resolve_escalation(series_id, note)
+    if not result.ok:
+        console.print(f"[red]Not resolved: {result.error}[/red]")
+        raise SystemExit(1)
+    console.print(f"[green]{series_id} is approved, the escalation resolved[/green]")
+    console.print(f"Ship it with: lauschi-catalog apply {series_id}")
 
 
 @edit.command("list")

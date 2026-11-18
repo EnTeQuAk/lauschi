@@ -228,6 +228,11 @@ the wrong entry of a family moves with
 `catalog-edit move <from> <to> <provider>:<album_id>...`: the entry that
 gives it up records the new owner, the entry that takes it numbers it by its
 own pattern, and `apply` for both (the giving one first) writes series.json.
+An escalation you judged and found wrong (the auditor calls a different
+recording a duplicate, say) you approve with
+`catalog-edit resolve <id> --note "<why>"`: the review records who resolved
+it and why, its overrides stop counting as flags, and the next audit or
+curate replaces that verdict with its own.
 
 #### Reference index QA
 

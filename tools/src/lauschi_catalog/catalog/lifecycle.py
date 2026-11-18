@@ -80,10 +80,11 @@ def open_flags(curation: dict) -> list[dict]:
     open while it comes from the latest audit, the album is not yet what
     the auditor wanted, and nobody has decided the album by hand
     (``catalog-edit`` makes it the operator's, and the audit leaves an
-    operator's album alone).
+    operator's album alone). A person who resolved the audit's escalation
+    has judged its overrides too.
     """
     review = review_block(curation)
-    if review.get("status") != "approved":
+    if review.get("status") != "approved" or review.get("resolved"):
         return []
     albums = {(a.get("provider"), a["album_id"]): a for a in curation.get("albums", [])}
     flags: list[dict] = []

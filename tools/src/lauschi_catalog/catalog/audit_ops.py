@@ -1433,7 +1433,9 @@ def apply_audit(
     # what the audit model concluded. Approval is necessary, not
     # sufficient; a human resolves these via catalog-review.
     # The auditor's own verdict, apart from the gates that may override it.
+    # It replaces a person's verdict on the previous audit.
     review["auditor_approved"] = result.approve
+    review.pop("resolved", None)
     if escalated:
         for c in gate_concerns:
             on_progress(f"  {c}")
