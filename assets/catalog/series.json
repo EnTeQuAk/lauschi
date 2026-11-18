@@ -7208,36 +7208,12 @@
         "spotify": {
           "artist_ids": ["6OHFxwqdZpOuYMKrV0UHQ5"],
           "albums": [
-            {"id": "2zgCdgnOoep0XYcMhk65nx", "episode": 1, "title": "Der Räuber Hotzenplotz 1: Der Räuber Hotzenplotz", "release_date": "1962", "barcode": "4066338506689"},
-            {"id": "3Ik0ZUPEEaHJ7OKp78broi", "episode": 2, "title": "Der Räuber Hotzenplotz 2: Neues vom Räuber Hotzenplotz (2. Band des Kinderbuch-Klassiker)", "release_date": "1969", "barcode": "4099995322033"},
-            {"id": "1npSrVLIuwZEcpa6y5srif", "episode": 3, "title": "Der Räuber Hotzenplotz 3: Der Räuber Hotzenplotz. Schluss mit der Räuberei (3. Band des Kinderbuch-Klassikers)", "release_date": "2012", "barcode": "4099995322019"},
-            {"id": "3nLocdKUV5ujJPoRbCj4L5", "title": "Der kleine Wassermann", "release_date": "1956", "barcode": "4064067253478"},
-            {"id": "56zUkcOUxRdhfg8YOTfbCb", "title": "Die kleine Hexe", "release_date": "1957", "barcode": "4099994700320"},
-            {"id": "6FG0NJrp5QNPRos8yMVQIq", "title": "Bei uns in Schilda", "release_date": "1958", "barcode": "4064067679803"},
-            {"id": "22O3YNErbMtCwNAyQJQyv0", "title": "Die Kleine Hexe (Part. 1)", "release_date": "1978", "barcode": "3614979162415"},
-            {"id": "6cnxciqWfKI21f6W0Q5Xou", "title": "Die Kleine Hexe (Part. 2)", "release_date": "1978", "barcode": "3614979162262"},
-            {"id": "5vQcLEh5klzTjCt4O2dzBY", "title": "Die Kleine Hexe (Part. 3)", "release_date": "1978", "barcode": "3614979162316"},
-            {"id": "7clCZxcbo61wfg34f3HPlu", "title": "Die Kleine Hexe (Part. 4)", "release_date": "1978", "barcode": "3614979162354"},
-            {"id": "1vcKy3Airnzo9gFLJFc6l1", "title": "Der Engel mit der Pudelmütze", "release_date": "1986-01-01", "barcode": "4066339023253"},
-            {"id": "6uvSOifgFzn9A6PkDVGttX", "title": "Mein Rübezahlbuch", "release_date": "1993", "barcode": "4066339727700"},
-            {"id": "6lpX51w9igsabg529MBpNy", "title": "Brot für Myra (Die Legende vom heiligen Nikolaus)", "release_date": "2004", "barcode": "4066339212237"},
-            {"id": "7IPVK3BrCUQcH88dPg3Ge8", "title": "Herr Klingsor konnte ein bißchen zaubern", "release_date": "2004-01-01", "barcode": "4064066886226"},
-            {"id": "3351m0GWawlGhlpjFW3yM6", "title": "Zwölfe hat's geschlagen", "release_date": "2004-01-01", "barcode": "4064066565886"},
-            {"id": "3vW62UcuXbB0YBjBPFgZZI", "title": "Das kleine Gespenst", "release_date": "2013", "barcode": "4066338593481"},
-            {"id": "6E8efEhJJbpa8nlDxOMSxa", "title": "Krabat - Das Hörspiel", "release_date": "2016", "barcode": "4066338228475"},
-            {"id": "1JxVVfB7HVaFuwkHMIsItF", "title": "Fette Beute (Wilde Geschichten von Räubern und Banditen)", "release_date": "2017-08-31", "barcode": "4064067702884"},
-            {"id": "12nXACFkqFVOUINCtDYwO3", "title": "Winterzeit, tief verschneit (Wintergeschichten von Hexe, Hörbe, Wassermann und vielen anderen Preußler-Figuren)", "release_date": "2019", "barcode": "4066339052437"}
+            {"id": "6E8efEhJJbpa8nlDxOMSxa", "title": "Krabat - Das Hörspiel", "release_date": "2016", "barcode": "4066338228475"}
           ]
         },
         "apple_music": {
           "artist_ids": ["68437630"],
           "albums": [
-            {"id": "1842150368", "episode": 1, "title": "1: Der Räuber Hotzenplotz", "release_date": "2008-10-31", "barcode": "4069828934221"},
-            {"id": "1686245883", "episode": 2, "title": "2: Neues vom Räuber Hotzenplotz", "release_date": "2008-11-07", "barcode": "4064066675615"},
-            {"id": "1686210686", "episode": 3, "title": "3: Der Räuber Hotzenplotz - Schluss mit der Räuberei", "release_date": "2008-11-14", "barcode": "4064066675608"},
-            {"id": "6782026815", "title": "Herr Klingsor konnte ein bißchen zaubern", "release_date": "2004-01-01", "barcode": "4064066886226"},
-            {"id": "6782029595", "title": "Zwölfe hat's geschlagen", "release_date": "2004-01-01", "barcode": "4064066565886"},
-            {"id": "1685901386", "title": "Das kleine Gespenst", "release_date": "2007", "barcode": "4064066564759"},
             {"id": "6814387520", "title": "Krabat - Das Hörspiel", "release_date": "2021-09-23", "barcode": "4066338228468"}
           ]
         }
@@ -8719,8 +8695,7 @@
             {"id": "07jkUJ5t1WjdEPECuSRWDw", "episode": 3, "title": "03/Das Hörspiel zur TV-Serie", "release_date": "2012-05-04", "barcode": "886446952789"},
             {"id": "7mdhhDvpdqWJKjT9lYsybh", "episode": 4, "title": "04/Das Hörspiel zur TV-Serie", "release_date": "2012-09-14", "barcode": "886446952796"},
             {"id": "6ujIiSFu9K2ZqptykIDmx1", "episode": 5, "title": "05/Das Hörspiel zur TV-Serie", "release_date": "2012-09-14", "barcode": "886446952819"},
-            {"id": "3ZYrlaczw1qMYuXnmL43k5", "episode": 6, "title": "06/Das Hörspiel zur TV-Serie", "release_date": "2012-09-14", "barcode": "886446952826"},
-            {"id": "3y9jloTirKL9ZU7wkpOnRn", "title": "Vorhang auf für Prinzessin Lillifee", "release_date": "2013-07-30", "barcode": "886446914039"}
+            {"id": "3ZYrlaczw1qMYuXnmL43k5", "episode": 6, "title": "06/Das Hörspiel zur TV-Serie", "release_date": "2012-09-14", "barcode": "886446952826"}
           ]
         },
         "apple_music": {
@@ -8730,14 +8705,7 @@
             {"id": "1358385614", "episode": 3, "title": "03/Das Hörspiel zur TV-Serie", "release_date": "2012-05-04", "barcode": "886446952789"},
             {"id": "1358394233", "episode": 4, "title": "04/Das Hörspiel zur TV-Serie", "release_date": "2012-09-14", "barcode": "886446952796"},
             {"id": "1358381387", "episode": 5, "title": "05/Das Hörspiel zur TV-Serie", "release_date": "2012-09-14", "barcode": "886446952819"},
-            {"id": "1358384903", "episode": 6, "title": "06/Das Hörspiel zur TV-Serie", "release_date": "2012-09-14", "barcode": "886446952826"},
-            {"id": "1581405950", "title": "Prinzessin Lillifee - Ein Wintermärchen", "release_date": "2006", "barcode": "886449445837"},
-            {"id": "1472630209", "title": "Prinzessin Lillifee in der Tierklinik", "release_date": "2006", "barcode": "886447841327"},
-            {"id": "1358372841", "title": "Vorhang auf für Prinzessin Lillifee", "release_date": "2013-07-26", "barcode": "886446914039"},
-            {"id": "1358385641", "title": "Und der Feenball", "release_date": "2014-08-08", "barcode": "886446914022"},
-            {"id": "1358382800", "title": "Rettet das Einhornparadies", "release_date": "2016-03-04", "barcode": "886446914008"},
-            {"id": "1421984210", "title": "Sucht den verlorenen Stern", "release_date": "2018-08-17", "barcode": "886447206720"},
-            {"id": "1499630670", "title": "Prinzessin Lillifee und die Zaubermuschel", "release_date": "2020-03-20", "barcode": "886448175384"}
+            {"id": "1358384903", "episode": 6, "title": "06/Das Hörspiel zur TV-Serie", "release_date": "2012-09-14", "barcode": "886446952826"}
           ]
         }
       },
@@ -12276,9 +12244,12 @@
             {"id": "2psWDBpuMuQF9yIcXiqN4F", "episode": 1, "title": "Der Räuber Hotzenplotz - Hörspiele 1: Der Räuber Hotzenplotz - Das Hörspiel", "release_date": "2012", "barcode": "4066338226044"},
             {"id": "5Xmy3t937WiwSBfEYK6QgZ", "episode": 2, "title": "Der Räuber Hotzenplotz - Hörspiele 2: Neues vom Räuber Hotzenplotz - Das Hörspiel", "release_date": "2012", "barcode": "4066338226037"},
             {"id": "2YOK83serJO3UNnU8bDbja", "episode": 3, "title": "Der Räuber Hotzenplotz - Hörspiele 3: Schluss mit der Räuberei - Das Hörspiel", "release_date": "2012", "barcode": "4066338226020"},
+            {"id": "2zgCdgnOoep0XYcMhk65nx", "title": "Der Räuber Hotzenplotz 1: Der Räuber Hotzenplotz", "release_date": "1962", "barcode": "4066338506689"},
+            {"id": "3Ik0ZUPEEaHJ7OKp78broi", "title": "Der Räuber Hotzenplotz 2: Neues vom Räuber Hotzenplotz (2. Band des Kinderbuch-Klassiker)", "release_date": "1969", "barcode": "4099995322033"},
             {"id": "60E8SCY3oG0S4ouo9zGEJf", "title": "1: Der Räuber Hotzenplotz", "release_date": "2008-10-31", "barcode": "4069828934856"},
             {"id": "2LaaedYUhpMjgkjU9b4EGi", "title": "2: Neues vom Räuber Hotzenplotz", "release_date": "2008-11-07", "barcode": "4064067426537"},
             {"id": "1HKQ4d298PtVxT0a4BQsng", "title": "3: Der Räuber Hotzenplotz - Schluss mit der Räuberei", "release_date": "2008-11-14", "barcode": "4064067425912"},
+            {"id": "1npSrVLIuwZEcpa6y5srif", "title": "Der Räuber Hotzenplotz 3: Der Räuber Hotzenplotz. Schluss mit der Räuberei (3. Band des Kinderbuch-Klassikers)", "release_date": "2012", "barcode": "4099995322019"},
             {"id": "4NaZuAgDM92V1nfjJKi0m4", "title": "Der Räuber Hotzenplotz - Hörspiele: Der Räuber Hotzenplotz und die Mondrakete - Das Hörspiel", "release_date": "2018", "barcode": "4099994241540"},
             {"id": "36CwCR1wz682jxOLSUaUwh", "title": "Der Räuber Hotzenplotz und die Mondrakete", "release_date": "2018-10-26", "barcode": "4064067424335"},
             {"id": "4tgA4hMn7r356EyKPKv7cr", "title": "Der Räuber Hotzenplotz - Hörspiele: Der Räuber Hotzenplotz. Das Originalhörspiel zum Kinofilm", "release_date": "2022-10-22", "barcode": "4066339228511"}
@@ -12290,13 +12261,16 @@
             {"id": "1582041552", "episode": 1, "title": "Der Räuber Hotzenplotz - Hörspiele 1: Der Räuber Hotzenplotz - Das Hörspiel", "release_date": "2020-04-30", "barcode": "4066338226044"},
             {"id": "1582038611", "episode": 2, "title": "Der Räuber Hotzenplotz - Hörspiele 2: Neues vom Räuber Hotzenplotz - Das Hörspiel", "release_date": "2020-04-30", "barcode": "4066338226037"},
             {"id": "1582022951", "episode": 3, "title": "Der Räuber Hotzenplotz - Hörspiele 3: Schluss mit der Räuberei - Das Hörspiel", "release_date": "2020-04-30", "barcode": "4066338226020"},
+            {"id": "1842150368", "title": "1: Der Räuber Hotzenplotz", "release_date": "2008-10-31"},
+            {"id": "1686245883", "title": "2: Neues vom Räuber Hotzenplotz", "release_date": "2008-11-07"},
+            {"id": "1686210686", "title": "3: Der Räuber Hotzenplotz - Schluss mit der Räuberei", "release_date": "2008-11-14"},
             {"id": "1686157107", "title": "Der Räuber Hotzenplotz und die Mondrakete", "release_date": "2018-10-26", "barcode": "4057664512178"},
             {"id": "1646471187", "title": "Der Räuber Hotzenplotz. Das Originalhörspiel zum Kinofilm", "release_date": "2022-10-22", "barcode": "4066338447715"},
             {"id": "1711556948", "title": "Der Räuber Hotzenplotz - Hörspiele: Der Räuber Hotzenplotz und die Mondrakete - Das Hörspiel", "release_date": "2023-11-29", "barcode": "4066339755352"}
           ]
         }
       },
-      "episode_pattern": ["^Der Räuber Hotzenplotz - Hörspiele (\\d+):", "^Der Räuber Hotzenplotz (\\d+):"],
+      "episode_pattern": ["^Der Räuber Hotzenplotz - Hörspiele (\\d+):"],
       "series_facts": {
         "era_boundaries": [
           {"label": "klassik", "release_date_range": "1962-1969", "curated_by": "minimax-m2.7", "curated_at": "2026-10-03T00:17:12.839579+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-10-03T00:17:12.839579+00:00"},
@@ -12307,7 +12281,8 @@
           {"curated_by": "minimax-m2.7", "curated_at": "2026-05-31T16:22:32.166505+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-05-31T16:22:32.166505+00:00", "number": 5, "range_end": null, "reason": "Classic Hörspiel 'Hotzenplotz ist wieder da' (Karussell/Fontana) exists but is not present in the streaming catalog. Confirmed by Wikipedia: 6 Hörspiele were produced starting 1970."},
           {"curated_by": "minimax-m2.7", "curated_at": "2026-05-31T16:22:32.166505+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-05-31T16:22:32.166505+00:00", "number": 6, "range_end": null, "reason": "Classic Hörspiel 'Keine Angst vor Hotzenplotz' (Karussell/Fontana) exists but is not present in the streaming catalog. Confirmed by Wikipedia: 6 Hörspiele were produced starting 1970."}
         ]
-      }
+      },
+      "split_from": "otfried_preussler"
     },
     {
       "id": "tabaluga",
@@ -18790,13 +18765,6 @@
         "spotify": {
           "artist_ids": ["78iNrogmY4Ru7d7PLtwD4b"],
           "albums": [
-            {"id": "0izufZdiaKstK8Mht2k7tv", "title": "Und der Feenball", "release_date": "2014-08-08", "barcode": "886446914022"},
-            {"id": "6q0oy7sCC2NIlrWjlBNDkI", "title": "Rettet das Einhornparadies", "release_date": "2016-02-29", "barcode": "886446914008"},
-            {"id": "4IGALmBQk9LhZ8hvnFRtHJ", "title": "Und der fliegende Elefant", "release_date": "2017-08-17", "barcode": "886446913995"},
-            {"id": "4kYgEnvdxqb0wQip42Xa9f", "title": "Sucht den verlorenen Stern", "release_date": "2018-08-17", "barcode": "886447206720"},
-            {"id": "71WcJA6wwiYgb3wCQhk4Rl", "title": "Prinzessin Lillifee in der Tierklinik", "release_date": "2019-08-02", "barcode": "886447841327"},
-            {"id": "27AUH86wpGn1nsUPAxHVze", "title": "Prinzessin Lillifee und die Zaubermuschel", "release_date": "2020-03-13", "barcode": "886448175384"},
-            {"id": "1BDF8UTWY6wpxLzF6um2xQ", "title": "Prinzessin Lillifee - Ein Wintermärchen", "release_date": "2021-09-03", "barcode": "886449445837"},
             {"id": "6OMaPht0GUas8cWaQv4XZ5", "title": "Der Schmetterlingspalast", "release_date": "2023-01-20", "barcode": "196589323699"},
             {"id": "5795kgm8AWi8gDxVeGKNMQ", "title": "Das verzauberte Märchenbuch", "release_date": "2024-11-01", "barcode": "196872395075"},
             {"id": "6yk2Q451QJ0oEsyG1M2lha", "title": "Der erste Feenball", "release_date": "2024-11-01", "barcode": "196872395044"},
@@ -19582,6 +19550,7 @@
           "artist_ids": ["6OHFxwqdZpOuYMKrV0UHQ5"],
           "albums": [
             {"id": "6QY06XYTjihkPKEWCi1PjM", "title": "Das kleine Gespenst", "release_date": "2008-01-01", "barcode": "4064067424465"},
+            {"id": "3vW62UcuXbB0YBjBPFgZZI", "title": "Das kleine Gespenst", "release_date": "2013", "barcode": "4066338593481"},
             {"id": "1pV9ZitMywO46h4igOPD2X", "title": "Das kleine Gespenst - Das Hörspiel", "release_date": "2013", "barcode": "4066338364753"},
             {"id": "0WKXcZesO4alcDdC8JKIKF", "title": "Das kleine Gespenst - Tohuwabohu auf Burg Eulenstein", "release_date": "2016-02-19", "barcode": "4064066883355"}
           ]
@@ -19589,6 +19558,7 @@
         "apple_music": {
           "artist_ids": ["68437630"],
           "albums": [
+            {"id": "1685901386", "title": "Das kleine Gespenst", "release_date": "2007"},
             {"id": "1611139975", "title": "Das kleine Gespenst - Das Hörspiel", "release_date": "2007", "barcode": "4066338364746"},
             {"id": "1686040041", "title": "Das kleine Gespenst (Tohuwabohu auf Burg Eulenstein)", "release_date": "2016-02-19", "barcode": "4064066882112"},
             {"id": "1460369563", "title": "Das kleine Gespenst - Das Hörspiel zum Kinofilm", "release_date": "2019-04-01", "barcode": "4057664535771"}
@@ -19607,6 +19577,8 @@
         "spotify": {
           "artist_ids": ["6OHFxwqdZpOuYMKrV0UHQ5"],
           "albums": [
+            {"id": "3nLocdKUV5ujJPoRbCj4L5", "title": "Der kleine Wassermann", "release_date": "1956", "barcode": "4064067253478"},
+            {"id": "2OB0I2qW3RwixCtNEPE09h", "title": "Der kleine Wassermann", "release_date": "2008-01-01", "barcode": "4064067424397"},
             {"id": "4emzzQdNqiGnnTdJQxQH0Z", "title": "Der kleine Wassermann - Das Hörspiel", "release_date": "2013", "barcode": "4066338364739"},
             {"id": "2Uecb4RSMPonBJGJGbJkLK", "title": "Der kleine Wassermann - Frühling im Mühlenweiher", "release_date": "2013-01-01", "barcode": "4064067424380"},
             {"id": "59C2HIBgP2sVkPGj2QNoe2", "title": "Der kleine Wassermann - Herbst im Mühlenweiher", "release_date": "2014-01-01", "barcode": "4064067424373"},
@@ -19616,6 +19588,7 @@
         "apple_music": {
           "artist_ids": ["68437630"],
           "albums": [
+            {"id": "1685935364", "title": "Der kleine Wassermann", "release_date": "2007", "barcode": "4064066564780"},
             {"id": "1610785639", "title": "Der kleine Wassermann (Das Hörspiel)", "release_date": "2007", "barcode": "4066338364722"},
             {"id": "1686048211", "title": "Der kleine Wassermann - Frühling im Mühlenweiher", "release_date": "2013-01-01", "barcode": "4057664057563"}
           ]
@@ -19633,6 +19606,11 @@
         "spotify": {
           "artist_ids": ["6OHFxwqdZpOuYMKrV0UHQ5"],
           "albums": [
+            {"id": "56zUkcOUxRdhfg8YOTfbCb", "title": "Die kleine Hexe", "release_date": "1957", "barcode": "4099994700320"},
+            {"id": "22O3YNErbMtCwNAyQJQyv0", "title": "Die Kleine Hexe (Part. 1)", "release_date": "1978"},
+            {"id": "6cnxciqWfKI21f6W0Q5Xou", "title": "Die Kleine Hexe (Part. 2)", "release_date": "1978"},
+            {"id": "5vQcLEh5klzTjCt4O2dzBY", "title": "Die Kleine Hexe (Part. 3)", "release_date": "1978"},
+            {"id": "7clCZxcbo61wfg34f3HPlu", "title": "Die Kleine Hexe (Part. 4)", "release_date": "1978"},
             {"id": "60r4JW9AcLzEPrQIRoJ31p", "title": "Die kleine Hexe", "release_date": "2008-01-01", "barcode": "4064067424229"},
             {"id": "7JVJLlMf9v7lFHAnesmmZ4", "title": "Die kleine Hexe (Ausflug mit Abraxas und Winterzauber mit Abraxas)", "release_date": "2013", "barcode": "4064066668136"},
             {"id": "2ePUhKbymZCmXJ4wItsql7", "title": "Die kleine Hexe - Das Hörspiel", "release_date": "2013", "barcode": "4066338364777"}
@@ -19740,7 +19718,8 @@
         "spotify": {
           "artist_ids": ["6OHFxwqdZpOuYMKrV0UHQ5"],
           "albums": [
-            {"id": "4Q07f6FmmseMjv6bk1UDv8", "title": "Die Abenteuer des starken Wanja", "release_date": "1973-01-01", "barcode": "4064067424274"}
+            {"id": "4Q07f6FmmseMjv6bk1UDv8", "title": "Die Abenteuer des starken Wanja", "release_date": "1973-01-01", "barcode": "4064067424274"},
+            {"id": "1GMH819f7bIJApsxMJfTi9", "title": "Die Abenteuer des starken Wanja", "release_date": "1981", "barcode": "4066339728608"}
           ]
         },
         "apple_music": {
@@ -22827,15 +22806,22 @@
         "spotify": {
           "artist_ids": ["6OHFxwqdZpOuYMKrV0UHQ5"],
           "albums": [
-            {"id": "1GMH819f7bIJApsxMJfTi9", "title": "Die Abenteuer des starken Wanja", "release_date": "1981", "barcode": "4066339728608"},
+            {"id": "6FG0NJrp5QNPRos8yMVQIq", "title": "Bei uns in Schilda", "release_date": "1958", "barcode": "4064067679803"},
+            {"id": "1vcKy3Airnzo9gFLJFc6l1", "title": "Der Engel mit der Pudelmütze", "release_date": "1986-01-01", "barcode": "4066339023253"},
             {"id": "2tamw0ro3q4Tm5rIJl0t9X", "title": "Krabat", "release_date": "1988-01-01", "barcode": "4064067423758"},
-            {"id": "2OB0I2qW3RwixCtNEPE09h", "title": "Der kleine Wassermann", "release_date": "2008-01-01", "barcode": "4064067424397"}
+            {"id": "6uvSOifgFzn9A6PkDVGttX", "title": "Mein Rübezahlbuch", "release_date": "1993", "barcode": "4066339727700"},
+            {"id": "6lpX51w9igsabg529MBpNy", "title": "Brot für Myra (Die Legende vom heiligen Nikolaus)", "release_date": "2004", "barcode": "4066339212237"},
+            {"id": "7IPVK3BrCUQcH88dPg3Ge8", "title": "Herr Klingsor konnte ein bißchen zaubern", "release_date": "2004-01-01", "barcode": "4064066886226"},
+            {"id": "3351m0GWawlGhlpjFW3yM6", "title": "Zwölfe hat's geschlagen", "release_date": "2004-01-01", "barcode": "4064066565886"},
+            {"id": "1JxVVfB7HVaFuwkHMIsItF", "title": "Fette Beute (Wilde Geschichten von Räubern und Banditen)", "release_date": "2017-08-31", "barcode": "4064067702884"},
+            {"id": "12nXACFkqFVOUINCtDYwO3", "title": "Winterzeit, tief verschneit (Wintergeschichten von Hexe, Hörbe, Wassermann und vielen anderen Preußler-Figuren)", "release_date": "2019", "barcode": "4066339052437"}
           ]
         },
         "apple_music": {
           "artist_ids": ["68437630"],
           "albums": [
-            {"id": "1685935364", "title": "Der kleine Wassermann", "release_date": "2007", "barcode": "4064066564780"},
+            {"id": "6782026815", "title": "Herr Klingsor konnte ein bißchen zaubern", "release_date": "2004-01-01", "barcode": "4064066886226"},
+            {"id": "6782029595", "title": "Zwölfe hat's geschlagen", "release_date": "2004-01-01", "barcode": "4064066565886"},
             {"id": "6782025225", "title": "Krabat", "release_date": "2008-01-01", "barcode": "4057664433275"}
           ]
         }
@@ -22869,6 +22855,59 @@
             {"id": "1714484687", "title": "Die Wichtelmänner (Die neuen Abenteuer von Yoyo und Doc Croc)", "release_date": "2023-11-17", "barcode": "4099994201636"},
             {"id": "1732547229", "title": "Der Bann der Königstöchter (Die neuen Abenteuer von Yoyo und Doc Croc)", "release_date": "2024-03-15", "barcode": "4099995259315"},
             {"id": "1748161196", "title": "Der dreiste Dieb (Die neuen Abenteuer von Yoyo und Doc Croc)", "release_date": "2024-06-14", "barcode": "4099995469950"}
+          ]
+        }
+      }
+    },
+    {
+      "id": "prinzessin_lillifee_hoerbuch",
+      "title": "Prinzessin Lillifee: Hörbücher",
+      "aliases": ["Prinzessin Lillifee Hörbuch"],
+      "content_type": "audiobook",
+      "split_from": "prinzessin_lillifee",
+      "providers": {
+        "spotify": {
+          "artist_ids": ["78iNrogmY4Ru7d7PLtwD4b"],
+          "albums": [
+            {"id": "4BanBOHGPk6AehgEszqnIP", "title": "Hat ein Geheimnis", "release_date": "2006-03-01", "barcode": "886446913940"},
+            {"id": "3GI2BdTgbQs4LnFSym3ji5", "title": "Prinzessin Lillifee", "release_date": "2006-03-01", "barcode": "886446913933"},
+            {"id": "2DZprT3FAovltjzEGmq3Rx", "title": "Und die kleine Seejungfrau", "release_date": "2006-06-15", "barcode": "886446913971"},
+            {"id": "12TT6OcOHRaM9HfWlfppxN", "title": "Und das Einhorn", "release_date": "2006-09-15", "barcode": "886446913957"},
+            {"id": "5Vdkk661wIB1r81chcBf5w", "title": "Die kleine Ballerina", "release_date": "2007-07-15", "barcode": "886446915968"},
+            {"id": "2bnX3LzCb5oZltT32IHuWf", "title": "Und der kleine Delfin", "release_date": "2008-07-15", "barcode": "886446915944"},
+            {"id": "4ZM4DgqJK88KWWpKyvWHTU", "title": "Und das kleine Reh", "release_date": "2010-02-01", "barcode": "886446915937"},
+            {"id": "5YHPFHIvKNVJ23qYeSyeNz", "title": "Und der kleine Drache", "release_date": "2011-02-15", "barcode": "886446915975"},
+            {"id": "62Pu6eKfUPRn4aZwcsmONE", "title": "Und der Bergkristall", "release_date": "2012-07-23", "barcode": "886446914015"},
+            {"id": "3y9jloTirKL9ZU7wkpOnRn", "title": "Vorhang auf für Prinzessin Lillifee", "release_date": "2013-07-30", "barcode": "886446914039"},
+            {"id": "0izufZdiaKstK8Mht2k7tv", "title": "Und der Feenball", "release_date": "2014-08-08", "barcode": "886446914022"},
+            {"id": "6q0oy7sCC2NIlrWjlBNDkI", "title": "Rettet das Einhornparadies", "release_date": "2016-02-29", "barcode": "886446914008"},
+            {"id": "4IGALmBQk9LhZ8hvnFRtHJ", "title": "Und der fliegende Elefant", "release_date": "2017-08-17", "barcode": "886446913995"},
+            {"id": "4kYgEnvdxqb0wQip42Xa9f", "title": "Sucht den verlorenen Stern", "release_date": "2018-08-17", "barcode": "886447206720"},
+            {"id": "71WcJA6wwiYgb3wCQhk4Rl", "title": "Prinzessin Lillifee in der Tierklinik", "release_date": "2019-08-02", "barcode": "886447841327"},
+            {"id": "27AUH86wpGn1nsUPAxHVze", "title": "Prinzessin Lillifee und die Zaubermuschel", "release_date": "2020-03-13", "barcode": "886448175384"},
+            {"id": "1BDF8UTWY6wpxLzF6um2xQ", "title": "Prinzessin Lillifee - Ein Wintermärchen", "release_date": "2021-09-03", "barcode": "886449445837"}
+          ]
+        },
+        "apple_music": {
+          "artist_ids": ["130216498"],
+          "albums": [
+            {"id": "1581405950", "title": "Prinzessin Lillifee - Ein Wintermärchen", "release_date": "2006", "barcode": "886449445837"},
+            {"id": "1472630209", "title": "Prinzessin Lillifee in der Tierklinik", "release_date": "2006", "barcode": "886447841327"},
+            {"id": "1358366423", "title": "Hat ein Geheimnis", "release_date": "2006-03-10", "barcode": "886446913940"},
+            {"id": "1358386434", "title": "Und die kleine Seejungfrau", "release_date": "2006-06-15", "barcode": "886446913971"},
+            {"id": "1358382340", "title": "Und das Einhorn", "release_date": "2006-09-15", "barcode": "886446913957"},
+            {"id": "1358373735", "title": "Die kleine Ballerina", "release_date": "2007-07-20", "barcode": "886446915968"},
+            {"id": "1358383728", "title": "Und der kleine Delfin", "release_date": "2008-07-15", "barcode": "886446915944"},
+            {"id": "1358398632", "title": "Und das kleine Reh", "release_date": "2010-01-29", "barcode": "886446915937"},
+            {"id": "1358384656", "title": "Prinzessin Lillifee", "release_date": "2011-01-07", "barcode": "886446913933"},
+            {"id": "1358387457", "title": "Und der kleine Drache", "release_date": "2011-02-25", "barcode": "886446915975"},
+            {"id": "1358385553", "title": "Und der Bergkristall", "release_date": "2012-07-20", "barcode": "886446914015"},
+            {"id": "1358372841", "title": "Vorhang auf für Prinzessin Lillifee", "release_date": "2013-07-26", "barcode": "886446914039"},
+            {"id": "1358385641", "title": "Und der Feenball", "release_date": "2014-08-08", "barcode": "886446914022"},
+            {"id": "1358382800", "title": "Rettet das Einhornparadies", "release_date": "2016-03-04", "barcode": "886446914008"},
+            {"id": "1358388141", "title": "Und der fliegende Elefant", "release_date": "2017-08-25", "barcode": "886446913995"},
+            {"id": "1421984210", "title": "Sucht den verlorenen Stern", "release_date": "2018-08-17", "barcode": "886447206720"},
+            {"id": "1499630670", "title": "Prinzessin Lillifee und die Zaubermuschel", "release_date": "2020-03-20", "barcode": "886448175384"}
           ]
         }
       }
