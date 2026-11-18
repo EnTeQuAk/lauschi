@@ -6044,7 +6044,7 @@
       "episode_pattern": ["^Folge (\\d+):"],
       "series_facts": {
         "era_boundaries": [
-          {"curated_by": "minimax-m2.7", "curated_at": "2026-06-10T18:27:05.624754+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-10T18:27:05.624754+00:00", "label": "tv_serie", "release_date_range": "2012-2024"},
+          {"curated_by": "minimax-m2.7", "curated_at": "2026-06-10T18:27:05.624754+00:00", "audited_by": "gemma4:31b", "audited_at": "2026-11-18T18:11:03.761190+00:00", "label": "tv_serie", "release_date_range": "2012-2024"},
           {"curated_by": "minimax-m2.7", "curated_at": "2026-06-10T18:27:05.624754+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-10T18:27:05.624754+00:00", "label": "continuation", "release_date_range": "2025-"}
         ]
       },
@@ -8815,11 +8815,11 @@
       "episode_pattern": ["^(\\d+):", "^Folge (\\d+):"],
       "series_facts": {
         "era_boundaries": [
-          {"curated_by": "minimax-m2.7", "curated_at": "2026-06-10T18:40:49.360897+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-10T18:40:49.360897+00:00", "label": "karussell_2002", "release_date_range": "2002-2002"},
-          {"curated_by": "minimax-m2.7", "curated_at": "2026-06-10T18:40:49.360897+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-10T18:40:49.360897+00:00", "label": "modern", "release_date_range": "2023-"}
+          {"curated_by": "minimax-m2.7", "curated_at": "2026-06-10T18:40:49.360897+00:00", "audited_by": "gemma4:31b", "audited_at": "2026-11-18T18:10:19.903304+00:00", "label": "karussell_2002", "release_date_range": "2002-2002"},
+          {"curated_by": "minimax-m2.7", "curated_at": "2026-06-10T18:40:49.360897+00:00", "audited_by": "gemma4:31b", "audited_at": "2026-11-18T18:10:19.903304+00:00", "label": "modern", "release_date_range": "2023-"}
         ],
         "known_gaps": [
-          {"number": 13, "range_end": null, "reason": "No Episode 13 found in the catalog. The 2002 Karussell run appears to have ended at 12 episodes; the modern series (2023-) uses named-only titles without sequential numbering. Unclear whether Episode 13 was never produced or is a numbering restart.", "curated_by": "minimax-m2.7", "curated_at": "2026-10-02T23:13:59.930521+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-10-02T23:13:59.930521+00:00"}
+          {"curated_by": "minimax-m2.7", "curated_at": "2026-10-02T23:13:59.930521+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-10-02T23:13:59.930521+00:00", "number": 13, "range_end": null, "reason": "No Episode 13 found in the catalog. The 2002 Karussell run appears to have ended at 12 episodes; the modern series (2023-) uses named-only titles without sequential numbering. Unclear whether Episode 13 was never produced or is a numbering restart."}
         ]
       }
     },
@@ -14008,13 +14008,13 @@
       "series_facts": {
         "era_boundaries": [
           {"curated_by": "minimax-m2.7", "curated_at": "2026-07-02T16:03:31.889191+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-07-02T16:03:31.889191+00:00", "label": "klassik", "release_date_range": "2020-2020"},
-          {"curated_by": "minimax-m2.7", "curated_at": "2026-07-02T16:03:31.889191+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-07-02T16:03:31.889191+00:00", "label": "modern", "release_date_range": "2022-"}
+          {"curated_by": "minimax-m2.7", "curated_at": "2026-07-02T16:03:31.889191+00:00", "audited_by": "gemma4:31b", "audited_at": "2026-11-18T18:07:45.096091+00:00", "label": "modern", "release_date_range": "2022-"}
         ],
         "known_gaps": [
-          {"number": 1, "range_end": null, "reason": "Episode 1 ('Ein tollpatschiger Held') belongs to the modern CGI era (2022–). The 2008-era episode 'Das Buch, das alles sagt' is excluded as sub_series_bleed (belongs to die_schluempfe_klassik).", "curated_by": "minimax-m2.7", "curated_at": "2026-10-03T00:47:39.392646+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-10-03T00:47:39.392646+00:00"},
-          {"number": 2, "range_end": null, "reason": "Episode 2 ('Ein unwiderschlumpfliches Lächeln') belongs to the modern CGI era (2022–). The 2008-era episode 'Die unsichtbare Pfeife' is excluded as sub_series_bleed (belongs to die_schluempfe_klassik).", "curated_by": "minimax-m2.7", "curated_at": "2026-10-03T00:47:39.392646+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-10-03T00:47:39.392646+00:00"},
+          {"curated_by": "minimax-m2.7", "curated_at": "2026-10-03T00:47:39.392646+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-10-03T00:47:39.392646+00:00", "number": 1, "range_end": null, "reason": "Episode 1 ('Ein tollpatschiger Held') belongs to the modern CGI era (2022–). The 2008-era episode 'Das Buch, das alles sagt' is excluded as sub_series_bleed (belongs to die_schluempfe_klassik)."},
+          {"curated_by": "minimax-m2.7", "curated_at": "2026-10-03T00:47:39.392646+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-10-03T00:47:39.392646+00:00", "number": 2, "range_end": null, "reason": "Episode 2 ('Ein unwiderschlumpfliches Lächeln') belongs to the modern CGI era (2022–). The 2008-era episode 'Die unsichtbare Pfeife' is excluded as sub_series_bleed (belongs to die_schluempfe_klassik)."},
           {"curated_by": "minimax-m2.7", "curated_at": "2026-06-19T06:41:04.687279+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-19T06:41:04.687279+00:00", "number": 3, "range_end": null, "reason": "Spotify only has classic-era (2020) Episode 3; modern-era (2022) 'Wer ist heftiger?' missing from Spotify but present on Apple Music"},
-          {"number": 4, "range_end": null, "reason": "Episode 4 ('Mein Schlumpf, der Held') belongs to the modern CGI era (2023–). The 2008-era episode 'Jokeys Reise' is excluded as sub_series_bleed (belongs to die_schluempfe_klassik).", "curated_by": "minimax-m2.7", "curated_at": "2026-10-03T00:47:39.392646+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-10-03T00:47:39.392646+00:00"},
+          {"curated_by": "minimax-m2.7", "curated_at": "2026-10-03T00:47:39.392646+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-10-03T00:47:39.392646+00:00", "number": 4, "range_end": null, "reason": "Episode 4 ('Mein Schlumpf, der Held') belongs to the modern CGI era (2023–). The 2008-era episode 'Jokeys Reise' is excluded as sub_series_bleed (belongs to die_schluempfe_klassik)."},
           {"curated_by": "minimax-m2.7", "curated_at": "2026-06-19T06:41:04.687279+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-19T06:41:04.687279+00:00", "number": 5, "range_end": null, "reason": "Spotify only has classic-era (2020) Episode 5; modern-era (2023) 'Schlumpf Fu' missing from Spotify but present on Apple Music"},
           {"curated_by": "minimax-m2.7", "curated_at": "2026-06-19T06:41:04.687279+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-19T06:41:04.687279+00:00", "number": 6, "range_end": null, "reason": "Spotify only has classic-era (2020) Episode 6; modern-era (2023) 'Die Plümpfe' missing from Spotify but present on Apple Music"},
           {"curated_by": "minimax-m2.7", "curated_at": "2026-06-19T06:41:04.687279+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-19T06:41:04.687279+00:00", "number": 7, "range_end": null, "reason": "Spotify only has classic-era (2020) Episode 7; modern-era (2023) 'Ein schlumpfiger Kindergarten' missing from Spotify but present on Apple Music"},
@@ -14028,9 +14028,9 @@
           {"curated_by": "minimax-m2.7", "curated_at": "2026-06-19T06:41:04.687279+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-19T06:41:04.687279+00:00", "number": 15, "range_end": null, "reason": "Spotify only has classic-era (2020) Episode 15; modern-era (2024) 'Der Gast, der nicht gehen wollte' missing from Spotify but present on Apple Music"},
           {"curated_by": "minimax-m2.7", "curated_at": "2026-06-19T06:41:04.687279+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-19T06:41:04.687279+00:00", "number": 16, "range_end": null, "reason": "Spotify only has classic-era (2020) Episode 16; modern-era (2024) 'Ogerliebe' missing from Spotify but present on Apple Music"},
           {"curated_by": "minimax-m2.7", "curated_at": "2026-06-19T06:41:04.687279+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-19T06:41:04.687279+00:00", "number": 17, "range_end": null, "reason": "Spotify only has classic-era (2020) Episode 17; modern-era (2024) 'Blüte zieht aus' missing from Spotify but present on Apple Music"},
-          {"number": 18, "range_end": null, "reason": "Episode 18 ('Okey Dokey!') belongs to the modern CGI era (2024–). The 2020 classic-era episode 'Die Hexenschülerin' is excluded as sub_series_bleed (belongs to die_schluempfe_klassik).", "curated_by": "minimax-m2.7", "curated_at": "2026-10-03T00:47:39.392646+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-10-03T00:47:39.392646+00:00"},
-          {"number": 19, "range_end": null, "reason": "Episode 19 ('Baby Sensei') belongs to the modern CGI era (2024–). The 2020 classic-era episode 'Die drei Kerne' is excluded as sub_series_bleed (belongs to die_schluempfe_klassik).", "curated_by": "minimax-m2.7", "curated_at": "2026-10-03T00:47:39.392646+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-10-03T00:47:39.392646+00:00"},
-          {"number": 20, "range_end": null, "reason": "Episode 20 ('Die fliegenden Schlümpfe') belongs to the modern CGI era (2024–). The 2020 classic-era episode 'Blümchen ist verschwunden' is excluded as sub_series_bleed (belongs to die_schluempfe_klassik).", "curated_by": "minimax-m2.7", "curated_at": "2026-10-03T00:47:39.392646+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-10-03T00:47:39.392646+00:00"}
+          {"curated_by": "minimax-m2.7", "curated_at": "2026-10-03T00:47:39.392646+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-10-03T00:47:39.392646+00:00", "number": 18, "range_end": null, "reason": "Episode 18 ('Okey Dokey!') belongs to the modern CGI era (2024–). The 2020 classic-era episode 'Die Hexenschülerin' is excluded as sub_series_bleed (belongs to die_schluempfe_klassik)."},
+          {"curated_by": "minimax-m2.7", "curated_at": "2026-10-03T00:47:39.392646+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-10-03T00:47:39.392646+00:00", "number": 19, "range_end": null, "reason": "Episode 19 ('Baby Sensei') belongs to the modern CGI era (2024–). The 2020 classic-era episode 'Die drei Kerne' is excluded as sub_series_bleed (belongs to die_schluempfe_klassik)."},
+          {"curated_by": "minimax-m2.7", "curated_at": "2026-10-03T00:47:39.392646+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-10-03T00:47:39.392646+00:00", "number": 20, "range_end": null, "reason": "Episode 20 ('Die fliegenden Schlümpfe') belongs to the modern CGI era (2024–). The 2020 classic-era episode 'Blümchen ist verschwunden' is excluded as sub_series_bleed (belongs to die_schluempfe_klassik)."}
         ]
       },
       "aliases": ["The Smurfs"]
@@ -17785,10 +17785,10 @@
         "spotify": {
           "artist_ids": ["59bf2D81aHzl0ot28xzQbk"],
           "albums": [
-            {"id": "5AIne2dginz0Y4YvflooBr", "title": "Eule findet den Beat - Auf Europatour - Die Songs", "barcode": "00602547765550"},
-            {"id": "18VhqHmxAmBFBXWY2R6DkA", "title": "Eule findet den Beat - Die Songs", "barcode": "00602537771509"},
-            {"id": "3sYgFUztZnNDjfPepBdeft", "title": "Eule findet den Beat - mit Gefühl - Die Songs", "barcode": "00602508494352"},
-            {"id": "4BFa9zVIU3vrF5neD4hKy6", "title": "Eule findet den Beat - mit Instrumenten - Die Songs", "barcode": "00602445861552"},
+            {"id": "18VhqHmxAmBFBXWY2R6DkA", "title": "Eule findet den Beat - Die Songs", "release_date": "2014-01-01", "barcode": "00602537771509"},
+            {"id": "5AIne2dginz0Y4YvflooBr", "title": "Eule findet den Beat - Auf Europatour - Die Songs", "release_date": "2016-03-11", "barcode": "00602547765550"},
+            {"id": "3sYgFUztZnNDjfPepBdeft", "title": "Eule findet den Beat - mit Gefühl - Die Songs", "release_date": "2020-03-27", "barcode": "00602508494352"},
+            {"id": "4BFa9zVIU3vrF5neD4hKy6", "title": "Eule findet den Beat - mit Instrumenten - Die Songs", "release_date": "2022-11-11", "barcode": "00602445861552"},
             {"id": "1bYD4jUtb3YPDKG8U3fEVk", "title": "Musikunterricht mit Eule findet den Beat", "release_date": "2025-08-15", "barcode": "00602478911361"},
             {"id": "4e6wJ6A5hWoTeDm5ZUmtdA", "title": "Sommerlieder mit Eule", "release_date": "2025-08-15", "barcode": "00602478911392"}
           ]
@@ -18215,26 +18215,6 @@
           {"curated_by": "minimax-m2.7", "curated_at": "2026-06-17T20:37:52.492775+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-17T20:37:52.492775+00:00", "number": 8, "range_end": null, "reason": "Episode 8 exists as published audiobook but not available on streaming platforms."},
           {"curated_by": "minimax-m2.7", "curated_at": "2026-06-17T20:37:52.492775+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-17T20:37:52.492775+00:00", "number": 9, "range_end": null, "reason": "Episode 9 (Laura und die Piratenschatz / Lauras Piratenschatz) exists as published audiobook but not available on streaming platforms."},
           {"curated_by": "minimax-m2.7", "curated_at": "2026-06-17T20:37:52.492775+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-06-17T20:37:52.492775+00:00", "number": 10, "range_end": null, "reason": "Episode 10 (Laura hat Geburtstag) exists as published audiobook but not available on streaming platforms."}
-        ],
-        "sub_series": [
-          {
-            "label": "hoerbuch",
-            "album_ids": ["spotify:6wHBcYH5YYlMFkR9EhZlCH"],
-            "reason": "Ungekürzte Lesung (Hörbuch), distinct from dramatized Erstleser Hörspiele. Confirmed via track structure (7 sequential Kapitel tracks, no episode numbering, audiobook narrator format).",
-            "curated_by": "minimax-m2.7",
-            "curated_at": "2026-10-03T03:06:05.994678+00:00",
-            "audited_by": "minimax-m2.7",
-            "audited_at": "2026-10-03T03:06:05.994678+00:00"
-          },
-          {
-            "label": "lauras_stern",
-            "album_ids": ["spotify:4IpLGRaQM1Nn72ZwiHtlr6"],
-            "reason": "Regular Lauras Stern Hörspiel episode, not part of the Erstleser product line. Confirmed via reference index and lack of 'Erstleser' branding.",
-            "curated_by": "minimax-m2.7",
-            "curated_at": "2026-10-03T03:06:05.994678+00:00",
-            "audited_by": "minimax-m2.7",
-            "audited_at": "2026-10-03T03:06:05.994678+00:00"
-          }
         ]
       }
     },
@@ -18262,19 +18242,8 @@
       },
       "series_facts": {
         "known_gaps": [
-          {"number": 10, "range_end": null, "reason": "Exists on Spotify only under 'Tonspur der TV-Serie' naming variant; may not be available on Apple Music", "curated_by": "minimax-m2.7", "curated_at": "2026-10-03T10:13:42.592447+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-10-03T10:13:42.592447+00:00"},
-          {"number": 11, "range_end": null, "reason": "Exists on Spotify only under 'Tonspur der TV-Serie' naming variant; RTL+ classifies this release as Audiobook format, cross-provider gap is expected", "curated_by": "minimax-m2.7", "curated_at": "2026-10-03T10:13:42.592447+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-10-03T10:13:42.592447+00:00"}
-        ],
-        "sub_series": [
-          {
-            "label": "standalone_specials",
-            "album_ids": ["spotify:4IpLGRaQM1Nn72ZwiHtlr6", "spotify:6wHBcYH5YYlMFkR9EhZlCH"],
-            "reason": "Standalone stories under the Lauras Stern brand that do not match the Gutenacht-Geschichten episode patterns. These are correctly excluded as sub_series_bleed; the sub-series label exists as a housekeeping bucket for orphan albums that belong to the family root (not this series). No split proposal per series note.",
-            "curated_by": "minimax-m2.7",
-            "curated_at": "2026-10-03T10:13:42.592447+00:00",
-            "audited_by": "minimax-m2.7",
-            "audited_at": "2026-10-03T10:13:42.592447+00:00"
-          }
+          {"curated_by": "minimax-m2.7", "curated_at": "2026-10-03T10:13:42.592447+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-10-03T10:13:42.592447+00:00", "number": 10, "range_end": null, "reason": "Exists on Spotify only under 'Tonspur der TV-Serie' naming variant; may not be available on Apple Music"},
+          {"curated_by": "minimax-m2.7", "curated_at": "2026-10-03T10:13:42.592447+00:00", "audited_by": "minimax-m2.7", "audited_at": "2026-10-03T10:13:42.592447+00:00", "number": 11, "range_end": null, "reason": "Exists on Spotify only under 'Tonspur der TV-Serie' naming variant; RTL+ classifies this release as Audiobook format, cross-provider gap is expected"}
         ]
       }
     },
@@ -19129,67 +19098,58 @@
       "series_facts": {
         "sub_series": [
           {
+            "curated_by": "minimax-m2.7",
+            "curated_at": "2026-10-03T03:34:32.461596+00:00",
+            "audited_by": "minimax-m2.7",
+            "audited_at": "2026-10-03T03:34:32.461596+00:00",
             "label": "bullerbue",
             "album_ids": ["spotify:0GdtZD5AfEs8slvISzH1xm", "spotify:17PTQKJ1DTv6glw5o0dfaS", "spotify:2ARTYynNUhGWtA593lpq25", "spotify:2DepxkUs4ebtWQY2cVvN6n", "spotify:2VUgVYllzCsRWMnBnidzZw"],
-            "reason": "Standalone literary work. Belongs to Astrid Lindgren family root per series note — needs migration.",
+            "reason": "Standalone literary work. Belongs to Astrid Lindgren family root per series note — needs migration."
+          },
+          {
             "curated_by": "minimax-m2.7",
             "curated_at": "2026-10-03T03:34:32.461596+00:00",
             "audited_by": "minimax-m2.7",
-            "audited_at": "2026-10-03T03:34:32.461596+00:00"
-          },
-          {
+            "audited_at": "2026-10-03T03:34:32.461596+00:00",
             "label": "das_entschwundene_land",
             "album_ids": ["spotify:7fTEegHW92Z4kHakD99ah1"],
-            "reason": "Standalone literary work. Belongs to family root — needs migration.",
+            "reason": "Standalone literary work. Belongs to family root — needs migration."
+          },
+          {
             "curated_by": "minimax-m2.7",
             "curated_at": "2026-10-03T03:34:32.461596+00:00",
             "audited_by": "minimax-m2.7",
-            "audited_at": "2026-10-03T03:34:32.461596+00:00"
-          },
-          {
+            "audited_at": "2026-10-03T03:34:32.461596+00:00",
             "label": "lotta",
             "album_ids": ["apple_music:1636489733", "apple_music:1636499933", "apple_music:1664090146"],
-            "reason": "Standalone Krachmacherstraße family. Belongs to family root — needs migration.",
+            "reason": "Standalone Krachmacherstraße family. Belongs to family root — needs migration."
+          },
+          {
             "curated_by": "minimax-m2.7",
             "curated_at": "2026-10-03T03:34:32.461596+00:00",
             "audited_by": "minimax-m2.7",
-            "audited_at": "2026-10-03T03:34:32.461596+00:00"
-          },
-          {
+            "audited_at": "2026-10-03T03:34:32.461596+00:00",
             "label": "pippi_langstrumpf",
             "album_ids": ["spotify:1qlwK1FCtvNcg60DKUhqM1", "spotify:2xKk1pD8sG7KCpvuoGK7mT", "spotify:3QsTCxfG72lKMCtIxdgSNL", "spotify:3yitvAGljBh32M3h6BjsBB", "spotify:5AEGF9Oh3rciqgWVSYJbd4"],
-            "reason": "Standalone literary work. Belongs to family root — needs migration.",
+            "reason": "Standalone literary work. Belongs to family root — needs migration."
+          },
+          {
             "curated_by": "minimax-m2.7",
             "curated_at": "2026-10-03T03:34:32.461596+00:00",
             "audited_by": "minimax-m2.7",
-            "audited_at": "2026-10-03T03:34:32.461596+00:00"
-          },
-          {
+            "audited_at": "2026-10-03T03:34:32.461596+00:00",
             "label": "ronja_raeubertochter",
             "album_ids": ["spotify:52tuBgtTIPvtKlUI8NXZXq", "spotify:5DcgKpZpZxkakLCxKU3tJy"],
-            "reason": "Standalone literary work. Belongs to family root — needs migration.",
+            "reason": "Standalone literary work. Belongs to family root — needs migration."
+          },
+          {
             "curated_by": "minimax-m2.7",
             "curated_at": "2026-10-03T03:34:32.461596+00:00",
             "audited_by": "minimax-m2.7",
-            "audited_at": "2026-10-03T03:34:32.461596+00:00"
-          },
-          {
-            "label": "smaaland_weihnachten",
-            "album_ids": ["spotify:6hYCI6XO97F8Pczr2TlshC"],
-            "reason": "Standalone Christmas story. Belongs to family root — needs migration.",
-            "curated_by": "minimax-m2.7",
-            "curated_at": "2026-10-03T03:34:32.461596+00:00",
-            "audited_by": "minimax-m2.7",
-            "audited_at": "2026-10-03T03:34:32.461596+00:00"
-          },
-          {
+            "audited_at": "2026-10-03T03:34:32.461596+00:00",
             "label": "weihnachten_mix",
             "album_ids": ["spotify:2fq9LeUng1zvu3hFU8ERgO"],
-            "reason": "Christmas compilation. Belongs to family root — needs migration.",
-            "curated_by": "minimax-m2.7",
-            "curated_at": "2026-10-03T03:34:32.461596+00:00",
-            "audited_by": "minimax-m2.7",
-            "audited_at": "2026-10-03T03:34:32.461596+00:00"
+            "reason": "Christmas compilation. Belongs to family root — needs migration."
           }
         ]
       }
