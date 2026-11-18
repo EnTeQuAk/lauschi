@@ -448,3 +448,114 @@ def test_copies_without_a_shared_barcode_on_one_store_both_stay(
     _settle_page([a, b], CatalogEntry(id="willi", title="Willi wills wissen"))
 
     assert a.include and b.include
+
+
+def _track_list(*albums: tuple[AlbumDecision, list[str]]) -> dict[str, dict]:
+    return {
+        f"{d.provider}:{d.album_id}": {"tracks": [{"name": n} for n in names]}
+        for d, names in albums
+    }
+
+
+def _single(album_id: str, title: str, release_date: str) -> AlbumDecision:
+    d = decision(
+        album_id,
+        include=False,
+        exclude_reason="music_single",
+        title=title,
+        release_date=release_date,
+    )
+    d.decided_by = "deepseek-v4-pro:0813"
+    return d
+
+
+def _settle_music(
+    decisions: list[AlbumDecision],
+    seen_details: dict[str, dict],
+    content_type: str = "music",
+) -> None:
+    settle_batch_decisions(
+        decisions,
+        discovered=_page(
+            *(
+                (d.provider, d.album_id, d.title, d.release_date or "")
+                for d in decisions
+            )
+        ),
+        pattern=None,
+        entry=CatalogEntry(id="senta", title="Senta"),
+        line_of=None,
+        series_names=["Senta"],
+        seen_details=seen_details,
+        content_type=content_type,
+    )
+
+
+def test_a_single_ships_when_no_album_has_its_song() -> None:
+    """Senta's singles mostly come back on an album, and those stay out.
+    "Senta Klaus" is on none of them, so the single is its only release."""
+    album = decision("hoch", title="Hoch die Hände Wochenende", release_date="2025")
+    on_album = _single("liebe", "Liebesdusche", "2025-05-23")
+    only_here = _single("klaus", "Senta Klaus", "2026-10-30")
+
+    _settle_music(
+        [album, on_album, only_here],
+        _track_list(
+            (album, ["Wut", "Liebesdusche (feat. Phela)", "Jetzt"]),
+            (on_album, ["Liebesdusche - feat. Phela"]),
+            (only_here, ["Senta Klaus"]),
+        ),
+    )
+
+    assert not on_album.include
+    assert only_here.include and only_here.exclude_reason is None
+    assert only_here.decided_by == "only_release"
+
+
+def test_two_singles_of_one_song_ship_once() -> None:
+    first = _single("kbf", "Kinder brauchen Freiheit", "2026-01-09")
+    community = _single(
+        "kbf-c", "Kinder brauchen Freiheit (Community Version)", "2026-09-03"
+    )
+
+    _settle_music(
+        [community, first],
+        _track_list(
+            (first, ["Kinder brauchen Freiheit"]),
+            (community, ["Kinder brauchen Freiheit - Community Version"]),
+        ),
+    )
+
+    assert first.include
+    assert not community.include and community.exclude_reason == "music_single"
+
+
+def test_a_single_leaves_once_an_album_brings_its_song() -> None:
+    album = decision("glueck", title="Glückskeksgefühle", release_date="2026-09-18")
+    single = decision("mathe", title="Mathe-Ma-Tik", release_date="2026-02-13")
+    single.decided_by = "only_release"
+
+    _settle_music(
+        [album, single],
+        _track_list((album, ["Mathe-Ma-Tik", "BFFI"]), (single, ["Mathe-Ma-Tik"])),
+    )
+
+    assert not single.include and single.exclude_reason == "music_single"
+
+
+@pytest.mark.parametrize(
+    ("content_type", "decided_by"),
+    [
+        pytest.param("hoerspiel", "deepseek-v4-pro:0813", id="not a music entry"),
+        pytest.param("music", "operator", id="a person excluded it"),
+    ],
+)
+def test_a_single_stays_out(content_type: str, decided_by: str) -> None:
+    single = _single("klaus", "Senta Klaus", "2026-10-30")
+    single.decided_by = decided_by
+
+    _settle_music(
+        [single], _track_list((single, ["Senta Klaus"])), content_type=content_type
+    )
+
+    assert not single.include

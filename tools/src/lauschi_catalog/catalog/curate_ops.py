@@ -1185,6 +1185,82 @@ def _settle_barcode_twins(
     return excluded
 
 
+#: Provenance of a single the code ships as its song's only release.
+ONLY_RELEASE = "only_release"
+
+
+def _song_key(track_name: str) -> str:
+    """A track name without what tells its versions apart: the bracketed
+    credits and the " - " suffixes ("(feat. Phela)", "- Community
+    Version")."""
+    name = re.sub(r"\s*[(\[][^)\]]*[)\]]", "", track_name.casefold())
+    return " ".join(name.split(" - ")[0].split())
+
+
+def _settle_only_releases(
+    decisions: list["AlbumDecision"], seen_details: dict[str, dict]
+) -> tuple[list["AlbumDecision"], int]:
+    """A music artist's single ships when no album it ships has its song.
+
+    A single is left out because its song is on the artist's albums, and
+    many artists release songs only as singles. Whether an album has the
+    song is in the track lists, which the model sees one batch at a time,
+    so code answers it for every single the model left out as
+    ``music_single``, per provider. Of two singles of one song the
+    earlier ships. A single shipped this way leaves again once an album
+    brings its song, and a person's exclusion stays. Returns the singles
+    that now ship and how many left again.
+    """
+
+    def songs(d: AlbumDecision) -> set[str]:
+        detail = seen_details.get(f"{d.provider}:{d.album_id}") or {}
+        return {_song_key(t.get("name", "")) for t in detail.get("tracks") or []}
+
+    singles = [
+        d
+        for d in decisions
+        if d.decided_by == ONLY_RELEASE
+        or (
+            not d.include
+            and d.exclude_reason == "music_single"
+            and d.decided_by != "operator"
+        )
+    ]
+    single_ids = {id(d) for d in singles}
+    shipped: dict[str, set[str]] = {}
+    for d in decisions:
+        if d.include and id(d) not in single_ids:
+            shipped.setdefault(d.provider, set()).update(songs(d))
+
+    included: list[AlbumDecision] = []
+    left_again = 0
+    for d in sorted(singles, key=lambda d: (d.release_date or "", d.album_id)):
+        own = songs(d) - {""}
+        on_shelf = shipped.setdefault(d.provider, set())
+        if own and own.isdisjoint(on_shelf):
+            on_shelf.update(own)
+            if not d.include:
+                d.include, d.exclude_reason = True, None
+                d.notes = "No album the artist ships has this song."
+                d.confidence = "high"
+                provenance = album_provenance(ONLY_RELEASE)
+                d.decided_by, d.decided_at = (
+                    provenance["decided_by"],
+                    provenance["decided_at"],
+                )
+                included.append(d)
+        elif d.include:
+            d.include, d.exclude_reason = False, "music_single"
+            d.notes = "An album the artist ships has this song."
+            provenance = album_provenance(ONLY_RELEASE)
+            d.decided_by, d.decided_at = (
+                provenance["decided_by"],
+                provenance["decided_at"],
+            )
+            left_again += 1
+    return included, left_again
+
+
 def _keep_shipped_bleed(
     decisions: list["AlbumDecision"], entry: "CatalogEntry | None"
 ) -> list["AlbumDecision"]:
@@ -1230,6 +1306,7 @@ def settle_batch_decisions(
     line_of: str | None,
     series_names: list[str],
     seen_details: dict[str, dict],
+    content_type: str = "hoerspiel",
     on_progress: Progress = _noop,
 ) -> None:
     """Bring the model's batch decisions into the state the catalog ships.
@@ -1287,6 +1364,16 @@ def settle_batch_decisions(
             + ", ".join(sorted({d.title for d in kept}))
             + "\n"
         )
+    if content_type == "music":
+        only, back = _settle_only_releases(decisions, seen_details)
+        if only:
+            on_progress(
+                f"  {len(only)} single(s) ship as the only release of their song: "
+                + ", ".join(sorted({d.title for d in only}))
+                + "\n"
+            )
+        if back:
+            on_progress(f"  {back} single(s) left out again, an album has the song.\n")
 
     # Always run deterministic episode extraction on the decided albums.
     if pattern is None:
@@ -3265,6 +3352,7 @@ async def _run_large(
         line_of=line_of,
         series_names=_series_names(meta, catalog_entry),
         seen_details=shared_deps.seen_details,
+        content_type=content_type,
         on_progress=on_progress,
     )
 

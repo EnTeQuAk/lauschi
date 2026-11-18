@@ -124,6 +124,10 @@ Each series flows through seven stages (`catalog-pipeline` runs them in order):
    and aliases of an entry are the catalog's: a run takes them from
    series.json, and the metadata agent's proposal counts only for a series
    the catalog does not hold.
+   A music artist's singles stay out because their songs are on the
+   artist's albums, so a single whose song no shipped album has ships as
+   that song's only release (`decided_by: only_release`). Code reads that
+   from every album's track list, which the model sees a batch at a time.
    Re-curation is incremental: `--force` re-enters a series but
    carries prior decisions forward as a pre-seed the model may override, so
    a decided album is not re-asked. Albums the model does not decide stay
