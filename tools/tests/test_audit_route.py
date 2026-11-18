@@ -58,9 +58,12 @@ _ONE_SHOT_MAX = _AUDIT_PROFILE.one_shot_max_tokens
 # 2026-10-13 with its single stories: 736 rows, approved in 14 chunks.
 # die_playmos joined on 2026-11-15 with Folge 103 and the releases
 # Spotify lists twice under new ids, and its chunked audit approved.
+# reinhard_horn joined on 2026-11-18 with the singles that are their
+# song's only release, and its chunked audit approved.
 _CHUNKED_SERIES = {
     "die_playmos",
     "paw_patrol",
+    "reinhard_horn",
     "spongebob_schwammkopf",
     "stephen_janetzko",
 }
@@ -68,7 +71,7 @@ _CHUNKED_SERIES = {
 # The largest series shown to pass in one shot. It must stay above the
 # threshold so the one-shot path never runs a series that has not been
 # demonstrated to fit.
-_LARGEST_KNOWN_ONE_SHOT = "reinhard_horn"  # 13,511, approved 2026-10-03
+_LARGEST_KNOWN_ONE_SHOT = "lego_ninjago"  # 12,677, approved 2026-11-15
 
 
 def _album(i: int, *, include: bool = True) -> dict:
