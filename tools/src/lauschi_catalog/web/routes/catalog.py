@@ -8,6 +8,7 @@ from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 
+from lauschi_catalog.catalog.analysis import normalize_title
 from lauschi_catalog.catalog.merge_ops import merge_series, normalize_album_ids
 from lauschi_catalog.catalog.partition import family_of
 from lauschi_catalog.catalog.paths import (
@@ -278,6 +279,56 @@ def _build_insights(curation: dict | None) -> dict[str, Any]:
     return insights
 
 
+def group_preview_episodes(albums: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Group a curation's included albums into the preview tab's rows.
+
+    A numbered album shares its row with the other store's copy of the
+    same number. An unnumbered one (a music release, a film, a reading)
+    shares it with the other store's copy of the same title, and the
+    unnumbered rows follow the numbered ones in release order.
+    """
+    grouped_episodes: list[dict[str, Any]] = []
+    by_episode: dict[int | str, list[dict]] = {}
+    for a in albums:
+        if not a.get("include"):
+            continue
+        ep = a.get("episode_num")
+        key = ep if ep is not None else normalize_title(a.get("title", ""))
+        by_episode.setdefault(key, []).append(a)
+
+    def _order(key: int | str) -> tuple[int, int, str]:
+        if isinstance(key, int):
+            return (0, key, "")
+        first_release = min(a.get("release_date") or "" for a in by_episode[key])
+        return (1, 0, first_release)
+
+    for key in sorted(by_episode, key=_order):
+        albums_for_ep = by_episode[key]
+        provider_albums: dict[str, str] = {}
+        for a in albums_for_ep:
+            provider_albums.setdefault(a.get("provider", ""), a.get("album_id", ""))
+        first = albums_for_ep[0]
+        image = first.get("image_url", "")
+        if not image:
+            for a in albums_for_ep:
+                if a.get("image_url"):
+                    image = a["image_url"]
+                    break
+        grouped_episodes.append(
+            {
+                "episode_num": first.get("episode_num"),
+                "title": first.get("title", ""),
+                "image_url": image,
+                "release_date": first.get("release_date", ""),
+                "providers": [
+                    {"name": name, "album_id": aid}
+                    for name, aid in sorted(provider_albums.items())
+                ],
+            }
+        )
+    return grouped_episodes
+
+
 def _render_series_detail(
     request: Request,
     series_id: str,
@@ -347,40 +398,9 @@ def _render_series_detail(
             "children": [_member_info(c) for c in fam.children],
         }
 
-    # Group included albums by episode for the preview tab
-    grouped_episodes: list[dict[str, Any]] = []
-    if curation and curation.get("albums"):
-        by_episode: dict[int | None, list[dict]] = {}
-        for a in curation["albums"]:
-            if not a.get("include"):
-                continue
-            ep = a.get("episode_num")
-            by_episode.setdefault(ep, []).append(a)
-
-        for ep_num in sorted(by_episode, key=lambda x: x if x is not None else 999999):
-            albums_for_ep = by_episode[ep_num]
-            provider_albums: dict[str, str] = {}
-            for a in albums_for_ep:
-                provider_albums.setdefault(a.get("provider", ""), a.get("album_id", ""))
-            first = albums_for_ep[0]
-            image = first.get("image_url", "")
-            if not image:
-                for a in albums_for_ep:
-                    if a.get("image_url"):
-                        image = a["image_url"]
-                        break
-            grouped_episodes.append(
-                {
-                    "episode_num": ep_num,
-                    "title": first.get("title", ""),
-                    "image_url": image,
-                    "release_date": first.get("release_date", ""),
-                    "providers": [
-                        {"name": name, "album_id": aid}
-                        for name, aid in sorted(provider_albums.items())
-                    ],
-                }
-            )
+    grouped_episodes = group_preview_episodes(
+        curation.get("albums", []) if curation else []
+    )
 
     # Episode coverage: which providers cover each episode number
     coverage: dict[str, Any] | None = None
