@@ -559,3 +559,20 @@ def test_a_single_stays_out(content_type: str, decided_by: str) -> None:
     )
 
     assert not single.include
+
+
+def test_a_single_whose_song_an_album_spells_differently_stays_out() -> None:
+    """Hurra Kinderlieder's single "Hurra, wir schlafen" is the album's
+    "Hurra wir schlafen": punctuation does not make another song."""
+    album = decision("gute-nacht", title="Gute Nacht", release_date="2024")
+    single = _single("hurra", "Hurra, wir schlafen!", "2024-05-01")
+
+    _settle_music(
+        [album, single],
+        _track_list(
+            (album, ["Hurra wir schlafen", "Kika-Tanzalarm"]),
+            (single, ["Hurra, wir schlafen!"]),
+        ),
+    )
+
+    assert not single.include

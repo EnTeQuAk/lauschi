@@ -29,6 +29,7 @@ from lauschi_catalog.agent_hooks import build_progress_hooks
 from lauschi_catalog.agent_tools import build_agent_tools
 from lauschi_catalog.catalog.analysis import analyze_series, group_by_shape
 from lauschi_catalog.catalog.canonical import album_sort_key, canonicalize
+from lauschi_catalog.catalog.curate_ops import ONLY_RELEASE
 from lauschi_catalog.catalog.episode_range import covered_episodes
 from lauschi_catalog.catalog.facts import (
     EraBoundaryProposal,
@@ -294,7 +295,25 @@ def _header_lines(curation: dict) -> list[str]:
             "one as sub_series_bleed. Any other finding on them is yours to "
             "make."
         )
+    only = sum(
+        1
+        for a in curation.get("albums", [])
+        if a.get("include") and a.get("decided_by") == ONLY_RELEASE
+    )
+    if only:
+        singles = "single is" if only == 1 else "singles are"
+        lines.append(
+            f"Note: {only} included {singles} marked [only release]. Code "
+            "read every album's track list, and no album this artist ships "
+            "has the song, so the single is its only release here. Do not "
+            "exclude one as music_single. Any other finding on them is "
+            "yours to make."
+        )
     return lines
+
+
+#: How the audit prompt marks an included album a deterministic step settled.
+_SETTLED_TAGS = {AWAITS_SPLIT: " [awaits split]", ONLY_RELEASE: " [only release]"}
 
 
 def _included_line(a: dict) -> str:
@@ -305,10 +324,10 @@ def _included_line(a: dict) -> str:
     conf = a.get("confidence", "high")
     conf_tag = f" [{conf}]" if conf != "high" else ""
     awaits = a.get("decided_by") == AWAITS_SPLIT
-    awaits_tag = " [awaits split]" if awaits else ""
+    settled_tag = _SETTLED_TAGS.get(a.get("decided_by", ""), "")
     notes = a.get("notes", "")
     notes_str = f" -- notes: {notes}" if notes and (conf != "high" or awaits) else ""
-    return f"  [{a.get('provider', '?')}:{a['album_id']}] {ep_str}{a['title']}{rel_str}{conf_tag}{awaits_tag}{notes_str}"
+    return f"  [{a.get('provider', '?')}:{a['album_id']}] {ep_str}{a['title']}{rel_str}{conf_tag}{settled_tag}{notes_str}"
 
 
 def _excluded_line(a: dict) -> str:
@@ -1282,6 +1301,20 @@ def _ignored_override(
             f"({album.get('title', '')}) stays in this series until its "
             f"line has an entry; the auditor would leave it to that line "
             f"({o.reason}); override ignored"
+        )
+    if (
+        album.get("include")
+        and album.get("decided_by") == ONLY_RELEASE
+        and o.action == "exclude"
+        and normalize_exclude_reason(o.reason) == "music_single"
+    ):
+        # Code read every album's track list: none the artist ships has
+        # this song, so the single is its only release here.
+        return (
+            f"[only_release] {o.provider}:{o.album_id} "
+            f"({album.get('title', '')}) ships as the only release of its "
+            f"song; the auditor would leave it out ({o.reason}); override "
+            f"ignored"
         )
     return None
 

@@ -1191,10 +1191,11 @@ ONLY_RELEASE = "only_release"
 
 def _song_key(track_name: str) -> str:
     """A track name without what tells its versions apart: the bracketed
-    credits and the " - " suffixes ("(feat. Phela)", "- Community
-    Version")."""
+    credits, the " - " suffixes ("(feat. Phela)", "- Community Version")
+    and punctuation ("Hurra, wir schlafen!" is "Hurra wir schlafen")."""
     name = re.sub(r"\s*[(\[][^)\]]*[)\]]", "", track_name.casefold())
-    return " ".join(name.split(" - ")[0].split())
+    name = re.sub(r"[^\w\s]", " ", name.split(" - ")[0])
+    return " ".join(name.split())
 
 
 def _settle_only_releases(
