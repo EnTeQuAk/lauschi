@@ -1,5 +1,22 @@
 # Changelog
 
+## v2026.11.2 (November 2026)
+
+🎵 **Mehr Kinderlieder**
+Lieder, die es nur als Single gibt, sind jetzt dabei, zum Beispiel „Senta Klaus" und „Einhornzeit" von Senta und viele Lieder von Kati Breuer, Stephen Janetzko und Sing Kinderlieder.
+
+📂 **Lesungen bei ihrem Buch**
+Die Lesungen von Otfried Preußler stehen jetzt beim jeweiligen Buch, also bei Die kleine Hexe, Das kleine Gespenst, Der kleine Wassermann, Wanja und Räuber Hotzenplotz. Die Bilderbuch-Lesungen von Prinzessin Lillifee mit Sissi Perlinger haben einen eigenen Eintrag.
+
+⏳ **Mehr Folgen**
+Jurassic World - Neue Abenteuer hat bei Apple Music jetzt alle 24 Folgen, und Die neuen Abenteuer von Yoyo und Doc Croc haben einen eigenen Eintrag.
+
+🍏 **Apple Music sicherer auf Android**
+Die Android-App enthält keinen geheimen Schlüssel für Apple Music mehr. Sie holt sich ihren Zugang regelmäßig frisch von lauschi.
+
+🐛 **Behoben**
+- Sechs SpongeBob-Geschichten, die ein Musikdienst falsch nummeriert, stehen an der richtigen Stelle
+
 ## v2026.11.1 (November 2026)
 
 🎯 **Hörbücher mit eigenem Platz**

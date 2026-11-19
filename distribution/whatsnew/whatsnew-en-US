@@ -1,6 +1,7 @@
-🎯 Audiobook readings now have their own entries next to the audio plays.
-⏳ Over 500 more episodes, for example Fireman Sam from episode 1, Heidi, Jurassic World and several new Christmas episodes.
+🎯 Audiobook readings have their own entries next to the audio plays.
+⏳ Over 500 more episodes, for example Fireman Sam, Heidi and new Christmas episodes.
+🎵 Kids' songs that only came out as a single are in now.
 📂 Episodes a service numbers wrong now sit in the right place.
-🔒 More work to actively avoid tracking: the app no longer contains any crash reporting code.
+🔒 More work to actively avoid tracking: no crash reporting code at all.
 ✨ lauschi now supports ARD Sounds (formerly ARD Audiothek).
 🐛 Pausing near the end no longer restarts the episode.
