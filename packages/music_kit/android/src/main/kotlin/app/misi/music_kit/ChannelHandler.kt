@@ -1,11 +1,9 @@
 package app.misi.music_kit
 
 import android.content.Context
-import android.content.pm.PackageManager
 import android.util.Log
 import androidx.annotation.Keep
 import app.misi.music_kit.AuthActivityResultHandler.Companion.ERR_REQUEST_USER_TOKEN
-import app.misi.music_kit.util.AppleDeveloperToken
 import app.misi.music_kit.util.Constant.LOG_TAG
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.EventChannel
@@ -15,7 +13,8 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 
 /// Handles Flutter method channel calls for the music_kit plugin.
 ///
-/// Auth: developer token (JWT from .p8 key), user token (web auth flow).
+/// Auth: user token (web auth flow). The app fetches the developer token
+/// from its server and passes it in, so no MusicKit key ships in the app.
 /// Playback: DRM ExoPlayer via AppleMusicDrmPlayer (HLS + Widevine).
 class ChannelHandler(
   private val applicationContext: Context,
@@ -28,11 +27,7 @@ class ChannelHandler(
 
     const val PARAM_DEVELOPER_TOKEN_KEY = "developerToken"
 
-    const val METADATA_KEY_TEAMID = "music_kit.teamId"
-    const val METADATA_KEY_KEYID = "music_kit.keyId"
-    const val METADATA_KEY_KEY = "music_kit.key"
-
-    const val ERR_NOT_INITIALIZED = "ERR_NOT_INITIALIZED"
+    const val ERR_NO_DEVELOPER_TOKEN = "ERR_NO_DEVELOPER_TOKEN"
   }
 
   private var methodChannel: MethodChannel? = null
@@ -44,39 +39,9 @@ class ChannelHandler(
   // ExoPlayer-based DRM player for HLS streams.
   private var drmPlayer: AppleMusicDrmPlayer? = null
 
-  // Credentials read from AndroidManifest metadata at init. Used to
-  // generate developer tokens on demand (not cached, regenerated each call).
-  private var teamId: String = ""
-  private var keyId: String = ""
-  private var privateKey: String = ""
+  // Set from Dart via setMusicUserToken() on session restore. Only stored
+  // in FlutterSecureStorage on the Dart side.
   private var musicUserToken: String? = null
-
-  init {
-    val appInfo = applicationContext.packageManager
-      .getApplicationInfo(applicationContext.packageName, PackageManager.GET_META_DATA)
-    teamId = appInfo.metaData.getString(METADATA_KEY_TEAMID) ?: ""
-    keyId = appInfo.metaData.getString(METADATA_KEY_KEYID) ?: ""
-    privateKey = appInfo.metaData.getString(METADATA_KEY_KEY) ?: ""
-
-    Log.d(
-      LOG_TAG,
-      "init teamId: $teamId keyId: $keyId key=${
-        if (privateKey.isNotBlank()) "${privateKey.length} chars" else "MISSING"
-      }",
-    )
-
-    if (privateKey.isBlank() || teamId.isBlank() || keyId.isBlank()) {
-      Log.w(LOG_TAG, "MusicKit credentials missing, Apple Music will be unavailable")
-    }
-
-    // Token is set from Dart via setMusicUserToken() on session restore.
-    // No longer persisted in SharedPreferences (was plaintext, now only
-    // stored in FlutterSecureStorage on the Dart side).
-    Log.d(
-      LOG_TAG,
-      "init musicUserToken: ${musicUserToken?.length ?: 0}",
-    )
-  }
 
   fun startListening(messenger: BinaryMessenger) {
     if (methodChannel != null) stopListening()
@@ -149,46 +114,21 @@ class ChannelHandler(
       return
     }
 
-    if (privateKey.isBlank()) {
-      result.error(
-        ERR_NOT_INITIALIZED,
-        "Developer token not initialized",
-        null,
-      )
-      return
-    }
-
-    val startScreenMessage = call.argument<String?>("startScreenMessage")
-    activityDispatcher.showAuthActivity(generateDeveloperToken(), startScreenMessage) { token, error ->
-      if (error != null) {
-        result.error(ERR_REQUEST_USER_TOKEN, error.toString(), null)
-      } else {
-        setToken(token)
-        result.success(mapOf("status" to 0, "musicUserToken" to token))
-      }
-    }
+    // The native sign-in needs a developer token, and this call carries
+    // none. Sign in through requestUserToken() instead.
+    result.error(
+      ERR_NO_DEVELOPER_TOKEN,
+      "No developer token, call requestUserToken() with one",
+      null,
+    )
   }
 
   @Keep
   @Suppress("unused", "UNUSED_PARAMETER")
   fun requestDeveloperToken(call: MethodCall, result: MethodChannel.Result) {
-    result.success(generateDeveloperToken())
-  }
-
-  /// Generate a fresh developer token JWT. Called on every
-  /// requestDeveloperToken() so the token never expires during
-  /// long-running sessions (a kids tablet left on for months).
-  /// ECDSA signing is fast (~1ms), no reason to cache.
-  private fun generateDeveloperToken(): String {
-    if (privateKey.isBlank() || teamId.isBlank() || keyId.isBlank()) {
-      return ""
-    }
-    return try {
-      AppleDeveloperToken(privateKey, keyId, teamId).toString()
-    } catch (e: Exception) {
-      Log.e(LOG_TAG, "Failed to generate developer token", e)
-      ""
-    }
+    // The app holds no MusicKit key on Android. It fetches the developer
+    // token from its server (AppleMusicDeveloperToken on the Dart side).
+    result.error(ERR_NO_DEVELOPER_TOKEN, "Android has no developer token to give", null)
   }
 
   @Keep
@@ -215,8 +155,7 @@ class ChannelHandler(
       return
     }
 
-    val devToken = call.argument<String>(PARAM_DEVELOPER_TOKEN_KEY)
-        ?: generateDeveloperToken()
+    val devToken = call.argument<String>(PARAM_DEVELOPER_TOKEN_KEY) ?: ""
     if (devToken.isBlank()) {
       result.error(ERR_REQUEST_USER_TOKEN, "No developer token", null)
       return
@@ -248,12 +187,11 @@ class ChannelHandler(
   fun playDrmStream(call: MethodCall, result: MethodChannel.Result) {
     val hlsUrl = call.argument<String>("hlsUrl")
     val licenseUrl = call.argument<String>("licenseUrl") ?: ""
-    val devToken = call.argument<String>("developerToken")
-      ?: generateDeveloperToken()
+    val devToken = call.argument<String>(PARAM_DEVELOPER_TOKEN_KEY) ?: ""
     val userToken = call.argument<String>("musicUserToken") ?: ""
 
-    if (hlsUrl.isNullOrBlank() || userToken.isBlank()) {
-      result.error("ERR_PLAY_DRM", "Missing hlsUrl or musicUserToken", null)
+    if (hlsUrl.isNullOrBlank() || devToken.isBlank() || userToken.isBlank()) {
+      result.error("ERR_PLAY_DRM", "Missing hlsUrl, developerToken or musicUserToken", null)
       return
     }
 
