@@ -5,6 +5,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/apple_music/apple_music_api.dart';
+import 'package:lauschi/core/apple_music/apple_music_developer_token.dart';
 import 'package:lauschi/core/apple_music/apple_music_session.dart';
 import 'package:lauschi/core/apple_music/apple_music_stream_resolver.dart';
 import 'package:lauschi/core/apple_music/apple_music_web_auth.dart';
@@ -13,8 +14,8 @@ import 'package:music_kit/music_kit.dart';
 
 // MusicKit is a singleton with a private constructor, so it can't be
 // subclassed; mocktail implements its interface instead. The web auth,
-// catalog API, and stream resolver are faked the same way so the session's
-// orchestration can be driven without platform channels.
+// catalog API, stream resolver and developer token are faked the same way
+// so the session's orchestration can be driven without platform channels.
 class _FakeMusicKit extends Mock implements MusicKit {}
 
 class _FakeWebAuth extends Mock implements AppleMusicWebAuth {}
@@ -22,6 +23,16 @@ class _FakeWebAuth extends Mock implements AppleMusicWebAuth {}
 class _FakeApi extends Mock implements AppleMusicApi {}
 
 class _FakeResolver extends Mock implements AppleMusicStreamResolver {}
+
+class _FakeDeveloperToken extends Mock implements AppleMusicDeveloperToken {}
+
+/// The Android developer token, served as 'devtoken' unless a test passes
+/// its own.
+_FakeDeveloperToken _devtoken() {
+  final token = _FakeDeveloperToken();
+  when(() => token.current()).thenAnswer((_) async => 'devtoken');
+  return token;
+}
 
 /// Builds a container with the session wired to fakes and a pinned platform.
 /// Reading `.notifier` runs build(), which kicks off the async _init; callers
@@ -32,6 +43,7 @@ class _FakeResolver extends Mock implements AppleMusicStreamResolver {}
   required _FakeApi api,
   required _FakeResolver resolver,
   required bool isIOS,
+  _FakeDeveloperToken? developerToken,
 }) {
   final container = ProviderContainer(
     overrides: [
@@ -41,6 +53,7 @@ class _FakeResolver extends Mock implements AppleMusicStreamResolver {}
           api: api,
           streamResolver: resolver,
           webAuth: webAuth,
+          developerToken: developerToken ?? _devtoken(),
           isIOS: isIOS,
         ),
       ),
@@ -72,9 +85,6 @@ void main() {
         (_) async =>
             const AppleMusicTokens(musicUserToken: 'mut', storefront: 'de'),
       );
-      when(
-        () => musicKit.requestDeveloperToken(),
-      ).thenAnswer((_) async => 'devtoken');
       when(() => musicKit.setMusicUserToken('mut')).thenAnswer((_) async {});
       when(() => webAuth.logout()).thenAnswer((_) async {});
 
@@ -181,9 +191,6 @@ void main() {
         final webAuth = _FakeWebAuth();
         final api = _FakeApi();
         when(() => webAuth.loadStored()).thenAnswer((_) async => null);
-        when(
-          () => musicKit.requestDeveloperToken(),
-        ).thenAnswer((_) async => 'devtoken');
         when(() => webAuth.login(developerToken: 'devtoken')).thenAnswer(
           (_) async =>
               const AppleMusicTokens(musicUserToken: 'x', storefront: 'de'),
@@ -328,9 +335,6 @@ void main() {
           (_) async =>
               const AppleMusicTokens(musicUserToken: 'tok', storefront: 'at'),
         );
-        when(
-          () => musicKit.requestDeveloperToken(),
-        ).thenAnswer((_) async => 'devtoken');
 
         final built = _build(
           musicKit: musicKit,
@@ -421,5 +425,94 @@ void main() {
         );
       },
     );
+  });
+
+  group('AppleMusicSession.refreshDeveloperToken', () {
+    /// An Android session restored from stored web tokens with 'devtoken',
+    /// whose developer token answers with [next] from the second call on.
+    Future<({ProviderContainer container, AppleMusicSession session})>
+    restored({
+      required _FakeApi api,
+      required _FakeResolver resolver,
+      required Future<String> Function() next,
+    }) async {
+      final musicKit = _FakeMusicKit();
+      final webAuth = _FakeWebAuth();
+      final developerToken = _FakeDeveloperToken();
+      var calls = 0;
+      when(
+        () => developerToken.current(),
+      ).thenAnswer((_) => calls++ == 0 ? Future.value('devtoken') : next());
+      when(() => webAuth.loadStored()).thenAnswer(
+        (_) async =>
+            const AppleMusicTokens(musicUserToken: 'mut', storefront: 'de'),
+      );
+      when(() => musicKit.setMusicUserToken('mut')).thenAnswer((_) async {});
+      final built = _build(
+        musicKit: musicKit,
+        webAuth: webAuth,
+        api: api,
+        resolver: resolver,
+        isIOS: false,
+        developerToken: developerToken,
+      );
+      await _settle(built.container);
+      verifyNever(() => musicKit.requestDeveloperToken());
+      return built;
+    }
+
+    test('a new token reaches the API, the resolver and the state', () async {
+      final api = _FakeApi();
+      final resolver = _FakeResolver();
+      final built = await restored(
+        api: api,
+        resolver: resolver,
+        next: () async => 'newtoken',
+      );
+
+      await built.session.refreshDeveloperToken();
+
+      final auth =
+          built.container.read(appleMusicSessionProvider)
+              as AppleMusicAuthenticated;
+      expect(auth.developerToken, 'newtoken');
+      expect(auth.musicUserToken, 'mut');
+      expect(auth.storefront, 'de');
+      verify(
+        () => api.configure(developerToken: 'newtoken', storefront: 'de'),
+      ).called(1);
+      verify(
+        () => resolver.configure(
+          developerToken: 'newtoken',
+          musicUserToken: 'mut',
+        ),
+      ).called(1);
+    });
+
+    test('the same token leaves the session as it is', () async {
+      final built = await restored(
+        api: _FakeApi(),
+        resolver: _FakeResolver(),
+        next: () async => 'devtoken',
+      );
+      final before = built.container.read(appleMusicSessionProvider);
+
+      await built.session.refreshDeveloperToken();
+
+      expect(built.container.read(appleMusicSessionProvider), same(before));
+    });
+
+    test('a failed fetch keeps the current token', () async {
+      final built = await restored(
+        api: _FakeApi(),
+        resolver: _FakeResolver(),
+        next: () async => throw Exception('server down'),
+      );
+      final before = built.container.read(appleMusicSessionProvider);
+
+      await built.session.refreshDeveloperToken();
+
+      expect(built.container.read(appleMusicSessionProvider), same(before));
+    });
   });
 }

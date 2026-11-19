@@ -54,7 +54,8 @@ class AppleMusicTrack {
 
 /// REST API client for Apple Music catalog operations.
 ///
-/// Only needs the developer token (JWT generated on-device from .p8 key).
+/// Only needs the developer token (from MusicKit on iOS, from the lauschi
+/// server on Android, see AppleMusicDeveloperToken).
 /// Catalog endpoints don't require a Music-User-Token; that's only for
 /// personalized endpoints (/v1/me/...) and playback.
 class AppleMusicApi {

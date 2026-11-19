@@ -3,6 +3,7 @@ import 'dart:io' show Platform;
 
 import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:lauschi/core/apple_music/apple_music_api.dart';
+import 'package:lauschi/core/apple_music/apple_music_developer_token.dart';
 import 'package:lauschi/core/apple_music/apple_music_stream_resolver.dart';
 import 'package:lauschi/core/apple_music/apple_music_web_auth.dart';
 import 'package:lauschi/core/log.dart';
@@ -27,7 +28,7 @@ const _tag = 'AppleMusicSession';
 ///   re-authenticate". Reached on cold start with no stored token,
 ///   on token expiry, on user-denied native auth, on logout.
 /// - [AppleMusicError]: terminal "something went wrong that isn't the
-///   user's fault". Reached when MusicKit JWT generation throws, when
+///   user's fault". Reached when there is no developer token to be had, when
 ///   the web auth flow returns an unexpected exception, when token
 ///   decryption fails, etc. UI should treat this like Unauthenticated
 ///   for the connect prompt, but the message field gives diagnostics.
@@ -69,27 +70,33 @@ class AppleMusicError extends AppleMusicState {
 class AppleMusicSession extends _$AppleMusicSession {
   /// Platform-backed dependencies default to the real implementations.
   /// The [visibleForTesting] parameters let session tests inject fakes for
-  /// the MusicKit SDK, web-auth flow, catalog API, and stream resolver, plus
-  /// pin the platform branch. Mirrors the adapter seam on [AppleMusicApi] and
+  /// the MusicKit SDK, web-auth flow, catalog API, stream resolver and
+  /// developer token, plus pin the platform branch. Mirrors the adapter seam on [AppleMusicApi] and
   /// [AppleMusicStreamResolver]. Riverpod constructs this with no arguments.
   AppleMusicSession({
     @visibleForTesting MusicKit? musicKit,
     @visibleForTesting AppleMusicApi? api,
     @visibleForTesting AppleMusicStreamResolver? streamResolver,
     @visibleForTesting AppleMusicWebAuth? webAuth,
+    @visibleForTesting AppleMusicDeveloperToken? developerToken,
     @visibleForTesting bool? isIOS,
   }) : _musicKit = musicKit ?? MusicKit(),
        _api = api ?? AppleMusicApi(),
        _streamResolver = streamResolver ?? AppleMusicStreamResolver(),
        _webAuth = webAuth ?? AppleMusicWebAuth(),
+       _developerToken = developerToken ?? AppleMusicDeveloperToken(),
        _isIOS = isIOS ?? Platform.isIOS;
 
-  // Native MusicKit SDK: only for developer token generation (JWT from .p8 key).
+  // Native MusicKit SDK: authorization and the developer token on iOS, DRM
+  // playback on Android.
   final MusicKit _musicKit;
 
   final AppleMusicApi _api;
   final AppleMusicStreamResolver _streamResolver;
   final AppleMusicWebAuth _webAuth;
+
+  // Android only: the developer token the lauschi server signs.
+  final AppleMusicDeveloperToken _developerToken;
   final bool _isIOS;
 
   @override
@@ -116,7 +123,7 @@ class AppleMusicSession extends _$AppleMusicSession {
         await _initAndroid();
       }
     } on Exception catch (e) {
-      // Anything else (JWT generation failure, native plugin throw,
+      // Anything else (no developer token, native plugin throw,
       // platform channel error) is a real error. Surface the message
       // so callers can show useful diagnostics instead of silently
       // looking like "no credentials".
@@ -154,7 +161,7 @@ class AppleMusicSession extends _$AppleMusicSession {
   Future<void> _initAndroid() async {
     final webTokens = await _webAuth.loadStored();
     if (webTokens != null) {
-      final devToken = await _musicKit.requestDeveloperToken();
+      final devToken = await _developerToken.current();
       _configure(devToken, webTokens.musicUserToken, webTokens.storefront);
       // Pass token to native side to trigger TLS pre-warming.
       unawaited(_musicKit.setMusicUserToken(webTokens.musicUserToken));
@@ -208,13 +215,13 @@ class AppleMusicSession extends _$AppleMusicSession {
         // connect() only supplies the dev token for the auth page and
         // awaits completion; repeating that work here double-configured and
         // could flip an already-authenticated session to Error.
-        final devToken = await _musicKit.requestDeveloperToken();
+        final devToken = await _developerToken.current();
         await _webAuth.login(developerToken: devToken);
         Log.info(_tag, 'Web auth flow completed');
       }
     } on Exception catch (e) {
       // The auth flow itself threw — e.g., the web auth WebView
-      // crashed, the JWT signing failed, the network dropped during
+      // crashed, the developer token fetch failed, the network dropped during
       // the OAuth round-trip. This is an error, not "user has no
       // credentials" (Spotify uses the same distinction).
       Log.error(_tag, 'Auth failed', exception: e);
@@ -226,7 +233,7 @@ class AppleMusicSession extends _$AppleMusicSession {
     try {
       final tokens = await _webAuth.handleCallback(uri);
       if (tokens != null) {
-        final devToken = await _musicKit.requestDeveloperToken();
+        final devToken = await _developerToken.current();
         _configure(devToken, tokens.musicUserToken, tokens.storefront);
         state = AppleMusicAuthenticated(
           developerToken: devToken,
@@ -289,5 +296,29 @@ class AppleMusicSession extends _$AppleMusicSession {
     if (state is! AppleMusicAuthenticated) return;
     final auth = state as AppleMusicAuthenticated;
     unawaited(_musicKit.setMusicUserToken(auth.musicUserToken));
+    unawaited(refreshDeveloperToken());
+  }
+
+  /// Picks up a new developer token on Android. A kids tablet can run for
+  /// months without a restart, longer than a token lasts, so app resume
+  /// checks it, and the next playback starts with the new one. A failed
+  /// fetch keeps the current token, which still has days to go.
+  @visibleForTesting
+  Future<void> refreshDeveloperToken() async {
+    final auth = state;
+    if (_isIOS || auth is! AppleMusicAuthenticated) return;
+    try {
+      final devToken = await _developerToken.current();
+      if (devToken == auth.developerToken || !identical(state, auth)) return;
+      _configure(devToken, auth.musicUserToken, auth.storefront);
+      state = AppleMusicAuthenticated(
+        developerToken: devToken,
+        musicUserToken: auth.musicUserToken,
+        storefront: auth.storefront,
+      );
+      Log.info(_tag, 'Developer token refreshed');
+    } on Exception catch (e) {
+      Log.warn(_tag, 'Developer token refresh failed', data: {'error': '$e'});
+    }
   }
 }
