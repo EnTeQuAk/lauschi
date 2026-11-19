@@ -1,16 +1,17 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.11"
-# dependencies = ["PyJWT[crypto]>=2.8"]
+# dependencies = ["PyJWT[crypto]>=2.7"]
 # ///
 """Signs an Apple Music developer token and writes it to a file.
 
 The Android app fetches its developer token from auth.lauschi.app instead of
-signing one itself, so the MusicKit private key never ships in the app. Run
-this on the server from a weekly timer:
+signing one itself, so the MusicKit private key never ships in the app. The
+server runs this from a weekly timer with its system Python and Ubuntu's
+python3-jwt package:
 
-    sign_apple_music_token.py --key /etc/lauschi/AuthKey_ABC123.p8 \\
-        --key-id ABC123 --out /var/www/auth.lauschi.app/apple_music_token
+    python3 sign_apple_music_token.py --key /etc/lauschi/AuthKey_ABC123.p8 \\
+        --key-id ABC123 --out /var/www/lauschi-token/apple_music_token
 
 A token lasts 30 days and the app fetches a new one when fewer than 14 are
 left, so a leaked token stops working within a month, and the app keeps
