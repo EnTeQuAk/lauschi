@@ -350,7 +350,7 @@ app itself reports to Sentry and sends nothing to Logfire.
 **Multi-Provider Architecture**: Three audio providers share a common interface:
 - **ARD Sounds** (called ARD Audiothek until March 2026, still `ardAudiothek` in code and `ard_audiothek` in the database): Free, no auth. Direct HTTP streams via `StreamPlayer` (just_audio).
 - **Spotify**: OAuth PKCE, WebView SDK bridge. `SpotifyPlayer` wraps `SpotifyWebViewBridge`.
-- **Apple Music**: MusicKit JS in WebView (same pattern as Spotify). Auth via native MusicKit SDK, tokens injected into JS. Forked `music_kit` plugin (packages/music_kit) used for auth + catalog API only. JWT generated on-device from .p8 key. User needs Apple Music subscription.
+- **Apple Music**: MusicKit JS in WebView (same pattern as Spotify). Auth via native MusicKit SDK, tokens injected into JS. Forked `music_kit` plugin (packages/music_kit) used for auth + catalog API only. The developer token comes from MusicKit on iOS and from `https://auth.lauschi.app/apple_music_token` on Android (signed weekly on the server by `tool/sign_apple_music_token.py`), so no MusicKit key ships in the app. User needs Apple Music subscription.
 
 Provider-agnostic catalog browse: `CatalogSource` interface implemented by
 `SpotifyCatalogSource` and `AppleMusicCatalogSource`. One `BrowseCatalogScreen`
@@ -460,7 +460,7 @@ Copy `.env.example` to `.env` and `.env.app.example` to `.env.app`, then configu
 `.env.app` keys:
 - `ENABLE_SPOTIFY` — feature flag (default: `false`)
 - `SPOTIFY_CLIENT_ID` — required when Spotify enabled
-- `ENABLE_APPLE_MUSIC` — feature flag (default: `false`). Key material in `android/app/AuthKey_*.p8`; JWT generated on-device by the forked music_kit plugin
+- `ENABLE_APPLE_MUSIC` — feature flag (default: `false`). No key needed, the app fetches its developer token (see Architecture)
 - `SENTRY_DSN` — optional error tracking
 - `SENTRY_ENVIRONMENT` — defaults to "development"
 

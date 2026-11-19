@@ -46,10 +46,17 @@ different content availability but playback still works.
 
 ## Developer Token
 
-The developer JWT is generated on-device from the .p8 private key embedded
-in the AndroidManifest (injected by gradle from `android/app/AuthKey_*.p8`).
-A fresh token is created on every app launch, so the 150-day expiry per-token
-is never reached in practice.
+The app holds no MusicKit key. On iOS, MusicKit makes the developer token
+from the app's MusicKit service. On Android, the lauschi server signs a
+30-day token every week with `tool/sign_apple_music_token.py` and serves it
+at `https://auth.lauschi.app/apple_music_token`. `AppleMusicDeveloperToken`
+fetches it, keeps it in secure storage and fetches a new one when fewer
+than 14 days are left, on start and on app resume. If the server is down,
+the stored token still works until it runs out.
+
+The token itself isn't secret, the app sends it with every Apple Music
+request. The key that signs it is, and it lives only on the server (and on
+your machine for the catalog tools).
 
 ## Forked Plugin
 
@@ -61,7 +68,6 @@ commit 3e0b688 (unreleased). Our additions:
 - `setPlaybackTime`: seek via `seekToPosition()`
 - `currentItemDuration`: duration via `getDuration()`
 - `isPreparedToPlay`: controller readiness check
-- On-device JWT generation from AndroidManifest metadata
 - Async storefront fetch (non-blocking, defaults to 'de')
 - Thread safety: `@Volatile` on shared fields, `@Synchronized` on controller creation
 - Playback error forwarding to Flutter via `eventSink.error()`
