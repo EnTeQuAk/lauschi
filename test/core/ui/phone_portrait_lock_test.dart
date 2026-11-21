@@ -5,7 +5,8 @@ import 'package:lauschi/core/ui/phone_portrait_lock.dart';
 
 /// Phones are meant to stay in portrait. The lock used to run in main(),
 /// where the display size can still be zero at cold start, and then it
-/// silently stayed off, so a phone turned to landscape (#315).
+/// silently stayed off, so a phone turned to landscape (#315). Going by
+/// the display left it off too: Flutter reports none on Android.
 void main() {
   late List<List<String>> requests;
 
@@ -25,10 +26,10 @@ void main() {
         .setMockMethodCallHandler(SystemChannels.platform, null);
   });
 
-  Future<void> pumpLock(WidgetTester tester, Size displaySize) async {
-    tester.view.display.size = displaySize;
-    tester.view.display.devicePixelRatio = 2;
-    addTearDown(tester.view.display.reset);
+  Future<void> pumpLock(WidgetTester tester, Size viewSize) async {
+    tester.view.physicalSize = viewSize;
+    tester.view.devicePixelRatio = 2;
+    addTearDown(tester.view.reset);
     await tester.pumpWidget(const PhonePortraitLock(child: SizedBox()));
     await tester.pump();
   }
@@ -50,7 +51,7 @@ void main() {
   testWidgets('a foldable unlocks when it opens into a tablet', (tester) async {
     await pumpLock(tester, const Size(822, 1830));
 
-    tester.view.display.size = const Size(1840, 2208); // 920 x 1104 dp
+    tester.view.physicalSize = const Size(1840, 2208); // 920 x 1104 dp
     await tester.pump();
 
     expect(requests, [
@@ -59,7 +60,21 @@ void main() {
     ]);
   });
 
-  testWidgets('an unknown display size locks nothing', (tester) async {
+  // A Pixel 9a on Android 16 reports a -1 x -1 display. The test binding
+  // can't lay out under a negative display, an empty one stands in.
+  testWidgets('a phone whose display Flutter does not know stays in portrait', (
+    tester,
+  ) async {
+    tester.view.display.size = Size.zero;
+    addTearDown(tester.view.display.reset);
+    await pumpLock(tester, const Size(822, 1830));
+
+    expect(requests, [
+      ['DeviceOrientation.portraitUp'],
+    ]);
+  });
+
+  testWidgets('a view without a size yet locks nothing', (tester) async {
     await pumpLock(tester, Size.zero);
 
     expect(requests, isEmpty);
