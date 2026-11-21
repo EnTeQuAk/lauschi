@@ -19,7 +19,7 @@ class AppDatabase extends _$AppDatabase {
 
   /// Bump when schema changes. See [migration] for upgrade steps.
   @override
-  int get schemaVersion => 14;
+  int get schemaVersion => 15;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -132,6 +132,17 @@ class AppDatabase extends _$AppDatabase {
           await m.addColumn(cards, cards.lastElapsedMs);
           await _backfillWeiter();
         }
+        if (from < 15 && to >= 15) {
+          // ARD Sounds episodes sort by their publish date. The number ARD
+          // gives an episode is its part within a multi-part story, which
+          // the app stored as an episode number and sorted every story's
+          // part 1 first by. The dates of existing episodes come from ARD
+          // in a data migration (`ardPublishDates`).
+          await m.addColumn(cards, cards.publishedAt);
+          await customStatement(
+            "UPDATE cards SET episode_number = NULL WHERE provider = 'ard_audiothek'",
+          );
+        }
         Log.info('Database', 'Migration complete');
       } on Exception catch (e, stack) {
         Log.error(
@@ -155,7 +166,16 @@ class AppDatabase extends _$AppDatabase {
       final items =
           await (select(cards)
                 ..where((t) => t.groupId.equals(tile.id))
-                ..orderBy(cardOrder()))
+                // The order as of schema 14, frozen like the rules in
+                // weiter_backfill.dart: columns that later versions sort
+                // by (published_at) don't exist yet at this step.
+                ..orderBy([
+                  (t) => OrderingTerm.asc(t.sortOrder.isNull()),
+                  (t) => OrderingTerm.asc(t.sortOrder),
+                  (t) =>
+                      OrderingTerm.asc(coalesce([t.episodeNumber, sortLast])),
+                  (t) => OrderingTerm.asc(t.createdAt),
+                ]))
               .get();
       final weiter = legacyWeiterFor(items, now: now);
       if (weiter == null) continue;

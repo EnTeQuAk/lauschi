@@ -2465,6 +2465,13 @@ class DatabaseAtV12 extends GeneratedDatabase {
         'groups',
         limitUpdateKind: UpdateKind.delete,
       ),
+      result: [TableUpdate('groups', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'groups',
+        limitUpdateKind: UpdateKind.delete,
+      ),
       result: [TableUpdate('show_subscriptions', kind: UpdateKind.delete)],
     ),
   ]);

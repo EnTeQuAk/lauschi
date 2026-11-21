@@ -346,11 +346,14 @@ class TileItemRepository {
     String? audioUrl,
     int? durationMs,
     DateTime? availableUntil,
+    DateTime? publishedAt,
     String? tileId,
     int? episodeNumber,
   }) async {
     await (_db.update(_db.cards)..where((t) => t.id.equals(itemId))).write(
       CardsCompanion(
+        publishedAt:
+            publishedAt != null ? Value(publishedAt) : const Value.absent(),
         audioUrl: audioUrl != null ? Value(audioUrl) : const Value.absent(),
         durationMs:
             durationMs != null ? Value(durationMs) : const Value.absent(),
@@ -376,6 +379,7 @@ class TileItemRepository {
     String? coverUrl,
     int? durationMs,
     DateTime? availableUntil,
+    DateTime? publishedAt,
     String? tileId,
     int? episodeNumber,
   }) {
@@ -391,10 +395,34 @@ class TileItemRepository {
         audioUrl: audioUrl,
         durationMs: durationMs,
         availableUntil: availableUntil,
+        publishedAt: publishedAt,
         tileId: tileId,
         episodeNumber: episodeNumber,
       );
       return id;
+    });
+  }
+
+  /// ARD Sounds items without a publish date: the ones added before the
+  /// app stored it (schema 15).
+  Future<List<TileItem>> getArdItemsWithoutPublishDate() {
+    return (_db.select(_db.cards)..where(
+      (t) =>
+          t.provider.equals(ProviderType.ardAudiothek.value) &
+          t.publishedAt.isNull(),
+    )).get();
+  }
+
+  /// Store publish dates, keyed by item id.
+  Future<void> setPublishDates(Map<String, DateTime> datesByItemId) {
+    return _db.batch((batch) {
+      for (final MapEntry(key: id, value: date) in datesByItemId.entries) {
+        batch.update(
+          _db.cards,
+          CardsCompanion(publishedAt: Value(date)),
+          where: (t) => t.id.equals(id),
+        );
+      }
     });
   }
 

@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:lauschi/core/ard/ard_api.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/log.dart';
+import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const _tag = 'DataMigration';
@@ -16,16 +18,19 @@ typedef DataMigration = Future<void> Function(DataMigrationContext ctx);
 /// Context passed to each migration. Extend with additional services
 /// as needed when adding new migrations.
 class DataMigrationContext {
-  const DataMigrationContext({required this.items});
+  const DataMigrationContext({required this.items, required this.ard});
 
   final TileItemRepository items;
+  final ArdApi ard;
 }
 
 /// Registry of all data migrations, in order.
 ///
 /// Each entry is (id, migration). IDs are permanent: never rename or remove
 /// completed ones. Append new migrations at the end.
-final List<(String, DataMigration)> _migrations = [];
+final List<(String, DataMigration)> _migrations = [
+  ('ard_publish_dates', backfillArdPublishDates),
+];
 
 /// Run all pending data migrations. Safe to call on every startup.
 Future<void> runDataMigrations(DataMigrationContext ctx) async {
@@ -47,4 +52,38 @@ Future<void> runDataMigrations(DataMigrationContext ctx) async {
       Log.error(_tag, 'Failed', data: {'migration': id}, exception: e);
     }
   }
+}
+
+/// ARD Sounds episodes sort by their publish date since schema 15. This
+/// fills it in for the episodes added before, [publishDatesBatchSize] per
+/// request. An episode ARD no longer lists keeps no date and sorts after
+/// the dated ones. A failed request leaves the rest for the next start.
+Future<void> backfillArdPublishDates(DataMigrationContext ctx) async {
+  final items = await ctx.items.getArdItemsWithoutPublishDate();
+  final itemIdByArdId = {
+    for (final item in items)
+      if (ProviderType.extractId(item.providerUri) case final ardId?)
+        ardId: item.id,
+  };
+  final ardIds = itemIdByArdId.keys.toList();
+
+  var dated = 0;
+  for (var i = 0; i < ardIds.length; i += publishDatesBatchSize) {
+    final batch = ardIds.sublist(
+      i,
+      (i + publishDatesBatchSize).clamp(0, ardIds.length),
+    );
+    final dates = await ctx.ard.getPublishDates(batch);
+    await ctx.items.setPublishDates({
+      for (final MapEntry(key: ardId, value: date) in dates.entries)
+        if (itemIdByArdId[ardId] case final itemId?) itemId: date,
+    });
+    dated += dates.length;
+  }
+
+  Log.info(
+    _tag,
+    'ARD publish dates filled in',
+    data: {'episodes': '${ardIds.length}', 'dated': '$dated'},
+  );
 }

@@ -18,15 +18,20 @@ Color? parseHexColor(String? hex) {
 }
 
 /// Convert an [ArdItem] to a [PendingCard] for import into the local database.
+///
+/// ARD's `episodeNumber` stays out: it is the part within a multi-part
+/// story, not a number across the show, and as an episode number it would
+/// sort every story's part 1 first. A show's episodes sort by
+/// [PendingCard.publishedAt] instead.
 PendingCard ardPendingCard(ArdItem item) {
   return PendingCard(
     title: item.displayTitle,
     providerUri: item.providerUri,
     cardType: 'episode',
     coverUrl: ardImageUrl(item.imageUrl),
-    episodeNumber: item.episodeNumber,
     audioUrl: item.bestAudioUrl,
     durationMs: item.durationMs,
+    publishedAt: item.publishDate,
   );
 }
 

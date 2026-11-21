@@ -10,6 +10,9 @@ part 'ard_api.g.dart';
 
 const _tag = 'ArdApi';
 
+/// How many ids one [ArdApi.getPublishDates] call takes.
+const publishDatesBatchSize = 100;
+
 /// Standard fields included in all Item queries.
 const _itemFields = '''
   id title titleClean synopsis duration publishDate endDate
@@ -190,6 +193,31 @@ class ArdApi {
     // not found so callers never get an unplayable ArdItem.
     if (item.bestAudioUrl == null) return null;
     return item;
+  }
+
+  /// Publish dates of the episodes with [itemIds], in one request. Ids ARD
+  /// doesn't know (any more) are missing from the result. Keep a call to
+  /// [publishDatesBatchSize] ids, the most one page returns.
+  Future<Map<String, DateTime>> getPublishDates(List<String> itemIds) async {
+    // ARD's id filter takes integers, and its ids are numbers.
+    final ids = itemIds.map(int.tryParse).whereType<int>().toList();
+    if (ids.isEmpty) return {};
+    final data = await _graphql(
+      r'''
+      query PublishDates($ids: [Int!]!, $first: Int!) {
+        items(filter: { id: { in: $ids } }, first: $first) {
+          nodes { id publishDate }
+        }
+      }
+    ''',
+      variables: {'ids': ids, 'first': ids.length},
+    );
+
+    return {
+      for (final node in _extractNodes(data, 'items'))
+        if (DateTime.tryParse('${node['publishDate']}') case final date?)
+          '${node['id']}': date,
+    };
   }
 
   /// Search for kids items by title.

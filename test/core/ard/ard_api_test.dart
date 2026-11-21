@@ -4,6 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/ard/ard_api.dart';
 
+import '../../helpers/fake_http_adapter.dart';
+
 /// Serves a single canned JSON body (any shape, not just a map), so the
 /// client can be driven with malformed responses.
 class _JsonAdapter implements HttpClientAdapter {
@@ -97,6 +99,33 @@ void main() {
       final page = await api.getItems(programSetId: '999');
 
       expect(page.items.map((i) => i.title), ['Folge 1', 'Folge 2']);
+    });
+  });
+
+  group('getPublishDates', () {
+    test('looks up many episodes in one request', () async {
+      final adapter = FakeHttpAdapter(
+        (_) => {
+          'data': {
+            'items': {
+              'nodes': [
+                {'id': '11', 'publishDate': '2025-06-30T00:00:00+02:00'},
+                {'id': '12', 'publishDate': 'not a date'},
+                'not-a-map',
+              ],
+            },
+          },
+        },
+      );
+      final api = _apiWith(adapter);
+
+      final dates = await api.getPublishDates(['11', '12', '13']);
+
+      expect(dates, {'11': DateTime.parse('2025-06-30T00:00:00+02:00')});
+      final body = adapter.requests.single.data as Map<String, dynamic>;
+      final variables = body['variables'] as Map<String, dynamic>;
+      // ARD's id filter takes integers.
+      expect(variables['ids'], [11, 12, 13]);
     });
   });
 }

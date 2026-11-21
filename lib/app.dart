@@ -45,7 +45,11 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
   /// never from build().
   void _runStartupTasks() {
     final itemRepo = ref.read(tileItemRepositoryProvider);
-    unawaited(runDataMigrations(DataMigrationContext(items: itemRepo)));
+    unawaited(
+      runDataMigrations(
+        DataMigrationContext(items: itemRepo, ard: ref.read(ardApiProvider)),
+      ),
+    );
     unawaited(
       recheckArdAvailability(api: ref.read(ardApiProvider), items: itemRepo),
     );

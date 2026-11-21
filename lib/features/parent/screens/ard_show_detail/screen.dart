@@ -2,6 +2,7 @@ import 'dart:async' show unawaited;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lauschi/core/ard/ard_helpers.dart';
 import 'package:lauschi/core/ard/ard_image.dart';
 import 'package:lauschi/core/ard/ard_models.dart';
 import 'package:lauschi/core/ard/ard_providers.dart';
@@ -87,7 +88,7 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
           .importToGroup(
             groupTitle: show.title,
             groupCoverUrl: ardImageUrl(show.imageUrl),
-            cards: [_ardPendingCard(item)],
+            cards: [ardPendingCard(item)],
             tileId: widget.autoAssignTileId,
           );
     } on Exception catch (e) {
@@ -389,19 +390,6 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
       ),
     );
   }
-}
-
-/// Build a [PendingCard] from an ARD episode.
-PendingCard _ardPendingCard(ArdItem item) {
-  return PendingCard(
-    title: item.displayTitle,
-    providerUri: item.providerUri,
-    cardType: 'episode',
-    coverUrl: ardImageUrl(item.imageUrl),
-    episodeNumber: item.episodeNumber,
-    audioUrl: item.bestAudioUrl,
-    durationMs: item.durationMs,
-  );
 }
 
 // ── Inline widgets ──────────────────────────────────────────────────────

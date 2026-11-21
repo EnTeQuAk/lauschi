@@ -10,6 +10,7 @@ import 'generated/schema_v11.dart' as v11;
 import 'generated/schema_v12.dart' as v12;
 import 'generated/schema_v13.dart' as v13;
 import 'generated/schema_v14.dart' as v14;
+import 'generated/schema_v15.dart' as v15;
 
 void main() {
   driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
@@ -516,6 +517,67 @@ void main() {
         final inProgress = cards.firstWhere((c) => c.id == 'kids3');
         expect(inProgress.lastPositionMs, 30000, reason: 'rows unchanged');
         expect(inProgress.lastPlayedAt, recentlyPlayedAt);
+      },
+    );
+  });
+
+  // ARD numbers the parts of a multi-part story, and the app stored that
+  // as an episode number, which sorted every story's part 1 first (#314).
+  test('migration from v14 to v15 drops ARD part numbers only', () async {
+    const fixedCreatedAt = 1700000000000;
+
+    v14.CardsData card(String id, String provider, String uri, int episode) =>
+        v14.CardsData(
+          id: id,
+          title: id,
+          cardType: 'episode',
+          provider: provider,
+          providerUri: uri,
+          groupId: 'tile',
+          episodeNumber: episode,
+          isHeard: 0,
+          createdAt: fixedCreatedAt,
+          totalTracks: 0,
+          durationMs: 0,
+          lastTrackNumber: 0,
+          lastPositionMs: 0,
+          lastElapsedMs: 0,
+        );
+
+    final oldCards = [
+      card('ard1', 'ard_audiothek', 'ard:item:1', 1),
+      card('ard2', 'ard_audiothek', 'ard:item:2', 2),
+      card('tkkg', 'spotify', 'spotify:album:tkkg', 200),
+    ];
+
+    await verifier.testWithDataIntegrity(
+      oldVersion: 14,
+      newVersion: 15,
+      createOld: v14.DatabaseAtV14.new,
+      createNew: v15.DatabaseAtV15.new,
+      openTestedDatabase: AppDatabase.new,
+      createItems: (batch, oldDb) {
+        batch
+          ..insertAll(oldDb.groups, [
+            const v14.GroupsData(
+              id: 'tile',
+              title: 'tile',
+              sortOrder: 0,
+              createdAt: fixedCreatedAt,
+              contentType: 'hoerspiel',
+            ),
+          ])
+          ..insertAll(oldDb.cards, oldCards);
+      },
+      validateItems: (newDb) async {
+        final cards = {
+          for (final c in await newDb.select(newDb.cards).get()) c.id: c,
+        };
+        expect(cards, hasLength(oldCards.length), reason: 'no row lost');
+        expect(cards['ard1']!.episodeNumber, null);
+        expect(cards['ard2']!.episodeNumber, null);
+        expect(cards['tkkg']!.episodeNumber, 200, reason: 'catalog numbers');
+        expect(cards.values.map((c) => c.publishedAt), everyElement(null));
       },
     );
   });

@@ -27,6 +27,7 @@ class PendingCard {
     this.audioUrl,
     this.durationMs,
     this.availableUntil,
+    this.publishedAt,
   });
 
   final String title;
@@ -48,6 +49,9 @@ class PendingCard {
   final String? audioUrl;
   final int? durationMs;
   final DateTime? availableUntil;
+
+  /// When ARD published the episode, which orders a show's episodes.
+  final DateTime? publishedAt;
 }
 
 /// Result of a content import operation.
@@ -351,6 +355,7 @@ class ContentImporter extends _$ContentImporter {
         coverUrl: card.coverUrl,
         durationMs: card.durationMs,
         availableUntil: card.availableUntil,
+        publishedAt: card.publishedAt,
         tileId: groupId,
         episodeNumber: card.episodeNumber,
       );

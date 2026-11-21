@@ -65,13 +65,16 @@ ArdItem _makeItem({
   required String id,
   required String title,
   required String audioUrl,
+  DateTime? publishDate,
+  int? episodeNumber,
 }) {
   return ArdItem(
     id: id,
     title: title,
     titleClean: title,
     duration: 600,
-    publishDate: DateTime.now(),
+    publishDate: publishDate ?? DateTime.now(),
+    episodeNumber: episodeNumber,
     programSetTitle: 'Test Show',
     audios: [ArdAudio(url: audioUrl, mimeType: 'audio/mp3')],
   );
@@ -151,6 +154,49 @@ void main() {
       final state = container.read(contentImporterProvider);
       expect(state, isA<ImportDone>());
       expect((state as ImportDone).added, 3);
+    });
+
+    // ARD numbers the parts of a multi-part story, not a show's episodes.
+    // Taken as episode numbers they put every story's part 1 first and
+    // showed "1" on half the cards of Betthupferl (#314).
+    test('a show plays oldest first and ARD part numbers stay out', () async {
+      ArdItem part(String id, int day, int part) => _makeItem(
+        id: id,
+        title: 'Folge $id',
+        audioUrl: 'http://a/$id.mp3',
+        publishDate: DateTime(2026, 6, day),
+        episodeNumber: part,
+      );
+      // ARD lists the newest first.
+      final page = [
+        part('elfen2', 24, 2),
+        part('elfen1', 23, 1),
+        part('computer2', 17, 2),
+        part('computer1', 16, 1),
+      ];
+      final fakeApi = _FakeArdApi(pages: [page]);
+      container = createContainer(fakeApi);
+
+      await container
+          .read(contentImporterProvider.notifier)
+          .importArdShow(
+            showId: 'betthupferl',
+            showTitle: 'Betthupferl',
+            showImageUrl: null,
+            loadedItems: page,
+            hasMorePages: false,
+          );
+
+      final tile = (await tiles.getAll()).single;
+      final ordered = await tiles.watchItems(tile.id).first;
+      expect(ordered.map((i) => i.title), [
+        'Folge computer1',
+        'Folge computer2',
+        'Folge elfen1',
+        'Folge elfen2',
+      ]);
+      expect(ordered.map((i) => i.episodeNumber), everyElement(isNull));
+      expect(ordered.first.publishedAt, DateTime(2026, 6, 16));
     });
 
     test('paginates through multiple pages', () async {

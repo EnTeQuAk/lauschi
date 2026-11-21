@@ -165,6 +165,11 @@ class Cards extends Table {
   // DB column is still "group_id" (legacy).
   TextColumn get groupId => text().nullable().references(Groups, #id)();
   IntColumn get episodeNumber => integer().nullable()();
+
+  /// When the provider published the item. ARD Sounds shows have no
+  /// episode numbers across the show (ARD numbers only the parts of a
+  /// multi-part story), so their items sort by this date instead.
+  DateTimeColumn get publishedAt => dateTime().nullable()();
   BoolColumn get isHeard => boolean().withDefault(const Constant(false))();
 
   /// NULL = auto-sort by episodeNumber. Non-null = parent manually ordered.
@@ -221,19 +226,26 @@ const sortLast = Constant<int>(2147483647);
 /// Standard card ordering.
 ///
 /// Items a parent ordered by hand (sortOrder set) come first, in that
-/// order. Items without a manual position follow, by episode number,
-/// then by when they were added. The two keys never share one value
-/// space: a manual position 50 and an episode number 50 mean different
-/// things, and mixing them would slot a later-added episode into the
-/// middle of a hand-sorted run.
+/// order. Items without a manual position follow, by episode number, then
+/// oldest published first (ARD Sounds episodes, which have no episode
+/// numbers), then in the order they were added. The two keys never share
+/// one value space: a manual position 50 and an episode number 50 mean
+/// different things, and mixing them would slot a later-added episode
+/// into the middle of a hand-sorted run.
 ///
 /// Use [withEpisodeNumber] = false for ungrouped items where episode numbers
-/// from different series aren't comparable.
+/// and publish dates from different series aren't comparable.
 List<OrderingTerm Function(Cards)> cardOrder({bool withEpisodeNumber = true}) =>
     [
       (t) => OrderingTerm.asc(t.sortOrder.isNull()),
       (t) => OrderingTerm.asc(t.sortOrder),
-      if (withEpisodeNumber)
+      if (withEpisodeNumber) ...[
         (t) => OrderingTerm.asc(coalesce([t.episodeNumber, sortLast])),
+        (t) => OrderingTerm.asc(t.publishedAt, nulls: NullsOrder.last),
+      ],
       (t) => OrderingTerm.asc(t.createdAt),
+      // createdAt has whole seconds, and an import adds many items within
+      // one, so the row id keeps them in the order they were added. A query
+      // passes drift's generated table, which carries the row id.
+      (t) => OrderingTerm.asc((t as TableInfo).rowId),
     ];
