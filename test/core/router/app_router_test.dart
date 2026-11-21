@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
@@ -242,6 +244,33 @@ void main() {
     await tester.pump();
 
     expect(_currentLocation(container), AppRoutes.parentSettings);
+  });
+
+  // The parent area opens most screens with push. When the session ends,
+  // go_router re-runs the redirect for the location below them only.
+  testWidgets('a session ending on a pushed screen returns to that screen', (
+    tester,
+  ) async {
+    final container = ProviderContainer(overrides: _testOverrides());
+    addTearDown(container.dispose);
+    await tester.pumpWidget(_buildApp(container));
+    await tester.pump();
+
+    final router = container.read(appRouterProvider)
+      ..go(AppRoutes.parentDashboard);
+    await tester.pump();
+    await tester.pump();
+    unawaited(router.push<void>(AppRoutes.parentSettings));
+    await tester.pump();
+    await tester.pump();
+
+    container.read(parentAuthProvider.notifier).deauthenticate();
+    await tester.pump();
+    await tester.pump();
+
+    final uri = _currentUri(container);
+    expect(uri.path, AppRoutes.pinEntry);
+    expect(uri.queryParameters['from'], AppRoutes.parentSettings);
   });
 
   group('parentReturnLocation', () {

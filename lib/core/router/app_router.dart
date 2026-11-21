@@ -92,7 +92,8 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
 
   final rootNavigatorKey = ref.watch(rootNavigatorKeyProvider);
 
-  return GoRouter(
+  late final GoRouter router;
+  return router = GoRouter(
     navigatorKey: rootNavigatorKey,
     initialLocation: initialLocation,
     debugLogDiagnostics: true,
@@ -102,7 +103,12 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
       SnackBarClearObserver(rootNavigatorKey),
       routeObserver,
     ],
-    redirect: (context, state) => _globalRedirect(ref, state),
+    redirect:
+        (context, state) => _globalRedirect(
+          ref,
+          state,
+          shown: router.routerDelegate.currentConfiguration,
+        ),
     // A stale deep link or NFC tag can carry a path no route matches.
     // go_router shows its own English error page for that, so this sends
     // you to the kid home instead. The guard stops a loop if the home
@@ -270,7 +276,22 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
   );
 }
 
-String? _globalRedirect(Ref ref, GoRouterState state) {
+/// The location the parent sees when [state] re-checks the [shown] one.
+/// The redirect then runs for the location below the screens opened with
+/// push, so this is the top one of those.
+Uri _shownLocation(GoRouterState state, RouteMatchList shown) {
+  if (shown.isEmpty || state.uri != shown.uri) return state.uri;
+  return switch (shown.matches.last) {
+    ImperativeRouteMatch(:final matches) => matches.uri,
+    _ => state.uri,
+  };
+}
+
+String? _globalRedirect(
+  Ref ref,
+  GoRouterState state, {
+  required RouteMatchList shown,
+}) {
   final onboardingDone = ref.read(onboardingCompleteProvider);
   final isOnboarding = state.matchedLocation == AppRoutes.onboarding;
 
@@ -305,10 +326,11 @@ String? _globalRedirect(Ref ref, GoRouterState state) {
         data: {'from': state.matchedLocation},
       );
       // Like a login's ?next=, so the PIN screen can continue to where
-      // the parent was going instead of the dashboard.
+      // the parent was going, or was when the session ended, instead of
+      // the dashboard.
       return Uri(
         path: AppRoutes.pinEntry,
-        queryParameters: {'from': '${state.uri}'},
+        queryParameters: {'from': '${_shownLocation(state, shown)}'},
       ).toString();
     }
     // Extend the session on genuine navigation so active parents aren't
