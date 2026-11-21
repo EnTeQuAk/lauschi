@@ -24,7 +24,7 @@ import 'helpers.dart';
 const _episodeCount = 24;
 
 /// A tile of [_episodeCount] episodes, all playing the same real ARD
-/// audio, numbered 1 to [_episodeCount]. Returns the tile id and the item
+/// audio, published a day apart, so they sort 1 to [_episodeCount]. Returns the tile id and the item
 /// ids in episode order.
 Future<({String tileId, List<String> itemIds, TestArdEpisode episode})>
 _insertLongTile(PatrolIntegrationTester $) async {
@@ -42,7 +42,7 @@ _insertLongTile(PatrolIntegrationTester $) async {
         audioUrl: episode.audioUrl,
         durationMs: episode.durationSeconds * 1000,
         tileId: tileId,
-        episodeNumber: n,
+        publishedAt: DateTime(2026).add(Duration(days: n)),
       ),
   ];
   await pumpFrames($);

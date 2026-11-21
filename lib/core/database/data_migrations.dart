@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' show min;
 
 import 'package:lauschi/core/ard/ard_api.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
@@ -29,13 +30,11 @@ class DataMigrationContext {
 /// Each entry is (id, migration). IDs are permanent: never rename or remove
 /// completed ones. Append new migrations at the end.
 final List<(String, DataMigration)> _migrations = [
-  ('ard_publish_dates', backfillArdPublishDates),
+  ('ard_publish_dates', _backfillArdPublishDates),
 ];
 
 /// Run all pending data migrations. Safe to call on every startup.
 Future<void> runDataMigrations(DataMigrationContext ctx) async {
-  if (_migrations.isEmpty) return;
-
   final prefs = await SharedPreferences.getInstance();
 
   for (final (id, migrate) in _migrations) {
@@ -58,7 +57,7 @@ Future<void> runDataMigrations(DataMigrationContext ctx) async {
 /// fills it in for the episodes added before, [publishDatesBatchSize] per
 /// request. An episode ARD no longer lists keeps no date and sorts after
 /// the dated ones. A failed request leaves the rest for the next start.
-Future<void> backfillArdPublishDates(DataMigrationContext ctx) async {
+Future<void> _backfillArdPublishDates(DataMigrationContext ctx) async {
   final items = await ctx.items.getArdItemsWithoutPublishDate();
   final itemIdByArdId = {
     for (final item in items)
@@ -71,7 +70,7 @@ Future<void> backfillArdPublishDates(DataMigrationContext ctx) async {
   for (var i = 0; i < ardIds.length; i += publishDatesBatchSize) {
     final batch = ardIds.sublist(
       i,
-      (i + publishDatesBatchSize).clamp(0, ardIds.length),
+      min(i + publishDatesBatchSize, ardIds.length),
     );
     final dates = await ctx.ard.getPublishDates(batch);
     await ctx.items.setPublishDates({

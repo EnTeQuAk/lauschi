@@ -67,20 +67,7 @@ class ArdEpisodeTile extends StatelessWidget {
               imageUrl: episodeImageUrl ?? fallbackUrl ?? '',
               fit: BoxFit.cover,
               placeholder:
-                  (_, _) => ColoredBox(
-                    color: AppColors.surfaceDim,
-                    child: Center(
-                      child: Text(
-                        item.episodeNumber?.toString() ?? '',
-                        style: const TextStyle(
-                          fontFamily: 'Nunito',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.textSecondary,
-                        ),
-                      ),
-                    ),
-                  ),
+                  (_, _) => const ColoredBox(color: AppColors.surfaceDim),
               errorWidget:
                   (_, _, _) => const ColoredBox(
                     color: AppColors.surfaceDim,
@@ -161,9 +148,7 @@ class ArdEpisodeTile extends StatelessWidget {
   String _buildSubtitle(ArdItem item) {
     final parts = <String>[formatDuration(item.duration)];
     if (item.group != null) {
-      parts.add(
-        'Teil ${item.episodeNumber ?? "?"}/${item.group!.count ?? "?"}',
-      );
+      parts.add('Teil ${item.partNumber ?? "?"}/${item.group!.count ?? "?"}');
     }
     return parts.join(' · ');
   }

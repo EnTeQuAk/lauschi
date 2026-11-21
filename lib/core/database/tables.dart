@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
-import 'package:lauschi/core/database/app_database.dart' show Tile, TileItem;
+import 'package:lauschi/core/database/app_database.dart'
+    show $CardsTable, Tile, TileItem;
 
 // ---------------------------------------------------------------------------
 // DB table naming vs Dart class naming
@@ -235,17 +236,17 @@ const sortLast = Constant<int>(2147483647);
 ///
 /// Use [withEpisodeNumber] = false for ungrouped items where episode numbers
 /// and publish dates from different series aren't comparable.
-List<OrderingTerm Function(Cards)> cardOrder({bool withEpisodeNumber = true}) =>
-    [
-      (t) => OrderingTerm.asc(t.sortOrder.isNull()),
-      (t) => OrderingTerm.asc(t.sortOrder),
-      if (withEpisodeNumber) ...[
-        (t) => OrderingTerm.asc(coalesce([t.episodeNumber, sortLast])),
-        (t) => OrderingTerm.asc(t.publishedAt, nulls: NullsOrder.last),
-      ],
-      (t) => OrderingTerm.asc(t.createdAt),
-      // createdAt has whole seconds, and an import adds many items within
-      // one, so the row id keeps them in the order they were added. A query
-      // passes drift's generated table, which carries the row id.
-      (t) => OrderingTerm.asc((t as TableInfo).rowId),
-    ];
+List<OrderingTerm Function($CardsTable)> cardOrder({
+  bool withEpisodeNumber = true,
+}) => [
+  (t) => OrderingTerm.asc(t.sortOrder.isNull()),
+  (t) => OrderingTerm.asc(t.sortOrder),
+  if (withEpisodeNumber) ...[
+    (t) => OrderingTerm.asc(coalesce([t.episodeNumber, sortLast])),
+    (t) => OrderingTerm.asc(t.publishedAt, nulls: NullsOrder.last),
+  ],
+  (t) => OrderingTerm.asc(t.createdAt),
+  // createdAt has whole seconds, and an import adds many items within
+  // one, so the row id keeps them in the order they were added.
+  (t) => OrderingTerm.asc(t.rowId),
+];

@@ -339,7 +339,7 @@ class TileItemRepository {
   }
 
   /// Set ARD fields after an item's initial insert (audio URL, duration,
-  /// expiry) along with its tile and episode number. Internal to
+  /// expiry, publish date) along with its tile. Internal to
   /// [insertArdEpisode], which is the only caller.
   Future<void> _updateArdFields({
     required String itemId,
@@ -348,7 +348,6 @@ class TileItemRepository {
     DateTime? availableUntil,
     DateTime? publishedAt,
     String? tileId,
-    int? episodeNumber,
   }) async {
     await (_db.update(_db.cards)..where((t) => t.id.equals(itemId))).write(
       CardsCompanion(
@@ -362,8 +361,6 @@ class TileItemRepository {
                 ? Value(availableUntil)
                 : const Value.absent(),
         groupId: tileId != null ? Value(tileId) : const Value.absent(),
-        episodeNumber:
-            episodeNumber != null ? Value(episodeNumber) : const Value.absent(),
       ),
     );
   }
@@ -381,7 +378,6 @@ class TileItemRepository {
     DateTime? availableUntil,
     DateTime? publishedAt,
     String? tileId,
-    int? episodeNumber,
   }) {
     return _db.transaction(() async {
       final id = await insertIfAbsent(
@@ -397,7 +393,6 @@ class TileItemRepository {
         availableUntil: availableUntil,
         publishedAt: publishedAt,
         tileId: tileId,
-        episodeNumber: episodeNumber,
       );
       return id;
     });

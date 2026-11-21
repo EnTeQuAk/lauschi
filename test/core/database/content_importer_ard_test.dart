@@ -66,7 +66,7 @@ ArdItem _makeItem({
   required String title,
   required String audioUrl,
   DateTime? publishDate,
-  int? episodeNumber,
+  int? partNumber,
 }) {
   return ArdItem(
     id: id,
@@ -74,7 +74,7 @@ ArdItem _makeItem({
     titleClean: title,
     duration: 600,
     publishDate: publishDate ?? DateTime.now(),
-    episodeNumber: episodeNumber,
+    partNumber: partNumber,
     programSetTitle: 'Test Show',
     audios: [ArdAudio(url: audioUrl, mimeType: 'audio/mp3')],
   );
@@ -165,7 +165,7 @@ void main() {
         title: 'Folge $id',
         audioUrl: 'http://a/$id.mp3',
         publishDate: DateTime(2026, 6, day),
-        episodeNumber: part,
+        partNumber: part,
       );
       // ARD lists the newest first.
       final page = [

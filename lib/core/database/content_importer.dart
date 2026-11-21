@@ -357,7 +357,6 @@ class ContentImporter extends _$ContentImporter {
         availableUntil: card.availableUntil,
         publishedAt: card.publishedAt,
         tileId: groupId,
-        episodeNumber: card.episodeNumber,
       );
     } else {
       final cardId = await _cardRepo.insertIfAbsent(

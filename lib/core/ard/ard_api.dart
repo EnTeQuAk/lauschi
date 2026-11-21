@@ -215,7 +215,7 @@ class ArdApi {
 
     return {
       for (final node in _extractNodes(data, 'items'))
-        if (DateTime.tryParse('${node['publishDate']}') case final date?)
+        if (parseArdDateTime(node['publishDate']) case final date?)
           '${node['id']}': date,
     };
   }

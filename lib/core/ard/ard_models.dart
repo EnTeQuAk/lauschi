@@ -30,7 +30,7 @@ class ArdProgramSet {
       title: json['title'] as String? ?? '',
       synopsis: json['synopsis'] as String?,
       numberOfElements: json['numberOfElements'] as int? ?? 0,
-      lastItemAdded: _tryParseDateTime(json['lastItemAdded']),
+      lastItemAdded: parseArdDateTime(json['lastItemAdded']),
       feedUrl: json['feedUrl'] as String?,
       imageUrl: (image?['url1X1'] ?? image?['url']) as String?,
       publisher: pubService?['title'] as String?,
@@ -96,7 +96,7 @@ class ArdItem {
     this.titleClean,
     this.synopsis,
     this.duration = 0,
-    this.episodeNumber,
+    this.partNumber,
     this.isPublished = true,
     this.endDate,
     this.imageUrl,
@@ -124,10 +124,12 @@ class ArdItem {
       titleClean: json['titleClean'] as String?,
       synopsis: json['synopsis'] as String?,
       duration: json['duration'] as int? ?? 0,
-      publishDate: _tryParseDateTime(json['publishDate']) ?? DateTime.now(),
-      episodeNumber: json['episodeNumber'] as int?,
+      publishDate: parseArdDateTime(json['publishDate']) ?? DateTime.now(),
+      // ARD calls it episodeNumber, but it counts the parts of a
+      // multi-part story, not the episodes of a show.
+      partNumber: json['episodeNumber'] as int?,
       isPublished: json['isPublished'] as bool? ?? true,
-      endDate: _tryParseDateTime(json['endDate']),
+      endDate: parseArdDateTime(json['endDate']),
       imageUrl: (image?['url1X1'] ?? image?['url']) as String?,
       programSetTitle: programSet?['title'] as String?,
       audios: audios,
@@ -147,7 +149,10 @@ class ArdItem {
   /// Duration in seconds.
   final int duration;
   final DateTime publishDate;
-  final int? episodeNumber;
+
+  /// The part within a multi-part story ([group]), not a number across
+  /// the show.
+  final int? partNumber;
   final bool isPublished;
 
   /// When this content expires. Null means permanent or unspecified.
@@ -211,7 +216,8 @@ class ArdItemPage {
   final int totalCount;
 }
 
-DateTime? _tryParseDateTime(Object? value) {
+/// A date from the ARD Sounds API, or null when it's missing or malformed.
+DateTime? parseArdDateTime(Object? value) {
   if (value == null) return null;
   if (value is String) return DateTime.tryParse(value);
   return null;
