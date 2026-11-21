@@ -7,9 +7,10 @@ abstract final class FeatureFlags {
   /// When false, all Spotify UI, auth, bridge, and playback code is gated off.
   static const enableSpotify = bool.fromEnvironment('ENABLE_SPOTIFY');
 
-  /// Apple Music integration via MusicKit. JWT is generated on-device from
-  /// the .p8 key by the forked music_kit plugin. When false, Apple Music
-  /// UI and auth are gated off.
+  /// Apple Music integration via MusicKit. The app holds no MusicKit key:
+  /// on iOS MusicKit makes the developer token, on Android
+  /// `AppleMusicDeveloperToken` fetches one the lauschi server signs. When
+  /// false, Apple Music UI and auth are gated off.
   static const enableAppleMusic = bool.fromEnvironment('ENABLE_APPLE_MUSIC');
 
   /// Sentry error tracking and diagnostics UI in parent settings.
