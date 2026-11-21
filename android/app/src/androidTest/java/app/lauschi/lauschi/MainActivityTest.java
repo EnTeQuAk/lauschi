@@ -1,6 +1,7 @@
 package app.lauschi.lauschi;
 
 import androidx.test.platform.app.InstrumentationRegistry;
+import com.ryanheise.audioservice.AudioServiceActivity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -13,7 +14,9 @@ public class MainActivityTest {
     public static Object[] testCases() {
         PatrolJUnitRunner instrumentation =
                 (PatrolJUnitRunner) InstrumentationRegistry.getInstrumentation();
-        instrumentation.setUp(MainActivity.class);
+        // The launcher activity (AndroidManifest.xml). Patrol starts the
+        // app through its launcher intent and falls back to this class.
+        instrumentation.setUp(AudioServiceActivity.class);
         instrumentation.waitForPatrolAppService();
         return instrumentation.listDartTests();
     }
