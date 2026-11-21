@@ -119,6 +119,34 @@ void main() {
     expect(emptySlots(), findsNWidgets(3));
   });
 
+  // A cover in a two-tile folder is as tall as a single tile's.
+  testWidgets('covers decode as sharp as a single tile', (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: TileCard(
+          title: 'Kachel',
+          episodeCount: 1,
+          coverUrl: 'https://covers.example/single.jpg',
+          kidMode: true,
+          onTap: () {},
+        ),
+      ),
+    );
+    final single =
+        tester
+            .widget<CachedNetworkImage>(find.byType(CachedNetworkImage))
+            .memCacheWidth;
+
+    await pumpFolder(tester, 2);
+
+    expect(
+      tester
+          .widgetList<CachedNetworkImage>(find.byType(CachedNetworkImage))
+          .map((image) => image.memCacheWidth),
+      everyElement(single),
+    );
+  });
+
   testWidgets('four tiles make a 2x2 grid', (tester) async {
     final covers = await pumpFolder(tester, 4);
 

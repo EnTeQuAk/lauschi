@@ -402,7 +402,6 @@ class _FolderMosaic extends StatelessWidget {
   Widget _slot(int index) => CoverImage(
     url: coverUrls[index],
     fallback: const ColoredBox(color: AppColors.surfaceDim),
-    memCacheWidth: 200,
   );
 }
 
