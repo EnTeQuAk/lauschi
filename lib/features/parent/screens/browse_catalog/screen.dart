@@ -712,9 +712,11 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
                   if (!context.mounted) return;
                   unawaited(
                     context.push(
-                      '${AppRoutes.parentCatalogSeries(series.id)}'
-                      '?provider=${_provider.value}',
-                      extra: widget.autoAssignTileId,
+                      AppRoutes.parentCatalogSeries(
+                        series.id,
+                        provider: _provider,
+                        tileId: widget.autoAssignTileId,
+                      ),
                     ),
                   );
                 },

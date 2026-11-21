@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lauschi/core/ard/ard_api.dart';
+import 'package:lauschi/core/ard/ard_models.dart';
 import 'package:lauschi/core/auth/pin_service.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
@@ -11,6 +13,7 @@ import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
+import 'package:lauschi/features/parent/screens/ard_show_detail/screen.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/player_state.dart';
 import 'package:mocktail/mocktail.dart';
@@ -273,6 +276,40 @@ void main() {
     expect(uri.queryParameters['from'], AppRoutes.parentSettings);
   });
 
+  // The ARD show and the catalog series take the tile they fill from the
+  // URL. go_router's extra would be gone after the PIN screen.
+  testWidgets('after the PIN an ARD show still fills its tile', (tester) async {
+    final pinService = _MockPinService();
+    when(() => pinService.verifyPin(any())).thenAnswer((_) async => true);
+    final container = ProviderContainer(
+      overrides: [
+        ..._testOverrides(parentAuthenticated: false),
+        pinServiceProvider.overrideWith((ref) => pinService),
+        ardApiProvider.overrideWithValue(_PendingArdApi()),
+      ],
+    );
+    addTearDown(container.dispose);
+    await tester.pumpWidget(_buildApp(container));
+    await tester.pump();
+
+    container
+        .read(appRouterProvider)
+        .go(AppRoutes.parentDiscoverShow('show1', tileId: 't1'));
+    await tester.pump();
+    await tester.pump();
+    for (final digit in ['1', '2', '3', '4']) {
+      await tester.tap(find.text(digit));
+      await tester.pump();
+    }
+    await tester.pump();
+    await tester.pump();
+
+    final show = tester.widget<ArdShowDetailScreen>(
+      find.byType(ArdShowDetailScreen),
+    );
+    expect(show.autoAssignTileId, 't1');
+  });
+
   group('parentReturnLocation', () {
     test('keeps a parent route with its query', () {
       expect(
@@ -383,6 +420,33 @@ void main() {
 }
 
 class _MockPinService extends Mock implements PinService {}
+
+/// ARD lookups that never answer, so the discover screens build without
+/// network.
+class _PendingArdApi extends ArdApi {
+  @override
+  Future<List<ArdProgramSet>> getKidsShows({int first = 100}) =>
+      Completer<List<ArdProgramSet>>().future;
+
+  @override
+  Future<ArdProgramSet?> getProgramSet(String id) =>
+      Completer<ArdProgramSet?>().future;
+
+  @override
+  Future<ArdItemPage> getItems({
+    required String programSetId,
+    int first = 50,
+    String? after,
+    bool publishedOnly = true,
+  }) => Completer<ArdItemPage>().future;
+
+  @override
+  Future<ArdItem?> getItem(String itemId) => Completer<ArdItem?>().future;
+
+  @override
+  Future<List<ArdItem>> searchItems(String query, {int first = 20}) =>
+      Completer<List<ArdItem>>().future;
+}
 
 class _FakeSession extends SpotifySession {
   @override

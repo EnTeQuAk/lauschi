@@ -61,10 +61,26 @@ abstract final class AppRoutes {
   static const parentAddContent = '/parent/add';
   static String parentAddToTile(String tileId) => '/parent/add?tileId=$tileId';
   static const parentCatalog = '/parent/catalog';
-  static String parentCatalogSeries(String seriesId) =>
-      '/parent/catalog/$seriesId';
+  // The tile a screen fills goes in the URL, not in go_router's extra, so
+  // it survives the PIN screen sending the parent back to the location.
+  static String parentCatalogSeries(
+    String seriesId, {
+    required ProviderType provider,
+    String? tileId,
+  }) =>
+      Uri(
+        path: '/parent/catalog/$seriesId',
+        queryParameters: {
+          'provider': provider.value,
+          if (tileId != null) 'tileId': tileId,
+        },
+      ).toString();
   static const parentDiscover = '/parent/discover';
-  static String parentDiscoverShow(String showId) => '/parent/discover/$showId';
+  static String parentDiscoverShow(String showId, {String? tileId}) =>
+      Uri(
+        path: '/parent/discover/$showId',
+        queryParameters: {if (tileId != null) 'tileId': tileId},
+      ).toString();
   static const pinEntry = '/pin';
   static const pinChange = '/pin/change';
 }
@@ -238,13 +254,12 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
                 path: ':seriesId',
                 builder: (context, state) {
                   final seriesId = state.pathParameters['seriesId']!;
-                  final autoAssignTileId = state.extra as String?;
                   final providerStr =
                       state.uri.queryParameters['provider'] ?? 'spotify';
                   return CatalogSeriesDetailScreen(
                     seriesId: seriesId,
                     provider: ProviderType.fromString(providerStr),
-                    autoAssignTileId: autoAssignTileId,
+                    autoAssignTileId: state.uri.queryParameters['tileId'],
                   );
                 },
               ),
@@ -263,7 +278,7 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
                   final extra = state.extra as ShowDetailExtra?;
                   return ArdShowDetailScreen(
                     showId: showId,
-                    autoAssignTileId: extra?.autoAssignTileId,
+                    autoAssignTileId: state.uri.queryParameters['tileId'],
                     highlightEpisodeUris: extra?.highlightEpisodeUris,
                   );
                 },

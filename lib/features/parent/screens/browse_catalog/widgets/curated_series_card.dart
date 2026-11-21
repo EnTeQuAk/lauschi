@@ -82,9 +82,11 @@ class CuratedSeriesCard extends ConsumerWidget {
         if (!context.mounted) return;
         unawaited(
           context.push(
-            '${AppRoutes.parentCatalogSeries(series.id)}'
-            '?provider=${provider.value}',
-            extra: autoAssignTileId,
+            AppRoutes.parentCatalogSeries(
+              series.id,
+              provider: provider,
+              tileId: autoAssignTileId,
+            ),
           ),
         );
       },

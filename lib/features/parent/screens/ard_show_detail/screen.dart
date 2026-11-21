@@ -18,15 +18,12 @@ const _tag = 'ArdShowDetailScreen';
 
 // Multi-part grouping is now handled via item.group from the API.
 
-/// Extra data passed through go_router to [ArdShowDetailScreen].
-/// Used for both the discover grid (auto-assign) and featured section
-/// (highlight specific episodes).
+/// Extra data passed through go_router to [ArdShowDetailScreen] from the
+/// featured section. It's only for show, since go_router drops it when
+/// the PIN screen sends the parent back. The tile to fill goes in the URL
+/// (see `AppRoutes.parentDiscoverShow`).
 class ShowDetailExtra {
-  const ShowDetailExtra({this.autoAssignTileId, this.highlightEpisodeUris});
-
-  /// When set, episodes are added directly to this tile instead of
-  /// creating a group by show title.
-  final String? autoAssignTileId;
+  const ShowDetailExtra({this.highlightEpisodeUris});
 
   /// When set, these episodes are shown prominently at the top of
   /// the episode list (used when navigating from featured section).

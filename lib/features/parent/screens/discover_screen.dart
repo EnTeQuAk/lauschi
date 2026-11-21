@@ -9,7 +9,6 @@ import 'package:lauschi/core/ard/featured_shows.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
-import 'package:lauschi/features/parent/screens/ard_show_detail/screen.dart';
 import 'package:lauschi/features/parent/screens/browse_catalog/widgets/catalog_helpers.dart';
 import 'package:lauschi/features/parent/widgets/featured_section.dart';
 import 'package:lauschi/features/tiles/widgets/tile_card.dart';
@@ -222,8 +221,7 @@ class _ShowCard extends StatelessWidget {
     return GestureDetector(
       onTap:
           () => context.push(
-            AppRoutes.parentDiscoverShow(show.id),
-            extra: ShowDetailExtra(autoAssignTileId: autoAssignTileId),
+            AppRoutes.parentDiscoverShow(show.id, tileId: autoAssignTileId),
           ),
       child: Column(
         children: [
