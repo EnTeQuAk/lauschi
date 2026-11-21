@@ -302,6 +302,7 @@ void main() {
         required Offset Function(Rect Function(String) cell) to,
         int steps = 40,
         Duration hold = const Duration(milliseconds: 600),
+        Offset Function(Rect Function(String) cell)? flickTo,
       }) async {
         List<String>? order;
         (String, String)? nested;
@@ -331,6 +332,11 @@ void main() {
           await tester.pump(const Duration(milliseconds: 60));
         }
         await tester.pump(hold);
+        if (flickTo != null) {
+          // One quick move and an immediate release.
+          await gesture.moveTo(flickTo((title) => cells[title]!));
+          await tester.pump(const Duration(milliseconds: 16));
+        }
         await gesture.up();
         await tester.pump(const Duration(milliseconds: 250));
         return (order, nested);
@@ -365,6 +371,20 @@ void main() {
 
         expect(nested, ('tile:a', 'tile:b'));
         expect(order, isNull, reason: 'Beta stayed under the finger');
+      });
+
+      testWidgets('a folder made on one tile does not move to the next', (
+        tester,
+      ) async {
+        final (order, nested) = await drag(
+          tester,
+          from: 'Alpha',
+          to: (cell) => middle(cell('Beta')),
+          flickTo: (cell) => middle(cell('Gamma')),
+        );
+
+        expect(nested, isNull, reason: 'Gamma was never held');
+        expect(order, isNull);
       });
 
       testWidgets('the far edge of the next tile takes its place', (

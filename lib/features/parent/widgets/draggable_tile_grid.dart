@@ -472,11 +472,13 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
   }
 
   /// The pointer is on the middle of [targetId], highlighted as a nest
-  /// candidate until [_nestHold] confirms it.
+  /// candidate until [_nestHold] confirms it. A folder confirmed on another
+  /// tile doesn't carry over, even when one drag update jumps straight
+  /// from that tile's middle to this one's.
   void _holdForFolder(String targetId, Offset local) {
     final newTarget = _nestHold.key != targetId;
     _nestHold.restOn(targetId, local);
-    if (newTarget) setState(() {});
+    if (newTarget) setState(() => _nestConfirmed = false);
   }
 
   void _confirmNest() {
