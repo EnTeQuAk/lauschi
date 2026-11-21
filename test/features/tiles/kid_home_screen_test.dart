@@ -122,6 +122,23 @@ void main() {
     expect(pin.returnTo, AppRoutes.parentAddContent);
   });
 
+  testWidgets('the empty home fits a phone held sideways', (tester) async {
+    // In landscape the mascot, texts and button were taller than the
+    // screen, so the button was cut off at the bottom edge.
+    tester.view.physicalSize = const Size(900, 411);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    final container = ProviderContainer(overrides: _testOverrides());
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(_buildApp(container));
+    await tester.pump();
+
+    final button = find.byKey(const Key('add_content_button'));
+    expect(tester.getBottomLeft(button).dy, lessThanOrEqualTo(411));
+  });
+
   testWidgets('shows cards when ungrouped items exist', (tester) async {
     final cards = [
       _card(id: '1', title: 'TKKG Folge 1'),

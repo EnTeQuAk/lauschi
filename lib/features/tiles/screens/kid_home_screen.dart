@@ -337,51 +337,74 @@ class _GroupGridItem extends ConsumerWidget {
 class _EmptyState extends StatelessWidget {
   const _EmptyState();
 
+  /// Below this height the mascot goes, so the button shows without
+  /// scrolling on a phone held sideways.
+  static const _mascotMinHeight = 400.0;
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.xxl),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Image.asset(
-              'assets/images/branding/lauschi-mascot.png',
-              width: 140,
-              height: 140,
-              excludeFromSemantics: true,
-            ),
-            const SizedBox(height: AppSpacing.lg),
-            const Text(
-              'Füge dein erstes Hörspiel hinzu',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: 'Nunito',
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: AppColors.textPrimary,
+    // Centered when it fits, scrollable when it doesn't (a phone held
+    // sideways, large system fonts), so the button stays reachable.
+    return LayoutBuilder(
+      builder:
+          (context, constraints) => SingleChildScrollView(
+            padding: const EdgeInsets.all(AppSpacing.xxl),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: constraints.maxHeight - 2 * AppSpacing.xxl,
+              ),
+              child: Center(
+                child: _content(
+                  context,
+                  showMascot: constraints.maxHeight >= _mascotMinHeight,
+                ),
               ),
             ),
-            const SizedBox(height: AppSpacing.sm),
-            const Text(
-              'Öffne den Eltern-Bereich, um Hörspiele hinzuzufügen.',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: 'Nunito',
-                fontSize: 15,
-                color: AppColors.textSecondary,
-              ),
-            ),
-            const SizedBox(height: AppSpacing.xl),
-            FilledButton.icon(
-              key: const Key('add_content_button'),
-              onPressed: () => context.push(AppRoutes.parentAddContent),
-              icon: const Icon(Icons.add_rounded),
-              label: const Text('Hörspiel hinzufügen'),
-            ),
-          ],
+          ),
+    );
+  }
+
+  Widget _content(BuildContext context, {required bool showMascot}) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (showMascot) ...[
+          Image.asset(
+            'assets/images/branding/lauschi-mascot.png',
+            width: 140,
+            height: 140,
+            excludeFromSemantics: true,
+          ),
+          const SizedBox(height: AppSpacing.lg),
+        ],
+        const Text(
+          'Füge dein erstes Hörspiel hinzu',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontFamily: 'Nunito',
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: AppColors.textPrimary,
+          ),
         ),
-      ),
+        const SizedBox(height: AppSpacing.sm),
+        const Text(
+          'Öffne den Eltern-Bereich, um Hörspiele hinzuzufügen.',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontFamily: 'Nunito',
+            fontSize: 15,
+            color: AppColors.textSecondary,
+          ),
+        ),
+        const SizedBox(height: AppSpacing.xl),
+        FilledButton.icon(
+          key: const Key('add_content_button'),
+          onPressed: () => context.push(AppRoutes.parentAddContent),
+          icon: const Icon(Icons.add_rounded),
+          label: const Text('Hörspiel hinzufügen'),
+        ),
+      ],
     );
   }
 }
