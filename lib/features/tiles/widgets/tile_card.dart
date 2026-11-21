@@ -383,36 +383,25 @@ class _FolderMosaic extends StatelessWidget {
   };
 
   // Stretch, so every slot fills its share of the square even before its
-  // image has loaded, and an empty slot still shows as a neutral square.
+  // image has loaded.
   static Widget _row(List<Widget> slots) => Row(
+    spacing: _gap,
     crossAxisAlignment: CrossAxisAlignment.stretch,
-    children: _spaced(slots, const SizedBox(width: _gap)),
+    children: [for (final slot in slots) Expanded(child: slot)],
   );
 
   static Widget _column(List<Widget> slots) => Column(
+    spacing: _gap,
     crossAxisAlignment: CrossAxisAlignment.stretch,
-    children: _spaced(slots, const SizedBox(height: _gap)),
+    children: [for (final slot in slots) Expanded(child: slot)],
   );
 
-  static List<Widget> _spaced(List<Widget> slots, Widget gap) => [
-    for (final (i, slot) in slots.indexed) ...[
-      if (i > 0) gap,
-      Expanded(child: slot),
-    ],
-  ];
-
-  Widget _slot(int index) {
-    if (index < coverUrls.length && coverUrls[index].isNotEmpty) {
-      // A broken child cover degrades to the same neutral square an
-      // empty slot shows, instead of a blank spot in the mosaic.
-      return CoverImage(
-        url: coverUrls[index],
-        fallback: const ColoredBox(color: AppColors.surfaceDim),
-        memCacheWidth: 200,
-      );
-    }
-    return const ColoredBox(color: AppColors.surfaceDim);
-  }
+  // A missing or broken cover shows as a neutral square, not a blank spot.
+  Widget _slot(int index) => CoverImage(
+    url: coverUrls[index],
+    fallback: const ColoredBox(color: AppColors.surfaceDim),
+    memCacheWidth: 200,
+  );
 }
 
 /// Red circular badge with a white cross: "this tile is broken".
