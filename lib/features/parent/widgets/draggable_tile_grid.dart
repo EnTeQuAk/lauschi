@@ -458,11 +458,13 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
   }
 
   /// Which part of the cell at [index] the pointer at [local] is over. The
-  /// art is a square at the top of the cell, its label below.
+  /// art fills the cell above its label, which takes less than a quarter
+  /// of the height, so the bands above and below are a quarter of the
+  /// cell's height: the label and the very bottom of the art pass through.
   _CellZone _zoneAt(Offset local, int index) {
     final cell = _cellOffset(index);
     final x = (local.dx - cell.dx) / _cellWidth;
-    final y = (local.dy - cell.dy) / _cellWidth;
+    final y = (local.dy - cell.dy) / _cellHeight;
     if (x < _middleStart) return _CellZone.leftEdge;
     if (x > 1 - _middleStart) return _CellZone.rightEdge;
     if (y < _middleStart || y > 1 - _middleStart) {

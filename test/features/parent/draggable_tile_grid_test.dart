@@ -373,6 +373,25 @@ void main() {
         expect(order, isNull, reason: 'Beta stayed under the finger');
       });
 
+      // The cover is taller than wide in the parent grid, its label takes
+      // less than the rest of the cell.
+      testWidgets('holding on the lower part of a cover makes a folder', (
+        tester,
+      ) async {
+        final (order, nested) = await drag(
+          tester,
+          from: 'Alpha',
+          to:
+              (cell) => Offset(
+                cell('Beta').center.dx,
+                cell('Beta').top + cell('Beta').height * 0.68,
+              ),
+        );
+
+        expect(nested, ('tile:a', 'tile:b'));
+        expect(order, isNull);
+      });
+
       testWidgets('a folder made on one tile does not move to the next', (
         tester,
       ) async {
