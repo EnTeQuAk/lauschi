@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/ard/ard_api.dart';
@@ -103,7 +105,14 @@ void main() {
     var answer = <String, dynamic>{'data': <String, dynamic>{}};
     final api = ArdApi(adapter: FakeHttpAdapter((_) => answer));
 
-    await runDataMigrations(DataMigrationContext(items: items, ard: api));
+    final lines = <String>[];
+    await runZoned(
+      () => runDataMigrations(DataMigrationContext(items: items, ard: api)),
+      zoneSpecification: ZoneSpecification(
+        print: (self, parent, zone, line) => lines.add(line),
+      ),
+    );
+    expect(lines, contains(contains('[DataMigration] Failed')));
     answer = {
       'data': {
         'items': {
@@ -128,10 +137,22 @@ void main() {
       cardType: 'episode',
     );
 
-    await runDataMigrations(
-      DataMigrationContext(items: items, ard: _OfflineArdApi()),
+    final lines = <String>[];
+    await runZoned(
+      () => runDataMigrations(
+        DataMigrationContext(items: items, ard: _OfflineArdApi()),
+      ),
+      zoneSpecification: ZoneSpecification(
+        print: (self, parent, zone, line) => lines.add(line),
+      ),
     );
     expect((await items.getAll()).single.publishedAt, isNull);
+    expect(
+      lines,
+      contains(contains('[DataMigration] Offline, retrying next start')),
+      reason: 'being offline is no error to report',
+    );
+    expect(lines, isNot(contains(contains('Failed'))));
 
     await runDataMigrations(
       DataMigrationContext(

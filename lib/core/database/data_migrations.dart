@@ -47,8 +47,13 @@ Future<void> runDataMigrations(DataMigrationContext ctx) async {
       await prefs.setBool(key, true);
       Log.info(_tag, 'Complete', data: {'migration': id});
     } on Exception catch (e) {
-      // Don't mark as done — will retry next launch.
-      Log.error(_tag, 'Failed', data: {'migration': id}, exception: e);
+      // Don't mark as done — will retry next launch. Being offline is no
+      // error to report.
+      if (e is ArdApiException && e.isNetworkError) {
+        Log.warn(_tag, 'Offline, retrying next start', data: {'migration': id});
+      } else {
+        Log.error(_tag, 'Failed', data: {'migration': id}, exception: e);
+      }
     }
   }
 }
