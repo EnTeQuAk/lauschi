@@ -59,12 +59,14 @@ Future<void> runDataMigrations(DataMigrationContext ctx) async {
 /// the dated ones. A failed request leaves the rest for the next start.
 Future<void> _backfillArdPublishDates(DataMigrationContext ctx) async {
   final items = await ctx.items.getArdItemsWithoutPublishDate();
-  final itemIdByArdId = {
-    for (final item in items)
-      if (ProviderType.extractId(item.providerUri) case final ardId?)
-        ardId: item.id,
-  };
-  final ardIds = itemIdByArdId.keys.toList();
+  // Older installs can hold the same episode twice.
+  final itemIdsByArdId = <String, List<String>>{};
+  for (final item in items) {
+    if (ProviderType.extractId(item.providerUri) case final ardId?) {
+      (itemIdsByArdId[ardId] ??= []).add(item.id);
+    }
+  }
+  final ardIds = itemIdsByArdId.keys.toList();
 
   var dated = 0;
   for (var i = 0; i < ardIds.length; i += publishDatesBatchSize) {
@@ -75,7 +77,8 @@ Future<void> _backfillArdPublishDates(DataMigrationContext ctx) async {
     final dates = await ctx.ard.getPublishDates(batch);
     await ctx.items.setPublishDates({
       for (final MapEntry(key: ardId, value: date) in dates.entries)
-        if (itemIdByArdId[ardId] case final itemId?) itemId: date,
+        for (final itemId in itemIdsByArdId[ardId] ?? const <String>[])
+          itemId: date,
     });
     dated += dates.length;
   }

@@ -198,6 +198,9 @@ class ArdApi {
   /// Publish dates of the episodes with [itemIds], in one request. Ids ARD
   /// doesn't know (any more) are missing from the result. Keep a call to
   /// [publishDatesBatchSize] ids, the most one page returns.
+  ///
+  /// Throws [ArdApiException] when the answer has no items list at all, so
+  /// a caller can tell it from ARD knowing none of the ids.
   Future<Map<String, DateTime>> getPublishDates(List<String> itemIds) async {
     // ARD's id filter takes integers, and its ids are numbers.
     final ids = itemIds.map(int.tryParse).whereType<int>().toList();
@@ -212,6 +215,10 @@ class ArdApi {
     ''',
       variables: {'ids': ids, 'first': ids.length},
     );
+    if (data?['items'] is! Map<String, dynamic>) {
+      Log.warn(_tag, 'Publish dates answer without items');
+      throw const ArdApiException('No items in the publish dates answer');
+    }
 
     return {
       for (final node in _extractNodes(data, 'items'))

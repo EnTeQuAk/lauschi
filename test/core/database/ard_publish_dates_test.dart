@@ -6,6 +6,8 @@ import 'package:lauschi/core/database/data_migrations.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../helpers/fake_http_adapter.dart';
+
 /// Answers publish date lookups from a fixed table and records each call.
 class _FakeArdApi extends ArdApi {
   _FakeArdApi(this.dates);
@@ -66,6 +68,57 @@ void main() {
       reason: 'ARD no longer lists it, so it keeps no date',
     );
     expect((await items.getById(album))!.publishedAt, isNull);
+  });
+
+  // Installs from before the add flow became transactional can hold the
+  // same episode twice.
+  test('every copy of an episode gets its date', () async {
+    for (var copy = 0; copy < 2; copy++) {
+      await items.insert(
+        title: 'Folge 1',
+        providerUri: 'ard:item:1',
+        cardType: 'episode',
+      );
+    }
+
+    await runDataMigrations(
+      DataMigrationContext(
+        items: items,
+        ard: _FakeArdApi({'1': DateTime(2025, 6, 30)}),
+      ),
+    );
+
+    expect((await items.getAll()).map((i) => i.publishedAt), [
+      DateTime(2025, 6, 30),
+      DateTime(2025, 6, 30),
+    ]);
+  });
+
+  test('an answer without items is retried on the next start', () async {
+    await items.insert(
+      title: 'Folge 1',
+      providerUri: 'ard:item:1',
+      cardType: 'episode',
+    );
+    var answer = <String, dynamic>{'data': <String, dynamic>{}};
+    final api = ArdApi(adapter: FakeHttpAdapter((_) => answer));
+
+    await runDataMigrations(DataMigrationContext(items: items, ard: api));
+    answer = {
+      'data': {
+        'items': {
+          'nodes': [
+            {'id': 1, 'publishDate': '2025-06-30T00:00:00+02:00'},
+          ],
+        },
+      },
+    };
+    await runDataMigrations(DataMigrationContext(items: items, ard: api));
+
+    expect(
+      (await items.getAll()).single.publishedAt?.toUtc(),
+      DateTime.utc(2025, 6, 29, 22),
+    );
   });
 
   test('a failed lookup is retried on the next start', () async {

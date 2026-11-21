@@ -127,5 +127,22 @@ void main() {
       // ARD's id filter takes integers.
       expect(variables['ids'], [11, 12, 13]);
     });
+
+    // No episodes and no answer are different things: the date backfill
+    // marks itself done after the first and has to retry after the second.
+    for (final (name, body) in <(String, Object)>[
+      ('no data', {'data': null}),
+      ('no items', {'data': <String, dynamic>{}}),
+      ('a body that is no map', <dynamic>['<html>']),
+    ]) {
+      test('an answer with $name throws', () async {
+        final api = _apiWith(_JsonAdapter(body));
+
+        await expectLater(
+          api.getPublishDates(['11']),
+          throwsA(isA<ArdApiException>()),
+        );
+      });
+    }
   });
 }
