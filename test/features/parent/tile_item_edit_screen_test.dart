@@ -7,6 +7,8 @@ import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/parent/screens/tile_item_edit/screen.dart';
 
+import '../../helpers/pushed_screen.dart';
+
 /// Widget tests for the parent-side single-item edit screen.
 ///
 /// The screen mirrors the tile-edit screen's shape (title + cover +
@@ -138,6 +140,61 @@ void main() {
       'Pre-Save Title',
       reason: 'original title is not overwritten — only customTitle changes',
     );
+  });
+
+  // A new name used to need "Speichern" before back (#307). The cover
+  // saves itself, so the name does too.
+  testWidgets('a renamed episode keeps its name when left with back', (
+    tester,
+  ) async {
+    final itemId = await repo.insert(
+      title: 'Folge 1: Original',
+      providerUri: 'ard:leave',
+      cardType: 'episode',
+    );
+    await pushScreen(
+      tester,
+      makeContainer(),
+      TileItemEditScreen(itemId: itemId),
+    );
+
+    await tester.enterText(
+      find.byKey(const Key('tile_item_title_field')),
+      'Mein Titel',
+    );
+    await tester.pump();
+    await tester.pageBack();
+    await settle(tester);
+
+    expect((await repo.getById(itemId))!.customTitle, 'Mein Titel');
+    expect(find.text('Folge gespeichert'), findsOneWidget);
+  });
+
+  testWidgets('deleting a renamed episode keeps the undo', (tester) async {
+    final itemId = await repo.insert(
+      title: 'Folge 1: Original',
+      providerUri: 'ard:delete',
+      cardType: 'episode',
+    );
+    await pushScreen(
+      tester,
+      makeContainer(),
+      TileItemEditScreen(itemId: itemId),
+    );
+
+    await tester.enterText(
+      find.byKey(const Key('tile_item_title_field')),
+      'Mein Titel',
+    );
+    await tester.pump();
+    await tester.tap(find.byType(PopupMenuButton<String>));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Folge löschen'));
+    await settle(tester);
+
+    expect(await repo.getById(itemId), isNull);
+    expect(find.text('Folge gelöscht'), findsOneWidget);
+    expect(find.text('Folge gespeichert'), findsNothing);
   });
 
   testWidgets('"not found" path when the item row is missing', (tester) async {

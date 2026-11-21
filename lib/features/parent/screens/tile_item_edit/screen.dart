@@ -112,6 +112,43 @@ class _TileItemEditScreenState extends ConsumerState<TileItemEditScreen> {
     }
   }
 
+  /// Leaving keeps a changed name, the same way a picked cover saves
+  /// itself. Runs while the screen is being popped, and the write finishes
+  /// after it's gone.
+  void _saveTitleOnLeave() {
+    if (!_dirty) return;
+    final item = ref.read(tileItemByIdProvider(widget.itemId)).value;
+    if (item == null) return;
+    final customTitle = resolveCustomTitle(_titleController.text, item.title);
+    if (customTitle == item.customTitle) return;
+    unawaited(
+      _persistTitleOnLeave(ref.read(tileItemRepositoryProvider), customTitle),
+    );
+  }
+
+  Future<void> _persistTitleOnLeave(
+    TileItemRepository repo,
+    String? customTitle,
+  ) async {
+    Log.info(
+      _tag,
+      'Saving item name on leave',
+      data: {'itemId': widget.itemId, 'override': '${customTitle != null}'},
+    );
+    try {
+      await repo.updateMeta(
+        id: widget.itemId,
+        customTitle: customTitle,
+        clearCustomTitle: customTitle == null,
+      );
+    } on Exception catch (e) {
+      Log.error(_tag, 'Save item name on leave failed', exception: e);
+      showAppSnackBar('Speichern fehlgeschlagen');
+      return;
+    }
+    showAppSnackBar('Folge gespeichert');
+  }
+
   Future<void> _deleteItem(BuildContext context) async {
     Log.info(_tag, 'Deleting item', data: {'itemId': widget.itemId});
     final tileRepo = ref.read(tileRepositoryProvider);
@@ -124,6 +161,9 @@ class _TileItemEditScreenState extends ConsumerState<TileItemEditScreen> {
       return;
     }
     if (undo.isEmpty) return; // Already gone; nothing to undo.
+    // The item is gone, so leaving has no name to save, and a "gespeichert"
+    // message would replace the undo below.
+    _dirty = false;
     showUndoSnackBar(
       'Folge gelöscht',
       onUndo: () => unawaited(tileRepo.restore(undo)),
@@ -187,105 +227,110 @@ class _TileItemEditScreenState extends ConsumerState<TileItemEditScreen> {
             .where((s) => s.isNotEmpty)
             .toList();
 
-    return Scaffold(
-      backgroundColor: AppColors.parentBackground,
-      appBar: AppBar(
+    return PopScope(
+      onPopInvokedWithResult: (didPop, _) {
+        if (didPop) _saveTitleOnLeave();
+      },
+      child: Scaffold(
         backgroundColor: AppColors.parentBackground,
-        title: const Text(
-          'Folge bearbeiten',
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(fontSize: 18),
-        ),
-        actions: [
-          if (_dirty)
-            TextButton(
-              key: const Key('save_tile_item'),
-              onPressed: _save,
-              child: const Text('Speichern'),
+        appBar: AppBar(
+          backgroundColor: AppColors.parentBackground,
+          title: const Text(
+            'Folge bearbeiten',
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontSize: 18),
+          ),
+          actions: [
+            if (_dirty)
+              TextButton(
+                key: const Key('save_tile_item'),
+                onPressed: _save,
+                child: const Text('Speichern'),
+              ),
+            PopupMenuButton<String>(
+              onSelected: (action) {
+                switch (action) {
+                  case 'delete':
+                    unawaited(_deleteItem(context));
+                }
+              },
+              itemBuilder:
+                  (_) => [
+                    const PopupMenuItem(
+                      value: 'delete',
+                      child: Text('Folge löschen'),
+                    ),
+                  ],
             ),
-          PopupMenuButton<String>(
-            onSelected: (action) {
-              switch (action) {
-                case 'delete':
-                  unawaited(_deleteItem(context));
-              }
-            },
-            itemBuilder:
-                (_) => [
-                  const PopupMenuItem(
-                    value: 'delete',
-                    child: Text('Folge löschen'),
+          ],
+        ),
+        body: ListView(
+          children: [
+            Container(
+              color: AppColors.parentSurface,
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.screenH,
+                AppSpacing.md,
+                AppSpacing.screenH,
+                AppSpacing.lg,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextField(
+                    key: const Key('tile_item_title_field'),
+                    controller: _titleController,
+                    decoration: InputDecoration(
+                      labelText: 'Name der Folge',
+                      hintText: item.title,
+                    ),
+                    onChanged: (_) => setState(() => _dirty = true),
+                    textCapitalization: TextCapitalization.sentences,
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  CoverPicker(
+                    controller: _coverController,
+                    episodeCovers: episodeCovers,
+                    artistIds: artistIds,
+                    onChanged: () => setState(() => _dirty = true),
+                    onAutoSave: _save,
                   ),
                 ],
-          ),
-        ],
-      ),
-      body: ListView(
-        children: [
-          Container(
-            color: AppColors.parentSurface,
-            padding: const EdgeInsets.fromLTRB(
-              AppSpacing.screenH,
-              AppSpacing.md,
-              AppSpacing.screenH,
-              AppSpacing.lg,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextField(
-                  key: const Key('tile_item_title_field'),
-                  controller: _titleController,
-                  decoration: InputDecoration(
-                    labelText: 'Name der Folge',
-                    hintText: item.title,
-                  ),
-                  onChanged: (_) => setState(() => _dirty = true),
-                  textCapitalization: TextCapitalization.sentences,
-                ),
-                const SizedBox(height: AppSpacing.md),
-                CoverPicker(
-                  controller: _coverController,
-                  episodeCovers: episodeCovers,
-                  artistIds: artistIds,
-                  onChanged: () => setState(() => _dirty = true),
-                  onAutoSave: _save,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: AppSpacing.md),
-          ListTile(
-            key: const Key('assign_to_tile'),
-            leading: const Icon(
-              Icons.layers_rounded,
-              color: AppColors.textSecondary,
-            ),
-            title: const Text(
-              'In Kachel verschieben…',
-              style: TextStyle(
-                fontFamily: 'Nunito',
-                fontWeight: FontWeight.w600,
-                fontSize: 15,
               ),
             ),
-            subtitle:
-                item.groupId != null
-                    ? const Text(
-                      'Aktuell einer Kachel zugeordnet',
-                      style: TextStyle(
-                        fontFamily: 'Nunito',
-                        fontSize: 13,
-                        color: AppColors.textSecondary,
-                      ),
-                    )
-                    : null,
-            trailing: const Icon(Icons.chevron_right_rounded),
-            tileColor: AppColors.parentSurface,
-            onTap: () => _showGroupPicker(context, item),
-          ),
-        ],
+            const SizedBox(height: AppSpacing.md),
+            ListTile(
+              key: const Key('assign_to_tile'),
+              leading: const Icon(
+                Icons.layers_rounded,
+                color: AppColors.textSecondary,
+              ),
+              title: const Text(
+                'In Kachel verschieben…',
+                style: TextStyle(
+                  fontFamily: 'Nunito',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 15,
+                ),
+              ),
+              subtitle:
+                  item.groupId != null
+                      ? const Text(
+                        'Aktuell einer Kachel zugeordnet',
+                        style: TextStyle(
+                          fontFamily: 'Nunito',
+                          fontSize: 13,
+                          color: AppColors.textSecondary,
+                        ),
+                      )
+                      : null,
+              trailing: const Icon(Icons.chevron_right_rounded),
+              tileColor: AppColors.parentSurface,
+              onTap: () => _showGroupPicker(context, item),
+            ),
+          ],
+        ),
       ),
     );
   }

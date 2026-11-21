@@ -9,6 +9,8 @@ import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/core/ui/undo_snackbar.dart';
 import 'package:lauschi/features/parent/screens/tile_edit/screen.dart';
 
+import '../../helpers/pushed_screen.dart';
+
 /// Widget tests for the parent-side tile (group) edit screen.
 ///
 /// The tile name is required, so the "Speichern" button validates it. But
@@ -50,6 +52,78 @@ void main() {
     addTearDown(container.dispose);
     return container;
   }
+
+  // Leaving with a new name used to throw it away unless the parent had
+  // tapped "Speichern" first (#307). The cover saves itself, so the name
+  // does too.
+  testWidgets('a renamed tile keeps its name when left with the back arrow', (
+    tester,
+  ) async {
+    final tileId = await repo.insert(title: 'TKKG');
+    await pushScreen(tester, makeContainer(), TileEditScreen(tileId: tileId));
+
+    await tester.enterText(
+      find.byKey(const Key('tile_title_field')),
+      'Die Bande',
+    );
+    await tester.pump();
+    await tester.pageBack();
+    await settle(tester);
+
+    expect((await repo.getById(tileId))!.title, 'Die Bande');
+    expect(find.text('Kachel gespeichert'), findsOneWidget);
+  });
+
+  testWidgets('a renamed tile keeps its name when left with system back', (
+    tester,
+  ) async {
+    final tileId = await repo.insert(title: 'TKKG');
+    await pushScreen(tester, makeContainer(), TileEditScreen(tileId: tileId));
+
+    await tester.enterText(
+      find.byKey(const Key('tile_title_field')),
+      'Die Bande',
+    );
+    await tester.pump();
+    await tester.binding.handlePopRoute();
+    await settle(tester);
+
+    expect((await repo.getById(tileId))!.title, 'Die Bande');
+  });
+
+  testWidgets('leaving with an empty name keeps the stored one', (
+    tester,
+  ) async {
+    final tileId = await repo.insert(title: 'TKKG');
+    await pushScreen(tester, makeContainer(), TileEditScreen(tileId: tileId));
+
+    await tester.enterText(find.byKey(const Key('tile_title_field')), '  ');
+    await tester.pump();
+    await tester.pageBack();
+    await settle(tester);
+
+    expect((await repo.getById(tileId))!.title, 'TKKG');
+    expect(find.text('Kachel gespeichert'), findsNothing);
+  });
+
+  testWidgets('deleting a renamed tile keeps the undo', (tester) async {
+    final tileId = await repo.insert(title: 'TKKG');
+    await pushScreen(tester, makeContainer(), TileEditScreen(tileId: tileId));
+
+    await tester.enterText(
+      find.byKey(const Key('tile_title_field')),
+      'Die Bande',
+    );
+    await tester.pump();
+    await tester.tap(find.byKey(const Key('tile_edit_menu')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Kachel löschen'));
+    await settle(tester);
+
+    expect(await repo.getById(tileId), isNull);
+    expect(find.text('Kachel gelöscht'), findsOneWidget);
+    expect(find.text('Kachel gespeichert'), findsNothing);
+  });
 
   testWidgets('a cover change persists even when the title field is empty', (
     tester,

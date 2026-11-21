@@ -79,6 +79,9 @@ class _TileEditScreenState extends ConsumerState<TileEditScreen> {
       showAppSnackBar('Löschen fehlgeschlagen');
       return;
     }
+    // The tile is gone, so leaving has no name to save, and a "gespeichert"
+    // message would replace the undo below.
+    _dirty = false;
     showUndoSnackBar(
       'Kachel gelöscht',
       onUndo: () => unawaited(tileRepo.restore(undo)),
@@ -147,6 +150,33 @@ class _TileEditScreenState extends ConsumerState<TileEditScreen> {
         );
       setState(() => _dirty = false);
     }
+  }
+
+  /// Leaving keeps a changed name, the same way a picked cover saves
+  /// itself. An empty name keeps the stored one. Runs while the screen is
+  /// being popped, and the write finishes after it's gone.
+  void _saveTitleOnLeave() {
+    if (!_dirty) return;
+    final title = _titleController.text.trim();
+    final storedTitle = ref.read(tileByIdProvider(widget.tileId)).value?.title;
+    if (title.isEmpty || title == storedTitle) return;
+    unawaited(_persistTitleOnLeave(ref.read(tileRepositoryProvider), title));
+  }
+
+  Future<void> _persistTitleOnLeave(TileRepository repo, String title) async {
+    Log.info(
+      _tag,
+      'Saving tile name on leave',
+      data: {'tileId': widget.tileId, 'title': title},
+    );
+    try {
+      await repo.update(id: widget.tileId, title: title);
+    } on Exception catch (e) {
+      Log.error(_tag, 'Save tile name on leave failed', exception: e);
+      showAppSnackBar('Speichern fehlgeschlagen');
+      return;
+    }
+    showAppSnackBar('Kachel gespeichert');
   }
 
   /// Persists just the cover, bypassing the required-title validation in
@@ -237,143 +267,148 @@ class _TileEditScreenState extends ConsumerState<TileEditScreen> {
             .toSet()
             .toList();
 
-    return Scaffold(
-      backgroundColor: AppColors.parentBackground,
-      appBar: AppBar(
+    return PopScope(
+      onPopInvokedWithResult: (didPop, _) {
+        if (didPop) _saveTitleOnLeave();
+      },
+      child: Scaffold(
         backgroundColor: AppColors.parentBackground,
-        title: const Text(
-          'Kachel bearbeiten',
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(fontSize: 18),
-        ),
-        actions: [
-          if (_dirty)
-            TextButton(
-              key: const Key('save_tile'),
-              onPressed: _save,
-              child: const Text('Speichern'),
+        appBar: AppBar(
+          backgroundColor: AppColors.parentBackground,
+          title: const Text(
+            'Kachel bearbeiten',
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontSize: 18),
+          ),
+          actions: [
+            if (_dirty)
+              TextButton(
+                key: const Key('save_tile'),
+                onPressed: _save,
+                child: const Text('Speichern'),
+              ),
+            PopupMenuButton<String>(
+              key: const Key('tile_edit_menu'),
+              onSelected: (action) {
+                switch (action) {
+                  case 'delete_cards':
+                    unawaited(_deleteAllCards());
+                  case 'delete_group':
+                    unawaited(_deleteGroup(context));
+                }
+              },
+              itemBuilder:
+                  (_) => [
+                    const PopupMenuItem(
+                      value: 'delete_cards',
+                      child: Text('Alle Folgen löschen'),
+                    ),
+                    const PopupMenuItem(
+                      value: 'delete_group',
+                      child: Text('Kachel löschen'),
+                    ),
+                  ],
             ),
-          PopupMenuButton<String>(
-            key: const Key('tile_edit_menu'),
-            onSelected: (action) {
-              switch (action) {
-                case 'delete_cards':
-                  unawaited(_deleteAllCards());
-                case 'delete_group':
-                  unawaited(_deleteGroup(context));
-              }
-            },
-            itemBuilder:
-                (_) => [
-                  const PopupMenuItem(
-                    value: 'delete_cards',
-                    child: Text('Alle Folgen löschen'),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton.extended(
+          key: const Key('add_episode_fab'),
+          onPressed:
+              () => unawaited(
+                context.push(AppRoutes.parentAddToTile(widget.tileId)),
+              ),
+          icon: const Icon(Icons.add_rounded),
+          label: const Text('Folge hinzufügen'),
+        ),
+        body: Column(
+          children: [
+            // Meta fields
+            Container(
+              color: AppColors.parentSurface,
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.screenH,
+                AppSpacing.md,
+                AppSpacing.screenH,
+                AppSpacing.lg,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextField(
+                    key: const Key('tile_title_field'),
+                    controller: _titleController,
+                    decoration: const InputDecoration(
+                      labelText: 'Name der Kachel',
+                    ),
+                    onChanged: (_) => setState(() => _dirty = true),
+                    textCapitalization: TextCapitalization.sentences,
                   ),
-                  const PopupMenuItem(
-                    value: 'delete_group',
-                    child: Text('Kachel löschen'),
+                  const SizedBox(height: AppSpacing.md),
+                  CoverPicker(
+                    controller: _coverController,
+                    episodeCovers: episodeCovers,
+                    artistIds: artistIds,
+                    onChanged: () => setState(() => _dirty = true),
+                    onAutoSave: _saveCover,
                   ),
                 ],
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        key: const Key('add_episode_fab'),
-        onPressed:
-            () => unawaited(
-              context.push(AppRoutes.parentAddToTile(widget.tileId)),
+              ),
             ),
-        icon: const Icon(Icons.add_rounded),
-        label: const Text('Folge hinzufügen'),
-      ),
-      body: Column(
-        children: [
-          // Meta fields
-          Container(
-            color: AppColors.parentSurface,
-            padding: const EdgeInsets.fromLTRB(
-              AppSpacing.screenH,
-              AppSpacing.md,
-              AppSpacing.screenH,
-              AppSpacing.lg,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextField(
-                  key: const Key('tile_title_field'),
-                  controller: _titleController,
-                  decoration: const InputDecoration(
-                    labelText: 'Name der Kachel',
-                  ),
-                  onChanged: (_) => setState(() => _dirty = true),
-                  textCapitalization: TextCapitalization.sentences,
-                ),
-                const SizedBox(height: AppSpacing.md),
-                CoverPicker(
-                  controller: _coverController,
-                  episodeCovers: episodeCovers,
-                  artistIds: artistIds,
-                  onChanged: () => setState(() => _dirty = true),
-                  onAutoSave: _saveCover,
-                ),
-              ],
-            ),
-          ),
 
-          // Episodes header
-          Padding(
-            padding: const EdgeInsets.fromLTRB(
-              AppSpacing.screenH,
-              AppSpacing.md,
-              AppSpacing.screenH,
-              AppSpacing.xs,
-            ),
-            child: Row(
-              children: [
-                const Text(
-                  'Folgen',
-                  style: TextStyle(
-                    fontFamily: 'Nunito',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 0.8,
-                    color: AppColors.textSecondary,
+            // Episodes header
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.screenH,
+                AppSpacing.md,
+                AppSpacing.screenH,
+                AppSpacing.xs,
+              ),
+              child: Row(
+                children: [
+                  const Text(
+                    'Folgen',
+                    style: TextStyle(
+                      fontFamily: 'Nunito',
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 0.8,
+                      color: AppColors.textSecondary,
+                    ),
                   ),
-                ),
-                const Spacer(),
-                Text(
-                  episodes.isEmpty ? '' : '${episodes.length}',
-                  style: const TextStyle(
-                    fontFamily: 'Nunito',
-                    fontSize: 12,
-                    color: AppColors.textSecondary,
+                  const Spacer(),
+                  Text(
+                    episodes.isEmpty ? '' : '${episodes.length}',
+                    style: const TextStyle(
+                      fontFamily: 'Nunito',
+                      fontSize: 12,
+                      color: AppColors.textSecondary,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
 
-          // Episode list
-          Expanded(
-            child: episodesAsync.when(
-              data:
-                  (eps) =>
-                      eps.isEmpty
-                          ? const _EmptyEpisodesHint()
-                          : EpisodeReorderList(
-                            tileId: widget.tileId,
-                            episodes: eps,
-                          ),
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error:
-                  (_, _) => const Center(
-                    child: Text('Fehler beim Laden der Folgen.'),
-                  ),
+            // Episode list
+            Expanded(
+              child: episodesAsync.when(
+                data:
+                    (eps) =>
+                        eps.isEmpty
+                            ? const _EmptyEpisodesHint()
+                            : EpisodeReorderList(
+                              tileId: widget.tileId,
+                              episodes: eps,
+                            ),
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error:
+                    (_, _) => const Center(
+                      child: Text('Fehler beim Laden der Folgen.'),
+                    ),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
