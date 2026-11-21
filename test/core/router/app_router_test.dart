@@ -11,6 +11,7 @@ import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/player_state.dart';
+import 'package:mocktail/mocktail.dart';
 
 Widget _buildApp(ProviderContainer container) {
   return UncontrolledProviderScope(
@@ -52,12 +53,15 @@ List<Override> _testOverrides({
 /// route-change context-asserts so we can prove navigation actually
 /// happened, not just that some text is visible on screen.
 String _currentLocation(ProviderContainer container) {
+  return _currentUri(container).path;
+}
+
+Uri _currentUri(ProviderContainer container) {
   return container
       .read(appRouterProvider)
       .routerDelegate
       .currentConfiguration
-      .uri
-      .path;
+      .uri;
 }
 
 void main() {
@@ -181,6 +185,92 @@ void main() {
     },
   );
 
+  testWidgets('the PIN gate remembers where the parent was going', (
+    tester,
+  ) async {
+    final container = ProviderContainer(
+      overrides: _testOverrides(parentAuthenticated: false),
+    );
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(_buildApp(container));
+    await tester.pump();
+
+    container
+        .read(appRouterProvider)
+        .go('${AppRoutes.parentAddContent}?tileId=t1');
+    await tester.pump();
+    await tester.pump();
+
+    final uri = _currentUri(container);
+    expect(uri.path, AppRoutes.pinEntry);
+    expect(
+      uri.queryParameters['from'],
+      '${AppRoutes.parentAddContent}?tileId=t1',
+    );
+  });
+
+  testWidgets('after the PIN the parent lands where they were going', (
+    tester,
+  ) async {
+    // "Hörspiel hinzufügen" on the empty kid home opens the add screen
+    // behind the PIN gate. Landing on the dashboard instead broke the
+    // button's promise (#306).
+    final pinService = _MockPinService();
+    when(() => pinService.verifyPin(any())).thenAnswer((_) async => true);
+    final container = ProviderContainer(
+      overrides: [
+        ..._testOverrides(parentAuthenticated: false),
+        pinServiceProvider.overrideWith((ref) => pinService),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(_buildApp(container));
+    await tester.pump();
+
+    container.read(appRouterProvider).go(AppRoutes.parentSettings);
+    await tester.pump();
+    await tester.pump();
+    expect(_currentLocation(container), AppRoutes.pinEntry);
+
+    for (final digit in ['1', '2', '3', '4']) {
+      await tester.tap(find.text(digit));
+      await tester.pump();
+    }
+    await tester.pump();
+    await tester.pump();
+
+    expect(_currentLocation(container), AppRoutes.parentSettings);
+  });
+
+  group('parentReturnLocation', () {
+    test('keeps a parent route with its query', () {
+      expect(
+        parentReturnLocation('/parent/add?tileId=t1'),
+        '/parent/add?tileId=t1',
+      );
+      expect(parentReturnLocation('/parent'), '/parent');
+    });
+
+    test('falls back to the dashboard for anything else', () {
+      for (final from in [
+        null,
+        '',
+        '/player',
+        '/parentx',
+        'https://example.com/parent',
+        '//example.com/parent',
+      ]) {
+        expect(
+          parentReturnLocation(from),
+          AppRoutes.parentDashboard,
+          reason: '$from',
+        );
+      }
+    });
+  });
+
   // ── Onboarding gate ────────────────────────────────────────────────
 
   testWidgets(
@@ -263,6 +353,8 @@ void main() {
   });
 }
 
+class _MockPinService extends Mock implements PinService {}
+
 class _FakeSession extends SpotifySession {
   @override
   SpotifySessionState build() => const SpotifyUnauthenticated();
@@ -296,4 +388,9 @@ class _FakeParentAuth extends ParentAuth {
 
   @override
   void touch(String location) {}
+
+  // The real one starts the 15-minute session timer, which would outlive
+  // the test.
+  @override
+  void authenticate() => state = true;
 }

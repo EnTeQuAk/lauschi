@@ -19,13 +19,22 @@ const _tag = 'PinScreen';
 /// - **setup**: Set a new PIN (first-time use).
 /// - **change**: Verify current PIN, then set a new one.
 class PinScreen extends ConsumerStatefulWidget {
-  const PinScreen({super.key, this.isSetup = false, this.isChange = false});
+  const PinScreen({
+    super.key,
+    this.isSetup = false,
+    this.isChange = false,
+    this.returnTo,
+  });
 
   /// If true, prompts user to set a new PIN instead of verifying.
   final bool isSetup;
 
   /// If true, verifies the current PIN first, then allows setting a new one.
   final bool isChange;
+
+  /// The parent location the PIN gate interrupted, opened after a correct
+  /// PIN. See [parentReturnLocation].
+  final String? returnTo;
 
   @override
   ConsumerState<PinScreen> createState() => _PinScreenState();
@@ -131,7 +140,7 @@ class _PinScreenState extends ConsumerState<PinScreen>
     if (valid) {
       if (!mounted) return;
       ref.read(parentAuthProvider.notifier).authenticate();
-      context.go(AppRoutes.parentDashboard);
+      context.go(parentReturnLocation(widget.returnTo));
     } else {
       await _showError();
     }

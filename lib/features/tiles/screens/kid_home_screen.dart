@@ -375,7 +375,7 @@ class _EmptyState extends StatelessWidget {
             const SizedBox(height: AppSpacing.xl),
             FilledButton.icon(
               key: const Key('add_content_button'),
-              onPressed: () => context.push(AppRoutes.parentDashboard),
+              onPressed: () => context.push(AppRoutes.parentAddContent),
               icon: const Icon(Icons.add_rounded),
               label: const Text('Hörspiel hinzufügen'),
             ),

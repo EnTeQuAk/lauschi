@@ -140,7 +140,9 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
       GoRoute(
         name: 'pin-entry',
         path: AppRoutes.pinEntry,
-        builder: (context, state) => const PinScreen(),
+        builder:
+            (context, state) =>
+                PinScreen(returnTo: state.uri.queryParameters['from']),
       ),
       GoRoute(
         name: 'pin-change',
@@ -303,7 +305,12 @@ String? _globalRedirect(Ref ref, GoRouterState state) {
         'Parent route not authenticated, redirecting to PIN',
         data: {'from': state.matchedLocation},
       );
-      return AppRoutes.pinEntry;
+      // Like a login's ?next=, so the PIN screen can continue to where
+      // the parent was going instead of the dashboard.
+      return Uri(
+        path: AppRoutes.pinEntry,
+        queryParameters: {'from': '${state.uri}'},
+      ).toString();
     }
     // Extend the session on genuine navigation so active parents aren't
     // logged out. touch() ignores repeats for the same location, so a
@@ -313,6 +320,21 @@ String? _globalRedirect(Ref ref, GoRouterState state) {
   }
 
   return null;
+}
+
+/// Where the PIN screen sends the parent after unlocking: the parent
+/// location the PIN gate interrupted, or the dashboard. Only a path inside
+/// the parent area counts, so whatever ends up in `from` can't send the
+/// unlocked session anywhere else.
+String parentReturnLocation(String? from) {
+  final uri = from == null ? null : Uri.tryParse(from);
+  if (uri == null || uri.hasScheme || uri.hasAuthority) {
+    return AppRoutes.parentDashboard;
+  }
+  final inParentArea =
+      uri.path == AppRoutes.parentDashboard ||
+      uri.path.startsWith('${AppRoutes.parentDashboard}/');
+  return inParentArea ? from! : AppRoutes.parentDashboard;
 }
 
 /// Bridges Riverpod state changes to GoRouter's [Listenable] refresh.

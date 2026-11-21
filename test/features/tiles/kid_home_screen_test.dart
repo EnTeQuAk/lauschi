@@ -12,6 +12,7 @@ import 'package:lauschi/core/settings/kid_settings.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
+import 'package:lauschi/features/parent/screens/pin_screen.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/player_state.dart';
 
@@ -61,6 +62,7 @@ List<Override> _testOverrides({
   List<db.Tile> tiles = const [],
   bool showEpisodeTitles = false,
   _TrackingPlayerNotifier? playerNotifier,
+  bool parentAuthenticated = true,
 }) {
   return [
     spotifySessionProvider.overrideWith(_FakeSession.new),
@@ -82,7 +84,9 @@ List<Override> _testOverrides({
       (ref, parentId) => Stream.value(const <db.Tile>[]),
     ),
     onboardingCompleteProvider.overrideWith(_FakeOnboarding.new),
-    parentAuthProvider.overrideWith(_FakeParentAuth.new),
+    parentAuthProvider.overrideWith(
+      () => _FakeParentAuth(authenticated: parentAuthenticated),
+    ),
     isOnlineProvider.overrideWith(_FakeOnline.new),
   ];
 }
@@ -96,6 +100,26 @@ void main() {
     await tester.pump();
 
     expect(find.text('Meine Hörspiele'), findsOneWidget);
+  });
+
+  testWidgets('"Hörspiel hinzufügen" heads for the add screen', (tester) async {
+    // Behind the PIN gate, so the gate's `from` shows where the button
+    // was going. It used to open the dashboard, where a parent had to
+    // guess that "ARD Sounds" is where content comes from (#306).
+    final container = ProviderContainer(
+      overrides: _testOverrides(parentAuthenticated: false),
+    );
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(_buildApp(container));
+    await tester.pump();
+
+    await tester.tap(find.byKey(const Key('add_content_button')));
+    await tester.pump();
+    await tester.pump();
+
+    final pin = tester.widget<PinScreen>(find.byType(PinScreen));
+    expect(pin.returnTo, AppRoutes.parentAddContent);
   });
 
   testWidgets('shows cards when ungrouped items exist', (tester) async {
@@ -326,8 +350,12 @@ class _FakeOnboarding extends OnboardingComplete {
 }
 
 class _FakeParentAuth extends ParentAuth {
+  _FakeParentAuth({required this.authenticated});
+
+  final bool authenticated;
+
   @override
-  bool build() => true;
+  bool build() => authenticated;
 
   @override
   void touch(String location) {}
