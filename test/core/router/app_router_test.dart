@@ -417,6 +417,32 @@ void main() {
     expect(find.text('Meine Hörspiele'), findsOneWidget);
     expect(find.text('Page Not Found'), findsNothing);
   });
+
+  // Links go to Log as Uri values, which it redacts (#313).
+  testWidgets('an unknown location is logged without its query', (
+    tester,
+  ) async {
+    final container = ProviderContainer(overrides: _testOverrides());
+    addTearDown(container.dispose);
+    final lines = <String>[];
+    await runZoned(
+      () async {
+        await tester.pumpWidget(_buildApp(container));
+        await tester.pump();
+        container.read(appRouterProvider).go('/nope?code=secret-user-token');
+        await tester.pump();
+        await tester.pump();
+      },
+      zoneSpecification: ZoneSpecification(
+        print: (self, parent, zone, line) => lines.add(line),
+      ),
+    );
+
+    final ours = lines.where((l) => l.startsWith('lauschi:')).join('\n');
+    expect(ours, contains('No route for location'));
+    expect(ours, contains('code=redacted'));
+    expect(ours, isNot(contains('secret-user-token')));
+  });
 }
 
 class _MockPinService extends Mock implements PinService {}
