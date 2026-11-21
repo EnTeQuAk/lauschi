@@ -21,7 +21,7 @@ void main() {
           body: CoverPicker(
             controller: controller,
             episodeCovers: episodeCovers,
-            onChanged: () {},
+            onChanged: () async {},
           ),
         ),
       ),

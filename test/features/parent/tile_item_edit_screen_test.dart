@@ -13,8 +13,8 @@ import '../../helpers/pushed_screen.dart';
 ///
 /// The screen mirrors the tile-edit screen's shape (title + cover +
 /// action area) but operates on a [TileItem]. These tests cover the
-/// load path (title/cover seeded from the row), the save path
-/// (writes go through TileItemRepository.updateMeta), and the
+/// load path (title/cover seeded from the row), the save path (the name
+/// saves itself through TileItemRepository.updateMeta), and the
 /// "not found" path (deleted item).
 void main() {
   late AppDatabase db;
@@ -64,7 +64,10 @@ void main() {
     await settle(tester);
 
     final field = tester.widget<TextField>(
-      find.byKey(const Key('tile_item_title_field')),
+      find.descendant(
+        of: find.byKey(const Key('tile_item_title_field')),
+        matching: find.byType(TextField),
+      ),
     );
     expect(
       field.controller!.text,
@@ -97,12 +100,15 @@ void main() {
     await settle(tester);
 
     final field = tester.widget<TextField>(
-      find.byKey(const Key('tile_item_title_field')),
+      find.descendant(
+        of: find.byKey(const Key('tile_item_title_field')),
+        matching: find.byType(TextField),
+      ),
     );
     expect(field.controller!.text, 'Solo Album');
   });
 
-  testWidgets('save writes customTitle through updateMeta', (tester) async {
+  testWidgets('a renamed episode saves while the parent types', (tester) async {
     final itemId = await repo.insert(
       title: 'Pre-Save Title',
       providerUri: 'spotify:album:save',
@@ -118,11 +124,7 @@ void main() {
       find.byKey(const Key('tile_item_title_field')),
       'New Custom Name',
     );
-    await tester.pump();
-
-    // Save button only appears once the field is dirty.
-    expect(find.byKey(const Key('save_tile_item')), findsOneWidget);
-    await tester.tap(find.byKey(const Key('save_tile_item')));
+    await tester.pump(const Duration(seconds: 1));
     await settle(tester);
 
     final after = await repo.getById(itemId);
@@ -132,6 +134,7 @@ void main() {
       'Pre-Save Title',
       reason: 'original title is not overwritten — only customTitle changes',
     );
+    expect(find.text('Speichern'), findsNothing);
   });
 
   // A new name used to need "Speichern" before back (#307). The cover
@@ -159,7 +162,6 @@ void main() {
     await settle(tester);
 
     expect((await repo.getById(itemId))!.customTitle, 'Mein Titel');
-    expect(find.text('Folge gespeichert'), findsOneWidget);
   });
 
   testWidgets('deleting a renamed episode keeps the undo', (tester) async {
@@ -186,7 +188,6 @@ void main() {
 
     expect(await repo.getById(itemId), isNull);
     expect(find.text('Folge gelöscht'), findsOneWidget);
-    expect(find.text('Folge gespeichert'), findsNothing);
   });
 
   testWidgets('"not found" path when the item row is missing', (tester) async {
@@ -196,8 +197,6 @@ void main() {
     await settle(tester);
 
     expect(find.text('Folge nicht gefunden'), findsOneWidget);
-    // No save button when there's nothing to edit.
-    expect(find.byKey(const Key('save_tile_item')), findsNothing);
     expect(tester.takeException(), isNull);
   });
 

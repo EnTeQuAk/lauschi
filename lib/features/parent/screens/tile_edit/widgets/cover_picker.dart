@@ -33,7 +33,6 @@ class CoverPicker extends ConsumerStatefulWidget {
     required this.onChanged,
     super.key,
     this.artistIds = const [],
-    this.onAutoSave,
   });
 
   final TextEditingController controller;
@@ -44,12 +43,8 @@ class CoverPicker extends ConsumerStatefulWidget {
   /// Spotify artist IDs to fetch artist images from.
   final List<String> artistIds;
 
-  /// Called when any cover value changes (marks the form dirty).
-  final VoidCallback onChanged;
-
-  /// Called immediately when an episode thumbnail is tapped; auto-saves
-  /// without requiring the user to tap a separate "Speichern" button.
-  final Future<void> Function()? onAutoSave;
+  /// Saves the cover right after the parent picks or clears it.
+  final Future<void> Function() onChanged;
 
   @override
   ConsumerState<CoverPicker> createState() => _CoverPickerState();
@@ -124,14 +119,12 @@ class _CoverPickerState extends ConsumerState<CoverPicker> {
 
   void _pickCover(String url) {
     widget.controller.text = url;
-    widget.onChanged();
-    if (widget.onAutoSave != null) unawaited(widget.onAutoSave!());
+    unawaited(widget.onChanged());
   }
 
   void _clearCover() {
     widget.controller.clear();
-    widget.onChanged();
-    if (widget.onAutoSave != null) unawaited(widget.onAutoSave!());
+    unawaited(widget.onChanged());
   }
 
   @override

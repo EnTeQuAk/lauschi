@@ -2,6 +2,7 @@ import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/database/app_database.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
@@ -13,11 +14,10 @@ import '../../helpers/pushed_screen.dart';
 
 /// Widget tests for the parent-side tile (group) edit screen.
 ///
-/// The tile name is required, so the "Speichern" button validates it. But
-/// the cover picker auto-saves independently, and a cover change must not
-/// be swallowed by the name validation just because the title field is
-/// momentarily empty. Destructive actions delete immediately and offer an
-/// undo instead of a confirmation dialog.
+/// The name and the cover save themselves. The name is required, so an
+/// empty one isn't saved, and a cover change must not be swallowed just
+/// because the title field is momentarily empty. Destructive actions
+/// delete immediately and offer an undo instead of a confirmation dialog.
 void main() {
   late AppDatabase db;
   late TileRepository repo;
@@ -56,6 +56,22 @@ void main() {
   // Leaving with a new name used to throw it away unless the parent had
   // tapped "Speichern" first (#307). The cover saves itself, so the name
   // does too.
+  testWidgets('a renamed tile saves while the parent types', (tester) async {
+    final tileId = await repo.insert(title: 'TKKG');
+    await pushScreen(tester, makeContainer(), TileEditScreen(tileId: tileId));
+
+    await tester.enterText(
+      find.byKey(const Key('tile_title_field')),
+      'Die Bande',
+    );
+    await tester.pump(const Duration(seconds: 1));
+    await settle(tester);
+
+    expect((await repo.getById(tileId))!.title, 'Die Bande');
+    expect(find.byType(TileEditScreen), findsOneWidget);
+    expect(find.text('Speichern'), findsNothing);
+  });
+
   testWidgets('a renamed tile keeps its name when left with the back arrow', (
     tester,
   ) async {
@@ -71,7 +87,6 @@ void main() {
     await settle(tester);
 
     expect((await repo.getById(tileId))!.title, 'Die Bande');
-    expect(find.text('Kachel gespeichert'), findsOneWidget);
   });
 
   testWidgets('a renamed tile keeps its name when left with system back', (
@@ -91,19 +106,76 @@ void main() {
     expect((await repo.getById(tileId))!.title, 'Die Bande');
   });
 
-  testWidgets('leaving with an empty name keeps the stored one', (
+  // The PIN screen replaces the parent area when the session ends, so
+  // there's no back press to save on.
+  testWidgets('a name typed just before the session ends is kept', (
+    tester,
+  ) async {
+    final tileId = await repo.insert(title: 'TKKG');
+    await pushScreen(tester, makeContainer(), TileEditScreen(tileId: tileId));
+
+    await tester.enterText(
+      find.byKey(const Key('tile_title_field')),
+      'Die Bande',
+    );
+    await tester.pump();
+    GoRouter.of(tester.element(find.byType(TileEditScreen))).go('/');
+    await settle(tester);
+
+    expect(find.byType(TileEditScreen), findsNothing);
+    expect((await repo.getById(tileId))!.title, 'Die Bande');
+  });
+
+  testWidgets('an empty name keeps the stored one and says why', (
     tester,
   ) async {
     final tileId = await repo.insert(title: 'TKKG');
     await pushScreen(tester, makeContainer(), TileEditScreen(tileId: tileId));
 
     await tester.enterText(find.byKey(const Key('tile_title_field')), '  ');
-    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
+
+    expect(find.text('Bitte einen Namen eingeben'), findsOneWidget);
     await tester.pageBack();
     await settle(tester);
 
     expect((await repo.getById(tileId))!.title, 'TKKG');
-    expect(find.text('Kachel gespeichert'), findsNothing);
+  });
+
+  // Saving on the way out used to confirm with a snackbar, which replaced
+  // the undo of a delete made just before.
+  testWidgets('leaving right after deleting all episodes keeps the undo', (
+    tester,
+  ) async {
+    final tileId = await repo.insert(title: 'TKKG');
+    final episode = await itemRepo.insert(
+      title: 'Folge 1',
+      providerUri: 'ard:1',
+      cardType: 'episode',
+    );
+    await itemRepo.assignToTile(
+      itemId: episode,
+      tileId: tileId,
+      episodeNumber: 1,
+    );
+    await pushScreen(tester, makeContainer(), TileEditScreen(tileId: tileId));
+
+    await tester.enterText(
+      find.byKey(const Key('tile_title_field')),
+      'Die Bande',
+    );
+    await tester.pump();
+    await tester.tap(find.byKey(const Key('tile_edit_menu')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Alle Folgen löschen'));
+    await settle(tester);
+    await tester.pageBack();
+    await settle(tester);
+
+    expect((await repo.getById(tileId))!.title, 'Die Bande');
+    await tester.tap(find.text('Rückgängig'));
+    await settle(tester);
+    expect((await itemRepo.getById(episode))?.groupId, tileId);
   });
 
   testWidgets('deleting a renamed tile keeps the undo', (tester) async {
@@ -122,7 +194,6 @@ void main() {
 
     expect(await repo.getById(tileId), isNull);
     expect(find.text('Kachel gelöscht'), findsOneWidget);
-    expect(find.text('Kachel gespeichert'), findsNothing);
   });
 
   testWidgets('a cover change persists even when the title field is empty', (
@@ -156,11 +227,6 @@ void main() {
       after.title,
       'TKKG',
       reason: 'the cover-only auto-save left the required title untouched',
-    );
-    expect(
-      find.text('Bitte einen Namen eingeben'),
-      findsNothing,
-      reason: 'a cover change must not trigger the name-required validation',
     );
   });
 

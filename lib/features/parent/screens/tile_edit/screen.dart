@@ -12,12 +12,13 @@ import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/core/ui/undo_snackbar.dart';
 import 'package:lauschi/features/parent/screens/tile_edit/widgets/cover_picker.dart';
 import 'package:lauschi/features/parent/screens/tile_edit/widgets/episode_reorder_list.dart';
+import 'package:lauschi/features/parent/widgets/autosave_name_field.dart';
 
 const _tag = 'TileEditScreen';
 
 /// Parent edit screen for a single series group.
 ///
-/// Title / cover are editable; episodes are shown in order and can be
+/// Title and cover save themselves. Episodes are shown in order and can be
 /// reordered or removed. Cards are assigned from the series manager.
 class TileEditScreen extends ConsumerStatefulWidget {
   const TileEditScreen({required this.tileId, super.key});
@@ -31,7 +32,8 @@ class TileEditScreen extends ConsumerStatefulWidget {
 class _TileEditScreenState extends ConsumerState<TileEditScreen> {
   late final TextEditingController _titleController;
   late final TextEditingController _coverController;
-  bool _dirty = false;
+  // Read here, since the name can still save after the screen is gone.
+  late final TileRepository _tiles;
   bool _initialized = false;
 
   @override
@@ -39,6 +41,7 @@ class _TileEditScreenState extends ConsumerState<TileEditScreen> {
     super.initState();
     _titleController = TextEditingController();
     _coverController = TextEditingController();
+    _tiles = ref.read(tileRepositoryProvider);
   }
 
   @override
@@ -50,7 +53,6 @@ class _TileEditScreenState extends ConsumerState<TileEditScreen> {
 
   Future<void> _deleteAllCards() async {
     Log.info(_tag, 'Deleting all cards', data: {'tileId': widget.tileId});
-    final tileRepo = ref.read(tileRepositoryProvider);
     final TileSnapshot undo;
     try {
       undo = await ref
@@ -64,27 +66,23 @@ class _TileEditScreenState extends ConsumerState<TileEditScreen> {
     final count = undo.items.length;
     showUndoSnackBar(
       '$count ${count == 1 ? 'Eintrag' : 'Einträge'} gelöscht',
-      onUndo: () => unawaited(tileRepo.restore(undo)),
+      onUndo: () => unawaited(_tiles.restore(undo)),
     );
   }
 
   Future<void> _deleteGroup(BuildContext context) async {
     Log.info(_tag, 'Deleting tile', data: {'tileId': widget.tileId});
-    final tileRepo = ref.read(tileRepositoryProvider);
     final TileSnapshot undo;
     try {
-      undo = await tileRepo.delete(widget.tileId);
+      undo = await _tiles.delete(widget.tileId);
     } on Exception catch (e) {
       Log.error(_tag, 'Delete tile failed', exception: e);
       showAppSnackBar('Löschen fehlgeschlagen');
       return;
     }
-    // The tile is gone, so leaving has no name to save, and a "gespeichert"
-    // message would replace the undo below.
-    _dirty = false;
     showUndoSnackBar(
       'Kachel gelöscht',
-      onUndo: () => unawaited(tileRepo.restore(undo)),
+      onUndo: () => unawaited(_tiles.restore(undo)),
     );
     if (context.mounted) {
       if (context.canPop()) {
@@ -95,75 +93,31 @@ class _TileEditScreenState extends ConsumerState<TileEditScreen> {
     }
   }
 
-  Future<void> _save() async {
-    final title = _titleController.text.trim();
-    if (title.isEmpty) {
-      showAppSnackBar('Bitte einen Namen eingeben');
-      return;
-    }
+  Future<void> _saveTitle(String title) async {
     Log.info(
       _tag,
-      'Saving tile',
+      'Saving title',
       data: {'tileId': widget.tileId, 'title': title},
     );
-    final cover = _coverController.text.trim();
     try {
-      await ref
-          .read(tileRepositoryProvider)
-          .update(
-            id: widget.tileId,
-            title: title,
-            coverUrl: cover.isEmpty ? null : cover,
-            clearCoverUrl: cover.isEmpty,
-          );
+      await _tiles.update(id: widget.tileId, title: title);
     } on Exception catch (e) {
-      Log.error(_tag, 'Save tile failed', exception: e);
+      Log.error(_tag, 'Save title failed', exception: e);
       showAppSnackBar('Speichern fehlgeschlagen');
-      return;
     }
-    showAppSnackBar('Kachel gespeichert', duration: const Duration(seconds: 2));
-    // Gone when it ran on the way out (see [_saveTitleOnLeave]).
-    if (mounted) setState(() => _dirty = false);
   }
 
-  /// Leaving keeps a changed name, the same way a picked cover saves
-  /// itself. An empty name keeps the stored one. Runs while the screen is
-  /// being popped, and [_save] finishes after it's gone.
-  void _saveTitleOnLeave() {
-    if (!_dirty) return;
-    final title = _titleController.text.trim();
-    final storedTitle = ref.read(tileByIdProvider(widget.tileId)).value?.title;
-    if (title.isEmpty || title == storedTitle) return;
-    unawaited(_save());
-  }
-
-  /// Persists just the cover, bypassing the required-title validation in
-  /// [_save]. Picking or clearing a cover auto-saves; it must not be
-  /// dropped (or surface a name error) when the title field happens to be
-  /// empty, since the two edits are independent.
   Future<void> _saveCover() async {
     final cover = _coverController.text.trim();
     try {
-      await ref
-          .read(tileRepositoryProvider)
-          .update(
-            id: widget.tileId,
-            coverUrl: cover.isEmpty ? null : cover,
-            clearCoverUrl: cover.isEmpty,
-          );
+      await _tiles.update(
+        id: widget.tileId,
+        coverUrl: cover.isEmpty ? null : cover,
+        clearCoverUrl: cover.isEmpty,
+      );
     } on Exception catch (e) {
       Log.error(_tag, 'Save cover failed', exception: e);
       showAppSnackBar('Speichern fehlgeschlagen');
-      return;
-    }
-    // The cover is saved. Clear the dirty flag only when the title field
-    // still matches what's stored, so a pending (unsaved) title edit keeps
-    // the Save button around.
-    if (!mounted) return;
-    final persistedTitle =
-        ref.read(tileByIdProvider(widget.tileId)).value?.title;
-    if (_titleController.text.trim() == persistedTitle) {
-      setState(() => _dirty = false);
     }
   }
 
@@ -191,12 +145,7 @@ class _TileEditScreenState extends ConsumerState<TileEditScreen> {
             }
           });
         }
-        return PopScope(
-          onPopInvokedWithResult: (didPop, _) {
-            if (didPop) _saveTitleOnLeave();
-          },
-          child: _buildScaffold(context, group, episodesAsync),
-        );
+        return _buildScaffold(context, group, episodesAsync);
       },
       loading:
           () => Scaffold(
@@ -241,12 +190,6 @@ class _TileEditScreenState extends ConsumerState<TileEditScreen> {
           style: TextStyle(fontSize: 18),
         ),
         actions: [
-          if (_dirty)
-            TextButton(
-              key: const Key('save_tile'),
-              onPressed: _save,
-              child: const Text('Speichern'),
-            ),
           PopupMenuButton<String>(
             key: const Key('tile_edit_menu'),
             onSelected: (action) {
@@ -294,22 +237,21 @@ class _TileEditScreenState extends ConsumerState<TileEditScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextField(
+                AutosaveNameField(
                   key: const Key('tile_title_field'),
                   controller: _titleController,
-                  decoration: const InputDecoration(
-                    labelText: 'Name der Kachel',
-                  ),
-                  onChanged: (_) => setState(() => _dirty = true),
-                  textCapitalization: TextCapitalization.sentences,
+                  label: 'Name der Kachel',
+                  onSave: _saveTitle,
+                  validate:
+                      (name) =>
+                          name.isEmpty ? 'Bitte einen Namen eingeben' : null,
                 ),
                 const SizedBox(height: AppSpacing.md),
                 CoverPicker(
                   controller: _coverController,
                   episodeCovers: episodeCovers,
                   artistIds: artistIds,
-                  onChanged: () => setState(() => _dirty = true),
-                  onAutoSave: _saveCover,
+                  onChanged: _saveCover,
                 ),
               ],
             ),

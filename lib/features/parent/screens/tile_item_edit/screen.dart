@@ -11,16 +11,16 @@ import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/core/ui/undo_snackbar.dart';
 import 'package:lauschi/features/parent/screens/tile_edit/widgets/cover_picker.dart';
+import 'package:lauschi/features/parent/widgets/autosave_name_field.dart';
 import 'package:lauschi/features/parent/widgets/group_picker_sheet.dart';
 
 const _tag = 'TileItemEditScreen';
 
 /// The customTitle override to persist for the edited [fieldText] given
 /// the item's canonical [originalTitle]. Returns null (clear the override)
-/// when the field is empty or merely echoes the original title, so a
-/// save that only changed the cover can't silently promote the original
-/// name into a stored override that would then mask later upstream title
-/// changes.
+/// when the field is empty or merely echoes the original title, so the
+/// original name never becomes a stored override that would then mask
+/// later upstream title changes.
 @visibleForTesting
 String? resolveCustomTitle(String fieldText, String originalTitle) {
   final trimmed = fieldText.trim();
@@ -46,7 +46,8 @@ class TileItemEditScreen extends ConsumerStatefulWidget {
 class _TileItemEditScreenState extends ConsumerState<TileItemEditScreen> {
   late final TextEditingController _titleController;
   late final TextEditingController _coverController;
-  bool _dirty = false;
+  // Read here, since the name can still save after the screen is gone.
+  late final TileItemRepository _items;
   bool _initialized = false;
 
   @override
@@ -54,6 +55,7 @@ class _TileItemEditScreenState extends ConsumerState<TileItemEditScreen> {
     super.initState();
     _titleController = TextEditingController();
     _coverController = TextEditingController();
+    _items = ref.read(tileItemRepositoryProvider);
   }
 
   @override
@@ -63,49 +65,39 @@ class _TileItemEditScreenState extends ConsumerState<TileItemEditScreen> {
     super.dispose();
   }
 
-  Future<void> _save() async {
-    final originalTitle =
-        ref.read(tileItemByIdProvider(widget.itemId)).value?.title ?? '';
-    final customTitle = resolveCustomTitle(
-      _titleController.text,
-      originalTitle,
-    );
-    final cover = _coverController.text.trim();
+  /// Stores [name] as the episode's own name, or goes back to
+  /// [originalTitle] when it's empty or the same.
+  Future<void> _saveTitle(String name, String originalTitle) async {
+    final customTitle = resolveCustomTitle(name, originalTitle);
     Log.info(
       _tag,
-      'Saving item',
+      'Saving title',
       data: {'itemId': widget.itemId, 'override': '${customTitle != null}'},
     );
     try {
-      await ref
-          .read(tileItemRepositoryProvider)
-          .updateMeta(
-            id: widget.itemId,
-            customTitle: customTitle,
-            clearCustomTitle: customTitle == null,
-            coverUrl: cover.isEmpty ? null : cover,
-            clearCoverUrl: cover.isEmpty,
-          );
+      await _items.updateMeta(
+        id: widget.itemId,
+        customTitle: customTitle,
+        clearCustomTitle: customTitle == null,
+      );
     } on Exception catch (e) {
-      Log.error(_tag, 'Save item failed', exception: e);
+      Log.error(_tag, 'Save title failed', exception: e);
       showAppSnackBar('Speichern fehlgeschlagen');
-      return;
     }
-    showAppSnackBar('Folge gespeichert', duration: const Duration(seconds: 2));
-    // Gone when it ran on the way out (see [_saveTitleOnLeave]).
-    if (mounted) setState(() => _dirty = false);
   }
 
-  /// Leaving keeps a changed name, the same way a picked cover saves
-  /// itself. Runs while the screen is being popped, and [_save] finishes
-  /// after it's gone.
-  void _saveTitleOnLeave() {
-    if (!_dirty) return;
-    final item = ref.read(tileItemByIdProvider(widget.itemId)).value;
-    if (item == null) return;
-    final customTitle = resolveCustomTitle(_titleController.text, item.title);
-    if (customTitle == item.customTitle) return;
-    unawaited(_save());
+  Future<void> _saveCover() async {
+    final cover = _coverController.text.trim();
+    try {
+      await _items.updateMeta(
+        id: widget.itemId,
+        coverUrl: cover.isEmpty ? null : cover,
+        clearCoverUrl: cover.isEmpty,
+      );
+    } on Exception catch (e) {
+      Log.error(_tag, 'Save cover failed', exception: e);
+      showAppSnackBar('Speichern fehlgeschlagen');
+    }
   }
 
   Future<void> _deleteItem(BuildContext context) async {
@@ -113,16 +105,13 @@ class _TileItemEditScreenState extends ConsumerState<TileItemEditScreen> {
     final tileRepo = ref.read(tileRepositoryProvider);
     final TileSnapshot undo;
     try {
-      undo = await ref.read(tileItemRepositoryProvider).delete(widget.itemId);
+      undo = await _items.delete(widget.itemId);
     } on Exception catch (e) {
       Log.error(_tag, 'Delete item failed', exception: e);
       showAppSnackBar('Löschen fehlgeschlagen');
       return;
     }
     if (undo.isEmpty) return; // Already gone; nothing to undo.
-    // The item is gone, so leaving has no name to save, and a "gespeichert"
-    // message would replace the undo below.
-    _dirty = false;
     showUndoSnackBar(
       'Folge gelöscht',
       onUndo: () => unawaited(tileRepo.restore(undo)),
@@ -158,12 +147,7 @@ class _TileItemEditScreenState extends ConsumerState<TileItemEditScreen> {
             }
           });
         }
-        return PopScope(
-          onPopInvokedWithResult: (didPop, _) {
-            if (didPop) _saveTitleOnLeave();
-          },
-          child: _buildScaffold(context, item),
-        );
+        return _buildScaffold(context, item);
       },
       loading:
           () => Scaffold(
@@ -202,12 +186,6 @@ class _TileItemEditScreenState extends ConsumerState<TileItemEditScreen> {
           style: TextStyle(fontSize: 18),
         ),
         actions: [
-          if (_dirty)
-            TextButton(
-              key: const Key('save_tile_item'),
-              onPressed: _save,
-              child: const Text('Speichern'),
-            ),
           PopupMenuButton<String>(
             onSelected: (action) {
               switch (action) {
@@ -238,23 +216,19 @@ class _TileItemEditScreenState extends ConsumerState<TileItemEditScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextField(
+                AutosaveNameField(
                   key: const Key('tile_item_title_field'),
                   controller: _titleController,
-                  decoration: InputDecoration(
-                    labelText: 'Name der Folge',
-                    hintText: item.title,
-                  ),
-                  onChanged: (_) => setState(() => _dirty = true),
-                  textCapitalization: TextCapitalization.sentences,
+                  label: 'Name der Folge',
+                  hint: item.title,
+                  onSave: (name) => _saveTitle(name, item.title),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 CoverPicker(
                   controller: _coverController,
                   episodeCovers: episodeCovers,
                   artistIds: artistIds,
-                  onChanged: () => setState(() => _dirty = true),
-                  onAutoSave: _save,
+                  onChanged: _saveCover,
                 ),
               ],
             ),
