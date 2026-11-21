@@ -11,7 +11,7 @@ cd "$(dirname "$0")/.."
 
 flutter pub remove sentry_flutter sentry_dio
 perl -pi -e 's/sentry_telemetry\.dart/noop_telemetry.dart/' lib/core/telemetry/telemetry.dart
-rm lib/core/telemetry/sentry_telemetry.dart
+rm lib/core/telemetry/sentry_telemetry.dart test/core/telemetry/sentry_telemetry_test.dart
 
 if grep -rl "package:sentry" lib; then
   echo "The files above still import Sentry. Report through lib/core/telemetry/ instead." >&2

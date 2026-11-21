@@ -71,7 +71,24 @@ final class SentryTelemetry implements TelemetryBackend {
   }
 
   @override
-  List<NavigatorObserver> get navigatorObservers => [SentryNavigatorObserver()];
+  List<NavigatorObserver> get navigatorObservers => [navigatorObserver()];
+
+  /// Records screen changes without the route arguments: go_router passes
+  /// a location's query values to its page as arguments, and an OAuth
+  /// callback carries secrets there.
+  ///
+  /// Navigation transactions still store the arguments, the SDK has no
+  /// option for that. Flutter's own deep linking is off (see
+  /// AndroidManifest.xml and Info.plist), so the router only ever sees the
+  /// app's own locations.
+  @visibleForTesting
+  static SentryNavigatorObserver navigatorObserver({Hub? hub}) =>
+      SentryNavigatorObserver(
+        hub: hub,
+        routeNameExtractor:
+            (settings) =>
+                settings == null ? null : RouteSettings(name: settings.name),
+      );
 
   @override
   void instrument(Dio dio) {
