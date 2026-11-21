@@ -1,3 +1,5 @@
+import 'dart:math' show max;
+
 import 'package:flutter/widgets.dart';
 
 /// Centers [child] in the available space when it fits, and scrolls it
@@ -20,7 +22,9 @@ class CenteredScrollView extends StatelessWidget {
             padding: padding,
             child: ConstrainedBox(
               constraints: BoxConstraints(
-                minHeight: constraints.maxHeight - padding.vertical,
+                // Zero in a window shorter than the padding, as in split
+                // screen.
+                minHeight: max(0, constraints.maxHeight - padding.vertical),
               ),
               child: Center(child: child),
             ),
