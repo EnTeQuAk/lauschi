@@ -26,6 +26,15 @@ void main() {
       expect(redactQuery(uri), 'lauschi://callback');
     });
 
+    test('redacts a query whose escapes are no valid UTF-8', () {
+      final uri = Uri.parse('lauschi://callback?code=%FF%E0&state=%C3');
+
+      expect(
+        redactQuery(uri),
+        'lauschi://callback?code=redacted&state=redacted',
+      );
+    });
+
     test('keeps a link without query as it is', () {
       final uri = Uri.parse('lauschi://callback');
 

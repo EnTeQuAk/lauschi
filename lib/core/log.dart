@@ -5,13 +5,17 @@ import 'package:lauschi/core/telemetry/telemetry.dart';
 /// [uri] for a log line, with every query value replaced and the fragment
 /// dropped. OAuth callbacks carry secrets there: Spotify's authorization
 /// code, and for Apple Music the music user token itself.
+///
+/// Works on the raw query and decodes nothing, since decoding throws on an
+/// escape that is no valid UTF-8 and any app can open a lauschi:// link.
 String redactQuery(Uri uri) {
   final link = uri.removeFragment();
   if (!link.hasQuery) return '$link';
-  final redacted = {
-    for (final name in link.queryParameters.keys) name: 'redacted',
-  };
-  return '${link.replace(queryParameters: redacted)}';
+  final redacted = [
+    for (final pair in link.query.split('&'))
+      if (pair.isNotEmpty) '${pair.split('=').first}=redacted',
+  ].join('&');
+  return '${link.replace(query: redacted)}';
 }
 
 /// Lightweight structured logger.
