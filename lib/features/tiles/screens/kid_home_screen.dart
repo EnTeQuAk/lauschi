@@ -310,15 +310,9 @@ class _GroupGridItem extends ConsumerWidget {
         ref
             .watch(childTilesProvider(group.id))
             .whenOrNull(
-              data:
-                  (tiles) =>
-                      tiles
-                          .where((t) => t.coverUrl != null)
-                          .take(4)
-                          .map((t) => t.coverUrl!)
-                          .toList(),
+              data: (tiles) => tiles.take(4).map((t) => t.coverUrl).toList(),
             ) ??
-        const <String>[];
+        const <String?>[];
 
     return TileCard(
       key: Key('tile_${group.id}'),

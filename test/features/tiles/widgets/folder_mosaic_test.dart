@@ -1,12 +1,42 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/tiles/widgets/tile_card.dart';
 
 /// A folder's cover is made from its tiles' covers. With fewer than four
 /// tiles the covers share the whole square instead of leaving empty
-/// slots: a two-tile folder used to fill only its top half (#308).
+/// slots: a two-tile folder used to fill only its top half (#308). A tile
+/// without a cover keeps its slot, so the folder still reads as a folder.
 void main() {
+  Future<void> pumpCovers(WidgetTester tester, List<String?> covers) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: Center(
+            child: SizedBox(
+              width: 200,
+              height: 200,
+              child: TileCard(
+                title: 'Ordner',
+                episodeCount: 0,
+                childCount: covers.length,
+                kidMode: true,
+                childCoverUrls: covers,
+                onTap: () {},
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+  }
+
+  Finder emptySlots() => find.byWidgetPredicate(
+    (w) => w is ColoredBox && w.color == AppColors.surfaceDim,
+  );
+
   Future<List<Rect>> pumpFolder(WidgetTester tester, int tiles) async {
     await tester.pumpWidget(
       MaterialApp(
@@ -70,6 +100,23 @@ void main() {
     expect(bottom.left, top.left);
     expect(bottom.top, greaterThan(top.bottom));
     expect(top.height + bottom.height, lessThan(tall.height));
+  });
+
+  testWidgets('a tile without a cover keeps an empty square', (tester) async {
+    await pumpCovers(tester, ['https://covers.example/0.jpg', null]);
+
+    final cover = tester.getRect(find.byType(CachedNetworkImage));
+    expect(cover.height, greaterThan(cover.width * 1.8), reason: 'half');
+    expect(emptySlots(), findsOneWidget);
+  });
+
+  testWidgets('a folder of tiles without covers still shows its squares', (
+    tester,
+  ) async {
+    await pumpCovers(tester, [null, null, null]);
+
+    expect(find.byType(CachedNetworkImage), findsNothing);
+    expect(emptySlots(), findsNWidgets(3));
   });
 
   testWidgets('four tiles make a 2x2 grid', (tester) async {

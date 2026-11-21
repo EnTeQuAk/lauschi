@@ -106,8 +106,9 @@ class TileCard extends StatefulWidget {
   /// Number of child tiles (nested). When > 0, shows "X Kacheln" instead.
   final int childCount;
 
-  /// Cover URLs of child tiles (up to 4) for the folder mosaic.
-  final List<String> childCoverUrls;
+  /// Covers of the first four child tiles for the folder mosaic, null for
+  /// a tile without one. Empty when the tile is no folder.
+  final List<String?> childCoverUrls;
 
   @override
   State<TileCard> createState() => _GroupCardState();
@@ -331,14 +332,15 @@ class _StackedArt extends StatelessWidget {
   );
 }
 
-/// The folder thumbnail, made from up to four child tile covers. One
-/// cover fills the square, two sit side by side, three put the first next
+/// The folder thumbnail, made from its first four child tiles' covers.
+/// One fills the square, two sit side by side, three put the first next
 /// to the other two, four make a 2x2 grid. Covers are cropped to their
-/// slot, never stretched.
+/// slot, never stretched, and a tile without a cover keeps its slot as an
+/// empty square, so the folder doesn't pass for a single tile.
 class _FolderMosaic extends StatelessWidget {
   const _FolderMosaic({required this.coverUrls, this.progress = 0});
 
-  final List<String> coverUrls;
+  final List<String?> coverUrls;
   final double progress;
 
   static const _gap = 2.0;

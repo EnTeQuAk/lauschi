@@ -137,7 +137,7 @@ void main() {
       expect(item.childCoverUrls, hasLength(4));
     });
 
-    test('skips children without cover URL', () {
+    test('keeps a place for a child without a cover', () {
       final tile = _tile(id: 'f1');
       final children = [
         _tile(id: 'c1', coverUrl: 'https://img/1.jpg'),
@@ -145,10 +145,8 @@ void main() {
         _tile(id: 'c3', coverUrl: 'https://img/3.jpg'),
       ];
 
-      // Context: the filter only has something to filter if the
-      // middle child actually lacks a cover URL. The order matters
-      // too — we want to see that index 2 ends up at index 1 in the
-      // output, proving the filter preserves order.
+      // Context: the middle child lacks a cover URL. It keeps its slot,
+      // so the folder shows three squares, one of them empty.
       expect(children, hasLength(3));
       expect(children[0].coverUrl, isNotNull);
       expect(children[1].coverUrl, isNull, reason: 'middle child unfiltered');
@@ -160,7 +158,11 @@ void main() {
         episodeCount: 0,
       );
 
-      expect(item.childCoverUrls, ['https://img/1.jpg', 'https://img/3.jpg']);
+      expect(item.childCoverUrls, [
+        'https://img/1.jpg',
+        null,
+        'https://img/3.jpg',
+      ]);
     });
   });
 

@@ -44,13 +44,9 @@ class ChildTileGrid extends ConsumerWidget {
                     .whenOrNull(
                       data:
                           (tiles) =>
-                              tiles
-                                  .where((t) => t.coverUrl != null)
-                                  .take(4)
-                                  .map((t) => t.coverUrl!)
-                                  .toList(),
+                              tiles.take(4).map((t) => t.coverUrl).toList(),
                     ) ??
-                const <String>[];
+                const <String?>[];
 
             return TileCard(
               key: Key('child_tile_${child.id}'),

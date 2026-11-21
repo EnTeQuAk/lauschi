@@ -137,7 +137,9 @@ class DraggableTileItem {
   final ContentType contentType;
   final double progress;
   final int childCount;
-  final List<String> childCoverUrls;
+
+  /// See [TileCard.childCoverUrls].
+  final List<String?> childCoverUrls;
   final GridItemKind kind;
 }
 

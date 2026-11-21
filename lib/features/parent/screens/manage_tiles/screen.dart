@@ -411,12 +411,7 @@ DraggableTileItem buildTileDisplayItem(
   required List<db.Tile> children,
   required int episodeCount,
 }) {
-  final childCovers =
-      children
-          .where((t) => t.coverUrl != null)
-          .take(4)
-          .map((t) => t.coverUrl!)
-          .toList();
+  final childCovers = children.take(4).map((t) => t.coverUrl).toList();
 
   final title = children.isNotEmpty ? folderName(children) : tile.title;
 
