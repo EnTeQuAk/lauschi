@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/features/parent/widgets/draggable_tile_grid.dart';
@@ -409,6 +411,48 @@ void main() {
         expect(nested, isNull);
         expect(order, ['tile:c', 'tile:a', 'tile:b', 'tile:d']);
       });
+    });
+
+    testWidgets('a drop ends the drag once', (tester) async {
+      // A drop no DragTarget accepts fires both onDragEnd and
+      // onDraggableCanceled. Listening to both ended every drag twice and
+      // logged a warning for the second one.
+      await tester.pumpWidget(
+        noopWrap(
+          SizedBox(
+            width: 400,
+            height: 800,
+            child: DraggableTileGrid(
+              items: twoTiles,
+              onReorder: (_) {},
+              onNest: (_, _) {},
+              onTap: (_) {},
+            ),
+          ),
+        ),
+      );
+      final start = tester.getCenter(find.text('Alpha'));
+
+      final logs = <String>[];
+      await runZoned(
+        () async {
+          final gesture = await tester.startGesture(start);
+          await tester.pump(const Duration(milliseconds: 400));
+          await gesture.moveTo(start + const Offset(0, 40));
+          await tester.pump(const Duration(milliseconds: 50));
+          await gesture.up();
+          await tester.pump(const Duration(milliseconds: 250));
+        },
+        zoneSpecification: ZoneSpecification(
+          print: (self, parent, zone, line) => logs.add(line),
+        ),
+      );
+
+      expect(
+        logs.where((l) => l.contains('[DragGrid] Drag END')),
+        hasLength(1),
+      );
+      expect(logs.where((l) => l.contains('no drag active')), isEmpty);
     });
 
     testWidgets('dragging a tile into empty space moves it to the end', (

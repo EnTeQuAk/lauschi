@@ -830,8 +830,11 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
             childWhenDragging: Opacity(opacity: 0.3, child: _tileContent(item)),
             onDragStarted: () => _onDragStart(item.id),
             onDragUpdate: _onDragUpdate,
+            // Fires for every drop, accepted or not, while the tile is
+            // mounted, and it stays mounted for the whole drag since _order
+            // keeps every item. onDraggableCanceled would fire as well, as
+            // no DragTarget takes these drops, and end the drag twice.
             onDragEnd: (_) => _onDragEnd(),
-            onDraggableCanceled: (_, _) => _onDragEnd(),
             child: _TappableTile(
               onTap: () => widget.onTap(item.id),
               child: _tileContent(item),
