@@ -1,3 +1,5 @@
+import 'dart:math' show min;
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,6 +14,10 @@ import 'package:lauschi/features/parent/screens/ard_show_detail/screen.dart';
 
 /// How recently an item must be published to show the "Neu" badge.
 const _newBadgeMaxAge = Duration(days: 14);
+
+/// The most of the screen's height the hero may take. At 16:9 and full
+/// width it would fill a phone held sideways, with the shows out of sight.
+const _heroMaxHeightShare = 0.4;
 
 // ── Hero card ───────────────────────────────────────────────────────────────
 
@@ -49,23 +55,33 @@ class FeaturedHeroCard extends ConsumerWidget {
           borderRadius: const BorderRadius.all(AppRadius.card),
           child: Stack(
             children: [
-              // Cover image
-              AspectRatio(
-                aspectRatio: 16 / 9,
-                child:
-                    imageUrl != null
-                        ? CachedNetworkImage(
-                          imageUrl: imageUrl,
-                          fit: BoxFit.cover,
-                          color: Colors.black.withAlpha(100),
-                          colorBlendMode: BlendMode.darken,
-                        )
-                        : const ColoredBox(
-                          color: AppColors.surfaceDim,
-                          child: Center(
-                            child: Icon(Icons.auto_stories_rounded, size: 48),
-                          ),
-                        ),
+              // Cover image, 16:9 unless that's too tall for the screen.
+              LayoutBuilder(
+                builder:
+                    (context, constraints) => SizedBox(
+                      width: constraints.maxWidth,
+                      height: min(
+                        constraints.maxWidth * 9 / 16,
+                        MediaQuery.sizeOf(context).height * _heroMaxHeightShare,
+                      ),
+                      child:
+                          imageUrl != null
+                              ? CachedNetworkImage(
+                                imageUrl: imageUrl,
+                                fit: BoxFit.cover,
+                                color: Colors.black.withAlpha(100),
+                                colorBlendMode: BlendMode.darken,
+                              )
+                              : const ColoredBox(
+                                color: AppColors.surfaceDim,
+                                child: Center(
+                                  child: Icon(
+                                    Icons.auto_stories_rounded,
+                                    size: 48,
+                                  ),
+                                ),
+                              ),
+                    ),
               ),
 
               // Text overlay

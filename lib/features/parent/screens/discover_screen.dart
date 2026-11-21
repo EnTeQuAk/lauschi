@@ -45,7 +45,7 @@ class DiscoverScreen extends ConsumerWidget {
     final showsAsync = ref.watch(ardKidsShowsProvider);
     final featuredAsync = ref.watch(featuredItemsProvider);
 
-    final body = showsAsync.when(
+    final content = showsAsync.when(
       loading: () => const Center(child: CircularProgressIndicator()),
       error:
           (e, _) => Center(
@@ -140,8 +140,10 @@ class DiscoverScreen extends ConsumerWidget {
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
               sliver: SliverGrid(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
+                // Three per row on a phone in portrait, more when it's
+                // held sideways or on a tablet.
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 140,
                   mainAxisSpacing: AppSpacing.md,
                   crossAxisSpacing: AppSpacing.md,
                   childAspectRatio: 0.7,
@@ -179,6 +181,9 @@ class DiscoverScreen extends ConsumerWidget {
         );
       },
     );
+
+    // Held sideways, the system navigation sits at the left or right edge.
+    final body = SafeArea(top: false, bottom: false, child: content);
 
     if (embedded) {
       return ColoredBox(color: AppColors.parentBackground, child: body);
