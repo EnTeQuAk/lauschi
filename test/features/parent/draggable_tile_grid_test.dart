@@ -230,13 +230,9 @@ void main() {
     });
 
     testWidgets('backward drag — hold-to-merge fires onNest', (tester) async {
-      // Regression for the post-swap "over own slot" self-cancel: when
-      // dragging from a higher index to a lower one, the swap puts the
-      // dragged item AT the original target's position. The pointer
-      // then hit-tests the dragged item's own slot. Before the fix, the
-      // grid would cancel the nest target on that frame and hold-to-
-      // merge could never confirm on a backward drag — the user could
-      // form a folder only by dragging forward.
+      // Dragging from a higher index onto a lower one must still merge
+      // when you hold on the target's middle. The target stays where it
+      // is while the finger is on it, so the hold can confirm.
       String? draggedId;
       String? targetId;
       await tester.pumpWidget(
@@ -257,16 +253,22 @@ void main() {
         ),
       );
 
+      final xCell = tester.getRect(
+        find.ancestor(
+          of: find.text('Episode X'),
+          matching: find.byType(LongPressDraggable<String>),
+        ),
+      );
       // Start the long-press drag on Y (the right cell, higher index).
       final yFinder = find.text('Episode Y');
       final gesture = await tester.startGesture(tester.getCenter(yFinder));
       // LongPressDraggable needs ~300ms before the drag starts.
       await tester.pump(const Duration(milliseconds: 400));
 
-      // Move backward onto X (left cell, lower index). This is the
-      // direction that used to break.
-      await gesture.moveTo(tester.getCenter(find.text('Episode X')));
-      // Let the swap commit.
+      // Move backward onto the middle of X's art (left cell, lower index).
+      await gesture.moveTo(
+        Offset(xCell.center.dx, xCell.top + xCell.width / 2),
+      );
       await tester.pump(const Duration(milliseconds: 50));
       // Hold for the nest delay (500ms) so _checkNestIdle confirms.
       await tester.pump(const Duration(milliseconds: 600));
@@ -276,14 +278,137 @@ void main() {
       await tester.pump(const Duration(milliseconds: 250));
 
       expect(draggedId, 'item:y', reason: 'dragged Y onto X (backward)');
-      expect(
-        targetId,
-        'item:x',
-        reason:
-            'onNest must fire even when the swap moved the dragged item '
-            'INTO the pointer slot. The "over own slot" branch must not '
-            'cancel an active nest target.',
+      expect(targetId, 'item:x', reason: 'held on the middle of X');
+    });
+
+    // Like a phone's home screen: the middle of a tile makes a folder when
+    // you hold still on it, its edges move the dragged tile next to it. A
+    // slow drag used to end as a folder because the hold timer kept running
+    // on a tile that had already moved away (#309).
+    group('home screen drag', () {
+      const tileC = DraggableTileItem(id: 'tile:c', title: 'Gamma');
+      const tileD = DraggableTileItem(id: 'tile:d', title: 'Delta');
+      // Three per row at this width: Delta sits alone in the second row.
+      const tiles = [tileA, tileB, tileC, tileD];
+
+      Rect cellOf(WidgetTester tester, String title) => tester.getRect(
+        find.ancestor(
+          of: find.text(title),
+          matching: find.byType(LongPressDraggable<String>),
+        ),
       );
+
+      Future<(List<String>?, (String, String)?)> drag(
+        WidgetTester tester, {
+        required String from,
+        required Offset Function(Rect Function(String) cell) to,
+        int steps = 40,
+        Duration hold = const Duration(milliseconds: 600),
+      }) async {
+        List<String>? order;
+        (String, String)? nested;
+        await tester.pumpWidget(
+          noopWrap(
+            SizedBox(
+              width: 400,
+              height: 800,
+              child: DraggableTileGrid(
+                items: tiles,
+                onReorder: (o) => order = o,
+                onNest: (child, parent) => nested = (child, parent),
+                onTap: (_) {},
+              ),
+            ),
+          ),
+        );
+        final cells = {for (final t in tiles) t.title: cellOf(tester, t.title)};
+        final start = cells[from]!.center;
+        final end = to((title) => cells[title]!);
+
+        final gesture = await tester.startGesture(start);
+        await tester.pump(const Duration(milliseconds: 400)); // long press
+        // A slow, careful drag: about 2.4 s for the whole way.
+        for (var i = 1; i <= steps; i++) {
+          await gesture.moveTo(Offset.lerp(start, end, i / steps)!);
+          await tester.pump(const Duration(milliseconds: 60));
+        }
+        await tester.pump(hold);
+        await gesture.up();
+        await tester.pump(const Duration(milliseconds: 250));
+        return (order, nested);
+      }
+
+      Offset leftEdge(Rect cell) =>
+          Offset(cell.left + cell.width * 0.1, cell.top + cell.width * 0.5);
+      Offset rightEdge(Rect cell) =>
+          Offset(cell.right - cell.width * 0.1, cell.top + cell.width * 0.5);
+      Offset middle(Rect cell) =>
+          Offset(cell.center.dx, cell.top + cell.width * 0.5);
+
+      testWidgets('a slow drag to first place reorders', (tester) async {
+        final (order, nested) = await drag(
+          tester,
+          from: 'Gamma',
+          to: (cell) => leftEdge(cell('Alpha')),
+        );
+
+        expect(nested, isNull, reason: 'it crossed the middles, never held');
+        expect(order, ['tile:c', 'tile:a', 'tile:b', 'tile:d']);
+      });
+
+      testWidgets('holding still on the middle of a tile makes a folder', (
+        tester,
+      ) async {
+        final (order, nested) = await drag(
+          tester,
+          from: 'Alpha',
+          to: (cell) => middle(cell('Beta')),
+        );
+
+        expect(nested, ('tile:a', 'tile:b'));
+        expect(order, isNull, reason: 'Beta stayed under the finger');
+      });
+
+      testWidgets('the far edge of the next tile takes its place', (
+        tester,
+      ) async {
+        final (order, nested) = await drag(
+          tester,
+          from: 'Alpha',
+          to: (cell) => rightEdge(cell('Beta')),
+        );
+
+        expect(nested, isNull);
+        expect(order, ['tile:b', 'tile:a', 'tile:c', 'tile:d']);
+      });
+
+      testWidgets('a diagonal drag across other tiles still reaches its '
+          'target', (tester) async {
+        // On the way from the second row to Gamma the finger passes over
+        // Beta. Passing must not move anything, or Gamma would slide out
+        // from under the finger before it gets there.
+        final (order, nested) = await drag(
+          tester,
+          from: 'Delta',
+          to: (cell) => middle(cell('Gamma')),
+        );
+
+        expect(nested, ('tile:d', 'tile:c'));
+        expect(order, isNull);
+      });
+
+      testWidgets('a quick drop on an edge still reorders', (tester) async {
+        final (order, nested) = await drag(
+          tester,
+          from: 'Gamma',
+          to: (cell) => leftEdge(cell('Alpha')),
+          steps: 4,
+          hold: Duration.zero,
+        );
+
+        expect(nested, isNull);
+        expect(order, ['tile:c', 'tile:a', 'tile:b', 'tile:d']);
+      });
     });
 
     testWidgets('dragging a tile into empty space moves it to the end', (

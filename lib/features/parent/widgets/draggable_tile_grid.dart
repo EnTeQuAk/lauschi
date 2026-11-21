@@ -9,8 +9,25 @@ import 'package:lauschi/features/tiles/widgets/tile_card.dart';
 
 const _tag = 'DragGrid';
 
-/// How long to hold over a tile before it becomes a nest target.
+/// How long to hold still on the middle of a tile before it becomes a
+/// nest target.
 const _nestDelay = Duration(milliseconds: 500);
+
+/// How long to hold still on the edge of a tile before the dragged tile
+/// moves next to it. While the pointer moves nothing changes, so passing
+/// over other tiles doesn't push the target away.
+const _moveDelay = Duration(milliseconds: 250);
+
+/// How far the pointer may wander and still count as holding still.
+const _holdSlop = 10.0;
+
+/// Where a tile's middle starts, as a share of its width from each edge
+/// of the square art. The middle makes a folder, the rest moves the
+/// dragged tile next to it.
+const _middleStart = 0.25;
+
+/// The parts of a cell a drag can be over.
+enum _CellZone { middle, leftEdge, rightEdge, aboveOrBelow }
 
 /// Long-press before drag starts.
 const _longPressDelay = Duration(milliseconds: 300);
@@ -85,11 +102,14 @@ class DraggableTileItem {
   final GridItemKind kind;
 }
 
-/// Drag grid with swap-on-hover reorder and hold-to-nest.
+/// Drag grid that reorders and nests like a phone's home screen.
 ///
-/// UX: dragging over another tile swaps positions immediately (reorder).
-/// Holding still over a tile for 500ms highlights it for nesting.
-/// Releasing commits the current order or nests, depending on state.
+/// UX: nothing changes while the pointer moves. Resting on the left or
+/// right edge of another tile moves the dragged tile next to it, on that
+/// side, so a tile only yields once you pass its middle. Resting on the
+/// middle of a tile for 500ms highlights it for nesting. Releasing on an
+/// edge places the tile there, on a highlighted tile nests, otherwise it
+/// commits the current order.
 class DraggableTileGrid extends StatefulWidget {
   const DraggableTileGrid({
     required this.items,
@@ -133,6 +153,14 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
   String? _nestTargetId;
   bool _nestConfirmed = false;
   Timer? _nestTimer;
+
+  /// Where the pointer was when the nest timer (re)started.
+  Offset? _nestAnchor;
+
+  /// The edge the pointer rests on: the tile and which side of it.
+  ({String targetId, bool after})? _pendingMove;
+  Timer? _moveTimer;
+  Offset? _moveAnchor;
   String? _droppedId;
 
   bool _orderChanged = false;
@@ -180,6 +208,7 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
   @override
   void dispose() {
     _nestTimer?.cancel();
+    _moveTimer?.cancel();
     super.dispose();
   }
 
@@ -323,6 +352,7 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
         if (_activeDropZone != zoneIdx) {
           setState(() => _activeDropZone = zoneIdx);
           _cancelNest();
+          _cancelMove();
           unawaited(HapticFeedback.selectionClick());
         }
         return; // don't process grid hit-test
@@ -338,6 +368,7 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
     // off-grid never moves a tile into the episode lane (or vice versa).
     if (index == null && _order.isNotEmpty) {
       if (_nestTargetId != null) _cancelNest();
+      _cancelMove();
       _maybeMoveToBlockEnd(local);
     }
 
@@ -358,82 +389,127 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
 
     if (index == null) {
       if (!_nestConfirmed) _cancelNest();
+      _cancelMove();
       return;
     }
 
-    final targetId = _order[index].id;
-    if (targetId == _draggedId) {
-      // Pointer is over the dragged item's current slot. Two cases:
-      //   1. We have no active target — drag just started, no swap yet.
-      //      Nothing to do.
-      //   2. We have an active target. After a backward swap (dragging
-      //      from a higher index to a lower one), the dragged item lands
-      //      AT the original target's slot while the target shifts one
-      //      slot over. The pointer hit-tests the dragged item, but the
-      //      user's intent is "I'm hovering on the target". Keep the
-      //      nest idle timer running on the original target so
-      //      hold-to-merge can still confirm on a backward drag.
-      if (_nestTargetId != null) {
-        _checkNestIdle(_nestTargetId!);
-      }
-      return;
-    }
+    final target = _order[index];
+    final draggedIdx = _order.indexWhere((t) => t.id == _draggedId);
+    if (draggedIdx < 0) return;
 
-    // If nest is confirmed but pointer moved to a DIFFERENT tile, cancel it.
-    if (_nestConfirmed && _nestTargetId != targetId) {
-      Log.debug(_tag, 'Nest unlock (moved to different tile)');
+    // Over its own slot: after a move the dragged tile sits under the
+    // finger, and there's no other tile to nest into or move next to.
+    if (draggedIdx == index) {
       _cancelNest();
+      _cancelMove();
+      return;
     }
-    // If still on the confirmed target, stay locked.
-    if (_nestConfirmed && _nestTargetId == targetId) return;
 
-    // Moving to a different tile: swap immediately (reorder).
-    // The nest timer only starts AFTER the swap, when the pointer
-    // settles on the new neighbor. This prevents accidental nesting
-    // when dragging quickly through tiles.
+    // A confirmed folder stays while the pointer is anywhere on that
+    // tile, so a small wobble doesn't undo it.
+    if (_nestConfirmed && _nestTargetId == target.id) return;
+
+    final zone = _zoneAt(local, index);
+    if (zone == _CellZone.middle) {
+      _cancelMove();
+      _holdForFolder(target.id, local);
+      return;
+    }
+
+    _cancelNest();
+    // Above or below a tile is for passing through. Across the divider a
+    // tile and an episode only merge, never swap.
+    if (zone == _CellZone.aboveOrBelow ||
+        target.kind != _order[draggedIdx].kind) {
+      _cancelMove();
+      return;
+    }
+    _holdForMove(target.id, local, after: zone == _CellZone.rightEdge);
+  }
+
+  /// Which part of the cell at [index] the pointer at [local] is over. The
+  /// art is a square at the top of the cell, its label below.
+  _CellZone _zoneAt(Offset local, int index) {
+    final cell = _cellOffset(index);
+    final x = (local.dx - cell.dx) / _cellWidth;
+    final y = (local.dy - cell.dy) / _cellWidth;
+    if (x < _middleStart) return _CellZone.leftEdge;
+    if (x > 1 - _middleStart) return _CellZone.rightEdge;
+    if (y < _middleStart || y > 1 - _middleStart) {
+      return _CellZone.aboveOrBelow;
+    }
+    return _CellZone.middle;
+  }
+
+  /// The pointer is on the middle of [targetId]. Arms the nest timer and
+  /// restarts it whenever the pointer moves more than [_holdSlop], so only
+  /// holding still makes a folder, not passing over slowly.
+  void _holdForFolder(String targetId, Offset local) {
     if (_nestTargetId != targetId) {
       _cancelNest();
-      _nestTargetId = targetId;
-      final targetTitle = _order[index].title;
-
-      final draggedIdx = _order.indexWhere((t) => t.id == _draggedId);
-      final draggedKind =
-          draggedIdx >= 0 ? _order[draggedIdx].kind : GridItemKind.tile;
-      final targetKind = _order[index].kind;
-
-      // Cross-kind hover: don't reorder. The hold-to-nest path
-      // (started by _checkNestIdle below) is what handles merging
-      // across the divider.
-      if (draggedKind == targetKind && draggedIdx >= 0 && draggedIdx != index) {
-        // Swap: dragged tile moves to this position, other tiles shift.
-        final dragged = _order.removeAt(draggedIdx);
-        final insertAt = (index > draggedIdx ? index - 1 : index).clamp(
-          0,
-          _order.length,
-        );
-        _order.insert(insertAt, dragged);
-        _orderChanged = true;
-        unawaited(HapticFeedback.selectionClick());
-        Log.debug(
-          _tag,
-          'SWAP',
-          data: {
-            'from': '$draggedIdx',
-            'to': '$insertAt',
-            'target': targetTitle,
-          },
-        );
-        setState(() {});
-      }
-
-      // DON'T start nest timer yet. Wait until the pointer
-      // stops moving (tracked by _lastMoveTime in the next update).
-      // The nest timer starts in _checkNestIdle().
+      setState(() => _nestTargetId = targetId);
+    } else if ((local - _nestAnchor!).distance <= _holdSlop) {
+      return;
     }
-
-    // Track pointer velocity. If the pointer hasn't moved to a
-    // different tile for 500ms, THEN start the nest confirmation.
+    _nestTimer?.cancel();
+    _nestTimer = null;
+    _nestAnchor = local;
     _checkNestIdle(targetId);
+  }
+
+  /// The pointer is on an edge of [targetId]. Arms the move timer the same
+  /// way [_holdForFolder] arms the nest timer.
+  void _holdForMove(String targetId, Offset local, {required bool after}) {
+    final move = (targetId: targetId, after: after);
+    if (_pendingMove == move && (local - _moveAnchor!).distance <= _holdSlop) {
+      return;
+    }
+    _moveTimer?.cancel();
+    _pendingMove = move;
+    _moveAnchor = local;
+    _moveTimer = Timer(_moveDelay, () {
+      if (!mounted || _pendingMove != move) return;
+      _applyPendingMove();
+    });
+  }
+
+  void _applyPendingMove() {
+    final move = _pendingMove;
+    _cancelMove();
+    if (move == null) return;
+    final draggedIdx = _order.indexWhere((t) => t.id == _draggedId);
+    if (draggedIdx < 0) return;
+    _moveNextTo(draggedIdx, move.targetId, after: move.after);
+  }
+
+  void _cancelMove() {
+    _moveTimer?.cancel();
+    _moveTimer = null;
+    _pendingMove = null;
+    _moveAnchor = null;
+  }
+
+  /// Moves the dragged item right before or [after] [targetId].
+  void _moveNextTo(int draggedIdx, String targetId, {required bool after}) {
+    final dragged = _order.removeAt(draggedIdx);
+    final targetIdx = _order.indexWhere((t) => t.id == targetId);
+    final insertAt = after ? targetIdx + 1 : targetIdx;
+    _order.insert(insertAt, dragged);
+    if (insertAt == draggedIdx) return; // already there
+
+    _orderChanged = true;
+    unawaited(HapticFeedback.selectionClick());
+    Log.debug(
+      _tag,
+      'MOVE',
+      data: {
+        'from': '$draggedIdx',
+        'to': '$insertAt',
+        'side': after ? 'after' : 'before',
+        'target': _order[after ? insertAt - 1 : insertAt + 1].title,
+      },
+    );
+    setState(() {});
   }
 
   void _onDragEnd() {
@@ -443,6 +519,8 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
     }
 
     final draggedId = _draggedId!;
+    // Released on an edge before the move happened: place it there.
+    _applyPendingMove();
     final wasNested = _nestConfirmed && _nestTargetId != null;
 
     Log.info(
@@ -544,6 +622,7 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
   void _cancelNest() {
     _nestTimer?.cancel();
     _nestTimer = null;
+    _nestAnchor = null;
     if (_nestTargetId != null || _nestConfirmed) {
       Log.debug(
         _tag,
