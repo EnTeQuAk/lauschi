@@ -392,6 +392,23 @@ void main() {
         expect(order, isNull);
       });
 
+      testWidgets('holding near the top of a cover makes a folder', (
+        tester,
+      ) async {
+        final (order, nested) = await drag(
+          tester,
+          from: 'Alpha',
+          to:
+              (cell) => Offset(
+                cell('Beta').center.dx,
+                cell('Beta').top + cell('Beta').width * 0.3,
+              ),
+        );
+
+        expect(nested, ('tile:a', 'tile:b'));
+        expect(order, isNull);
+      });
+
       testWidgets('a folder made on one tile does not move to the next', (
         tester,
       ) async {
