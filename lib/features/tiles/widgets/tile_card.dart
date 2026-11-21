@@ -331,43 +331,26 @@ class _StackedArt extends StatelessWidget {
   );
 }
 
-/// 2x2 mosaic of child tile covers, used as the folder thumbnail.
-/// Shows up to 4 covers. Empty slots get a neutral placeholder.
+/// The folder thumbnail, made from up to four child tile covers. One
+/// cover fills the square, two sit side by side, three put the first next
+/// to the other two, four make a 2x2 grid. Covers are cropped to their
+/// slot, never stretched.
 class _FolderMosaic extends StatelessWidget {
   const _FolderMosaic({required this.coverUrls, this.progress = 0});
 
   final List<String> coverUrls;
   final double progress;
 
+  static const _gap = 2.0;
+
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: const BorderRadius.all(AppRadius.card),
       child: Stack(
+        fit: StackFit.expand,
         children: [
-          Column(
-            children: [
-              Expanded(
-                child: Row(
-                  children: [
-                    Expanded(child: _slot(0)),
-                    const SizedBox(width: 2),
-                    Expanded(child: _slot(1)),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 2),
-              Expanded(
-                child: Row(
-                  children: [
-                    Expanded(child: _slot(2)),
-                    const SizedBox(width: 2),
-                    Expanded(child: _slot(3)),
-                  ],
-                ),
-              ),
-            ],
-          ),
+          _covers(),
           // Progress bar at bottom.
           if (progress > 0)
             Positioned(
@@ -385,6 +368,38 @@ class _FolderMosaic extends StatelessWidget {
       ),
     );
   }
+
+  Widget _covers() => switch (coverUrls.length) {
+    1 => _slot(0),
+    2 => _row([_slot(0), _slot(1)]),
+    3 => _row([
+      _slot(0),
+      _column([_slot(1), _slot(2)]),
+    ]),
+    _ => _column([
+      _row([_slot(0), _slot(1)]),
+      _row([_slot(2), _slot(3)]),
+    ]),
+  };
+
+  // Stretch, so every slot fills its share of the square even before its
+  // image has loaded, and an empty slot still shows as a neutral square.
+  static Widget _row(List<Widget> slots) => Row(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: _spaced(slots, const SizedBox(width: _gap)),
+  );
+
+  static Widget _column(List<Widget> slots) => Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: _spaced(slots, const SizedBox(height: _gap)),
+  );
+
+  static List<Widget> _spaced(List<Widget> slots, Widget gap) => [
+    for (final (i, slot) in slots.indexed) ...[
+      if (i > 0) gap,
+      Expanded(child: slot),
+    ],
+  ];
 
   Widget _slot(int index) {
     if (index < coverUrls.length && coverUrls[index].isNotEmpty) {
