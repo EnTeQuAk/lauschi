@@ -7,6 +7,15 @@ import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 
+/// The fox thinking of the providers a build offers. This page only shows
+/// when a streaming provider is enabled, and every build that has Spotify
+/// also has Apple Music, so two pictures cover all builds.
+@visibleForTesting
+String discoverIllustration({required bool spotify}) =>
+    spotify
+        ? 'assets/images/branding/lauschi-discover.png'
+        : 'assets/images/branding/lauschi-discover-ard-apple-music.png';
+
 /// Onboarding page showing all available content providers.
 ///
 /// ARD Sounds is highlighted as always-free. Streaming providers
@@ -29,7 +38,7 @@ class ConnectProvidersPage extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
-                    'assets/images/branding/lauschi-discover.png',
+                    discoverIllustration(spotify: FeatureFlags.enableSpotify),
                     width: 140,
                     height: 140,
                     excludeFromSemantics: true,
