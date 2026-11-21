@@ -15,6 +15,14 @@ void main() {
 
   Widget noopWrap(Widget child) => MaterialApp(home: Scaffold(body: child));
 
+  /// The rect of the grid cell that shows [title].
+  Rect cellOf(WidgetTester tester, String title) => tester.getRect(
+    find.ancestor(
+      of: find.text(title),
+      matching: find.byType(LongPressDraggable<String>),
+    ),
+  );
+
   group('dropZoneIndexAt', () {
     // 800-tall screen, 48px bottom safe area, 2 zones (52px each) rendered
     // above the inset: they occupy [800-48-104, 800-48] = [648, 752).
@@ -255,12 +263,7 @@ void main() {
         ),
       );
 
-      final xCell = tester.getRect(
-        find.ancestor(
-          of: find.text('Episode X'),
-          matching: find.byType(LongPressDraggable<String>),
-        ),
-      );
+      final xCell = cellOf(tester, 'Episode X');
       // Start the long-press drag on Y (the right cell, higher index).
       final yFinder = find.text('Episode Y');
       final gesture = await tester.startGesture(tester.getCenter(yFinder));
@@ -272,7 +275,7 @@ void main() {
         Offset(xCell.center.dx, xCell.top + xCell.width / 2),
       );
       await tester.pump(const Duration(milliseconds: 50));
-      // Hold for the nest delay (500ms) so _checkNestIdle confirms.
+      // Hold for the nest delay (500ms) so the hold confirms.
       await tester.pump(const Duration(milliseconds: 600));
 
       // Release.
@@ -292,13 +295,6 @@ void main() {
       const tileD = DraggableTileItem(id: 'tile:d', title: 'Delta');
       // Three per row at this width: Delta sits alone in the second row.
       const tiles = [tileA, tileB, tileC, tileD];
-
-      Rect cellOf(WidgetTester tester, String title) => tester.getRect(
-        find.ancestor(
-          of: find.text(title),
-          matching: find.byType(LongPressDraggable<String>),
-        ),
-      );
 
       Future<(List<String>?, (String, String)?)> drag(
         WidgetTester tester, {
