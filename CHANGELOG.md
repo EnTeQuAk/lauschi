@@ -1,5 +1,13 @@
 # Changelog
 
+## v2026.11.3 (November 2026)
+
+🐛 **Behoben**
+- lauschi aus dem Google Play Store konnte keine Verbindung ins Internet aufbauen, deshalb luden ARD Sounds, Cover und Apple Music nicht. Das funktioniert jetzt wieder.
+
+✨ **Neu bei ARD Sounds**
+Pumuckl und Die Glitzer-Gang stehen jetzt bei den Empfehlungen.
+
 ## v2026.11.2 (November 2026)
 
 🎵 **Mehr Kinderlieder**
