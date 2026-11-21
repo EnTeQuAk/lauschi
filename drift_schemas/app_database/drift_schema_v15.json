@@ -287,6 +287,16 @@
             "dsl_features": []
           },
           {
+            "name": "part_number",
+            "getter_name": "partNumber",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
             "name": "is_heard",
             "getter_name": "isHeard",
             "moor_type": "bool",
@@ -669,7 +679,7 @@
       "sql": [
         {
           "dialect": "sqlite",
-          "sql": "CREATE TABLE IF NOT EXISTS \"cards\" (\"id\" TEXT NOT NULL, \"title\" TEXT NOT NULL, \"custom_title\" TEXT NULL, \"cover_url\" TEXT NULL, \"custom_cover_path\" TEXT NULL, \"card_type\" TEXT NOT NULL, \"provider\" TEXT NOT NULL DEFAULT 'spotify', \"provider_uri\" TEXT NOT NULL, \"spotify_artist_ids\" TEXT NULL, \"group_id\" TEXT NULL REFERENCES \"groups\" (id), \"episode_number\" INTEGER NULL, \"published_at\" INTEGER NULL, \"is_heard\" INTEGER NOT NULL DEFAULT 0 CHECK (\"is_heard\" IN (0, 1)), \"sort_order\" INTEGER NULL, \"created_at\" INTEGER NOT NULL DEFAULT (CAST(strftime('%s', CURRENT_TIMESTAMP) AS INTEGER)), \"total_tracks\" INTEGER NOT NULL DEFAULT 0, \"available_until\" INTEGER NULL, \"audio_url\" TEXT NULL, \"duration_ms\" INTEGER NOT NULL DEFAULT 0, \"marked_unavailable\" INTEGER NULL, \"last_track_uri\" TEXT NULL, \"last_track_number\" INTEGER NOT NULL DEFAULT 0, \"last_position_ms\" INTEGER NOT NULL DEFAULT 0, \"last_elapsed_ms\" INTEGER NOT NULL DEFAULT 0, \"last_played_at\" INTEGER NULL, PRIMARY KEY (\"id\"));"
+          "sql": "CREATE TABLE IF NOT EXISTS \"cards\" (\"id\" TEXT NOT NULL, \"title\" TEXT NOT NULL, \"custom_title\" TEXT NULL, \"cover_url\" TEXT NULL, \"custom_cover_path\" TEXT NULL, \"card_type\" TEXT NOT NULL, \"provider\" TEXT NOT NULL DEFAULT 'spotify', \"provider_uri\" TEXT NOT NULL, \"spotify_artist_ids\" TEXT NULL, \"group_id\" TEXT NULL REFERENCES \"groups\" (id), \"episode_number\" INTEGER NULL, \"published_at\" INTEGER NULL, \"part_number\" INTEGER NULL, \"is_heard\" INTEGER NOT NULL DEFAULT 0 CHECK (\"is_heard\" IN (0, 1)), \"sort_order\" INTEGER NULL, \"created_at\" INTEGER NOT NULL DEFAULT (CAST(strftime('%s', CURRENT_TIMESTAMP) AS INTEGER)), \"total_tracks\" INTEGER NOT NULL DEFAULT 0, \"available_until\" INTEGER NULL, \"audio_url\" TEXT NULL, \"duration_ms\" INTEGER NOT NULL DEFAULT 0, \"marked_unavailable\" INTEGER NULL, \"last_track_uri\" TEXT NULL, \"last_track_number\" INTEGER NOT NULL DEFAULT 0, \"last_position_ms\" INTEGER NOT NULL DEFAULT 0, \"last_elapsed_ms\" INTEGER NOT NULL DEFAULT 0, \"last_played_at\" INTEGER NULL, PRIMARY KEY (\"id\"));"
         }
       ]
     },

@@ -523,7 +523,7 @@ void main() {
 
   // ARD numbers the parts of a multi-part story, and the app stored that
   // as an episode number, which sorted every story's part 1 first (#314).
-  test('migration from v14 to v15 drops ARD part numbers only', () async {
+  test('migration from v14 to v15 keeps ARD numbers as part numbers', () async {
     const fixedCreatedAt = 1700000000000;
 
     v14.CardsData card(String id, String provider, String uri, int episode) =>
@@ -576,7 +576,10 @@ void main() {
         expect(cards, hasLength(oldCards.length), reason: 'no row lost');
         expect(cards['ard1']!.episodeNumber, null);
         expect(cards['ard2']!.episodeNumber, null);
+        expect(cards['ard1']!.partNumber, 1);
+        expect(cards['ard2']!.partNumber, 2);
         expect(cards['tkkg']!.episodeNumber, 200, reason: 'catalog numbers');
+        expect(cards['tkkg']!.partNumber, null);
         expect(cards.values.map((c) => c.publishedAt), everyElement(null));
       },
     );

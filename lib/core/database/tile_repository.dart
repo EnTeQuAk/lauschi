@@ -564,9 +564,7 @@ class TileRepository {
     });
   }
 
-  /// Watch items belonging to a tile.
-  /// Sort: manual order (sortOrder) if set, otherwise episodeNumber, then
-  /// creation time as tiebreaker for items with neither.
+  /// Watch items belonging to a tile, in [cardOrder].
   Stream<List<TileItem>> watchItems(String tileId) {
     return (_db.select(_db.cards)
           ..where((t) => t.groupId.equals(tileId))

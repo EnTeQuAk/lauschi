@@ -19,9 +19,10 @@ Color? parseHexColor(String? hex) {
 
 /// Convert an [ArdItem] to a [PendingCard] for import into the local database.
 ///
-/// [ArdItem.partNumber] stays out: as an episode number it would sort
-/// every story's part 1 first. A show's episodes sort by
-/// [PendingCard.publishedAt] instead.
+/// [ArdItem.partNumber] is no episode number: as one it would sort every
+/// story's part 1 first. A show's episodes sort by
+/// [PendingCard.publishedAt], and the part only orders a story whose parts
+/// ARD published at the same time.
 PendingCard ardPendingCard(ArdItem item) {
   return PendingCard(
     title: item.displayTitle,
@@ -31,6 +32,7 @@ PendingCard ardPendingCard(ArdItem item) {
     audioUrl: item.bestAudioUrl,
     durationMs: item.durationMs,
     publishedAt: item.publishDate,
+    partNumber: item.partNumber,
   );
 }
 

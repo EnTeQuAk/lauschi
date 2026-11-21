@@ -28,6 +28,7 @@ class PendingCard {
     this.durationMs,
     this.availableUntil,
     this.publishedAt,
+    this.partNumber,
   });
 
   final String title;
@@ -52,6 +53,10 @@ class PendingCard {
 
   /// When ARD published the episode, which orders a show's episodes.
   final DateTime? publishedAt;
+
+  /// The episode's part within a multi-part story. It orders a story whose
+  /// parts ARD published at the same time.
+  final int? partNumber;
 }
 
 /// Result of a content import operation.
@@ -356,6 +361,7 @@ class ContentImporter extends _$ContentImporter {
         durationMs: card.durationMs,
         availableUntil: card.availableUntil,
         publishedAt: card.publishedAt,
+        partNumber: card.partNumber,
         tileId: groupId,
       );
     } else {

@@ -171,9 +171,14 @@ class Cards extends Table {
   /// episode numbers across the show (ARD numbers only the parts of a
   /// multi-part story), so their items sort by this date instead.
   DateTimeColumn get publishedAt => dateTime().nullable()();
+
+  /// The item's part within a multi-part story, as ARD Sounds numbers it.
+  /// ARD sometimes publishes all parts of a story at the same time, so
+  /// this orders them where [publishedAt] can't.
+  IntColumn get partNumber => integer().nullable()();
   BoolColumn get isHeard => boolean().withDefault(const Constant(false))();
 
-  /// NULL = auto-sort by episodeNumber. Non-null = parent manually ordered.
+  /// NULL = sorted by [cardOrder]. Non-null = parent manually ordered.
   IntColumn get sortOrder => integer().nullable()();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 
@@ -229,13 +234,14 @@ const sortLast = Constant<int>(2147483647);
 /// Items a parent ordered by hand (sortOrder set) come first, in that
 /// order. Items without a manual position follow, by episode number, then
 /// oldest published first (ARD Sounds episodes, which have no episode
-/// numbers), then in the order they were added. The two keys never share
+/// numbers), then by part of a story published all at once, then in the
+/// order they were added. The two keys never share
 /// one value space: a manual position 50 and an episode number 50 mean
 /// different things, and mixing them would slot a later-added episode
 /// into the middle of a hand-sorted run.
 ///
-/// Use [withEpisodeNumber] = false for ungrouped items where episode numbers
-/// and publish dates from different series aren't comparable.
+/// Use [withEpisodeNumber] = false for ungrouped items where episode numbers,
+/// publish dates and parts from different series aren't comparable.
 List<OrderingTerm Function($CardsTable)> cardOrder({
   bool withEpisodeNumber = true,
 }) => [
@@ -244,6 +250,7 @@ List<OrderingTerm Function($CardsTable)> cardOrder({
   if (withEpisodeNumber) ...[
     (t) => OrderingTerm.asc(coalesce([t.episodeNumber, sortLast])),
     (t) => OrderingTerm.asc(t.publishedAt, nulls: NullsOrder.last),
+    (t) => OrderingTerm.asc(t.partNumber, nulls: NullsOrder.last),
   ],
   (t) => OrderingTerm.asc(t.createdAt),
   // createdAt has whole seconds, and an import adds many items within

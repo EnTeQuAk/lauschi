@@ -199,6 +199,39 @@ void main() {
       expect(ordered.first.publishedAt, DateTime(2026, 6, 16));
     });
 
+    // ARD gives all parts of some stories one publish time, e.g. the ten
+    // parts of "SRS Impala". Their part number is right there.
+    test('parts published at the same time play in part order', () async {
+      final page = [
+        for (var part = 10; part >= 1; part--)
+          _makeItem(
+            id: 'impala$part',
+            title: 'SRS Impala ($part)',
+            audioUrl: 'http://a/impala$part.mp3',
+            publishDate: DateTime(2020, 3, 16, 9),
+            partNumber: part,
+          ),
+      ];
+      container = createContainer(_FakeArdApi(pages: [page]));
+
+      await container
+          .read(contentImporterProvider.notifier)
+          .importArdShow(
+            showId: 'mikado',
+            showTitle: 'Mikado',
+            showImageUrl: null,
+            loadedItems: page,
+            hasMorePages: false,
+          );
+
+      final tile = (await tiles.getAll()).single;
+      final ordered = await tiles.watchItems(tile.id).first;
+      expect(ordered.map((i) => i.partNumber), [
+        for (var p = 1; p <= 10; p++) p,
+      ]);
+      expect(ordered.map((i) => i.episodeNumber), everyElement(isNull));
+    });
+
     test('paginates through multiple pages', () async {
       final fakeApi = _FakeArdApi(
         pages: [

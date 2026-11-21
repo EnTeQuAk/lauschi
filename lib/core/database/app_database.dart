@@ -136,11 +136,14 @@ class AppDatabase extends _$AppDatabase {
           // ARD Sounds episodes sort by their publish date. The number ARD
           // gives an episode is its part within a multi-part story, which
           // the app stored as an episode number and sorted every story's
-          // part 1 first by. The dates of existing episodes come from ARD
-          // in a data migration (`ardPublishDates`).
+          // part 1 first by. It moves to part_number, which orders parts
+          // published at the same time. The dates of existing episodes
+          // come from ARD in a data migration (`ardPublishDates`).
           await m.addColumn(cards, cards.publishedAt);
+          await m.addColumn(cards, cards.partNumber);
           await customStatement(
-            "UPDATE cards SET episode_number = NULL WHERE provider = 'ard_audiothek'",
+            'UPDATE cards SET part_number = episode_number, '
+            "episode_number = NULL WHERE provider = 'ard_audiothek'",
           );
         }
         Log.info('Database', 'Migration complete');

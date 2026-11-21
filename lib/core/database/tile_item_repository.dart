@@ -21,12 +21,12 @@ class TileItemRepository {
 
   final AppDatabase _db;
 
-  /// Watch all items ordered by manual sort order, then episode number.
+  /// Watch all items in [cardOrder].
   Stream<List<TileItem>> watchAll() {
     return (_db.select(_db.cards)..orderBy(cardOrder())).watch();
   }
 
-  /// Get all items ordered by manual sort order, then episode number.
+  /// Get all items in [cardOrder].
   Future<List<TileItem>> getAll() {
     return (_db.select(_db.cards)..orderBy(cardOrder())).get();
   }
@@ -339,7 +339,7 @@ class TileItemRepository {
   }
 
   /// Set ARD fields after an item's initial insert (audio URL, duration,
-  /// expiry, publish date) along with its tile. Internal to
+  /// expiry, publish date, part) along with its tile. Internal to
   /// [insertArdEpisode], which is the only caller.
   Future<void> _updateArdFields({
     required String itemId,
@@ -347,12 +347,15 @@ class TileItemRepository {
     int? durationMs,
     DateTime? availableUntil,
     DateTime? publishedAt,
+    int? partNumber,
     String? tileId,
   }) async {
     await (_db.update(_db.cards)..where((t) => t.id.equals(itemId))).write(
       CardsCompanion(
         publishedAt:
             publishedAt != null ? Value(publishedAt) : const Value.absent(),
+        partNumber:
+            partNumber != null ? Value(partNumber) : const Value.absent(),
         audioUrl: audioUrl != null ? Value(audioUrl) : const Value.absent(),
         durationMs:
             durationMs != null ? Value(durationMs) : const Value.absent(),
@@ -377,6 +380,7 @@ class TileItemRepository {
     int? durationMs,
     DateTime? availableUntil,
     DateTime? publishedAt,
+    int? partNumber,
     String? tileId,
   }) {
     return _db.transaction(() async {
@@ -392,6 +396,7 @@ class TileItemRepository {
         durationMs: durationMs,
         availableUntil: availableUntil,
         publishedAt: publishedAt,
+        partNumber: partNumber,
         tileId: tileId,
       );
       return id;

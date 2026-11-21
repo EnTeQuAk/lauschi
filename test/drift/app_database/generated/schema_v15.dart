@@ -642,6 +642,14 @@ class Cards extends Table with TableInfo<Cards, CardsData> {
     requiredDuringInsert: false,
     $customConstraints: 'NULL',
   );
+  late final GeneratedColumn<int> partNumber = GeneratedColumn<int>(
+    'part_number',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    $customConstraints: 'NULL',
+  );
   late final GeneratedColumn<int> isHeard = GeneratedColumn<int>(
     'is_heard',
     aliasedName,
@@ -770,6 +778,7 @@ class Cards extends Table with TableInfo<Cards, CardsData> {
     groupId,
     episodeNumber,
     publishedAt,
+    partNumber,
     isHeard,
     sortOrder,
     createdAt,
@@ -847,6 +856,10 @@ class Cards extends Table with TableInfo<Cards, CardsData> {
       publishedAt: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}published_at'],
+      ),
+      partNumber: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}part_number'],
       ),
       isHeard:
           attachedDatabase.typeMapping.read(
@@ -934,6 +947,7 @@ class CardsData extends DataClass implements Insertable<CardsData> {
   final String? groupId;
   final int? episodeNumber;
   final int? publishedAt;
+  final int? partNumber;
   final int isHeard;
   final int? sortOrder;
   final int createdAt;
@@ -960,6 +974,7 @@ class CardsData extends DataClass implements Insertable<CardsData> {
     this.groupId,
     this.episodeNumber,
     this.publishedAt,
+    this.partNumber,
     required this.isHeard,
     this.sortOrder,
     required this.createdAt,
@@ -1002,6 +1017,9 @@ class CardsData extends DataClass implements Insertable<CardsData> {
     }
     if (!nullToAbsent || publishedAt != null) {
       map['published_at'] = Variable<int>(publishedAt);
+    }
+    if (!nullToAbsent || partNumber != null) {
+      map['part_number'] = Variable<int>(partNumber);
     }
     map['is_heard'] = Variable<int>(isHeard);
     if (!nullToAbsent || sortOrder != null) {
@@ -1066,6 +1084,10 @@ class CardsData extends DataClass implements Insertable<CardsData> {
           publishedAt == null && nullToAbsent
               ? const Value.absent()
               : Value(publishedAt),
+      partNumber:
+          partNumber == null && nullToAbsent
+              ? const Value.absent()
+              : Value(partNumber),
       isHeard: Value(isHeard),
       sortOrder:
           sortOrder == null && nullToAbsent
@@ -1118,6 +1140,7 @@ class CardsData extends DataClass implements Insertable<CardsData> {
       groupId: serializer.fromJson<String?>(json['groupId']),
       episodeNumber: serializer.fromJson<int?>(json['episodeNumber']),
       publishedAt: serializer.fromJson<int?>(json['publishedAt']),
+      partNumber: serializer.fromJson<int?>(json['partNumber']),
       isHeard: serializer.fromJson<int>(json['isHeard']),
       sortOrder: serializer.fromJson<int?>(json['sortOrder']),
       createdAt: serializer.fromJson<int>(json['createdAt']),
@@ -1149,6 +1172,7 @@ class CardsData extends DataClass implements Insertable<CardsData> {
       'groupId': serializer.toJson<String?>(groupId),
       'episodeNumber': serializer.toJson<int?>(episodeNumber),
       'publishedAt': serializer.toJson<int?>(publishedAt),
+      'partNumber': serializer.toJson<int?>(partNumber),
       'isHeard': serializer.toJson<int>(isHeard),
       'sortOrder': serializer.toJson<int?>(sortOrder),
       'createdAt': serializer.toJson<int>(createdAt),
@@ -1178,6 +1202,7 @@ class CardsData extends DataClass implements Insertable<CardsData> {
     Value<String?> groupId = const Value.absent(),
     Value<int?> episodeNumber = const Value.absent(),
     Value<int?> publishedAt = const Value.absent(),
+    Value<int?> partNumber = const Value.absent(),
     int? isHeard,
     Value<int?> sortOrder = const Value.absent(),
     int? createdAt,
@@ -1209,6 +1234,7 @@ class CardsData extends DataClass implements Insertable<CardsData> {
     episodeNumber:
         episodeNumber.present ? episodeNumber.value : this.episodeNumber,
     publishedAt: publishedAt.present ? publishedAt.value : this.publishedAt,
+    partNumber: partNumber.present ? partNumber.value : this.partNumber,
     isHeard: isHeard ?? this.isHeard,
     sortOrder: sortOrder.present ? sortOrder.value : this.sortOrder,
     createdAt: createdAt ?? this.createdAt,
@@ -1253,6 +1279,8 @@ class CardsData extends DataClass implements Insertable<CardsData> {
               : this.episodeNumber,
       publishedAt:
           data.publishedAt.present ? data.publishedAt.value : this.publishedAt,
+      partNumber:
+          data.partNumber.present ? data.partNumber.value : this.partNumber,
       isHeard: data.isHeard.present ? data.isHeard.value : this.isHeard,
       sortOrder: data.sortOrder.present ? data.sortOrder.value : this.sortOrder,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
@@ -1307,6 +1335,7 @@ class CardsData extends DataClass implements Insertable<CardsData> {
           ..write('groupId: $groupId, ')
           ..write('episodeNumber: $episodeNumber, ')
           ..write('publishedAt: $publishedAt, ')
+          ..write('partNumber: $partNumber, ')
           ..write('isHeard: $isHeard, ')
           ..write('sortOrder: $sortOrder, ')
           ..write('createdAt: $createdAt, ')
@@ -1338,6 +1367,7 @@ class CardsData extends DataClass implements Insertable<CardsData> {
     groupId,
     episodeNumber,
     publishedAt,
+    partNumber,
     isHeard,
     sortOrder,
     createdAt,
@@ -1368,6 +1398,7 @@ class CardsData extends DataClass implements Insertable<CardsData> {
           other.groupId == this.groupId &&
           other.episodeNumber == this.episodeNumber &&
           other.publishedAt == this.publishedAt &&
+          other.partNumber == this.partNumber &&
           other.isHeard == this.isHeard &&
           other.sortOrder == this.sortOrder &&
           other.createdAt == this.createdAt &&
@@ -1396,6 +1427,7 @@ class CardsCompanion extends UpdateCompanion<CardsData> {
   final Value<String?> groupId;
   final Value<int?> episodeNumber;
   final Value<int?> publishedAt;
+  final Value<int?> partNumber;
   final Value<int> isHeard;
   final Value<int?> sortOrder;
   final Value<int> createdAt;
@@ -1423,6 +1455,7 @@ class CardsCompanion extends UpdateCompanion<CardsData> {
     this.groupId = const Value.absent(),
     this.episodeNumber = const Value.absent(),
     this.publishedAt = const Value.absent(),
+    this.partNumber = const Value.absent(),
     this.isHeard = const Value.absent(),
     this.sortOrder = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -1451,6 +1484,7 @@ class CardsCompanion extends UpdateCompanion<CardsData> {
     this.groupId = const Value.absent(),
     this.episodeNumber = const Value.absent(),
     this.publishedAt = const Value.absent(),
+    this.partNumber = const Value.absent(),
     this.isHeard = const Value.absent(),
     this.sortOrder = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -1482,6 +1516,7 @@ class CardsCompanion extends UpdateCompanion<CardsData> {
     Expression<String>? groupId,
     Expression<int>? episodeNumber,
     Expression<int>? publishedAt,
+    Expression<int>? partNumber,
     Expression<int>? isHeard,
     Expression<int>? sortOrder,
     Expression<int>? createdAt,
@@ -1510,6 +1545,7 @@ class CardsCompanion extends UpdateCompanion<CardsData> {
       if (groupId != null) 'group_id': groupId,
       if (episodeNumber != null) 'episode_number': episodeNumber,
       if (publishedAt != null) 'published_at': publishedAt,
+      if (partNumber != null) 'part_number': partNumber,
       if (isHeard != null) 'is_heard': isHeard,
       if (sortOrder != null) 'sort_order': sortOrder,
       if (createdAt != null) 'created_at': createdAt,
@@ -1540,6 +1576,7 @@ class CardsCompanion extends UpdateCompanion<CardsData> {
     Value<String?>? groupId,
     Value<int?>? episodeNumber,
     Value<int?>? publishedAt,
+    Value<int?>? partNumber,
     Value<int>? isHeard,
     Value<int?>? sortOrder,
     Value<int>? createdAt,
@@ -1568,6 +1605,7 @@ class CardsCompanion extends UpdateCompanion<CardsData> {
       groupId: groupId ?? this.groupId,
       episodeNumber: episodeNumber ?? this.episodeNumber,
       publishedAt: publishedAt ?? this.publishedAt,
+      partNumber: partNumber ?? this.partNumber,
       isHeard: isHeard ?? this.isHeard,
       sortOrder: sortOrder ?? this.sortOrder,
       createdAt: createdAt ?? this.createdAt,
@@ -1623,6 +1661,9 @@ class CardsCompanion extends UpdateCompanion<CardsData> {
     }
     if (publishedAt.present) {
       map['published_at'] = Variable<int>(publishedAt.value);
+    }
+    if (partNumber.present) {
+      map['part_number'] = Variable<int>(partNumber.value);
     }
     if (isHeard.present) {
       map['is_heard'] = Variable<int>(isHeard.value);
@@ -1684,6 +1725,7 @@ class CardsCompanion extends UpdateCompanion<CardsData> {
           ..write('groupId: $groupId, ')
           ..write('episodeNumber: $episodeNumber, ')
           ..write('publishedAt: $publishedAt, ')
+          ..write('partNumber: $partNumber, ')
           ..write('isHeard: $isHeard, ')
           ..write('sortOrder: $sortOrder, ')
           ..write('createdAt: $createdAt, ')

@@ -1023,6 +1023,7 @@ final class Schema15 extends i0.VersionedSchema {
         _column_15,
         _column_16,
         _column_41,
+        _column_42,
         _column_17,
         _column_38,
         _column_4,
@@ -1109,6 +1110,8 @@ class Shape6 extends i0.VersionedTable {
       columnsByName['episode_number']! as i1.GeneratedColumn<int>;
   i1.GeneratedColumn<int> get publishedAt =>
       columnsByName['published_at']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get partNumber =>
+      columnsByName['part_number']! as i1.GeneratedColumn<int>;
   i1.GeneratedColumn<int> get isHeard =>
       columnsByName['is_heard']! as i1.GeneratedColumn<int>;
   i1.GeneratedColumn<int> get sortOrder =>
@@ -1140,6 +1143,14 @@ class Shape6 extends i0.VersionedTable {
 i1.GeneratedColumn<int> _column_41(String aliasedName) =>
     i1.GeneratedColumn<int>(
       'published_at',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.int,
+      $customConstraints: 'NULL',
+    );
+i1.GeneratedColumn<int> _column_42(String aliasedName) =>
+    i1.GeneratedColumn<int>(
+      'part_number',
       aliasedName,
       true,
       type: i1.DriftSqlType.int,
