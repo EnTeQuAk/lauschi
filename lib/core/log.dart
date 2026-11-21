@@ -2,6 +2,18 @@ import 'dart:developer' as developer;
 
 import 'package:lauschi/core/telemetry/telemetry.dart';
 
+/// [uri] for a log line, with every query value replaced and the fragment
+/// dropped. OAuth callbacks carry secrets there: Spotify's authorization
+/// code, and for Apple Music the music user token itself.
+String redactQuery(Uri uri) {
+  final link = uri.removeFragment();
+  if (!link.hasQuery) return '$link';
+  final redacted = {
+    for (final name in link.queryParameters.keys) name: 'redacted',
+  };
+  return '${link.replace(queryParameters: redacted)}';
+}
+
 /// Lightweight structured logger.
 ///
 /// - `dart:developer` log: visible in DevTools / `flutter logs`

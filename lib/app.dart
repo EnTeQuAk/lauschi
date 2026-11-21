@@ -86,7 +86,7 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
   }
 
   Future<void> _handleDeepLink(Uri uri) async {
-    Log.info('DeepLink', 'Received', data: {'uri': '$uri'});
+    Log.info('DeepLink', 'Received', data: {'uri': redactQuery(uri)});
     if (uri.scheme != 'lauschi') return;
 
     if (FeatureFlags.enableSpotify && uri.host == 'callback') {
