@@ -16,6 +16,7 @@ AUDIO_SESSION_MICROPHONE = "0"
 [tasks.setup]
 description = "Install deps, run codegen, verify analysis"
 run = """
+git config core.hooksPath .githooks
 flutter pub get
 dart run build_runner build
 flutter analyze --fatal-infos

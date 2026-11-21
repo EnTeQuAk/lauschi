@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# Pre-commit hook: auto-format staged Dart files.
-# Formats only files that are part of this commit, then re-stages them.
+# Pre-commit hook: formats the staged Dart files, re-stages them, then
+# runs the analyzer with the same flags as CI. `mise run setup` points
+# git at this directory (core.hooksPath).
 
 staged_dart=$(git diff --cached --name-only --diff-filter=ACM | grep '\.dart$' | grep -v '\.g\.dart$')
 
@@ -8,10 +9,28 @@ if [ -z "$staged_dart" ]; then
   exit 0
 fi
 
+# Resolve dart and flutter via mise if available, fall back to PATH
+DART="dart"
+FLUTTER="flutter"
+if command -v mise &>/dev/null; then
+  DART="$(mise which dart 2>/dev/null || echo dart)"
+  FLUTTER="$(mise which flutter 2>/dev/null || echo flutter)"
+fi
+
 # Format the staged files
-echo "$staged_dart" | xargs dart format
+echo "$staged_dart" | xargs "$DART" format
 
 # Re-stage the formatted files
 echo "$staged_dart" | xargs git add
+
+# The whole project, not just the staged files: a change in one file can
+# break another.
+echo "Running flutter analyze --fatal-infos..."
+if ! analysis=$("$FLUTTER" analyze --fatal-infos 2>&1); then
+  echo "$analysis"
+  echo "❌ Analysis failed. Fix issues before committing."
+  exit 1
+fi
+echo "$analysis" | tail -1
 
 exit 0
