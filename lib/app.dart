@@ -16,6 +16,7 @@ import 'package:lauschi/core/nfc/nfc_listener.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+import 'package:lauschi/core/ui/phone_portrait_lock.dart';
 import 'package:lauschi/core/ui/undo_snackbar.dart';
 import 'package:lauschi/features/player/widgets/player_error_dialog.dart';
 import 'package:webview_flutter/webview_flutter.dart'; // Used by _SpotifyWebViewHost
@@ -173,25 +174,27 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
       builder: (context, child) {
         // Player errors surface from one place, no matter which screen
         // is open.
-        return PlayerErrorHost(
-          child: Stack(
-            children: [
-              child ?? const SizedBox.shrink(),
-              // Hidden WebView for Spotify Web Playback SDK.
-              // Needs real dimensions (300x300); WebView suspends media
-              // in undersized containers.
-              if (FeatureFlags.enableSpotify && spotifyAuthenticated)
-                Positioned(
-                  left: -500,
-                  top: -500,
-                  child: SizedBox(
-                    width: 300,
-                    height: 300,
-                    child: _SpotifyWebViewHost(),
+        return PhonePortraitLock(
+          child: PlayerErrorHost(
+            child: Stack(
+              children: [
+                child ?? const SizedBox.shrink(),
+                // Hidden WebView for Spotify Web Playback SDK.
+                // Needs real dimensions (300x300); WebView suspends media
+                // in undersized containers.
+                if (FeatureFlags.enableSpotify && spotifyAuthenticated)
+                  Positioned(
+                    left: -500,
+                    top: -500,
+                    child: SizedBox(
+                      width: 300,
+                      height: 300,
+                      child: _SpotifyWebViewHost(),
+                    ),
                   ),
-                ),
-              // Apple Music uses native playback, no hidden WebView needed.
-            ],
+                // Apple Music uses native playback, no hidden WebView needed.
+              ],
+            ),
           ),
         );
       },

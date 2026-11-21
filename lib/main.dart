@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/app.dart';
 import 'package:lauschi/core/settings/debug_settings.dart';
@@ -14,17 +13,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Lock phones to portrait; tablets can rotate freely. Read via the
-  // implicit view (nullable): this early at cold start there may be no view
-  // yet, or its size may still be zero. When the size is unknown, skip the
-  // lock rather than risk pinning a tablet to portrait (shortestSide 0 < 600).
-  final view = WidgetsBinding.instance.platformDispatcher.implicitView;
-  final shortestSide =
-      (view?.physicalSize.shortestSide ?? 0) / (view?.devicePixelRatio ?? 1);
-  if (shortestSide > 0 && shortestSide < 600) {
-    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  }
 
   // Initialize media session for lock screen / notification controls.
   final mediaHandler = await AudioService.init<MediaSessionHandler>(
