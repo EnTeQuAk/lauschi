@@ -296,8 +296,7 @@ String? _globalRedirect(Ref ref, GoRouterState state) {
   }
 
   // Guard parent routes behind PIN
-  final isParentRoute = state.matchedLocation.startsWith('/parent');
-  if (isParentRoute) {
+  if (isParentLocation(state.matchedLocation)) {
     final isAuthenticated = ref.read(parentAuthProvider);
     if (!isAuthenticated) {
       Log.info(
@@ -331,11 +330,13 @@ String parentReturnLocation(String? from) {
   if (uri == null || uri.hasScheme || uri.hasAuthority) {
     return AppRoutes.parentDashboard;
   }
-  final inParentArea =
-      uri.path == AppRoutes.parentDashboard ||
-      uri.path.startsWith('${AppRoutes.parentDashboard}/');
-  return inParentArea ? from! : AppRoutes.parentDashboard;
+  return isParentLocation(uri.path) ? from! : AppRoutes.parentDashboard;
 }
+
+/// Whether [path] is in the parent area, the part behind the PIN.
+bool isParentLocation(String path) =>
+    path == AppRoutes.parentDashboard ||
+    path.startsWith('${AppRoutes.parentDashboard}/');
 
 /// Bridges Riverpod state changes to GoRouter's [Listenable] refresh.
 class _RouterRefreshNotifier extends ChangeNotifier {
