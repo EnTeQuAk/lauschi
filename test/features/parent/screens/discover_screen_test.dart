@@ -99,6 +99,20 @@ void main() {
     expect(topOf(tester, 'Sendung 4'), topOf(tester, 'Sendung 0'));
   });
 
+  testWidgets('scrolling leaves the show cards as they are', (tester) async {
+    await pumpDiscover(tester, portrait);
+    final before = tester.widget(find.text('Sendung 0'));
+
+    await tester.drag(find.byType(CustomScrollView), const Offset(0, -40));
+    await tester.pump();
+
+    expect(
+      identical(tester.widget(find.text('Sendung 0')), before),
+      isTrue,
+      reason: 'a card built again on a scroll frame',
+    );
+  });
+
   testWidgets('shows stay clear of a navigation bar at the side', (
     tester,
   ) async {

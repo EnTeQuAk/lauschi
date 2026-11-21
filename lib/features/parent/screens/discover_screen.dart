@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/ard/ard_image.dart';
@@ -136,30 +137,18 @@ class DiscoverScreen extends ConsumerWidget {
             ),
 
             // Show grid
-            SliverLayoutBuilder(
-              builder:
-                  (context, constraints) => SliverPadding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.md,
-                    ),
-                    sliver: SliverGrid(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: parentGridColumns(
-                          constraints.crossAxisExtent,
-                        ),
-                        mainAxisSpacing: AppSpacing.md,
-                        crossAxisSpacing: AppSpacing.md,
-                        childAspectRatio: 0.7,
-                      ),
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) => _ShowCard(
-                          show: shows[index],
-                          autoAssignTileId: autoAssignTileId,
-                        ),
-                        childCount: shows.length,
-                      ),
-                    ),
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: _gridPadding),
+              sliver: SliverGrid(
+                gridDelegate: const _ShowGridDelegate(),
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) => _ShowCard(
+                    show: shows[index],
+                    autoAssignTileId: autoAssignTileId,
                   ),
+                  childCount: shows.length,
+                ),
+              ),
             ),
 
             const SliverToBoxAdapter(
@@ -202,6 +191,31 @@ class DiscoverScreen extends ConsumerWidget {
       body: body,
     );
   }
+}
+
+/// Space at the sides of the show grid.
+const _gridPadding = AppSpacing.md;
+
+/// [parentGridColumns] columns for the grid's width with its padding, as
+/// the tile grid counts them. It counts them at layout, where a
+/// [SliverLayoutBuilder] would build the grid, and every card in it, again
+/// on each scroll frame.
+class _ShowGridDelegate extends SliverGridDelegate {
+  const _ShowGridDelegate();
+
+  @override
+  SliverGridLayout getLayout(SliverConstraints constraints) =>
+      SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: parentGridColumns(
+          constraints.crossAxisExtent + 2 * _gridPadding,
+        ),
+        mainAxisSpacing: AppSpacing.md,
+        crossAxisSpacing: AppSpacing.md,
+        childAspectRatio: 0.7,
+      ).getLayout(constraints);
+
+  @override
+  bool shouldRelayout(_ShowGridDelegate oldDelegate) => false;
 }
 
 class _ShowCard extends StatelessWidget {
