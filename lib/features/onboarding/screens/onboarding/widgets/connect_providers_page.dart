@@ -6,6 +6,7 @@ import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+import 'package:lauschi/core/ui/centered_scroll_view.dart';
 
 /// The fox thinking of the providers a build offers. This page only shows
 /// when a streaming provider is enabled, and every build that has Spotify
@@ -28,75 +29,68 @@ class ConnectProvidersPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return LayoutBuilder(
-      builder:
-          (context, constraints) => SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxl),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    discoverIllustration(spotify: FeatureFlags.enableSpotify),
-                    width: 140,
-                    height: 140,
-                    excludeFromSemantics: true,
-                  ),
-                  const SizedBox(height: AppSpacing.sm),
-                  const Text(
-                    'Inhalte entdecken',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'Nunito',
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.sm),
-                  const Text(
-                    'Kostenlose Hörspiele von ARD Sounds (früher '
-                    'ARD Audiothek) sind immer verfügbar. Mit einem '
-                    'Streaming-Abo kannst du noch mehr entdecken.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'Nunito',
-                      fontSize: 14,
-                      height: 1.4,
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
-                  const _ProviderCard(
-                    type: ProviderType.ardAudiothek,
-                    svgAsset: 'assets/images/icons/ard_audiothek.svg',
-                    label: 'ARD Sounds',
-                    subtitle: 'Kostenlos, ohne Abo',
-                    connected: true,
-                  ),
-                  const SizedBox(height: AppSpacing.sm),
-                  if (FeatureFlags.enableAppleMusic) ...[
-                    const _AppleMusicCard(),
-                    const SizedBox(height: AppSpacing.sm),
-                  ],
-                  if (FeatureFlags.enableSpotify) ...[
-                    const _SpotifyCard(),
-                    const SizedBox(height: AppSpacing.sm),
-                  ],
-                  const SizedBox(height: AppSpacing.md),
-                  SizedBox(
-                    width: double.infinity,
-                    child: FilledButton(
-                      key: const Key('onboarding_providers_next'),
-                      onPressed: onNext,
-                      child: const Text('Weiter'),
-                    ),
-                  ),
-                ],
-              ),
+    return CenteredScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxl),
+      child: Column(
+        children: [
+          Image.asset(
+            discoverIllustration(spotify: FeatureFlags.enableSpotify),
+            width: 140,
+            height: 140,
+            excludeFromSemantics: true,
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          const Text(
+            'Inhalte entdecken',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: 'Nunito',
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
+              color: AppColors.textPrimary,
             ),
           ),
+          const SizedBox(height: AppSpacing.sm),
+          const Text(
+            'Kostenlose Hörspiele von ARD Sounds (früher '
+            'ARD Audiothek) sind immer verfügbar. Mit einem '
+            'Streaming-Abo kannst du noch mehr entdecken.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: 'Nunito',
+              fontSize: 14,
+              height: 1.4,
+              color: AppColors.textSecondary,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.lg),
+          const _ProviderCard(
+            type: ProviderType.ardAudiothek,
+            svgAsset: 'assets/images/icons/ard_audiothek.svg',
+            label: 'ARD Sounds',
+            subtitle: 'Kostenlos, ohne Abo',
+            connected: true,
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          if (FeatureFlags.enableAppleMusic) ...[
+            const _AppleMusicCard(),
+            const SizedBox(height: AppSpacing.sm),
+          ],
+          if (FeatureFlags.enableSpotify) ...[
+            const _SpotifyCard(),
+            const SizedBox(height: AppSpacing.sm),
+          ],
+          const SizedBox(height: AppSpacing.md),
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton(
+              key: const Key('onboarding_providers_next'),
+              onPressed: onNext,
+              child: const Text('Weiter'),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

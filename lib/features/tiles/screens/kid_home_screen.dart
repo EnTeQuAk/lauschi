@@ -12,6 +12,7 @@ import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/settings/kid_settings.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+import 'package:lauschi/core/ui/centered_scroll_view.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/widgets/now_playing_bar.dart';
 import 'package:lauschi/features/tiles/card_indicator.dart';
@@ -338,27 +339,18 @@ class _EmptyState extends StatelessWidget {
   const _EmptyState();
 
   /// Below this height the mascot goes, so the button shows without
-  /// scrolling on a phone held sideways.
+  /// scrolling in a short window, such as split screen.
   static const _mascotMinHeight = 400.0;
 
   @override
   Widget build(BuildContext context) {
-    // Centered when it fits, scrollable when it doesn't (a phone held
-    // sideways, large system fonts), so the button stays reachable.
     return LayoutBuilder(
       builder:
-          (context, constraints) => SingleChildScrollView(
+          (context, constraints) => CenteredScrollView(
             padding: const EdgeInsets.all(AppSpacing.xxl),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: constraints.maxHeight - 2 * AppSpacing.xxl,
-              ),
-              child: Center(
-                child: _content(
-                  context,
-                  showMascot: constraints.maxHeight >= _mascotMinHeight,
-                ),
-              ),
+            child: _content(
+              context,
+              showMascot: constraints.maxHeight >= _mascotMinHeight,
             ),
           ),
     );
