@@ -766,6 +766,10 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
           child: LongPressDraggable<String>(
             data: item.id,
             delay: _longPressDelay,
+            // One drag at a time. A second finger on another tile would
+            // otherwise start a drag whose end also ends the first one.
+            maxSimultaneousDrags:
+                _draggedId == null || _draggedId == item.id ? 1 : 0,
             feedback: SizedBox(
               width: _cellWidth > 0 ? _cellWidth * 1.08 : 100,
               height: _cellHeight > 0 ? _cellHeight * 1.08 : 140,

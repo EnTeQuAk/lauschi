@@ -446,6 +446,51 @@ void main() {
         expect(nested, isNull);
         expect(order, ['tile:c', 'tile:a', 'tile:b', 'tile:d']);
       });
+
+      testWidgets('a second finger leaves the first drag alone', (
+        tester,
+      ) async {
+        (String, String)? nested;
+        await tester.pumpWidget(
+          noopWrap(
+            SizedBox(
+              width: 400,
+              height: 800,
+              child: DraggableTileGrid(
+                items: tiles,
+                onReorder: (_) {},
+                onNest: (child, parent) => nested = (child, parent),
+                onTap: (_) {},
+              ),
+            ),
+          ),
+        );
+        final alpha = cellOf(tester, 'Alpha').center;
+        final beta = middle(cellOf(tester, 'Beta'));
+        final gamma = cellOf(tester, 'Gamma').center;
+
+        final first = await tester.startGesture(alpha, pointer: 1);
+        await tester.pump(const Duration(milliseconds: 400));
+        await first.moveBy(const Offset(0, 20));
+        await tester.pump(const Duration(milliseconds: 60));
+
+        final second = await tester.startGesture(gamma, pointer: 2);
+        await tester.pump(const Duration(milliseconds: 400));
+        await second.moveBy(const Offset(0, 20));
+        await tester.pump(const Duration(milliseconds: 60));
+        await second.up();
+        await tester.pump(const Duration(milliseconds: 60));
+
+        for (var i = 1; i <= 10; i++) {
+          await first.moveTo(Offset.lerp(alpha, beta, i / 10)!);
+          await tester.pump(const Duration(milliseconds: 60));
+        }
+        await tester.pump(const Duration(milliseconds: 600));
+        await first.up();
+        await tester.pump(const Duration(milliseconds: 250));
+
+        expect(nested, ('tile:a', 'tile:b'));
+      });
     });
 
     testWidgets('a drop ends the drag once', (tester) async {
