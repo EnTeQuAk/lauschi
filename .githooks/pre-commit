@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Pre-commit hook: formats the staged Dart files, re-stages them, then
+# Pre-commit hook: formats the staged Dart files, stages them again, then
 # runs the analyzer with the same flags as CI. `mise run setup` points
 # git at this directory (core.hooksPath).
 
@@ -17,11 +17,20 @@ if command -v mise &>/dev/null; then
   FLUTTER="$(mise which flutter 2>/dev/null || echo flutter)"
 fi
 
-# Format the staged files
-echo "$staged_dart" | xargs "$DART" format
-
-# Re-stage the formatted files
-echo "$staged_dart" | xargs git add
+# Format the staged files and stage them again. A file with unstaged
+# changes as well is left alone, since staging it again would commit those
+# changes too. CI's format check still sees it.
+unstaged=$(git diff --name-only)
+to_format=$(comm -23 <(echo "$staged_dart" | sort) <(echo "$unstaged" | sort))
+partly_staged=$(comm -12 <(echo "$staged_dart" | sort) <(echo "$unstaged" | sort))
+if [ -n "$partly_staged" ]; then
+  echo "Not formatting files with unstaged changes:"
+  echo "$partly_staged"
+fi
+if [ -n "$to_format" ]; then
+  echo "$to_format" | xargs "$DART" format
+  echo "$to_format" | xargs git add
+fi
 
 # The whole project, not just the staged files: a change in one file can
 # break another.
