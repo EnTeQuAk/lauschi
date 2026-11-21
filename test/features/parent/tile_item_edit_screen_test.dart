@@ -61,9 +61,7 @@ void main() {
     await tester.pumpWidget(buildScreen(container, itemId));
     // Stream propagation: provider warmup + postFrameCallback that
     // populates the TextEditingController.
-    for (var i = 0; i < 5; i++) {
-      await tester.pump(const Duration(milliseconds: 50));
-    }
+    await settle(tester);
 
     final field = tester.widget<TextField>(
       find.byKey(const Key('tile_item_title_field')),
@@ -96,9 +94,7 @@ void main() {
 
     final container = makeContainer();
     await tester.pumpWidget(buildScreen(container, itemId));
-    for (var i = 0; i < 5; i++) {
-      await tester.pump(const Duration(milliseconds: 50));
-    }
+    await settle(tester);
 
     final field = tester.widget<TextField>(
       find.byKey(const Key('tile_item_title_field')),
@@ -115,9 +111,7 @@ void main() {
 
     final container = makeContainer();
     await tester.pumpWidget(buildScreen(container, itemId));
-    for (var i = 0; i < 5; i++) {
-      await tester.pump(const Duration(milliseconds: 50));
-    }
+    await settle(tester);
 
     // Edit the title.
     await tester.enterText(
@@ -129,9 +123,7 @@ void main() {
     // Save button only appears once the field is dirty.
     expect(find.byKey(const Key('save_tile_item')), findsOneWidget);
     await tester.tap(find.byKey(const Key('save_tile_item')));
-    for (var i = 0; i < 5; i++) {
-      await tester.pump(const Duration(milliseconds: 50));
-    }
+    await settle(tester);
 
     final after = await repo.getById(itemId);
     expect(after!.customTitle, 'New Custom Name');
@@ -201,9 +193,7 @@ void main() {
     final container = makeContainer();
 
     await tester.pumpWidget(buildScreen(container, 'no-such-id'));
-    for (var i = 0; i < 5; i++) {
-      await tester.pump(const Duration(milliseconds: 50));
-    }
+    await settle(tester);
 
     expect(find.text('Folge nicht gefunden'), findsOneWidget);
     // No save button when there's nothing to edit.
@@ -222,15 +212,11 @@ void main() {
 
     final container = makeContainer();
     await tester.pumpWidget(buildScreen(container, itemId));
-    for (var i = 0; i < 5; i++) {
-      await tester.pump(const Duration(milliseconds: 50));
-    }
+    await settle(tester);
 
     // Open the picker sheet.
     await tester.tap(find.byKey(const Key('assign_to_tile')));
-    for (var i = 0; i < 5; i++) {
-      await tester.pump(const Duration(milliseconds: 50));
-    }
+    await settle(tester);
 
     expect(find.text('Kachel zuweisen'), findsOneWidget);
   });
@@ -254,17 +240,13 @@ void main() {
 
     final container = makeContainer();
     await tester.pumpWidget(buildScreen(container, itemId));
-    for (var i = 0; i < 5; i++) {
-      await tester.pump(const Duration(milliseconds: 50));
-    }
+    await settle(tester);
 
     // Change only the cover (clear it) — this auto-saves without the user
     // ever touching the title field.
     expect(find.text('Entfernen'), findsOneWidget);
     await tester.tap(find.text('Entfernen'));
-    for (var i = 0; i < 5; i++) {
-      await tester.pump(const Duration(milliseconds: 50));
-    }
+    await settle(tester);
 
     final after = await repo.getById(itemId);
     expect(after!.coverUrl, isNull, reason: 'the cover clear persisted');

@@ -135,9 +135,7 @@ void main() {
 
     final container = makeContainer();
     await tester.pumpWidget(buildScreen(container, tileId));
-    for (var i = 0; i < 5; i++) {
-      await tester.pump(const Duration(milliseconds: 50));
-    }
+    await settle(tester);
 
     // Clear the required name field, then clear the cover. The two edits
     // are independent: the cover clear must still persist.
@@ -146,9 +144,7 @@ void main() {
 
     expect(find.text('Entfernen'), findsOneWidget);
     await tester.tap(find.text('Entfernen'));
-    for (var i = 0; i < 5; i++) {
-      await tester.pump(const Duration(milliseconds: 50));
-    }
+    await settle(tester);
 
     final after = await repo.getById(tileId);
     expect(
@@ -187,27 +183,21 @@ void main() {
 
     final container = makeContainer();
     await tester.pumpWidget(buildScreen(container, tileId));
-    for (var i = 0; i < 5; i++) {
-      await tester.pump(const Duration(milliseconds: 50));
-    }
+    await settle(tester);
 
     // Open the app-bar menu (the episode rows have their own menus) and
     // delete all episodes, with no confirm dialog.
     await tester.tap(find.byKey(const Key('tile_edit_menu')));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Alle Folgen löschen'));
-    for (var i = 0; i < 5; i++) {
-      await tester.pump(const Duration(milliseconds: 50));
-    }
+    await settle(tester);
 
     expect(await itemRepo.getById(e1), isNull);
     expect(await itemRepo.getById(e2), isNull);
     expect(find.text('2 Einträge gelöscht'), findsOneWidget);
 
     await tester.tap(find.text('Rückgängig'));
-    for (var i = 0; i < 5; i++) {
-      await tester.pump(const Duration(milliseconds: 50));
-    }
+    await settle(tester);
 
     expect((await itemRepo.getById(e1))?.groupId, tileId, reason: 'undo');
     expect((await itemRepo.getById(e2))?.groupId, tileId, reason: 'undo');

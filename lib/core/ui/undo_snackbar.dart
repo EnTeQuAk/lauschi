@@ -28,12 +28,19 @@ void showUndoSnackBar(String message, {required VoidCallback onUndo}) {
     );
 }
 
-/// Shows a plain floating snackbar via the app messenger, for the failure
-/// side of an action whose success path shows [showUndoSnackBar].
-void showAppSnackBar(String message) {
+/// Shows a plain floating snackbar via the app messenger, so it keeps
+/// showing after the screen that asked for it is gone.
+void showAppSnackBar(
+  String message, {
+  Duration duration = const Duration(seconds: 4),
+}) {
   rootScaffoldMessengerKey.currentState
     ?..clearSnackBars()
     ..showSnackBar(
-      SnackBar(content: Text(message), behavior: SnackBarBehavior.floating),
+      SnackBar(
+        content: Text(message),
+        behavior: SnackBarBehavior.floating,
+        duration: duration,
+      ),
     );
 }
