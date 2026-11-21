@@ -273,7 +273,11 @@ class SpotifyWebViewBridge {
           if (allowed.contains(host) || request.url == 'about:blank') {
             return NavigationDecision.navigate;
           }
-          Log.warn(_tag, 'Blocked navigation', data: {'url': request.url});
+          Log.warn(
+            _tag,
+            'Blocked navigation',
+            data: {'url': Uri.tryParse(request.url) ?? 'unparseable'},
+          );
           return NavigationDecision.prevent;
         },
         onPageFinished: (_) {

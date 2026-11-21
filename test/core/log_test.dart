@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/log.dart';
 
@@ -29,5 +31,24 @@ void main() {
 
       expect(redactQuery(uri), 'lauschi://callback');
     });
+  });
+
+  test('Log redacts every link it is given', () {
+    final lines = <String>[];
+    runZoned(
+      () => Log.info(
+        'DeepLink',
+        'Received',
+        data: {
+          'uri': Uri.parse('lauschi://apple-music-callback?code=secret-token'),
+        },
+      ),
+      zoneSpecification: ZoneSpecification(
+        print: (self, parent, zone, line) => lines.add(line),
+      ),
+    );
+
+    expect(lines.join('\n'), isNot(contains('secret-token')));
+    expect(lines.join('\n'), contains('code=redacted'));
   });
 }

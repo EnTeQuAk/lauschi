@@ -16,6 +16,9 @@ String redactQuery(Uri uri) {
 
 /// Lightweight structured logger.
 ///
+/// Pass links as [Uri] values in `data`: their query values are redacted
+/// (see [redactQuery]).
+///
 /// - `dart:developer` log: visible in DevTools / `flutter logs`
 /// - [telemetry] log and breadcrumb: in tester builds the Sentry Logs tab
 ///   and the trail shown on every Sentry error event
@@ -28,18 +31,21 @@ abstract final class Log {
     String message, {
     Map<String, Object>? data,
   }) {
-    _log(source, message, level: 500, data: data);
-    telemetry.log(LogLevel.debug, source, message, data: data);
+    final safe = _redacted(data);
+    _log(source, message, level: 500, data: safe);
+    telemetry.log(LogLevel.debug, source, message, data: safe);
   }
 
   static void info(String source, String message, {Map<String, Object>? data}) {
-    _log(source, message, level: 800, data: data);
-    telemetry.log(LogLevel.info, source, message, data: data);
+    final safe = _redacted(data);
+    _log(source, message, level: 800, data: safe);
+    telemetry.log(LogLevel.info, source, message, data: safe);
   }
 
   static void warn(String source, String message, {Map<String, Object>? data}) {
-    _log(source, message, level: 900, data: data);
-    telemetry.log(LogLevel.warning, source, message, data: data);
+    final safe = _redacted(data);
+    _log(source, message, level: 900, data: safe);
+    telemetry.log(LogLevel.warning, source, message, data: safe);
   }
 
   static void error(
@@ -49,17 +55,24 @@ abstract final class Log {
     StackTrace? stackTrace,
     Map<String, Object>? data,
   }) {
-    _log(source, message, level: 1000, data: data);
-    telemetry.log(LogLevel.error, source, message, data: data);
+    final safe = _redacted(data);
+    _log(source, message, level: 1000, data: safe);
+    telemetry.log(LogLevel.error, source, message, data: safe);
     if (exception != null) {
       telemetry.captureException(
         exception,
         message: '[$source] $message',
         stackTrace: stackTrace,
-        data: data,
+        data: safe,
       );
     }
   }
+
+  /// [data] with every [Uri] value passed through [redactQuery], so a link
+  /// handed to the logger never shows its query to logcat or telemetry.
+  static Map<String, Object>? _redacted(Map<String, Object>? data) => data?.map(
+    (key, value) => MapEntry(key, value is Uri ? redactQuery(value) : value),
+  );
 
   static void _log(
     String source,

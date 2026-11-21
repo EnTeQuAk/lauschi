@@ -108,7 +108,7 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
     // you to the kid home instead. The guard stops a loop if the home
     // itself fails.
     onException: (context, state, router) {
-      Log.warn(_tag, 'No route for location', data: {'uri': '${state.uri}'});
+      Log.warn(_tag, 'No route for location', data: {'uri': state.uri});
       if (state.uri.path != AppRoutes.kidHome) router.go(AppRoutes.kidHome);
     },
     routes: [
