@@ -68,6 +68,15 @@ abstract final class AppSpacing {
 /// Caps at 3 even on large landscape tablets to keep tiles recognizable.
 int kidGridColumns(double width) => width < 600 ? 2 : 3;
 
+/// Column count for parent-facing grids of tiles and shows. Parents read
+/// titles rather than tap for small fingers, so more fit per row.
+int parentGridColumns(double width) =>
+    width < 600
+        ? 3
+        : width < 900
+        ? 4
+        : 5;
+
 // ---------------------------------------------------------------------------
 // Radii — rounded organic feel
 // ---------------------------------------------------------------------------

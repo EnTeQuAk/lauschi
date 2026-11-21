@@ -640,12 +640,7 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
     // discovered from the parent's [BoxConstraints.maxWidth].
     final grid = LayoutBuilder(
       builder: (context, constraints) {
-        _columns =
-            constraints.maxWidth < 600
-                ? 3
-                : constraints.maxWidth < 900
-                ? 4
-                : 5;
+        _columns = parentGridColumns(constraints.maxWidth);
         final gridWidth = constraints.maxWidth - AppSpacing.screenH * 2;
         _cellWidth = (gridWidth - _crossSpacing * (_columns - 1)) / _columns;
         _cellHeight = _cellWidth / _aspectRatio;

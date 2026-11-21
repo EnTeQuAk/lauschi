@@ -137,25 +137,30 @@ class DiscoverScreen extends ConsumerWidget {
             ),
 
             // Show grid
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-              sliver: SliverGrid(
-                // Three per row on a phone in portrait, more when it's
-                // held sideways or on a tablet.
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 140,
-                  mainAxisSpacing: AppSpacing.md,
-                  crossAxisSpacing: AppSpacing.md,
-                  childAspectRatio: 0.7,
-                ),
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) => _ShowCard(
-                    show: shows[index],
-                    autoAssignTileId: autoAssignTileId,
+            SliverLayoutBuilder(
+              builder:
+                  (context, constraints) => SliverPadding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.md,
+                    ),
+                    sliver: SliverGrid(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: parentGridColumns(
+                          constraints.crossAxisExtent,
+                        ),
+                        mainAxisSpacing: AppSpacing.md,
+                        crossAxisSpacing: AppSpacing.md,
+                        childAspectRatio: 0.7,
+                      ),
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) => _ShowCard(
+                          show: shows[index],
+                          autoAssignTileId: autoAssignTileId,
+                        ),
+                        childCount: shows.length,
+                      ),
+                    ),
                   ),
-                  childCount: shows.length,
-                ),
-              ),
             ),
 
             const SliverToBoxAdapter(
