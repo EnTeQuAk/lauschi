@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Debug builds only: the integration tests serve audio from a local
+     server over plain HTTP (integration_test/ard_stream_drop_test.dart).
+     Every other host stays HTTPS-only, as in release builds. -->
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="false">127.0.0.1</domain>
+    </domain-config>
+</network-security-config>

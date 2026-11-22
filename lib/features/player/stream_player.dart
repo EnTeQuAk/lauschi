@@ -77,15 +77,16 @@ class SessionRetryBudget {
 ///
 /// `play()` returns once the synchronous setup (setUrl, seek, fire play
 /// request) is done. Playback progress and errors arrive via [stateStream].
-/// Mid-playback failures (CDN drop, codec error) are caught via the just_audio
-/// state stream's onError handler and trigger a retry from the live player
-/// position. The retry counter, retry timer, and stop flag live on the
-/// instance so [stop] and [dispose] can cancel a pending retry cleanly.
+/// Mid-playback failures (CDN drop, codec error) arrive on just_audio's
+/// `errorStream` and trigger a retry from the live player position. The
+/// retry counter, retry timer, and stop flag live on the instance so
+/// [stop] and [dispose] can cancel a pending retry cleanly.
 class StreamPlayer extends PlayerBackend {
   final _stateController = StreamController<PlaybackState>.broadcast();
   StreamSubscription<ja.PlayerState>? _playerStateSub;
   StreamSubscription<Duration?>? _durationSub;
   StreamSubscription<Duration>? _positionSub;
+  StreamSubscription<ja.PlayerException>? _errorSub;
 
   /// Current track metadata set at play time.
   TrackInfo? _currentTrack;
@@ -221,6 +222,15 @@ class StreamPlayer extends PlayerBackend {
 
     if (_stopped) return;
 
+    // Failures after setup arrive here only: just_audio reports them on
+    // errorStream, not as errors on its state streams, and leaves its
+    // playing flag set. Subscribed after setup because a failed setUrl
+    // reports there as well, and its catch above already handled that.
+    _errorSub = player.errorStream.listen((e) {
+      Log.warn(_tag, 'Playback error', data: {'error': '$e'});
+      _handleError(e);
+    });
+
     // Fire the play request unawaited. just_audio's play() Future resolves
     // on pause/stop/completion (NOT on play start), so we learn that
     // playback actually started via the state stream's playing=true event,
@@ -244,6 +254,7 @@ class StreamPlayer extends PlayerBackend {
         // Terminal error: clear isPlaying so the emitted state isn't
         // contradictory (`isPlaying: true, error: contentUnavailable`).
         _isPlaying = false;
+        unawaited(_disposePlayer());
         final code = e is ja.PlayerException ? e.code : -1;
         final message = e is ja.PlayerException ? (e.message ?? '') : '$e';
         Log.warn(
@@ -272,6 +283,7 @@ class StreamPlayer extends PlayerBackend {
         // Terminal error: clear isPlaying so the emitted state isn't
         // contradictory (`isPlaying: true, error: playbackFailed`).
         _isPlaying = false;
+        unawaited(_disposePlayer());
         Log.warn(
           _tag,
           'Failed after ${_retryBudget.maxRetries} retries',
@@ -343,7 +355,13 @@ class StreamPlayer extends PlayerBackend {
 
   /// Cancel just_audio listeners and dispose the underlying player.
   /// Does NOT close the state controller — that's [dispose]'s job.
+  ///
+  /// A terminal error calls this too: the failed player still has its
+  /// playing flag set, and its later state events would report playback
+  /// that isn't happening.
   Future<void> _disposePlayer() async {
+    await _errorSub?.cancel();
+    _errorSub = null;
     await _playerStateSub?.cancel();
     _playerStateSub = null;
     await _durationSub?.cancel();
@@ -355,35 +373,25 @@ class StreamPlayer extends PlayerBackend {
   }
 
   void _listenToPlayer(ja.AudioPlayer player) {
-    _playerStateSub = player.playerStateStream.listen(
-      (playerState) {
-        final completed =
-            playerState.processingState == ja.ProcessingState.completed;
-        if (completed) Log.info(_tag, 'Playback completed');
+    _playerStateSub = player.playerStateStream.listen((playerState) {
+      final completed =
+          playerState.processingState == ja.ProcessingState.completed;
+      if (completed) Log.info(_tag, 'Playback completed');
 
-        _reachedEnd = completed;
-        _isPlaying = playerState.playing && !completed;
-        // Playback is flowing again, so this incident is over: restore
-        // the retry budget. It is per incident, not per session —
-        // without this, transient blips accumulate over a long Hoerspiel
-        // and a later, individually-recoverable blip gives up mid-story.
-        if (_isPlaying) _retryBudget.onRecovered();
-        _emitState();
-      },
-      onError: (Object e, StackTrace st) {
-        // Mid-playback errors (CDN drop, codec error, network reset) flow
-        // through the state stream as errors. Without this handler the
-        // existing code silently swallowed them. Hand off to the same
-        // retry pipeline as setup errors. Stack trace goes into the
-        // structured log for Sentry context.
-        Log.warn(
-          _tag,
-          'Player state stream error',
-          data: {'error': '$e', 'stack': '$st'},
-        );
-        _handleError(e);
-      },
-    );
+      _reachedEnd = completed;
+      _isPlaying = playerState.playing && !completed;
+      // Playback is flowing again, so this incident is over: restore
+      // the retry budget. It is per incident, not per session —
+      // without this, transient blips accumulate over a long Hoerspiel
+      // and a later, individually-recoverable blip gives up mid-story.
+      // just_audio reports playing as soon as play() is called, so only
+      // a ready player counts as flowing.
+      if (_isPlaying &&
+          playerState.processingState == ja.ProcessingState.ready) {
+        _retryBudget.onRecovered();
+      }
+      _emitState();
+    });
 
     _durationSub = player.durationStream.listen((duration) {
       _durationMs = duration?.inMilliseconds ?? 0;
