@@ -66,7 +66,7 @@ void main() {
       );
     });
 
-    testWidgets('the action button dismisses the dialog and clears the error', (
+    testWidgets('"Nochmal probieren" closes the dialog and retries the card', (
       tester,
     ) async {
       final notifier = FakePlayerNotifier(const PlaybackState(isReady: true));
@@ -87,14 +87,14 @@ void main() {
 
       expect(tester.takeException(), isNull);
       expect(find.byType(Dialog), findsNothing);
-      expect(notifier.clearErrorCalled, isTrue);
+      expect(notifier.retryCalled, isTrue);
     });
 
     testWidgets('dismissing the dialog leaves the player screen', (
       tester,
     ) async {
-      // The player screen's content just failed; keeping the kid on a
-      // dead player screen helps nobody, so the dismissal pops it.
+      // The player screen's content is gone for good; keeping the kid on
+      // a dead player screen helps nobody, so the dismissal pops it.
       final notifier = FakePlayerNotifier(playingState);
       final container = errorHostContainer(notifier);
       addTearDown(container.dispose);
@@ -106,14 +106,10 @@ void main() {
       await tester.pump(const Duration(milliseconds: 400));
       expect(find.byKey(const Key('player_close_button')), findsOneWidget);
 
-      await raisePlayerError(
-        tester,
-        notifier,
-        PlayerError.spotifyPlaybackFailed,
-      );
+      await raisePlayerError(tester, notifier, PlayerError.contentUnavailable);
       expect(find.byType(Dialog), findsOneWidget);
 
-      await tester.tap(find.text(ErrorCategory.oops.actionLabel));
+      await tester.tap(find.text(ErrorCategory.gone.actionLabel));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 400));
       await tester.pump(const Duration(milliseconds: 400));
@@ -126,6 +122,31 @@ void main() {
         reason: 'the dead player screen was popped after the dialog',
       );
       expect(find.text('Meine Hörspiele'), findsOneWidget);
+    });
+
+    testWidgets('a retry keeps the player screen open', (tester) async {
+      // "Nochmal probieren" plays the card again, so the kid stays on
+      // the player and sees it load.
+      final notifier = FakePlayerNotifier(playingState);
+      final container = errorHostContainer(notifier);
+      addTearDown(container.dispose);
+
+      await pumpErrorHostApp(tester, container);
+
+      unawaited(container.read(appRouterProvider).push(AppRoutes.player));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 400));
+
+      await raisePlayerError(tester, notifier, PlayerError.playbackFailed);
+      await tester.tap(find.text(ErrorCategory.oops.actionLabel));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 400));
+      await tester.pump(const Duration(milliseconds: 400));
+
+      expect(tester.takeException(), isNull);
+      expect(find.byType(Dialog), findsNothing);
+      expect(notifier.retryCalled, isTrue);
+      expect(find.byKey(const Key('player_close_button')), findsOneWidget);
     });
 
     testWidgets('a system back pop still clears the error', (tester) async {
@@ -152,14 +173,10 @@ void main() {
       expect(notifier.clearErrorCalled, isTrue);
     });
 
-    testWidgets('dialog closes even when clearing the error throws', (
-      tester,
-    ) async {
-      // A throwing clearError must not trap the kid behind a modal
-      // that is not barrier-dismissible.
-      final notifier = _ThrowingClearErrorNotifier(
-        const PlaybackState(isReady: true),
-      );
+    testWidgets('dialog closes even when its action throws', (tester) async {
+      // A throwing retry must not trap the kid behind a modal that is
+      // not barrier-dismissible.
+      final notifier = _ThrowingNotifier(const PlaybackState(isReady: true));
       final container = errorHostContainer(notifier);
       addTearDown(container.dispose);
 
@@ -183,11 +200,14 @@ void main() {
   });
 }
 
-class _ThrowingClearErrorNotifier extends FakePlayerNotifier {
-  _ThrowingClearErrorNotifier(super.initialState);
+class _ThrowingNotifier extends FakePlayerNotifier {
+  _ThrowingNotifier(super.initialState);
 
   @override
   void clearError() {
     throw StateError('simulated clearError failure');
   }
+
+  @override
+  Future<void> retry() => throw StateError('simulated retry failure');
 }

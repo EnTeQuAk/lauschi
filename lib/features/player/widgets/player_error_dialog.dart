@@ -191,7 +191,12 @@ class _PlayerErrorDialog extends ConsumerWidget {
                   // the dialog must already be closed or the user is
                   // trapped behind a dead button.
                   Navigator.of(context).pop(error.isRetryable);
-                  ref.read(playerProvider.notifier).clearError();
+                  final player = ref.read(playerProvider.notifier);
+                  if (error.isRetryable) {
+                    unawaited(player.retry());
+                  } else {
+                    player.clearError();
+                  }
                 },
                 child: Text(
                   category.actionLabel,

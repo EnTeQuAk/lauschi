@@ -38,9 +38,15 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
     // This screen's content just failed and the error dialog handled it
     // (error went non-null then back to null on dismiss); leaving the
     // kid on a dead player screen helps nobody, so pop back to the grid.
-    // PlayerErrorHost owns showing the dialog itself.
+    // A retry clears the error as it starts loading again, and the
+    // screen stays for it. PlayerErrorHost owns showing the dialog.
     ref.listen(playerProvider.select((s) => s.error), (prev, next) {
-      if (prev != null && next == null && context.mounted && context.canPop()) {
+      final retrying = ref.read(playerProvider).isLoading;
+      if (prev != null &&
+          next == null &&
+          !retrying &&
+          context.mounted &&
+          context.canPop()) {
         context.pop();
       }
     });

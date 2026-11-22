@@ -336,6 +336,20 @@ class PlayerNotifier extends _$PlayerNotifier {
     state = state.copyWith(error: null);
   }
 
+  /// Plays the card in the player again, for the error dialog's
+  /// "Nochmal probieren". The error clears in the same step that starts
+  /// loading, so the player screen stays open for the new attempt.
+  Future<void> retry() async {
+    final cardId = state.activeCardId;
+    if (cardId == null) {
+      clearError();
+      return;
+    }
+    // ignore: avoid_redundant_argument_values, null clears error
+    state = state.copyWith(isLoading: true, error: null);
+    await playCard(cardId, forceReplay: true);
+  }
+
   /// Resume playback for a card, restoring saved position.
   ///
   /// [forceReplay] bypasses the already-playing guard for internal

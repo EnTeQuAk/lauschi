@@ -23,6 +23,9 @@ class FakePlayerNotifier extends PlayerNotifier {
   /// actually invoked the notifier's clear-error path.
   bool clearErrorCalled = false;
 
+  /// Set by [retry], for the error dialog's retry button.
+  bool retryCalled = false;
+
   @override
   PlaybackState build() => _initialState;
 
@@ -51,6 +54,15 @@ class FakePlayerNotifier extends PlayerNotifier {
     // even though it looks like a no-op.
     // ignore: avoid_redundant_argument_values
     state = state.copyWith(error: null);
+  }
+
+  /// Clears the error into a loading state, as the real [retry] does
+  /// before it replays the card.
+  @override
+  Future<void> retry() async {
+    retryCalled = true;
+    // ignore: avoid_redundant_argument_values, null clears error
+    state = state.copyWith(isLoading: true, error: null);
   }
 
   // The remaining overrides below are no-op stubs. They exist to stop
