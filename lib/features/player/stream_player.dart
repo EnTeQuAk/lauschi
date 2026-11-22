@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:just_audio/just_audio.dart' as ja;
+import 'package:lauschi/core/ard/audio_file_check.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/features/player/player_backend.dart';
 import 'package:lauschi/features/player/player_error.dart';
@@ -82,6 +83,12 @@ class SessionRetryBudget {
 /// retry counter, retry timer, and stop flag live on the instance so
 /// [stop] and [dispose] can cancel a pending retry cleanly.
 class StreamPlayer extends PlayerBackend {
+  StreamPlayer({AudioFileCheck? fileCheck})
+    : _fileCheck = fileCheck ?? AudioFileCheck();
+
+  /// Asks the server whether a file that failed to play still exists.
+  final AudioFileCheck _fileCheck;
+
   final _stateController = StreamController<PlaybackState>.broadcast();
   StreamSubscription<ja.PlayerState>? _playerStateSub;
   StreamSubscription<Duration?>? _durationSub;
@@ -129,6 +136,10 @@ class StreamPlayer extends PlayerBackend {
 
   /// Set by [stop] and [dispose] to abort any pending retry. Reset by [play].
   bool _stopped = false;
+
+  /// Counts [play] calls, so an error handler that waited on the network
+  /// can tell that a newer play request took over.
+  int _plays = 0;
 
   /// Pending retry, scheduled by [_scheduleRetry], cancelled by [stop]/[dispose].
   Timer? _retryTimer;
@@ -178,6 +189,7 @@ class StreamPlayer extends PlayerBackend {
     _retryTimer?.cancel();
     _retryTimer = null;
     _stopped = false;
+    _plays++;
     _retryBudget.onRecovered();
     _currentUrl = audioUrl;
     _currentTrack = trackInfo;
@@ -216,7 +228,7 @@ class StreamPlayer extends PlayerBackend {
       Log.info(_tag, 'Setup interrupted');
       return;
     } on Object catch (e) {
-      _handleError(e);
+      unawaited(_handleError(e));
       return;
     }
 
@@ -228,7 +240,7 @@ class StreamPlayer extends PlayerBackend {
     // reports there as well, and its catch above already handled that.
     _errorSub = player.errorStream.listen((e) {
       Log.warn(_tag, 'Playback error', data: {'error': '$e'});
-      _handleError(e);
+      unawaited(_handleError(e));
     });
 
     // Fire the play request unawaited. just_audio's play() Future resolves
@@ -240,14 +252,28 @@ class StreamPlayer extends PlayerBackend {
   }
 
   /// Decide what to do with an error using the pure helper, then act.
-  void _handleError(Object e) {
+  Future<void> _handleError(Object e) async {
     if (_stopped) return;
 
-    final action = classifyStreamError(
+    var action = classifyStreamError(
       error: e,
       currentAttempt: _retryBudget.attempts,
       maxRetries: _retryBudget.maxRetries,
     );
+
+    // just_audio reports a missing file as a generic source error, with
+    // no HTTP status, so the file's server is asked once per incident
+    // whether the file is gone before any retry.
+    if (action != StreamErrorAction.contentUnavailable &&
+        _retryBudget.attempts == 0) {
+      final plays = _plays;
+      final file = await _fileCheck.check(_currentUrl);
+      // A stop or another play() while the server answered.
+      if (_stopped || plays != _plays) return;
+      if (file == AudioFileStatus.gone) {
+        action = StreamErrorAction.contentUnavailable;
+      }
+    }
 
     switch (action) {
       case StreamErrorAction.contentUnavailable:

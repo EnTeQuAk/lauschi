@@ -795,6 +795,15 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   // ─── Playback state change handling ─────────────────────────────────
 
+  /// Marks an ARD Sounds episode whose audio file is gone, so its card
+  /// greys out, Weiter skips it and the startup recheck
+  /// (`recheckArdAvailability`) can bring it back. Other providers have no
+  /// recheck, so a mark would hide their items for good.
+  Future<void> _markGone(db.TileItem card) async {
+    if (card.provider != ProviderType.ardAudiothek.value) return;
+    await ref.read(tileItemRepositoryProvider).markUnavailable(card.id);
+  }
+
   /// A state from the backend that `playCard` generation [gen] started.
   /// States from an older generation's backend are dropped.
   void _onBackendState(int gen, PlaybackState backendState) {
@@ -802,7 +811,11 @@ class PlayerNotifier extends _$PlayerNotifier {
     if (session == null || gen != _playGen) return;
 
     final wasPlaying = state.isPlaying;
+    final nowGone =
+        backendState.error == PlayerError.contentUnavailable &&
+        state.error != PlayerError.contentUnavailable;
     state = mergeBackendState(state, backendState);
+    if (nowGone) unawaited(_markGone(session.card));
     final track = backendState.track;
     final backend = _active?.backend;
     final positionMs = backend?.currentPositionMs ?? 0;

@@ -112,12 +112,21 @@ class _DroppingServer {
   final int _totalLength;
   int _sent = 0;
 
-  /// Requests the player made so far.
+  /// Requests the player made for audio so far.
   int requests = 0;
 
   String get url => 'http://127.0.0.1:${_server.port}/episode.mp3';
 
   Future<void> _serve(HttpRequest request) async {
+    // The player asks whether the file still exists after a failure: it
+    // does, as on the real CDN.
+    if (request.method == 'HEAD') {
+      request.response
+        ..headers.contentType = ContentType('audio', 'mpeg')
+        ..contentLength = _totalLength;
+      await request.response.close();
+      return;
+    }
     requests++;
     final start = _rangeStart(request) ?? 0;
     final response =

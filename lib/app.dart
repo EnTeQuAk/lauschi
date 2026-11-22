@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/apple_music/apple_music_session.dart';
 import 'package:lauschi/core/ard/ard_api.dart';
 import 'package:lauschi/core/ard/ard_availability_recheck.dart';
+import 'package:lauschi/core/ard/audio_file_check.dart';
 import 'package:lauschi/core/auth/pin_service.dart';
 import 'package:lauschi/core/catalog/catalog_service.dart';
 import 'package:lauschi/core/database/data_migrations.dart';
@@ -52,7 +53,11 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
       ),
     );
     unawaited(
-      recheckArdAvailability(api: ref.read(ardApiProvider), items: itemRepo),
+      recheckArdAvailability(
+        api: ref.read(ardApiProvider),
+        files: AudioFileCheck(),
+        items: itemRepo,
+      ),
     );
     // The catalog is the authority for episode numbers, so each correction
     // shipped in a release has to reach tiles a parent already built. Writes

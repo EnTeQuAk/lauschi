@@ -185,11 +185,15 @@ class TileItemRepository {
     Log.info(_tag, 'Item marked unavailable', data: {'id': id});
   }
 
-  /// Clear the unavailable flag (content is back).
-  Future<void> clearUnavailable(String id) async {
-    await (_db.update(_db.cards)..where(
-      (t) => t.id.equals(id),
-    )).write(const CardsCompanion(markedUnavailable: Value(null)));
+  /// Clear the unavailable flag (content is back), with the [audioUrl] it
+  /// is back at when that moved.
+  Future<void> clearUnavailable(String id, {String? audioUrl}) async {
+    await (_db.update(_db.cards)..where((t) => t.id.equals(id))).write(
+      CardsCompanion(
+        markedUnavailable: const Value(null),
+        audioUrl: audioUrl != null ? Value(audioUrl) : const Value.absent(),
+      ),
+    );
     Log.info(_tag, 'Item availability restored', data: {'id': id});
   }
 

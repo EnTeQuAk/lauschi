@@ -1,4 +1,5 @@
 import 'package:lauschi/core/ard/ard_api.dart';
+import 'package:lauschi/core/ard/audio_file_check.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
@@ -11,12 +12,15 @@ const _recheckInterval = Duration(days: 7);
 /// Re-checks ARD items marked unavailable to see if content returned.
 ///
 /// Runs on app launch. Only rechecks items that were marked unavailable
-/// more than 7 days ago to avoid hammering the API. If the item has
-/// audio again, clears the flag so kids can play it.
+/// more than 7 days ago to avoid hammering the API. If the item's audio
+/// file is there again, clears the flag so kids can play it. ARD keeps
+/// listing episodes whose files are deleted, so the file's server has the
+/// last word, not the API.
 ///
 /// Skips on any API error (network, timeout) to avoid false positives.
 Future<void> recheckArdAvailability({
   required ArdApi api,
+  required AudioFileCheck files,
   required TileItemRepository items,
 }) async {
   final unavailable = await items.getUnavailable(olderThan: _recheckInterval);
@@ -43,8 +47,12 @@ Future<void> recheckArdAvailability({
 
     try {
       final episode = await api.getItem(ardId);
-      if (episode != null && episode.bestAudioUrl != null) {
-        await items.clearUnavailable(item.id);
+      final url = episode?.bestAudioUrl;
+      if (url != null && await files.check(url) == AudioFileStatus.present) {
+        await items.clearUnavailable(
+          item.id,
+          audioUrl: url == item.audioUrl ? null : url,
+        );
         restored++;
         Log.info(
           _tag,
