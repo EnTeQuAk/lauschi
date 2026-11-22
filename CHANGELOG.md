@@ -1,5 +1,26 @@
 # Changelog
 
+## v2026.11.4 (November 2026)
+
+🎯 **Kacheln verschieben wie auf dem Handy**
+In „Kacheln verwalten“ zieht ihr eine Kachel an den Rand einer anderen, dann rückt sie daneben. Haltet ihr sie kurz über der Mitte, entsteht ein Ordner. Langsames Ziehen legt also nicht mehr aus Versehen einen Ordner an.
+
+✨ **Namen speichern sich von selbst**
+Wenn ihr eine Kachel oder Folge umbenennt, speichert lauschi schon beim Tippen. Einen Speichern-Knopf braucht es dafür nicht mehr.
+
+⏳ **ARD-Folgen in der richtigen Reihenfolge**
+Folgen aus ARD Sounds stehen in der Reihenfolge, in der sie erschienen sind, und Geschichten in mehreren Teilen laufen Teil für Teil. Vorher trug jede Folge die Nummer 1.
+
+📂 **Ordner mit Cover über die ganze Kachel**
+Ein Ordner mit zwei oder drei Kacheln nutzt jetzt die ganze Fläche, und die kleinen Cover sind so scharf wie bei einer einzelnen Kachel.
+
+🐛 **Behoben**
+- „Hörspiel hinzufügen“ auf dem leeren Startbildschirm führt nach der PIN direkt zum Hinzufügen statt zur Übersicht
+- Ist der Elternbereich nach einer Pause wieder gesperrt, kommt ihr nach der PIN dorthin zurück, wo ihr wart
+- Handys bleiben im Hochformat, und auf einem quer gehaltenen Tablet passt die ARD-Seite wieder
+- Das Onboarding zeigt keinen Spotify-Hinweis mehr, wenn Spotify nicht dabei ist
+- Der Apple-Music-Zugang taucht nicht mehr in den Protokollen der App auf
+
 ## v2026.11.3 (November 2026)
 
 🐛 **Behoben**
