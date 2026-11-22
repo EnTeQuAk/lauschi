@@ -1,5 +1,17 @@
 # Changelog
 
+## v2026.11.5 (November 2026)
+
+🎯 **Neueste Geschichten zuerst**
+Bei ARD-Sendungen, die immer weiterlaufen, wie dem Betthupferl, stehen die neuesten Geschichten jetzt oben. Geschichten in mehreren Teilen bleiben zusammen und laufen Teil für Teil. Sendungen mit fester Folgenzahl, wie Die Glitzer-Gang, beginnen weiter bei Folge 1. Kacheln, die ihr schon angelegt habt, stellen sich beim ersten Start mit Internet von selbst um.
+
+⏳ **Gelöschte ARD-Folgen erkennt lauschi sofort**
+ARD Sounds listet manche alte Folge noch, obwohl es ihre Datei nicht mehr gibt. lauschi sagt dann gleich „Diese Geschichte gibt es leider nicht mehr“, graut die Karte aus und überspringt sie beim Weiterhören.
+
+🐛 **Behoben**
+- „Nochmal probieren“ startet die Geschichte jetzt wirklich neu
+- Bricht eine ARD-Geschichte mitten im Hören ab, zeigt lauschi eine Meldung, statt still stehen zu bleiben
+
 ## v2026.11.4 (November 2026)
 
 🎯 **Kacheln verschieben wie auf dem Handy**
