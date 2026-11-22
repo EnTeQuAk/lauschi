@@ -87,6 +87,7 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
             groupCoverUrl: ardImageUrl(show.imageUrl),
             cards: [ardPendingCard(item)],
             tileId: widget.autoAssignTileId,
+            latestFirst: show.playsLatestFirst,
           );
     } on Exception catch (e) {
       Log.error(
@@ -172,6 +173,7 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
             hasMorePages: page?.hasNextPage ?? false,
             endCursor: page?.endCursor,
             tileId: widget.autoAssignTileId,
+            latestFirst: show.playsLatestFirst,
           ),
     );
   }

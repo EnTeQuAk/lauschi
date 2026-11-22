@@ -227,6 +227,45 @@ class ArdApi {
     };
   }
 
+  /// For each episode in [itemIds], in one request: the multi-part story it
+  /// belongs to (ARD's group id) and whether its show plays latest first
+  /// (see [ArdProgramSet.playsLatestFirst]). Ids ARD doesn't know (any
+  /// more) are missing from the result. Keep a call to
+  /// [publishDatesBatchSize] ids, the most one page returns.
+  ///
+  /// Throws [ArdApiException] when the answer has no items list at all, so
+  /// a caller can tell it from ARD knowing none of the ids.
+  Future<Map<String, ({String? storyId, bool latestFirst})>> getStoryOrder(
+    List<String> itemIds,
+  ) async {
+    final ids = itemIds.map(int.tryParse).whereType<int>().toList();
+    if (ids.isEmpty) return {};
+    final data = await _graphql(
+      r'''
+      query StoryOrder($ids: [Int!]!, $first: Int!) {
+        items(filter: { id: { in: $ids } }, first: $first) {
+          nodes { id groupId programSet { showType } }
+        }
+      }
+    ''',
+      variables: {'ids': ids, 'first': ids.length},
+    );
+    if (data?['items'] is! Map<String, dynamic>) {
+      Log.warn(_tag, 'Story order answer without items');
+      throw const ArdApiException('No items in the story order answer');
+    }
+
+    return {
+      for (final node in _extractNodes(data, 'items'))
+        '${node['id']}': (
+          storyId: node['groupId'] as String?,
+          latestFirst:
+              (node['programSet'] as Map<String, dynamic>?)?['showType'] ==
+              ArdProgramSet.infiniteSeries,
+        ),
+    };
+  }
+
   /// Search for kids items by title.
   Future<List<ArdItem>> searchItems(String query, {int first = 20}) async {
     Log.debug(

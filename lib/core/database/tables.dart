@@ -78,6 +78,12 @@ class Groups extends Table {
   TextColumn get contentType =>
       text().withDefault(const Constant('hoerspiel'))();
 
+  /// The tile's stories without an episode number play latest first. Set
+  /// for an ARD Sounds show that runs on with standalone stories, like
+  /// Betthupferl, where the oldest stories are years old and the latest
+  /// are what a kid expects. A finished series plays from its start.
+  BoolColumn get latestFirst => boolean().withDefault(const Constant(false))();
+
   /// Provider for this tile's content. Null for mixed/manual tiles.
   /// Used to determine playback behaviour and show provider badges.
   /// Values: 'spotify', 'ard_audiothek', 'apple_music'.
@@ -176,6 +182,11 @@ class Cards extends Table {
   /// ARD sometimes publishes all parts of a story at the same time, so
   /// this orders them where [publishedAt] can't.
   IntColumn get partNumber => integer().nullable()();
+
+  /// The multi-part story the item belongs to, ARD Sounds' group id. A
+  /// story's parts stay together and in order, also in a tile that plays
+  /// its stories latest first.
+  TextColumn get storyId => text().nullable()();
   BoolColumn get isHeard => boolean().withDefault(const Constant(false))();
 
   /// NULL = sorted by [cardOrder]. Non-null = parent manually ordered.
@@ -229,13 +240,28 @@ class Cards extends Table {
 /// high sentinel to land last.
 const sortLast = Constant<int>(2147483647);
 
+/// When an item's story began: the publish date of the first part of its
+/// story in the same tile, or the item's own publish date outside a story.
+const _storyPublishedAt =
+    'COALESCE((SELECT MIN(s.published_at) FROM cards s '
+    'WHERE s.story_id = cards.story_id AND s.group_id IS cards.group_id), '
+    'cards.published_at)';
+
+/// [_storyPublishedAt], reversed in a tile that plays latest first.
+const _storyOrder = CustomExpression<int>(
+  'CASE WHEN (SELECT g.latest_first FROM groups g '
+  'WHERE g.id = cards.group_id) THEN -$_storyPublishedAt '
+  'ELSE $_storyPublishedAt END',
+);
+
 /// Standard card ordering.
 ///
 /// Items a parent ordered by hand (sortOrder set) come first, in that
 /// order. Items without a manual position follow, by episode number, then
-/// oldest published first (ARD Sounds episodes, which have no episode
-/// numbers), then by part of a story published all at once, then in the
-/// order they were added. The two keys never share
+/// by story (ARD Sounds episodes, which have no episode numbers): oldest
+/// first, or latest first in a tile with `latestFirst` set, and the parts
+/// of a multi-part story together and in part order, published apart or
+/// all at once. Then in the order they were added. The two keys never share
 /// one value space: a manual position 50 and an episode number 50 mean
 /// different things, and mixing them would slot a later-added episode
 /// into the middle of a hand-sorted run.
@@ -249,8 +275,9 @@ List<OrderingTerm Function($CardsTable)> cardOrder({
   (t) => OrderingTerm.asc(t.sortOrder),
   if (withEpisodeNumber) ...[
     (t) => OrderingTerm.asc(coalesce([t.episodeNumber, sortLast])),
-    (t) => OrderingTerm.asc(t.publishedAt, nulls: NullsOrder.last),
+    (_) => OrderingTerm(expression: _storyOrder, nulls: NullsOrder.last),
     (t) => OrderingTerm.asc(t.partNumber, nulls: NullsOrder.last),
+    (t) => OrderingTerm.asc(t.publishedAt, nulls: NullsOrder.last),
   ],
   (t) => OrderingTerm.asc(t.createdAt),
   // createdAt has whole seconds, and an import adds many items within

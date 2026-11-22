@@ -11,6 +11,7 @@ import 'package:lauschi/core/auth/pin_service.dart';
 import 'package:lauschi/core/catalog/catalog_service.dart';
 import 'package:lauschi/core/database/data_migrations.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
+import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/nfc/nfc_listener.dart';
@@ -49,7 +50,11 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
     final itemRepo = ref.read(tileItemRepositoryProvider);
     unawaited(
       runDataMigrations(
-        DataMigrationContext(items: itemRepo, ard: ref.read(ardApiProvider)),
+        DataMigrationContext(
+          items: itemRepo,
+          tiles: ref.read(tileRepositoryProvider),
+          ard: ref.read(ardApiProvider),
+        ),
       ),
     );
     unawaited(

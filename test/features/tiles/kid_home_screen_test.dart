@@ -200,6 +200,7 @@ void main() {
         sortOrder: 0,
         createdAt: DateTime(2026),
         contentType: 'hoerspiel',
+        latestFirst: false,
       ),
       db.Tile(
         id: 'healthy',
@@ -207,6 +208,7 @@ void main() {
         sortOrder: 1,
         createdAt: DateTime(2026),
         contentType: 'hoerspiel',
+        latestFirst: false,
       ),
     ];
     final items = [

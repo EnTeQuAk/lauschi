@@ -53,6 +53,13 @@ class ArdProgramSet {
   /// ARD show type: INFINITE_SERIES, FINITE_SERIES, SEASON_SERIES, SINGLE.
   final String? showType;
 
+  /// The show runs on with standalone stories (Betthupferl, Kakadu), so a
+  /// kid starts with its latest. A finished series plays from its start.
+  bool get playsLatestFirst => showType == infiniteSeries;
+
+  /// ARD's [showType] for a show that runs on.
+  static const infiniteSeries = 'INFINITE_SERIES';
+
   /// HTML description, richer than synopsis. May contain age ranges.
   final String? description;
 

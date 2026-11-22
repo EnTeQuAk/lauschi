@@ -67,6 +67,7 @@ ArdItem _makeItem({
   required String audioUrl,
   DateTime? publishDate,
   int? partNumber,
+  String? groupId,
 }) {
   return ArdItem(
     id: id,
@@ -77,6 +78,7 @@ ArdItem _makeItem({
     partNumber: partNumber,
     programSetTitle: 'Test Show',
     audios: [ArdAudio(url: audioUrl, mimeType: 'audio/mp3')],
+    groupId: groupId,
   );
 }
 
@@ -230,6 +232,77 @@ void main() {
         for (var p = 1; p <= 10; p++) p,
       ]);
       expect(ordered.map((i) => i.episodeNumber), everyElement(isNull));
+    });
+
+    // Betthupferl runs on with week-long stories, published one part a
+    // day, and a standalone story in between.
+    for (final (latestFirst, expected) in [
+      (true, ['Luise 1', 'Luise 2', 'Beppo', 'Lala 1', 'Lala 2']),
+      (false, ['Lala 1', 'Lala 2', 'Beppo', 'Luise 1', 'Luise 2']),
+    ]) {
+      test(
+        'a show ${latestFirst ? 'that runs on plays its latest' : 'that '
+                'ends plays its oldest'} story first, parts in order',
+        () async {
+          ArdItem item(String title, int day, {String? story, int? part}) =>
+              _makeItem(
+                id: title,
+                title: title,
+                audioUrl: 'http://a/$day.mp3',
+                publishDate: DateTime(2026, 11, day),
+                partNumber: part,
+                groupId: story,
+              );
+          // ARD lists the latest first. Lala's second part comes out after
+          // Beppo, and still belongs right after its first.
+          final page = [
+            item('Luise 2', 17, story: 'luise', part: 2),
+            item('Luise 1', 16, story: 'luise', part: 1),
+            item('Lala 2', 14, story: 'lala', part: 2),
+            item('Beppo', 13),
+            item('Lala 1', 12, story: 'lala', part: 1),
+          ];
+          container = createContainer(_FakeArdApi(pages: [page]));
+
+          await container
+              .read(contentImporterProvider.notifier)
+              .importArdShow(
+                showId: '7244594',
+                showTitle: 'Betthupferl',
+                showImageUrl: null,
+                loadedItems: page,
+                hasMorePages: false,
+                latestFirst: latestFirst,
+              );
+
+          final tile = (await tiles.getAll()).single;
+          expect(tile.latestFirst, latestFirst);
+          final ordered = await tiles.watchItems(tile.id).first;
+          expect(ordered.map((i) => i.title), expected);
+          expect(ordered.first.storyId, latestFirst ? 'luise' : 'lala');
+        },
+      );
+    }
+
+    test('an import into an existing tile keeps its order', () async {
+      final tileId = await tiles.insert(title: 'Betthupferl');
+      final page = [
+        _makeItem(id: '1', title: 'Beppo', audioUrl: 'http://a/1.mp3'),
+      ];
+      container = createContainer(_FakeArdApi(pages: [page]));
+
+      await container
+          .read(contentImporterProvider.notifier)
+          .importArdShow(
+            showId: '7244594',
+            showTitle: 'Betthupferl',
+            showImageUrl: null,
+            loadedItems: page,
+            hasMorePages: false,
+            latestFirst: true,
+          );
+
+      expect((await tiles.getById(tileId))!.latestFirst, isFalse);
     });
 
     test('paginates through multiple pages', () async {

@@ -1156,12 +1156,229 @@ i1.GeneratedColumn<int> _column_42(String aliasedName) =>
       type: i1.DriftSqlType.int,
       $customConstraints: 'NULL',
     );
+
+final class Schema16 extends i0.VersionedSchema {
+  Schema16({required super.database}) : super(version: 16);
+  @override
+  late final List<i1.DatabaseSchemaEntity> entities = [
+    groups,
+    cards,
+    nfcTags,
+    showSubscriptions,
+  ];
+  late final Shape7 groups = Shape7(
+    source: i0.VersionedTable(
+      entityName: 'groups',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_0,
+        _column_1,
+        _column_2,
+        _column_3,
+        _column_4,
+        _column_5,
+        _column_43,
+        _column_6,
+        _column_7,
+        _column_8,
+        _column_39,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape8 cards = Shape8(
+    source: i0.VersionedTable(
+      entityName: 'cards',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_0,
+        _column_1,
+        _column_9,
+        _column_2,
+        _column_10,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_15,
+        _column_16,
+        _column_41,
+        _column_42,
+        _column_44,
+        _column_17,
+        _column_38,
+        _column_4,
+        _column_18,
+        _column_19,
+        _column_20,
+        _column_21,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_25,
+        _column_40,
+        _column_26,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape2 nfcTags = Shape2(
+    source: i0.VersionedTable(
+      entityName: 'nfc_tags',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [
+        _column_27,
+        _column_28,
+        _column_29,
+        _column_30,
+        _column_31,
+        _column_4,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape3 showSubscriptions = Shape3(
+    source: i0.VersionedTable(
+      entityName: 'show_subscriptions',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [
+        _column_27,
+        _column_32,
+        _column_33,
+        _column_1,
+        _column_2,
+        _column_34,
+        _column_35,
+        _column_36,
+        _column_37,
+        _column_4,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+}
+
+class Shape7 extends i0.VersionedTable {
+  Shape7({required super.source, required super.alias}) : super.aliased();
+  i1.GeneratedColumn<String> get id =>
+      columnsByName['id']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get title =>
+      columnsByName['title']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get coverUrl =>
+      columnsByName['cover_url']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<int> get sortOrder =>
+      columnsByName['sort_order']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get createdAt =>
+      columnsByName['created_at']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<String> get contentType =>
+      columnsByName['content_type']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<int> get latestFirst =>
+      columnsByName['latest_first']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<String> get provider =>
+      columnsByName['provider']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get externalShowId =>
+      columnsByName['external_show_id']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get parentTileId =>
+      columnsByName['parent_tile_id']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get weiterItemId =>
+      columnsByName['weiter_item_id']! as i1.GeneratedColumn<String>;
+}
+
+i1.GeneratedColumn<int> _column_43(String aliasedName) =>
+    i1.GeneratedColumn<int>(
+      'latest_first',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.int,
+      $customConstraints: 'NOT NULL DEFAULT 0 CHECK (latest_first IN (0, 1))',
+      defaultValue: const i1.CustomExpression('0'),
+    );
+
+class Shape8 extends i0.VersionedTable {
+  Shape8({required super.source, required super.alias}) : super.aliased();
+  i1.GeneratedColumn<String> get id =>
+      columnsByName['id']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get title =>
+      columnsByName['title']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get customTitle =>
+      columnsByName['custom_title']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get coverUrl =>
+      columnsByName['cover_url']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get customCoverPath =>
+      columnsByName['custom_cover_path']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get cardType =>
+      columnsByName['card_type']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get provider =>
+      columnsByName['provider']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get providerUri =>
+      columnsByName['provider_uri']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get spotifyArtistIds =>
+      columnsByName['spotify_artist_ids']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get groupId =>
+      columnsByName['group_id']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<int> get episodeNumber =>
+      columnsByName['episode_number']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get publishedAt =>
+      columnsByName['published_at']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get partNumber =>
+      columnsByName['part_number']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<String> get storyId =>
+      columnsByName['story_id']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<int> get isHeard =>
+      columnsByName['is_heard']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get sortOrder =>
+      columnsByName['sort_order']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get createdAt =>
+      columnsByName['created_at']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get totalTracks =>
+      columnsByName['total_tracks']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get availableUntil =>
+      columnsByName['available_until']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<String> get audioUrl =>
+      columnsByName['audio_url']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<int> get durationMs =>
+      columnsByName['duration_ms']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get markedUnavailable =>
+      columnsByName['marked_unavailable']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<String> get lastTrackUri =>
+      columnsByName['last_track_uri']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<int> get lastTrackNumber =>
+      columnsByName['last_track_number']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get lastPositionMs =>
+      columnsByName['last_position_ms']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get lastElapsedMs =>
+      columnsByName['last_elapsed_ms']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get lastPlayedAt =>
+      columnsByName['last_played_at']! as i1.GeneratedColumn<int>;
+}
+
+i1.GeneratedColumn<String> _column_44(String aliasedName) =>
+    i1.GeneratedColumn<String>(
+      'story_id',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
+      $customConstraints: 'NULL',
+    );
 i0.MigrationStepWithVersion migrationSteps({
   required Future<void> Function(i1.Migrator m, Schema11 schema) from10To11,
   required Future<void> Function(i1.Migrator m, Schema12 schema) from11To12,
   required Future<void> Function(i1.Migrator m, Schema13 schema) from12To13,
   required Future<void> Function(i1.Migrator m, Schema14 schema) from13To14,
   required Future<void> Function(i1.Migrator m, Schema15 schema) from14To15,
+  required Future<void> Function(i1.Migrator m, Schema16 schema) from15To16,
 }) {
   return (currentVersion, database) async {
     switch (currentVersion) {
@@ -1190,6 +1407,11 @@ i0.MigrationStepWithVersion migrationSteps({
         final migrator = i1.Migrator(database, schema);
         await from14To15(migrator, schema);
         return 15;
+      case 15:
+        final schema = Schema16(database: database);
+        final migrator = i1.Migrator(database, schema);
+        await from15To16(migrator, schema);
+        return 16;
       default:
         throw ArgumentError.value('Unknown migration from $currentVersion');
     }
@@ -1202,6 +1424,7 @@ i1.OnUpgrade stepByStep({
   required Future<void> Function(i1.Migrator m, Schema13 schema) from12To13,
   required Future<void> Function(i1.Migrator m, Schema14 schema) from13To14,
   required Future<void> Function(i1.Migrator m, Schema15 schema) from14To15,
+  required Future<void> Function(i1.Migrator m, Schema16 schema) from15To16,
 }) => i0.VersionedSchema.stepByStepHelper(
   step: migrationSteps(
     from10To11: from10To11,
@@ -1209,5 +1432,6 @@ i1.OnUpgrade stepByStep({
     from12To13: from12To13,
     from13To14: from13To14,
     from14To15: from14To15,
+    from15To16: from15To16,
   ),
 );

@@ -145,4 +145,48 @@ void main() {
       });
     }
   });
+
+  group('getStoryOrder', () {
+    test('looks up the story and show of many episodes at once', () async {
+      final adapter = FakeHttpAdapter(
+        (_) => {
+          'data': {
+            'items': {
+              'nodes': [
+                {
+                  'id': 11,
+                  'groupId': 'luise',
+                  'programSet': {'showType': 'INFINITE_SERIES'},
+                },
+                {
+                  'id': 12,
+                  'groupId': null,
+                  'programSet': {'showType': 'FINITE_SERIES'},
+                },
+              ],
+            },
+          },
+        },
+      );
+      final api = _apiWith(adapter);
+
+      final order = await api.getStoryOrder(['11', '12', '13']);
+
+      expect(order, {
+        '11': (storyId: 'luise', latestFirst: true),
+        '12': (storyId: null, latestFirst: false),
+      });
+      final body = adapter.requests.single.data as Map<String, dynamic>;
+      expect((body['variables'] as Map<String, dynamic>)['ids'], [11, 12, 13]);
+    });
+
+    test('an answer without items throws', () async {
+      final api = _apiWith(_JsonAdapter({'data': <String, dynamic>{}}));
+
+      await expectLater(
+        api.getStoryOrder(['11']),
+        throwsA(isA<ArdApiException>()),
+      );
+    });
+  });
 }

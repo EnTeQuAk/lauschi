@@ -19,7 +19,7 @@ class AppDatabase extends _$AppDatabase {
 
   /// Bump when schema changes. See [migration] for upgrade steps.
   @override
-  int get schemaVersion => 15;
+  int get schemaVersion => 16;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -146,6 +146,14 @@ class AppDatabase extends _$AppDatabase {
             "episode_number = NULL WHERE provider = 'ard_audiothek'",
           );
         }
+        if (from < 16 && to >= 16) {
+          // Tiles of ARD Sounds shows that run on play their stories
+          // latest first, and a multi-part story's parts stay together.
+          // Which tiles and stories those are comes from ARD in a data
+          // migration (`ardStoryOrder`).
+          await m.addColumn(groups, groups.latestFirst);
+          await m.addColumn(cards, cards.storyId);
+        }
         Log.info('Database', 'Migration complete');
       } on Exception catch (e, stack) {
         Log.error(
@@ -164,11 +172,15 @@ class AppDatabase extends _$AppDatabase {
   /// schema 14, so the badge stays where the kid left it.
   Future<void> _backfillWeiter() async {
     final now = DateTime.now();
-    final tiles = await select(groups).get();
-    for (final tile in tiles) {
+    // Only the id: a whole row would read columns later versions add,
+    // like the non-null latest_first, which don't exist yet at this step.
+    final tileIds =
+        await (selectOnly(groups)
+          ..addColumns([groups.id])).map((row) => row.read(groups.id)!).get();
+    for (final tileId in tileIds) {
       final items =
           await (select(cards)
-                ..where((t) => t.groupId.equals(tile.id))
+                ..where((t) => t.groupId.equals(tileId))
                 // The order as of schema 14, frozen like the rules in
                 // weiter_backfill.dart: columns that later versions sort
                 // by (published_at) don't exist yet at this step.
@@ -183,7 +195,7 @@ class AppDatabase extends _$AppDatabase {
       final weiter = legacyWeiterFor(items, now: now);
       if (weiter == null) continue;
       await (update(groups)..where(
-        (t) => t.id.equals(tile.id),
+        (t) => t.id.equals(tileId),
       )).write(GroupsCompanion(weiterItemId: Value(weiter.id)));
     }
   }

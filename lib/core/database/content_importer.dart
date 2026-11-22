@@ -29,6 +29,7 @@ class PendingCard {
     this.availableUntil,
     this.publishedAt,
     this.partNumber,
+    this.storyId,
   });
 
   final String title;
@@ -57,6 +58,9 @@ class PendingCard {
   /// The episode's part within a multi-part story. It orders a story whose
   /// parts ARD published at the same time.
   final int? partNumber;
+
+  /// The multi-part story the episode belongs to, ARD's group id.
+  final String? storyId;
 }
 
 /// Result of a content import operation.
@@ -139,6 +143,7 @@ class ContentImporter extends _$ContentImporter {
     required bool hasMorePages,
     String? endCursor,
     String? tileId,
+    bool latestFirst = false,
   }) async {
     if (state.isImporting) return;
 
@@ -166,6 +171,7 @@ class ContentImporter extends _$ContentImporter {
         groupCoverUrl: ardImageUrl(showImageUrl),
         cards: cards,
         tileId: tileId,
+        latestFirst: latestFirst,
         onProgress: (done, total) {
           state = ImportRunning(
             showTitle: showTitle,
@@ -196,12 +202,14 @@ class ContentImporter extends _$ContentImporter {
   /// Import a batch of pre-built cards into a group.
   ///
   /// For Spotify, Apple Music, featured section, and single-episode adds.
-  /// Owns the full state lifecycle when called directly.
+  /// Owns the full state lifecycle when called directly. [latestFirst]
+  /// applies to a tile the import creates (see `Groups.latestFirst`).
   Future<ImportResult> importToGroup({
     required String groupTitle,
     required List<PendingCard> cards,
     String? groupCoverUrl,
     String? tileId,
+    bool latestFirst = false,
     void Function(int done, int total)? onProgress,
   }) async {
     if (state.isImporting) {
@@ -218,6 +226,7 @@ class ContentImporter extends _$ContentImporter {
         groupCoverUrl: groupCoverUrl,
         cards: cards,
         tileId: tileId,
+        latestFirst: latestFirst,
         onProgress: onProgress,
       );
 
@@ -249,10 +258,16 @@ class ContentImporter extends _$ContentImporter {
     required List<PendingCard> cards,
     String? groupCoverUrl,
     String? tileId,
+    bool latestFirst = false,
     void Function(int done, int total)? onProgress,
   }) async {
     final groupId =
-        tileId ?? await _findOrCreateGroup(groupTitle, groupCoverUrl);
+        tileId ??
+        await _findOrCreateGroup(
+          groupTitle,
+          groupCoverUrl,
+          latestFirst: latestFirst,
+        );
     // URIs already stored, plus the ones inserted as this batch runs, so a
     // duplicate within the same batch is assigned instead of counted twice.
     // insertIfAbsent stays the real guard against duplicate rows; this only
@@ -340,7 +355,12 @@ class ContentImporter extends _$ContentImporter {
     });
   }
 
-  Future<String> _findOrCreateGroup(String title, String? coverUrl) async {
+  /// An existing tile keeps its order, a parent may have chosen it.
+  Future<String> _findOrCreateGroup(
+    String title,
+    String? coverUrl, {
+    required bool latestFirst,
+  }) async {
     final existing = await _groupRepo.findByTitle(title);
     if (existing != null) {
       if (coverUrl != null) {
@@ -348,7 +368,11 @@ class ContentImporter extends _$ContentImporter {
       }
       return existing.id;
     }
-    return await _groupRepo.insert(title: title, coverUrl: coverUrl);
+    return await _groupRepo.insert(
+      title: title,
+      coverUrl: coverUrl,
+      latestFirst: latestFirst,
+    );
   }
 
   Future<void> _insertCard(PendingCard card, {String? groupId}) async {
@@ -362,6 +386,7 @@ class ContentImporter extends _$ContentImporter {
         availableUntil: card.availableUntil,
         publishedAt: card.publishedAt,
         partNumber: card.partNumber,
+        storyId: card.storyId,
         tileId: groupId,
       );
     } else {

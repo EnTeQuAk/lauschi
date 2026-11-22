@@ -33,6 +33,7 @@ PendingCard ardPendingCard(ArdItem item) {
     durationMs: item.durationMs,
     publishedAt: item.publishDate,
     partNumber: item.partNumber,
+    storyId: item.groupId,
   );
 }
 

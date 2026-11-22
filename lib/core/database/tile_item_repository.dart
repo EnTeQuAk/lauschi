@@ -343,7 +343,7 @@ class TileItemRepository {
   }
 
   /// Set ARD fields after an item's initial insert (audio URL, duration,
-  /// expiry, publish date, part) along with its tile. Internal to
+  /// expiry, publish date, part, story) along with its tile. Internal to
   /// [insertArdEpisode], which is the only caller.
   Future<void> _updateArdFields({
     required String itemId,
@@ -352,6 +352,7 @@ class TileItemRepository {
     DateTime? availableUntil,
     DateTime? publishedAt,
     int? partNumber,
+    String? storyId,
     String? tileId,
   }) async {
     await (_db.update(_db.cards)..where((t) => t.id.equals(itemId))).write(
@@ -360,6 +361,7 @@ class TileItemRepository {
             publishedAt != null ? Value(publishedAt) : const Value.absent(),
         partNumber:
             partNumber != null ? Value(partNumber) : const Value.absent(),
+        storyId: storyId != null ? Value(storyId) : const Value.absent(),
         audioUrl: audioUrl != null ? Value(audioUrl) : const Value.absent(),
         durationMs:
             durationMs != null ? Value(durationMs) : const Value.absent(),
@@ -385,6 +387,7 @@ class TileItemRepository {
     DateTime? availableUntil,
     DateTime? publishedAt,
     int? partNumber,
+    String? storyId,
     String? tileId,
   }) {
     return _db.transaction(() async {
@@ -401,6 +404,7 @@ class TileItemRepository {
         availableUntil: availableUntil,
         publishedAt: publishedAt,
         partNumber: partNumber,
+        storyId: storyId,
         tileId: tileId,
       );
       return id;
@@ -415,6 +419,26 @@ class TileItemRepository {
           t.provider.equals(ProviderType.ardAudiothek.value) &
           t.publishedAt.isNull(),
     )).get();
+  }
+
+  /// All ARD Sounds items.
+  Future<List<TileItem>> getArdItems() {
+    return (_db.select(_db.cards)
+      ..where((t) => t.provider.equals(ProviderType.ardAudiothek.value))).get();
+  }
+
+  /// Store the multi-part stories items belong to, keyed by item id.
+  Future<void> setStoryIds(Map<String, String> storyIdsByItemId) {
+    return _db.batch((batch) {
+      for (final MapEntry(key: id, value: storyId)
+          in storyIdsByItemId.entries) {
+        batch.update(
+          _db.cards,
+          CardsCompanion(storyId: Value(storyId)),
+          where: (t) => t.id.equals(id),
+        );
+      }
+    });
   }
 
   /// Store publish dates, keyed by item id.

@@ -6,6 +6,7 @@ import 'package:lauschi/core/ard/ard_api.dart';
 import 'package:lauschi/core/database/app_database.dart';
 import 'package:lauschi/core/database/data_migrations.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
+import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../helpers/fake_http_adapter.dart';
@@ -25,6 +26,13 @@ class _FakeArdApi extends ArdApi {
         if (dates[id] case final date?) id: date,
     };
   }
+
+  /// No stories and no show that runs on: the story order backfill runs
+  /// in the same pass and stays out of these tests.
+  @override
+  Future<Map<String, ({String? storyId, bool latestFirst})>> getStoryOrder(
+    List<String> itemIds,
+  ) async => {};
 }
 
 /// ARD Sounds episodes sort by publish date since schema 15 (#314). The
@@ -58,7 +66,9 @@ void main() {
     );
     final api = _FakeArdApi(known);
 
-    await runDataMigrations(DataMigrationContext(items: items, ard: api));
+    await runDataMigrations(
+      DataMigrationContext(items: items, tiles: TileRepository(db), ard: api),
+    );
 
     expect(api.calls.map((c) => c.length), [100, 50]);
     final byUri = {for (final i in await items.getAll()) i.providerUri: i};
@@ -86,6 +96,7 @@ void main() {
     await runDataMigrations(
       DataMigrationContext(
         items: items,
+        tiles: TileRepository(db),
         ard: _FakeArdApi({'1': DateTime(2025, 6, 30)}),
       ),
     );
@@ -107,7 +118,9 @@ void main() {
 
     final lines = <String>[];
     await runZoned(
-      () => runDataMigrations(DataMigrationContext(items: items, ard: api)),
+      () => runDataMigrations(
+        DataMigrationContext(items: items, tiles: TileRepository(db), ard: api),
+      ),
       zoneSpecification: ZoneSpecification(
         print: (self, parent, zone, line) => lines.add(line),
       ),
@@ -122,7 +135,9 @@ void main() {
         },
       },
     };
-    await runDataMigrations(DataMigrationContext(items: items, ard: api));
+    await runDataMigrations(
+      DataMigrationContext(items: items, tiles: TileRepository(db), ard: api),
+    );
 
     expect(
       (await items.getAll()).single.publishedAt?.toUtc(),
@@ -140,7 +155,11 @@ void main() {
     final lines = <String>[];
     await runZoned(
       () => runDataMigrations(
-        DataMigrationContext(items: items, ard: _OfflineArdApi()),
+        DataMigrationContext(
+          items: items,
+          tiles: TileRepository(db),
+          ard: _OfflineArdApi(),
+        ),
       ),
       zoneSpecification: ZoneSpecification(
         print: (self, parent, zone, line) => lines.add(line),
@@ -157,6 +176,7 @@ void main() {
     await runDataMigrations(
       DataMigrationContext(
         items: items,
+        tiles: TileRepository(db),
         ard: _FakeArdApi({'1': DateTime(2025, 6, 30)}),
       ),
     );
@@ -167,6 +187,15 @@ void main() {
 class _OfflineArdApi extends ArdApi {
   @override
   Future<Map<String, DateTime>> getPublishDates(List<String> itemIds) =>
+      throw const ArdApiException(
+        'Keine Internetverbindung',
+        isNetworkError: true,
+      );
+
+  @override
+  Future<Map<String, ({String? storyId, bool latestFirst})>> getStoryOrder(
+    List<String> itemIds,
+  ) =>
       throw const ArdApiException(
         'Keine Internetverbindung',
         isNetworkError: true,

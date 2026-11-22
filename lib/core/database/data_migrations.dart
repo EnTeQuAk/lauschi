@@ -3,6 +3,7 @@ import 'dart:math' show min;
 
 import 'package:lauschi/core/ard/ard_api.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
+import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,9 +20,14 @@ typedef DataMigration = Future<void> Function(DataMigrationContext ctx);
 /// Context passed to each migration. Extend with additional services
 /// as needed when adding new migrations.
 class DataMigrationContext {
-  const DataMigrationContext({required this.items, required this.ard});
+  const DataMigrationContext({
+    required this.items,
+    required this.tiles,
+    required this.ard,
+  });
 
   final TileItemRepository items;
+  final TileRepository tiles;
   final ArdApi ard;
 }
 
@@ -31,6 +37,7 @@ class DataMigrationContext {
 /// completed ones. Append new migrations at the end.
 final List<(String, DataMigration)> _migrations = [
   ('ard_publish_dates', _backfillArdPublishDates),
+  ('ard_story_order', _backfillArdStoryOrder),
 ];
 
 /// Run all pending data migrations. Safe to call on every startup.
@@ -92,5 +99,58 @@ Future<void> _backfillArdPublishDates(DataMigrationContext ctx) async {
     _tag,
     'ARD publish dates filled in',
     data: {'episodes': '${ardIds.length}', 'dated': '$dated'},
+  );
+}
+
+/// Since schema 16 a tile of an ARD Sounds show that runs on plays its
+/// stories latest first, and a multi-part story's parts stay together.
+/// This asks ARD, [publishDatesBatchSize] episodes per request, which story
+/// each episode added before belongs to and whether its show runs on. A
+/// tile plays latest first when every episode in it that ARD still lists
+/// comes from such a show. A failed request leaves all of it for the next
+/// start.
+Future<void> _backfillArdStoryOrder(DataMigrationContext ctx) async {
+  final items = await ctx.items.getArdItems();
+  final ardIds =
+      {
+        for (final item in items)
+          if (ProviderType.extractId(item.providerUri) case final ardId?) ardId,
+      }.toList();
+
+  final order = <String, ({String? storyId, bool latestFirst})>{};
+  for (var i = 0; i < ardIds.length; i += publishDatesBatchSize) {
+    final batch = ardIds.sublist(
+      i,
+      min(i + publishDatesBatchSize, ardIds.length),
+    );
+    order.addAll(await ctx.ard.getStoryOrder(batch));
+  }
+
+  final storyIds = <String, String>{};
+  final latestFirstByTile = <String, List<bool>>{};
+  for (final item in items) {
+    final ardId = ProviderType.extractId(item.providerUri);
+    final facts = order[ardId];
+    if (facts == null) continue;
+    if (facts.storyId case final storyId?) storyIds[item.id] = storyId;
+    if (item.groupId case final tileId?) {
+      (latestFirstByTile[tileId] ??= []).add(facts.latestFirst);
+    }
+  }
+  final latestFirstTiles = [
+    for (final MapEntry(key: tileId, value: shows) in latestFirstByTile.entries)
+      if (shows.every((latestFirst) => latestFirst)) tileId,
+  ];
+  await ctx.items.setStoryIds(storyIds);
+  await ctx.tiles.setLatestFirst(latestFirstTiles);
+
+  Log.info(
+    _tag,
+    'ARD story order filled in',
+    data: {
+      'episodes': '${ardIds.length}',
+      'stories': '${storyIds.length}',
+      'latestFirstTiles': '${latestFirstTiles.length}',
+    },
   );
 }

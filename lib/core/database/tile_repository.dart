@@ -107,6 +107,7 @@ class TileRepository {
     required String title,
     String? coverUrl,
     String contentType = 'hoerspiel',
+    bool latestFirst = false,
   }) async {
     final trimmedTitle = title.trim();
     final id = _uuid.v4();
@@ -121,6 +122,7 @@ class TileRepository {
             coverUrl: Value(coverUrl),
             sortOrder: Value(nextOrder),
             contentType: Value(contentType),
+            latestFirst: Value(latestFirst),
           ),
         );
 
@@ -169,6 +171,14 @@ class TileRepository {
   /// The child tile disappears from the home screen and appears inside
   /// the parent when opened. Throws [ArgumentError] if nesting would
   /// create a cycle (e.g. nesting a parent into its own descendant).
+  /// Let the tiles with [tileIds] play their stories latest first (see
+  /// `Groups.latestFirst`).
+  Future<void> setLatestFirst(Iterable<String> tileIds) async {
+    await (_db.update(_db.groups)..where(
+      (t) => t.id.isIn(tileIds),
+    )).write(const GroupsCompanion(latestFirst: Value(true)));
+  }
+
   Future<void> nestInto({
     required String childId,
     required String parentId,

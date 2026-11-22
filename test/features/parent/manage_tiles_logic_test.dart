@@ -11,6 +11,7 @@ Tile _tile({required String id, String title = 'Test', String? coverUrl}) =>
       sortOrder: 0,
       createdAt: DateTime(2026),
       contentType: 'hoerspiel',
+      latestFirst: false,
     );
 
 TileItem _item({
